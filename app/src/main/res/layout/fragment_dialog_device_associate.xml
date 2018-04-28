@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_device_associate_bg"
+    android:padding="12dp">
+
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:id="@+id/device_associate_progress"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        custom:donut_finished_color="@android:color/black"
+        custom:donut_finished_stroke_width="3dp"
+        custom:donut_progress="10"
+        custom:donut_text_color="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/device_associate_tv_text"
+        custom:donut_text_size="16sp"
+        custom:donut_unfinished_color="#ADA99F"
+        custom:donut_unfinished_stroke_width="3dp" />
+
+    <TextView
+        android:id="@+id/device_associate_tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/associating"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+       />
+
+
+</android.support.constraint.ConstraintLayout>

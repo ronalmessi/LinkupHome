@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LinkupHome</string>
+    <string name="splash_slogan">LED无线智能照明管理系统</string>
+    <string name="welcome_open">开启</string>
+    <string name="welcome_slogan_beauty">美好，</string>
+    <string name="welcome_slogan_occurrence">从这一刻起发生</string>
+    <string name="welcome_language_select">选择语言</string>
+    <string name="welcome_language">语言</string>
+    <string name="webview_title">产品使用说明</string>
+    <string name="center_title">中心</string>
+    <string name="lamp_category_add_product">添加您的产品</string>
+    <string name="lamp_category_lawn">户外灯</string>
+    <string name="lamp_category_bed">智能床头灯</string>
+    <string name="lamp_category_rgb">RGB灯泡</string>
+    <string name="lamp_category_warm_cold">冷暖灯泡</string>
+    <string name="lamp_category_led">LED灯带</string>
+    <string name="control_tab_device">搜索设备</string>
+    <string name="control_tab_group">组别设置</string>
+    <string name="control_tab_control">操控</string>
+    <string name="control_tab_controls">操控选择</string>
+
+
+    <string name="state_disconnected">点击连接</string>
+    <string name="state_connected">已连接</string>
+
+    <string name="speed_slow">减慢</string>
+    <string name="speed_normal">正常</string>
+    <string name="speed_fast">加快</string>
+
+    <string name="all_devices">所有设备</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="confirm">确定</string>
+    <string name="edit">编辑</string>
+    <string name="group">组</string>
+    <string name="associating">连接中</string>
+    <string name="removing">等待删除...</string>
+    <string name="rename">重命名</string>
+    <string name="timer">开关定时</string>
+    <string name="shareOperation">操控分享</string>
+    <string name="scan">扫一扫</string>
+    <string name="getOperationData">操控数据正在获取中...</string>
+    <string name="myQrCode">我的二维码</string>
+    <string name="autoScan">放入框内，自动扫描</string>
+
+
+    <string name="sceneMode">情景模式</string>
+    <string name="scene_read">阅读模式</string>
+    <string name="scene_sunset">夕阳模式</string>
+    <string name="scene_rest">休息模式</string>
+    <string name="scene_spring">春暖花开</string>
+    <string name="scene_rainforest">热带雨林</string>
+    <string name="scene_lighting">照明模式</string>
+
+
+    <string name="shareQRTips">可以把操控分享给家人或亲密朋友\n一起分享智能照明带来的快乐</string>
+    <string name="downloadApp">下载APP</string>
+    <string name="openAppScan">打开APP扫描二维码</string>
+    <string name="shareSuccess">分享成功</string>
+    <string name="import_config_error">二维码内容不符</string>
+    <string name="network_error">网络连接失败，请检查网络设置</string>
+    <string name="qrCode">二维码</string>
+    <string name="qrCode_generating">正在生成操控分享二维码...</string>
+    <string name="qrCode_generate_done">已生成数据共享二维码，请扫描</string>
+    <string name="qrCode_generate_fail">生成二维码失败</string>
+    <string name="qrCode_regenerate">重新生成</string>
+    <string name="img_save">保存图片</string>
+    <string name="img_save_success">图片已保存</string>
+    <string name="img_save_fail">保存出错了</string>
+
+    <string name="initialize">初始化</string>
+
+    <string name="editing">编辑</string>
+
+    <string name="state_added">已添加</string>
+    <string name="add">添加</string>
+
+    <string name="adding">正在添加...</string>
+    <string name="group_drag_enter">拖拽进入</string>
+    <string name="group_max_fail">超出分组数量</string>
+
+    <string name="devices_clear">清空所有你设置的分组与设备?</string>
+
+
+    <string name="app_update">应用更新</string>
+    <string name="version_latest">最新版本</string>
+    <string name="app_size">新版本大小</string>
+    <string name="app_update_content">更新内容</string>
+    <string name="app_update_ignore_now">以后再说</string>
+    <string name="app_update_ignore">忽略该版本</string>
+    <string name="app_update_now">立即更新</string>
+    <string name="app_update_need">您需要更新应用才能继续使用</string>
+    <string name="app_update_downloading">下载中...</string>
+    <string name="app_update_download_fail">下载失败</string>
+    <string name="ok">确定</string>
+
+
+    <string name="association_failed">连接失败，请重启设备进行连接</string>
+
+
+
+    <string name="lightOpenTime">灯光开启时间</string>
+    <string name="lightCloseTime">灯光关闭时间</string>
+    <string name="openLightTimer">开灯定时</string>
+    <string name="closeLightTimer">关灯定时</string>
+
+
+    <string name="save">存储</string>
+</resources>
+

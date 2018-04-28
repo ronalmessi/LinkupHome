@@ -1,0 +1,119 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId rootProject.ext.applicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        releaseLinkupHome {
+            storeFile file("../keystore")
+            storePassword "linkuphome911"
+            keyAlias "linkuphome"
+            keyPassword "linkuphome911"
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+           jniLibs.srcDirs = ['libs']
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    mavenCentral()
+}
+
+
+kapt {
+    generateStubs = true
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:multidex:1.0.2'
+
+    // CSRmesh
+    implementation(name: 'CSRmeshLibrary', ext: 'aar')
+    implementation 'com.madgag.spongycastle:core:1.51.0.0'
+    implementation 'com.madgag.spongycastle:pkix:1.51.0.0'
+
+    // Support design
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support:gridlayout-v7:$rootProject.supportLibraryVersion"
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$rootProject.kotlinVersion"
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:runtime:$rootProject.liveDataVersion"
+    implementation "android.arch.lifecycle:extensions:$rootProject.liveDataVersion"
+    kapt "android.arch.lifecycle:compiler:$rootProject.liveDataVersion"
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
+    kapt "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+
+    // dagger2
+    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.baseRecyclerViewAdapterHelperVersion"
+
+//    implementation 'com.facebook.stetho:stetho:1.1.0'
+    implementation 'com.akexorcist:localizationactivity:1.1.2'
+    implementation 'com.umeng.analytics:analytics:latest.integration'
+
+
+    implementation 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
+
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.1'
+
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+
+    implementation 'com.qiniu:qiniu-android-sdk:7.3.+'
+    implementation 'com.google.code.gson:gson:2.7'
+
+    //qrcode
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'cn.bingoogolapple:bga-zxing:1.1.7@aar'
+
+
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+}
+
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/device_rename_divider" android:state_pressed="true" /> <!-- pressed -->
+    <item android:drawable="@color/device_rename_divider" android:state_focused="true" /> <!-- focused -->
+    <item android:drawable="@android:color/transparent" />
+</selector>
+

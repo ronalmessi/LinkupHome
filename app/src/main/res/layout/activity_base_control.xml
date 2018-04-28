@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/control_cdl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/control_base_bnv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside">
+
+            <com.ihomey.linkuphome.widget.NoScrollViewpager
+                android:id="@+id/control_base_vp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <View
+                android:id="@+id/blackView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#a0000000"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/control_device_rcv_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00ffffff"
+                app:behavior_hideable="false"
+                app:layout_behavior="@string/bottom_sheet_behavior" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/control_base_bnv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/control_base_bg"
+            android:gravity="center"
+            app:itemIconTint="@drawable/selector_control_tab_item_background"
+            app:itemTextColor="@drawable/selector_control_tab_item_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/control_cdl"
+            app:menu="@menu/control_mesh_tab_menu" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

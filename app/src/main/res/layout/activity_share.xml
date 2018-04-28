@@ -1,0 +1,199 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="isChinese"
+            type="Boolean" />
+
+        <variable
+            name="handlers"
+            type="com.ihomey.linkuphome.share.ShareActivity.ShareHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/colorPrimary">
+
+            <ImageButton
+                android:id="@+id/toolbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@mipmap/arrow_icon_left"
+                android:onClick="@{handlers::onClick}" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="@string/qrCode"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_shareQR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="6dp"
+                android:drawableStart="@mipmap/ic_share_red"
+                android:gravity="center"
+                android:text="@string/shareOperation"
+                android:textColor="@color/control_tab_item_selected_color"
+                android:textSize="@{isChinese ? 16 :14}" />
+
+            <TextView
+                android:id="@+id/tv_qrCodeGenerate_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="48dp"
+                android:gravity="center"
+                android:text="@string/qrCode_generate_done"
+                android:textColor="@color/text_colorPrimary"
+                android:textSize="@{isChinese ? 16 :14}"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tv_qrCode_generate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_qrCode"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="36dp"
+                android:layout_marginTop="24dp"
+                android:layout_toLeftOf="@+id/tv_divider"
+                android:gravity="right|center"
+                android:onClick="@{handlers::onClick}"
+                android:text="@string/qrCode_regenerate"
+                android:textColor="@color/text_colorPrimary"
+                android:textSize="@{isChinese ? 16 :14}" />
+
+            <TextView
+                android:id="@+id/tv_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_qrCode"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="|"
+                android:textColor="@color/text_colorAccent"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/tv_qrCode_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_qrCode"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="36dp"
+                android:onClick="@{handlers::onClick}"
+                android:layout_marginTop="24dp"
+                android:layout_toRightOf="@+id/tv_divider"
+                android:gravity="left|center"
+                android:text="@string/img_save"
+                android:textColor="@color/text_colorPrimary"
+                android:textSize="@{isChinese ? 16 :14}" />
+
+            <ImageView
+                android:id="@+id/iv_qrCode"
+                android:layout_width="215dp"
+                android:layout_height="215dp"
+                android:layout_below="@+id/tv_qrCodeGenerate_result"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:src="#c9c9cb" />
+
+            <TextView
+                android:id="@+id/tv_shareQRTips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_qrCode_generate"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:textSize="@{isChinese ? 14 :10}"
+                android:text="@string/shareQRTips"
+                android:textColor="@color/control_tab_item_selected_color" />
+
+            <ImageView
+                android:id="@+id/iv_share_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_shareQRTips"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_share_guide" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/iv_share_guide"
+                android:layout_alignRight="@+id/iv_share_guide"
+                android:layout_below="@+id/iv_share_guide"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_downloadAppTips"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="@{isChinese ? 12 :8}"
+                    android:text="@string/downloadApp"
+                    android:textColor="@color/control_tab_item_selected_color" />
+
+                <TextView
+                    android:id="@+id/tv_openAppScanTips"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="@string/openAppScan"
+                    android:textSize="@{isChinese ? 12 :8}"
+                    android:textColor="@color/control_tab_item_selected_color" />
+
+                <TextView
+                    android:id="@+id/tv_shareSuccessTips"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="@{isChinese ? 12 :8}"
+                    android:text="@string/shareSuccess"
+                    android:textColor="@color/control_tab_item_selected_color" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</layout>

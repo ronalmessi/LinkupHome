@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#93daf8</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="red">#f00</color>
+
+    <color name="bridge_connected_msg_bg_color">#FF6666</color>
+
+    <color name="center_instruction_bgColor">#B4E3EC</color>
+
+    <color name="control_tab_item_normal_color">#959595</color>
+    <color name="control_tab_item_selected_color">#FC8A79</color>
+
+    <color name="lamp_group_tint_color">#494949</color>
+
+    <color name="device_rename_divider">#ffdadada</color>
+    <!--文本-->
+    <color name="text_colorPrimary">#555555</color>
+    <color name="text_colorPrimaryDark">#999999</color>
+    <color name="text_colorAccent">#bdbdbd</color>
+
+    <color name="c1">#E10012</color>
+    <color name="c2">#E10032</color>
+    <color name="c3">#E0004F</color>
+    <color name="c4">#E00069</color>
+    <color name="c5">#DF007F</color>
+    <color name="c6">#B90080</color>
+    <color name="c7">#8D0780</color>
+    <color name="c8">#5F1981</color>
+    <color name="c9">#1D2083</color>
+    <color name="c10">#004697</color>
+    <color name="c11">#0068B1</color>
+    <color name="c12">#0081CC</color>
+    <color name="c13">#009BE4</color>
+    <color name="c14">#009ABC</color>
+    <color name="c15">#009991</color>
+    <color name="c16">#00966A</color>
+    <color name="c17">#009444</color>
+    <color name="c18">#1EA639</color>
+    <color name="c19">#89BE1F</color>
+    <color name="c20">#CAD600</color>
+    <color name="c21">#FFEC00</color>
+    <color name="c22">#F7C200</color>
+    <color name="c23">#EE9200</color>
+    <color name="c24">#E66000</color>
+
+</resources>

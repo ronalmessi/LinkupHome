@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LinkupHome</string>
+    <string name="splash_slogan">LED Wireless Smart Lighting\nManagement System</string>
+    <string name="welcome_open">Open</string>
+    <string name="welcome_slogan_beauty">Enjoy，</string>
+    <string name="welcome_slogan_occurrence">From this moment</string>
+    <string name="welcome_language_select">Select Language</string>
+    <string name="welcome_language">Language</string>
+    <string name="webview_title">Product instructions</string>
+    <string name="center_title">Center</string>
+    <string name="lamp_category_add_product">Add Product</string>
+    <string name="lamp_category_lawn">Outdoor Lamp</string>
+    <string name="lamp_category_bed">智能床头灯</string>
+    <string name="lamp_category_rgb">RGB Bulb</string>
+    <string name="lamp_category_warm_cold">CCT Bulb</string>
+    <string name="lamp_category_led">Strip Light</string>
+    <string name="control_tab_device">Search Equipment</string>
+    <string name="control_tab_group">Group Setting</string>
+    <string name="control_tab_control">Control</string>
+    <string name="control_tab_controls">Control Select</string>
+
+
+    <string name="state_disconnected">Click For Connect</string>
+    <string name="state_connected">Connected</string>
+
+    <string name="speed_slow">Slowing down</string>
+    <string name="speed_normal">Normal</string>
+    <string name="speed_fast">Speeding up</string>
+
+    <string name="all_devices">All Devices</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Yes</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Editing</string>
+    <string name="group">Group</string>
+
+    <string name="associating">Connecting</string>
+    <string name="removing">Removing...</string>
+    <string name="rename">Rename</string>
+    <string name="timer">Timer</string>
+    <string name="shareOperation">Sharing Control</string>
+    <string name="scan">Scan</string>
+    <string name="getOperationData">Control date is being acquired...</string>
+    <string name="myQrCode">My QR Code</string>
+    <string name="autoScan">Into the box, automatically scan</string>
+
+
+
+    <string name="sceneMode">Scene Mode</string>
+    <string name="scene_read">Read Mode</string>
+    <string name="scene_sunset">Sunset Mode</string>
+    <string name="scene_rest">Rest Mode</string>
+    <string name="scene_spring">Spring Blossoms Mode</string>
+    <string name="scene_rainforest">Selva</string>
+    <string name="scene_lighting">照明模式</string>
+
+
+    <string name="shareQRTips">Share your control with your family or close friends \nand share the joy of intelligent lighting</string>
+    <string name="downloadApp">download the APP</string>
+    <string name="openAppScan">open the APP and scan QR code</string>
+    <string name="shareSuccess">sharing succeed</string>
+    <string name="import_config_error">QR code content does not match</string>
+
+    <string name="network_error">Failed network connections, please check the network settings.</string>
+    <string name="qrCode">QR Code</string>
+    <string name="qrCode_generating">Generating control-sharing QR Code...</string>
+    <string name="qrCode_generate_done">Qr code generated data sharing, please scan</string>
+    <string name="qrCode_generate_fail">Generate qr code failed</string>
+    <string name="qrCode_regenerate">Regenerate</string>
+    <string name="img_save">Save The Picture</string>
+    <string name="img_save_success">Picture Saved</string>
+    <string name="img_save_fail">Saving Error</string>
+
+    <string name="initialize">Initialize</string>
+
+    <string name="editing">Editing</string>
+
+    <string name="state_added">Added</string>
+    <string name="add">Add</string>
+
+    <string name="adding">Adding...</string>
+
+    <string name="group_drag_enter">Drag To Enter</string>
+    <string name="group_max_fail">The number of packets exeeded</string>
+
+    <string name="devices_clear">Empty all the packets and devices you set up?</string>
+
+    <string name="app_update">App Updates</string>
+    <string name="version_latest">Latest Version</string>
+    <string name="app_size">New Version Size</string>
+    <string name="app_update_content">Updates</string>
+    <string name="app_update_ignore_now">Not Now</string>
+    <string name="app_update_ignore">Ignore</string>
+    <string name="app_update_now">Update</string>
+    <string name="app_update_need">Need to update to continue</string>
+    <string name="app_update_downloading">Downloading...</string>
+    <string name="app_update_download_fail">Failed</string>
+    <string name="ok">Ok</string>
+
+
+    <string name="association_failed">The connection fails. Please restart the equipment to connect.</string>
+
+
+    <string name="lightOpenTime">Light Open Time</string>
+    <string name="lightCloseTime">Light Close Time</string>
+    <string name="openLightTimer">Open Light Timer</string>
+    <string name="closeLightTimer">Close Light Timer</string>
+
+
+
+    <string name="save">Save</string>
+</resources>
+
+

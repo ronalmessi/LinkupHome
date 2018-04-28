@@ -1,0 +1,28 @@
+<resources>
+
+  
+    <string-array name="battery_states" translatable="false">
+        <item>Battery is powering device</item>
+        <item>Battery is charging</item>
+        <item>Device is externally powered</item>
+        <item>Service is required for battery </item>
+        <item>Battery needs replacement</item>
+    </string-array>
+
+
+    <string-array name="speed_choices" translatable="false">
+        <item>@string/speed_slow</item>
+        <item>@string/speed_normal</item>
+        <item>@string/speed_fast</item>
+    </string-array>
+
+    <string-array name = "language_array" translatable="false">
+        <item> English </item>
+        <item> 中文 </item>
+        <item> Français </item>
+        <item> Deutsch </item>
+        <item> Español </item>
+    </string-array>
+
+
+</resources>

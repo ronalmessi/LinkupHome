@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LinkupHome</string>
+    <string name="splash_slogan">LED Drahtloses Intelligentes Beleuchtungsmanagementsystem</string>
+    <string name="welcome_open">Öffnen</string>
+    <string name="welcome_slogan_beauty">Wunderbar，</string>
+    <string name="welcome_slogan_occurrence">Treten vom diesem Zeitpunkt</string>
+    <string name="welcome_language_select">Auserlesene Sprache</string>
+    <string name="welcome_language">Sprache</string>
+    <string name="webview_title">Produktanweisungen</string>
+    <string name="center_title">Zentrum</string>
+    <string name="lamp_category_add_product">Die produkte zusetzen</string>
+    <string name="lamp_category_lawn">Außenleuchter</string>
+    <string name="lamp_category_bed">智能床头灯</string>
+    <string name="lamp_category_rgb">RGB Birne</string>
+    <string name="lamp_category_warm_cold">Temperaturschwankungsglühbirne</string>
+    <string name="lamp_category_led">LED Leuchterband</string>
+    <string name="control_tab_device">Suchen Sie Nach Geräten</string>
+    <string name="control_tab_group">Gruppeneinstellungen</string>
+    <string name="control_tab_control">Bedienung</string>
+    <string name="control_tab_controls">Die Steuerung Zu Wählen</string>
+
+
+    <string name="state_disconnected">Klicken Sie Auf Verbindung</string>
+    <string name="state_connected">Hat Verbunden</string>
+
+    <string name="speed_slow">Verlangsamen</string>
+    <string name="speed_normal">Normal</string>
+    <string name="speed_fast">Beschleunigen</string>
+
+    <string name="all_devices">Alle Ausrüstungen</string>
+    <string name="cancel">Stornieren</string>
+    <string name="confirm">Ja</string>
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeitungs</string>
+    <string name="group">Gruppe</string>
+
+    <string name="associating">Im Anschluss</string>
+    <string name="removing">Löschen...</string>
+    <string name="rename">Umbenennen</string>
+    <string name="timer">Timing Schalter</string>
+    <string name="shareOperation">Teilen Manipulation</string>
+    <string name="scan">Fegen Die</string>
+    <string name="getOperationData">Abrufen der datenmanipulation...</string>
+    <string name="myQrCode">Mein Zweidimensionaler Code</string>
+    <string name="autoScan">In der box, auto-scan</string>
+
+    <string name="sceneMode">Szenario - Modus</string>
+    <string name="scene_read">Lesen Modell</string>
+    <string name="scene_sunset">Abendsonne Modell</string>
+    <string name="scene_rest">Ruhe Modell</string>
+    <string name="scene_spring">Frühling Modell</string>
+    <string name="scene_rainforest">Regenwald Modell</string>
+    <string name="scene_lighting">照明模式</string>
+
+
+    <string name="devices_clear">Deaktivieren Sie Alle Pakete Mit Dem Gerät,Das Sie Gesetzt?</string>
+
+    <string name="shareQRTips">Sie können die manipulation an ihre familie oder enge freunde teilen und alle können die freude zusammen teilen\ndie aus intelligente beleuchtung bringt</string>
+    <string name="downloadApp">Laden sie APP herunter</string>
+    <string name="openAppScan">Öffnen sie APP und scannen zweidimensionalen code</string>
+    <string name="shareSuccess">Erfolg zu teilen</string>
+    <string name="import_config_error">Zweidimensionale codes entspricht nicht den lnhalt</string>
+
+    <string name="network_error">Netzwerkverbindung fehlschlägt , überprüfen Sie die Netzwerkeinstellungen</string>
+    <string name="qrCode">Zweidimensionale Codes</string>
+    <string name="qrCode_generating">Entwickelt es hier den teilenbarezweidimensionalen Code...</string>
+    <string name="qrCode_generate_done">Gemeinsame nutzung von daten erzeugt eigen zweidimensionalen code,scan</string>
+    <string name="qrCode_generate_fail">Fehlgeschlagen zweidimensionalen code zu erzeugen</string>
+    <string name="qrCode_regenerate">Wieder Aufbauen</string>
+    <string name="img_save">Bild Speichern</string>
+    <string name="img_save_success">Das bild wurde im aktendeckel gespeichert</string>
+    <string name="img_save_fail">Falsche Speichern</string>
+
+    <string name="initialize">Initialisierung</string>
+
+    <string name="editing">Bearbeitungs</string>\
+
+    <string name="state_added">Hat Hinzugefügt</string>
+    <string name="add">Hinzufügen</string>
+    <string name="adding">Hinzufügen...</string>
+    <string name="group_drag_enter">Ziehen Und Schleppen Zum Eingang</string>
+    <string name="group_max_fail">Exceed die Anzahl der Pakete</string>
+
+
+    <string name="app_update">Applikation Aktualisieren</string>
+    <string name="version_latest">Neueste Ausgabe</string>
+    <string name="app_size">Größe der neuen Ausgabe</string>
+    <string name="app_update_content">Inhalte Aktualisieren</string>
+    <string name="app_update_ignore_now">Später überdenken</string>
+    <string name="app_update_ignore">Ignorieren Sie diese Version</string>
+    <string name="app_update_now">Sofort Aktualisieren</string>
+    <string name="app_update_need">Die Applikation ist nur nach der Aktualisierung erst zu verwenden.</string>
+    <string name="app_update_downloading">Herunterladen...</string>
+    <string name="app_update_download_fail">Gescheitert Herunterladen</string>
+    <string name="ok">Ja</string>
+
+    <string name="association_failed">Die verbindung ist fehlgeschlagen. Bitte neustarten sie das gerät zum anschließen.</string>
+
+
+    <string name="lightOpenTime">Zeit Für Licht Einschalten</string>
+    <string name="lightCloseTime">Zeit Für Licht Abschalten</string>
+    <string name="openLightTimer">Licht Einschalten Timing</string>
+    <string name="closeLightTimer">Licht Abschalten Timing</string>
+
+
+
+    <string name="save">Speichern</string>
+</resources>
