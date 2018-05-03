@@ -5,21 +5,15 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.UPDATE_URL
 import com.ihomey.linkuphome.adapter.LanguageListAdapter
 import com.ihomey.linkuphome.category.LampCategoryActivity
 import com.ihomey.linkuphome.databinding.ActivityWelcomeBinding
 import com.ihomey.linkuphome.databinding.DialogLanguageSelectionBinding
-import com.ihomey.linkuphome.getAppVersionCode
-import com.ihomey.linkuphome.share.Json
-import com.ihomey.linkuphome.update.UpdateInfo
-import com.ihomey.linkuphome.update.UpdateManager
 import com.ihomey.linkuphome.widget.DividerDecoration
 
 

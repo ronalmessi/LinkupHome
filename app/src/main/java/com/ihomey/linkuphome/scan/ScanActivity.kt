@@ -10,24 +10,22 @@ import android.os.Bundle
 import android.os.Vibrator
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
+import android.util.Log
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.TranslateAnimation
 import com.ihomey.library.base.BaseActivity
-import com.ihomey.linkuphome.DEVICE_TYPE
-import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.databinding.ActivityScanBinding
 import com.ihomey.linkuphome.scan.camera.CameraManager
 import com.ihomey.linkuphome.scan.decode.CaptureActivityHandler
 import com.ihomey.linkuphome.scan.decode.InactivityTimer
 import com.ihomey.linkuphome.share.ShareActivity
-import com.ihomey.linkuphome.toast
 import org.json.JSONObject
 import java.io.*
 import java.net.HttpURLConnection
-import java.net.MalformedURLException
 import java.net.URL
 import java.net.URLDecoder
 
@@ -143,7 +141,13 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
         inactivityTimer?.onActivity()
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(200L)
-        getRemoteJsonData(result)
+        if (!result.startsWith(DOMAIN)) {
+            toast(getString(R.string.import_config_error))
+        } else if (!isNetworkAvailable()) {
+            toast(getString(R.string.network_error))
+        } else {
+            getRemoteJsonData(result)
+        }
     }
 
 
@@ -172,7 +176,7 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
         builder.setPositiveButton(R.string.confirm) { _, _ ->
             val configuration = URLDecoder.decode(shareInfo, "UTF-8")
             val jsonObj = JSONObject(configuration)
-            if (lampCategoryType != jsonObj.getInt(DEVICE_TYPE)-1) {
+            if (lampCategoryType != jsonObj.getInt(DEVICE_TYPE) - 1) {
                 toast(getString(R.string.import_config_error))
                 handler?.sendEmptyMessage(R.id.restart_preview)
             } else {
@@ -202,6 +206,7 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
                 val url = URL(params[0])
                 val conn = url
                         .openConnection() as HttpURLConnection
+                Log.d("aa", "--" + conn.responseCode + "---")
                 conn.readTimeout = 5000
                 conn.connectTimeout = 5000
                 conn.requestMethod = "GET"
@@ -217,12 +222,13 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
                     respond.append(buf, 0, i)
                 } while (true)
                 conn.disconnect()
-            } catch (e: MalformedURLException) {
-                return ""
-            } catch (e: IOException) {
+            } catch (e: Exception) {
+                e.printStackTrace()
                 return ""
             } finally {
-                closeIO(input!!, reader!!)
+                if (input != null && reader != null) {
+                    closeIO(input, reader)
+                }
             }
             return respond.toString()
         }
@@ -254,7 +260,6 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
             }
         }
     }

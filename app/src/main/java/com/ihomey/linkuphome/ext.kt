@@ -8,6 +8,7 @@ import android.content.Intent
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -54,13 +55,10 @@ fun Context.hideInput(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Context.getAppVersionCode(): Int {
-    return try {
-        val packageInfo = this.packageManager.getPackageInfo(this.packageName, 0)
-        packageInfo?.versionCode ?: -1
-    } catch (e: Exception) {
-        -1
-    }
+fun Context.isNetworkAvailable():Boolean{
+    val connectivityManager =getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetworkInfo = connectivityManager.activeNetworkInfo
+    return activeNetworkInfo != null && activeNetworkInfo.isConnected
 }
 
 fun Context.saveImageToGallery(bmp: Bitmap?, dir: String) {
