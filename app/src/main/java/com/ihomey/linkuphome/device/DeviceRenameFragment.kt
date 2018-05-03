@@ -6,10 +6,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.control.MeshControlViewModel
 import com.ihomey.linkuphome.databinding.FragmentDialogDeviceRenameBinding
@@ -28,6 +25,7 @@ class DeviceRenameFragment : DialogFragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dialog_device_rename, container, false)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         mViewModel = ViewModelProviders.of(activity as AppCompatActivity).get(MeshControlViewModel::class.java)
         mDeviceName = arguments.getString("controlDeviceName", "")
         mDeviceId = arguments.getInt("controlDeviceId", -1)

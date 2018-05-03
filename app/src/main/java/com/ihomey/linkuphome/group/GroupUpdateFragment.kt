@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
 import com.ihomey.linkuphome.R
 
@@ -16,6 +17,7 @@ import com.ihomey.linkuphome.R
 class GroupUpdateFragment : DialogFragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window.setDimAmount(0f)
         val view = inflater.inflate(R.layout.fragment_dialog_group_update, container, false)
