@@ -17,7 +17,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -124,40 +125,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="42dp"
-            android:layout_marginTop="-5.5dp"
+            android:layout_marginTop="48dp"
             android:background="@mipmap/device_brightness_icon_low"
             android:button="@null"
             app:layout_constraintEnd_toStartOf="@+id/device_seek_bar_brightness"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/device_circle_iv_bg" />
+            app:layout_constraintTop_toBottomOf="@+id/device_color_rgb_cv"
+            />
 
         <SeekBar
             android:id="@+id/device_seek_bar_brightness"
             style="@style/Widget.SeekBar.Normal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-8dp"
+            android:layout_marginTop="46dp"
             android:clickable="false"
             android:max="85"
             android:progress="@{control.state!=null?control.state.brightness:20}"
             app:layout_constraintEnd_toStartOf="@+id/device_brightness_icon_high"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/device_brightness_icon_low"
-            app:layout_constraintTop_toBottomOf="@+id/device_circle_iv_bg" />
+            app:layout_constraintTop_toBottomOf="@+id/device_color_rgb_cv" />
 
         <ImageView
             android:id="@+id/device_brightness_icon_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="42dp"
-            android:layout_marginTop="-10.5dp"
+            android:layout_marginTop="48dp"
             android:background="@mipmap/device_brightness_icon_high"
             android:button="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/device_seek_bar_brightness"
-            app:layout_constraintTop_toBottomOf="@+id/device_circle_iv_bg" />
+            app:layout_constraintTop_toBottomOf="@+id/device_color_rgb_cv" />
 
         <com.ihomey.linkuphome.widget.SingleSelectToggleGroup
             android:id="@+id/device_cycling_sstg_speed"
