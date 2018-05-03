@@ -38,20 +38,25 @@
             android:theme="@style/AppTheme.TranslucentStatus"/>
         <activity
             android:name=".ui.CenterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentStatus"/>
         <activity
             android:name=".ui.WebViewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentStatus"/>
         <activity
             android:name=".share.ShareActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentStatus"/>
         <activity
             android:name=".scan.ScanActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentStatus"/>
 
         <activity
             android:name=".control.MeshControlActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentStatus"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <service

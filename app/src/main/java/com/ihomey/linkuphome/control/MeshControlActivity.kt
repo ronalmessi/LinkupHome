@@ -198,13 +198,14 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
                     }
                 }
             }
-            mService?.setDeviceDiscoveryFilterEnabled(false)
             mService?.disconnectBridge()
+        } catch (e: Exception) {
+            Log.d("LinkupHome", "oh,some error!")
+        } finally {
+            Log.d("aa", "111111")
             mService?.setHandler(null)
             mMeshHandler.removeCallbacksAndMessages(null)
             unbindService(mServiceConnection)
-        } catch (e: Exception) {
-            Log.d("LinkupHome", "oh,some error!")
         }
     }
 
@@ -364,7 +365,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
                 startActivityForResult(enableBtIntent, REQUEST_BT_RESULT_CODE)
             }
         } else {
-            mService?.autoConnect(1, 1000, 1000, 0);
+            mService?.autoConnect(1, 1000, 1000, 0)
         }
     }
 
