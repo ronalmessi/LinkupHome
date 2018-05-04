@@ -4,6 +4,7 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.*
 import android.content.ComponentName
@@ -194,7 +195,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
                 if (mBluetoothAdapter?.isEnabled!!) {
                     mBluetoothLeScanner = mBluetoothAdapter?.bluetoothLeScanner
                     if (mBluetoothLeScanner != null) {
-                        mBluetoothLeScanner?.stopScan(mLeScanCallback)
+                        mBluetoothLeScanner?.stopScan(mScanCallback)
                     }
                 }
             }
@@ -206,6 +207,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
             mService?.setHandler(null)
             mMeshHandler.removeCallbacksAndMessages(null)
             unbindService(mServiceConnection)
+            mService = null
         }
     }
 
@@ -309,6 +311,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
 
     private val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
+            Log.d("aa", "onServiceConnected")
             mService = (rawBinder as MeshService.LocalBinder).service
             if (mService != null) {
                 mViewModel?.loadSetting(lampCategoryType)
@@ -317,6 +320,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
         }
 
         override fun onServiceDisconnected(classname: ComponentName) {
+            Log.d("aa", "onServiceDisconnected")
             mService = null
         }
     }
@@ -325,13 +329,6 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
     private fun loadSetting(netWorkKey: String, nextDeviceIndex: Int) {
         mService?.setNetworkPassPhrase(netWorkKey)
         mService?.setNextDeviceId(nextDeviceIndex)
-    }
-
-    private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
-        if (!TextUtils.isEmpty(device.name) && device.name.startsWith("Linkuphome")) {
-            addressToNameMap[device.address] = device.name
-            mService?.processMeshAdvert(device, scanRecord, rssi)
-        }
     }
 
     private val removeDeviceTimeout = Runnable {
@@ -346,7 +343,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
 
     private fun connect() {
         mService?.setHandler(mMeshHandler)
-        mService?.setLeScanCallback(mScanCallBack)
+        mService?.setLeScanCallback(mLeScanCallback)
         mService?.setMeshListeningMode(true, true)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val filter = ScanFilter.Builder().build()
@@ -358,7 +355,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
             if (mBluetoothAdapter?.isEnabled!!) {
                 mBluetoothLeScanner = mBluetoothAdapter?.bluetoothLeScanner
                 if (mBluetoothLeScanner != null) {
-                    mBluetoothLeScanner?.startScan(filters, scanSettings, mLeScanCallback)
+                    mBluetoothLeScanner?.startScan(filters, scanSettings, mScanCallback)
                 }
             } else {
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -369,19 +366,6 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
         }
     }
 
-    private val mLeScanCallback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    object : ScanCallback() {
-        override fun onScanResult(callbackType: Int, result: ScanResult) {
-            if (!TextUtils.isEmpty(result.device.name) && mConnectedDevices.size == 0 && result.device.name.startsWith("Linkuphome")) {
-                mService?.connectBridge(result.device)
-                mConnectedDevices.add(result.device.address)
-                onConnected(result.device.name)
-            }
-            if (mConnectedDevices.size > 0) {
-                mBluetoothLeScanner?.stopScan(this)
-            }
-        }
-    }
 
     private fun onConnected(name: String) {
         mConnected = true
@@ -407,7 +391,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
                 val scanSettings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
                 mBluetoothLeScanner = mBluetoothAdapter?.bluetoothLeScanner
                 if (mBluetoothLeScanner != null) {
-                    mBluetoothLeScanner?.startScan(filters, scanSettings, mLeScanCallback)
+                    mBluetoothLeScanner?.startScan(filters, scanSettings, mScanCallback)
                 }
             }
         }
@@ -425,7 +409,7 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
                     mGroupUpdateListener?.groupsUpdated(id, -1, -1, false, null)
                 }
             }
-            MeshService.MESSAGE_CONFIG_MODELS -> {
+            MeshService.MESSAGE_DEVICE_ASSOCIATED, MeshService.MESSAGE_CONFIG_MODELS -> {
                 if (meshAssListener != null) {
                     meshAssListener?.deviceAssociated(-1, getString(R.string.association_failed))
                 }
@@ -434,6 +418,42 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
 
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private val mScanCallback = ScScanCallback(this)
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private class ScScanCallback(activity: MeshControlActivity) : ScanCallback() {
+        private val mActivity: WeakReference<MeshControlActivity> = WeakReference(activity)
+        override fun onScanResult(callbackType: Int, result: ScanResult) {
+            super.onScanResult(callbackType, result)
+            val parentActivity = mActivity.get()
+            if (!TextUtils.isEmpty(result.device.name) && parentActivity?.mConnectedDevices?.size == 0 && result.device.name.startsWith("Linkuphome")) {
+                parentActivity.mService?.connectBridge(result.device)
+                parentActivity.mConnectedDevices.add(result.device.address)
+                parentActivity.onConnected(result.device.name)
+            }
+            if (parentActivity?.mConnectedDevices?.size!! > 0) {
+                parentActivity.mBluetoothLeScanner?.stopScan(this)
+            }
+        }
+    }
+
+
+    private val mLeScanCallback = LeScanCallback(this)
+
+    private class LeScanCallback(activity: MeshControlActivity) : BluetoothAdapter.LeScanCallback {
+        private val mActivity: WeakReference<MeshControlActivity> = WeakReference(activity)
+
+        override fun onLeScan(device: BluetoothDevice, rssi: Int, scanRecord: ByteArray) {
+            val parentActivity = mActivity.get()
+            if (!TextUtils.isEmpty(device.name) && device.name.startsWith("Linkuphome")) {
+                parentActivity?.addressToNameMap!![device.address] = device.name
+                parentActivity.mService?.processMeshAdvert(device, scanRecord, rssi)
+            }
+        }
+
     }
 
     private val mMeshHandler = MeshHandler(this)
@@ -560,13 +580,13 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
 
                 MeshService.MESSAGE_TIMEOUT -> {
                     val expectedMsg = msg.data.getInt(MeshService.EXTRA_EXPECTED_MESSAGE)
-                    var id = -1
-                    id = if (msg.data.containsKey(MeshService.EXTRA_UUIDHASH_31)) {
+                    var id = if (msg.data.containsKey(MeshService.EXTRA_UUIDHASH_31)) {
                         msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
                     } else {
                         msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
                     }
                     val meshRequestId = msg.data.getInt(MeshService.EXTRA_MESH_REQUEST_ID)
+                    Log.d("aa", "MESSAGE_TIMEOUT==" + expectedMsg + "===" + id + "----" + meshRequestId)
                     parentActivity?.onMessageTimeout(expectedMsg, id, meshRequestId)
                 }
 
