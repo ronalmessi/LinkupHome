@@ -449,11 +449,12 @@ class MeshControlActivity : BaseControlActivity(), BottomNavigationView.OnNaviga
         override fun onLeScan(device: BluetoothDevice, rssi: Int, scanRecord: ByteArray) {
             val parentActivity = mActivity.get()
             if (!TextUtils.isEmpty(device.name) && device.name.startsWith("Linkuphome")) {
-                parentActivity?.addressToNameMap!![device.address] = device.name
-                parentActivity.mService?.processMeshAdvert(device, scanRecord, rssi)
+                if (parentActivity?.addressToNameMap != null&&!parentActivity?.addressToNameMap.isEmpty) {
+                    parentActivity.addressToNameMap[device.address] = device.name
+                }
+                parentActivity?.mService?.processMeshAdvert(device, scanRecord, rssi)
             }
         }
-
     }
 
     private val mMeshHandler = MeshHandler(this)
