@@ -9,6 +9,8 @@ import android.widget.CompoundButton
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.databinding.FragmentControlRgbLedBinding
+import com.ihomey.linkuphome.moveToViewBottomAnimation
+import com.ihomey.linkuphome.moveToViewLocationAnimation
 import com.ihomey.linkuphome.widget.toprightmenu.MenuItem
 
 /**
@@ -50,6 +52,9 @@ class LedControlFragment : BaseControlFragment() {
             mViewDataBinding.deviceColorCbLighting.setOnClickListener(this)
             mViewDataBinding.deviceColorCbCycling.setOnCheckedChangeListener(this)
             mViewDataBinding.deviceCyclingSstgSpeed.setOnCheckedChangeListener(this)
+        }else{
+            mViewDataBinding.control = null
+            mControlDevice=null
         }
     }
 
@@ -67,6 +72,7 @@ class LedControlFragment : BaseControlFragment() {
         super.onCheckedChanged(buttonView, isChecked)
         if (buttonView?.id == R.id.device_color_cb_cycling) {
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isChecked) View.VISIBLE else View.GONE
+            mViewDataBinding.deviceCyclingSstgSpeed.animation = if (isChecked) moveToViewLocationAnimation() else moveToViewBottomAnimation()
             if(isChecked) mViewDataBinding.deviceCyclingSstgSpeed.setCheckedAt(1, true)
             if (isChecked) mViewDataBinding.deviceColorCbLighting.isActivated = false
         }

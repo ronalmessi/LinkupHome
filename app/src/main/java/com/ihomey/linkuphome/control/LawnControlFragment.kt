@@ -13,6 +13,8 @@ import com.ihomey.linkuphome.batteryIcons
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.databinding.FragmentControlLawnBinding
 import com.ihomey.linkuphome.listeners.BatteryValueListener
+import com.ihomey.linkuphome.moveToViewBottomAnimation
+import com.ihomey.linkuphome.moveToViewLocationAnimation
 import com.ihomey.linkuphome.widget.toprightmenu.MenuItem
 
 /**
@@ -64,7 +66,7 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
                 } else {
                     mViewDataBinding.deviceColorCbCycling.isChecked = false
                 }
-                mViewDataBinding.deviceColorCbLighting.isActivated = mControlDevice!!.state.light==1
+                mViewDataBinding.deviceColorCbLighting.isActivated = mControlDevice!!.state.light == 1
             }
             mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
             mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
@@ -72,6 +74,9 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
             mViewDataBinding.deviceColorCbCycling.setOnCheckedChangeListener(this)
             mViewDataBinding.deviceCyclingSstgSpeed.setOnCheckedChangeListener(this)
             mViewDataBinding.deviceColorCbLighting.setOnClickListener(this)
+        }else{
+            mViewDataBinding.control = null
+            mControlDevice=null
         }
     }
 
@@ -105,6 +110,7 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
         super.onCheckedChanged(buttonView, isChecked)
         if (buttonView?.id == R.id.device_color_cb_cycling) {
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isChecked) View.VISIBLE else View.GONE
+            mViewDataBinding.deviceCyclingSstgSpeed.animation = if (isChecked) moveToViewLocationAnimation() else moveToViewBottomAnimation()
             if (isChecked) mViewDataBinding.deviceCyclingSstgSpeed.setCheckedAt(1, true)
             if (isChecked) mViewDataBinding.deviceColorCbLighting.isActivated = false
         }

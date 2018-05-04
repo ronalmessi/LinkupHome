@@ -16,6 +16,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
@@ -55,8 +57,8 @@ fun Context.hideInput(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Context.isNetworkAvailable():Boolean{
-    val connectivityManager =getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+fun Context.isNetworkAvailable(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetworkInfo = connectivityManager.activeNetworkInfo
     return activeNetworkInfo != null && activeNetworkInfo.isConnected
 }
@@ -92,6 +94,32 @@ fun Context.saveImageToGallery(bmp: Bitmap?, dir: String) {
 
     // 最后通知图库更新
     this.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)))
+}
+
+/**
+ * 从控件所在位置移动到控件的底部
+ *
+ * @return
+ */
+fun moveToViewBottomAnimation(): TranslateAnimation {
+    val mHiddenAction = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+            0.0f, Animation.RELATIVE_TO_SELF, 1.0f)
+    mHiddenAction.duration = 150
+    return mHiddenAction
+}
+
+/**
+ * 从控件的底部移动到控件所在位置
+ *
+ * @return
+ */
+fun moveToViewLocationAnimation(): TranslateAnimation {
+    val mShowAction = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+            1.0f, Animation.RELATIVE_TO_SELF, 0.0f)
+    mShowAction.duration = 150
+    return mShowAction
 }
 
 fun handleBackPress(fragmentActivity: FragmentActivity): Boolean {

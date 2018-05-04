@@ -39,6 +39,9 @@ class WarmColdControlFragment : BaseControlFragment() {
             mViewDataBinding.deviceDbvColorTemperature.setColorTemperatureListener(this)
             mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
             mViewDataBinding.deviceStateCbPower.setOnCheckedChangeListener(this)
+        }else{
+            mViewDataBinding.control = null
+            mControlDevice=null
         }
     }
 
