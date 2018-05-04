@@ -114,6 +114,10 @@ dependencies {
 
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
 }
 
 
