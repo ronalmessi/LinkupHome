@@ -32,8 +32,8 @@ ext {
     minSdkVersion = 19
     targetSdkVersion = 26
     compileSdkVersion = 26
-    versionCode = 8
-    versionName = "3.0"
+    versionCode = 9
+    versionName = "3.1"
 
     applicationId = "com.ihomey.linkuphome"
 

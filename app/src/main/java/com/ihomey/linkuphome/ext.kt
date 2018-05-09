@@ -255,6 +255,7 @@ fun getName(type: DeviceType) =
             DeviceType.N1 -> "LinkupHome N1"
         }
 
+
 fun getShortName(type: DeviceType) =
         when (type) {
             DeviceType.C3 -> "iHomey C3"

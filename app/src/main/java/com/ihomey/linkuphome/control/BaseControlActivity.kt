@@ -14,11 +14,6 @@ import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.databinding.ActivityBaseControlBinding
 import com.ihomey.linkuphome.dip2px
-import android.R.attr.gravity
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
-
-
 
 
 /**
