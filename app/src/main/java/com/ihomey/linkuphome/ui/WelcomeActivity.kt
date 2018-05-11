@@ -1,19 +1,27 @@
 package com.ihomey.linkuphome.ui
 
+import android.app.Activity
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.IBinder
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import com.csr.mesh.MeshService
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.REQUEST_CODE_Main
 import com.ihomey.linkuphome.adapter.LanguageListAdapter
-import com.ihomey.linkuphome.category.LampCategoryActivity
 import com.ihomey.linkuphome.databinding.ActivityWelcomeBinding
 import com.ihomey.linkuphome.databinding.DialogLanguageSelectionBinding
+import com.ihomey.linkuphome.main.MainActivity
 import com.ihomey.linkuphome.widget.DividerDecoration
 
 
@@ -25,23 +33,53 @@ class WelcomeActivity : BaseActivity() {
     val languageArray: Array<String> = arrayOf("en", "zh", "fr", "de", "es")
     lateinit var mViewDataBinding: ActivityWelcomeBinding
     var dialog: BottomSheetDialog? = null
+    private var mService: MeshService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mViewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_welcome)
         mViewDataBinding.handlers = EventHandler()
-//        checkUpdate()
+        bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("aa", "onActivityResult==" + requestCode + "---" + resultCode)
+        if (requestCode == REQUEST_CODE_Main && resultCode == Activity.RESULT_OK) {
+            releaseMService()
+        }
+    }
 
-//    private fun checkUpdate() {
-//        UpdateManager.create(this).setWifiOnly(false).setUrl(UPDATE_URL + "zh" + ".json?time=" + System.currentTimeMillis()).setParser { source ->
-//            val info = Json.decode(source, UpdateInfo::class.java)
-//            info.hasUpdate = getAppVersionCode() < info.versionCode
-//            info
-//        }.check()
-//    }
+    override fun onPause() {
+        super.onPause()
+        try {
+            unbindService(mServiceConnection)
+        } catch (e: Exception) {
+            Log.d("LinkupHome", "oh,some error happen!")
+        }
+    }
 
+    private val mServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
+            mService = (rawBinder as MeshService.LocalBinder).service
+            releaseMService()
+        }
+
+        override fun onServiceDisconnected(classname: ComponentName) {
+            mService = null
+        }
+    }
+
+    private fun releaseMService() {
+        try {
+            mService?.setDeviceDiscoveryFilterEnabled(false)
+            mService?.disconnectBridge()
+            mService?.setHandler(null)
+            mService?.setLeScanCallback(null)
+        } catch (e: Exception) {
+
+        }
+    }
 
     inner class EventHandler : LanguageListAdapter.OnItemClickListener {
 
@@ -49,7 +87,7 @@ class WelcomeActivity : BaseActivity() {
             when (view.id) {
                 R.id.welcome_iv_center -> view.context.startActivity(Intent(view.context, CenterActivity::class.java))
                 R.id.welcome_tv_language -> showLanguageSelectionDialog(view)
-                R.id.welcome_btn_open -> view.context.startActivity(Intent(view.context, LampCategoryActivity::class.java))
+                R.id.welcome_btn_open -> this@WelcomeActivity.startActivityForResult(Intent(this@WelcomeActivity, MainActivity::class.java), REQUEST_CODE_Main)
                 R.id.language_selection_btn_cancel -> dialog?.dismiss()
             }
         }

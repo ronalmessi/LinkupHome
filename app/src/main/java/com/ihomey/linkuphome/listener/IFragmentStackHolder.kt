@@ -8,5 +8,4 @@ import android.support.v4.app.Fragment
 interface IFragmentStackHolder {
     fun replaceFragment(containerId: Int, frag: Fragment)
 
-    fun goBack()
 }

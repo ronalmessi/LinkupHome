@@ -27,6 +27,7 @@ import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
 import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
 import com.ihomey.linkuphome.share.ShareActivity
 import com.ihomey.linkuphome.time.TimerSettingFragment
+import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
@@ -41,7 +42,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     protected var lampCategory: Int = -1
     private var controller: Controller? = null
     protected var mControlDevice: ControlDevice? = null
-    protected var mViewModel: MeshControlViewModel? = null
+    protected var mViewModel: MainViewModel? = null
     protected lateinit var listener: MeshServiceStateListener
     protected lateinit var mTopRightMenu: TopRightMenu
 
@@ -67,9 +68,9 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MeshControlViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-            if (it?.status == Status.SUCCESS) {
+            if (it?.status == Status.SUCCESS&&it.data!=null) {
                 updateViewData(it.data)
             }
         })
@@ -124,7 +125,6 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        Log.d("aa","==="+seekBar.progress)
         if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightBright(mControlDevice?.id!!, seekBar.progress.plus(15))
         mControlDevice?.state?.brightness = seekBar.progress
         mViewModel?.updateDevice(mControlDevice)
@@ -186,7 +186,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     inner class ToolBarEventHandler {
         fun onClick(view: View) {
             when (view.id) {
-                R.id.toolbar_back -> (view.context as Activity).finish()
+                R.id.toolbar_back -> activity.onBackPressed()
                 R.id.toolbar_right_setting -> showTopRightMenu(view)
                 R.id.device_scene_cb_scene -> {
                     if (parentFragment is IFragmentStackHolder) {

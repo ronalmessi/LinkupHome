@@ -23,12 +23,12 @@ import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceAdapter
 import com.ihomey.linkuphome.adapter.UnBondedDeviceAdapter
-import com.ihomey.linkuphome.control.MeshControlViewModel
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentGroupSettingBinding
 import com.ihomey.linkuphome.getIcon
 import com.ihomey.linkuphome.hideInput
 import com.ihomey.linkuphome.listeners.GroupUpdateListener
+import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.ihomey.linkuphome.widget.DragShadowBuilder
 import com.yanzhenjie.loading.Utils
@@ -52,7 +52,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     private var unBondedDeviceAdapter: UnBondedDeviceAdapter? = null
     private lateinit var mViewDataBinding: FragmentGroupSettingBinding
     private lateinit var swipeMenuCreator: SwipeMenuCreator
-    private var mViewModel: MeshControlViewModel? = null
+    private var mViewModel: MainViewModel? = null
     private var mDialog: GroupUpdateFragment? = null
     private var mSingleDevice: SingleDevice? = null
 
@@ -204,7 +204,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MeshControlViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getBondedDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 bondedDeviceAdapter?.setNewData(it.data)
@@ -218,13 +218,11 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
                 updateBondedDevicesRcvHeight()
             }
         })
-
         mViewModel?.getUnBondedDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 unBondedDeviceAdapter?.setNewData(it.data)
             }
         })
-
         mViewModel?.getModelResults()?.observe(this, Observer<Resource<List<Model>>> {
             if (it?.status == Status.SUCCESS) {
                 if (mDialog != null && mDialog!!.isVisible) {
@@ -291,7 +289,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mDialog?.arguments = bundle
         mDialog?.isCancelable = false
         mDialog?.show(activity.fragmentManager, "GroupUpdateFragment")
-        mViewModel?.setModelDeviceId(singleDevice.id)
+        mViewModel?.loadModels(singleDevice.id)
     }
 
     private fun unBindDevice(singleDevice: SingleDevice) {
@@ -302,7 +300,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mDialog?.arguments = bundle
         mDialog?.isCancelable = false
         mDialog?.show(activity.fragmentManager, "GroupUpdateFragment")
-        mViewModel?.setModelDeviceId(singleDevice.id)
+        mViewModel?.loadModels(singleDevice.id)
     }
 
     interface ModelUpdateListener {

@@ -58,6 +58,7 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
             listener.getBatteryState(controlDevice.id, this)
             mControlDevice = controlDevice
             if (mControlDevice != null) {
+                mViewDataBinding.deviceIvBattery.visibility = View.INVISIBLE
                 mViewDataBinding.deviceColorRgbCv.currentRadian = mControlDevice!!.state.colorPosition
                 if (mControlDevice!!.state.changeMode != -1) {
                     mViewDataBinding.deviceColorCbCycling.isChecked = true
@@ -74,9 +75,9 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
             mViewDataBinding.deviceColorCbCycling.setOnCheckedChangeListener(this)
             mViewDataBinding.deviceCyclingSstgSpeed.setOnCheckedChangeListener(this)
             mViewDataBinding.deviceColorCbLighting.setOnClickListener(this)
-        }else{
+        } else {
             mViewDataBinding.control = null
-            mControlDevice=null
+            mControlDevice = null
         }
     }
 
@@ -87,13 +88,6 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
                 listener.getBatteryState(mControlDevice?.id!!, this)
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (mControlDevice != null) {
-            listener.getBatteryState(mControlDevice?.id!!, this)
-        }
     }
 
     override fun onDestroyView() {

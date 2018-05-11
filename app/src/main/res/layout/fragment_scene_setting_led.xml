@@ -17,10 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
+        <com.ihomey.linkuphome.widget.CompatToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary">
 
             <ImageButton
@@ -43,7 +43,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
-        </android.support.v7.widget.Toolbar>
+        </com.ihomey.linkuphome.widget.CompatToolbar>
 
         <com.ihomey.linkuphome.widget.RadioGroupPlus
             android:id="@+id/device_rgp_scene"

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.ihomey.linkuphome.main.CategoryListFragment.EventHandler" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/lamp_category_cl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/lamp_category_bg">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/toolbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@mipmap/arrow_icon_left"
+                android:onClick="@{handlers::onClick}" />
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+            android:id="@+id/lamp_category_added_rcv_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/lamp_category_btn_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <Button
+            android:id="@+id/lamp_category_btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/selectable_welcome_btn_open_background"
+            android:drawableTop="@mipmap/lamp_category_icon_add"
+            android:onClick="@{handlers::onClick}"
+            android:paddingBottom="6dp"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:paddingTop="6dp"
+            android:text="@string/lamp_category_add_product"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -33,10 +33,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
-            android:name=".category.LampCategoryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatus"/>
-        <activity
             android:name=".ui.CenterActivity"
             android:screenOrientation="portrait"
             />
@@ -52,8 +48,13 @@
             android:name=".scan.ScanActivity"
             android:screenOrientation="portrait" />
 
+        <!--<activity-->
+            <!--android:name=".control.MeshControlActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden|adjustPan"/>-->
+
         <activity
-            android:name=".control.MeshControlActivity"
+            android:name=".main.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
@@ -70,15 +71,15 @@
             android:name="UMENG_CHANNEL"
             android:value="Wandoujia" />
 
-        <provider
-            android:name="com.ihomey.linkuphome.update.UpdateFileProvider"
-            android:authorities="${applicationId}.updatefileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/update_cache_path"/>
-        </provider>
+        <!--<provider-->
+            <!--android:name="com.ihomey.linkuphome.update.UpdateFileProvider"-->
+            <!--android:authorities="${applicationId}.updatefileprovider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/update_cache_path"/>-->
+        <!--</provider>-->
 
     </application>
 </manifest>

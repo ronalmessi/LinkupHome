@@ -62,10 +62,7 @@ open class TimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedChangeList
         mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
 
         mViewDataBinding.toolbarBack.setOnClickListener {
-            if (parentFragment is IFragmentStackHolder) {
-                val fsh = parentFragment as IFragmentStackHolder
-                fsh.goBack()
-            }
+           activity.onBackPressed()
         }
         return mViewDataBinding.root
     }

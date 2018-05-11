@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 class TimerSettingViewModel : ViewModel() {
 
-
     private var currentControlDevice: LiveData<Resource<ControlDevice>>
 
     private var currentDeviceInfo = MutableLiveData<DeviceInfo>()

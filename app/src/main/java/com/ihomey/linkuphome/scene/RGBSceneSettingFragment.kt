@@ -29,10 +29,7 @@ class RGBSceneSettingFragment : BaseSceneSettingFragment() {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_scene_setting_rgb, container, false)
         initController(1, arguments.getInt("deviceId", -1))
         mViewDataBinding.toolbarBack.setOnClickListener {
-            if (parentFragment is IFragmentStackHolder) {
-                val fsh = parentFragment as IFragmentStackHolder
-                fsh.goBack()
-            }
+            activity.onBackPressed()
         }
         return mViewDataBinding.root
     }

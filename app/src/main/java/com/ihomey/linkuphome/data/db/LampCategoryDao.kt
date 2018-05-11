@@ -16,8 +16,17 @@ interface LampCategoryDao {
     @Query("SELECT * FROM Category WHERE added = :isAdded and type!=-1")
     fun getCategories(isAdded: Int): LiveData<List<LampCategory>>
 
+    @Query("SELECT * FROM Category WHERE type!=-1")
+    fun getCategories(): LiveData<List<LampCategory>>
+
     @Query("SELECT * FROM Category WHERE type in (:types) order by id")
     fun getSettings(types: Array<Int>): LiveData<List<LampCategory>>
+
+    @Query("SELECT * FROM Category WHERE type =-1")
+    fun getGlobalSetting(): LiveData<LampCategory>
+
+    @Query("SELECT * FROM Category WHERE type = :type")
+    fun getLocalSetting(type: Int): LiveData<LampCategory>
 
     @Update
     fun updateCategory(lampCategory: LampCategory)

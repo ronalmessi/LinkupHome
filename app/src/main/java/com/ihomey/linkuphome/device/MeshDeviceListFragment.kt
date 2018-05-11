@@ -18,8 +18,6 @@ import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
-import com.ihomey.linkuphome.category.DeviceType
-import com.ihomey.linkuphome.control.MeshControlViewModel
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceMeshListBinding
 import com.ihomey.linkuphome.getName
@@ -28,6 +26,7 @@ import com.ihomey.linkuphome.listener.EventHandler
 import com.ihomey.linkuphome.listeners.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.toast
+import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.yanzhenjie.loading.Utils
 import com.yanzhenjie.recyclerview.swipe.*
@@ -45,12 +44,11 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     private lateinit var mViewDataBinding: FragmentDeviceMeshListBinding
     private var adapter: DeviceListAdapter? = null
     private lateinit var listener: DevicesStateListener
-    private var mViewModel: MeshControlViewModel? = null
+    private var mViewModel: MainViewModel? = null
     private var setting: LampCategory? = null
     private val deviceAssociateFragment = DeviceAssociateFragment()
     private val deviceRemoveFragment = DeviceRemoveFragment()
     private val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.lamp_icon_bed)
-
 
     fun newInstance(lampCategoryType: Int): MeshDeviceListFragment {
         val fragment = MeshDeviceListFragment()
@@ -85,7 +83,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         }
 
         mViewDataBinding.lampDeviceMeshRcvList.setSwipeItemClickListener(this)
-        var isShare by PreferenceHelper("share_$lampCategoryType", false)
+        val isShare by PreferenceHelper("share_$lampCategoryType", false)
         if (!isShare) {
             mViewDataBinding.lampDeviceMeshRcvList.setSwipeMenuCreator(swipeMenuCreator)
             mViewDataBinding.lampDeviceMeshRcvList.setSwipeMenuItemClickListener(this)
@@ -97,32 +95,20 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MeshControlViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS) {
-                if (adapter?.itemCount == 0) {
+            if (it?.status == Status.SUCCESS&&it.data!=null) {
+                Log.d("aa","getDeviceResults")
+                if (adapter?.itemCount == 0||adapter?.itemCount==it.data.size) {
                     adapter?.setNewData(it.data)
-                    uuidHashArray.clear()
                 }
             }
         })
-        mViewModel?.getDiscoverDevicesState()?.observe(this, Observer<Boolean> {
-            listener.discoverDevices(it!!, this)
-        })
-        mViewModel?.getAssociateDeviceState()?.observe(this, Observer<Int> {
-            listener.associateDevice(it!!, null)
-        })
-
-        mViewModel?.getRemoveDeviceState()?.observe(this, Observer<SingleDevice> {
-            listener.removeDevice(it!!, this)
-        })
-
-        mViewModel?.getSettingResults()?.observe(this, Observer<Resource<List<LampCategory>>> { it ->
-            if (it?.status == Status.SUCCESS && it.data?.size == 2) {
-                setting = it.data[0]
+        mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> { it ->
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                setting = it.data
             }
         })
-
     }
 
     override fun onAttach(context: Context?) {
@@ -134,24 +120,18 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         super.setUserVisibleHint(isVisibleToUser)
         val isShare by PreferenceHelper("share_$lampCategoryType", false)
         if (!isShare) {
-            mViewModel?.setDeviceDiscoveryFilterEnabled(userVisibleHint)
-        }
-        if (!userVisibleHint) {
-            uuidHashArray.clear()
-            adapter?.setNewData(null)
-        } else {
-            mViewModel?.loadDevices(lampCategoryType)
+            try {
+                listener.discoverDevices(userVisibleHint, this)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        val isShare by PreferenceHelper("share_$lampCategoryType", false)
-        if (!isShare) {
-            mViewModel?.setDeviceDiscoveryFilterEnabled(false)
-        }
+        listener.discoverDevices(userVisibleHint, this)
         uuidHashArray.clear()
-        adapter?.setNewData(null)
     }
 
     override fun onItemClick(itemView: View?, position: Int) {
@@ -160,7 +140,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         if (!isShare && singleDevice?.id == 0) {
             deviceAssociateFragment.isCancelable = false
             deviceAssociateFragment.show(activity.fragmentManager, "DeviceAssociateFragment")
-            mViewModel?.associateDevice(singleDevice.hash)
+            listener.associateDevice(singleDevice.hash, null)
         } else {
             mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice?.device?.type!!, singleDevice.id))
         }
@@ -173,10 +153,6 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
             showDeviceRemoveAlertDialog(singleDevice!!)
         }
         menuBridge.closeMenu()
-    }
-
-    override fun newUuid(uuid: UUID, uuidHash: Int, rssi: Int, ttl: Int) {
-
     }
 
     override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
@@ -202,7 +178,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         if (position != -1) {
             adapter?.getItem(position)?.id = deviceId
             adapter?.notifyItemChanged(position)
-            mViewModel?.addDevice(setting!!, device)
+            mViewModel?.addSingleDevice(setting!!, device)
         }
         deviceAssociateFragment.dismiss()
     }
@@ -222,7 +198,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         if (position != -1) {
             uuidHashArray.remove(uuidHash)
             adapter?.remove(position)
-            mViewModel?.removeDevice(lampCategoryType, deviceId)
+            mViewModel?.deleteSingleDevice(lampCategoryType, deviceId)
         }
     }
 
@@ -232,7 +208,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         builder.setPositiveButton(R.string.confirm) { _, _ ->
             deviceRemoveFragment.isCancelable = false
             deviceRemoveFragment.show(activity.fragmentManager, "DeviceRemoveFragment")
-            mViewModel?.removeDevice(singleDevice)
+            listener.removeDevice(singleDevice, this)
         }
         builder.setNegativeButton(R.string.cancel, null)
         builder.setCancelable(false)

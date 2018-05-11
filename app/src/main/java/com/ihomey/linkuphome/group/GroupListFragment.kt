@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,10 @@ import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.GroupListAdapter
-import com.ihomey.linkuphome.control.MeshControlViewModel
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentGroupListBinding
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
+import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.yanzhenjie.loading.Utils.dip2px
 import com.yanzhenjie.recyclerview.swipe.*
@@ -32,7 +33,7 @@ class GroupListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
     private var lampCategoryType: Int = -1
     private lateinit var mViewDataBinding: FragmentGroupListBinding
     private lateinit var adapter: GroupListAdapter
-    private var mViewModel: MeshControlViewModel? = null
+    private var mViewModel: MainViewModel? = null
 
 
     private var setting: LampCategory? = null
@@ -54,22 +55,17 @@ class GroupListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        mViewModel = ViewModelProviders.of(activity).get(MeshControlViewModel::class.java)
-        mViewModel?.getGroupResults()?.observe(this, Observer<Resource<List<GroupDevice>>> {
-            if (it?.status == Status.SUCCESS) {
-                val newData = arrayListOf<GroupDevice>()
-                newData.addAll(it.data!!)
-                var isShare by PreferenceHelper("share_$lampCategoryType", false)
-                if (!isShare) {
-                    newData.add(GroupDevice(-1, Device("", -1), null))
-                }
-                adapter.setNewData(newData)
+        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                Log.d("aa", "getGlobalSetting==" + it.data.nextGroupIndex)
+                setting = it.data
             }
         })
-        mViewModel?.getSettingResults()?.observe(this, Observer<Resource<List<LampCategory>>> { it ->
-            if (it?.status == Status.SUCCESS && it.data?.size == 2) {
-                setting = it.data[0]
-                settingForType = it.data[1]
+        mViewModel?.getLocalSetting()?.observe(this, Observer<Resource<LampCategory>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                Log.d("aa", "getLocalSetting==" + it.data.nextGroupIndex)
+                settingForType = it.data
             }
         })
     }
@@ -92,19 +88,28 @@ class GroupListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
                 swipeRightMenu.addMenuItem(deleteItem)
             }
         }
-
         mViewDataBinding.lampGroupRcvList.setSwipeItemClickListener(this)
-        var isShare by PreferenceHelper("share_$lampCategoryType", false)
+        val isShare by PreferenceHelper("share_$lampCategoryType", false)
         if (!isShare) {
             mViewDataBinding.lampGroupRcvList.setSwipeMenuCreator(swipeMenuCreator)
             mViewDataBinding.lampGroupRcvList.setSwipeMenuItemClickListener(this)
-        }else{
+        } else {
             mViewDataBinding.lampGroupRcvList.setSwipeMenuCreator(null)
             mViewDataBinding.lampGroupRcvList.setSwipeMenuItemClickListener(null)
         }
-        mViewModel?.loadGroups(lampCategoryType)
-    }
 
+        mViewModel?.getGroupResults(lampCategoryType)?.observe(this, Observer<Resource<List<GroupDevice>>> {
+            if (it?.status == Status.SUCCESS) {
+                val newData = arrayListOf<GroupDevice>()
+                newData.addAll(it.data!!)
+                var isShare by PreferenceHelper("share_$lampCategoryType", false)
+                if (!isShare) {
+                    newData.add(GroupDevice(-1, Device("", -1), null))
+                }
+                adapter.setNewData(newData)
+            }
+        })
+    }
 
     override fun onItemClick(itemView: View?, position: Int) {
         val groupDevice = adapter.getItem(position)

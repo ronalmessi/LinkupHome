@@ -14,10 +14,10 @@
         android:layout_height="match_parent">
 
 
-        <android.support.v7.widget.Toolbar
+        <com.ihomey.linkuphome.widget.CompatToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary">
 
             <ImageButton
@@ -46,10 +46,9 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="right"
-                android:layout_marginRight="12dp"
                 android:indeterminateDrawable="@drawable/toolbar_right_progress_bg" />
 
-        </android.support.v7.widget.Toolbar>
+        </com.ihomey.linkuphome.widget.CompatToolbar>
 
 
         <TextView
@@ -69,15 +68,14 @@
             android:id="@+id/lamp_device_mesh_rcv_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lamp_device_mesh_tv_all">
-        </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+            app:layout_constraintTop_toBottomOf="@+id/lamp_device_mesh_tv_all"></com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

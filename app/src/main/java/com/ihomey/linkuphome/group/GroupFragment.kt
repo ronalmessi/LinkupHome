@@ -31,7 +31,7 @@ class GroupFragment : BaseFragment(), IFragmentStackHolder, FragmentBackHandler 
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater!!.inflate(R.layout.fragment_group, null)
         view.findViewById<ImageButton>(R.id.toolbar_back).setOnClickListener {
-            onBackPressed()
+            activity.onBackPressed()
         }
         val lampCategoryType = arguments.getInt("lampCategoryType", -1)
         if (lampCategoryType != -1) {
@@ -63,17 +63,11 @@ class GroupFragment : BaseFragment(), IFragmentStackHolder, FragmentBackHandler 
     }
 
     override fun onBackPressed(): Boolean {
-        val groupListFragment = childFragmentManager.findFragmentByTag(GroupListFragment().javaClass.simpleName)
-        return if (groupListFragment != null && groupListFragment.isVisible && groupListFragment.userVisibleHint) {
-            activity.finish()
+        return if (childFragmentManager.backStackEntryCount == 1) {
             false
         } else {
             handleBackPress(this)
         }
-    }
-
-    override fun goBack() {
-        onBackPressed()
     }
 
 }

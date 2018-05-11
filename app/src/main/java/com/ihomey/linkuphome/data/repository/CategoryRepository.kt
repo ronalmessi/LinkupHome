@@ -14,10 +14,11 @@ import javax.inject.Singleton
 @Singleton
 class CategoryRepository @Inject constructor(private val lampCategoryDao: LampCategoryDao, private var appExecutors: AppExecutors) {
 
-    fun getCategories(isAdded: Int): LiveData<Resource<List<LampCategory>>> {
+
+    fun getCategories(): LiveData<Resource<List<LampCategory>>> {
         return object : NetworkBoundResource<List<LampCategory>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<LampCategory>> {
-                return lampCategoryDao.getCategories(isAdded)
+                return lampCategoryDao.getCategories()
             }
         }.asLiveData()
     }
@@ -26,6 +27,22 @@ class CategoryRepository @Inject constructor(private val lampCategoryDao: LampCa
         return object : NetworkBoundResource<List<LampCategory>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<LampCategory>> {
                 return lampCategoryDao.getSettings(arrayOf(-1,type))
+            }
+        }.asLiveData()
+    }
+
+    fun getGlobalSetting(): LiveData<Resource<LampCategory>> {
+        return object : NetworkBoundResource<LampCategory>(appExecutors) {
+            override fun loadFromDb(): LiveData<LampCategory> {
+                return lampCategoryDao.getGlobalSetting()
+            }
+        }.asLiveData()
+    }
+
+    fun getLocalSetting(type: Int): LiveData<Resource<LampCategory>> {
+        return object : NetworkBoundResource<LampCategory>(appExecutors) {
+            override fun loadFromDb(): LiveData<LampCategory> {
+                return lampCategoryDao.getLocalSetting(type)
             }
         }.asLiveData()
     }

@@ -63,8 +63,4 @@ class ControlParentFragment : BaseFragment(), IFragmentStackHolder, FragmentBack
             handleBackPress(this)
         }
     }
-
-    override fun goBack() {
-        onBackPressed()
-    }
 }

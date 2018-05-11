@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome
 
+import android.app.Activity
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
@@ -8,20 +9,30 @@ import android.content.Intent
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.design.internal.BottomNavigationItemView
+import android.support.design.internal.BottomNavigationMenuView
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.ihomey.linkuphome.category.DeviceType
+import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import java.io.File
 import java.io.FileNotFoundException
@@ -33,6 +44,53 @@ import java.io.IOException
  * Created by dongcaizheng on 2018/4/9.
  */
 
+fun BottomNavigationView.disableShiftMode() {
+    val menuView = this.getChildAt(0) as BottomNavigationMenuView
+    try {
+        val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
+        shiftingMode.isAccessible = true
+        shiftingMode.setBoolean(menuView, false)
+        shiftingMode.isAccessible = false
+        for (i in 0 until menuView.childCount) {
+            val item = menuView.getChildAt(i) as BottomNavigationItemView
+            val icon = item.findViewById<ImageView>(android.support.design.R.id.icon)
+            val largeLabel = item.findViewById<TextView>(android.support.design.R.id.largeLabel)
+            val smallLabel = item.findViewById<TextView>(android.support.design.R.id.smallLabel)
+            largeLabel.setSingleLine(false)
+            smallLabel.setSingleLine(false)
+            largeLabel.setLineSpacing(0f, 0.8f)
+            smallLabel.setLineSpacing(0f, 0.8f)
+            largeLabel.gravity = Gravity.CENTER_HORIZONTAL
+            smallLabel.gravity = Gravity.CENTER_HORIZONTAL
+            icon.scaleX = 1.5f
+            icon.scaleY = 1.5f
+            val baselineLayout = largeLabel.parent as android.support.design.internal.BaselineLayout
+            baselineLayout.setPadding(0, 0, 0, 0)
+            val layoutParams = baselineLayout.layoutParams as FrameLayout.LayoutParams
+            layoutParams.gravity = Gravity.CENTER_HORIZONTAL
+            layoutParams.topMargin = this.context.dip2px(42f)
+            baselineLayout.layoutParams = layoutParams
+            item.setShiftingMode(false)
+            item.setChecked(item.itemData.isChecked)
+        }
+    } catch (e: NoSuchFieldException) {
+        e.printStackTrace()
+    } catch (e: IllegalAccessException) {
+        e.printStackTrace()
+    }
+}
+
+
+fun Activity.setTranslucentStatus() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = Color.TRANSPARENT
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+}
 
 fun Context.dip2px(dpValue: Float): Int {
     val scale = this.resources.displayMetrics.density
@@ -304,6 +362,7 @@ val GROUP_NAME_KEY = "name"
 
 
 val PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 100
+val REQUEST_CODE_Main = 103
 val REQUEST_CODE_SCAN = 101
 val REQUEST_BT_RESULT_CODE = 102
 
