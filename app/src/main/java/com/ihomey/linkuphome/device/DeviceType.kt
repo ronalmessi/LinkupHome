@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.category
+package com.ihomey.linkuphome.device
 
 /**
  * Created by dongcaizheng on 2018/4/14.
