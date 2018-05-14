@@ -28,10 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.WelcomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatus" />
+
         <activity
             android:name=".ui.CenterActivity"
             android:screenOrientation="portrait"
@@ -48,10 +45,6 @@
             android:name=".scan.ScanActivity"
             android:screenOrientation="portrait" />
 
-        <!--<activity-->
-            <!--android:name=".control.MeshControlActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden|adjustPan"/>-->
 
         <activity
             android:name=".main.MainActivity"

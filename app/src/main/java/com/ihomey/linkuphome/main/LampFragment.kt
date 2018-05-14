@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.main
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
@@ -22,8 +23,9 @@ import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ControlDeviceListAdapter
 import com.ihomey.linkuphome.adapter.ControlPageAdapter
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.databinding.ActivityBaseControlBinding
+import com.ihomey.linkuphome.databinding.FragmentLampBinding
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.disableShiftMode
 import com.ihomey.linkuphome.handleBackPress
@@ -35,7 +37,7 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
 
     private var categoryType: Int = -1
     private val adapter = ControlDeviceListAdapter(R.layout.control_device_list_item)
-    private lateinit var mViewDataBinding: ActivityBaseControlBinding
+    private lateinit var mViewDataBinding: FragmentLampBinding
     private var mViewModel: MainViewModel? = null
     private lateinit var behavior: BottomSheetBehavior<View>
 
@@ -47,8 +49,11 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         return fragment
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("aa",LocaleHelper.getLanguage(activity))
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getControlDeviceResults()?.observe(this, Observer<Resource<List<ControlDevice>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
@@ -66,7 +71,7 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.activity_base_control, container, false)
+        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_lamp, container, false)
         categoryType = arguments.getInt("categoryType", -1)
         mViewDataBinding.controlBaseBnv.disableShiftMode()
         mViewDataBinding.controlBaseVp.offscreenPageLimit = 3
@@ -153,6 +158,7 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         }
     }
 
+
     override fun onBackPressed(): Boolean {
         return if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             hideControlDeviceSelectionDialog()
@@ -167,5 +173,6 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         val item = menuView.getChildAt(mViewDataBinding.controlBaseVp.currentItem) as BottomNavigationItemView
         mViewDataBinding.controlBaseBnv.selectedItemId = item.id
     }
+
 
 }

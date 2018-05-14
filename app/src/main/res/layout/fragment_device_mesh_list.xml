@@ -2,13 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="handlers"
-            type="com.ihomey.linkuphome.listener.EventHandler" />
-    </data>
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,8 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:background="@mipmap/arrow_icon_left"
-                android:onClick="@{handlers::onClick}" />
+                android:background="@mipmap/arrow_icon_left" />
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -75,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lamp_device_mesh_tv_all"></com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+            app:layout_constraintTop_toBottomOf="@+id/lamp_device_mesh_tv_all"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

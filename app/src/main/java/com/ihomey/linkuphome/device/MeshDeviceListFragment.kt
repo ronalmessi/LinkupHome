@@ -22,7 +22,6 @@ import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceMeshListBinding
 import com.ihomey.linkuphome.getName
 import com.ihomey.linkuphome.getShortName
-import com.ihomey.linkuphome.listener.EventHandler
 import com.ihomey.linkuphome.listeners.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.toast
@@ -30,7 +29,6 @@ import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.yanzhenjie.loading.Utils
 import com.yanzhenjie.recyclerview.swipe.*
-import java.util.*
 
 
 /**
@@ -60,7 +58,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_mesh_list, container, false)
-        mViewDataBinding.handlers = EventHandler()
+        mViewDataBinding.toolbarBack.setOnClickListener { activity.onBackPressed() }
         lampCategoryType = arguments.getInt("lampCategoryType", -1)
         if (lampCategoryType != -1) mViewDataBinding.root.setBackgroundResource(bgRes[lampCategoryType])
         return mViewDataBinding.root
@@ -97,9 +95,9 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS&&it.data!=null) {
-                Log.d("aa","getDeviceResults")
-                if (adapter?.itemCount == 0||adapter?.itemCount==it.data.size) {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                Log.d("aa", "getDeviceResults")
+                if (adapter?.itemCount == 0 || adapter?.itemCount == it.data.size) {
                     adapter?.setNewData(it.data)
                 }
             }
@@ -123,14 +121,14 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
             try {
                 listener.discoverDevices(userVisibleHint, this)
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.d("LinkupHome", "lateinit property listener has not been initialized")
             }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        listener.discoverDevices(userVisibleHint, this)
+        listener.discoverDevices(false, this)
         uuidHashArray.clear()
     }
 

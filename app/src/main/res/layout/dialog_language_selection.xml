@@ -6,7 +6,7 @@
 
         <variable
             name="handlers"
-            type="com.ihomey.linkuphome.ui.WelcomeActivity.EventHandler" />
+            type="com.ihomey.linkuphome.main.WelcomeFragment.EventHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout

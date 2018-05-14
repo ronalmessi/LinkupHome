@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.databinding.FragmentSceneSettingRgbBinding
-import com.ihomey.linkuphome.listener.IFragmentStackHolder
 
 /**
  * Created by dongcaizheng on 2018/4/15.

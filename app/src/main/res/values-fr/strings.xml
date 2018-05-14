@@ -24,6 +24,8 @@
     <string name="state_disconnected">Cliquer Pour Connectez</string>
     <string name="state_connected">Déjà Connecté</string>
 
+    <string name="disconnected">Couper La Connexion</string>
+
     <string name="speed_slow">Diminuer</string>
     <string name="speed_normal">Normal</string>
     <string name="speed_fast">Accélérer</string>

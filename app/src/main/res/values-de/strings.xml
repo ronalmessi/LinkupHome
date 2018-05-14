@@ -23,6 +23,7 @@
 
     <string name="state_disconnected">Klicken Sie Auf Verbindung</string>
     <string name="state_connected">Hat Verbunden</string>
+    <string name="disconnected">Den anschluss zu trennen</string>
 
     <string name="speed_slow">Verlangsamen</string>
     <string name="speed_normal">Normal</string>

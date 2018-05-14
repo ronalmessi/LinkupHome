@@ -46,7 +46,7 @@ class ShareActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mViewModel = ViewModelProviders.of(this).get(ShareViewModel::class.java)
         mViewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_share)
-        mViewDataBinding.isChinese = TextUtils.equals("zh", language)
+//        mViewDataBinding.isChinese = TextUtils.equals("zh", language)
         mViewDataBinding.handlers = ShareHandler()
         generatingDialog = ShareCodeGeneraeFragment()
 

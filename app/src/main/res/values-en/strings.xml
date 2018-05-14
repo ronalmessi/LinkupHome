@@ -23,6 +23,7 @@
 
     <string name="state_disconnected">Click For Connect</string>
     <string name="state_connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
 
     <string name="speed_slow">Slowing down</string>
     <string name="speed_normal">Normal</string>

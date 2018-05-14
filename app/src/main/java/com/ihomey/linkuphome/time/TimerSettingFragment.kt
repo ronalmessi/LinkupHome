@@ -18,7 +18,6 @@ import com.ihomey.linkuphome.data.vo.DeviceInfo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.databinding.FragmentTimerSettingBinding
-import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.suke.widget.SwitchButton
 import java.util.*

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.view.View
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.ui.CenterActivity
 import com.ihomey.linkuphome.ui.WebViewActivity
 
 /**
@@ -16,8 +15,6 @@ open class EventHandler {
         when (view.id) {
             R.id.toolbar_back -> (view.context as Activity).finish()
             R.id.center_layout_instructions -> view.context.startActivity(Intent(view.context, WebViewActivity::class.java))
-            R.id.welcome_iv_center -> view.context.startActivity(Intent(view.context, CenterActivity::class.java))
-            R.id.welcome_btn_open -> view.context.startActivity(Intent(view.context, CenterActivity::class.java))
         }
     }
 }

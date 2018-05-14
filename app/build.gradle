@@ -94,7 +94,7 @@ dependencies {
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.baseRecyclerViewAdapterHelperVersion"
 
     implementation 'com.facebook.stetho:stetho:1.1.0'
-    implementation 'com.akexorcist:localizationactivity:1.1.2'
+//    implementation 'com.akexorcist:localizationactivity:1.1.2'
     implementation 'com.umeng.analytics:analytics:latest.integration'
 
 

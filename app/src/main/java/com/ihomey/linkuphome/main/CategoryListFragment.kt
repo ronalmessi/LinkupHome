@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.main
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
@@ -22,7 +23,9 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.databinding.DialogLampCategoryUnaddedBinding
 import com.ihomey.linkuphome.databinding.FragmentCategoryListBinding
+import com.ihomey.linkuphome.device.MeshDeviceListFragment
 import com.ihomey.linkuphome.dip2px
+import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
@@ -38,12 +41,18 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
     private lateinit var mViewDataBinding: FragmentCategoryListBinding
     private lateinit var mDialogBinding: DialogLampCategoryUnaddedBinding
     private lateinit var dialog: BottomSheetDialog
+    private lateinit var listener: BridgeListener
 
     private val unAddedLampCategoryAdapter: UnAddedLampCategoryAdapter = UnAddedLampCategoryAdapter(R.layout.lamp_category_unadded_item)
     private val addedLampCategoryAdapter: AddedLampCategoryAdapter = AddedLampCategoryAdapter(R.layout.lamp_category_added_item)
 
     fun newInstance(): CategoryListFragment {
         return CategoryListFragment()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        listener = context as BridgeListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -75,7 +84,6 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         mViewDataBinding.lampCategoryAddedRcvList.setSwipeMenuItemClickListener(this)
 
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
-
         mViewModel.getCategoryResults()?.observe(this, Observer<Resource<List<LampCategory>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
                 addedLampCategoryAdapter.setNewData(it.data.filter { it.added == 1 })
@@ -87,6 +95,11 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         addedLampCategoryAdapter.onItemClickListener = this
 
         return mViewDataBinding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        listener.connectBridge()
     }
 
     private fun showAddProductDialog() {
@@ -120,7 +133,7 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
     inner class EventHandler {
         fun onClick(view: View) {
             when (view.id) {
-                R.id.toolbar_back -> (view.context as Activity).finish()
+                R.id.toolbar_back -> (view.context as Activity).onBackPressed()
                 R.id.lamp_category_btn_add -> showAddProductDialog()
             }
         }

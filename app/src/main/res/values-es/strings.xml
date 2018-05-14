@@ -25,6 +25,8 @@
     <string name="state_disconnected">Hacer Clic Para Conectar</string>
     <string name="state_connected">Se Ha Conectado</string>
 
+    <string name="disconnected">Desconectar</string>
+
     <string name="speed_slow">La Deceleración</string>
     <string name="speed_normal">La Regularidad</string>
     <string name="speed_fast">La Aceleración</string>

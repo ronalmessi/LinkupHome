@@ -1,14 +1,21 @@
 package com.ihomey.library.base
 
+import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.akexorcist.localizationactivity.LocalizationActivity
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.umeng.analytics.MobclickAgent
 
 /**
  * Created by Administrator on 2017/6/16.
  */
-abstract class BaseActivity : LocalizationActivity() {
+abstract class BaseActivity : AppCompatActivity() {
+
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

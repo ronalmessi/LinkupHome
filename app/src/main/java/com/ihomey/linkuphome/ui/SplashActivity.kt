@@ -14,6 +14,7 @@ import android.view.animation.Animation
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.databinding.ActivitySplashBinding
+import com.ihomey.linkuphome.main.MainActivity
 import java.util.*
 
 
@@ -24,24 +25,25 @@ class SplashActivity : BaseActivity() {
 
     private lateinit var alphaAnimation: AlphaAnimation
     private lateinit var binding: ActivitySplashBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        setDefaultLanguage()
+//        setDefaultLanguage()
         super.onCreate(savedInstanceState)
         initAlphaAnimation()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         checkPermission()
     }
-
-    private fun setDefaultLanguage() {
-        val currentLanguage = Locale.getDefault().displayLanguage.toLowerCase()
-        when (currentLanguage) {
-            "español" -> setDefaultLanguage("es")
-            "deutsch" -> setDefaultLanguage("de")
-            "français" -> setDefaultLanguage("fr")
-            "中文" -> setDefaultLanguage("zh")
-            else -> setDefaultLanguage("en")
-        }
-    }
+//
+//    private fun setDefaultLanguage() {
+//        val currentLanguage = Locale.getDefault().displayLanguage.toLowerCase()
+//        when (currentLanguage) {
+//            "español" -> setDefaultLanguage("es")
+//            "deutsch" -> setDefaultLanguage("de")
+//            "français" -> setDefaultLanguage("fr")
+//            "中文" -> setDefaultLanguage("zh")
+//            else -> setDefaultLanguage("en")
+//        }
+//    }
 
     private fun initAlphaAnimation() {
         alphaAnimation = AlphaAnimation(0f, 1.0f)
@@ -57,7 +59,7 @@ class SplashActivity : BaseActivity() {
             }
 
             override fun onAnimationEnd(animation: Animation?) {
-                startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
                 finish()
             }

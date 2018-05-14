@@ -6,7 +6,7 @@
 
         <variable
             name="handlers"
-            type="com.ihomey.linkuphome.ui.WelcomeActivity.EventHandler" />
+            type="com.ihomey.linkuphome.main.WelcomeFragment.EventHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -14,33 +14,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/welcome_bg"
-        android:clipToPadding="false">
+       >
 
-        <ImageView
-            android:id="@+id/welcome_iv_center"
-            android:layout_width="wrap_content"
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="16dp"
-            android:onClick="@{handlers::onClick}"
-            android:src="@mipmap/welcome_icon_center"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            >
 
-        <TextView
-            android:id="@+id/welcome_tv_language"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:onClick="@{handlers::onClick}"
-            android:text="@string/welcome_language"
-            android:textColor="@android:color/white"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="@+id/welcome_iv_center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/toolbar_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@mipmap/welcome_icon_center"
+                android:onClick="@{handlers::onClick}" />
+
+            <TextView
+                android:id="@+id/toolbar_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:onClick="@{handlers::onClick}"
+                android:text="@string/welcome_language"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
 
 
         <TextView
@@ -53,7 +57,7 @@
             android:textColor="@android:color/white"
             android:textSize="32sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_iv_center" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -9,9 +9,13 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.*
-import android.support.design.widget.BottomSheetBehavior
+import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
+import android.os.Message
 import android.support.v4.app.Fragment
+import android.text.TextUtils
+import android.util.ArrayMap
 import android.util.Log
 import android.util.SparseIntArray
 import android.view.Gravity
@@ -22,27 +26,32 @@ import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device.MeshDeviceListFragment
 import com.ihomey.linkuphome.group.GroupSettingFragment
+import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
+import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.listeners.*
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import de.keyboardsurfer.android.widget.crouton.Crouton
+import org.spongycastle.asn1.x500.style.RFC4519Style.name
 import java.lang.ref.WeakReference
-import java.util.HashSet
+import java.util.*
 
 
-class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragment.DevicesStateListener, MeshServiceStateListener, GroupSettingFragment.ModelUpdateListener {
-
+class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragmentStackHolder, MeshDeviceListFragment.DevicesStateListener, MeshServiceStateListener, GroupSettingFragment.ModelUpdateListener {
 
     private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
+    private val languageArray: Array<String> = arrayOf("en", "zh", "fr", "de", "es")
 
     private var mViewModel: MainViewModel? = null
     private var mService: MeshService? = null
     private var mConnected = false
     private val mDeviceIdToUuidHash = SparseIntArray()
     private val mConnectedDevices = HashSet<String>()
+    private val addressToNameMap = ArrayMap<String, String>()
 
     private var meshAssListener: DeviceAssociateListener? = null
     private var mRemovedListener: DeviceRemoveListener? = null
@@ -105,6 +114,31 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
         GroupModelApi.getNumModelGroupIds(deviceId, DataModelApi.MODEL_NUMBER)
     }
 
+    override fun connectBridge() {
+        connect()
+    }
+
+    fun connect() {
+        mService?.setHandler(mMeshHandler)
+        mService?.setLeScanCallback(mScanCallBack)
+        mService?.setMeshListeningMode(true, true)
+        mService?.autoConnect(1, 10000, 100, 0)
+    }
+
+    override fun onLanguageChange(languageIndex: Int) {
+        val desLanguage = languageArray[languageIndex - 1]
+        val currentLanguage = LocaleHelper.getLanguage(this)
+        if (!TextUtils.equals(currentLanguage, desLanguage)) {
+            LocaleHelper.setLocale(this, desLanguage)
+            releaseResource()
+            recreate()
+        }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTranslucentStatus()
         super.onCreate(savedInstanceState)
@@ -112,12 +146,11 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
         mViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         mViewModel?.getLocalSetting()?.observe(this, Observer<Resource<LampCategory>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("aa", "getNetworkKey==" + it.data)
                 mService?.setNetworkPassPhrase(it.data.networkKey)
             }
         })
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
-        if (savedInstanceState == null) supportFragmentManager.beginTransaction().replace(R.id.container, CategoryListFragment().newInstance()).commitNow()
+        if (savedInstanceState == null) supportFragmentManager.beginTransaction().replace(R.id.container, WelcomeFragment().newInstance()).commitNow()
     }
 
     override fun replaceFragment(containerId: Int, frag: Fragment) {
@@ -131,21 +164,26 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
     override fun onDestroy() {
         super.onDestroy()
         try {
-            Crouton.cancelAllCroutons()
-            mService?.setDeviceDiscoveryFilterEnabled(false)
-            mService?.disconnectBridge()
-            mService?.setHandler(null)
-            mMeshHandler.removeCallbacksAndMessages(null)
+            releaseResource()
             unbindService(mServiceConnection)
         } catch (e: Exception) {
             Log.d("LinkupHome", "oh,some error happen!")
         }
     }
 
+    private fun releaseResource() {
+        Crouton.cancelAllCroutons()
+        mService?.setDeviceDiscoveryFilterEnabled(false)
+        if (mConnected) mService?.disconnectBridge()
+        mService?.setHandler(null)
+        mMeshHandler.removeCallbacksAndMessages(null)
+    }
+
     override fun onBackPressed() {
         if (!handleBackPress(this)) {
-            setResult(Activity.RESULT_OK)
             finish()
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
         }
     }
 
@@ -153,13 +191,24 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
         mConnected = true
         val textView = TextView(this)
         textView.width = getScreenW()
-        textView.setPadding(0, 72, 0, 36)
+        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
         textView.gravity = Gravity.CENTER
         textView.setTextColor(resources.getColor(android.R.color.white))
         textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
         textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
         Crouton.make(this, textView).show()
         mMeshHandler.postDelayed({ mViewModel?.setBridgeConnectState(mConnected) }, 1500)
+    }
+
+    private fun onDisConnected(name: String) {
+        val textView = TextView(this)
+        textView.width = getScreenW()
+        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
+        textView.gravity = Gravity.CENTER
+        textView.setTextColor(resources.getColor(android.R.color.white))
+        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
+        textView.text = '"' + name + '"' + " " + getString(R.string.disconnected)
+        Crouton.make(this, textView).show()
     }
 
 
@@ -169,13 +218,6 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
                 mService?.setNextDeviceId(it.data.nextDeviceIndex)
             }
         })
-    }
-
-    private fun connect() {
-        mService?.setHandler(mMeshHandler)
-        mService?.setLeScanCallback(mLeScanCallback)
-        mService?.setMeshListeningMode(true, true)
-        mService?.autoConnect(1, 10000, 0, 0)
     }
 
     private fun assignGroups(maxNums: Int) {
@@ -202,7 +244,7 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
         override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
             mService = (rawBinder as MeshService.LocalBinder).service
             getNextDeviceIndex()
-            connect()
+//            connect()
         }
 
         override fun onServiceDisconnected(classname: ComponentName) {
@@ -210,15 +252,10 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
         }
     }
 
-    private val mLeScanCallback = LeScanCallback(this)
-
-    private class LeScanCallback(activity: MainActivity) : BluetoothAdapter.LeScanCallback {
-        private val mActivity: WeakReference<MainActivity> = WeakReference(activity)
-
-        override fun onLeScan(device: BluetoothDevice, rssi: Int, scanRecord: ByteArray) {
-            val parentActivity = mActivity.get()
-            Log.d("aa","hahahahaha")
-            parentActivity?.mService?.processMeshAdvert(device, scanRecord, rssi)
+    private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
+        mService?.processMeshAdvert(device, scanRecord, rssi)
+        if (!TextUtils.isEmpty(device.name) && !addressToNameMap.containsKey(device.address)) {
+            addressToNameMap[device.address] = device.name
         }
     }
 
@@ -230,10 +267,16 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
             val parentActivity = mActivity.get()
             when (msg.what) {
                 MeshService.MESSAGE_LE_CONNECTED -> {
-                    val name = "LinkupHome C3"
-                    parentActivity?.runOnUiThread({
-                        parentActivity.onConnected(name)
-                    })
+                    val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
+                    if (parentActivity != null) {
+                        parentActivity.mConnectedDevices.add(address)
+                        val name = parentActivity.addressToNameMap[address]
+                        if (!parentActivity.mConnected && name != null && !TextUtils.isEmpty(name)) {
+                            parentActivity.runOnUiThread({
+                                parentActivity.onConnected(name)
+                            })
+                        }
+                    }
                     Log.d("aa", "MESSAGE_LE_CONNECTED")
                 }
                 MeshService.MESSAGE_DEVICE_DISCOVERED -> {
@@ -320,7 +363,7 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
                         for (s in parentActivity?.mConnectedDevices!!) {
                             if (s.compareTo(address) == 0) {
                                 toRemove = s
-                                break;
+                                break
                             }
                         }
                         if (toRemove != null) {
@@ -328,8 +371,15 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
                         }
                     }
                     if (numConnections == 0) {
-                        parentActivity?.mConnected = false
-                        parentActivity?.connect()
+                        if (parentActivity != null) {
+                            parentActivity.mConnected = false
+                            val name = parentActivity.addressToNameMap[address]
+                            if (name != null && !TextUtils.isEmpty(name)) {
+                                parentActivity.runOnUiThread({
+                                    parentActivity.onDisConnected(name)
+                                })
+                            }
+                        }
                     }
                 }
 
@@ -340,7 +390,6 @@ class MainActivity : BaseActivity(), IFragmentStackHolder, MeshDeviceListFragmen
                     val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                     parentActivity?.startActivityForResult(enableBtIntent, REQUEST_BT_RESULT_CODE)
                 }
-
                 MeshService.MESSAGE_TIMEOUT -> {
                     val expectedMsg = msg.data.getInt(MeshService.EXTRA_EXPECTED_MESSAGE)
                     var id = if (msg.data.containsKey(MeshService.EXTRA_UUIDHASH_31)) {
