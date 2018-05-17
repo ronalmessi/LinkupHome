@@ -93,7 +93,7 @@ dependencies {
 
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.baseRecyclerViewAdapterHelperVersion"
 
-    implementation 'com.facebook.stetho:stetho:1.1.0'
+//    implementation 'com.facebook.stetho:stetho:1.1.0'
 //    implementation 'com.akexorcist:localizationactivity:1.1.2'
     implementation 'com.umeng.analytics:analytics:latest.integration'
 
@@ -113,7 +113,7 @@ dependencies {
 
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
-    implementation 'com.clj.fastble:FastBleLib:2.3.0'
+//    implementation 'com.clj.fastble:FastBleLib:2.3.0'
 
     implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
         exclude group: 'com.google.android', module: 'support-v4'

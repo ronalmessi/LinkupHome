@@ -50,10 +50,8 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
     }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("aa",LocaleHelper.getLanguage(activity))
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getControlDeviceResults()?.observe(this, Observer<Resource<List<ControlDevice>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
@@ -142,11 +140,12 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         if (controlDevice.id != -1) {
             mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(controlDevice.device.type, controlDevice.id))
         } else {
-            val isShare by PreferenceHelper("share_$categoryType", false)
+            var isShare by PreferenceHelper("share_$categoryType", false)
             val builder = AlertDialog.Builder(context)
             builder.setMessage(R.string.devices_clear)
             builder.setPositiveButton(R.string.confirm) { _, _ ->
                 if (isShare) {
+                    isShare = false
                     mViewModel?.removeAllDevices(categoryType)
                 } else {
                     mViewModel?.removeAllGroupDevices(categoryType)

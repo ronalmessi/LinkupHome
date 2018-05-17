@@ -14,11 +14,13 @@ import android.provider.Settings
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.ActivityShareBinding
 import com.qiniu.android.storage.Configuration
@@ -26,6 +28,7 @@ import com.qiniu.android.storage.UploadManager
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URLEncoder
+import java.util.*
 
 /**
  * Created by dongcaizheng on 2017/12/21.
@@ -46,7 +49,8 @@ class ShareActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mViewModel = ViewModelProviders.of(this).get(ShareViewModel::class.java)
         mViewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_share)
-//        mViewDataBinding.isChinese = TextUtils.equals("zh", language)
+        val currentLanguage = LocaleHelper.getLanguage(this)
+        mViewDataBinding.isChinese = TextUtils.equals("zh", currentLanguage)
         mViewDataBinding.handlers = ShareHandler()
         generatingDialog = ShareCodeGeneraeFragment()
 
@@ -55,27 +59,28 @@ class ShareActivity : BaseActivity() {
         mViewModel.getDeviceResults().observe(this, Observer<Resource<List<DeviceModel>>> {
             if (it?.status == Status.SUCCESS) {
                 deviceModels = it.data
+                mViewModel.loadGroups(lampCategoryType)
             }
-            mViewModel.loadGroups(lampCategoryType)
+
         })
 
         mViewModel.getGroupResults().observe(this, Observer<Resource<List<GroupDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 groups = it.data
+                createShareCode()
             }
-            createShareCode()
+
         })
 
         mViewModel.getSettingResults().observe(this, Observer<Resource<List<LampCategory>>> {
             if (it?.status == Status.SUCCESS && it.data?.size == 2) {
                 settings = it.data
+                mViewModel.loadDevices(lampCategoryType)
             }
-            mViewModel.loadDevices(lampCategoryType)
         })
 
         loadShareData()
     }
-
 
 
     private fun getShareJson(): String {
@@ -83,12 +88,12 @@ class ShareActivity : BaseActivity() {
         val jsonLightStates = JSONArray()
         // settings
         if (settings != null) {
-            objJson.put(DEVICE_TYPE, lampCategoryType+1)
+            objJson.put(DEVICE_TYPE, lampCategoryType + 1)
             objJson.put(NETWORK_KEY, settings!![1].networkKey)
             val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategoryType", -1)
             objJson.put(CURRENT_ID, lastUsedDeviceId)
-            objJson.put(NEXT_DEVICE_INDEX_KEY, settings!![0].nextDeviceIndex )
-            objJson.put(NEXT_GROUP_INDEX_KEY, settings!![1].nextGroupIndex )
+            objJson.put(NEXT_DEVICE_INDEX_KEY, settings!![0].nextDeviceIndex)
+            objJson.put(NEXT_GROUP_INDEX_KEY, settings!![1].nextGroupIndex)
         }
 
         // devices
@@ -156,7 +161,7 @@ class ShareActivity : BaseActivity() {
     private fun getStateJson(lightStateJson: JSONObject, lightState: ControlState?) {
         if (lightState != null) {
             lightStateJson.put("isOn", lightState.on != 0)
-            lightStateJson.put("type", lampCategoryType+1)
+            lightStateJson.put("type", lampCategoryType + 1)
             lightStateJson.put("isOnOpenTimer", lightState.openTimerOn != 0)
             lightStateJson.put("isOnCloseTimer", lightState.closeTimerOn != 0)
             lightStateJson.put("colorTemperature", lightState.colorTemperature)

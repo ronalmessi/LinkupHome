@@ -181,7 +181,9 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
                 handler?.sendEmptyMessage(R.id.restart_preview)
             } else {
                 mViewModel.udateData(jsonObj)
-                setResult(Activity.RESULT_OK)
+                val intent = Intent()
+                intent.putExtra("categoryType", lampCategoryType)
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }
@@ -206,7 +208,6 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
                 val url = URL(params[0])
                 val conn = url
                         .openConnection() as HttpURLConnection
-                Log.d("aa", "--" + conn.responseCode + "---")
                 conn.readTimeout = 5000
                 conn.connectTimeout = 5000
                 conn.requestMethod = "GET"

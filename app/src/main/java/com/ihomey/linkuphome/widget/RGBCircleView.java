@@ -84,7 +84,6 @@ public class RGBCircleView extends View {
     }
 
     private void initialize() {
-        Log.d(TAG, "initialize");
         // Set default dimension or read xml attributes
         mGapBetweenCircleAndLine = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_GAP_BETWEEN_CIRCLE_AND_LINE,
                 getContext().getResources().getDisplayMetrics());
@@ -222,7 +221,6 @@ public class RGBCircleView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d(TAG, "onMeasure");
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // Ensure width = height
         int height = MeasureSpec.getSize(heightMeasureSpec);
@@ -243,7 +241,6 @@ public class RGBCircleView extends View {
 
     @Override
     protected Parcelable onSaveInstanceState() {
-        Log.d(TAG, "onSaveInstanceState");
         Bundle bundle = new Bundle();
         bundle.putParcelable(INSTANCE_STATUS, super.onSaveInstanceState());
         bundle.putFloat(STATUS_RADIAN, mCurrentRadian);
@@ -252,7 +249,6 @@ public class RGBCircleView extends View {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        Log.d(TAG, "onRestoreInstanceState");
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATUS));

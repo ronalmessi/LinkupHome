@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
@@ -69,14 +70,14 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
         super.onCreate(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-            if (it?.status == Status.SUCCESS&&it.data!=null) {
+            if (it?.status == Status.SUCCESS) {
                 updateViewData(it.data)
             }
         })
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategory", -1)
         mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(lampCategory, lastUsedDeviceId))
     }

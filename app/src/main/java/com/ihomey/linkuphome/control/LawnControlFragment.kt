@@ -77,6 +77,7 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
             mViewDataBinding.deviceColorCbLighting.setOnClickListener(this)
         } else {
             mViewDataBinding.control = null
+            mViewDataBinding.deviceIvBattery.visibility = View.INVISIBLE
             mControlDevice = null
         }
     }

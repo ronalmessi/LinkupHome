@@ -118,7 +118,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         connect()
     }
 
-    fun connect() {
+    private fun connect() {
         mService?.setHandler(mMeshHandler)
         mService?.setLeScanCallback(mScanCallBack)
         mService?.setMeshListeningMode(true, true)
@@ -171,6 +171,14 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == Activity.RESULT_OK && data != null) {
+            val categoryType = data.getIntExtra("categoryType", -1)
+            if (categoryType != -1) mViewModel?.loadData(categoryType)
+        }
+    }
+
     private fun releaseResource() {
         Crouton.cancelAllCroutons()
         mService?.setDeviceDiscoveryFilterEnabled(false)
@@ -211,7 +219,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         Crouton.make(this, textView).show()
     }
 
-
     private fun getNextDeviceIndex() {
         mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
@@ -244,7 +251,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
             mService = (rawBinder as MeshService.LocalBinder).service
             getNextDeviceIndex()
-//            connect()
         }
 
         override fun onServiceDisconnected(classname: ComponentName) {
@@ -277,10 +283,8 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                             })
                         }
                     }
-                    Log.d("aa", "MESSAGE_LE_CONNECTED")
                 }
                 MeshService.MESSAGE_DEVICE_DISCOVERED -> {
-                    Log.d("aa", "MESSAGE_DEVICE_DISCOVERED")
                     val uuidHash = msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
                     if (parentActivity?.mRemovedListener != null && parentActivity.mRemovedUuidHash == uuidHash) {
                         parentActivity.mRemovedListener?.onDeviceRemoved(parentActivity.mRemovedDeviceId, uuidHash, true)
@@ -292,7 +296,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                     }
                 }
                 MeshService.MESSAGE_DEVICE_APPEARANCE -> {
-                    Log.d("aa", "MESSAGE_DEVICE_APPEARANCE")
                     val appearance = msg.data.getByteArray(MeshService.EXTRA_APPEARANCE)
                     val shortName = msg.data.getString(MeshService.EXTRA_SHORTNAME)
                     val uuidHash = msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)

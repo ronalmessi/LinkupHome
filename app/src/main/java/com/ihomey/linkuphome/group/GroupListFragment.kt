@@ -58,13 +58,11 @@ class GroupListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("aa", "getGlobalSetting==" + it.data.nextGroupIndex)
                 setting = it.data
             }
         })
         mViewModel?.getLocalSetting()?.observe(this, Observer<Resource<LampCategory>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("aa", "getLocalSetting==" + it.data.nextGroupIndex)
                 settingForType = it.data
             }
         })
@@ -97,7 +95,10 @@ class GroupListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
             mViewDataBinding.lampGroupRcvList.setSwipeMenuCreator(null)
             mViewDataBinding.lampGroupRcvList.setSwipeMenuItemClickListener(null)
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         mViewModel?.getGroupResults(lampCategoryType)?.observe(this, Observer<Resource<List<GroupDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 val newData = arrayListOf<GroupDevice>()

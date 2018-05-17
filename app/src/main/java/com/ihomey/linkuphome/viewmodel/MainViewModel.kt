@@ -34,7 +34,6 @@ class MainViewModel : ViewModel() {
     private var currentControlDevice: LiveData<Resource<ControlDevice>>
 
     private var localSetting: LiveData<Resource<LampCategory>>
-    private var globalSetting: LiveData<Resource<LampCategory>>? = null
 
     private val isBridgeConnected = MutableLiveData<Boolean>()
 
@@ -109,10 +108,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getGlobalSetting(): LiveData<Resource<LampCategory>>? {
-        if (globalSetting == null) {
-            globalSetting = mCategoryRepository.getGlobalSetting()
-        }
-        return globalSetting
+        return  mCategoryRepository.getGlobalSetting()
     }
 
     fun getLocalSetting(): LiveData<Resource<LampCategory>> {

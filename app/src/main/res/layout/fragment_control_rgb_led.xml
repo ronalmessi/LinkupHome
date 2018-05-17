@@ -52,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="@mipmap/toolbar_right_icon_setting"
-                android:layout_marginRight="12dp"
                 android:onClick="@{handlers::onClick}" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
 

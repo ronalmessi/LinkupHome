@@ -31,10 +31,17 @@ class DataRepository @Inject constructor(private val lampGroupDao: GroupDeviceDa
             isShare = true
 
             //Setting
-//            val nextDeviceIndex = jsonObj.getInt(NEXT_DEVICE_INDEX_KEY)
-//            val nextGroupIndex = jsonObj.getInt(NEXT_GROUP_INDEX_KEY)
+            val globalSetting=lampCategoryDao.getSetting(-1)
+            val nextDeviceIndex = jsonObj.getInt(NEXT_DEVICE_INDEX_KEY)
+            val nextGroupIndex = jsonObj.getInt(NEXT_GROUP_INDEX_KEY)
+            if(globalSetting.nextDeviceIndex<nextDeviceIndex||globalSetting.nextGroupIndex<nextGroupIndex){
+                globalSetting.nextDeviceIndex=nextDeviceIndex
+                globalSetting.nextGroupIndex=nextGroupIndex
+                lampCategoryDao.updateCategory(globalSetting)
+            }
+
             val networkKey = jsonObj.getString(NETWORK_KEY)
-//            lampCategoryDao.updateIndex(nextDeviceIndex, nextGroupIndex)
+
             lampCategoryDao.updateNetWorkkey(networkKey, mDeviceType)
 
             val devices = jsonObj.getJSONArray(DEVICES_KEY)

@@ -95,9 +95,10 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("aa", "getDeviceResults")
-                if (adapter?.itemCount == 0 || adapter?.itemCount == it.data.size) {
+            if (it?.status == Status.SUCCESS) {
+                if (it.data == null || it.data.isEmpty()) {
+                    adapter?.setNewData(null)
+                } else if (adapter?.itemCount == 0 || adapter?.itemCount == it.data.size) {
                     adapter?.setNewData(it.data)
                 }
             }
@@ -154,7 +155,6 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     }
 
     override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
-        Log.d("aa", "" + uuidHash + "---" + shortName + "---" + uuidHashArray.indexOfKey(uuidHash) + "---" + isDeviceRemoving)
         if (!isDeviceRemoving && uuidHashArray.indexOfKey(uuidHash) < 0) {
             uuidHashArray.put(uuidHash, shortName)
             val deviceType = DeviceType.values()[lampCategoryType]

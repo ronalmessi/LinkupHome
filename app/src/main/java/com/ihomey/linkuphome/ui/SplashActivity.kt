@@ -27,24 +27,11 @@ class SplashActivity : BaseActivity() {
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        setDefaultLanguage()
         super.onCreate(savedInstanceState)
         initAlphaAnimation()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         checkPermission()
     }
-//
-//    private fun setDefaultLanguage() {
-//        val currentLanguage = Locale.getDefault().displayLanguage.toLowerCase()
-//        when (currentLanguage) {
-//            "español" -> setDefaultLanguage("es")
-//            "deutsch" -> setDefaultLanguage("de")
-//            "français" -> setDefaultLanguage("fr")
-//            "中文" -> setDefaultLanguage("zh")
-//            else -> setDefaultLanguage("en")
-//        }
-//    }
-
     private fun initAlphaAnimation() {
         alphaAnimation = AlphaAnimation(0f, 1.0f)
         alphaAnimation.duration = 1000

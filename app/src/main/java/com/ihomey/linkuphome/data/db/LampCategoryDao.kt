@@ -25,6 +25,9 @@ interface LampCategoryDao {
     @Query("SELECT * FROM Category WHERE type =-1")
     fun getGlobalSetting(): LiveData<LampCategory>
 
+    @Query("SELECT * FROM Category WHERE type =:type")
+    fun getSetting(type: Int): LampCategory
+
     @Query("SELECT * FROM Category WHERE type = :type")
     fun getLocalSetting(type: Int): LiveData<LampCategory>
 
