@@ -108,6 +108,7 @@ class ShareActivity : BaseActivity() {
                 val lightStateJson = JSONObject()
                 val lightState = deviceModel.device?.state
                 getStateJson(lightStateJson, lightState)
+                lightStateJson.put("customName",  deviceModel.device?.device?.name)
                 deviceStateJson.put("" + deviceModel.device?.id, lightStateJson)
                 jsonDevices.put(deviceJson)
                 jsonLightStates.put(deviceStateJson)
@@ -191,7 +192,6 @@ class ShareActivity : BaseActivity() {
     private fun createShareCode() {
         val dataBaseJson = getShareJson()
         val configuration = URLEncoder.encode(dataBaseJson, "UTF-8").replace("+", "%20")
-        Log.d("aa",configuration)
         if (!TextUtils.isEmpty(configuration)) {
             val key = "IHomey_" + System.currentTimeMillis() + ".json"
             val auth = Auth.create(ACCESS_KEY, SECRET_KEY)
