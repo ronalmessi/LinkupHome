@@ -135,9 +135,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         }
     }
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTranslucentStatus()
