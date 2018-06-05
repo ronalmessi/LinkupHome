@@ -2,7 +2,6 @@ package com.ihomey.linkuphome;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
 
 import com.ihomey.linkuphome.base.LocaleHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -18,7 +17,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        MultiDex.install(this);
         MobclickAgent.openActivityDurationTrack(true);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
     }

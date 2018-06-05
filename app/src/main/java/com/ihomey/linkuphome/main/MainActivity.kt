@@ -4,7 +4,6 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -36,7 +35,6 @@ import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.listeners.*
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import de.keyboardsurfer.android.widget.crouton.Crouton
-import org.spongycastle.asn1.x500.style.RFC4519Style.name
 import java.lang.ref.WeakReference
 import java.util.*
 

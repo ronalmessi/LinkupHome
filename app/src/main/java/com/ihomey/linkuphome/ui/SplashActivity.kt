@@ -15,7 +15,6 @@ import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.databinding.ActivitySplashBinding
 import com.ihomey.linkuphome.main.MainActivity
-import java.util.*
 
 
 /**

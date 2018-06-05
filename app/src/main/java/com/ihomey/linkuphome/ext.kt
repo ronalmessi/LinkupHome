@@ -21,7 +21,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager

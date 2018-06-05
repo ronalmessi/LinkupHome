@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.main
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
@@ -12,7 +11,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -23,7 +21,6 @@ import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ControlDeviceListAdapter
 import com.ihomey.linkuphome.adapter.ControlPageAdapter
-import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentLampBinding
 import com.ihomey.linkuphome.dip2px

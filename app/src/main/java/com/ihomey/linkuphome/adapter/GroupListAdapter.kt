@@ -2,7 +2,6 @@ package com.ihomey.linkuphome.adapter
 
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.util.Log
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.iclass.soocsecretary.util.PreferenceHelper

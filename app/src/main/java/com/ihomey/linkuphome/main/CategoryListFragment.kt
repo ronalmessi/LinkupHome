@@ -23,7 +23,6 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.databinding.DialogLampCategoryUnaddedBinding
 import com.ihomey.linkuphome.databinding.FragmentCategoryListBinding
-import com.ihomey.linkuphome.device.MeshDeviceListFragment
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder

@@ -14,7 +14,6 @@ import android.provider.Settings
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder
 import com.iclass.soocsecretary.util.PreferenceHelper
@@ -28,7 +27,6 @@ import com.qiniu.android.storage.UploadManager
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URLEncoder
-import java.util.*
 
 /**
  * Created by dongcaizheng on 2017/12/21.

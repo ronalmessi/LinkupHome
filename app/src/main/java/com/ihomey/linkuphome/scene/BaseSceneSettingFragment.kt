@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.scene
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.controller.Controller
@@ -33,7 +34,7 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
     fun initController(deviceType: Int, deviceId: Int) {
         controller = ControllerFactory().createController(deviceType)
         mDeviceId = deviceId
-        mDeviceType=deviceType
+        mDeviceType = deviceType
     }
 
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
@@ -48,8 +49,8 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         if (listener.isMeshServiceConnected() && mDeviceId != -1 && sceneModeValue != -1) {
             controller?.setLightScene(mDeviceId, sceneModeValue)
         }
-        if(sceneModeValue!=-1){
-            mViewModel?.updateDeviceSceneMode(mDeviceType,mDeviceId,sceneModeValue)
+        if (sceneModeValue != -1) {
+            mViewModel?.updateDeviceSceneMode(mDeviceType, mDeviceId, sceneModeValue)
         }
     }
 

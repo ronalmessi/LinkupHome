@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.controller
 
+import android.util.Log
 import com.csr.mesh.DataModelApi
 import com.ihomey.linkuphome.decodeHex
 
@@ -55,16 +56,14 @@ class LedController : Controller() {
     }
 
     override fun setLightScene(deviceId: Int, sceneValue: Int) {
-        if (sceneValue == 4) {
+        if (sceneValue == 3) {
             setLightingMode( deviceId)
         } else {
-            var scene = 0;
-            if (sceneValue == 1) {
+            var scene = sceneValue
+            if (sceneValue == 0) {
                 scene = 4
-            } else if (sceneValue == 2) {
+            } else if (sceneValue == 1) {
                 scene = 5
-            } else if (sceneValue == 3) {
-                scene = 2
             }
             val code_lawn_scene_prefix = CODE_LIGHT_SCENE_BASE + scene
             val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16))

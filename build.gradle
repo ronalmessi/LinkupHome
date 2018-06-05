@@ -5,14 +5,11 @@ buildscript {
     repositories {
         google()
         jcenter()
-        mavenCentral()
-
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.1'
-
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.31"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_version}"
     }
 }
 
@@ -20,7 +17,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        mavenCentral()
         maven { url "https://jitpack.io" }
     }
 }
@@ -40,15 +36,4 @@ ext {
 
     applicationId = "com.ihomey.linkuphome"
 
-    // App dependencies
-    supportLibraryVersion = '26.1.0'
-    kotlinVersion = '1.2.31'
-    databindingVersion = '3.0.0'
-    daggerVersion = '2.14.1'
-    liveDataVersion = '1.0.0'
-    baseRecyclerViewAdapterHelperVersion = '2.9.31'
-    retrofitVersion = '2.3.0'
-
-    // Architecture Components dependencies
-    roomVersion = "1.0.0"
 }

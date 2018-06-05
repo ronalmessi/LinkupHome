@@ -62,48 +62,45 @@ kapt {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:multidex:1.0.2'
-
     // CSRmesh
     implementation(name: 'CSRmeshLibrary', ext: 'aar')
-    implementation 'com.madgag.spongycastle:core:1.51.0.0'
-    implementation 'com.madgag.spongycastle:pkix:1.51.0.0'
-
-    // Support design
-    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation "com.android.support:gridlayout-v7:$rootProject.supportLibraryVersion"
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$rootProject.kotlinVersion"
+    implementation Libs.kotlin
 
-    // ViewModel and LiveData
-    implementation "android.arch.lifecycle:runtime:$rootProject.liveDataVersion"
-    implementation "android.arch.lifecycle:extensions:$rootProject.liveDataVersion"
-    kapt "android.arch.lifecycle:compiler:$rootProject.liveDataVersion"
+    //encrypt
+    implementation Libs.spongycastle_core
+    implementation Libs.spongycastle_pkix
 
-    // Room
-    implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
-    kapt "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+    // Support design
+    implementation Libs.support_design
+    implementation Libs.support_cardview
+    implementation Libs.support_constraint
+
+    // arch
+    implementation Libs.liveData_runtime
+    implementation Libs.liveData_extensions
+    implementation Libs.room_runtime
+    kapt Libs.liveData_compiler
+    kapt Libs.room_compiler
 
     // dagger2
-    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    implementation Libs.dagger
+    kapt Libs.dagger_compiler
 
-    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.baseRecyclerViewAdapterHelperVersion"
+
+    implementation Libs.qiniu
+    implementation Libs.gson
+    implementation Libs.baseRecyclerViewAdapterHelper
+
 
 //    implementation 'com.facebook.stetho:stetho:1.1.0'
     implementation 'com.umeng.analytics:analytics:latest.integration'
-
-    implementation 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
 
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.1'
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
-    implementation 'com.qiniu:qiniu-android-sdk:7.3.+'
-    implementation 'com.google.code.gson:gson:2.7'
 
     //qrcode
     implementation 'com.google.zxing:core:3.2.1'
@@ -111,7 +108,6 @@ dependencies {
 
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
-//    implementation 'com.clj.fastble:FastBleLib:2.3.0'
 
     implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
