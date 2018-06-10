@@ -15,6 +15,7 @@
     <string name="lamp_category_rgb">RGB Bombilla</string>
     <string name="lamp_category_warm_cold">Bombillas de luz cálida</string>
     <string name="lamp_category_led">banda de luz de LED</string>
+    <string name="lamp_category_outdoor">Mini lámpara de jardín</string>
     <string name="control_tab_device">Buscar Los Equipos</string>
     <string name="control_tab_group">Configurar</string>
     <string name="control_tab_control">El Manejo</string>
@@ -102,10 +103,11 @@
 
     <string name="association_failed">Conectado con error. Reactive el dispositivo y conecte otra vez.</string>
 
-    <string name="lightOpenTime">Tiempo Para Encender Las Luces</string>
-    <string name="lightCloseTime">Tiempo Para Apagar Las Luces</string>
+
     <string name="openLightTimer">Sincronización Del Cierre De La Luz</string>
     <string name="closeLightTimer">Sincronización De La Apertura De La Luz</string>
+
+    <string name="loopTimer">Repetir</string>
 
 
 

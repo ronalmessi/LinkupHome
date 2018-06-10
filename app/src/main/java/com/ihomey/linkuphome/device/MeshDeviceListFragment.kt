@@ -46,7 +46,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     private var setting: LampCategory? = null
     private val deviceAssociateFragment = DeviceAssociateFragment()
     private val deviceRemoveFragment = DeviceRemoveFragment()
-    private val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.lamp_icon_bed)
+    private val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg)
 
     fun newInstance(lampCategoryType: Int): MeshDeviceListFragment {
         val fragment = MeshDeviceListFragment()

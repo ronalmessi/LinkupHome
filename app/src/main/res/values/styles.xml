@@ -16,10 +16,6 @@
     </style>
 
 
-    <style name="AppTheme.TranslucentStatus" parent="Theme.AppCompat.Light.NoActionBar">
-
-    </style>
-
     <style name="TRM_ANIM_STYLE">
         <item name="android:windowEnterAnimation">@anim/trm_popup_enter</item>
     </style>

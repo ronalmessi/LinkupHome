@@ -64,15 +64,6 @@
             android:name="UMENG_CHANNEL"
             android:value="Wandoujia" />
 
-        <!--<provider-->
-            <!--android:name="com.ihomey.linkuphome.update.UpdateFileProvider"-->
-            <!--android:authorities="${applicationId}.updatefileprovider"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/update_cache_path"/>-->
-        <!--</provider>-->
 
     </application>
 </manifest>

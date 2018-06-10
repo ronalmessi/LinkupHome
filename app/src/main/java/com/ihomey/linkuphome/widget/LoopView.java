@@ -306,7 +306,7 @@ public class LoopView extends View {
         } else if (circleColor == 1) {
             paintCircle.setColor(Color.parseColor("#bbF48479"));
         }
-        canvas.drawCircle(getWidth() / 2 + 16, getHeight() / 2, getWidth() / 3, paintCircle);
+        canvas.drawCircle(getWidth() / 2 + 12, getHeight() / 2, getWidth()/3+12, paintCircle);
 
         if (label != null) {
             Rect rect1 = new Rect();
@@ -316,7 +316,6 @@ public class LoopView extends View {
             int drawCenterContentStart = (int) ((getWidth() - rect1.width() - rect2.width()) * 0.5);
             canvas.drawText(label, drawCenterContentStart + rect1.width() + rect2.width() + 16, mBottomLineY - rect2.height() / 3, paintLabelText);
         }
-
 
         count = 0;
         int changingLeftY = (int) (mTotalScrollY % (mItemHeight));

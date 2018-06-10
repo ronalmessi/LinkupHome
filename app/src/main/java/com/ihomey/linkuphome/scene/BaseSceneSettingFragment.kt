@@ -28,7 +28,6 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(SceneSettingViewModel::class.java)
-
     }
 
     fun initController(deviceType: Int, deviceId: Int) {

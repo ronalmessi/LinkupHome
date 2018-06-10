@@ -15,11 +15,11 @@
     <string name="lamp_category_rgb">RGB Bulb</string>
     <string name="lamp_category_warm_cold">CCT Bulb</string>
     <string name="lamp_category_led">Strip Light</string>
+    <string name="lamp_category_outdoor">Mini Outdoor Lamp</string>
     <string name="control_tab_device">Search Equipment</string>
     <string name="control_tab_group">Group Setting</string>
     <string name="control_tab_control">Control</string>
     <string name="control_tab_controls">Control Select</string>
-
 
     <string name="state_disconnected">Click For Connect</string>
     <string name="state_connected">Connected</string>
@@ -102,13 +102,10 @@
 
     <string name="association_failed">The connection fails. Please restart the equipment to connect.</string>
 
-
-    <string name="lightOpenTime">Light Open Time</string>
     <string name="lightCloseTime">Light Close Time</string>
     <string name="openLightTimer">Open Light Timer</string>
     <string name="closeLightTimer">Close Light Timer</string>
-
-
+    <string name="loopTimer">Repeat</string>
 
     <string name="save">Save</string>
 </resources>

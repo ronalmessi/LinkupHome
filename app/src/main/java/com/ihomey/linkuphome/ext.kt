@@ -21,6 +21,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -31,12 +32,15 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.csr.mesh.DataModelApi
+import com.ihomey.linkuphome.controller.OutdoorController
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
 
 
 /**
@@ -304,12 +308,27 @@ fun inStringArray(s: String, array: Array<String>): Boolean {
 }
 
 
+fun syncTime(deviceId: Int) {
+    val calendar = Calendar.getInstance()
+    calendar.time = Date()
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+    val second = calendar.get(Calendar.SECOND)
+    val code_lawn_time_prefix ="C201F304F2"+(if (hour >= 10) ""+hour else "0$hour")+(if (minute >= 10) ""+minute else "0$minute")+(if (second >= 10) ""+second else "0$second")
+    val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_time_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16))
+    val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+    Log.d("aa",code_lawn_time)
+    DataModelApi.sendData(deviceId, decodeHex(code_lawn_time.toCharArray()), false)
+}
+
+
 fun getName(type: DeviceType) =
         when (type) {
             DeviceType.C3 -> "LinkupHome C3"
             DeviceType.R2 -> "LinkupHome R2"
             DeviceType.A2 -> "LinkupHome A2"
             DeviceType.N1 -> "LinkupHome N1"
+            DeviceType.V1 -> "LinkupHome V1"
         }
 
 
@@ -319,6 +338,7 @@ fun getShortName(type: DeviceType) =
             DeviceType.R2 -> "iHomey R2"
             DeviceType.A2 -> "iHomey A2"
             DeviceType.N1 -> "iHomey N1"
+            DeviceType.V1 -> "iHomey V1"
         }
 
 
@@ -328,7 +348,7 @@ fun getIcon(type: Int) =
             1 -> R.mipmap.lamp_icon_rgb
             2 -> R.mipmap.lamp_icon_warm_cold
             3 -> R.mipmap.lamp_icon_led
-            4 -> R.mipmap.lamp_icon_bed
+            4 -> R.mipmap.lamp_icon_outdoor
             else -> R.mipmap.lamp_icon_bed
         }
 
@@ -366,7 +386,7 @@ val REQUEST_CODE_SCAN = 101
 val REQUEST_BT_RESULT_CODE = 102
 
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
-val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.lamp_icon_bed)
+val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg)
 val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
 
 

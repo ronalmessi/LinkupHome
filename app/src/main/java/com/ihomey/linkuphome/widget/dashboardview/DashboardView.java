@@ -238,16 +238,8 @@ public class DashboardView extends View {
         float angel = DURING_ARC * (percent - 0.5f);
         canvas.rotate(angel, mWidth / 2, mHight / 2);//指针与外弧边缘持平
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.color_temperature_icon_cursor);
-        Bitmap scaleBitmap = scale(bitmap);
-        canvas.drawBitmap(scaleBitmap, getMeasuredWidth() / 2 - scaleBitmap.getWidth() / 2, getMeasuredHeight() / 2 - scaleBitmap.getHeight() / 2, paintNum);
+        canvas.drawBitmap(bitmap, getMeasuredWidth() / 2 - bitmap.getWidth() / 2, getMeasuredHeight() / 2 - bitmap.getHeight() / 2, paintNum);
         canvas.restore();
-    }
-
-    private static Bitmap scale(Bitmap bitmap) {
-        Matrix matrix = new Matrix();
-        matrix.postScale(0.6f, 0.6f);
-        Bitmap resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        return resizeBmp;
     }
 
     private void drawerNum(Canvas canvas) {

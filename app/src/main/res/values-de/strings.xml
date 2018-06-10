@@ -15,6 +15,7 @@
     <string name="lamp_category_rgb">RGB Birne</string>
     <string name="lamp_category_warm_cold">Temperaturschwankungsglühbirne</string>
     <string name="lamp_category_led">LED Leuchterband</string>
+    <string name="lamp_category_outdoor">Mini Gartenleuchten</string>
     <string name="control_tab_device">Suchen Sie Nach Geräten</string>
     <string name="control_tab_group">Gruppeneinstellungen</string>
     <string name="control_tab_control">Bedienung</string>
@@ -99,10 +100,10 @@
     <string name="association_failed">Die verbindung ist fehlgeschlagen. Bitte neustarten sie das gerät zum anschließen.</string>
 
 
-    <string name="lightOpenTime">Zeit Für Licht Einschalten</string>
-    <string name="lightCloseTime">Zeit Für Licht Abschalten</string>
     <string name="openLightTimer">Licht Einschalten Timing</string>
     <string name="closeLightTimer">Licht Abschalten Timing</string>
+
+    <string name="loopTimer">Wiederholen</string>
 
 
 

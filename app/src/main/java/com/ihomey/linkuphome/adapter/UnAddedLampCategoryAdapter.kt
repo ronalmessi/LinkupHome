@@ -10,8 +10,8 @@ import com.ihomey.linkuphome.data.vo.LampCategory
  */
 class UnAddedLampCategoryAdapter(layoutId: Int) : BaseQuickAdapter<LampCategory, BaseViewHolder>(layoutId) {
 
-    private val models = arrayListOf("C3", "R2", "A2", "N1", "M1")
-    private val names = arrayListOf(R.string.lamp_category_lawn, R.string.lamp_category_rgb, R.string.lamp_category_warm_cold, R.string.lamp_category_led, R.string.lamp_category_bed)
+    private val models = arrayListOf("C3", "R2", "A2", "N1", "V1")
+    private val names = arrayListOf(R.string.lamp_category_lawn, R.string.lamp_category_rgb, R.string.lamp_category_warm_cold, R.string.lamp_category_led, R.string.lamp_category_outdoor)
 
     override fun convert(helper: BaseViewHolder?, item: LampCategory?) {
         helper?.setText(R.id.lamp_category_unAdded_tv_model, models[item?.type!!])

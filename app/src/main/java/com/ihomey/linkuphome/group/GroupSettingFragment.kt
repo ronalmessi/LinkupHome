@@ -28,6 +28,7 @@ import com.ihomey.linkuphome.databinding.FragmentGroupSettingBinding
 import com.ihomey.linkuphome.getIcon
 import com.ihomey.linkuphome.hideInput
 import com.ihomey.linkuphome.listeners.GroupUpdateListener
+import com.ihomey.linkuphome.syncTime
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.ihomey.linkuphome.widget.DragShadowBuilder
@@ -242,6 +243,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mDialog?.dismiss()
         if (groupId == 0) {
             mViewModel?.deleteModel(deviceId, mGroupId, groupIndex)
+            syncTime(deviceId)
         } else if (groupId != -1) {
             mViewModel?.addModel(Model(null, deviceId, groupId, groupIndex, lampCategoryType))
         }

@@ -15,6 +15,7 @@
     <string name="lamp_category_rgb">Ampoule RGB</string>
     <string name="lamp_category_warm_cold">Lampe connue de froid et de chaleur</string>
     <string name="lamp_category_led">Bande de lumière à LED</string>
+    <string name="lamp_category_outdoor">Mini Lampe de Jardin</string>
     <string name="control_tab_device">Rechercher Des Dispositifs</string>
     <string name="control_tab_group">Installation D\'équipe</string>
     <string name="control_tab_control">Commander</string>
@@ -111,10 +112,11 @@
 
 
 
-    <string name="lightOpenTime">Le Temps D\'ouverture De La Lumière</string>
-    <string name="lightCloseTime">Le Temps De Fermeture De La Lumière</string>
+
     <string name="openLightTimer">Allumer La Lumière à L\'heure Régulière</string>
     <string name="closeLightTimer">Fermer La Lumière à L\'heure Régulière</string>
+
+    <string name="loopTimer">Répéter</string>
 
 
 

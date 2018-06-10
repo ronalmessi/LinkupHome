@@ -22,4 +22,6 @@ abstract class Controller {
 
     open fun setTimer(deviceId: Int, minuteValue: Int, isOn: Boolean){}
 
+    open fun setRepeatTimer(deviceId: Int, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,isRepeat: Boolean){}
+
 }

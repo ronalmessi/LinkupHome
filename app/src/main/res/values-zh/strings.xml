@@ -13,6 +13,7 @@
     <string name="lamp_category_lawn">户外灯</string>
     <string name="lamp_category_bed">智能床头灯</string>
     <string name="lamp_category_rgb">RGB灯泡</string>
+    <string name="lamp_category_outdoor">迷你花园灯</string>
     <string name="lamp_category_warm_cold">冷暖灯泡</string>
     <string name="lamp_category_led">LED灯带</string>
     <string name="control_tab_device">搜索设备</string>
@@ -102,10 +103,9 @@
 
 
 
-    <string name="lightOpenTime">灯光开启时间</string>
-    <string name="lightCloseTime">灯光关闭时间</string>
     <string name="openLightTimer">开灯定时</string>
     <string name="closeLightTimer">关灯定时</string>
+    <string name="loopTimer">重复</string>
 
 
     <string name="save">存储</string>

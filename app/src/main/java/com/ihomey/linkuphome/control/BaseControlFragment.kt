@@ -25,6 +25,7 @@ import com.ihomey.linkuphome.scan.ScanActivity
 import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
 import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
 import com.ihomey.linkuphome.share.ShareActivity
+import com.ihomey.linkuphome.time.RepeatTimerSettingFragment
 import com.ihomey.linkuphome.time.TimerSettingFragment
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.RGBCircleView
@@ -154,7 +155,8 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     }
                 }
                 R.mipmap.toolbar_menu_alarm -> {
-                    val newFrag = TimerSettingFragment().newInstance(mControlDevice?.id
+                    val newFrag = if (lampCategory == 4) RepeatTimerSettingFragment().newInstance(mControlDevice?.id
+                            ?: -1, lampCategory) else TimerSettingFragment().newInstance(mControlDevice?.id
                             ?: -1, lampCategory)
                     val fsh = parentFragment as IFragmentStackHolder
                     fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
