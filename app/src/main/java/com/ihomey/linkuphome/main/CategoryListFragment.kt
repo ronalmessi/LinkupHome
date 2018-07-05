@@ -7,17 +7,14 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.AddedLampCategoryAdapter
-import com.ihomey.linkuphome.adapter.UnAddedLampCategoryAdapter
 import com.ihomey.linkuphome.data.vo.LampCategory
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -39,11 +36,11 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
     private lateinit var mViewModel: MainViewModel
     private lateinit var mViewDataBinding: FragmentCategoryListBinding
     private lateinit var mDialogBinding: DialogLampCategoryUnaddedBinding
-    private lateinit var dialog: BottomSheetDialog
+//    private lateinit var dialog: BottomSheetDialog
     private lateinit var listener: BridgeListener
 
-    private val unAddedLampCategoryAdapter: UnAddedLampCategoryAdapter = UnAddedLampCategoryAdapter(R.layout.lamp_category_unadded_item)
-    private val addedLampCategoryAdapter: AddedLampCategoryAdapter = AddedLampCategoryAdapter(R.layout.lamp_category_added_item)
+//    private val unAddedLampCategoryAdapter: UnAddedLampCategoryAdapter = UnAddedLampCategoryAdapter(R.layout.lamp_category_unadded_item)
+    private val addedLampCategoryAdapter: AddedLampCategoryAdapter = AddedLampCategoryAdapter(R.layout.item_product_list)
 
     fun newInstance(): CategoryListFragment {
         return CategoryListFragment()
@@ -58,14 +55,14 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_list, container, false)
         mViewDataBinding.handlers = EventHandler()
 
-        dialog = BottomSheetDialog(context)
-        mDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_lamp_category_unadded, mViewDataBinding.lampCategoryCl, false)
-        mDialogBinding.lampCategoryUnAddedRcvList.layoutManager = LinearLayoutManager(context)
-        mDialogBinding.lampCategoryUnAddedRcvList.addItemDecoration(SpaceItemDecoration(context.dip2px(4f)))
-        dialog.setContentView(mDialogBinding.root)
-        dialog.setOnShowListener { mViewDataBinding.lampCategoryBtnAdd.visibility = View.GONE }
-        dialog.setOnDismissListener { mViewDataBinding.lampCategoryBtnAdd.visibility = View.VISIBLE }
-        dialog.window?.findViewById<FrameLayout>(R.id.design_bottom_sheet)?.setBackgroundResource(android.R.color.transparent)
+//        dialog = BottomSheetDialog(context)
+//        mDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_lamp_category_unadded, mViewDataBinding.lampCategoryCl, false)
+//        mDialogBinding.lampCategoryUnAddedRcvList.layoutManager = LinearLayoutManager(context)
+//        mDialogBinding.lampCategoryUnAddedRcvList.addItemDecoration(SpaceItemDecoration(context.dip2px(4f)))
+//        dialog.setContentView(mDialogBinding.root)
+//        dialog.setOnShowListener { mViewDataBinding.lampCategoryBtnAdd.visibility = View.GONE }
+//        dialog.setOnDismissListener { mViewDataBinding.lampCategoryBtnAdd.visibility = View.VISIBLE }
+//        dialog.window?.findViewById<FrameLayout>(R.id.design_bottom_sheet)?.setBackgroundResource(android.R.color.transparent)
 
         mViewDataBinding.lampCategoryAddedRcvList.layoutManager = LinearLayoutManager(context)
         mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context.dip2px(4f)))
@@ -86,11 +83,11 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         mViewModel.getCategoryResults()?.observe(this, Observer<Resource<List<LampCategory>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
                 addedLampCategoryAdapter.setNewData(it.data.filter { it.added == 1 })
-                unAddedLampCategoryAdapter.setNewData(it.data.filter { it.added == 0 })
+//                unAddedLampCategoryAdapter.setNewData(it.data.filter { it.added == 0 })
             }
         })
 
-        unAddedLampCategoryAdapter.onItemClickListener = this
+//        unAddedLampCategoryAdapter.onItemClickListener = this
         addedLampCategoryAdapter.onItemClickListener = this
 
         return mViewDataBinding.root
@@ -101,16 +98,16 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         listener.connectBridge()
     }
 
-    private fun showAddProductDialog() {
-        mDialogBinding.lampCategoryUnAddedRcvList.adapter = unAddedLampCategoryAdapter
-        dialog.show()
-    }
+//    private fun showAddProductDialog() {
+//        mDialogBinding.lampCategoryUnAddedRcvList.adapter = unAddedLampCategoryAdapter
+//        dialog.show()
+//    }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View?, position: Int) {
         val lampCategory = adapter.getItem(position) as LampCategory
         lampCategory.added = 1
         mViewModel.updateCategory(lampCategory)
-        dialog.dismiss()
+//        dialog.dismiss()
     }
 
     override fun onItemClick(itemView: View?, position: Int) {
@@ -133,7 +130,7 @@ class CategoryListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         fun onClick(view: View) {
             when (view.id) {
                 R.id.toolbar_back -> (view.context as Activity).onBackPressed()
-                R.id.lamp_category_btn_add -> showAddProductDialog()
+                R.id.lamp_category_btn_add -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, AddProductFragment().newInstance(true))
             }
         }
     }

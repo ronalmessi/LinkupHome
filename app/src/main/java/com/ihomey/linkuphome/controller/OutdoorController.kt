@@ -74,7 +74,6 @@ class OutdoorController : Controller() {
     }
 
     override fun setRepeatTimer(deviceId: Int, minuteValue: Int, hourValue: Int,isOpenTimer: Boolean,isOn: Boolean, isRepeat: Boolean) {
-        syncTime(deviceId)
         val code_lawn_timer_prefix = CODE_LIGHT_TIMER_BASE + (if (isOpenTimer) "C5" else "C6")+ (if (isOn) { if(isRepeat) "80" else "00" } else "FF") + if(!isOn) "0000" else{ (if (hourValue >= 10) ""+hourValue else "0$hourValue")+ (if (minuteValue >= 10) ""+minuteValue else "0$minuteValue") }
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"

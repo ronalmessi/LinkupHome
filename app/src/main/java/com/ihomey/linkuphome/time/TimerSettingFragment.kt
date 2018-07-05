@@ -58,6 +58,7 @@ open class TimerSettingFragment : BaseTimerSettingFragment() {
 
         mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
         mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
+        mViewDataBinding.switchButtonTimer.setOnTouchListener(this)
 
         mViewDataBinding.toolbarBack.setOnClickListener(this)
         return mViewDataBinding.root
@@ -93,6 +94,10 @@ open class TimerSettingFragment : BaseTimerSettingFragment() {
 
     override fun setTimerOn(flag: Boolean) {
         mViewDataBinding.switchButtonTimer.isChecked = flag
+    }
+
+    override fun isTimerOn(): Boolean {
+        return mViewDataBinding.switchButtonTimer.isChecked
     }
 
 

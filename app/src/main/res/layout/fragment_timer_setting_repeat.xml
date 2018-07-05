@@ -144,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginBottom="18dp"
-            android:background="@drawable/selector_timer_setting"
+            android:background="@drawable/selector_timer_setting_repeat"
             android:button="@null"
             android:drawableLeft="@mipmap/alarm_cb_icon_repeat"
             android:drawablePadding="8dp"

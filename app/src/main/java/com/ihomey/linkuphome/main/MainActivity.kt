@@ -133,7 +133,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTranslucentStatus()
         super.onCreate(savedInstanceState)

@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.CompoundButton
@@ -19,16 +20,19 @@ import com.ihomey.linkuphome.data.vo.DeviceInfo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.syncTime
 import com.suke.widget.SwitchButton
 import java.util.*
 
-abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener, View.OnClickListener, SwitchButton.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener {
+abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener, View.OnClickListener, SwitchButton.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnTouchListener {
 
     private var mControlDevice: ControlDevice? = null
     private var controller: Controller? = null
     private var mDeviceType: Int = -1
     protected var mViewModel: TimerSettingViewModel? = null
     protected lateinit var listener: MeshServiceStateListener
+
+    private var isManualSwitch = false
 
 
     abstract fun enableEditTimer(flag: Boolean)
@@ -45,6 +49,8 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
 
     abstract fun setTimerOn(flag: Boolean)
 
+    abstract fun isTimerOn(): Boolean
+
     abstract fun isRepeat(): Boolean
 
     abstract fun setRepeat(flag: Boolean)
@@ -55,8 +61,8 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
         listener = context as MeshServiceStateListener
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(TimerSettingViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS) {
@@ -84,6 +90,9 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     v.tag = null
                     (v as Button).setText(R.string.save)
                     enableEditTimer(true)
+                    if (mDeviceType == 4 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                        syncTime(mControlDevice?.id!!)
+                    }
                 } else {
                     v.tag = true
                     (v as Button).setText(R.string.edit)
@@ -105,8 +114,15 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
                     if (isOpenTimer()) {
                         lightState.openTimer = calendar.timeInMillis
+                        if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                            controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, isTimerOn(), isRepeat())
+                        }
+
                     } else {
                         lightState.closeTimer = calendar.timeInMillis
+                        if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                            controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, isTimerOn(), isRepeat())
+                        }
                     }
                 } else {
                     val isExpired = calendar.timeInMillis - System.currentTimeMillis() < 0
@@ -123,7 +139,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
     }
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
-        if (mControlDevice != null) {
+        if (mControlDevice != null&&isManualSwitch) {
             val lightState = mControlDevice?.state
             if (lightState != null) {
                 if (isOpenTimer()) {
@@ -176,7 +192,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        Log.d("aa","333333333")
+        setRepeat(!isRepeat())
         if (mControlDevice != null) {
             val lightState = mControlDevice?.state
             if (lightState != null) {
@@ -186,8 +202,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                 if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
                 if (isOpenTimer()) {
                     lightState.openTimer = calendar.timeInMillis
+                    if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                        controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, isTimerOn(), isRepeat())
+                    }
                 } else {
                     lightState.closeTimer = calendar.timeInMillis
+                    if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                        controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, isTimerOn(), isRepeat())
+                    }
                 }
             }
             mViewModel?.updateDevice(mControlDevice)
@@ -196,6 +218,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
 
     private fun updateTimerSettingView(isOpenTimer: Boolean) {
         setIsOpenTimer(isOpenTimer)
+        isManualSwitch=false
         if (mControlDevice != null) {
             val lightState = mControlDevice?.state
             if (lightState != null) {
@@ -262,6 +285,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
         } else {
             (selectHour - currentHour + 24) * 60 + selectMinute - currentMinute
         }
+    }
+
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        if (event?.action == MotionEvent.ACTION_UP){
+            isManualSwitch = true
+        }
+        return false
     }
 
 

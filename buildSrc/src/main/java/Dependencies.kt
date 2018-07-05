@@ -4,7 +4,7 @@ object Versions {
     const val  dagger_version = "2.14.1"
     const val  arch_version = "1.0.0"
     const val  spongycastle_version = "1.51.0.0"
-    const val  qiniu_version = "7.3.+"
+    const val  qiniu_version = "7.3.12"
     const val  gson_version = "2.7"
     const val  baseRecyclerViewAdapterHelperVersion = "2.9.31"
 }

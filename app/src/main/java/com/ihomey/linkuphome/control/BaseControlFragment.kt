@@ -193,7 +193,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     if (parentFragment is IFragmentStackHolder) {
                         val newFrag = if (lampCategory == 1) RGBSceneSettingFragment().newInstance(mControlDevice?.id
                                 ?: -1, mControlDevice?.state?.sceneMode) else LEDSceneSettingFragment().newInstance(mControlDevice?.id
-                                ?: -1, mControlDevice?.state?.sceneMode)
+                                ?: -1, mControlDevice?.device?.type?:-1, mControlDevice?.state?.sceneMode)
                         val fsh = parentFragment as IFragmentStackHolder
                         fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                     }

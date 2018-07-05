@@ -243,7 +243,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mDialog?.dismiss()
         if (groupId == 0) {
             mViewModel?.deleteModel(deviceId, mGroupId, groupIndex)
-            syncTime(deviceId)
+            if (lampCategoryType == 4) syncTime(deviceId)
         } else if (groupId != -1) {
             mViewModel?.addModel(Model(null, deviceId, groupId, groupIndex, lampCategoryType))
         }

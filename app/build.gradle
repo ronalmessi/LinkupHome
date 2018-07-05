@@ -51,7 +51,6 @@ repositories {
     flatDir {
         dirs 'libs'
     }
-    mavenCentral()
 }
 
 
@@ -87,15 +86,13 @@ dependencies {
     // dagger2
     implementation Libs.dagger
     kapt Libs.dagger_compiler
-
-
     implementation Libs.qiniu
     implementation Libs.gson
     implementation Libs.baseRecyclerViewAdapterHelper
 
 
 //    implementation 'com.facebook.stetho:stetho:1.1.0'
-    implementation 'com.umeng.analytics:analytics:latest.integration'
+    implementation 'com.umeng.analytics:analytics:6.1.4'
 
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.1'
 
