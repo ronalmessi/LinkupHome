@@ -113,10 +113,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     }
 
     override fun connectBridge() {
-        connect()
-    }
-
-    private fun connect() {
         mService?.setHandler(mMeshHandler)
         mService?.setLeScanCallback(mScanCallBack)
         mService?.setMeshListeningMode(true, true)
@@ -333,6 +329,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                 }
                 MeshService.MESSAGE_GROUP_MODEL_GROUPID -> {
                     if (parentActivity?.mGroupUpdateListener != null) {
+                        msg.data.getByte(MeshService.EXTRA_GROUP_INDEX)
                         val index = msg.data.getByte(MeshService.EXTRA_GROUP_INDEX).toInt()
                         val groupId = msg.data.getInt(MeshService.EXTRA_GROUP_ID)
                         parentActivity.mGroupUpdateListener?.groupsUpdated(parentActivity.mDeviceIdToModel, groupId, index, true, null)

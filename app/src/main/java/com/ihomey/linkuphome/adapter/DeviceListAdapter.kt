@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.vo.SingleDevice
 import com.ihomey.linkuphome.dip2px
+import com.ihomey.linkuphome.getIcon
 
 
 /**
@@ -17,6 +18,7 @@ import com.ihomey.linkuphome.dip2px
 class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseViewHolder>(layoutId) {
     override fun convert(helper: BaseViewHolder, item: SingleDevice) {
         helper.setText(R.id.lamp_device_mesh_tv_name, item.device.name)
+        helper.setImageResource(R.id.lamp_device_mesh_iv_icon, getIcon(item.device.type))
         val stateTextView = helper.getView<TextView>(R.id.lamp_device_mesh_tv_state)
         stateTextView.setText(if (item.id == 0) R.string.state_disconnected else R.string.state_connected)
         val drawable = getDrawable(mContext, if (item.id == 0) R.mipmap.state_icon_negative else R.mipmap.state_icon_positive)

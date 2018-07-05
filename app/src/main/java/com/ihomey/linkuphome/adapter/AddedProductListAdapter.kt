@@ -8,7 +8,7 @@ import com.ihomey.linkuphome.data.vo.LampCategory
 /**
  * Created by dongcaizheng on 2018/4/9.
  */
-class AddedLampCategoryAdapter(layoutId: Int) : BaseQuickAdapter<LampCategory, BaseViewHolder>(layoutId) {
+class AddedProductListAdapter(layoutId: Int) : BaseQuickAdapter<LampCategory, BaseViewHolder>(layoutId) {
 
     private val models = arrayListOf("C3", "R2", "A2", "N1", "V1")
     private val names = arrayListOf(R.string.lamp_category_lawn, R.string.lamp_category_rgb, R.string.lamp_category_warm_cold, R.string.lamp_category_led, R.string.lamp_category_outdoor)

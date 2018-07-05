@@ -5,16 +5,15 @@
     android:layout_height="wrap_content"
     android:background="@drawable/selectable_lamp_category_added_item_background"
     android:paddingBottom="4dp"
-    android:paddingLeft="24dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="15dp"
     android:paddingTop="4dp">
-
 
     <TextView
         android:id="@+id/lamp_category_added_tv_model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:text="R2"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -26,7 +25,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
-        android:text="RGB灯泡"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -37,19 +35,10 @@
         android:id="@+id/lamp_category_added_iv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:src="@mipmap/lamp_icon_lawn"
+        android:scaleX="0.85"
+        android:scaleY="0.85"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.79" />
-
 
 </android.support.constraint.ConstraintLayout>

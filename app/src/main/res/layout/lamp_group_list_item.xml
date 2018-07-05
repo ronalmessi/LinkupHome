@@ -12,8 +12,9 @@
         android:id="@+id/lamp_group_iv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:tint="@color/lamp_group_tint_color"
         android:scaleX="0.7"
         android:scaleY="0.7" />
 
@@ -22,7 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/lamp_group_iv_icon"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/lamp_group_iv_icon"
         android:textColor="@color/text_colorPrimary"
         android:ellipsize="end"
         android:gravity="center"

@@ -62,7 +62,7 @@ class WelcomeFragment : BaseFragment() {
             when (view.id) {
                 R.id.toolbar_center -> view.context.startActivity(Intent(view.context, CenterActivity::class.java))
                 R.id.toolbar_language -> showLanguageSelectionDialog(view)
-                R.id.welcome_btn_open -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, if(addedProductCount==0) AddProductFragment().newInstance(false) else CategoryListFragment().newInstance())
+                R.id.welcome_btn_open -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, if(addedProductCount==0) AddProductFragment().newInstance(false) else ProductListFragment().newInstance())
                 R.id.language_selection_btn_cancel -> dialog?.dismiss()
             }
         }

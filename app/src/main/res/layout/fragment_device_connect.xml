@@ -6,14 +6,13 @@
 
         <variable
             name="handlers"
-            type="com.ihomey.linkuphome.main.AddProductFragment.EventHandler" />
+            type="com.ihomey.linkuphome.device.DeviceConnectFragment.EventHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/lamp_category_cl"
+        android:id="@+id/cl_device_connect"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/lamp_category_bg">
+        android:layout_height="match_parent">
 
         <com.ihomey.linkuphome.widget.CompatToolbar
             android:id="@+id/toolbar"
@@ -37,20 +36,17 @@
                 android:ellipsize="end"
                 android:maxEms="9"
                 android:singleLine="true"
-                android:text="@string/add_device"
+                android:text="设备连接"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
         </com.ihomey.linkuphome.widget.CompatToolbar>
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lamp_category_added_rcv_list"
+        <com.ihomey.linkuphome.widget.NoScrollViewpager
+            android:id="@+id/viewpager_device_connect"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

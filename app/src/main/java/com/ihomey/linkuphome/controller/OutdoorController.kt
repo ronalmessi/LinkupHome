@@ -1,9 +1,7 @@
 package com.ihomey.linkuphome.controller
 
-import android.util.Log
 import com.csr.mesh.DataModelApi
 import com.ihomey.linkuphome.decodeHex
-import com.ihomey.linkuphome.syncTime
 
 /**
  * Created by Administrator on 2017/6/16.

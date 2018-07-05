@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +60,6 @@ class AddProductFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener 
                 }
             }
         })
-
         addedLampCategoryAdapter.onItemClickListener = this
         return mViewDataBinding.root
     }
@@ -71,11 +69,10 @@ class AddProductFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener 
         val lampCategory = adapter.getItem(position) as LampCategory
         lampCategory.added = 1
         mViewModel.updateCategory(lampCategory)
-        Log.d("aa","==="+arguments.getBoolean("isGoBack", false))
         if (arguments.getBoolean("isGoBack", false)) {
-            (activity as IFragmentStackHolder).replaceFragment(R.id.container, CategoryListFragment().newInstance())
-        } else {
             activity.onBackPressed()
+        } else {
+            (activity as IFragmentStackHolder).replaceFragment(R.id.container, ProductListFragment().newInstance())
         }
     }
 

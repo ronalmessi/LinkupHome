@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.data.repository
 
 import android.arch.lifecycle.LiveData
+import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.GroupDeviceDao
 import com.ihomey.linkuphome.data.db.LampCategoryDao
@@ -51,6 +52,8 @@ class GroupRepository @Inject constructor(private val lampGroupDao: GroupDeviceD
 
     fun deleteGroup(lampGroup: GroupDevice) {
         appExecutors.diskIO().execute {
+            var lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_${lampGroup.device?.type}", -1)
+            lastUsedDeviceId = -1
             lampGroupDao.delete(lampGroup)
         }
     }

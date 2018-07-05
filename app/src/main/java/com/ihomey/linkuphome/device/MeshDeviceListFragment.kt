@@ -60,7 +60,6 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_mesh_list, container, false)
         mViewDataBinding.toolbarBack.setOnClickListener { activity.onBackPressed() }
         lampCategoryType = arguments.getInt("lampCategoryType", -1)
-        if (lampCategoryType != -1) mViewDataBinding.root.setBackgroundResource(bgRes[lampCategoryType])
         return mViewDataBinding.root
     }
 
@@ -125,6 +124,11 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
                 Log.d("LinkupHome", "lateinit property listener has not been initialized")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        listener.discoverDevices(true, this)
     }
 
     override fun onDestroyView() {

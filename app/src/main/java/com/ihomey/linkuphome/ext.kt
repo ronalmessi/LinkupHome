@@ -21,7 +21,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -33,7 +32,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.csr.mesh.DataModelApi
-import com.ihomey.linkuphome.controller.OutdoorController
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import java.io.File
@@ -343,12 +341,12 @@ fun getShortName(type: DeviceType) =
 
 fun getIcon(type: Int) =
         when (type) {
-            0 -> R.mipmap.lamp_icon_lawn
-            1 -> R.mipmap.lamp_icon_rgb
-            2 -> R.mipmap.lamp_icon_warm_cold
-            3 -> R.mipmap.lamp_icon_led
-            4 -> R.mipmap.lamp_icon_outdoor
-            else -> R.mipmap.lamp_icon_bed
+            0 -> R.mipmap.lamp_icon_lawn_unadded
+            1 -> R.mipmap.lamp_icon_rgb_unadded
+            2 -> R.mipmap.lamp_icon_warm_cold_unadded
+            3 -> R.mipmap.lamp_icon_led_unadded
+            4 -> R.mipmap.lamp_icon_outdoor_unadded
+            else -> R.mipmap.lamp_icon_bed_unadded
         }
 
 //七牛后台的key

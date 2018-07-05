@@ -12,6 +12,8 @@ android {
         versionName rootProject.ext.versionName
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
     }
     signingConfigs {
         releaseLinkupHome {
@@ -97,6 +99,9 @@ dependencies {
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.1'
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+
+
+    implementation 'com.jackandphantom.android:blurimage:1.2.0'
 
 
     //qrcode

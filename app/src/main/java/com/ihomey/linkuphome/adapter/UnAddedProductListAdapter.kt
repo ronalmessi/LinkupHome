@@ -12,7 +12,7 @@ class UnAddedProductListAdapter(layoutId: Int) : BaseQuickAdapter<LampCategory, 
 
     private val models = arrayListOf("C3", "R2", "A2", "N1", "V1")
     private val names = arrayListOf(R.string.lamp_category_lawn, R.string.lamp_category_rgb, R.string.lamp_category_warm_cold, R.string.lamp_category_led, R.string.lamp_category_outdoor)
-    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn, R.mipmap.lamp_icon_rgb, R.mipmap.lamp_icon_warm_cold, R.mipmap.lamp_icon_led, R.mipmap.lamp_icon_outdoor)
+    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded, R.mipmap.lamp_icon_outdoor_unadded)
 
     override fun convert(helper: BaseViewHolder?, item: LampCategory?) {
         helper?.setText(R.id.lamp_category_added_tv_model, models[item?.type!!])

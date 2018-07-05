@@ -32,6 +32,5 @@ class DeviceAssociateFragment : DialogFragment() {
 
     fun onAssociateProgressChanged(progress: Int) {
         mProgressView.progress = progress.toFloat()
-        mTextView.text = getString(R.string.associating) + progress + "%"
     }
 }

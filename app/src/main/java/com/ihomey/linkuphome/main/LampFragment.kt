@@ -103,20 +103,28 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         mViewDataBinding.blackView.setOnClickListener {
             hideControlDeviceSelectionDialog()
         }
+        val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$categoryType", -1)
+        if(lastUsedDeviceId==-1){ mViewDataBinding.controlBaseBnv.selectedItemId=R.id.item_tab_mesh_device }
         adapter.onItemClickListener = this
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_tab_mesh_control -> {
+                mViewDataBinding.controlBaseBnv.setBackgroundResource(R.drawable.control_base_bg)
+                mViewDataBinding.clLampContainer.background=null
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 mViewDataBinding.controlBaseVp.currentItem = 0
             }
             R.id.item_tab_mesh_device -> {
+                mViewDataBinding.controlBaseBnv.background=null
+                mViewDataBinding.clLampContainer.setBackgroundResource(R.mipmap.fragment_led_bg)
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 mViewDataBinding.controlBaseVp.currentItem = 1
             }
             R.id.item_tab_mesh_group -> {
+                mViewDataBinding.clLampContainer.background=null
+                mViewDataBinding.controlBaseBnv.setBackgroundResource(R.drawable.control_base_bg)
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 mViewDataBinding.controlBaseVp.currentItem = 2
             }

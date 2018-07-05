@@ -74,6 +74,8 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
     fun deleteSingleDevice(deviceType: Int, singleDeviceId: Int) {
         appExecutors.diskIO().execute {
+            var lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$deviceType", -1)
+            lastUsedDeviceId = -1
             singleDeviceDao.deleteById(deviceType, singleDeviceId)
         }
     }
