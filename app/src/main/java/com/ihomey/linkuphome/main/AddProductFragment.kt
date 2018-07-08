@@ -53,11 +53,7 @@ class AddProductFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener 
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel.getCategoryResults()?.observe(this, Observer<Resource<List<LampCategory>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
-                if (addedLampCategoryAdapter.itemCount == 0) {
-                    addedLampCategoryAdapter.setNewData(it.data.filter { it.added == 0 })
-                } else {
-
-                }
+                addedLampCategoryAdapter.setNewData(it.data)
             }
         })
         addedLampCategoryAdapter.onItemClickListener = this
