@@ -217,7 +217,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     }
 
     interface DevicesStateListener {
-        fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener)
+        fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?)
         fun removeDevice(device: SingleDevice, listener: DeviceRemoveListener)
         fun associateDevice(uuidHash: Int, shortCode: String?)
     }

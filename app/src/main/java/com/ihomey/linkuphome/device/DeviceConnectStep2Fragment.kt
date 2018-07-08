@@ -56,6 +56,13 @@ class DeviceConnectStep2Fragment : BaseFragment() {
         mViewDataBinding.ivDeviceConnectLampIcon.setImageResource(icons[arguments.getInt("categoryType", 0)])
         constraintSet.clone(mViewDataBinding.clDeviceConnectStep2)
         constraintSet.setVisibility(R.id.iv_device_connect_lamp_icon, View.VISIBLE)
+        if (arguments.getBoolean("isReConnect", false)) {
+            mViewDataBinding.tvDeviceConnectStep2Hint.text = "设备已断开，正在尝试自动连接"
+            mViewDataBinding.btnDeviceConnectReset.visibility = View.INVISIBLE
+        } else {
+            mViewDataBinding.tvDeviceConnectStep2Hint.text = getString(R.string.device_connect_step2_hint)
+            mViewDataBinding.btnDeviceConnectReset.visibility = View.VISIBLE
+        }
         return mViewDataBinding.root
     }
 
@@ -85,7 +92,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
 
     private fun showLamp() {
         val transition = AutoTransition()
-        transition.duration = 850
+        transition.duration = 2850
         transition.interpolator = AccelerateDecelerateInterpolator()
         TransitionManager.beginDelayedTransition(mViewDataBinding.clDeviceConnectStep2, transition)
         constraintSet.applyTo(mViewDataBinding.clDeviceConnectStep2)
@@ -94,7 +101,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
             if (!arguments.getBoolean("isReConnect", false)) {
                 (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
             }
-        }, 850)
+        }, 2850)
     }
 
     inner class EventHandler {

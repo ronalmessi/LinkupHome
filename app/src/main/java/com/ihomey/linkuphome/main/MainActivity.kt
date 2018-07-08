@@ -80,8 +80,8 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         }
     }
 
-    override fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener) {
-        meshAssListener = if (enabled) listener else null
+    override fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?) {
+        meshAssListener = if (enabled && listener != null) listener else null
         try {
             mService?.setDeviceDiscoveryFilterEnabled(enabled)
         } catch (e: Exception) {
@@ -195,6 +195,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
 //        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
 //        textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
 //        Crouton.make(this, textView).show()
+        discoverDevices(true, null)
         mMeshHandler.postDelayed({ mViewModel?.setBridgeConnectState(mConnected) }, 550)
     }
 
