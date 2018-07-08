@@ -319,14 +319,14 @@ fun syncTime(deviceId: Int) {
 }
 
 
-fun getName(type: DeviceType) =
-        when (type) {
-            DeviceType.C3 -> "LinkupHome C3"
-            DeviceType.R2 -> "LinkupHome R2"
-            DeviceType.A2 -> "LinkupHome A2"
-            DeviceType.N1 -> "LinkupHome N1"
-            DeviceType.V1 -> "LinkupHome V1"
-        }
+//fun getName(type: DeviceType) =
+//        when (type) {
+//            DeviceType.C3 -> "LinkupHome C3"
+//            DeviceType.R2 -> "LinkupHome R2"
+//            DeviceType.A2 -> "LinkupHome A2"
+//            DeviceType.N1 -> "LinkupHome N1"
+//            DeviceType.V1 -> "LinkupHome V1"
+//        }
 
 
 fun getShortName(type: DeviceType) =

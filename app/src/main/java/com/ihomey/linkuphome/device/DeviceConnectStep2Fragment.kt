@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,16 +29,17 @@ import com.ihomey.linkuphome.viewmodel.MainViewModel
 class DeviceConnectStep2Fragment : BaseFragment() {
 
     private lateinit var listener: BridgeListener
-    private  var isFragmentVisibleToUser=false
+    private var isFragmentVisibleToUser = false
     private var mViewModel: MainViewModel? = null
     val constraintSet = ConstraintSet()
     private lateinit var mViewDataBinding: FragmentDeviceConnectStep2Binding
     private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded, R.mipmap.lamp_icon_outdoor_unadded)
 
-    fun newInstance(categoryType: Int): DeviceConnectStep2Fragment {
+    fun newInstance(categoryType: Int, isReConnect: Boolean): DeviceConnectStep2Fragment {
         val addProductFragment = DeviceConnectStep2Fragment()
         val bundle = Bundle()
         bundle.putInt("categoryType", categoryType)
+        bundle.putBoolean("isReConnect", isReConnect)
         addProductFragment.arguments = bundle
         return addProductFragment
     }
@@ -57,7 +59,6 @@ class DeviceConnectStep2Fragment : BaseFragment() {
         return mViewDataBinding.root
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
@@ -66,7 +67,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel?.isBridgeConnected()?.observe(this, Observer<Boolean> {
-            if (it != null && it&&isFragmentVisibleToUser) {
+            if (it != null && it && isFragmentVisibleToUser) {
                 showLamp()
             }
         })
@@ -74,10 +75,11 @@ class DeviceConnectStep2Fragment : BaseFragment() {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        isFragmentVisibleToUser=userVisibleHint
-        isVisible
+        isFragmentVisibleToUser = userVisibleHint
         if (isFragmentVisibleToUser) {
-            listener.connectBridge()
+            if (!arguments.getBoolean("isReConnect", false)) {
+                listener.connectBridge()
+            }
         }
     }
 
@@ -89,10 +91,11 @@ class DeviceConnectStep2Fragment : BaseFragment() {
         constraintSet.applyTo(mViewDataBinding.clDeviceConnectStep2)
         mViewDataBinding.clDeviceConnectStep2.postDelayed({
             activity.onBackPressed()
-            (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
+            if (!arguments.getBoolean("isReConnect", false)) {
+                (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
+            }
         }, 850)
     }
-
 
     inner class EventHandler {
         fun onClick(view: View) {

@@ -11,6 +11,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -23,10 +24,12 @@ import com.ihomey.linkuphome.adapter.ControlDeviceListAdapter
 import com.ihomey.linkuphome.adapter.ControlPageAdapter
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentLampBinding
+import com.ihomey.linkuphome.device.DeviceConnectFragment
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.disableShiftMode
 import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.listener.FragmentBackHandler
+import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 
@@ -46,7 +49,6 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         return fragment
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
@@ -61,6 +63,12 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
                 mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_mesh_control
+            }
+        })
+        mViewModel?.isBridgeConnected()?.observe(this, Observer<Boolean> {
+            if (it != null && !it) {
+                val fsh = activity as IFragmentStackHolder
+                fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(arguments.getInt("categoryType", -1), true))
             }
         })
     }
@@ -104,7 +112,9 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
             hideControlDeviceSelectionDialog()
         }
         val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$categoryType", -1)
-        if(lastUsedDeviceId==-1){ mViewDataBinding.controlBaseBnv.selectedItemId=R.id.item_tab_mesh_device }
+        if (lastUsedDeviceId == -1) {
+            mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_mesh_device
+        }
         adapter.onItemClickListener = this
     }
 
@@ -112,18 +122,18 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         when (item.itemId) {
             R.id.item_tab_mesh_control -> {
                 mViewDataBinding.controlBaseBnv.setBackgroundResource(R.drawable.control_base_bg)
-                mViewDataBinding.clLampContainer.background=null
+                mViewDataBinding.clLampContainer.background = null
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 mViewDataBinding.controlBaseVp.currentItem = 0
             }
             R.id.item_tab_mesh_device -> {
-                mViewDataBinding.controlBaseBnv.background=null
+                mViewDataBinding.controlBaseBnv.background = null
                 mViewDataBinding.clLampContainer.setBackgroundResource(R.mipmap.fragment_led_bg)
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 mViewDataBinding.controlBaseVp.currentItem = 1
             }
             R.id.item_tab_mesh_group -> {
-                mViewDataBinding.clLampContainer.background=null
+                mViewDataBinding.clLampContainer.background = null
                 mViewDataBinding.controlBaseBnv.setBackgroundResource(R.drawable.control_base_bg)
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 mViewDataBinding.controlBaseVp.currentItem = 2

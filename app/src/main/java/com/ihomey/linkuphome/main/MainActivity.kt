@@ -187,26 +187,27 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
 
     private fun onConnected(name: String) {
         mConnected = true
-        val textView = TextView(this)
-        textView.width = getScreenW()
-        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
-        textView.gravity = Gravity.CENTER
-        textView.setTextColor(resources.getColor(android.R.color.white))
-        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
-        textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
-        Crouton.make(this, textView).show()
-        mMeshHandler.postDelayed({ mViewModel?.setBridgeConnectState(mConnected) }, 1500)
+//        val textView = TextView(this)
+//        textView.width = getScreenW()
+//        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
+//        textView.gravity = Gravity.CENTER
+//        textView.setTextColor(resources.getColor(android.R.color.white))
+//        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
+//        textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
+//        Crouton.make(this, textView).show()
+        mMeshHandler.postDelayed({ mViewModel?.setBridgeConnectState(mConnected) }, 550)
     }
 
     private fun onDisConnected(name: String) {
-        val textView = TextView(this)
-        textView.width = getScreenW()
-        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
-        textView.gravity = Gravity.CENTER
-        textView.setTextColor(resources.getColor(android.R.color.white))
-        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
-        textView.text = '"' + name + '"' + " " + getString(R.string.disconnected)
-        Crouton.make(this, textView).show()
+//        val textView = TextView(this)
+//        textView.width = getScreenW()
+//        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
+//        textView.gravity = Gravity.CENTER
+//        textView.setTextColor(resources.getColor(android.R.color.white))
+//        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
+//        textView.text = '"' + name + '"' + " " + getString(R.string.disconnected)
+//        Crouton.make(this, textView).show()
+        mViewModel?.setBridgeConnectState(mConnected)
     }
 
     private fun getNextDeviceIndex() {

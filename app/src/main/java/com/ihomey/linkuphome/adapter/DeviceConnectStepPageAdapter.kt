@@ -9,7 +9,7 @@ import com.ihomey.linkuphome.device.DeviceConnectStep2Fragment
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class DeviceConnectStepPageAdapter(lampCategoryType: Int, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+class DeviceConnectStepPageAdapter(val lampCategoryType: Int, private val isReConnect: Boolean, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     val type: Int = lampCategoryType
 
@@ -20,7 +20,7 @@ class DeviceConnectStepPageAdapter(lampCategoryType: Int, fragmentManager: Fragm
     override fun getItem(position: Int): Fragment? {
         return when (position) {
             0 -> DeviceConnectStep1Fragment().newInstance(type)
-            1 -> DeviceConnectStep2Fragment().newInstance(type)
+            1 -> DeviceConnectStep2Fragment().newInstance(type, isReConnect)
             else -> null
         }
     }

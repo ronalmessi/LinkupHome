@@ -38,7 +38,7 @@
                 android:focusableInTouchMode="true"
                 android:gravity="left|center"
                 android:imeActionLabel="OK"
-                android:imeOptions="actionUnspecified"
+                android:imeOptions="actionDone"
                 android:maxLines="1"
                 android:padding="1dp"
                 android:singleLine="true"
