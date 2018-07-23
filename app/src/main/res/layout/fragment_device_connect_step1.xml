@@ -10,6 +10,7 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_device_connect_step1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -8,10 +8,12 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.AddedProductListAdapter
@@ -22,7 +24,6 @@ import com.ihomey.linkuphome.databinding.FragmentCategoryListBinding
 import com.ihomey.linkuphome.device.DeviceConnectFragment
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.yanzhenjie.recyclerview.swipe.*
@@ -35,17 +36,12 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
 
     private lateinit var mViewModel: MainViewModel
     private lateinit var mViewDataBinding: FragmentCategoryListBinding
-    private lateinit var listener: MeshServiceStateListener
+
 
     private val addedLampCategoryAdapter: AddedProductListAdapter = AddedProductListAdapter(R.layout.item_product_list)
 
     fun newInstance(): ProductListFragment {
         return ProductListFragment()
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as MeshServiceStateListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -88,11 +84,8 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
         val lampCategory = addedLampCategoryAdapter.getItem(position)
         val fsh = activity as IFragmentStackHolder
         if (lampCategory != null) {
-            if(listener.isMeshServiceConnected()){
-                fsh.replaceFragment(R.id.container, LampFragment().newInstance(lampCategory.type))
-            }else{
-                fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(lampCategory.type,false))
-            }
+            val hasConnected by PreferenceHelper("hasConnected" + lampCategory.type, false)
+            fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(lampCategory.type, hasConnected, false))
             mViewModel.loadData(lampCategory.type)
         }
     }

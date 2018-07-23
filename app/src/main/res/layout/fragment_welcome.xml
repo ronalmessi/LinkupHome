@@ -82,7 +82,7 @@
             android:paddingLeft="81dp"
             android:paddingRight="81dp"
             android:paddingTop="12dp"
-            android:text="@string/add_device"
+            android:text="@string/lamp_category_add_product"
             android:textAllCaps="false"
             android:textColor="@android:color/black"
             android:textSize="16sp"

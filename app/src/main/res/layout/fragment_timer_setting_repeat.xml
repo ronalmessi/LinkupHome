@@ -41,19 +41,32 @@
 
                 <com.ihomey.linkuphome.widget.LoopView
                     android:id="@+id/tv_timer_setting_hour_edit"
-                    android:layout_width="165dp"
-                    android:layout_height="176dp"
+                    android:layout_width="108dp"
+                    android:layout_height="108dp"
                     app:canLoop="true"
                     app:centerTextColor="#FFFFFF"
                     app:drawItemCount="7"
                     app:initPosition="0"
+                    app:textSize="64sp"
                     app:lineColor="@color/colorPrimary"
                     app:topBottomTextColor="#88FFFFFF" />
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="108dp"
+                    android:text=":"
+                    android:textSize="64sp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"/>
+
                 <com.ihomey.linkuphome.widget.LoopView
                     android:id="@+id/tv_timer_setting_minute_edit"
-                    android:layout_width="165dp"
-                    android:layout_height="176dp"
+                    android:layout_width="108dp"
+                    android:layout_height="108dp"
                     app:canLoop="true"
                     app:centerTextColor="#FFFFFF"
                     app:drawItemCount="7"

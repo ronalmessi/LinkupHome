@@ -37,7 +37,6 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     private var lampCategoryType: Int = -1
     private var isDeviceRemoving = false
-    private val uuidHashArray: SparseArray<String> = SparseArray()
     private lateinit var mViewDataBinding: FragmentDeviceMeshListBinding
     private var adapter: DeviceListAdapter? = null
     private lateinit var listener: DevicesStateListener
@@ -45,7 +44,8 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     private var setting: LampCategory? = null
     private val deviceAssociateFragment = DeviceAssociateFragment()
     private val deviceRemoveFragment = DeviceRemoveFragment()
-    private val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg)
+
+    private var aaa: Boolean = false
 
     fun newInstance(lampCategoryType: Int): MeshDeviceListFragment {
         val fragment = MeshDeviceListFragment()
@@ -92,15 +92,28 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+
         mViewModel?.getDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS) {
-                if (it.data == null || it.data.isEmpty()) {
-                    adapter?.setNewData(null)
-                } else if (adapter?.itemCount == 0 || adapter?.itemCount == it.data.size) {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                Log.d("aa", "1111===")
+                if (adapter?.itemCount == 0 || adapter?.itemCount == it.data.size) {
                     adapter?.setNewData(it.data)
+                } else {
+                    val resultDeviceList= arrayListOf<SingleDevice>()
+                    resultDeviceList.addAll(it.data)
+                    adapter?.data?.filter { it.id==0 }?.let { it1 -> resultDeviceList.addAll(it1) }
+                    adapter?.setNewData(resultDeviceList)
                 }
+                if (!listener.getScannedDevices().isEmpty() && !aaa) {
+                    adapter?.addData(listener.getScannedDevices())
+                    aaa = true
+                }
+                Log.d("aa", "size:" + listener.getScannedDevices().size)
+                var hasConnected by PreferenceHelper("hasConnected$lampCategoryType", false)
+                hasConnected = !it.data.isEmpty()
             }
         })
+
         mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> { it ->
             if (it?.status == Status.SUCCESS && it.data != null) {
                 setting = it.data
@@ -111,6 +124,11 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as DevicesStateListener
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter?.setNewData(null)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -130,11 +148,12 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         listener.discoverDevices(true, this)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        listener.discoverDevices(false, this)
-        uuidHashArray.clear()
+    override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
+        if (!isDeviceRemoving) {
+            adapter?.addData(SingleDevice(0, Device(shortName, lampCategoryType), uuidHash, 0, 0, 0, null))
+        }
     }
+
 
     override fun onItemClick(itemView: View?, position: Int) {
         val singleDevice = adapter?.getItem(position)
@@ -155,15 +174,6 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
             showDeviceRemoveAlertDialog(singleDevice!!)
         }
         menuBridge.closeMenu()
-    }
-
-    override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
-        if (!isDeviceRemoving && uuidHashArray.indexOfKey(uuidHash) < 0) {
-            uuidHashArray.put(uuidHash, shortName)
-            val deviceType = DeviceType.values()[lampCategoryType]
-            val deviceShortName = getShortName(deviceType)
-            if (TextUtils.equals(deviceShortName, shortName)) adapter?.addData(SingleDevice(0, Device(deviceType.name, lampCategoryType), uuidHash, 0, 0, 0, null))
-        }
     }
 
     override fun associationProgress(progress: Int) {
@@ -197,7 +207,6 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType), uuidHash, 0, 0, 0, ControlState())
         val position = adapter?.data?.indexOf(device) ?: -1
         if (position != -1) {
-            uuidHashArray.remove(uuidHash)
             adapter?.remove(position)
             mViewModel?.deleteSingleDevice(lampCategoryType, deviceId)
         }
@@ -217,6 +226,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     }
 
     interface DevicesStateListener {
+        fun getScannedDevices(): List<SingleDevice>
         fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?)
         fun removeDevice(device: SingleDevice, listener: DeviceRemoveListener)
         fun associateDevice(uuidHash: Int, shortCode: String?)

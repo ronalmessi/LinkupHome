@@ -18,7 +18,7 @@
             android:id="@+id/cl_device_connect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:paddingBottom="24dp">
 
             <com.ihomey.linkuphome.widget.CompatToolbar
                 android:id="@+id/toolbar"
@@ -48,46 +48,92 @@
                     android:textSize="18sp" />
             </com.ihomey.linkuphome.widget.CompatToolbar>
 
-            <ImageView
-                android:id="@+id/iv_device_reset_guide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="21dp"
-                android:src="@mipmap/ic_device_reset_guide2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <TextView
-                android:id="@+id/iv_device_reset_step"
+                android:id="@+id/iv_device_reset_step1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/device_reset_btn_step_bg"
                 android:paddingBottom="8dp"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 android:paddingTop="8dp"
-                android:text="重置步骤"
+                android:text="@string/how_to_reset_device_step1"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_guide" />
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <TextView
-                android:id="@+id/tv_device_reset_hint"
+                android:id="@+id/tv_device_reset_hint1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:lineSpacingExtra="8dp"
                 android:paddingLeft="27dp"
                 android:paddingRight="27dp"
+                android:text="@string/device_reset_hint1"
+                android:textColor="@color/text_colorPrimary"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_step1" />
+
+            <ImageView
+                android:id="@+id/iv_device_reset_guide1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:src="@mipmap/ic_device_reset_guide1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_device_reset_hint1" />
+
+            <TextView
+                android:id="@+id/iv_device_reset_step2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/device_reset_btn_step_bg"
+                android:paddingBottom="8dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:paddingTop="8dp"
+                android:text="@string/how_to_reset_device_step2"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_guide1" />
+
+
+            <ImageView
+                android:id="@+id/iv_device_reset_guide2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="36dp"
+                android:layout_marginTop="24dp"
+                android:src="@mipmap/ic_device_reset_guide2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_step2" />
+
+            <TextView
+                android:id="@+id/tv_device_reset_hint2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="36dp"
                 android:layout_marginTop="30dp"
                 android:lineSpacingExtra="8dp"
+                android:paddingLeft="27dp"
+                android:paddingRight="27dp"
                 android:text="@string/device_reset_hint2"
                 android:textColor="@color/text_colorPrimary"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_step" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_guide2" />
 
 
         </android.support.constraint.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.iclass.soocsecretary.component.DaggerAppComponent
+import com.ihomey.linkuphome.SingleLiveEvent
 import com.ihomey.linkuphome.data.repository.CategoryRepository
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.repository.GroupRepository
@@ -24,7 +25,6 @@ class MainViewModel : ViewModel() {
     private val loadGroupInfo = MutableLiveData<DeviceInfo>()
     private val modelDeviceId = MutableLiveData<Int>()
 
-
     private var categoryResults: LiveData<Resource<List<LampCategory>>>? = null
     private var modelResults: LiveData<Resource<List<Model>>>
     private var deviceResults: LiveData<Resource<List<SingleDevice>>>
@@ -35,7 +35,9 @@ class MainViewModel : ViewModel() {
 
     private var localSetting: LiveData<Resource<LampCategory>>
 
-    private val isBridgeConnected = MutableLiveData<Boolean>()
+    private val isBridgeStateChanged = SingleLiveEvent<Void>()
+    private val hasScannedDevice = SingleLiveEvent<Void>()
+
 
     @Inject
     lateinit var mCategoryRepository: CategoryRepository
@@ -67,7 +69,7 @@ class MainViewModel : ViewModel() {
             mDeviceRepository.getUnBondedDevices(input.deviceType, input.deviceId)
         })
         currentControlDevice = Transformations.switchMap(currentControlDeviceInfo, { input ->
-            mDeviceRepository.setLastUsedDeviceId(input.deviceId,input.deviceType)
+            mDeviceRepository.setLastUsedDeviceId(input.deviceId, input.deviceType)
             if (input.deviceId in 1..32768) {
                 mGroupRepository.getGroup(input.deviceType, input.deviceId)
             } else {
@@ -108,7 +110,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getGlobalSetting(): LiveData<Resource<LampCategory>>? {
-        return  mCategoryRepository.getGlobalSetting()
+        return mCategoryRepository.getGlobalSetting()
     }
 
     fun getLocalSetting(): LiveData<Resource<LampCategory>> {
@@ -129,6 +131,14 @@ class MainViewModel : ViewModel() {
 
     fun loadBoundedDevices(deviceInfo: DeviceInfo) {
         loadGroupInfo.value = deviceInfo
+    }
+
+    fun hasScannedDevice(): SingleLiveEvent<Void> {
+        return hasScannedDevice
+    }
+
+    fun setDeviceScanState() {
+        hasScannedDevice.call()
     }
 
     fun addSingleDevice(setting: LampCategory, singleDevice: SingleDevice) {
@@ -164,7 +174,7 @@ class MainViewModel : ViewModel() {
             if (controlDevice.id in 1..32768) {
                 mGroupRepository.updateDevice(GroupDevice(controlDevice.id, controlDevice.device, controlDevice.state))
             } else {
-                mDeviceRepository.updateDeviceState(controlDevice.id,controlDevice.state)
+                mDeviceRepository.updateDeviceState(controlDevice.id, controlDevice.state)
             }
         }
 
@@ -192,14 +202,12 @@ class MainViewModel : ViewModel() {
         modelRepository.deleteModel(deviceId, groupId, groupIndex)
     }
 
-
-    fun isBridgeConnected(): LiveData<Boolean> {
-        return isBridgeConnected
+    fun isBridgeStateChanged(): SingleLiveEvent<Void> {
+        return isBridgeStateChanged
     }
 
-    fun setBridgeConnectState(isConnected: Boolean) {
-        isBridgeConnected.value = isConnected
+    fun setBridgeConnectState() {
+        isBridgeStateChanged.call()
     }
-
 
 }

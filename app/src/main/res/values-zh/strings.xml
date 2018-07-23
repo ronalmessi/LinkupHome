@@ -9,7 +9,7 @@
     <string name="welcome_language">语言</string>
     <string name="webview_title">产品使用说明</string>
     <string name="center_title">中心</string>
-    <string name="lamp_category_add_product">添加您的产品</string>
+    <string name="lamp_category_add_product">添加设备</string>
     <string name="lamp_category_lawn">户外灯</string>
     <string name="lamp_category_bed">智能床头灯</string>
     <string name="lamp_category_rgb">RGB灯泡</string>
@@ -103,8 +103,8 @@
 
 
 
-    <string name="openLightTimer">开灯定时</string>
-    <string name="closeLightTimer">关灯定时</string>
+    <string name="openLightTimer">开灯时间</string>
+    <string name="closeLightTimer">关灯时间</string>
     <string name="loopTimer">重复</string>
 
 

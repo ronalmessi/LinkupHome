@@ -43,14 +43,15 @@
         </com.ihomey.linkuphome.widget.CompatToolbar>
 
 
-        <com.ihomey.linkuphome.widget.NoScrollViewpager
-            android:id="@+id/viewpager_device_connect"
+        <FrameLayout
+            android:id="@+id/inner_frag_device_connect_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>

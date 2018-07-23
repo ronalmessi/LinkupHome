@@ -65,11 +65,9 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
                 mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_mesh_control
             }
         })
-        mViewModel?.isBridgeConnected()?.observe(this, Observer<Boolean> {
-            if (it != null && !it) {
-                val fsh = activity as IFragmentStackHolder
-                fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(arguments.getInt("categoryType", -1), true))
-            }
+        mViewModel?.isBridgeStateChanged()?.observe(this, Observer<Void> {
+            val fsh = activity as IFragmentStackHolder
+            fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(arguments.getInt("categoryType", -1), true, true))
         })
     }
 

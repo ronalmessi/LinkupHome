@@ -1,38 +1,36 @@
 package com.ihomey.linkuphome.device
 
 import android.app.Activity
-import android.content.Context
 import android.databinding.DataBindingUtil
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.util.Log
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.adapter.DeviceConnectStepPageAdapter
 import com.ihomey.linkuphome.databinding.FragmentDeviceConnectBinding
-import com.ihomey.linkuphome.listener.IDeviceConnectStepListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.jackandphantom.blurimage.BlurImage
 
 
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class DeviceConnectFragment : BaseFragment(), IDeviceConnectStepListener {
+class DeviceConnectFragment : BaseFragment(), IFragmentStackHolder {
 
     private lateinit var mViewDataBinding: FragmentDeviceConnectBinding
 
-    fun newInstance(categoryType: Int, isReConnect: Boolean): DeviceConnectFragment {
-        val addProductFragment = DeviceConnectFragment()
+    fun newInstance(categoryType: Int, hasConnected: Boolean, isReConnect: Boolean): DeviceConnectFragment {
+        val deviceConnectFragment = DeviceConnectFragment()
         val bundle = Bundle()
         bundle.putInt("categoryType", categoryType)
+        bundle.putBoolean("hasConnected", hasConnected)
         bundle.putBoolean("isReConnect", isReConnect)
-        addProductFragment.arguments = bundle
-        return addProductFragment
+        deviceConnectFragment.arguments = bundle
+        return deviceConnectFragment
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,18 +38,35 @@ class DeviceConnectFragment : BaseFragment(), IDeviceConnectStepListener {
         mViewDataBinding.handlers = EventHandler()
         val bitmap = BlurImage.with(context).load(R.mipmap.lamp_category_bg).intensity(20f).imageBlur
         mViewDataBinding.clDeviceConnect.background = BitmapDrawable(resources, bitmap)
-        val isReConnect = arguments.getBoolean("isReConnect", false)
-        mViewDataBinding.viewpagerDeviceConnect.adapter = DeviceConnectStepPageAdapter(arguments.getInt("categoryType", -1), isReConnect, childFragmentManager)
-        if (isReConnect) mViewDataBinding.viewpagerDeviceConnect.currentItem = 2
         return mViewDataBinding.root
     }
 
-    override fun setStep(step: Int) {
-        mViewDataBinding.viewpagerDeviceConnect.setCurrentItem(step, true)
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val isReConnect = arguments.getBoolean("isReConnect", false)
+        if (arguments.getBoolean("hasConnected")) {
+            setFragment(DeviceConnectStep2Fragment().newInstance(arguments.getInt("categoryType"), isReConnect))
+        } else {
+            setFragment(DeviceConnectStep1Fragment().newInstance(arguments.getInt("categoryType")))
+        }
     }
 
-    override fun goToDeviceResetFragment() {
-        (activity as IFragmentStackHolder).replaceFragment(R.id.container, DeviceResetFragment().newInstance())
+    private fun setFragment(frag: BaseFragment) {
+        val transaction = childFragmentManager.beginTransaction()
+        childFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        transaction.replace(R.id.inner_frag_device_connect_container, frag, frag.javaClass.simpleName)
+        transaction.addToBackStack(frag.javaClass.simpleName)
+        transaction.commit()
+    }
+
+
+    override fun replaceFragment(containerId: Int, frag: Fragment) {
+        val transaction = childFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.push_right_in, R.anim.hold, R.anim.hold, R.anim.push_left_out)
+        transaction.replace(containerId, frag, frag.javaClass.simpleName)
+        transaction.addToBackStack(frag.javaClass.simpleName)
+        transaction.commit()
     }
 
     inner class EventHandler {

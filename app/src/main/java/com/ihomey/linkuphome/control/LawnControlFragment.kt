@@ -84,7 +84,7 @@ class LawnControlFragment : BaseControlFragment(), BatteryValueListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel?.isBridgeConnected()?.observe(this, Observer<Boolean> {
+        mViewModel?.isBridgeStateChanged()?.observe(this, Observer<Void> {
             if (mControlDevice != null) {
                 listener.getBatteryState(mControlDevice?.id!!, this)
             }

@@ -53,7 +53,7 @@
             android:paddingLeft="48dp"
             android:paddingRight="48dp"
             android:paddingTop="6dp"
-            android:text="@string/add_device"
+            android:text="@string/lamp_category_add_product"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -49,15 +49,15 @@ public class LoopView extends View {
     private Context mContext;
     private Paint mTopBottomTextPaint;  //paint that draw top and bottom text
     private Paint mCenterTextPaint;  // paint that draw center text
-    private Paint mCenterLinePaint;  // paint that draw line besides center text
-    private Paint paintLabelText;
+//    private Paint mCenterLinePaint;  // paint that draw line besides center text
+    //    private Paint paintLabelText;
     private ArrayList mDataList;
     private int mTextSize;
     private int mMaxTextWidth;
     private int mMaxTextHeight;
     private int mTopBottomTextColor;
     private int mCenterTextColor;
-    private int mCenterLineColor;
+//    private int mCenterLineColor;
     private float lineSpacingMultiplier;
     private boolean mCanLoop;
     private int mTopLineY;
@@ -115,10 +115,10 @@ public class LoopView extends View {
         if (array != null) {
             mTopBottomTextColor = array.getColor(R.styleable.LoopView_topBottomTextColor, 0xffafafaf);
             mCenterTextColor = array.getColor(R.styleable.LoopView_centerTextColor, 0xff313131);
-            mCenterLineColor = array.getColor(R.styleable.LoopView_lineColor, 0xffc5c5c5);
+//            mCenterLineColor = array.getColor(R.styleable.LoopView_lineColor, 0xffc5c5c5);
             mCanLoop = array.getBoolean(R.styleable.LoopView_canLoop, true);
             mInitPosition = array.getInt(R.styleable.LoopView_initPosition, -1);
-            mTextSize = array.getDimensionPixelSize(R.styleable.LoopView_textSize, sp2px(context, 16));
+            mTextSize = array.getDimensionPixelSize(R.styleable.LoopView_textSize, 64);
             mDrawItemsCount = array.getInt(R.styleable.LoopView_drawItemCount, 7);
             array.recycle();
         }
@@ -131,7 +131,7 @@ public class LoopView extends View {
 
         mTopBottomTextPaint = new Paint();
         mCenterTextPaint = new Paint();
-        mCenterLinePaint = new Paint();
+//        mCenterLinePaint = new Paint();
 
         if (Build.VERSION.SDK_INT >= 11) {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
@@ -163,21 +163,21 @@ public class LoopView extends View {
 
         mCenterTextPaint.setColor(mCenterTextColor);
         mCenterTextPaint.setAntiAlias(true);
-        mCenterTextPaint.setTextScaleX(1.05F);
+//        mCenterTextPaint.setTextScaleX(1.05F);
         mCenterTextPaint.setTypeface(Typeface.MONOSPACE);
         mCenterTextPaint.setTextSize(mTextSize);
 
-        mCenterLinePaint.setColor(mCenterLineColor);
-        mCenterLinePaint.setAntiAlias(true);
-        mCenterLinePaint.setTypeface(Typeface.MONOSPACE);
-        mCenterLinePaint.setTextSize(mTextSize);
+//        mCenterLinePaint.setColor(mCenterLineColor);
+//        mCenterLinePaint.setAntiAlias(true);
+//        mCenterLinePaint.setTypeface(Typeface.MONOSPACE);
+//        mCenterLinePaint.setTextSize(mTextSize);
 
 
-        paintLabelText = new Paint();
-        paintLabelText.setColor(mCenterTextColor);
-        paintLabelText.setAntiAlias(true);
-        paintLabelText.setTypeface(Typeface.MONOSPACE);
-        paintLabelText.setTextSize(sp2px(getContext(), 16));
+//        paintLabelText = new Paint();
+//        paintLabelText.setColor(mCenterTextColor);
+//        paintLabelText.setAntiAlias(true);
+//        paintLabelText.setTypeface(Typeface.MONOSPACE);
+//        paintLabelText.setTextSize(sp2px(getContext(), 16));
 
         measureTextWidthHeight();
 
@@ -232,7 +232,10 @@ public class LoopView extends View {
 
         mItemHeight = lineSpacingMultiplier * mMaxTextHeight;
         //auto calculate the text's left/right value when draw
-        mPaddingLeftRight = (mWidgetWidth - mMaxTextWidth) / 2;
+        mPaddingLeftRight = (mWidgetWidth - mMaxTextWidth-dp2px(mContext,4)) / 2;
+
+
+//        Log.d("aa",mMaxTextWidth+"===mMaxTextWidth==="+mPaddingLeftRight);
         mPaddingTopBottom = (mWidgetHeight - mCircularDiameter) / 2;
 
         //topLineY = diameter/2 - itemHeight(mItemHeight)/2 + mPaddingTopBottom
@@ -306,16 +309,16 @@ public class LoopView extends View {
         } else if (circleColor == 1) {
             paintCircle.setColor(Color.parseColor("#bbF48479"));
         }
-        canvas.drawCircle(getWidth() / 2 + 12, getHeight() / 2, getWidth()/3+12, paintCircle);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2, paintCircle);
 
-        if (label != null) {
-            Rect rect1 = new Rect();
-            mCenterTextPaint.getTextBounds("\u0038\u0038", 0, 2, rect1);
-            Rect rect2 = new Rect();
-            paintLabelText.getTextBounds("\u661F\u671F", 0, 1, rect2);
-            int drawCenterContentStart = (int) ((getWidth() - rect1.width() - rect2.width()) * 0.5);
-            canvas.drawText(label, drawCenterContentStart + rect1.width() + rect2.width() + 16, mBottomLineY - rect2.height() / 3, paintLabelText);
-        }
+//        if (label != null) {
+//            Rect rect1 = new Rect();
+//            mCenterTextPaint.getTextBounds("\u0038\u0038", 0, 2, rect1);
+//            Rect rect2 = new Rect();
+//            paintLabelText.getTextBounds("\u661F\u671F", 0, 1, rect2);
+//            int drawCenterContentStart = (int) ((getWidth() - rect1.width() - rect2.width()) * 0.5);
+//            canvas.drawText(label, drawCenterContentStart + rect1.width() + rect2.width() + 16, mBottomLineY - rect2.height() / 3, paintLabelText);
+//        }
 
         count = 0;
         int changingLeftY = (int) (mTotalScrollY % (mItemHeight));
@@ -328,7 +331,6 @@ public class LoopView extends View {
             // a = rad * 180 / π
             //get angle
             float angle = (float) (radian * 180 / Math.PI);
-
             //when angle >= 180 || angle <= 0 don't draw
             if (angle >= 180F || angle <= 0F) {
                 canvas.restore();
@@ -344,7 +346,7 @@ public class LoopView extends View {
                     canvas.save();
                     canvas.clipRect(0, 0, mWidgetWidth, mTopLineY - translateY);
                     if (canEdit) {
-                        canvas.drawText(itemCount[count], mPaddingLeftRight + 16, mMaxTextHeight, mTopBottomTextPaint);
+                        canvas.drawText(itemCount[count], mPaddingLeftRight + dp2px(mContext,4), mMaxTextHeight, mTopBottomTextPaint);
                     }
                     canvas.restore();
                     canvas.save();
@@ -364,11 +366,10 @@ public class LoopView extends View {
                     canvas.save();
                     canvas.clipRect(0, mBottomLineY - translateY, mWidgetWidth, (int) (itemHeight));
                     if (canEdit) {
-                        canvas.drawText(itemCount[count], mPaddingLeftRight + 16, mMaxTextHeight, mTopBottomTextPaint);
+                        canvas.drawText(itemCount[count], mPaddingLeftRight + dp2px(mContext,6f), mMaxTextHeight, mTopBottomTextPaint);
                     }
                     canvas.restore();
                 } else if (translateY >= mTopLineY && mMaxTextHeight + translateY <= mBottomLineY) {
-                    //draw center complete text
                     canvas.clipRect(0, 0, mWidgetWidth, (int) (itemHeight));
                     canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mCenterTextPaint);
                     //center one indicate selected item
@@ -502,6 +503,11 @@ public class LoopView extends View {
 
     public int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    public int dp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().density;
         return (int) (spValue * fontScale + 0.5f);
     }
 
