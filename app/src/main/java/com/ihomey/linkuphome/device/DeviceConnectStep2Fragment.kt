@@ -72,25 +72,18 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel?.isBridgeStateChanged()?.observe(this, Observer<Void> {
-            Log.d("aa", "111")
-            mViewDataBinding.ivDeviceConnectLampIcon.postDelayed({
-                showLamp()
-            }, 8000)
+            mViewDataBinding.ivDeviceConnectLampIcon.postDelayed(removeDeviceTimeout, 8000)
         })
 
-
         mViewModel?.hasScannedDevice()?.observe(this, Observer<Void> {
-            Log.d("aa", "2222")
+            mViewDataBinding.ivDeviceConnectLampIcon.removeCallbacks(removeDeviceTimeout)
             showLamp()
         })
 
 
         if (listener != null) {
             if (listener?.isBridgeConnected()!!) {
-                Log.d("aa", "33333")
-                mViewDataBinding.ivDeviceConnectLampIcon.postDelayed({
-                    showLamp()
-                }, 8000)
+                mViewDataBinding.ivDeviceConnectLampIcon.postDelayed(removeDeviceTimeout, 8000)
             } else {
                 listener?.connectBridge()
             }
@@ -98,21 +91,19 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     }
 
     private fun showLamp() {
-//        val transition = AutoTransition()
-//        transition.duration = 2850
-//        transition.interpolator = AccelerateDecelerateInterpolator()
-//        TransitionManager.beginDelayedTransition(mViewDataBinding.clDeviceConnectStep2, transition)
-//        constraintSet.applyTo(mViewDataBinding.clDeviceConnectStep2)
-//        mViewDataBinding.clDeviceConnectStep2.postDelayed({
         if (activity != null) {
             activity.onBackPressed()
             if (!arguments.getBoolean("isReConnect", false)) {
-                Log.d("aa", "4444444")
                 (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
             }
         }
-//        }, 2850)
     }
+
+
+    private val removeDeviceTimeout = Runnable {
+        showLamp()
+    }
+
 
     inner class EventHandler {
         fun onClick(view: View) {

@@ -300,13 +300,13 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                         val deviceType = DeviceType.values()[parentActivity.lampType]
                         val deviceShortName = getShortName(deviceType)
                         if (TextUtils.equals(deviceShortName, shortName)) {
-                            Log.d("aa", "555555" )
+                            Log.d("splash_bg", "555555" )
                             if (parentActivity.meshAssListener == null) {
-                                Log.d("aa", "lampType==11111==" + parentActivity.lampType)
+                                Log.d("splash_bg", "lampType==11111==" + parentActivity.lampType)
                                 parentActivity.scanDeviceList.add(SingleDevice(0, Device(deviceType.name, parentActivity.lampType), uuidHash, 0, 0, 0, null))
                                 parentActivity.mViewModel?.setDeviceScanState()
                             } else {
-                                Log.d("aa", "lampType==22222==" + parentActivity.lampType)
+                                Log.d("splash_bg", "lampType==22222==" + parentActivity.lampType)
                                 parentActivity.meshAssListener?.newAppearance(uuidHash, appearance, deviceType.name)
                             }
                         }

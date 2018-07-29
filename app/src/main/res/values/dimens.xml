@@ -7,4 +7,7 @@
     <dimen name="design_bottom_navigation_margin">16dp</dimen>
     <dimen name="design_bottom_navigation_height">82dp</dimen>
 
+    <dimen name="welcome_btn_padding">81dp</dimen>
+
+
 </resources>

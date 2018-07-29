@@ -98,7 +98,7 @@ dependencies {
 
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.1'
 
-    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+//    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
 
     implementation 'com.jackandphantom.android:blurimage:1.2.0'

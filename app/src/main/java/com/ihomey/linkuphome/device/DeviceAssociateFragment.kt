@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
-import com.github.lzyzsd.circleprogress.DonutProgress
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.widget.DonutProgress
 
 /**
  * Created by dongcaizheng on 2018/4/14.
@@ -31,6 +31,6 @@ class DeviceAssociateFragment : DialogFragment() {
     }
 
     fun onAssociateProgressChanged(progress: Int) {
-        mProgressView.progress = progress.toFloat()
+        mProgressView.setProgress(progress)
     }
 }

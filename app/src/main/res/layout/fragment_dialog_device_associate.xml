@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     >
 
-    <com.github.lzyzsd.circleprogress.DonutProgress
+    <com.ihomey.linkuphome.widget.DonutProgress
         android:id="@+id/device_associate_progress"
         android:layout_width="108dp"
         android:layout_height="108dp"
