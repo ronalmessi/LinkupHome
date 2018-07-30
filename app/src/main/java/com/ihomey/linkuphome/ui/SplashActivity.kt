@@ -31,9 +31,10 @@ class SplashActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         checkPermission()
     }
+
     private fun initAlphaAnimation() {
         alphaAnimation = AlphaAnimation(0f, 1.0f)
-        alphaAnimation.duration = 550
+        alphaAnimation.duration = 1050
         alphaAnimation.fillAfter = true
         alphaAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation?) {
@@ -55,7 +56,7 @@ class SplashActivity : BaseActivity() {
     private fun checkPermission() {
         val permissionStatus = ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.CAMERA)
         when (permissionStatus) {
-            PackageManager.PERMISSION_GRANTED -> binding.aa.startAnimation(alphaAnimation)
+            PackageManager.PERMISSION_GRANTED -> binding.ivSplashLogo.startAnimation(alphaAnimation)
             PackageManager.PERMISSION_DENIED -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA), 100)
         }
     }
@@ -70,8 +71,8 @@ class SplashActivity : BaseActivity() {
                 startActivityForResult(intent, 101)
             }
         } else {
-            binding.aa.startAnimation(alphaAnimation)
+            binding.ivSplashLogo.startAnimation(alphaAnimation)
         }
     }
-
 }
+
