@@ -37,7 +37,6 @@ import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.listeners.*
 import com.ihomey.linkuphome.viewmodel.MainViewModel
-import de.keyboardsurfer.android.widget.crouton.Crouton
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -167,7 +166,11 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
 
     override fun replaceFragment(containerId: Int, frag: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.push_bottom_in, R.anim.hold, R.anim.hold, R.anim.push_top_out)
+        if (TextUtils.equals("RepeatTimerSettingFragment", frag.javaClass.simpleName) || TextUtils.equals("TimerSettingFragment", frag.javaClass.simpleName)) {
+            transaction.setCustomAnimations(R.anim.push_right_in, R.anim.hold, R.anim.hold, R.anim.push_left_out)
+        } else {
+            transaction.setCustomAnimations(R.anim.push_bottom_in, R.anim.hold, R.anim.hold, R.anim.push_top_out)
+        }
         transaction.replace(containerId, frag, frag.javaClass.simpleName)
         transaction.addToBackStack(frag.javaClass.simpleName)
         transaction.commit()
@@ -192,7 +195,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     }
 
     private fun releaseResource() {
-        Crouton.cancelAllCroutons()
+//        Crouton.cancelAllCroutons()
         mService?.setDeviceDiscoveryFilterEnabled(false)
         if (mConnected) mService?.disconnectBridge()
         mService?.setHandler(null)
@@ -300,7 +303,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                         val deviceType = DeviceType.values()[parentActivity.lampType]
                         val deviceShortName = getShortName(deviceType)
                         if (TextUtils.equals(deviceShortName, shortName)) {
-                            Log.d("splash_bg", "555555" )
+                            Log.d("splash_bg", "555555")
                             if (parentActivity.meshAssListener == null) {
                                 Log.d("splash_bg", "lampType==11111==" + parentActivity.lampType)
                                 parentActivity.scanDeviceList.add(SingleDevice(0, Device(deviceType.name, parentActivity.lampType), uuidHash, 0, 0, 0, null))

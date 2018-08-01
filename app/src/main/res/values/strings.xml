@@ -8,7 +8,7 @@
     <string name="device_connect_step1_hint">1.请确保设备电源已正确连接;\n2.如果设备不是第一次使用,请确保设备已经被正确\n重置</string>
 
     <string name="device_connect_step2_title">温馨提示</string>
-    <string name="device_connect_step2_hint">如果8秒左右搜索不到设备,请确认设备是否被正确重置</string>
+    <string name="device_connect_step2_hint">如果10秒左右搜索不到设备,请确认设备是否被正确重置</string>
 
     <string name="device_reset_hint2">1.用开关先将灯关闭。\n2.打开灯，等待1-2秒。\n3.关闭灯，等待1-2秒。\n4.打开灯，等待1-2秒。\n5.关闭灯，等待1-2秒。\n6.第三次打开灯时，请等待2秒左右，灯光闪烁3次即代表重置成功，灯泡已恢复到出厂设置状态。\n\n(如没有看到灯光闪烁三次，请按照以上流程再操作一遍，直到看到灯光闪烁三次，表示重置成功)</string>
     <string name="device_reset_hint1">在"搜索设备"界面里找到连接过的设备，左滑删除</string>

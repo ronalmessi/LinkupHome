@@ -4,7 +4,6 @@ import com.iclass.soocsecretary.module.ApiModule
 import com.ihomey.linkuphome.scan.ScanViewModel
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.share.ShareViewModel
-import com.ihomey.linkuphome.time.TimerSettingViewModel
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -27,7 +26,6 @@ interface AppComponent {
 
     fun inject(sceneSettingViewModel: SceneSettingViewModel)
 
-    fun inject(timerSettingViewModel: TimerSettingViewModel)
     fun inject(scanViewModel: ScanViewModel)
     fun inject(shareViewModel: ShareViewModel)
 }

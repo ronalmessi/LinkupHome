@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Vibrator
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
-import android.view.SurfaceHolder
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -18,9 +17,7 @@ import android.view.animation.TranslateAnimation
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.databinding.ActivityScanBinding
-import com.ihomey.linkuphome.scan.camera.CameraManager
-import com.ihomey.linkuphome.scan.decode.CaptureActivityHandler
-import com.ihomey.linkuphome.scan.decode.InactivityTimer
+import com.ihomey.linkuphome.scan.core.QRCodeView
 import com.ihomey.linkuphome.share.ShareActivity
 import org.json.JSONObject
 import java.io.*
@@ -32,21 +29,12 @@ import java.net.URLDecoder
 /**
  * Created by dongcaizheng on 2017/12/21.
  */
-class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
+class ScanActivity : BaseActivity(), QRCodeView.Delegate {
 
     private lateinit var mViewDataBinding: ActivityScanBinding
-    var handler: CaptureActivityHandler? = null
-    private var hasSurface: Boolean = false
-    private var inactivityTimer: InactivityTimer? = null
     private var lampCategoryType = -1
-
     private lateinit var mViewModel: ScanViewModel
     private lateinit var pullShareInfoDialog: PullShareInfoFragment
-
-    var x = 0
-    var y = 0
-    var cropWidth = 0
-    var cropHeight = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,13 +42,10 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
         mViewModel = ViewModelProviders.of(this).get(ScanViewModel::class.java)
         mViewDataBinding.handlers = ScanHandler()
 
-        // 初始化 CameraManager
-        CameraManager.init(application)
-        hasSurface = false
-        inactivityTimer = InactivityTimer(this)
+        mViewDataBinding.capturePreview.setDelegate(this)
+        mViewDataBinding.capturePreview.setScanBox(mViewDataBinding.captureCropLayout)
 
-        val mAnimation = TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.ABSOLUTE, 0f,
-                TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0.9f)
+        val mAnimation = TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0.9f)
         mAnimation.duration = 1500
         mAnimation.repeatCount = -1
         mAnimation.repeatMode = Animation.REVERSE
@@ -69,84 +54,41 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
     }
 
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         lampCategoryType = intent.getIntExtra("lampCategoryType", -1)
-        val surfaceHolder = mViewDataBinding.capturePreview.holder
-        if (hasSurface) {
-            initCamera(surfaceHolder)
-        } else {
-            surfaceHolder.addCallback(this)
-            surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
-        }
+        mViewDataBinding.capturePreview.startCamera()
+        mViewDataBinding.capturePreview.startSpot()
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (handler != null) {
-            handler?.quitSynchronously()
-            handler = null
-        }
-        CameraManager.get().closeDriver()
+    override fun onStop() {
+        super.onStop()
+        mViewDataBinding.capturePreview.stopSpot()
+        mViewDataBinding.capturePreview.stopCamera()// 关闭摄像头预览，并且隐藏扫描框
     }
 
     override fun onDestroy() {
-        inactivityTimer?.shutdown()
         super.onDestroy()
+        mViewDataBinding.capturePreview.onDestroy()// 销毁二维码扫描控件
     }
 
-    private fun initCamera(surfaceHolder: SurfaceHolder) {
-        try {
-            CameraManager.get().openDriver(surfaceHolder)
-
-            val point = CameraManager.get().cameraResolution
-            val width = point.y
-            val height = point.x
-
-            x = mViewDataBinding.captureCropLayout.left * width / mViewDataBinding.captureContainter.width
-            y = mViewDataBinding.captureCropLayout.top * height / mViewDataBinding.captureContainter.height
-            cropWidth = mViewDataBinding.captureCropLayout.width * width / mViewDataBinding.captureContainter.width
-            cropHeight = mViewDataBinding.captureCropLayout.height * height / mViewDataBinding.captureContainter.height
-
-
-        } catch (ioe: IOException) {
-            return
-        } catch (e: RuntimeException) {
-            return
-        }
-
-        if (handler == null) {
-            handler = CaptureActivityHandler(this)
-        }
-    }
-
-
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-
-    }
-
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
-        hasSurface = false
-    }
-
-    override fun surfaceCreated(holder: SurfaceHolder) {
-        if (!hasSurface) {
-            hasSurface = true
-            initCamera(holder)
-        }
-    }
-
-    fun handleDecode(result: String) {
-        inactivityTimer?.onActivity()
+    override fun onScanQRCodeSuccess(result: String) {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(200L)
         if (!result.startsWith(DOMAIN)) {
             toast(getString(R.string.import_config_error))
+            mViewDataBinding.capturePreview.startSpot()
         } else if (!isNetworkAvailable()) {
             toast(getString(R.string.network_error))
+            mViewDataBinding.capturePreview.startSpot()
         } else {
             getRemoteJsonData(result)
         }
+    }
+
+
+    override fun onScanQRCodeOpenCameraError() {
+
     }
 
 
@@ -163,6 +105,7 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
             override fun onFailure() {
                 pullShareInfoDialog.dismiss()
                 toast(getString(R.string.network_error))
+                mViewDataBinding.capturePreview.startSpot()
             }
 
         }).execute(dataUrl)
@@ -177,7 +120,7 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
             val jsonObj = JSONObject(configuration)
             if (lampCategoryType != jsonObj.getInt(DEVICE_TYPE) - 1) {
                 toast(getString(R.string.import_config_error))
-                handler?.sendEmptyMessage(R.id.restart_preview)
+                mViewDataBinding.capturePreview.startSpot()
             } else {
                 mViewModel.udateData(jsonObj)
                 val intent = Intent()
@@ -186,7 +129,7 @@ class ScanActivity : BaseActivity(), SurfaceHolder.Callback {
                 finish()
             }
         }
-        builder.setNegativeButton(R.string.cancel, null)
+        builder.setNegativeButton(R.string.cancel) { _, _ -> mViewDataBinding.capturePreview.startSpot() }
         builder.setCancelable(false)
         builder.create().show()
     }

@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
@@ -21,6 +22,7 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device.DeviceRenameFragment
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.main.LampFragment
 import com.ihomey.linkuphome.scan.ScanActivity
 import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
 import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
@@ -155,11 +157,12 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     }
                 }
                 R.mipmap.toolbar_menu_alarm -> {
-                    val newFrag = if (lampCategory == 4) RepeatTimerSettingFragment().newInstance(mControlDevice?.id
-                            ?: -1, lampCategory) else TimerSettingFragment().newInstance(mControlDevice?.id
-                            ?: -1, lampCategory)
-                    val fsh = parentFragment as IFragmentStackHolder
-                    fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+                    val controlDeviceId = mControlDevice?.id ?: -1
+                    if (controlDeviceId != -1) {
+                        val newFrag = if (lampCategory == 4) RepeatTimerSettingFragment().newInstance() else TimerSettingFragment().newInstance()
+                        val fsh = activity as IFragmentStackHolder
+                        fsh.replaceFragment(R.id.container, newFrag)
+                    }
                 }
                 R.mipmap.toolbar_menu_scan -> {
                     val intent = Intent(activity, ScanActivity::class.java)
@@ -193,7 +196,8 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     if (parentFragment is IFragmentStackHolder) {
                         val newFrag = if (lampCategory == 1) RGBSceneSettingFragment().newInstance(mControlDevice?.id
                                 ?: -1, mControlDevice?.state?.sceneMode) else LEDSceneSettingFragment().newInstance(mControlDevice?.id
-                                ?: -1, mControlDevice?.device?.type?:-1, mControlDevice?.state?.sceneMode)
+                                ?: -1, mControlDevice?.device?.type
+                                ?: -1, mControlDevice?.state?.sceneMode)
                         val fsh = parentFragment as IFragmentStackHolder
                         fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                     }

@@ -23,6 +23,11 @@
     <color name="text_colorPrimaryDark">#999999</color>
     <color name="text_colorAccent">#bdbdbd</color>
 
+
+    <color name="wheel_selected_text_color">#FEFFFFFF</color>
+
+    <color name="wheel_text_color">#88FFFFFF</color>
+
     <color name="c1">#E10012</color>
     <color name="c2">#E10032</color>
     <color name="c3">#E0004F</color>

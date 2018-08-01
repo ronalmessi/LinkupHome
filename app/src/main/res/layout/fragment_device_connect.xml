@@ -36,7 +36,7 @@
                 android:ellipsize="end"
                 android:maxEms="9"
                 android:singleLine="true"
-                android:text="设备连接"
+                android:text="搜索设备"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 

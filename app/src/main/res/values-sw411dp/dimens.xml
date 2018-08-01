@@ -1,0 +1,9 @@
+<resources>
+
+
+
+    <dimen name="welcome_btn_padding">80dp</dimen>
+
+    <dimen name="timer_setting_btn_padding">108dp</dimen>
+
+</resources>

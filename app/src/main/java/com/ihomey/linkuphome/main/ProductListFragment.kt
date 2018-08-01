@@ -87,6 +87,7 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
             val hasConnected by PreferenceHelper("hasConnected" + lampCategory.type, false)
             fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(lampCategory.type, hasConnected, false))
             mViewModel.loadData(lampCategory.type)
+//            fsh.replaceFragment(R.id.container, LampFragment().newInstance(lampCategory.type))
         }
     }
 

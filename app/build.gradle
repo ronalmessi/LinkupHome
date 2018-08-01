@@ -24,7 +24,6 @@ android {
         }
     }
 
-
     buildTypes {
         release {
             minifyEnabled false
@@ -97,23 +96,13 @@ dependencies {
     implementation 'com.umeng.analytics:analytics:6.1.4'
 
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.1'
-
-//    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
-
-
     implementation 'com.jackandphantom.android:blurimage:1.2.0'
 
-
     //qrcode
-    implementation 'com.google.zxing:core:3.2.1'
-    implementation 'cn.bingoogolapple:bga-zxing:1.1.7@aar'
+    implementation 'com.google.zxing:core:3.3.3'
 
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
-
-    implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
-        exclude group: 'com.google.android', module: 'support-v4'
-    }
 
 }
 

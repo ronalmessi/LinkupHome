@@ -9,5 +9,13 @@
 
     <dimen name="welcome_btn_padding">81dp</dimen>
 
+    <dimen name="timer_setting_btn_padding">108dp</dimen>
+
+
+    <dimen name="WheelItemTextSize">24sp</dimen>
+    <dimen name="WheelItemSpace">0dp</dimen>
+    <dimen name="WheelIndicatorSize">2dp</dimen>
+    <dimen name="WheelMargins">8dp</dimen>
+
 
 </resources>
