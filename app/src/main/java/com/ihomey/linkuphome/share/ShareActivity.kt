@@ -194,20 +194,21 @@ class ShareActivity : BaseActivity() {
             val key = "IHomey_" + System.currentTimeMillis() + ".json"
             val auth = Auth.create(ACCESS_KEY, SECRET_KEY)
             UploadManager(Configuration.Builder().build()).put(configuration.toByteArray(), key, auth.uploadToken(BUCKET_NAME), { key, info, response ->
-                mViewDataBinding.tvQrCodeGenerateResult.visibility = View.VISIBLE
                 if (info.isOK) {
                     AppExecutors().diskIO().execute({
                         bitmap = QRCodeEncoder.syncEncodeQRCode(DOMAIN + key, dip2px(215f))
                         runOnUiThread({
                             generatingDialog.dismiss()
                             mViewDataBinding.ivQrCode.setImageBitmap(bitmap)
-                            mViewDataBinding.tvQrCodeGenerateResult.setText(R.string.qrCode_generate_done)
+                            mViewDataBinding.tvQrCodeGenerateResult.visibility = View.VISIBLE
+                            mViewDataBinding.tvQrCodeGenerateResult.setText(R.string.share_qrCode_generate_success)
                         })
                     })
                 } else {
                     runOnUiThread({
                         generatingDialog.dismiss()
-                        mViewDataBinding.tvQrCodeGenerateResult.setText(R.string.qrCode_generate_fail)
+                        mViewDataBinding.tvQrCodeGenerateResult.visibility = View.VISIBLE
+                        mViewDataBinding.tvQrCodeGenerateResult.setText(R.string.share_qrCode_generate_fail)
                     })
                 }
             }, null)
