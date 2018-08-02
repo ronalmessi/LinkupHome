@@ -58,7 +58,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     }
 
     private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
-    private val languageArray: Array<String> = arrayOf("en", "zh", "fr", "de", "es")
+    private val languageArray: Array<String> = arrayOf("en", "zh", "fr", "de", "es","nl")
 
     private var mViewModel: MainViewModel? = null
     private var mService: MeshService? = null
@@ -346,7 +346,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                             parentActivity.assignGroups(numIds)
                         } else {
                             if (parentActivity.mGroupUpdateListener != null) {
-                                parentActivity.mGroupUpdateListener?.groupsUpdated(-1, -1, -1, false, parentActivity.getString(R.string.group_max_fail))
+                                parentActivity.mGroupUpdateListener?.groupsUpdated(-1, -1, -1, false, parentActivity.getString(R.string.group_setting_exceed_number))
                             }
                         }
                     }
@@ -445,7 +445,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
             }
             MeshService.MESSAGE_DEVICE_ASSOCIATED, MeshService.MESSAGE_CONFIG_MODELS -> {
                 if (meshAssListener != null) {
-                    meshAssListener?.deviceAssociated(-1, getString(R.string.association_failed))
+                    meshAssListener?.deviceAssociated(-1, getString(R.string.device_associate_fail))
                 }
             }
         }

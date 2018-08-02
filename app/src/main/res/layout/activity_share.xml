@@ -39,7 +39,7 @@
                 android:ellipsize="end"
                 android:maxEms="9"
                 android:singleLine="true"
-                android:text="@string/qrCode"
+                android:text="@string/share_qrCode"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
@@ -60,7 +60,7 @@
                 android:drawablePadding="6dp"
                 android:drawableStart="@mipmap/ic_share_red"
                 android:gravity="center"
-                android:text="@string/shareOperation"
+                android:text="@string/menu_control_share"
                 android:textColor="@color/control_tab_item_selected_color"
                 android:textSize="@{isChinese ? 16 :14}" />
 
@@ -71,7 +71,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="48dp"
                 android:gravity="center"
-                android:text="@string/qrCode_generate_done"
+                android:text="@string/share_qrCode_generate_success"
                 android:textColor="@color/text_colorPrimary"
                 android:textSize="@{isChinese ? 16 :14}"
                 android:visibility="invisible" />
@@ -87,7 +87,7 @@
                 android:layout_toLeftOf="@+id/tv_divider"
                 android:gravity="right|center"
                 android:onClick="@{handlers::onClick}"
-                android:text="@string/qrCode_regenerate"
+                android:text="@string/share_qrCode_regenerate"
                 android:textColor="@color/text_colorPrimary"
                 android:textSize="@{isChinese ? 16 :14}" />
 
@@ -115,7 +115,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_toRightOf="@+id/tv_divider"
                 android:gravity="left|center"
-                android:text="@string/img_save"
+                android:text="@string/share_img_save"
                 android:textColor="@color/text_colorPrimary"
                 android:textSize="@{isChinese ? 16 :14}" />
 
@@ -137,7 +137,7 @@
                 android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:textSize="@{isChinese ? 14 :10}"
-                android:text="@string/shareQRTips"
+                android:text="@string/share_tips"
                 android:textColor="@color/control_tab_item_selected_color" />
 
             <ImageView
@@ -166,7 +166,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textSize="@{isChinese ? 12 :8}"
-                    android:text="@string/downloadApp"
+                    android:text="@string/share_tip_download_app"
                     android:textColor="@color/control_tab_item_selected_color" />
 
                 <TextView
@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2.5"
                     android:gravity="center"
-                    android:text="@string/openAppScan"
+                    android:text="@string/share_tip_open_app"
                     android:textSize="@{isChinese ? 12 :8}"
                     android:textColor="@color/control_tab_item_selected_color" />
 
@@ -186,7 +186,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textSize="@{isChinese ? 12 :8}"
-                    android:text="@string/shareSuccess"
+                    android:text="@string/share_tip_success"
                     android:textColor="@color/control_tab_item_selected_color" />
 
             </LinearLayout>

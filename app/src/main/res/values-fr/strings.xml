@@ -1,124 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">LinkupHome</string>
-    <string name="splash_slogan">Système De Gestion De L\'éclairage LED Intelligent Sans Fil</string>
-    <string name="welcome_open">Ouvrir</string>
-    <string name="welcome_slogan_beauty">Merveilleux</string>
-    <string name="welcome_slogan_occurrence">à partir du moment où c'est arrivé</string>
-    <string name="welcome_language_select">Langue Bien Choisie</string>
+
     <string name="welcome_language">Langue</string>
-    <string name="webview_title">Instructions de produit</string>
+    <string name="welcome_beauty">Merveilleux</string>
+    <string name="welcome_occurrence">à partir du moment où c'est arrivé</string>
+    <string name="welcome_language_select">Langue Bien Choisie</string>
+
+    <string name="product_manual">Instructions de produit</string>
     <string name="center_title">Centre</string>
-    <string name="lamp_category_add_product">Ajouter Votre Produits</string>
-    <string name="lamp_category_lawn">Lumière extérieure</string>
-    <string name="lamp_category_bed">智能床头灯</string>
-    <string name="lamp_category_rgb">Ampoule RGB</string>
-    <string name="lamp_category_warm_cold">Lampe connue de froid et de chaleur</string>
-    <string name="lamp_category_led">Bande de lumière à LED</string>
-    <string name="lamp_category_outdoor">Mini Lampe de Jardin</string>
-    <string name="control_tab_device">Rechercher Des Dispositifs</string>
-    <string name="control_tab_group">Installation D\'équipe</string>
-    <string name="control_tab_control">Commander</string>
-    <string name="control_tab_controls">Option De Contrôle</string>
 
 
-    <string name="state_disconnected">Cliquer Pour Connectez</string>
-    <string name="state_connected">Déjà Connecté</string>
+    <string name="mesh_tab_control">Commander</string>
+    <string name="mesh_tab_control_select">Option De Contrôle</string>
+    <string name="mesh_tab_group_setting">Installation D’équipe</string>
+    <string name="mesh_tab_device_search">Rechercher Des Dispositifs</string>
 
-    <string name="disconnected">Couper La Connexion</string>
+
+    <string name="menu_rename">Renomer</string>
+    <string name="menu_timer">Commutateur à L\'heure Régulière</string>
+    <string name="menu_control_share">La Manipulation De L´action</string>
+    <string name="menu_scan">Balayer Le</string>
+
+
+    <string name="scan_get_data">Obtenir La Manipulation Des Données...</string>
+    <string name="scan_qrCode">Mon Code À Deux Dimensions</string>
+    <string name="scan_auto">Dans La Boîte,Le Balayage Automatique</string>
+
+
+    <string name="scene_mode">Mode De Scénario</string>
+    <string name="scene_read">Mode De Lecture</string>
+    <string name="scene_sunset">Mode De Soleil Couchant</string>
+    <string name="scene_rest">Mode De Favoriser Le Sommeil</string>
+    <string name="scene_spring">Les Fleurs S'épanouissent Au Printemps</string>
+    <string name="scene_rainforest">Forêts Tropicales</string>
+    <string name="scene_lighting">Mode D’éclairage</string>
+
 
     <string name="speed_slow">Diminuer</string>
     <string name="speed_normal">Normal</string>
     <string name="speed_fast">Accélérer</string>
 
-    <string name="all_devices">Tous Les équipements</string>
+
+    <string name="timer_open_time">Allumer La Lumière À L’heure Régulière</string>
+    <string name="timer_close_time">Fermer La Lumière À L’heure Régulière</string>
+    <string name="timer_loop">Répéter</string>
+
+
+    <string name="share_tips">Il permet de partager la joie de manipulation avec votre famille \nou vos amis pour partager la joie de l'éclairage intelligent</string>
+    <string name="share_tip_download_app">Téléchargez L’application</string>
+    <string name="share_tip_open_app">Ouvrez L’application Et Scannez Le Code 2D</string>
+    <string name="share_tip_success">Partagez Avec Succès</string>
+    <string name="share_qrCode">Code À Deux Dimensions</string>
+    <string name="share_qrCode_generating">Générer Un Code À Deux Dimensions De Manipulation D'action...</string>
+    <string name="share_qrCode_generate_success">Partage De Données Générées Code À Deux Dimensions, Balayage.</string>
+    <string name="share_qrCode_generate_fail">Échec Pour Générer Le Code À Deux Dimensions</string>
+    <string name="share_qrCode_regenerate">Reconstruire</string>
+    <string name="share_img_save">Enredistrer L´image</string>
+    <string name="share_img_save_success">Images Enregistrées Dans Un Dossier</string>
+    <string name="share_img_save_fail">Erreur D'enregistrement</string>
+
+    <string name="state_disconnected">Cliquer Pour Connectez</string>
+    <string name="state_connected">Déjà Connecté</string>
+
+
+    <string name="group_setting_drag">Glisser Pour Entrer</string>
+    <string name="group_setting_exceed_number">Dépasser le nombre de paquets</string>
+
+    <string name="device_associating">Connexion En Cours...</string>
+    <string name="device_clear">Effacer tous les paquets avec le périphérique que vous déflnissez?</string>
+    <string name="device_associate_fail">Connection Échouée, Veuillez Démarrer L'installation Pour Reconnecter.</string>
+
+    <string name="device_connect_step1_title">L'équipement est-il prêt?</string>
+    <string name="device_connect_step1_hint">1. Veuillez vous assurer que l'alimentation de l'appareil est correctement connectée.\n2. Si l'appareil n'est pas utilisé pour la première fois, assurez-vous que l'appareil a été reset correctement.</string>
+
+    <string name="device_connect_step2_title">Conseils</string>
+    <string name="device_connect_step2_hint">Si l'appareil n'est pas trouvé pendant environ 10 secondes, veuillez confirmer que l'appareil est correctement reset.</string>
+
+    <string name="device_reset_hint2">1. Éteignez d'abord la lumière avec l'interrupteur.\n2. Allumez la lumière et attendez 1-2 secondes.\n3. Éteignez la lumière et attendez 1-2 secondes.\n4. Allumez la lumière et attendez 1-2 secondes.\n5. Éteignez la lumière et attendez 1-2 secondes.\n6. Lorsque vous allumez la lampe pour la troisième fois, attendez environ 2 secondes. Si la lumière clignote 3 fois, cela signifie que le reset a réussi et que la lampe est revenue au réglage d'usine.\n\n (Si la lumière ne clignote pas trois fois, veuillez suivre à nouveau le processus ci-dessus, jusqu'au succès.)</string>
+    <string name="device_reset_hint1">Dans l'interface Connection de Device, après avoir retiré la trace de connection précédent en la faisant glisser vers la gauche, le périphérique bien reset sera affiché.</string>
+
+    <string name="next_step">Étape</string>
+    <string name="searching">En cours de chercher</string>
+
+    <string name="how_to_reset_device">Comment reset</string>
+    <string name="how_to_reset_device_step1">Étape 1</string>
+    <string name="how_to_reset_device_step2">Étape 2</string>
+    <string name="how_to_reset_step">Reset étape</string>
+    <string name="bridge_disconnected">L'appareil est déconnecté et essaie de se connecter automatiquement.</string>
+
+    <string name="save">Stockage</string>
+
+    <string name="import_error">Code À Deux Dimensions Ne Correspond Pas Au Contenu</string>
+    <string name="network_error">Connexion échoue réseau, vérifiez les paramètres réseau</string>
+    <string name="edit">Redaction</string>
+    <string name="group">Équipe</string>
+    <string name="initialize">Initialisation</string>
     <string name="cancel">Annuler</string>
     <string name="confirm">Oui</string>
     <string name="delete">Supprimer</string>
-    <string name="edit">Redaction</string>
-    <string name="group">Équipe</string>
-
-
-    <string name="associating">Connexion en cours</string>
-    <string name="removing">Supprimer...</string>
-    <string name="rename">Renomer</string>
-    <string name="timer">Commutateur à L\'heure Régulière</string>
-    <string name="shareOperation">La Manipulation De L\'action</string>
-    <string name="scan">Balayer Le</string>
-    <string name="getOperationData">Obtenir la manipulation des données...</string>
-    <string name="myQrCode">Mon Code à Deux Dimensions</string>
-    <string name="autoScan">Dans la boîte,le balayage automatique</string>
-
-
-    <string name="devices_clear">Effacer tous les paquets avec le périphérique que vous déflnissez?</string>
-
-
-    <string name="sceneMode">Mode De Scénario</string>
-    <string name="scene_read">Mode De Lecture</string>
-    <string name="scene_sunset">Mode De Soleil Couchant</string>
-    <string name="scene_rest">Mode De Repos</string>
-    <string name="scene_spring">Les Fleurs S\'épanouissent Au Printemps</string>
-    <string name="scene_rainforest">Forêts Tropicales</string>
-    <string name="scene_lighting">照明模式</string>
-
-
-    <string name="shareQRTips">Il permet de partager la joie de manipulation avec votre famille \nou vos amis pour partager la joie de l'éclairage intelligent</string>
-    <string name="downloadApp">Téléchargez L\'application</string>
-    <string name="openAppScan">Ouvrez l\'application et scannez le code 2D</string>
-    <string name="shareSuccess">Partagez Avec Succès</string>
-    <string name="import_config_error">Code à deux dimensions ne correspond pas au contenu</string>
-
-    <string name="network_error">Connexion échoue réseau, vérifiez les paramètres réseau</string>
-    <string name="qrCode">Code à Deux Dimensions</string>
-    <string name="qrCode_generating">Générer un code à deux dimensions de  manipulation d'action...</string>
-    <string name="qrCode_generate_done">Partage de données générées code à deux dimensions, balayage.</string>
-    <string name="qrCode_generate_fail">Échec pour générer le code à deux dimensions</string>
-    <string name="qrCode_regenerate">Reconstruire</string>
-    <string name="img_save">Enredistrer L\'image</string>
-    <string name="img_save_success">Images enregistrées dans un dossier</string>
-    <string name="img_save_fail">Erreur d\'enregistrement</string>
-
-    <string name="initialize">Initialisation</string>
-
-    <string name="editing">Redaction</string>
-
-
-    <string name="state_added">Déjà Ajouté</string>
+    <string name="removing">En Attente De Suppression...</string>
+    <string name="add_product">Ajouter Votre Produits</string>
+    <string name="added">Déjà Ajouté</string>
     <string name="add">Ajouter</string>
-
     <string name="adding">Ajouter...</string>
 
-    <string name="group_drag_enter">Glisser Pour Entrer</string>
-    <string name="group_max_fail">Dépasser le nombre de paquets</string>
-
-
-
-
-    <string name="app_update">Mettez à jour l’application</string>
-    <string name="version_latest">La dernière version</string>
-    <string name="app_size">La taille de la nouvelle version</string>
-    <string name="app_update_content">Le contenu de la mise à jour</string>
-    <string name="app_update_ignore_now">Dites plus tard</string>
-    <string name="app_update_ignore">Ignorer cette version</string>
-    <string name="app_update_now">Mettez à jour immédiatement</string>
-    <string name="app_update_need">Vous devez mettre à jour l’application pour continuer l’utilisation</string>
-    <string name="app_update_downloading">En cours de téléchargement...</string>
-    <string name="app_update_download_fail">Téléchargement échoué</string>
-    <string name="ok">Oui</string>
-
-
-
-    <string name="association_failed">Connection échouée, veuillez démarrer l\'installation pour reconnecter.</string>
-
-
-
-
-    <string name="openLightTimer">Allumer La Lumière à L\'heure Régulière</string>
-    <string name="closeLightTimer">Fermer La Lumière à L\'heure Régulière</string>
-
-    <string name="loopTimer">Répéter</string>
-
-
-
-    <string name="save">Stockage</string>
+    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_rgb">Ampoule RGB</string>
+    <string name="lamp_outdoor">Lumière extérieure</string>
+    <string name="lamp_mini_outdoor">Mini lumière de jardin</string>
+    <string name="lamp_cct">Lampe connue de froid et de chaleur</string>
+    <string name="lamp_led_strip">Bande de lumière à LED</string>
 </resources>

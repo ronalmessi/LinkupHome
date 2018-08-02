@@ -27,7 +27,7 @@ class RgbControlFragment : BaseControlFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_control_rgb_led, container, false)
         initController(1)
-        mTopRightMenu.addMenuList(arrayListOf(MenuItem(R.mipmap.toolbar_menu_rename, R.mipmap.toolbar_menu_rename_select, R.string.rename), MenuItem(R.mipmap.toolbar_menu_alarm, R.mipmap.toolbar_menu_alarm_select, R.string.timer), MenuItem(R.mipmap.toolbar_menu_scan, R.mipmap.toolbar_menu_scan_select, R.string.scan), MenuItem(R.mipmap.toolbar_menu_share, R.mipmap.toolbar_menu_share_select, R.string.shareOperation)))
+        mTopRightMenu.addMenuList(arrayListOf(MenuItem(R.mipmap.toolbar_menu_rename, R.mipmap.toolbar_menu_rename_select, R.string.menu_rename), MenuItem(R.mipmap.toolbar_menu_alarm, R.mipmap.toolbar_menu_alarm_select, R.string.menu_timer), MenuItem(R.mipmap.toolbar_menu_scan, R.mipmap.toolbar_menu_scan_select, R.string.menu_scan), MenuItem(R.mipmap.toolbar_menu_share, R.mipmap.toolbar_menu_share_select, R.string.menu_control_share)))
         mViewDataBinding.handlers = ToolBarEventHandler()
         return mViewDataBinding.root
     }

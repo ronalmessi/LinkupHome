@@ -54,7 +54,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:padding="1dp"
-                android:text="@string/editing"
+                android:text="@string/edit"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
         </LinearLayout>

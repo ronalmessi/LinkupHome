@@ -26,7 +26,7 @@
         android:id="@+id/device_associate_tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/associating"
+        android:text="@string/device_associating"
         app:layout_constraintTop_toBottomOf="@+id/device_associate_progress"
         android:textSize="16sp"
         android:layout_marginTop="12dp"

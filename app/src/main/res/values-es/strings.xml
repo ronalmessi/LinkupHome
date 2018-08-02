@@ -1,115 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">LinkupHome</string>
-    <string name="splash_slogan">El Sistema De Gestión De Iluminación Inteligente Inalámbrico De LED</string>
-    <string name="welcome_open">Abierto</string>
-    <string name="welcome_slogan_beauty">Maravilloso</string>
-    <string name="welcome_slogan_occurrence">llegando en este momento</string>
-    <string name="welcome_language_select">Lengua Bien Escogida</string>
+
     <string name="welcome_language">Idioma</string>
-    <string name="webview_title">Instrucciones del producto</string>
+    <string name="welcome_beauty">Maravilloso</string>
+    <string name="welcome_occurrence">llegando en este moment</string>
+    <string name="welcome_language_select">Lengua Bien Escogida</string>
+
+    <string name="product_manual">Instrucciones del producto</string>
     <string name="center_title">Centro</string>
-    <string name="lamp_category_add_product">Añadir Su Producto</string>
-    <string name="lamp_category_lawn">luz al aire libre</string>
-    <string name="lamp_category_bed">Lámpara de cama</string>
-    <string name="lamp_category_rgb">RGB Bombilla</string>
-    <string name="lamp_category_warm_cold">Bombillas de luz cálida</string>
-    <string name="lamp_category_led">banda de luz de LED</string>
-    <string name="lamp_category_outdoor">Mini lámpara de jardín</string>
-    <string name="control_tab_device">Buscar Los Equipos</string>
-    <string name="control_tab_group">Configurar</string>
-    <string name="control_tab_control">El Manejo</string>
-    <string name="control_tab_controls">Selección De Control Y Operación</string>
+
+
+    <string name="mesh_tab_control">El Manejo</string>
+    <string name="mesh_tab_control_select">Selección De Control Y Operación</string>
+    <string name="mesh_tab_group_setting">Grupo De Redacción</string>
+    <string name="mesh_tab_device_search">Buscar Los Equipos</string>
 
 
 
-    <string name="state_disconnected">Hacer Clic Para Conectar</string>
-    <string name="state_connected">Se Ha Conectado</string>
+    <string name="menu_rename">Cambiar De Nombre</string>
+    <string name="menu_timer">Sincronización De Conmutador</string>
+    <string name="menu_control_share">Comparttir Manipulaciòn</string>
+    <string name="menu_scan">Barrer El</string>
 
-    <string name="disconnected">Desconectar</string>
+
+    <string name="scan_get_data">Conseguir La Manipulaciòn De Datos...</string>
+    <string name="scan_qrCode">Mi Còdigo Bidimensional</string>
+    <string name="scan_auto">En La Caja, La Exploraciòn Automática</string>
+
 
     <string name="speed_slow">La Deceleración</string>
     <string name="speed_normal">La Regularidad</string>
     <string name="speed_fast">La Aceleración</string>
 
-    <string name="all_devices">Todos Los Equipos</string>
+    <string name="timer_open_time">Sincronización Del Cierre De La Luz</string>
+    <string name="timer_close_time">Sincronización De La Apertura De La Luz</string>
+    <string name="timer_loop">repetir</string>
+
+
+    <string name="share_tips">Puede compartir el control a miembros de la familia o amigos cercanos\ncompartiendo juntos la alegría de la iluminación inteligente</string>
+    <string name="share_tip_download_app">Descargar APP</string>
+    <string name="share_tip_open_app">Abrir El APP Para Escanear El Código QR</string>
+    <string name="share_tip_success">Compartiendo Con Éxito</string>
+    <string name="share_qrCode">Còdigo Bidimensional</string>
+    <string name="share_qrCode_generating">Está saliendo el código de control y compartir...</string>
+    <string name="share_qrCode_generate_success">Compartir Datos Generados Còdigo Bidimensional,Escaneo</string>
+    <string name="share_qrCode_generate_fail">No Se Pudo Generar De Dos Dimensiones Del Còdigo De</string>
+    <string name="share_qrCode_regenerate">Reconstruir</string>
+    <string name="share_img_save">Guardar Imagen</string>
+    <string name="share_img_save_success">La imagen se ha guardado en el archivo</string>
+    <string name="share_img_save_fail">Hay error de guardar</string>
+
+
+    <string name="state_disconnected">Hacer Clic Para Conectar</string>
+    <string name="state_connected">Se Ha Conectado</string>
+
+
+    <string name="group_setting_drag">Arrastrar Para Entrar</string>
+    <string name="group_setting_exceed_number">Exceder el número de paquete</string>
+
+    <string name="device_associating">Conectando...</string>
+    <string name="device_clear">Borrar todos los paquetes con el dispositivo conflgura?</string>
+    <string name="device_associate_fail">Conectado Con Error. Reactive El Dispositivo Y Conecte Otra Vez.</string>
+
+    <string name="device_connect_step1_title">¿está listo el dispositivo?</string>
+    <string name="device_connect_step1_hint">1, Asegúrese de que conecte bien a la fuente de alimentación; \n2, si no es el primero uso, confirme si el dispositivo se reestablece de manera correcta.</string>
+
+    <string name="device_connect_step2_title">consejos</string>
+    <string name="device_connect_step2_hint">si no puede buscar el dispositivo dentro de 10 segundos, confirme si el dispositivo se reestablece correctamente</string>
+
+    <string name="device_reset_hint2">1, Apague primero la lámpara con el interruptor \n2, después de encender la lámpara, espere 1 a 2 segundos. \n3, Apague la lámpara, y  espere 1 a 2 segundos. \n4,  Encieda la lámpara, y espere 1 a 2 segundos. \n5, Apague la lámpara, y  espere 1 a 2 segundos.  \n6, Al encender por tercera vez, espere 2 segundos, en este momento, se ve la luz parpadeada tres veces, lo significa un reestablecimiento éxito, y que la lámpara ha recuperado la configuración de fábrica \n\n(si no se ve la luz parpadeada tres veces, repita los pasos anteriores hasta que vea la luz parpadeada tres veces , lo  significa un reestablecimineto éxito)</string>
+    <string name="device_reset_hint1">Después de eliminar la memoria de conexión anterior en la interfaz de "conexión de dispositivo" deslizando a la izquierda, el dispositivo reestablecido se muestra en la interfaz</string>
+
+    <string name="next_step">El Siguiente Paso</string>
+    <string name="searching">está buscando</string>
+
+    <string name="how_to_reset_device">cómo reestablece el dispositivo</string>
+    <string name="how_to_reset_device_step1">paso 1</string>
+    <string name="how_to_reset_device_step2">paso 2</string>
+    <string name="how_to_reset_step">pasos de reestablecimiento</string>
+    <string name="bridge_disconnected">el dispositivo se ha desconectado, está tratando de conectar</string>
+
+    <string name="save">Memoria</string>
+
+    <string name="import_error">Código De Dos Dimensiones No Coincide Con El Contenido</string>
+    <string name="network_error">Conexión de red falla, compruebe la configuración de red</string>
+    <string name="edit">Redacción</string>
+    <string name="group">Grupo</string>
+    <string name="initialize">Inicialización</string>
     <string name="cancel">Cancelar</string>
     <string name="confirm">Sí</string>
     <string name="delete">Eliminar</string>
-    <string name="edit">Redacción</string>
-    <string name="group">Grupo</string>
-
-    <string name="associating">Conectando</string>
-    <string name="removing">Eliminar...</string>
-    <string name="rename">Cambiar De Nombre</string>
-    <string name="timer">Sincronización De Conmutador</string>
-    <string name="shareOperation">Comparttir Manipulaciòn</string>
-    <string name="scan">Barrer El</string>
-    <string name="getOperationData">Conseguir la manipulaciòn de datos...</string>
-    <string name="myQrCode">Mi Còdigo Bidimensional</string>
-    <string name="autoScan">En la caja, la exploraciòn automática</string>
-
-    <string name="sceneMode">Modo De Escena</string>
-    <string name="scene_read">Modo De Lectura</string>
-    <string name="scene_sunset">Modo De Sol Poniente</string>
-    <string name="scene_rest">Modo De Descanso</string>
-    <string name="scene_spring">Con La Llegada De La Primavera</string>
-    <string name="scene_rainforest">Selva</string>
-    <string name="scene_lighting">照明模式</string>
-
-
-    <string name="shareQRTips">Puede compartir el control a miembros de la familia o amigos cercanos\ncompartiendo juntos la alegría de la iluminación inteligente</string>
-    <string name="downloadApp">Descargar APP</string>
-    <string name="openAppScan">Abrir el APP para escanear el código QR</string>
-    <string name="shareSuccess">Compartiendo con éxito</string>
-    <string name="import_config_error">Código de dos dimensiones no coincide con el contenido</string>
-
-    <string name="network_error">Conexión de red falla, compruebe la configuración de red</string>
-    <string name="qrCode">Còdigo Bidimensional</string>
-    <string name="qrCode_generating">Está saliendo el código de control y compartir...</string>
-    <string name="qrCode_generate_done">Compartir datos generados còdigo bidimensional,escaneo</string>
-    <string name="qrCode_generate_fail">No se pudo generar de dos dimensiones del còdigo de</string>
-    <string name="qrCode_regenerate">Reconstruir</string>
-    <string name="img_save">Guardar Imagen</string>
-    <string name="img_save_success">La imagen se ha guardado en el archivo</string>
-    <string name="img_save_fail">Hay error de guardar</string>
-
-    <string name="initialize">Inicialización</string>
-
-    <string name="editing">Redacción</string>
-
-
-    <string name="state_added">Se Ha Añadido</string>
+    <string name="removing">En Espera De Eliminar...</string>
+    <string name="add_product">Añadir Su Producto</string>
+    <string name="added">Se Ha Añadido</string>
     <string name="add">Añadir</string>
     <string name="adding">Añadir...</string>
-    <string name="group_drag_enter">Arrastrar Para Entrar</string>
-    <string name="group_max_fail">Exceder el número de paquete</string>
 
-    <string name="devices_clear">Borrar todos los paquetes con el dispositivo conflgura?</string>
-
-
-    <string name="app_update">La actualización de la aplicación</string>
-    <string name="version_latest">La última versión</string>
-    <string name="app_size">El tamaño de la nueva versión</string>
-    <string name="app_update_content">Actualiza el Contenido</string>
-    <string name="app_update_ignore_now">Habla más tarde</string>
-    <string name="app_update_ignore">No haga caso de esta versión</string>
-    <string name="app_update_now">Actualiza Ahora</string>
-    <string name="app_update_need">Necesita actualizar su aplicación para seguir utilizando</string>
-    <string name="app_update_downloading">Cargando...</string>
-    <string name="app_update_download_fail">Es fracasado de cargar</string>
-    <string name="ok">Sí</string>
-
-
-    <string name="association_failed">Conectado con error. Reactive el dispositivo y conecte otra vez.</string>
-
-
-    <string name="openLightTimer">Sincronización Del Cierre De La Luz</string>
-    <string name="closeLightTimer">Sincronización De La Apertura De La Luz</string>
-
-    <string name="loopTimer">Repetir</string>
-
-
-
-    <string name="save">Memoria</string>
+    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_rgb">RGB Bombilla</string>
+    <string name="lamp_outdoor">luz al aire libre</string>
+    <string name="lamp_mini_outdoor">Miniluz de jardín</string>
+    <string name="lamp_cct">Bombillas de luz cálida</string>
+    <string name="lamp_led_strip">banda de luz de LED</string>
 </resources>

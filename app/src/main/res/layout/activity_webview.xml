@@ -34,7 +34,7 @@
                 android:maxEms="9"
                 android:singleLine="true"
                 android:onClick="@{handlers::onClick}"
-                android:text="@string/webview_title"
+                android:text="@string/product_manual"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 

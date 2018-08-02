@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="@string/control_tab_group"
+            android:text="@string/mesh_tab_group_setting"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 

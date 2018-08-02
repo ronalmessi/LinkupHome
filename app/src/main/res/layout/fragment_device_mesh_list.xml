@@ -28,7 +28,7 @@
                 android:ellipsize="end"
                 android:maxEms="9"
                 android:singleLine="true"
-                android:text="@string/control_tab_device"
+                android:text="@string/mesh_tab_device_search"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 

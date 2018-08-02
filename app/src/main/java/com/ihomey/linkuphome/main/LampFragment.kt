@@ -155,7 +155,7 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         } else {
             var isShare by PreferenceHelper("share_$categoryType", false)
             val builder = AlertDialog.Builder(context)
-            builder.setMessage(R.string.devices_clear)
+            builder.setMessage(R.string.device_clear)
             builder.setPositiveButton(R.string.confirm) { _, _ ->
                 if (isShare) {
                     isShare = false

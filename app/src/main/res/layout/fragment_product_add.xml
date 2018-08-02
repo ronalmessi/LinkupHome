@@ -37,7 +37,7 @@
                 android:ellipsize="end"
                 android:maxEms="9"
                 android:singleLine="true"
-                android:text="@string/add_device"
+                android:text="@string/add_product"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 

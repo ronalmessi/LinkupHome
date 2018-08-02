@@ -134,7 +134,7 @@
                 android:paddingRight="@dimen/timer_setting_btn_padding"
                 android:paddingTop="12dp"
                 android:textSize="16sp"
-                android:text="@string/openLightTimer"
+                android:text="@string/timer_open_time"
                 android:textColor="@android:color/white" />
 
             <RadioButton
@@ -152,7 +152,7 @@
                 android:paddingRight="@dimen/timer_setting_btn_padding"
                 android:paddingTop="12dp"
                 android:textSize="16sp"
-                android:text="@string/closeLightTimer"
+                android:text="@string/timer_close_time"
                 android:textColor="@android:color/white" />
 
         </RadioGroup>

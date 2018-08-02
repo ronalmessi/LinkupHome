@@ -11,7 +11,7 @@ import com.ihomey.linkuphome.data.vo.SingleDevice
 class BondedDeviceAdapter(layoutResId: Int,data:List<SingleDevice>) : BaseItemDraggableAdapter<SingleDevice, BaseViewHolder>(layoutResId,data) {
 
     override fun convert(helper: BaseViewHolder?, item: SingleDevice?) {
-        helper?.setText(R.id.group_setting_tv_device_name, item?.device?.name + "(" + mContext.getResources().getString(R.string.state_added) + ")")
+        helper?.setText(R.id.group_setting_tv_device_name, item?.device?.name + "(" + mContext.getResources().getString(R.string.added) + ")")
     }
 
 }

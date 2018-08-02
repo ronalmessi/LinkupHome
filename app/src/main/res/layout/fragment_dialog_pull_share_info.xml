@@ -22,7 +22,7 @@
         android:id="@+id/device_associate_tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/getOperationData"
+        android:text="@string/scan_get_data"
         android:textColor="@android:color/black" />
 
 

@@ -4,23 +4,23 @@
     <item
         android:id="@+id/item_tab_mesh_control"
         android:icon="@mipmap/tab_icon_control"
-        android:title="@string/control_tab_control"
+        android:title="@string/mesh_tab_control"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_tab_mesh_device"
         android:icon="@mipmap/tab_icon_device"
-        android:title="@string/control_tab_device"
+        android:title="@string/mesh_tab_device_search"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_tab_mesh_group"
         android:icon="@mipmap/tab_icon_group"
-        android:title="@string/control_tab_group"
+        android:title="@string/mesh_tab_group_setting"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/item_tab_mesh_controls"
         android:icon="@mipmap/tab_icon_controls"
-        android:title="@string/control_tab_controls"
+        android:title="@string/mesh_tab_control_select"
         app:showAsAction="ifRoom" />
 
 </menu>

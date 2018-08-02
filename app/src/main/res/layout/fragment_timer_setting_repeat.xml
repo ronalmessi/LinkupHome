@@ -132,7 +132,7 @@
                 android:paddingLeft="@dimen/timer_setting_btn_padding"
                 android:paddingRight="@dimen/timer_setting_btn_padding"
                 android:paddingTop="12dp"
-                android:text="@string/openLightTimer"
+                android:text="@string/timer_open_time"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -150,7 +150,7 @@
                 android:paddingLeft="@dimen/timer_setting_btn_padding"
                 android:paddingRight="@dimen/timer_setting_btn_padding"
                 android:paddingTop="12dp"
-                android:text="@string/closeLightTimer"
+                android:text="@string/timer_close_time"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -169,31 +169,10 @@
                 android:paddingLeft="@dimen/timer_setting_btn_padding"
                 android:paddingRight="@dimen/timer_setting_btn_padding"
                 android:paddingTop="12dp"
-                android:text="@string/loopTimer"
+                android:text="@string/timer_loop"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:visibility="gone" />
-
-
-            <!--<CheckBox-->
-            <!--android:id="@+id/cb_timer_setting_repeat"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="16dp"-->
-            <!--android:background="@drawable/selector_timer_setting_repeat"-->
-            <!--android:button="@null"-->
-            <!--android:drawableLeft="@mipmap/alarm_cb_icon_repeat"-->
-            <!--android:drawablePadding="8dp"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="36dp"-->
-            <!--android:paddingRight="36dp"-->
-            <!--android:text="@string/loopTimer"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/rg_timer_setting"-->
-            <!--app:layout_constraintVertical_weight="0.45" />-->
 
 
         </RadioGroup>

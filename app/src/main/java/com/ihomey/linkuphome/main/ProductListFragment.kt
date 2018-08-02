@@ -3,12 +3,10 @@ package com.ihomey.linkuphome.main
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,7 @@ import com.ihomey.linkuphome.adapter.AddedProductListAdapter
 import com.ihomey.linkuphome.data.vo.LampCategory
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.databinding.FragmentCategoryListBinding
+import com.ihomey.linkuphome.databinding.FragmentProductListBinding
 import com.ihomey.linkuphome.device.DeviceConnectFragment
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
@@ -35,7 +33,7 @@ import com.yanzhenjie.recyclerview.swipe.*
 class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, SwipeMenuItemClickListener, SwipeItemClickListener {
 
     private lateinit var mViewModel: MainViewModel
-    private lateinit var mViewDataBinding: FragmentCategoryListBinding
+    private lateinit var mViewDataBinding: FragmentProductListBinding
 
 
     private val addedLampCategoryAdapter: AddedProductListAdapter = AddedProductListAdapter(R.layout.item_product_list)
@@ -45,7 +43,7 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_list, container, false)
+        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_list, container, false)
         mViewDataBinding.handlers = EventHandler()
 
         mViewDataBinding.lampCategoryAddedRcvList.layoutManager = LinearLayoutManager(context)

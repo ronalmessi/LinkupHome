@@ -67,7 +67,7 @@
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 android:paddingTop="8dp"
-                android:text="重置步骤"
+                android:text="@string/how_to_reset_step"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"

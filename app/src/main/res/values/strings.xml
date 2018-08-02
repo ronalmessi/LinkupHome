@@ -2,23 +2,112 @@
 <resources>
     <string name="app_name">LinkupHome</string>
 
+    <string name="welcome_language">Language</string>
+    <string name="welcome_beauty">Enjoy</string>
+    <string name="welcome_occurrence">From this moment</string>
+    <string name="welcome_language_select">Select Language</string>
 
-    <string name="add_device">添加设备</string>
-    <string name="device_connect_step1_title">设备准备好了吗？</string>
-    <string name="device_connect_step1_hint">1.请确保设备电源已正确连接;\n2.如果设备不是第一次使用,请确保设备已经被正确\n重置</string>
+    <string name="product_manual">Product Manual</string>
+    <string name="center_title">Information Centre</string>
 
-    <string name="device_connect_step2_title">温馨提示</string>
-    <string name="device_connect_step2_hint">如果10秒左右搜索不到设备,请确认设备是否被正确重置</string>
 
-    <string name="device_reset_hint2">1.用开关先将灯关闭。\n2.打开灯，等待1-2秒。\n3.关闭灯，等待1-2秒。\n4.打开灯，等待1-2秒。\n5.关闭灯，等待1-2秒。\n6.第三次打开灯时，请等待2秒左右，灯光闪烁3次即代表重置成功，灯泡已恢复到出厂设置状态。\n\n(如没有看到灯光闪烁三次，请按照以上流程再操作一遍，直到看到灯光闪烁三次，表示重置成功)</string>
-    <string name="device_reset_hint1">在"搜索设备"界面里找到连接过的设备，左滑删除</string>
+    <string name="mesh_tab_control">Control</string>
+    <string name="mesh_tab_control_select">Control Select</string>
+    <string name="mesh_tab_group_setting">Create Groups</string>
+    <string name="mesh_tab_device_search">Search Device</string>
 
-    <string name="next_step">下一步</string>
-    <string name="searching">正在搜索</string>
 
-    <string name="how_to_reset_device">如何重置</string>
+    <string name="menu_rename">Rename</string>
+    <string name="menu_timer">Timer</string>
+    <string name="menu_control_share">Share Control</string>
+    <string name="menu_scan">Scan</string>
 
-    <string name="how_to_reset_device_step1">步骤一</string>
 
-    <string name="how_to_reset_device_step2">步骤二</string>
+    <string name="scan_get_data">Waiting for scan QR Code...</string>
+    <string name="scan_qrCode">My QR Code</string>
+    <string name="scan_auto">Auto-scan by putting the QR Code in frame</string>
+
+
+    <string name="scene_mode">Scene Mode</string>
+    <string name="scene_read">Read Mode</string>
+    <string name="scene_sunset">Sunset Mode</string>
+    <string name="scene_rest">Rest Mode</string>
+    <string name="scene_spring">Spring Blossoms Mode</string>
+    <string name="scene_rainforest">Selva Mode</string>
+    <string name="scene_lighting">Lighting Mode</string>
+
+
+    <string name="speed_slow">Slow Speed</string>
+    <string name="speed_normal">Normal Speed</string>
+    <string name="speed_fast">Fast Speed</string>
+
+
+    <string name="timer_open_time">Light Turn On Time</string>
+    <string name="timer_close_time">Light Turn Off Time</string>
+    <string name="timer_loop">Repeat</string>
+
+
+    <string name="share_tips">Share your control with your family or close friends \nand share the joy of intelligent lighting</string>
+    <string name="share_tip_download_app">Download the APP</string>
+    <string name="share_tip_open_app">Open the APP and scan QR Code</string>
+    <string name="share_tip_success">Successfully Shared</string>
+    <string name="share_qrCode">QR Code</string>
+    <string name="share_qrCode_generating">Generating control-sharing QR Code...</string>
+    <string name="share_qrCode_generate_success">Control-sharing QR Code is generated, pls scan</string>
+    <string name="share_qrCode_generate_fail">Generate QR Code failed</string>
+    <string name="share_qrCode_regenerate">Regenerate QR Code</string>
+    <string name="share_img_save">Save the Picture</string>
+    <string name="share_img_save_success">Picture Saved</string>
+    <string name="share_img_save_fail">Saving Error</string>
+
+    <string name="state_disconnected">Click to Connect</string>
+    <string name="state_connected">Connected</string>
+
+    <string name="group_setting_drag">Drag To Enter</string>
+    <string name="group_setting_exceed_number">The number of groups exeeded</string>
+
+    <string name="device_associating">Connecting...</string>
+    <string name="device_clear">Empty all the packets and devices you set up?</string>
+    <string name="device_associate_fail">The connection fails. Please restart the device to connect.</string>
+
+    <string name="device_connect_step1_title">Install your device</string>
+    <string name="device_connect_step1_hint">1.Make sure the device is correctly powered.\n2.If it was not the initial installation, please reset your device.</string>
+
+    <string name="device_connect_step2_title">Tips</string>
+    <string name="device_connect_step2_hint">If the device is not found within 10 seconds, please try to reset the device</string>
+
+
+    <string name="device_reset_hint2">1.Switch off the device firstly\n2.Switch it on for 1 or 2 seconds\n3.Switch it off again and wait for 1 or 2 seconds\n4.Switch it on for 1 or 2 seconds\n5.Switch it off again and wait for 1 or 2 seconds\n6.Switch it on the third time. When the light flashes 3 times, it means the device is reset to defaults.\n\n （If no light blinks 3 times, please repeat above steps until reset successfully）</string>
+    <string name="device_reset_hint1">Please delete the old connection in "Device Connect",then the reset device will show up</string>
+
+    <string name="next_step">Next Step</string>
+    <string name="searching">Searching</string>
+
+    <string name="how_to_reset_device">How to reset</string>
+    <string name="how_to_reset_device_step1">Step 1</string>
+    <string name="how_to_reset_device_step2">Step 2</string>
+    <string name="bridge_disconnected">The device is disconnected , trying to connect automatically</string>
+
+    <string name="save">Save</string>
+
+    <string name="import_error">QR code does not match</string>
+    <string name="network_error">Network connection failed,please check the network settings.</string>
+    <string name="edit">Edit</string>
+    <string name="group">Group</string>
+    <string name="initialize">Initialize</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Yes</string>
+    <string name="delete">Delete</string>
+    <string name="removing">Removing...</string>
+    <string name="add_product">Add Product</string>
+    <string name="added">Added</string>
+    <string name="add">Add</string>
+    <string name="adding">Adding...</string>
+
+    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_rgb">RGB Bulb</string>
+    <string name="lamp_outdoor">Outdoor Lamp</string>
+    <string name="lamp_mini_outdoor">Mini Outdoor Lamp</string>
+    <string name="lamp_cct">CCT Bulb</string>
+    <string name="lamp_led_strip">Strip Light</string>
 </resources>

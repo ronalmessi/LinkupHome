@@ -2,6 +2,7 @@ package com.ihomey.linkuphome;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 import com.ihomey.linkuphome.base.LocaleHelper;
@@ -26,6 +27,8 @@ public class App extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         String currentLanguage = Locale.getDefault().getDisplayLanguage().toLowerCase();
+        Log.d("aa",currentLanguage);
+        Log.d("aa", Locale.getDefault().getDisplayCountry()+"---"+Locale.getDefault().getCountry()+"---"+Locale.getDefault().getDisplayVariant()+"---"+Locale.getDefault().getISO3Country()+"---"+Locale.getDefault().getISO3Language());
         switch (currentLanguage) {
             case "español":
                 super.attachBaseContext(LocaleHelper.onAttach(base, "es"));
@@ -35,6 +38,9 @@ public class App extends Application {
                 break;
             case "français":
                 super.attachBaseContext(LocaleHelper.onAttach(base, "fr"));
+                break;
+            case "nederlands":
+                super.attachBaseContext(LocaleHelper.onAttach(base, "nl"));
                 break;
             case "中文":
                 super.attachBaseContext(LocaleHelper.onAttach(base, "zh"));

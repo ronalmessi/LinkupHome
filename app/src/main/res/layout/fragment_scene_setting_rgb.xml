@@ -39,7 +39,7 @@
                 android:ellipsize="end"
                 android:maxEms="9"
                 android:singleLine="true"
-                android:text="@string/sceneMode"
+                android:text="@string/scene_mode"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 

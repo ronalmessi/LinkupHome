@@ -135,13 +135,13 @@ fun Context.saveImageToGallery(bmp: Bitmap?, dir: String) {
         bmp.compress(CompressFormat.JPEG, 100, fos)
         fos.flush()
         fos.close()
-        toast(this.resources.getString(R.string.img_save_success))
+        toast(this.resources.getString(R.string.share_img_save_success))
     } catch (e: FileNotFoundException) {
         e.printStackTrace()
-        toast(this.resources.getString(R.string.img_save_fail))
+        toast(this.resources.getString(R.string.share_img_save_fail))
     } catch (e: IOException) {
         e.printStackTrace()
-        toast(this.resources.getString(R.string.img_save_fail))
+        toast(this.resources.getString(R.string.share_img_save_fail))
     }
 
     // 其次把文件插入到系统图库

@@ -76,7 +76,7 @@ class ScanActivity : BaseActivity(), QRCodeView.Delegate {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(200L)
         if (!result.startsWith(DOMAIN)) {
-            toast(getString(R.string.import_config_error))
+            toast(getString(R.string.import_error))
             mViewDataBinding.capturePreview.startSpot()
         } else if (!isNetworkAvailable()) {
             toast(getString(R.string.network_error))
@@ -114,12 +114,12 @@ class ScanActivity : BaseActivity(), QRCodeView.Delegate {
 
     private fun confirmReplacingDatabase(shareInfo: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage(R.string.devices_clear)
+        builder.setMessage(R.string.device_clear)
         builder.setPositiveButton(R.string.confirm) { _, _ ->
             val configuration = URLDecoder.decode(shareInfo, "UTF-8")
             val jsonObj = JSONObject(configuration)
             if (lampCategoryType != jsonObj.getInt(DEVICE_TYPE) - 1) {
-                toast(getString(R.string.import_config_error))
+                toast(getString(R.string.import_error))
                 mViewDataBinding.capturePreview.startSpot()
             } else {
                 mViewModel.udateData(jsonObj)

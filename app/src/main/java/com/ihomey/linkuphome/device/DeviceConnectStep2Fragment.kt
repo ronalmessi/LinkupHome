@@ -54,7 +54,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
         mViewDataBinding.handlers = EventHandler()
         mViewDataBinding.ivDeviceConnectLampIcon.setImageResource(icons[arguments.getInt("categoryType", 0)])
         if (arguments.getBoolean("isReConnect", false)) {
-            mViewDataBinding.tvDeviceConnectStep2Hint.text = "设备已断开，正在尝试自动连接"
+            mViewDataBinding.tvDeviceConnectStep2Hint.text = getString(R.string.bridge_disconnected)
             mViewDataBinding.btnDeviceConnectReset.visibility = View.GONE
         } else {
             mViewDataBinding.tvDeviceConnectStep2Hint.text = getString(R.string.device_connect_step2_hint)

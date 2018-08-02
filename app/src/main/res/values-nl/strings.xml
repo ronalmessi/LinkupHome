@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LinkupHome</string>
+
+    <string name="welcome_language">Taal</string>
+    <string name="welcome_beauty">Geniet van het licht</string>
+    <string name="welcome_occurrence">From this moment</string>
+    <string name="welcome_language_select">Taal selectie</string>
+
+
+    <string name="product_manual">Product instructies</string>
+    <string name="center_title">Informatie Centrum</string>
+
+
+    <string name="mesh_tab_control">Bediening</string>
+    <string name="mesh_tab_control_select">操控选择</string>
+    <string name="mesh_tab_group_setting">Groepen aanmaken</string>
+    <string name="mesh_tab_device_search">Zoek lamp of apparaat</string>
+
+
+    <string name="menu_rename">Naam Wijzigen</string>
+    <string name="menu_timer">开关定时</string>
+    <string name="menu_control_share">Controle delen</string>
+    <string name="menu_scan">Scan</string>
+
+
+    <string name="scan_get_data">Besturingsgegevens worden verkregen ...</string>
+    <string name="scan_qrCode">Mijn QR code</string>
+    <string name="scan_auto">Scan de QR code</string>
+
+
+    <string name="scene_mode">Landschap modus</string>
+    <string name="scene_read">Lees modus</string>
+    <string name="scene_sunset">Zonsondergang modus</string>
+    <string name="scene_rest">Rust modus</string>
+    <string name="scene_spring">Lente Bloesem Mode</string>
+    <string name="scene_rainforest">Selva</string>
+    <string name="scene_lighting">Verlichtingsmodus</string>
+
+
+    <string name="speed_slow">Laag tempo</string>
+    <string name="speed_normal">Normaal tempo</string>
+    <string name="speed_fast">hoog tempo</string>
+
+    <string name="timer_open_time">Licht schakelaar aan</string>
+    <string name="timer_close_time">Licht schakelaar uit</string>
+    <string name="timer_loop">重复</string>
+
+    <string name="share_tips">Deel je controle met famlie of vrienden\nen deel de vreugde van intelligent licht.</string>
+    <string name="share_tip_download_app">Download de APP</string>
+    <string name="share_tip_open_app">Open de APP en scan de QR Code</string>
+    <string name="share_tip_success">Delen gelukt</string>
+    <string name="share_qrCode">QR Code</string>
+    <string name="share_qrCode_generating">Genereer of maak een gedeelde QR code...</string>
+    <string name="share_qrCode_generate_success">Data delen door Gegenereerde QR code, Scannen AUB.</string>
+    <string name="share_qrCode_generate_fail">Maken van een QR code  mislukt.</string>
+    <string name="share_qrCode_regenerate">maak nieuwe QR code</string>
+    <string name="share_img_save">QR code opslaan</string>
+    <string name="share_img_save_success">Foto is opgeslagen</string>
+    <string name="share_img_save_fail">Fout bij opslaan</string>
+
+    <string name="state_disconnected">Click voor connectie</string>
+    <string name="state_connected">Verbonden</string>
+
+
+    <string name="group_setting_drag">拖拽进入</string>
+    <string name="group_setting_exceed_number">Aantal groepen boven maximum.</string>
+
+    <string name="device_associating">Verbinden...</string>
+    <string name="device_clear">清空所有你设置的分组与设备?</string>
+    <string name="device_associate_fail">De connectie werkt niet, start het apparaat opnieuw op.</string>
+
+    <string name="device_connect_step1_title">Installeer je toestel</string>
+    <string name="device_connect_step1_hint">1. Controleer of het lamp stroom heeft.\n2. Als de lamp al eerder is geinstalleerd, graag resetten volgens procedure.</string>
+
+    <string name="device_connect_step2_title">Tips</string>
+    <string name="device_connect_step2_hint">Als het lamp niet binnen 10 seconden gevonden is, reset de app om de lampen te vinden.</string>
+
+    <string name="device_reset_hint2">1. Schakel de lamp uit\n2. Schakel de lamp 1 a 2 seconden aan\n3. Schakel de lamp 1 a 2 seconden uit\n4. Schakel de lamp 1 a 2 seconden aan\n5. Schakel de lamp 1 a 2 seconden uit\n6. Schakel voor de derde keer de lamp aan. Wanneer de lamp 3 keer achter elkaar flikkert, dan heeft de lamp zich gereset naar de oorspronkelijke setting.\n\n (In het geval dat de lamp niet 3 keer flikkert, probeer de voorgaande procedure nogmaals.)</string>
+    <string name="device_reset_hint1">Verwijder de oude connectie in "aansluitingen" Daarna krijgt u automatisch de reset functie te zien.</string>
+
+    <string name="next_step">Volgende stap</string>
+    <string name="searching">Zoeken</string>
+
+    <string name="how_to_reset_device">Reset informatie</string>
+    <string name="how_to_reset_device_step1">Stap 1</string>
+    <string name="how_to_reset_device_step2">Stap 2</string>
+    <string name="how_to_reset_step">Reset stappen</string>
+    <string name="bridge_disconnected">De lamp maakt geen verbinding, probeert automatisch te verbinden</string>
+
+    <string name="save">Opslaan</string>
+
+    <string name="import_error">QR code komt niet overeen</string>
+    <string name="network_error">Geen connectie met het netwerk，Netwerk connectie werkt niet, Check de netwerk instellingen.</string>
+    <string name="edit">Opmaken</string>
+    <string name="group">Groep</string>
+    <string name="initialize">初始化</string>
+    <string name="cancel">Annuleren</string>
+    <string name="confirm">Ja</string>
+    <string name="delete">Verwijderen</string>
+    <string name="removing">Verwijderen...</string>
+    <string name="add_product">Product toevoegen</string>
+    <string name="added">Toegevoegd</string>
+    <string name="add">Toevoegen</string>
+    <string name="adding">Toevoegen...</string>
+
+    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_rgb">RGB lichtbron</string>
+    <string name="lamp_outdoor">Buitenlamp</string>
+    <string name="lamp_mini_outdoor">迷你花园灯</string>
+    <string name="lamp_cct">CCT lichtbron</string>
+    <string name="lamp_led_strip">LED strip</string>
+</resources>
+
+

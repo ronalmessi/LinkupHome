@@ -22,7 +22,7 @@
         android:id="@+id/device_associate_tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/qrCode_generating"
+        android:text="@string/share_qrCode_generating"
         android:textColor="@android:color/black" />
 
 

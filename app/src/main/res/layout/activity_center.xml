@@ -67,7 +67,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="21dp"
                 android:layout_toRightOf="@+id/imageView_instructions"
-                android:text="@string/webview_title"
+                android:text="@string/product_manual"
                 android:textSize="16sp" />
 
             <ImageView

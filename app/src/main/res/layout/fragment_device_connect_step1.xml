@@ -29,9 +29,11 @@
 
         <TextView
             android:id="@+id/tv_device_connect_step1_hint"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
             android:lineSpacingExtra="4dp"
             android:text="@string/device_connect_step1_hint"
             android:textColor="@android:color/white"

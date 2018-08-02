@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">家和作用</string>
+
+    <string name="welcome_language">语言</string>
+    <string name="welcome_beauty">美好</string>
+    <string name="welcome_occurrence">从这一刻起发生</string>
+    <string name="welcome_language_select">选择语言</string>
+
+    <string name="product_manual">产品使用说明</string>
+    <string name="center_title">中心</string>
+
+
+    <string name="mesh_tab_control">操控</string>
+    <string name="mesh_tab_control_select">操控选择</string>
+    <string name="mesh_tab_group_setting">组别设置</string>
+    <string name="mesh_tab_device_search">搜索设备</string>
+
+
+    <string name="menu_rename">重命名</string>
+    <string name="menu_timer">开关定时</string>
+    <string name="menu_control_share">分享操控</string>
+    <string name="menu_scan">扫一扫</string>
+
+
+    <string name="scan_get_data">操控数据正在获取中...</string>
+    <string name="scan_qrCode">我的二维码</string>
+    <string name="scan_auto">放入框内，自动扫描</string>
+
+
+    <string name="scene_mode">情景模式</string>
+    <string name="scene_read">阅读模式</string>
+    <string name="scene_sunset">夕阳模式</string>
+    <string name="scene_rest">休息模式</string>
+    <string name="scene_spring">春暖花开</string>
+    <string name="scene_rainforest">热带雨林</string>
+    <string name="scene_lighting">照明模式</string>
+
+    <string name="speed_slow">减慢</string>
+    <string name="speed_normal">正常</string>
+    <string name="speed_fast">加快</string>
+
+    <string name="timer_open_time">开灯时间</string>
+    <string name="timer_close_time">关灯时间</string>
+    <string name="timer_loop">重复</string>
+
+
+    <string name="share_tips">可以把操控分享给家人或亲密朋友\n一起分享智能照明带来的快乐</string>
+    <string name="share_tip_download_app">下载APP</string>
+    <string name="share_tip_open_app">打开APP扫描二维码</string>
+    <string name="share_tip_success">分享成功</string>
+    <string name="share_qrCode">二维码</string>
+    <string name="share_qrCode_generating">正在生成操控分享二维码...</string>
+    <string name="share_qrCode_generate_success">已生成数据共享二维码，请扫描</string>
+    <string name="share_qrCode_generate_fail">生成二维码失败</string>
+    <string name="share_qrCode_regenerate">重新生成</string>
+    <string name="share_img_save">保存图片</string>
+    <string name="share_img_save_success">图片已保存</string>
+    <string name="share_img_save_fail">保存出错了</string>
+
+
+    <string name="state_disconnected">点击连接</string>
+    <string name="state_connected">已连接</string>
+
+
+    <string name="group_setting_drag">拖拽进入</string>
+    <string name="group_setting_exceed_number">超出分组数量</string>
+
+
+    <string name="device_associating">连接中...</string>
+    <string name="device_clear">清空所有你设置的分组与设备?</string>
+    <string name="device_associate_fail">连接失败，请重启设备进行连接</string>
+
+    <string name="device_connect_step1_title">设备准备好了吗？</string>
+    <string name="device_connect_step1_hint">1.请确保设备电源已正确连接;\n2.如果设备不是第一次使用,请确保设备已经被正确\n重置</string>
+
+    <string name="device_connect_step2_title">温馨提示</string>
+    <string name="device_connect_step2_hint">如果10秒左右搜索不到设备,请确认设备是否被正确重置</string>
+
+    <string name="device_reset_hint2">1.用开关先将灯关闭。\n2.打开灯，等待1-2秒。\n3.关闭灯，等待1-2秒。\n4.打开灯，等待1-2秒。\n5.关闭灯，等待1-2秒。\n6.第三次打开灯时，请等待2秒左右，灯光闪烁3次即代表重置成功，灯泡已恢复到出厂设置状态。\n\n(如没有看到灯光闪烁三次，请按照以上流程再操作一遍，直到看到灯光闪烁三次，表示重置成功)</string>
+    <string name="device_reset_hint1">在“设备连接”界面里把以前连接过的这条痕迹，左滑删除后，重置后的设备会显示出来。</string>
+
+    <string name="next_step">下一步</string>
+    <string name="searching">正在搜索</string>
+    <string name="how_to_reset_device">如何重置</string>
+    <string name="how_to_reset_device_step1">步骤一</string>
+    <string name="how_to_reset_device_step2">步骤二</string>
+    <string name="how_to_reset_step">重置步骤</string>
+    <string name="bridge_disconnected">设备已断开，正在尝试自动连接</string>
+
+
+
+    <string name="save">存储</string>
+    <string name="import_error">二维码内容不符</string>
+    <string name="network_error">网络连接失败，请检查网络设置</string>
+    <string name="edit">编辑</string>
+    <string name="group">组</string>
+    <string name="initialize">初始化</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="delete">删除</string>
+    <string name="removing">等待删除...</string>
+    <string name="add_product">添加设备</string>
+    <string name="added">已添加</string>
+    <string name="add">添加</string>
+    <string name="adding">正在添加...</string>
+
+    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_outdoor">户外灯</string>
+    <string name="lamp_rgb">RGB灯泡</string>
+    <string name="lamp_mini_outdoor">迷你花园灯</string>
+    <string name="lamp_cct">冷暖灯泡</string>
+    <string name="lamp_led_strip">LED灯带</string>
+
+</resources>
+
