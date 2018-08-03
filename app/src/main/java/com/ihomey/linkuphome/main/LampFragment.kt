@@ -136,13 +136,13 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 mViewDataBinding.controlBaseVp.currentItem = 2
             }
-            R.id.item_tab_mesh_controls -> behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+            R.id.item_tab_mesh_device_select -> behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
         }
         return true
     }
 
     override fun onNavigationItemReselected(item: MenuItem) {
-        if (item.itemId == R.id.item_tab_mesh_controls) {
+        if (item.itemId == R.id.item_tab_mesh_device_select) {
             hideControlDeviceSelectionDialog()
         }
     }

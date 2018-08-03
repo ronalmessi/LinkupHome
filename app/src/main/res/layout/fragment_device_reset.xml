@@ -9,22 +9,22 @@
             type="com.ihomey.linkuphome.device.DeviceResetFragment.EventHandler" />
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/cl_device_connect"
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <com.ihomey.linkuphome.widget.CompatToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary">
+                android:background="@color/colorPrimary"
+                app:layout_collapseMode="pin">
 
                 <ImageButton
                     android:id="@+id/toolbar_back"
@@ -47,51 +47,61 @@
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
             </com.ihomey.linkuphome.widget.CompatToolbar>
+        </android.support.design.widget.AppBarLayout>
 
-            <ImageView
-                android:id="@+id/iv_device_reset_guide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="21dp"
-                android:src="@mipmap/ic_device_reset_guide2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/iv_device_reset_step"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/device_reset_btn_step_bg"
-                android:paddingBottom="8dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
-                android:paddingTop="8dp"
-                android:text="@string/how_to_reset_step"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_guide" />
+                android:paddingBottom="24dp">
 
-            <TextView
-                android:id="@+id/tv_device_reset_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="27dp"
-                android:paddingRight="27dp"
-                android:layout_marginTop="30dp"
-                android:lineSpacingExtra="8dp"
-                android:text="@string/device_reset_hint2"
-                android:textColor="@color/text_colorPrimary"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_device_reset_step" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:src="@mipmap/ic_device_reset_guide2"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/device_reset_btn_step_bg"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/how_to_reset_step"
+                    android:paddingLeft="27dp"
+                    android:paddingRight="27dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="@string/device_reset_hint2"
+                    android:textColor="@color/text_colorPrimary"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
 
 
 </layout>

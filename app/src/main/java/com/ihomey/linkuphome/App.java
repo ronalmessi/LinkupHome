@@ -27,8 +27,6 @@ public class App extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         String currentLanguage = Locale.getDefault().getDisplayLanguage().toLowerCase();
-        Log.d("aa",currentLanguage);
-        Log.d("aa", Locale.getDefault().getDisplayCountry()+"---"+Locale.getDefault().getCountry()+"---"+Locale.getDefault().getDisplayVariant()+"---"+Locale.getDefault().getISO3Country()+"---"+Locale.getDefault().getISO3Language());
         switch (currentLanguage) {
             case "español":
                 super.attachBaseContext(LocaleHelper.onAttach(base, "es"));

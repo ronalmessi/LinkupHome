@@ -9,7 +9,7 @@
     <item
         android:id="@+id/item_tab_mesh_device"
         android:icon="@mipmap/tab_icon_device"
-        android:title="@string/mesh_tab_device_search"
+        android:title="@string/mesh_tab_device_connect"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_tab_mesh_group"
@@ -18,9 +18,9 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/item_tab_mesh_controls"
-        android:icon="@mipmap/tab_icon_controls"
-        android:title="@string/mesh_tab_control_select"
+        android:id="@+id/item_tab_mesh_device_select"
+        android:icon="@mipmap/tab_icon_device_select"
+        android:title="@string/mesh_tab_device_select"
         app:showAsAction="ifRoom" />
 
 </menu>

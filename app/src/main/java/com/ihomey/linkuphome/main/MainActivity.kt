@@ -161,7 +161,10 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
             }
         })
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
-        if (savedInstanceState == null) supportFragmentManager.beginTransaction().replace(R.id.container, WelcomeFragment().newInstance()).commitNow()
+        if (savedInstanceState == null){
+            val hasAgreed by PreferenceHelper("hasAgreed", false)
+            supportFragmentManager.beginTransaction().replace(R.id.container, if(!hasAgreed) PrivacyFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
+        }
     }
 
     override fun replaceFragment(containerId: Int, frag: Fragment) {
@@ -195,7 +198,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     }
 
     private fun releaseResource() {
-//        Crouton.cancelAllCroutons()
         mService?.setDeviceDiscoveryFilterEnabled(false)
         if (mConnected) mService?.disconnectBridge()
         mService?.setHandler(null)

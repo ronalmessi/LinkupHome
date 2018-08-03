@@ -13,12 +13,12 @@
     <string name="center_title">Zentrum</string>
 
     <string name="mesh_tab_control">Bedienung</string>
-    <string name="mesh_tab_control_select">Die Steuerung Zu Wählen</string>
+    <string name="mesh_tab_device_select">Die Steuerung Zu Wählen</string>
     <string name="mesh_tab_group_setting">Gruppeneinstellungen</string>
-    <string name="mesh_tab_device_search">Suchen Sie Nach Geräten</string>
+    <string name="mesh_tab_device_connect">Geräteverbindung</string>
 
     <string name="menu_rename">Umbenennen</string>
-    <string name="menu_timer">Timing Schalter</string>
+    <string name="menu_timer">Zeitschalter</string>
     <string name="menu_control_share">Teilen Manipulation</string>
     <string name="menu_scan">Fegen Die</string>
 
@@ -42,7 +42,7 @@
     <string name="timer_close_time">Licht Abschalten Timing</string>
     <string name="timer_loop">wiederholen</string>
 
-    <string name="share_tips">Sie können die manipulation an ihre familie oder enge freunde teilen und alle können die freude zusammen teilen\ndie aus intelligente beleuchtung bringt</string>
+    <string name="share_tips">Sie Können Die Manipulation An Ihre Familie Oder Enge Freunde Teilen Und Alle Können Die Freude Zsusammen Teilen\nDie Aus Intelligente Beleuchtung Bringt.</string>
     <string name="share_tip_download_app">Laden Sie APP Herunter</string>
     <string name="share_tip_open_app">Öffnen Sie APP Und Scannen Zweidimensionalen Code</string>
     <string name="share_tip_success">Erfolg Zu Teilen</string>
@@ -58,12 +58,12 @@
     <string name="state_disconnected">Klicken Sie Auf Verbindung</string>
     <string name="state_connected">Hat Verbunden</string>
 
-    <string name="group_setting_drag">Ziehen Und Schleppen Zum Eingang</string>
-    <string name="group_setting_exceed_number">Exceed die Anzahl der Pakete</string>
+    <string name="group_setting_drag">Klicken zum Hinzufügen</string>
+    <string name="group_setting_exceed_number">Exceed Die Anzahl Der Pakete</string>
 
-
+    <string name="device_search">Suchen Sie Nach Geräten</string>
     <string name="device_associating">Im Anschluss...</string>
-    <string name="device_clear">Deaktivieren Sie Alle Pakete Mit Dem Gerät,Das Sie Gesetzt?</string>
+    <string name="device_clear">Alle Gruppen löschen?</string>
     <string name="device_associate_fail">Die Verbindung Ist Fehlgeschlagen. Bitte Neustarten Sie Das Gerät Zum Anschließen.</string>
 
 
@@ -76,6 +76,9 @@
     <string name="device_reset_hint2">1, Schalten Sie die Lampe zuerst aus.\n 2, Schalten Sie die Lampe ein und warten Sie 1-2 Sekunden.\n 3, Schalten Sie die Lampe aus und warten Sie 1-2 Sekunden.\n 4, Schalten Sie die Lampe ein und warten Sie 1-2 Sekunden.\n 5, Schalten Sie die Lampe aus und warten Sie 1-2 Sekunden.\n 6, Wenn die Lampe zum dritten Mal eingeschaltet wird, warten Sie bitte ca. 2 Sekunden. Wenn das Licht 3 Mal blinkt, bedeutet dies, dass die Zurücksetzung erfolgreich war. Die Lampe wurde auf die Werkseinstellungen zurückgesetzt.\n\n (Wenn das Licht nicht dreimal blinkt, wiederholenden Sie bitte den obigen Vorgang erneut, bis das Licht dreimal blinkt, was darauf hinweist, dass das Zurücksetzen erfolgreich war)</string>
     <string name="device_reset_hint1">Nachdem der zuvor verbundene Datensatz in der Schnittstelle "Geräteverbindung" indem Schieben nach links gelöscht wurde, wird das  zurückgesetzte Gerät angezeigt.</string>
 
+    <string name="device_reset_tip">Bitte versuchen Sie es zuerst mit den folgenden zwei schnellen Verarbeitungsmethoden.</string>
+    <string name="device_reset_hint0">1, Bitte deaktivieren Sie zuerst Bluetooth, und aktivieren Sie dann Bluetooth.\n2, Nachdem Sie LinkupHomeAPP im Hintergrund geschlossen haben, öffnen Sie die App erneut.\n\nWenn Sie das Gerät immer noch nicht finden, nachdem Sie die beiden obigen Verarbeitungsmethoden versucht haben, führen Sie die folgenden Schritte aus, um das Gerät zurückzusetzen.</string>
+
     <string name="next_step">Weiter</string>
     <string name="searching">suchen</string>
 
@@ -83,6 +86,7 @@
     <string name="how_to_reset_device_step1">Schritt 1</string>
     <string name="how_to_reset_device_step2">Schritt 2</string>
     <string name="how_to_reset_step">Schritt des Zurücksetzens</string>
+    <string name="how_to_reset_process">Prozess des Zurücksetzens</string>
     <string name="bridge_disconnected">Das Gerät ist abgetrennt und versucht automatisch, eine Verbindung herzustellen</string>
 
     <string name="save">Speichern</string>
@@ -91,7 +95,7 @@
     <string name="network_error">Netzwerkverbindung fehlschlägt , überprüfen Sie die Netzwerkeinstellungen</string>
     <string name="edit">Bearbeitungs</string>
     <string name="group">Gruppe</string>
-    <string name="initialize">Initialisierung</string>
+    <string name="initialize">Gruppe löschen</string>
     <string name="cancel">Stornieren</string>
     <string name="confirm">Ja</string>
     <string name="delete">Löschen</string>
@@ -107,4 +111,10 @@
     <string name="lamp_mini_outdoor">Mini-Gartenleuchte</string>
     <string name="lamp_cct">Temperaturschwankungsglühbirne</string>
     <string name="lamp_led_strip">LED Leuchterband</string>
+
+
+    <string name="privacy_tip">Bitte bestätigen Sie, dass Sie gelesen haben und zustimmen</string>
+    <string name="license_agreement">Die Endbenutzer-Lizenzvereinbarung</string>
+    <string name="privacy_statement">Die Datenschutzerklärung</string>
+    <string name="privacy_start">Anfang</string>
 </resources>

@@ -4,7 +4,7 @@
 
     <string name="welcome_language">Langue</string>
     <string name="welcome_beauty">Merveilleux</string>
-    <string name="welcome_occurrence">à partir du moment où c'est arrivé</string>
+    <string name="welcome_occurrence">à partir du moment où c\'est arrivé</string>
     <string name="welcome_language_select">Langue Bien Choisie</string>
 
     <string name="product_manual">Instructions de produit</string>
@@ -12,13 +12,13 @@
 
 
     <string name="mesh_tab_control">Commander</string>
-    <string name="mesh_tab_control_select">Option De Contrôle</string>
+    <string name="mesh_tab_device_select">Option De Contrôle</string>
     <string name="mesh_tab_group_setting">Installation D’équipe</string>
-    <string name="mesh_tab_device_search">Rechercher Des Dispositifs</string>
+    <string name="mesh_tab_device_connect">Connexion de l\'appareil</string>
 
 
     <string name="menu_rename">Renomer</string>
-    <string name="menu_timer">Commutateur à L\'heure Régulière</string>
+    <string name="menu_timer">Interrupteur à retardement</string>
     <string name="menu_control_share">La Manipulation De L´action</string>
     <string name="menu_scan">Balayer Le</string>
 
@@ -32,7 +32,7 @@
     <string name="scene_read">Mode De Lecture</string>
     <string name="scene_sunset">Mode De Soleil Couchant</string>
     <string name="scene_rest">Mode De Favoriser Le Sommeil</string>
-    <string name="scene_spring">Les Fleurs S'épanouissent Au Printemps</string>
+    <string name="scene_spring">Les Fleurs S\'épanouissent Au Printemps</string>
     <string name="scene_rainforest">Forêts Tropicales</string>
     <string name="scene_lighting">Mode D’éclairage</string>
 
@@ -47,38 +47,44 @@
     <string name="timer_loop">Répéter</string>
 
 
-    <string name="share_tips">Il permet de partager la joie de manipulation avec votre famille \nou vos amis pour partager la joie de l'éclairage intelligent</string>
+    <string name="share_tips">Il Permet De Partager La Joie De Manipulation Avec Votre Famille \nOu Vos Amis Pour Partager La Joie De L’éclairage Intelligent.</string>
     <string name="share_tip_download_app">Téléchargez L’application</string>
     <string name="share_tip_open_app">Ouvrez L’application Et Scannez Le Code 2D</string>
     <string name="share_tip_success">Partagez Avec Succès</string>
     <string name="share_qrCode">Code À Deux Dimensions</string>
-    <string name="share_qrCode_generating">Générer Un Code À Deux Dimensions De Manipulation D'action...</string>
+    <string name="share_qrCode_generating">Générer Un Code À Deux Dimensions De Manipulation D\'action...</string>
     <string name="share_qrCode_generate_success">Partage De Données Générées Code À Deux Dimensions, Balayage.</string>
     <string name="share_qrCode_generate_fail">Échec Pour Générer Le Code À Deux Dimensions</string>
     <string name="share_qrCode_regenerate">Reconstruire</string>
     <string name="share_img_save">Enredistrer L´image</string>
     <string name="share_img_save_success">Images Enregistrées Dans Un Dossier</string>
-    <string name="share_img_save_fail">Erreur D'enregistrement</string>
+    <string name="share_img_save_fail">Erreur D\'enregistrement</string>
 
     <string name="state_disconnected">Cliquer Pour Connectez</string>
     <string name="state_connected">Déjà Connecté</string>
 
 
-    <string name="group_setting_drag">Glisser Pour Entrer</string>
-    <string name="group_setting_exceed_number">Dépasser le nombre de paquets</string>
+    <string name="group_setting_drag">Cliquez pour ajouter</string>
+    <string name="group_setting_exceed_number">Dépasser Le Nombre De Paquets</string>
 
+
+    <string name="device_search">Rechercher Des Dispositifs</string>
     <string name="device_associating">Connexion En Cours...</string>
-    <string name="device_clear">Effacer tous les paquets avec le périphérique que vous déflnissez?</string>
-    <string name="device_associate_fail">Connection Échouée, Veuillez Démarrer L'installation Pour Reconnecter.</string>
+    <string name="device_clear">Voulez-vous supprimer tous les groupes?</string>
+    <string name="device_associate_fail">Connection Échouée, Veuillez Démarrer L\'installation Pour Reconnecter.</string>
 
-    <string name="device_connect_step1_title">L'équipement est-il prêt?</string>
-    <string name="device_connect_step1_hint">1. Veuillez vous assurer que l'alimentation de l'appareil est correctement connectée.\n2. Si l'appareil n'est pas utilisé pour la première fois, assurez-vous que l'appareil a été reset correctement.</string>
+
+    <string name="device_connect_step1_title">L\'équipement est-il prêt?</string>
+    <string name="device_connect_step1_hint">1. Veuillez vous assurer que l\'alimentation de l\'appareil est correctement connectée.\n2. Si l\'appareil n\'est pas utilisé pour la première fois, assurez-vous que l'appareil a été reset correctement.</string>
 
     <string name="device_connect_step2_title">Conseils</string>
-    <string name="device_connect_step2_hint">Si l'appareil n'est pas trouvé pendant environ 10 secondes, veuillez confirmer que l'appareil est correctement reset.</string>
+    <string name="device_connect_step2_hint">Si l\'appareil n\'est pas trouvé pendant environ 10 secondes, veuillez confirmer que l\'appareil est correctement reset.</string>
 
-    <string name="device_reset_hint2">1. Éteignez d'abord la lumière avec l'interrupteur.\n2. Allumez la lumière et attendez 1-2 secondes.\n3. Éteignez la lumière et attendez 1-2 secondes.\n4. Allumez la lumière et attendez 1-2 secondes.\n5. Éteignez la lumière et attendez 1-2 secondes.\n6. Lorsque vous allumez la lampe pour la troisième fois, attendez environ 2 secondes. Si la lumière clignote 3 fois, cela signifie que le reset a réussi et que la lampe est revenue au réglage d'usine.\n\n (Si la lumière ne clignote pas trois fois, veuillez suivre à nouveau le processus ci-dessus, jusqu'au succès.)</string>
-    <string name="device_reset_hint1">Dans l'interface Connection de Device, après avoir retiré la trace de connection précédent en la faisant glisser vers la gauche, le périphérique bien reset sera affiché.</string>
+    <string name="device_reset_hint2">1. Éteignez d\'abord la lumière avec l\'interrupteur.\n2. Allumez la lumière et attendez 1-2 secondes.\n3. Éteignez la lumière et attendez 1-2 secondes.\n4. Allumez la lumière et attendez 1-2 secondes.\n5. Éteignez la lumière et attendez 1-2 secondes.\n6. Lorsque vous allumez la lampe pour la troisième fois, attendez environ 2 secondes. Si la lumière clignote 3 fois, cela signifie que le reset a réussi et que la lampe est revenue au réglage d'usine.\n\n (Si la lumière ne clignote pas trois fois, veuillez suivre à nouveau le processus ci-dessus, jusqu'au succès.)</string>
+    <string name="device_reset_hint1">Dans l\'interface Connection de Device, après avoir retiré la trace de connection précédent en la faisant glisser vers la gauche, le périphérique bien reset sera affiché.</string>
+
+    <string name="device_reset_tip">Veuillez d\'abord essayer les deux mesures rapides ci-dessous.</string>
+    <string name="device_reset_hint0">1. Éteignez Bluetooth, puis démarrez-le.\n2. Après avoir fermé LinkupHomeAPP en arrière-plan, ouvrez-le à nouveau.\n\nAprès avoir essayé les deux mesures ci-dessus, si vous ne trouvez toujours pas l'appareil, veuillez suivre les étapes ci-dessous pour reset l'appareil.</string>
 
     <string name="next_step">Étape</string>
     <string name="searching">En cours de chercher</string>
@@ -87,7 +93,8 @@
     <string name="how_to_reset_device_step1">Étape 1</string>
     <string name="how_to_reset_device_step2">Étape 2</string>
     <string name="how_to_reset_step">Reset étape</string>
-    <string name="bridge_disconnected">L'appareil est déconnecté et essaie de se connecter automatiquement.</string>
+    <string name="how_to_reset_process">Reset les processus</string>
+    <string name="bridge_disconnected">L\'appareil est déconnecté et essaie de se connecter automatiquement.</string>
 
     <string name="save">Stockage</string>
 
@@ -95,7 +102,7 @@
     <string name="network_error">Connexion échoue réseau, vérifiez les paramètres réseau</string>
     <string name="edit">Redaction</string>
     <string name="group">Équipe</string>
-    <string name="initialize">Initialisation</string>
+    <string name="initialize">Supprimer le groupe</string>
     <string name="cancel">Annuler</string>
     <string name="confirm">Oui</string>
     <string name="delete">Supprimer</string>
@@ -111,4 +118,10 @@
     <string name="lamp_mini_outdoor">Mini lumière de jardin</string>
     <string name="lamp_cct">Lampe connue de froid et de chaleur</string>
     <string name="lamp_led_strip">Bande de lumière à LED</string>
+
+
+    <string name="privacy_tip">Veuillez confirmer que vous avez lu et accepté</string>
+    <string name="license_agreement">Le contrat de licence de l\'utilisateur final</string>
+    <string name="privacy_statement">La déclaration de confidentialité</string>
+    <string name="privacy_start">Début</string>
 </resources>

@@ -8,6 +8,8 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import android.widget.FrameLayout
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.LanguageListAdapter
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.LampCategory
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -47,6 +50,12 @@ class WelcomeFragment : BaseFragment() {
                 addedProductCount = it.data.filter { it.added == 1 }.size
             }
         })
+        val currentLanguage = LocaleHelper.getLanguage(context)
+        if(TextUtils.equals("nl",currentLanguage)){
+            mViewDataBinding.welcomeTvOccurrence.visibility=View.INVISIBLE
+        }else{
+            mViewDataBinding.welcomeTvOccurrence.visibility=View.VISIBLE
+        }
         return mViewDataBinding.root
     }
 
@@ -63,7 +72,7 @@ class WelcomeFragment : BaseFragment() {
                 R.id.toolbar_center -> view.context.startActivity(Intent(view.context, CenterActivity::class.java))
                 R.id.toolbar_language -> showLanguageSelectionDialog(view)
                 R.id.welcome_btn_open -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, if(addedProductCount==0) AddProductFragment().newInstance(false) else ProductListFragment().newInstance())
-                R.id.language_selection_btn_cancel -> dialog?.dismiss()
+                R.id.language_selection_btn_cancel ->dialog?.dismiss()
             }
         }
 
@@ -86,8 +95,8 @@ class WelcomeFragment : BaseFragment() {
         }
 
         override fun onItemClick(position: Int) {
-            listener.onLanguageChange(position)
             dialog?.dismiss()
+            listener.onLanguageChange(position)
         }
     }
 

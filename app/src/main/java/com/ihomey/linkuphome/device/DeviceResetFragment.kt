@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.databinding.FragmentDeviceConnectedResetBinding
 import com.ihomey.linkuphome.databinding.FragmentDeviceResetBinding
 
@@ -35,6 +36,15 @@ class DeviceResetFragment : BaseFragment() {
         if(hasConnected){
             mViewDataBinding=DataBindingUtil.inflate<FragmentDeviceConnectedResetBinding>(inflater, R.layout.fragment_device_connected_reset,container, false)
             (mViewDataBinding as FragmentDeviceConnectedResetBinding).handlers = EventHandler()
+            val currentLanguage = LocaleHelper.getLanguage(context)
+            when (currentLanguage) {
+                "zh" -> (mViewDataBinding as FragmentDeviceConnectedResetBinding).ivDeviceResetGuide1.setImageResource(R.mipmap.ic_device_reset_guide1_zh)
+                "de" -> (mViewDataBinding as FragmentDeviceConnectedResetBinding).ivDeviceResetGuide1.setImageResource(R.mipmap.ic_device_reset_guide1_de)
+                "es" -> (mViewDataBinding as FragmentDeviceConnectedResetBinding).ivDeviceResetGuide1.setImageResource(R.mipmap.ic_device_reset_guide1_es)
+                "fr" -> (mViewDataBinding as FragmentDeviceConnectedResetBinding).ivDeviceResetGuide1.setImageResource(R.mipmap.ic_device_reset_guide1_fr)
+                "nl" -> (mViewDataBinding as FragmentDeviceConnectedResetBinding).ivDeviceResetGuide1.setImageResource(R.mipmap.ic_device_reset_guide1_nl)
+                else -> (mViewDataBinding as FragmentDeviceConnectedResetBinding).ivDeviceResetGuide1.setImageResource(R.mipmap.ic_device_reset_guide1_en)
+            }
         }else{
             mViewDataBinding=DataBindingUtil.inflate<FragmentDeviceResetBinding>(inflater, R.layout.fragment_device_reset, container, false)
             (mViewDataBinding as FragmentDeviceResetBinding).handlers = EventHandler()

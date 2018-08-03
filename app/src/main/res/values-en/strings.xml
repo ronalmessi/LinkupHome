@@ -12,9 +12,9 @@
 
 
     <string name="mesh_tab_control">Control</string>
-    <string name="mesh_tab_control_select">Control Select</string>
+    <string name="mesh_tab_device_select">Select Group</string>
     <string name="mesh_tab_group_setting">Create Groups</string>
-    <string name="mesh_tab_device_search">Search Device</string>
+    <string name="mesh_tab_device_connect">Device Connect</string>
 
 
     <string name="menu_rename">Rename</string>
@@ -47,7 +47,7 @@
     <string name="timer_loop">Repeat</string>
 
 
-    <string name="share_tips">Share your control with your family or close friends \nand share the joy of intelligent lighting</string>
+    <string name="share_tips">Share the control with your family or friends</string>
     <string name="share_tip_download_app">Download the APP</string>
     <string name="share_tip_open_app">Open the APP and scan QR Code</string>
     <string name="share_tip_success">Successfully Shared</string>
@@ -63,11 +63,13 @@
     <string name="state_disconnected">Click to Connect</string>
     <string name="state_connected">Connected</string>
 
-    <string name="group_setting_drag">Drag To Enter</string>
-    <string name="group_setting_exceed_number">The number of groups exeeded</string>
+    <string name="group_setting_drag">Push "Add" Button to Add</string>
+    <string name="group_setting_exceed_number">The number of packets exceeded</string>
 
+
+    <string name="device_search">Search Device</string>
     <string name="device_associating">Connecting...</string>
-    <string name="device_clear">Empty all the packets and devices you set up?</string>
+    <string name="device_clear">Reset all groups?</string>
     <string name="device_associate_fail">The connection fails. Please restart the device to connect.</string>
 
     <string name="device_connect_step1_title">Install your device</string>
@@ -80,6 +82,9 @@
     <string name="device_reset_hint2">1.Switch off the device firstly\n2.Switch it on for 1 or 2 seconds\n3.Switch it off again and wait for 1 or 2 seconds\n4.Switch it on for 1 or 2 seconds\n5.Switch it off again and wait for 1 or 2 seconds\n6.Switch it on the third time. When the light flashes 3 times, it means the device is reset to defaults.\n\n（If no light blinks 3 times, please repeat above steps until reset successfully）</string>
     <string name="device_reset_hint1">Please delete the old connection in "Device Connect",then the reset device will show up</string>
 
+    <string name="device_reset_tip">Please try the following two shortcuts first.</string>
+    <string name="device_reset_hint0">1.Restart Bluetooth \n2.Restart LinkupHome APP at  background system of the phone\n\nIf you still can not find the devices after you try above two shortcuts, please reset the devices according to below steps.</string>
+
     <string name="next_step">Next Step</string>
     <string name="searching">Searching</string>
 
@@ -87,6 +92,7 @@
     <string name="how_to_reset_device_step1">Step 1</string>
     <string name="how_to_reset_device_step2">Step 2</string>
     <string name="how_to_reset_step">Reset Steps</string>
+    <string name="how_to_reset_process">Reset Steps</string>
     <string name="bridge_disconnected">The device is disconnected , trying to connect automatically</string>
 
     <string name="save">Save</string>
@@ -95,7 +101,7 @@
     <string name="network_error">Network connection failed,please check the network settings.</string>
     <string name="edit">Edit</string>
     <string name="group">Group</string>
-    <string name="initialize">Initialize</string>
+    <string name="initialize">Reset Groups</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Yes</string>
     <string name="delete">Delete</string>
@@ -111,6 +117,13 @@
     <string name="lamp_mini_outdoor">Mini Outdoor Lamp</string>
     <string name="lamp_cct">CCT Bulb</string>
     <string name="lamp_led_strip">Strip Light</string>
+
+
+
+    <string name="privacy_tip">Please confirm that you have read and agree to</string>
+    <string name="license_agreement">The End user License Agreement</string>
+    <string name="privacy_statement">The Privacy Statement</string>
+    <string name="privacy_start">start</string>
 </resources>
 
 

@@ -13,13 +13,13 @@
 
 
     <string name="mesh_tab_control">Bediening</string>
-    <string name="mesh_tab_control_select">操控选择</string>
+    <string name="mesh_tab_device_select">Selecteer groep of lamp</string>
     <string name="mesh_tab_group_setting">Groepen aanmaken</string>
-    <string name="mesh_tab_device_search">Zoek lamp of apparaat</string>
+    <string name="mesh_tab_device_connect">Apparaatverbinding</string>
 
 
     <string name="menu_rename">Naam Wijzigen</string>
-    <string name="menu_timer">开关定时</string>
+    <string name="menu_timer">Tijdschakelaar</string>
     <string name="menu_control_share">Controle delen</string>
     <string name="menu_scan">Scan</string>
 
@@ -46,7 +46,7 @@
     <string name="timer_close_time">Licht schakelaar uit</string>
     <string name="timer_loop">重复</string>
 
-    <string name="share_tips">Deel je controle met famlie of vrienden\nen deel de vreugde van intelligent licht.</string>
+    <string name="share_tips">Deel je controle met famlie of vrienden，en deel de vreugde van intelligent licht.</string>
     <string name="share_tip_download_app">Download de APP</string>
     <string name="share_tip_open_app">Open de APP en scan de QR Code</string>
     <string name="share_tip_success">Delen gelukt</string>
@@ -63,11 +63,13 @@
     <string name="state_connected">Verbonden</string>
 
 
-    <string name="group_setting_drag">拖拽进入</string>
-    <string name="group_setting_exceed_number">Aantal groepen boven maximum.</string>
+    <string name="group_setting_drag">Kies lamp om toe te voegen</string>
+    <string name="group_setting_exceed_number">Het aantal groepen is overschreden</string>
 
+
+    <string name="device_search">Zoek lamp of apparaat</string>
     <string name="device_associating">Verbinden...</string>
-    <string name="device_clear">清空所有你设置的分组与设备?</string>
+    <string name="device_clear">Wis opmaak voorgeprogrammeerde lampen</string>
     <string name="device_associate_fail">De connectie werkt niet, start het apparaat opnieuw op.</string>
 
     <string name="device_connect_step1_title">Installeer je toestel</string>
@@ -79,6 +81,9 @@
     <string name="device_reset_hint2">1. Schakel de lamp uit\n2. Schakel de lamp 1 a 2 seconden aan\n3. Schakel de lamp 1 a 2 seconden uit\n4. Schakel de lamp 1 a 2 seconden aan\n5. Schakel de lamp 1 a 2 seconden uit\n6. Schakel voor de derde keer de lamp aan. Wanneer de lamp 3 keer achter elkaar flikkert, dan heeft de lamp zich gereset naar de oorspronkelijke setting.\n\n (In het geval dat de lamp niet 3 keer flikkert, probeer de voorgaande procedure nogmaals.)</string>
     <string name="device_reset_hint1">Verwijder de oude connectie in "aansluitingen" Daarna krijgt u automatisch de reset functie te zien.</string>
 
+    <string name="device_reset_tip">Probeer eerst de volgende twee shortcuts</string>
+    <string name="device_reset_hint0">1. Herstart Bluetooth\n2. Stop de LinkedupHome APP via de instellingen van je telefoon. Stop de app via Apps; Apps info; alles stoppen. Herstart hierna de app op de normale manier.\n\nAls de twee hiervoor genoemde shortcuts niet werken reset de lampen via de volgende stappen</string>
+
     <string name="next_step">Volgende stap</string>
     <string name="searching">Zoeken</string>
 
@@ -86,6 +91,7 @@
     <string name="how_to_reset_device_step1">Stap 1</string>
     <string name="how_to_reset_device_step2">Stap 2</string>
     <string name="how_to_reset_step">Reset stappen</string>
+    <string name="how_to_reset_process">Reset stappen</string>
     <string name="bridge_disconnected">De lamp maakt geen verbinding, probeert automatisch te verbinden</string>
 
     <string name="save">Opslaan</string>
@@ -94,7 +100,7 @@
     <string name="network_error">Geen connectie met het netwerk，Netwerk connectie werkt niet, Check de netwerk instellingen.</string>
     <string name="edit">Opmaken</string>
     <string name="group">Groep</string>
-    <string name="initialize">初始化</string>
+    <string name="initialize">Wis opmaak voorgeprogrammeerde lampen</string>
     <string name="cancel">Annuleren</string>
     <string name="confirm">Ja</string>
     <string name="delete">Verwijderen</string>
@@ -110,6 +116,13 @@
     <string name="lamp_mini_outdoor">迷你花园灯</string>
     <string name="lamp_cct">CCT lichtbron</string>
     <string name="lamp_led_strip">LED strip</string>
+
+
+
+    <string name="privacy_tip">Bevestig dat je hebt gelezen en ga akkoord</string>
+    <string name="license_agreement">De eindgebruikerslicentieovereenkomst</string>
+    <string name="privacy_statement">De privacyverklaring</string>
+    <string name="privacy_start">Begin</string>
 </resources>
 
 

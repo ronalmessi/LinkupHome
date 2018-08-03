@@ -43,7 +43,7 @@ class ScanActivity : BaseActivity(), QRCodeView.Delegate {
         mViewDataBinding.handlers = ScanHandler()
 
         mViewDataBinding.capturePreview.setDelegate(this)
-        mViewDataBinding.capturePreview.setScanBox(mViewDataBinding.captureCropLayout)
+//        mViewDataBinding.capturePreview.setScanBox(mViewDataBinding.captureCropLayout)
 
         val mAnimation = TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0.9f)
         mAnimation.duration = 1500

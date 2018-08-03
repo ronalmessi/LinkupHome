@@ -10,15 +10,14 @@
     <string name="product_manual">产品使用说明</string>
     <string name="center_title">中心</string>
 
-
     <string name="mesh_tab_control">操控</string>
-    <string name="mesh_tab_control_select">操控选择</string>
+    <string name="mesh_tab_device_select">选择设备</string>
     <string name="mesh_tab_group_setting">组别设置</string>
-    <string name="mesh_tab_device_search">搜索设备</string>
+    <string name="mesh_tab_device_connect">设备连接</string>
 
 
     <string name="menu_rename">重命名</string>
-    <string name="menu_timer">开关定时</string>
+    <string name="menu_timer">定时开关</string>
     <string name="menu_control_share">分享操控</string>
     <string name="menu_scan">扫一扫</string>
 
@@ -26,7 +25,6 @@
     <string name="scan_get_data">操控数据正在获取中...</string>
     <string name="scan_qrCode">我的二维码</string>
     <string name="scan_auto">放入框内，自动扫描</string>
-
 
     <string name="scene_mode">情景模式</string>
     <string name="scene_read">阅读模式</string>
@@ -44,7 +42,6 @@
     <string name="timer_close_time">关灯时间</string>
     <string name="timer_loop">重复</string>
 
-
     <string name="share_tips">可以把操控分享给家人或亲密朋友\n一起分享智能照明带来的快乐</string>
     <string name="share_tip_download_app">下载APP</string>
     <string name="share_tip_open_app">打开APP扫描二维码</string>
@@ -58,17 +55,16 @@
     <string name="share_img_save_success">图片已保存</string>
     <string name="share_img_save_fail">保存出错了</string>
 
-
     <string name="state_disconnected">点击连接</string>
     <string name="state_connected">已连接</string>
 
-
-    <string name="group_setting_drag">拖拽进入</string>
+    <string name="group_setting_drag">点击添加</string>
     <string name="group_setting_exceed_number">超出分组数量</string>
 
 
+    <string name="device_search">搜索设备</string>
     <string name="device_associating">连接中...</string>
-    <string name="device_clear">清空所有你设置的分组与设备?</string>
+    <string name="device_clear">是否清空所有组别？</string>
     <string name="device_associate_fail">连接失败，请重启设备进行连接</string>
 
     <string name="device_connect_step1_title">设备准备好了吗？</string>
@@ -80,22 +76,24 @@
     <string name="device_reset_hint2">1.用开关先将灯关闭。\n2.打开灯，等待1-2秒。\n3.关闭灯，等待1-2秒。\n4.打开灯，等待1-2秒。\n5.关闭灯，等待1-2秒。\n6.第三次打开灯时，请等待2秒左右，灯光闪烁3次即代表重置成功，灯泡已恢复到出厂设置状态。\n\n(如没有看到灯光闪烁三次，请按照以上流程再操作一遍，直到看到灯光闪烁三次，表示重置成功)</string>
     <string name="device_reset_hint1">在“设备连接”界面里把以前连接过的这条痕迹，左滑删除后，重置后的设备会显示出来。</string>
 
+    <string name="device_reset_tip">请先尝试以下两种快捷处理方式</string>
+    <string name="device_reset_hint0">一：关闭蓝牙，再启动蓝牙 \n二：从后台关闭LinkupHomeAPP后，再打开APP\n\n以上两种快捷方式尝试后如果仍然无法搜索到设备，请按照以下步骤重置设备</string>
+
     <string name="next_step">下一步</string>
     <string name="searching">正在搜索</string>
     <string name="how_to_reset_device">如何重置</string>
     <string name="how_to_reset_device_step1">步骤一</string>
     <string name="how_to_reset_device_step2">步骤二</string>
     <string name="how_to_reset_step">重置步骤</string>
+    <string name="how_to_reset_process">重置流程</string>
     <string name="bridge_disconnected">设备已断开，正在尝试自动连接</string>
-
-
 
     <string name="save">存储</string>
     <string name="import_error">二维码内容不符</string>
     <string name="network_error">网络连接失败，请检查网络设置</string>
     <string name="edit">编辑</string>
     <string name="group">组</string>
-    <string name="initialize">初始化</string>
+    <string name="initialize">清除组别</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="delete">删除</string>
@@ -111,6 +109,12 @@
     <string name="lamp_mini_outdoor">迷你花园灯</string>
     <string name="lamp_cct">冷暖灯泡</string>
     <string name="lamp_led_strip">LED灯带</string>
+
+    <string name="privacy_tip">请仔细阅读并确认以下协议</string>
+    <string name="license_agreement">用户许可协议</string>
+    <string name="privacy_statement">公司隐私声明</string>
+    <string name="privacy_start">开始</string>
+
 
 </resources>
 

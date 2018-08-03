@@ -12,14 +12,14 @@
 
 
     <string name="mesh_tab_control">El Manejo</string>
-    <string name="mesh_tab_control_select">Selección De Control Y Operación</string>
+    <string name="mesh_tab_device_select">Selección De Control Y Operación</string>
     <string name="mesh_tab_group_setting">Grupo De Redacción</string>
-    <string name="mesh_tab_device_search">Buscar Los Equipos</string>
+    <string name="mesh_tab_device_connect">conexión del dsipositivo</string>
 
 
 
     <string name="menu_rename">Cambiar De Nombre</string>
-    <string name="menu_timer">Sincronización De Conmutador</string>
+    <string name="menu_timer">interruptor preestablecido</string>
     <string name="menu_control_share">Comparttir Manipulaciòn</string>
     <string name="menu_scan">Barrer El</string>
 
@@ -38,7 +38,7 @@
     <string name="timer_loop">repetir</string>
 
 
-    <string name="share_tips">Puede compartir el control a miembros de la familia o amigos cercanos\ncompartiendo juntos la alegría de la iluminación inteligente</string>
+    <string name="share_tips">Puede Compartir El Control A Miembros De La Familia O Amigos Cercanos\nCompartiendo Juntos La Alegría De La Iluminación Inteligente</string>
     <string name="share_tip_download_app">Descargar APP</string>
     <string name="share_tip_open_app">Abrir El APP Para Escanear El Código QR</string>
     <string name="share_tip_success">Compartiendo Con Éxito</string>
@@ -56,11 +56,12 @@
     <string name="state_connected">Se Ha Conectado</string>
 
 
-    <string name="group_setting_drag">Arrastrar Para Entrar</string>
-    <string name="group_setting_exceed_number">Exceder el número de paquete</string>
+    <string name="group_setting_drag">haga clic para agregar</string>
+    <string name="group_setting_exceed_number">Exceder El Número De Paquete</string>
 
+    <string name="device_search">Buscar Los Equipos</string>
     <string name="device_associating">Conectando...</string>
-    <string name="device_clear">Borrar todos los paquetes con el dispositivo conflgura?</string>
+    <string name="device_clear">si quiere eliminar todos los tipos de grupo</string>
     <string name="device_associate_fail">Conectado Con Error. Reactive El Dispositivo Y Conecte Otra Vez.</string>
 
     <string name="device_connect_step1_title">¿está listo el dispositivo?</string>
@@ -72,6 +73,9 @@
     <string name="device_reset_hint2">1, Apague primero la lámpara con el interruptor \n2, después de encender la lámpara, espere 1 a 2 segundos. \n3, Apague la lámpara, y  espere 1 a 2 segundos. \n4,  Encieda la lámpara, y espere 1 a 2 segundos. \n5, Apague la lámpara, y  espere 1 a 2 segundos.  \n6, Al encender por tercera vez, espere 2 segundos, en este momento, se ve la luz parpadeada tres veces, lo significa un reestablecimiento éxito, y que la lámpara ha recuperado la configuración de fábrica \n\n(si no se ve la luz parpadeada tres veces, repita los pasos anteriores hasta que vea la luz parpadeada tres veces , lo  significa un reestablecimineto éxito)</string>
     <string name="device_reset_hint1">Después de eliminar la memoria de conexión anterior en la interfaz de "conexión de dispositivo" deslizando a la izquierda, el dispositivo reestablecido se muestra en la interfaz</string>
 
+    <string name="device_reset_tip">intente a tomar los dos siguientes métodos para tratarlo</string>
+    <string name="device_reset_hint0">I: Desactive el Bluetooth, y luego active denuvo\nII: apague la aplicación LinkupHome mediante el segundo plano, y luego encienda de nuevo\n\nSi no puede todavía buscar el dispositivo usando los dos métodos, siga los pasos a continuación para reestablecer el dispositivo</string>
+
     <string name="next_step">El Siguiente Paso</string>
     <string name="searching">está buscando</string>
 
@@ -79,6 +83,7 @@
     <string name="how_to_reset_device_step1">paso 1</string>
     <string name="how_to_reset_device_step2">paso 2</string>
     <string name="how_to_reset_step">pasos de reestablecimiento</string>
+    <string name="how_to_reset_process">proceso de reestablecimiento</string>
     <string name="bridge_disconnected">el dispositivo se ha desconectado, está tratando de conectar</string>
 
     <string name="save">Memoria</string>
@@ -87,7 +92,7 @@
     <string name="network_error">Conexión de red falla, compruebe la configuración de red</string>
     <string name="edit">Redacción</string>
     <string name="group">Grupo</string>
-    <string name="initialize">Inicialización</string>
+    <string name="initialize">eliminar el tipo de grupo</string>
     <string name="cancel">Cancelar</string>
     <string name="confirm">Sí</string>
     <string name="delete">Eliminar</string>
@@ -103,4 +108,11 @@
     <string name="lamp_mini_outdoor">Miniluz de jardín</string>
     <string name="lamp_cct">Bombillas de luz cálida</string>
     <string name="lamp_led_strip">banda de luz de LED</string>
+
+
+
+    <string name="privacy_tip">Por favor confirme que ha leído y acepta</string>
+    <string name="license_agreement">El acuerdo de licencia de usuario final</string>
+    <string name="privacy_statement">La declaración de privacidad</string>
+    <string name="privacy_start">comienzo</string>
 </resources>
