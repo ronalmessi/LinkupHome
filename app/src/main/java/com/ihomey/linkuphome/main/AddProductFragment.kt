@@ -68,6 +68,7 @@ class AddProductFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener 
         if (arguments.getBoolean("isGoBack", false)) {
             activity.onBackPressed()
         } else {
+            activity.onBackPressed()
             (activity as IFragmentStackHolder).replaceFragment(R.id.container, ProductListFragment().newInstance())
         }
     }

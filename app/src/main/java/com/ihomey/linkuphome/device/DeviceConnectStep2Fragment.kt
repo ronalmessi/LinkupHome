@@ -29,6 +29,7 @@ import com.ihomey.linkuphome.viewmodel.MainViewModel
  */
 class DeviceConnectStep2Fragment : BaseFragment() {
 
+    private lateinit var listener: BridgeListener
     private var mViewModel: MainViewModel? = null
     private lateinit var mViewDataBinding: FragmentDeviceConnectStep2Binding
     private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded, R.mipmap.lamp_icon_outdoor_unadded)
@@ -42,6 +43,10 @@ class DeviceConnectStep2Fragment : BaseFragment() {
         return addProductFragment
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        listener = context as BridgeListener
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_connect_step2, container, false)
@@ -65,18 +70,27 @@ class DeviceConnectStep2Fragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel?.isBridgeStateChanged()?.observe(this, Observer<Void> {
-            showLamp()
+        mViewModel?.getBridgeState()?.observe(this, Observer<Boolean> {
+            if (it != null && it) {
+                showLamp()
+            }
         })
     }
 
-    private fun showLamp() {
-        if (activity != null) {
-            activity.onBackPressed()
-            if (!arguments.getBoolean("isReConnect", false)) {
-                (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
-            }
+    override fun onResume() {
+        super.onResume()
+        if (!arguments.getBoolean("isReConnect", false)) {
+            listener.connectBridge()
         }
+    }
+
+    private fun showLamp() {
+        mViewDataBinding.tvDeviceConnectStep2Hint.postDelayed({
+            if (activity != null) {
+                activity.onBackPressed()
+                    (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
+            }
+        }, 1000)
     }
 
 

@@ -23,13 +23,14 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.databinding.DialogLanguageSelectionBinding
 import com.ihomey.linkuphome.databinding.FragmentWelcomeBinding
+import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.ui.CenterActivity
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.DividerDecoration
 
-class WelcomeFragment : BaseFragment() {
+class WelcomeFragment : BaseFragment(), FragmentBackHandler {
 
     lateinit var mViewDataBinding: FragmentWelcomeBinding
     private lateinit var mViewModel: MainViewModel
@@ -101,4 +102,7 @@ class WelcomeFragment : BaseFragment() {
     }
 
 
+    override fun onBackPressed(): Boolean {
+        return  false
+    }
 }

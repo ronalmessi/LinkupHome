@@ -36,7 +36,7 @@ class MainViewModel : ViewModel() {
 
     private var localSetting: LiveData<Resource<LampCategory>>
 
-    private val isBridgeStateChanged = SingleLiveEvent<Void>()
+    private val bridgeState = MutableLiveData<Boolean>()
 
     @Inject
     lateinit var mCategoryRepository: CategoryRepository
@@ -193,12 +193,12 @@ class MainViewModel : ViewModel() {
         modelRepository.deleteModel(deviceId, groupId, groupIndex)
     }
 
-    fun isBridgeStateChanged(): SingleLiveEvent<Void> {
-        return isBridgeStateChanged
+    fun getBridgeState(): MutableLiveData<Boolean> {
+        return bridgeState
     }
 
-    fun setBridgeConnectState() {
-        isBridgeStateChanged.call()
+    fun setBridgeState(connected: Boolean) {
+        bridgeState.value = connected
     }
 
 }

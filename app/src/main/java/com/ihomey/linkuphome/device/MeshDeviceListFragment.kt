@@ -37,6 +37,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     private var lampCategoryType: Int = -1
     private var isDeviceRemoving = false
+    private val uuidHashArray: SparseArray<String> = SparseArray()
     private lateinit var mViewDataBinding: FragmentDeviceMeshListBinding
     private var adapter: DeviceListAdapter? = null
     private lateinit var listener: DevicesStateListener
@@ -90,27 +91,18 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
-
         mViewModel?.getDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("splash_bg", "1111==="+adapter?.itemCount+"---"+it.data.size)
-                if (adapter?.itemCount == 0) {
-                    val resultDeviceList= arrayListOf<SingleDevice>()
-                    resultDeviceList.addAll(it.data)
-                    Log.d("splash_bg","ss=="+listener.getScannedDevices())
-                    resultDeviceList.addAll(listener.getScannedDevices())
-                    adapter?.setNewData(resultDeviceList)
-                } else {
-                    val resultDeviceList= arrayListOf<SingleDevice>()
-                    resultDeviceList.addAll(it.data)
-                    adapter?.data?.filter { it.id==0 }?.let { it1 -> resultDeviceList.addAll(it1) }
-                    adapter?.setNewData(resultDeviceList)
-                }
+            if (it?.status == Status.SUCCESS) {
                 var hasConnected by PreferenceHelper("hasConnected$lampCategoryType", false)
-                hasConnected = !it.data.isEmpty()
+                if (it.data == null || it.data.isEmpty()) {
+                    adapter?.setNewData(null)
+                    hasConnected = false
+                } else if (adapter?.itemCount == 0 || adapter?.itemCount == it.data.size) {
+                    hasConnected = true
+                    adapter?.setNewData(it.data)
+                }
             }
         })
-
         mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> { it ->
             if (it?.status == Status.SUCCESS && it.data != null) {
                 setting = it.data
@@ -123,34 +115,32 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         listener = context as DevicesStateListener
     }
 
-
-//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-//        super.setUserVisibleHint(isVisibleToUser)
-//        val isShare by PreferenceHelper("share_$lampCategoryType", false)
-//        if (!isShare) {
-//            try {
-//                listener.discoverDevices(userVisibleHint, this)
-//            } catch (e: Exception) {
-//                Log.d("LinkupHome", "lateinit property listener has not been initialized")
-//            }
-//        }
-//    }
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        val isShare by PreferenceHelper("share_$lampCategoryType", false)
+        if (!isShare) {
+            try {
+                listener.discoverDevices(userVisibleHint, this)
+            } catch (e: Exception) {
+                Log.d("LinkupHome", "lateinit property listener has not been initialized")
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()
         listener.discoverDevices(true, this)
     }
 
-    override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
-        if (!isDeviceRemoving) {
-            adapter?.addData(SingleDevice(0, Device(shortName, lampCategoryType), uuidHash, 0, 0, 0, null))
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        listener.discoverDevices(false, this)
+        uuidHashArray.clear()
     }
-
 
     override fun onItemClick(itemView: View?, position: Int) {
         val singleDevice = adapter?.getItem(position)
-        var isShare by PreferenceHelper("share_$lampCategoryType", false)
+        val isShare by PreferenceHelper("share_$lampCategoryType", false)
         if (!isShare && singleDevice?.id == 0) {
             deviceAssociateFragment.isCancelable = false
             deviceAssociateFragment.show(activity.fragmentManager, "DeviceAssociateFragment")
@@ -167,6 +157,15 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
             showDeviceRemoveAlertDialog(singleDevice!!)
         }
         menuBridge.closeMenu()
+    }
+
+    override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
+        if (!isDeviceRemoving && uuidHashArray.indexOfKey(uuidHash) < 0) {
+            uuidHashArray.put(uuidHash, shortName)
+            val deviceType = DeviceType.values()[lampCategoryType]
+            val deviceShortName = getShortName(deviceType)
+            if (TextUtils.equals(deviceShortName, shortName)) adapter?.addData(SingleDevice(0, Device(deviceType.name, lampCategoryType), uuidHash, 0, 0, 0, null))
+        }
     }
 
     override fun associationProgress(progress: Int) {
@@ -200,6 +199,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType), uuidHash, 0, 0, 0, ControlState())
         val position = adapter?.data?.indexOf(device) ?: -1
         if (position != -1) {
+            uuidHashArray.remove(uuidHash)
             adapter?.remove(position)
             mViewModel?.deleteSingleDevice(lampCategoryType, deviceId)
         }
@@ -219,7 +219,6 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     }
 
     interface DevicesStateListener {
-        fun getScannedDevices(): List<SingleDevice>
         fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?)
         fun removeDevice(device: SingleDevice, listener: DeviceRemoveListener)
         fun associateDevice(uuidHash: Int, shortCode: String?)

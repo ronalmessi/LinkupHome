@@ -37,39 +37,22 @@ import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.listeners.*
 import com.ihomey.linkuphome.viewmodel.MainViewModel
+import de.keyboardsurfer.android.widget.crouton.Crouton
 import java.lang.ref.WeakReference
 import java.util.*
 
 
 class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragmentStackHolder, MeshDeviceListFragment.DevicesStateListener, MeshServiceStateListener, GroupSettingFragment.ModelUpdateListener {
 
-    override fun getScannedDevices(): List<SingleDevice> {
-        return scanDeviceList
-    }
-
-    override fun clear() {
-        uuidHashArray.clear()
-        meshAssListener = null
-        scanDeviceList.clear()
-    }
-
-    override fun isBridgeConnected(): Boolean {
-        return mConnected
-    }
-
     private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
-    private val languageArray: Array<String> = arrayOf("en", "zh", "fr", "de", "es","nl")
+    private val languageArray: Array<String> = arrayOf("en", "zh", "fr", "de", "es", "nl")
 
     private var mViewModel: MainViewModel? = null
     private var mService: MeshService? = null
     private var mConnected = false
     private val mDeviceIdToUuidHash = SparseIntArray()
     private val mConnectedDevices = HashSet<String>()
-    private val uuidHashArray: SparseArray<String> = SparseArray()
-
-    private var scanDeviceList = arrayListOf<SingleDevice>()
-
-    private var lampType: Int = -1
+    private val addressToNameMap = ArrayMap<String, String>()
 
     private var meshAssListener: DeviceAssociateListener? = null
     private var mRemovedListener: DeviceRemoveListener? = null
@@ -156,24 +139,19 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         mViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         mViewModel?.getLocalSetting()?.observe(this, Observer<Resource<LampCategory>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
-                lampType = it.data.type
                 mService?.setNetworkPassPhrase(it.data.networkKey)
             }
         })
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             val hasAgreed by PreferenceHelper("hasAgreed", false)
-            supportFragmentManager.beginTransaction().replace(R.id.container, if(!hasAgreed) PrivacyFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
+            supportFragmentManager.beginTransaction().replace(R.id.container, if (!hasAgreed) PrivacyFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
         }
     }
 
     override fun replaceFragment(containerId: Int, frag: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        if (TextUtils.equals("RepeatTimerSettingFragment", frag.javaClass.simpleName) || TextUtils.equals("TimerSettingFragment", frag.javaClass.simpleName)) {
-            transaction.setCustomAnimations(R.anim.push_right_in, R.anim.hold, R.anim.hold, R.anim.push_left_out)
-        } else {
-            transaction.setCustomAnimations(R.anim.push_bottom_in, R.anim.hold, R.anim.hold, R.anim.push_top_out)
-        }
+        transaction.setCustomAnimations(R.anim.push_bottom_in, R.anim.hold, R.anim.hold, R.anim.push_top_out)
         transaction.replace(containerId, frag, frag.javaClass.simpleName)
         transaction.addToBackStack(frag.javaClass.simpleName)
         transaction.commit()
@@ -198,6 +176,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     }
 
     private fun releaseResource() {
+        Crouton.cancelAllCroutons()
         mService?.setDeviceDiscoveryFilterEnabled(false)
         if (mConnected) mService?.disconnectBridge()
         mService?.setHandler(null)
@@ -207,20 +186,35 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     override fun onBackPressed() {
         if (!handleBackPress(this)) {
             finish()
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(0);
+            android.os.Process.killProcess(android.os.Process.myPid())
+            System.exit(0)
         }
     }
 
-    private fun onConnected() {
+    private fun onConnected(name: String) {
         mConnected = true
+        val textView = TextView(this)
+        textView.width = getScreenW()
+        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
+        textView.gravity = Gravity.CENTER
+        textView.setTextColor(resources.getColor(android.R.color.white))
+        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
+        textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
+        Crouton.make(this, textView).show()
         discoverDevices(true, null)
-        mMeshHandler.postDelayed({ mViewModel?.setBridgeConnectState() }, 550)
+        mMeshHandler.postDelayed({ mViewModel?.setBridgeState(mConnected) }, 550)
     }
 
-    private fun onDisConnected() {
-        clear()
-        mViewModel?.setBridgeConnectState()
+    private fun onDisConnected(name: String) {
+//        val textView = TextView(this)
+//        textView.width = getScreenW()
+//        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
+//        textView.gravity = Gravity.CENTER
+//        textView.setTextColor(resources.getColor(android.R.color.white))
+//        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
+//        textView.text = '"' + name + '"' + " " + getString(R.string.disconnected)
+//        Crouton.make(this, textView).show()
+        mViewModel?.setBridgeState(mConnected)
     }
 
     private fun getNextDeviceIndex() {
@@ -264,6 +258,9 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
 
     private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
         mService?.processMeshAdvert(device, scanRecord, rssi)
+        if (!TextUtils.isEmpty(device.name) && !addressToNameMap.containsKey(device.address)) {
+            addressToNameMap[device.address] = device.name
+        }
     }
 
     private val mMeshHandler = MeshHandler(this)
@@ -277,9 +274,10 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                     val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
                     if (parentActivity != null) {
                         parentActivity.mConnectedDevices.add(address)
-                        if (!parentActivity.mConnected) {
+                        val name = parentActivity.addressToNameMap[address]
+                        if (!parentActivity.mConnected && name != null && !TextUtils.isEmpty(name)) {
                             parentActivity.runOnUiThread({
-                                parentActivity.onConnected()
+                                parentActivity.onConnected(name)
                             })
                         }
                     }
@@ -287,7 +285,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                 MeshService.MESSAGE_DEVICE_DISCOVERED -> {
                     val uuidHash = msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
                     if (parentActivity?.mRemovedListener != null && parentActivity.mRemovedUuidHash == uuidHash) {
-                        parentActivity.uuidHashArray.remove(uuidHash)
                         parentActivity.mRemovedListener?.onDeviceRemoved(parentActivity.mRemovedDeviceId, uuidHash, true)
                         parentActivity.mRemovedListener = null
                         parentActivity.mRemovedUuidHash = 0
@@ -300,22 +297,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                     val appearance = msg.data.getByteArray(MeshService.EXTRA_APPEARANCE)
                     val shortName = msg.data.getString(MeshService.EXTRA_SHORTNAME)
                     val uuidHash = msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
-                    if (parentActivity?.uuidHashArray?.indexOfKey(uuidHash)!! < 0) {
-                        parentActivity.uuidHashArray.put(uuidHash, shortName)
-                        val deviceType = DeviceType.values()[parentActivity.lampType]
-                        val deviceShortName = getShortName(deviceType)
-                        if (TextUtils.equals(deviceShortName, shortName)) {
-//                            Log.d("splash_bg", "555555")
-//                            if (parentActivity.meshAssListener == null) {
-//                                Log.d("splash_bg", "lampType==11111==" + parentActivity.lampType)
-//                                parentActivity.scanDeviceList.add(SingleDevice(0, Device(deviceType.name, parentActivity.lampType), uuidHash, 0, 0, 0, null))
-//                                parentActivity.mViewModel?.setDeviceScanState()
-//                            } else {
-//                                Log.d("splash_bg", "lampType==22222==" + parentActivity.lampType)
-//                                parentActivity.meshAssListener?.newAppearance(uuidHash, appearance, deviceType.name)
-//                            }
-                        }
-                    }
+                    parentActivity?.meshAssListener?.newAppearance(uuidHash, appearance, shortName)
                 }
                 MeshService.MESSAGE_ASSOCIATING_DEVICE -> {
                     val progress = msg.data.getInt(MeshService.EXTRA_PROGRESS_INFORMATION)
@@ -393,9 +375,12 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                     if (numConnections == 0) {
                         if (parentActivity != null) {
                             parentActivity.mConnected = false
-                            parentActivity.runOnUiThread({
-                                parentActivity.onDisConnected()
-                            })
+                            val name = parentActivity.addressToNameMap[address]
+                            if (name != null && !TextUtils.isEmpty(name)) {
+                                parentActivity.runOnUiThread({
+                                    parentActivity.onDisConnected(name)
+                                })
+                            }
                         }
                     }
                 }
@@ -424,7 +409,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
 
     private val removeDeviceTimeout = Runnable {
         if (mRemovedListener != null) {
-            uuidHashArray.remove(mRemovedUuidHash)
             mRemovedListener?.onDeviceRemoved(mRemovedDeviceId, mRemovedUuidHash, true)
             mRemovedListener = null
             mRemovedUuidHash = 0
