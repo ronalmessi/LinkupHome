@@ -37,8 +37,6 @@ class MainViewModel : ViewModel() {
     private var localSetting: LiveData<Resource<LampCategory>>
 
     private val isBridgeStateChanged = SingleLiveEvent<Void>()
-    private val hasScannedDevice = SingleLiveEvent<Void>()
-
 
     @Inject
     lateinit var mCategoryRepository: CategoryRepository
@@ -134,13 +132,6 @@ class MainViewModel : ViewModel() {
         loadGroupInfo.value = deviceInfo
     }
 
-    fun hasScannedDevice(): SingleLiveEvent<Void> {
-        return hasScannedDevice
-    }
-
-    fun setDeviceScanState() {
-        hasScannedDevice.call()
-    }
 
     fun addSingleDevice(setting: LampCategory, singleDevice: SingleDevice) {
         mDeviceRepository.addSingleDevice(setting, singleDevice)

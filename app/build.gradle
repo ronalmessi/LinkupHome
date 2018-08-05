@@ -103,6 +103,10 @@ dependencies {
 
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
+    implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
+
 
 }
 

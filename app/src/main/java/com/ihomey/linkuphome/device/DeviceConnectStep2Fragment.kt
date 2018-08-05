@@ -29,7 +29,6 @@ import com.ihomey.linkuphome.viewmodel.MainViewModel
  */
 class DeviceConnectStep2Fragment : BaseFragment() {
 
-    private var listener: BridgeListener? = null
     private var mViewModel: MainViewModel? = null
     private lateinit var mViewDataBinding: FragmentDeviceConnectStep2Binding
     private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded, R.mipmap.lamp_icon_outdoor_unadded)
@@ -43,11 +42,6 @@ class DeviceConnectStep2Fragment : BaseFragment() {
         return addProductFragment
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as BridgeListener
-        listener?.clear()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_connect_step2, container, false)
@@ -72,22 +66,8 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel?.isBridgeStateChanged()?.observe(this, Observer<Void> {
-            mViewDataBinding.ivDeviceConnectLampIcon.postDelayed(removeDeviceTimeout, 8000)
-        })
-
-        mViewModel?.hasScannedDevice()?.observe(this, Observer<Void> {
-            mViewDataBinding.ivDeviceConnectLampIcon.removeCallbacks(removeDeviceTimeout)
             showLamp()
         })
-
-
-        if (listener != null) {
-            if (listener?.isBridgeConnected()!!) {
-                mViewDataBinding.ivDeviceConnectLampIcon.postDelayed(removeDeviceTimeout, 8000)
-            } else {
-                listener?.connectBridge()
-            }
-        }
     }
 
     private fun showLamp() {
@@ -97,11 +77,6 @@ class DeviceConnectStep2Fragment : BaseFragment() {
                 (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
             }
         }
-    }
-
-
-    private val removeDeviceTimeout = Runnable {
-        showLamp()
     }
 
 
