@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.scene
 
 import android.arch.lifecycle.ViewModel
-import com.iclass.soocsecretary.component.DaggerAppComponent
+import com.ihomey.linkuphome.component.DaggerAppComponent
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.repository.GroupRepository
 import javax.inject.Inject

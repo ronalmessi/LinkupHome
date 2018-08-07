@@ -7,5 +7,27 @@
     <dimen name="timer_setting_btn_padding">108dp</dimen>
 
 
+    <dimen name="device_control_circle_outer_width">420dp</dimen>
+    <dimen name="device_control_circle_top_outer_margin">30dp</dimen>
+    <dimen name="device_control_circle_outer_middle_margin">78dp</dimen>
+    <dimen name="device_control_circle_middle_inner_margin">92dp</dimen>
+    <dimen name="device_control_logo_margin">208dp</dimen>
+    <dimen name="device_control_logo_width">108dp</dimen>
+    <dimen name="device_control_logo_height">24dp</dimen>
+    <dimen name="device_control_circle_middle_width">284dp</dimen>
+    <dimen name="device_control_circle_inner_width">256dp</dimen>
+
+
+
+    <dimen name="device_control_circle_shadow_width">420dp</dimen>
+    <dimen name="device_control_progress_stroke_width">57dp</dimen>
+    <dimen name="device_control_circle_top_shadow_margin">48dp</dimen>
+    <dimen name="device_control_circle_disc_width">320dp</dimen>
+    <dimen name="device_control_circle_shadow_disc_margin">64dp</dimen>
+    <dimen name="device_control_circle_temperature_width">290dp</dimen>
+    <dimen name="device_control_circle_temperature_disc_margin">70dp</dimen>
+    <dimen name="device_control_logo_top_margin">218dp</dimen>
+
+
 
 </resources>

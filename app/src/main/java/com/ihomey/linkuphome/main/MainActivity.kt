@@ -126,6 +126,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         val desLanguage = languageArray[languageIndex - 1]
         val currentLanguage = LocaleHelper.getLanguage(this)
         if (!TextUtils.equals(currentLanguage, desLanguage)) {
+            mViewModel?.setBridgeState(false)
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
             recreate()

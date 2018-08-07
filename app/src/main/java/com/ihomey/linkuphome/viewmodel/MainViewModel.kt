@@ -4,9 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
-import android.util.Log
-import com.iclass.soocsecretary.component.DaggerAppComponent
-import com.ihomey.linkuphome.SingleLiveEvent
+import com.ihomey.linkuphome.component.DaggerAppComponent
 import com.ihomey.linkuphome.data.repository.CategoryRepository
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.repository.GroupRepository

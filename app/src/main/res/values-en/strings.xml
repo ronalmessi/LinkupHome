@@ -63,7 +63,7 @@
     <string name="state_disconnected">Click to Connect</string>
     <string name="state_connected">Connected</string>
 
-    <string name="group_setting_drag">Push "Add" Button to Add</string>
+    <string name="group_setting_drag">Press \"Add\" Button to Add</string>
     <string name="group_setting_exceed_number">The number of packets exceeded</string>
 
 

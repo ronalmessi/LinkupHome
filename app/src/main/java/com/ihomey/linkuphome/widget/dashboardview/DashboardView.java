@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -45,6 +47,8 @@ public class DashboardView extends View {
     private Paint paintNum;
     private RectF rectF2;
 
+    private Bitmap scaleBitmap;
+
     private int OFFSET = 30;
     private int START_ARC = 118;
     private int DURING_ARC = 304;
@@ -54,9 +58,6 @@ public class DashboardView extends View {
     float percent;
     float numCount;
     private ColorTemperatureListener mCircleTemperatureListener;
-
-    private long startTime;
-    private long endTime;
 
     private float downX;
     private float downY;
@@ -116,6 +117,9 @@ public class DashboardView extends View {
         paintNum.setStrokeWidth(dip2px(mContext, 2.1f));
         paintNum.setStyle(Paint.Style.FILL);
         paintNum.setDither(true);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.color_temperature_icon_cursor);
+        scaleBitmap = scaleBitmap(bitmap, (getResources().getDimension(R.dimen.device_control_circle_temperature_width) - getResources().getDimension(R.dimen.device_control_progress_stroke_width) - getResources().getDimension(R.dimen.device_control_logo_width) * 7 / 12) / bitmap.getWidth());
     }
 
 
@@ -235,22 +239,40 @@ public class DashboardView extends View {
     private void drawerPointer(Canvas canvas, float percent) {
         canvas.save();
         float angel = DURING_ARC * (percent - 0.5f);
-        canvas.rotate(angel, mWidth / 2, mHight / 2);//指针与外弧边缘持平
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.color_temperature_icon_cursor);
-        canvas.drawBitmap(bitmap, getMeasuredWidth() / 2 - bitmap.getWidth() / 2, getMeasuredHeight() / 2 - bitmap.getHeight() / 2, paintNum);
+        canvas.rotate(angel, mWidth / 2, mHight / 2);
+        canvas.drawBitmap(scaleBitmap, getMeasuredWidth() / 2 - scaleBitmap.getWidth() / 2, getMeasuredHeight() / 2 - scaleBitmap.getHeight() / 2, paintNum);
         canvas.restore();
     }
+
+
+    //按比例缩放
+    public static Bitmap scaleBitmap(Bitmap origin, float scale) {
+        if (origin == null) {
+            return null;
+        }
+        int width = origin.getWidth();
+        int height = origin.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.preScale(scale, scale);
+        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (newBM.equals(origin)) {
+            return newBM;
+        }
+        origin.recycle();
+        return newBM;
+    }
+
 
     private void drawerNum(Canvas canvas) {
         canvas.save(); //记录画布状态
         canvas.rotate(-(180 - START_ARC + 90f), 0, 0);
-        int numY = -mHight / 2 + OFFSET + progressStrokeWidth;
+        float numY = -mHight / 2+(getResources().getDimension(R.dimen.device_control_circle_disc_width) - getResources().getDimension(R.dimen.device_control_circle_temperature_width))/2;
         float rAngle = 280 / ((mTikeCount) * 1.0f); //n根线，只需要n-1个区间
         for (int i = 0; i < numCount / 4; i++) {
             canvas.save(); //记录画布状态
             canvas.rotate(rAngle * i, 0, 0);
 
-            canvas.drawLine(0, numY - dip2px(getContext(), 80.6f), 0, numY - dip2px(getContext(), 35.5f), paintNum);//画短刻度线
+            canvas.drawLine(0, numY, 0, numY +progressStrokeWidth, paintNum);//画短刻度线
             canvas.restore();
         }
         canvas.restore();
@@ -300,7 +322,6 @@ public class DashboardView extends View {
                 moveX = 0;
                 moveY = 0;
                 mPreRadian = getRadian(event.getX(), event.getY());
-                startTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 moveX += Math.abs(event.getX() - downX);//X轴距离

@@ -1,4 +1,4 @@
-package com.iclass.soocsecretary.module
+package com.ihomey.linkuphome.module
 
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Room
@@ -29,7 +29,7 @@ class ApiModule {
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(1,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(2,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(3,0,'$uniqueID',1,-1)")
-                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
+//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
             }
         }).build()
     }

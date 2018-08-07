@@ -1,6 +1,6 @@
-package com.iclass.soocsecretary.component
+package com.ihomey.linkuphome.component
 
-import com.iclass.soocsecretary.module.ApiModule
+import com.ihomey.linkuphome.module.ApiModule
 import com.ihomey.linkuphome.scan.ScanViewModel
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.share.ShareViewModel
