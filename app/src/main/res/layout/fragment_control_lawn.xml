@@ -147,8 +147,8 @@
                 android:layout_toEndOf="@+id/device_brightness_icon_low"
                 android:layout_toStartOf="@+id/device_brightness_icon_high"
                 android:clickable="false"
-                android:max="85"
-                android:progress="@{control.state!=null?control.state.brightness:20}" />
+                android:max="240"
+                android:progress="@{control.state!=null?control.state.brightness:35}" />
 
             <ImageView
                 android:id="@+id/device_brightness_icon_high"

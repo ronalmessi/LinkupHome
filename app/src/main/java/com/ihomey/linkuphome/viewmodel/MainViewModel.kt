@@ -47,32 +47,32 @@ class MainViewModel : ViewModel() {
 
     init {
         DaggerAppComponent.builder().build().inject(this)
-        localSetting = Transformations.switchMap(mCategoryType, { input ->
+        localSetting = Transformations.switchMap(mCategoryType) { input ->
             mCategoryRepository.getLocalSetting(input)
-        })
-        deviceResults = Transformations.switchMap(mCategoryType, { input ->
+        }
+        deviceResults = Transformations.switchMap(mCategoryType) { input ->
             mDeviceRepository.getDevices(input)
-        })
-        controlDeviceResults = Transformations.switchMap(mCategoryType, { input ->
+        }
+        controlDeviceResults = Transformations.switchMap(mCategoryType) { input ->
             mDeviceRepository.getAllControlDevices(input)
-        })
-        modelResults = Transformations.switchMap(modelDeviceId, { input ->
+        }
+        modelResults = Transformations.switchMap(modelDeviceId) { input ->
             modelRepository.getModels(input)
-        })
-        bondedDeviceResults = Transformations.switchMap(loadGroupInfo, { input ->
+        }
+        bondedDeviceResults = Transformations.switchMap(loadGroupInfo) { input ->
             mDeviceRepository.getBondedDevices(input.deviceType, input.deviceId)
-        })
-        unBondedDeviceResults = Transformations.switchMap(loadGroupInfo, { input ->
+        }
+        unBondedDeviceResults = Transformations.switchMap(loadGroupInfo) { input ->
             mDeviceRepository.getUnBondedDevices(input.deviceType, input.deviceId)
-        })
-        currentControlDevice = Transformations.switchMap(currentControlDeviceInfo, { input ->
+        }
+        currentControlDevice = Transformations.switchMap(currentControlDeviceInfo) { input ->
             mDeviceRepository.setLastUsedDeviceId(input.deviceId, input.deviceType)
             if (input.deviceId in 1..32768) {
                 mGroupRepository.getGroup(input.deviceType, input.deviceId)
             } else {
                 mDeviceRepository.getDevice(input.deviceType, input.deviceId)
             }
-        })
+        }
     }
 
     fun getCategoryResults(): LiveData<Resource<List<LampCategory>>>? {
