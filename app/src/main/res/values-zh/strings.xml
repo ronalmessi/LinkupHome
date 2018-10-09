@@ -103,7 +103,7 @@
     <string name="add">添加</string>
     <string name="adding">正在添加...</string>
 
-    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_bedside">床头灯</string>
     <string name="lamp_outdoor">户外灯</string>
     <string name="lamp_rgb">RGB灯泡</string>
     <string name="lamp_mini_outdoor">迷你花园灯</string>

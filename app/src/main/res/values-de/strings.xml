@@ -105,7 +105,7 @@
     <string name="add">Hinzufügen</string>
     <string name="adding">Hinzufügen...</string>
 
-    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_bedside">Nachttischlampe</string>
     <string name="lamp_rgb">RGB Birne</string>
     <string name="lamp_outdoor">Außenleuchter</string>
     <string name="lamp_mini_outdoor">Mini-Gartenleuchte</string>

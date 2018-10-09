@@ -277,9 +277,9 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                         parentActivity.mConnectedDevices.add(address)
                         val name = parentActivity.addressToNameMap[address]
                         if (!parentActivity.mConnected && name != null && !TextUtils.isEmpty(name)) {
-                            parentActivity.runOnUiThread({
+                            parentActivity.runOnUiThread {
                                 parentActivity.onConnected(name)
-                            })
+                            }
                         }
                     }
                 }
@@ -378,9 +378,9 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                             parentActivity.mConnected = false
                             val name = parentActivity.addressToNameMap[address]
                             if (name != null && !TextUtils.isEmpty(name)) {
-                                parentActivity.runOnUiThread({
+                                parentActivity.runOnUiThread {
                                     parentActivity.onDisConnected(name)
-                                })
+                                }
                             }
                         }
                     }

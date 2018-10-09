@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import java.util.*
 import javax.inject.Singleton
+import android.arch.persistence.room.migration.Migration
 
 
 /**
@@ -30,8 +31,16 @@ class ApiModule {
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(2,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(3,0,'$uniqueID',1,-1)")
 //                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
+//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,-1)")
             }
-        }).build()
+        }).addMigrations(MIGRATION_1_2).build()
+    }
+
+    val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            val uniqueID = UUID.randomUUID()
+            db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,-1)")
+        }
     }
 
     @Singleton

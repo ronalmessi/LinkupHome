@@ -10,9 +10,9 @@ import com.ihomey.linkuphome.data.vo.LampCategory
  */
 class AddedProductListAdapter(layoutId: Int) : BaseQuickAdapter<LampCategory, BaseViewHolder>(layoutId) {
 
-    private val models = arrayListOf("C3", "R2", "A2", "N1", "V1")
-    private val names = arrayListOf(R.string.lamp_outdoor, R.string.lamp_rgb, R.string.lamp_cct, R.string.lamp_led_strip, R.string.lamp_mini_outdoor)
-    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn, R.mipmap.lamp_icon_rgb, R.mipmap.lamp_icon_warm_cold, R.mipmap.lamp_icon_led, R.mipmap.lamp_icon_outdoor)
+    private val models = arrayListOf("C3", "R2", "A2", "N1", "V1","M1")
+    private val names = arrayListOf(R.string.lamp_outdoor, R.string.lamp_rgb, R.string.lamp_cct, R.string.lamp_led_strip, R.string.lamp_mini_outdoor,R.string.lamp_bedside)
+    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn, R.mipmap.lamp_icon_rgb, R.mipmap.lamp_icon_warm_cold, R.mipmap.lamp_icon_led, R.mipmap.lamp_icon_outdoor, R.mipmap.lamp_icon_bed)
 
     override fun convert(helper: BaseViewHolder?, item: LampCategory?) {
         helper?.setText(R.id.lamp_category_added_tv_model, models[item?.type!!])

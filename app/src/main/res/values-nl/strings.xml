@@ -110,14 +110,12 @@
     <string name="add">Toevoegen</string>
     <string name="adding">Toevoegen...</string>
 
-    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_bedside">Bed lamp</string>
     <string name="lamp_rgb">RGB lichtbron</string>
     <string name="lamp_outdoor">Buitenlamp</string>
     <string name="lamp_mini_outdoor">迷你花园灯</string>
     <string name="lamp_cct">CCT lichtbron</string>
     <string name="lamp_led_strip">LED strip</string>
-
-
 
     <string name="privacy_tip">Bevestig dat je hebt gelezen en ga akkoord</string>
     <string name="license_agreement">De eindgebruikerslicentieovereenkomst</string>

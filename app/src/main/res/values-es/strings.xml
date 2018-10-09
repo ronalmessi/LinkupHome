@@ -102,7 +102,7 @@
     <string name="add">Añadir</string>
     <string name="adding">Añadir...</string>
 
-    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_bedside">lámpara en la cabecera de cama</string>
     <string name="lamp_rgb">RGB Bombilla</string>
     <string name="lamp_outdoor">luz al aire libre</string>
     <string name="lamp_mini_outdoor">Miniluz de jardín</string>

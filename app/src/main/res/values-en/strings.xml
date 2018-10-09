@@ -111,7 +111,7 @@
     <string name="add">Add</string>
     <string name="adding">Adding...</string>
 
-    <string name="lamp_bed">智能床头灯</string>
+    <string name="lamp_bedside">Bed lamp</string>
     <string name="lamp_rgb">RGB Bulb</string>
     <string name="lamp_outdoor">Outdoor Lamp</string>
     <string name="lamp_mini_outdoor">Mini Outdoor Lamp</string>
