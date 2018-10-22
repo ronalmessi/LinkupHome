@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.main
 
-import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
@@ -9,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.databinding.FragmentPrivacyBinding
 import com.ihomey.linkuphome.listener.IFragmentStackHolder

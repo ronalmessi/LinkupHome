@@ -100,7 +100,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
     fun updateDeviceState(singleDeviceId: Int,state: ControlState) {
         appExecutors.diskIO().execute {
-            singleDeviceDao.updateDeviceState(singleDeviceId,state.on,state.light,state.changeMode,state.colorPosition,state.colorTemperature,state.brightness,state.sceneMode,state.openTimer,state.closeTimer,state.openTimerOn,state.closeTimerOn)
+            singleDeviceDao.updateDeviceState(singleDeviceId,state.on,state.light,state.changeMode,state.colorPosition,state.colorTemperature,state.brightness,state.sceneMode,state.openTimer,state.closeTimer,state.openTimerOn,state.closeTimerOn,state.openDayOfWeek,state.closeDayOfWeek)
         }
     }
 

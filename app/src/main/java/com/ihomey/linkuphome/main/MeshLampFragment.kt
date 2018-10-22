@@ -11,19 +11,18 @@ import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ControlDeviceListAdapter
-import com.ihomey.linkuphome.adapter.ControlPageAdapter
+import com.ihomey.linkuphome.adapter.MeshLampPageAdapter
 import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.databinding.FragmentLampBinding
+import com.ihomey.linkuphome.databinding.FragmentLampMeshBinding
 import com.ihomey.linkuphome.device.DeviceConnectFragment
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.disableShiftMode
@@ -33,16 +32,16 @@ import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 
-class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener, BaseQuickAdapter.OnItemClickListener {
+class MeshLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener, BaseQuickAdapter.OnItemClickListener {
 
     private var categoryType: Int = -1
     private val adapter = ControlDeviceListAdapter(R.layout.control_device_list_item)
-    private lateinit var mViewDataBinding: FragmentLampBinding
+    private lateinit var mViewDataBinding: FragmentLampMeshBinding
     private var mViewModel: MainViewModel? = null
     private lateinit var behavior: BottomSheetBehavior<View>
 
-    fun newInstance(categoryType: Int): LampFragment {
-        val fragment = LampFragment()
+    fun newInstance(categoryType: Int): MeshLampFragment {
+        val fragment = MeshLampFragment()
         val bundle = Bundle()
         bundle.putInt("categoryType", categoryType)
         fragment.arguments = bundle
@@ -77,11 +76,11 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_lamp, container, false)
+        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_lamp_mesh, container, false)
         categoryType = arguments.getInt("categoryType", -1)
-        mViewDataBinding.controlBaseBnv.disableShiftMode()
+        mViewDataBinding.controlBaseBnv.disableShiftMode(1.5f)
         mViewDataBinding.controlBaseVp.offscreenPageLimit = 3
-        mViewDataBinding.controlBaseVp.adapter = ControlPageAdapter(categoryType, childFragmentManager)
+        mViewDataBinding.controlBaseVp.adapter = MeshLampPageAdapter(categoryType, childFragmentManager)
         mViewDataBinding.controlBaseVp.addOnPageChangeListener(null)
         mViewDataBinding.controlBaseBnv.setOnNavigationItemSelectedListener(this)
         mViewDataBinding.controlBaseBnv.setOnNavigationItemReselectedListener(this)

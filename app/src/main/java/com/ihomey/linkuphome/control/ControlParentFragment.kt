@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.listener.FragmentBackHandler
@@ -38,6 +38,7 @@ class ControlParentFragment : BaseFragment(), IFragmentStackHolder, FragmentBack
             2 -> setFragment(WarmColdControlFragment().newInstance())
             3 -> setFragment(LedControlFragment().newInstance())
             4 -> setFragment(OutdoorControlFragment().newInstance())
+            5 -> setFragment(BedControlFragment().newInstance())
         }
     }
 

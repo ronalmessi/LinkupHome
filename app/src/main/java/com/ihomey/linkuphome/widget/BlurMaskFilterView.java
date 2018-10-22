@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -36,7 +37,7 @@ public class BlurMaskFilterView extends View {
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        Bitmap srcBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_splash_logo);
+        Bitmap srcBitmap = scaleBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_splash_logo),1.5f);
         int xOffset = (mContext.getResources().getDisplayMetrics().widthPixels - srcBitmap.getWidth()) / 2;
         int yOffset = (mContext.getResources().getDisplayMetrics().heightPixels - srcBitmap.getHeight()) / 2;
         Bitmap shadowBitmap = srcBitmap.extractAlpha();
@@ -52,6 +53,23 @@ public class BlurMaskFilterView extends View {
     public static float dp2px(Resources resources, float dp) {
         final float scale = resources.getDisplayMetrics().density;
         return dp * scale + 0.5f;
+    }
+
+    //按比例缩放
+    public static Bitmap scaleBitmap(Bitmap origin, float scale) {
+        if (origin == null) {
+            return null;
+        }
+        int width = origin.getWidth();
+        int height = origin.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.preScale(scale, scale);
+        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (newBM.equals(origin)) {
+            return newBM;
+        }
+        origin.recycle();
+        return newBM;
     }
 
 }

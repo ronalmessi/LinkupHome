@@ -11,10 +11,13 @@
     <string name="center_title">Information Centre</string>
 
 
-    <string name="mesh_tab_control">Control</string>
-    <string name="mesh_tab_device_select">Select Group</string>
-    <string name="mesh_tab_group_setting">Create Groups</string>
-    <string name="mesh_tab_device_connect">Device Connect</string>
+    <string name="tab_control">Control</string>
+    <string name="tab_device_select">Select Group</string>
+    <string name="tab_group_setting">Create Groups</string>
+    <string name="tab_device_connect">Device Connect</string>
+    <string name="tab_ble_control">Light control</string>
+    <string name="tab_environmental_monitor">Environmental Monitoring</string>
+    <string name="tab_alarm_setting">Alarm setting</string>
 
 
     <string name="menu_rename">Rename</string>
@@ -67,6 +70,7 @@
     <string name="group_setting_exceed_number">The number of packets exceeded</string>
 
 
+    <string name="device_searching">Searching</string>
     <string name="device_search">Search Device</string>
     <string name="device_associating">Connecting...</string>
     <string name="device_clear">Reset all groups?</string>
@@ -124,6 +128,8 @@
     <string name="license_agreement">The End user License Agreement</string>
     <string name="privacy_statement">The Privacy Statement</string>
     <string name="privacy_start">start</string>
+
+    <string name="setting">Setting</string>
 </resources>
 
 

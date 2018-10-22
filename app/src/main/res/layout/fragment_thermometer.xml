@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="control"
+            type="com.ihomey.linkuphome.data.vo.ControlDevice" />
+
+        <!--<variable-->
+        <!--name="handlers"-->
+        <!--type="com.ihomey.linkuphome.control.BaseControlFragment.ToolBarEventHandler" />-->
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_thermometer">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/toolbar_open_drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_bed_lamp_drawer" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="@string/tab_environmental_monitor"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:paddingTop="54dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="室内温度"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="26°C"
+                android:textColor="#E86D82"
+                android:textSize="48sp" />
+
+            <com.ihomey.linkuphome.widget.Thermometer
+                android:id="@+id/thermometer"
+                android:layout_width="wrap_content"
+                android:layout_height="126dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="4dp"
+                app:innerColor="#E86D82"
+                app:middleColor="#ffffff"
+                app:radius="18dp" />
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

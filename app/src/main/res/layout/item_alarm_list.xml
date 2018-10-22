@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selectable_lamp_category_added_item_background"
+    android:paddingStart="16dp"
+    android:paddingTop="6dp"
+    android:paddingEnd="9dp"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:id="@+id/tv_alarm_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:textColor="@color/control_tab_item_selected_color"
+        android:textSize="27sp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_alarm_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_alarm_time" />
+
+
+    <com.suke.widget.SwitchButton
+        android:id="@+id/sb_alarm_state"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sb_background="#949393"
+        app:sb_button_color="@android:color/white"
+        app:sb_checked="false"
+        app:sb_checked_color="@color/control_tab_item_selected_color"
+        app:sb_checkline_color="#FFFFFF"
+        app:sb_enable_effect="true"
+        app:sb_uncheckcircle_color="@android:color/white" />
+
+</android.support.constraint.ConstraintLayout>

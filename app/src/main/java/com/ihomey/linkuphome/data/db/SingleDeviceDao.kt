@@ -25,7 +25,7 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE id = :id and type=:deviceType")
     abstract fun getSingleDevice(deviceType: Int, id: Int): LiveData<SingleDevice>
 
-    @Query("SELECT * FROM group_device WHERE type = :type union SELECT d.id,d.name,d.type,d.isOn,d.isLight,d.changeMode,d.colorPosition,d.colorTemperature,d.brightness,d.sceneMode,d.openTimer,d.closeTimer,d.isOnOpenTimer,d.isOnCloseTimer FROM Device AS d WHERE d.type = :type")
+    @Query("SELECT * FROM group_device WHERE type = :type union SELECT d.id,d.name,d.type,d.isOn,d.isLight,d.changeMode,d.colorPosition,d.colorTemperature,d.brightness,d.sceneMode,d.openTimer,d.closeTimer,d.isOnOpenTimer,d.isOnCloseTimer,d.openDayOfWeek,d.closeDayOfWeek FROM Device AS d WHERE d.type = :type")
     abstract fun getControlDevices(type: Int): LiveData<List<ControlDevice>>
 
     @Query("SELECT * FROM Device WHERE id in (SELECT deviceId FROM Model WHERE groupId = :groupId and type=:deviceType) and type=:deviceType")
@@ -63,7 +63,7 @@ abstract class SingleDeviceDao {
     abstract fun update(singleDevice: SingleDevice)
 
 
-    @Query("UPDATE Device set isOn=:on , isLight=:light,changeMode=:changeMode,colorPosition=:colorPosition,colorTemperature=:colorTemperature,brightness=:brightness,sceneMode=:sceneMode,openTimer=:openTimer,closeTimer=:closeTimer,isOnOpenTimer=:openTimerOn,isOnCloseTimer=:closeTimerOn WHERE id = :singleDeviceId")
-    abstract fun updateDeviceState(singleDeviceId: Int, on: Int, light: Int, changeMode: Int, colorPosition: Float, colorTemperature: Int, brightness: Int, sceneMode: Int, openTimer: Long, closeTimer: Long, openTimerOn: Int, closeTimerOn: Int)
+    @Query("UPDATE Device set isOn=:on , isLight=:light,changeMode=:changeMode,colorPosition=:colorPosition,colorTemperature=:colorTemperature,brightness=:brightness,sceneMode=:sceneMode,openTimer=:openTimer,closeTimer=:closeTimer,isOnOpenTimer=:openTimerOn,isOnCloseTimer=:closeTimerOn ,openDayOfWeek=:openDayOfWeek,closeDayOfWeek=:closeDayOfWeek WHERE id = :singleDeviceId")
+    abstract fun updateDeviceState(singleDeviceId: Int, on: Int, light: Int, changeMode: Int, colorPosition: Float, colorTemperature: Int, brightness: Int, sceneMode: Int, openTimer: Long, closeTimer: Long, openTimerOn: Int, closeTimerOn: Int,openDayOfWeek: Int, closeDayOfWeek: Int)
 
 }

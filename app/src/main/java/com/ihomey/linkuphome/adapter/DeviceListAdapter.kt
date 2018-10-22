@@ -24,5 +24,10 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         val drawable = getDrawable(mContext, if (item.id == 0) R.mipmap.state_icon_negative else R.mipmap.state_icon_positive)
         drawable.setBounds(0, 0, mContext.dip2px(17.5f), mContext.dip2px(17.5f))
         stateTextView.setCompoundDrawables(null, null, drawable, null)
+        if(item.device.type<5){
+            helper.itemView.setBackgroundResource(R.drawable.selector_control_unit_item_background)
+        }else{
+            helper.itemView.setBackgroundResource(R.drawable.selector_ble_device_item_background)
+        }
     }
 }

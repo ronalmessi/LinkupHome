@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="control"
+            type="com.ihomey.linkuphome.data.vo.ControlDevice" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/device_circle_iv_bg"
+            android:layout_width="@dimen/device_bed_control_circle_outer_width"
+            android:layout_height="@dimen/device_bed_control_circle_outer_width"
+            android:layout_marginStart="3dp"
+            android:background="@mipmap/control_circle_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.ihomey.linkuphome.widget.BedWarmColdCircleView
+            android:id="@+id/device_color_temperature_ccv"
+            android:layout_width="@dimen/device_bed_control_circle_inner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/device_bed_control_circle_top_inner_margin"
+            app:arrow_gap="12dp"
+            app:circle_width="@dimen/device_bed_control_circle_inner_radius"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RelativeLayout
+            android:id="@+id/device_control_middle_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_color_temperature_ccv">
+
+            <CheckBox
+                android:id="@+id/device_state_cb_power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="54dp"
+                android:background="@drawable/selector_control_btn_bed_power_background"
+                android:button="@null"
+                android:checked="@{control.state.on>0?true:false}" />
+
+
+            <CheckBox
+                android:id="@+id/device_state_cb_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="54dp"
+                android:background="@drawable/selector_control_btn_setting_background"
+                android:button="@null" />
+
+            <ImageView
+                android:id="@+id/device_brightness_icon_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/device_state_cb_power"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="30dp"
+                android:background="@mipmap/device_brightness_icon_low"
+                android:button="@null" />
+
+            <SeekBar
+                android:id="@+id/device_seek_bar_brightness"
+                style="@style/Widget.SeekBar.Normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/device_state_cb_power"
+                android:layout_marginTop="27.5dp"
+                android:layout_toStartOf="@+id/device_brightness_icon_high"
+                android:layout_toEndOf="@+id/device_brightness_icon_low"
+                android:clickable="false"
+                android:max="240"
+                android:progress="@{control.state!=null?control.state.brightness:35}" />
+
+            <ImageView
+                android:id="@+id/device_brightness_icon_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/device_state_cb_power"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="48dp"
+                android:background="@mipmap/device_brightness_icon_high"
+                android:button="@null" />
+        </RelativeLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

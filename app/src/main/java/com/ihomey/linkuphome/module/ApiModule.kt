@@ -31,7 +31,7 @@ class ApiModule {
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(2,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(3,0,'$uniqueID',1,-1)")
 //                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
-//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,-1)")
+                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,1)")
             }
         }).addMigrations(MIGRATION_1_2).build()
     }
@@ -65,6 +65,12 @@ class ApiModule {
     @Provides
     fun provideModelDao(db: LinkupHomeDb): ModelDao {
         return db.modelDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAlarmDao(db: LinkupHomeDb): AlarmDao {
+        return db.alarmDao()
     }
 
 }

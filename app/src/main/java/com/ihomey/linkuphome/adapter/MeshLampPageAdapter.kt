@@ -11,7 +11,7 @@ import com.ihomey.linkuphome.group.GroupFragment
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class ControlPageAdapter(lampCategoryType: Int, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+class MeshLampPageAdapter(lampCategoryType: Int, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     val type: Int = lampCategoryType
 

@@ -11,8 +11,9 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.bed.BedControlSettingFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.vo.ControlDevice
@@ -22,11 +23,12 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device.DeviceRenameFragment
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
-import com.ihomey.linkuphome.main.LampFragment
 import com.ihomey.linkuphome.scan.ScanActivity
+import com.ihomey.linkuphome.scene.BedSceneSettingFragment
 import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
 import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
 import com.ihomey.linkuphome.share.ShareActivity
+import com.ihomey.linkuphome.time.BedTimerSettingFragment
 import com.ihomey.linkuphome.time.RepeatTimerSettingFragment
 import com.ihomey.linkuphome.time.TimerSettingFragment
 import com.ihomey.linkuphome.viewmodel.MainViewModel
@@ -179,11 +181,28 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.device_color_cb_lighting) {
-            mControlDevice?.state?.light = 1
-            mControlDevice?.state?.changeMode = -1
-            if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightingMode(mControlDevice?.id!!)
-            mViewModel?.updateDevice(mControlDevice)
+        when (v.id) {
+            R.id.device_color_cb_lighting -> {
+                mControlDevice?.state?.light = 1
+                mControlDevice?.state?.changeMode = -1
+                if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightingMode(mControlDevice?.id!!)
+                mViewModel?.updateDevice(mControlDevice)
+            }
+            R.id.device_state_cb_setting -> {
+                val newFrag = BedControlSettingFragment().newInstance()
+                val fsh = parentFragment.parentFragment as IFragmentStackHolder
+                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+            }
+            R.id.rl_control_setting_scene_mode -> {
+                val newFrag = BedSceneSettingFragment().newInstance(5, 1)
+                val fsh = parentFragment as IFragmentStackHolder
+                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+            }
+            R.id.rl_control_setting_alarm -> {
+                val newFrag = BedTimerSettingFragment().newInstance()
+                val fsh = parentFragment as IFragmentStackHolder
+                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+            }
         }
     }
 

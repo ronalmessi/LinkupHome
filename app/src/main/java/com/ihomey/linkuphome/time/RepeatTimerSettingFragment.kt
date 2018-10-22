@@ -119,6 +119,9 @@ open class RepeatTimerSettingFragment : BaseTimerSettingFragment() {
     override fun isRepeat(): Boolean {
         return mViewDataBinding.cbTimerSettingRepeat.isChecked
     }
+    override fun getDayOfWeek(): Int {
+        return 0
+    }
 
 }
 

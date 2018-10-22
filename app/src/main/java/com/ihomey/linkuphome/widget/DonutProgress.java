@@ -216,7 +216,7 @@ public class DonutProgress extends View {
         return getProgress() / (float) max * 360f;
     }
 
-    public float getProgress() {
+    public int getProgress() {
         return progress;
     }
 

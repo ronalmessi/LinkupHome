@@ -10,11 +10,13 @@
     <string name="product_manual">产品使用说明</string>
     <string name="center_title">中心</string>
 
-    <string name="mesh_tab_control">操控</string>
-    <string name="mesh_tab_device_select">选择设备</string>
-    <string name="mesh_tab_group_setting">组别设置</string>
-    <string name="mesh_tab_device_connect">设备连接</string>
-
+    <string name="tab_control">操控</string>
+    <string name="tab_device_select">选择设备</string>
+    <string name="tab_group_setting">组别设置</string>
+    <string name="tab_device_connect">设备连接</string>
+    <string name="tab_ble_control">灯光控制</string>
+    <string name="tab_environmental_monitor">环境检测</string>
+    <string name="tab_alarm_setting">闹钟设置</string>
 
     <string name="menu_rename">重命名</string>
     <string name="menu_timer">定时开关</string>
@@ -62,6 +64,8 @@
     <string name="group_setting_exceed_number">超出分组数量</string>
 
 
+
+    <string name="device_searching">设备搜索中</string>
     <string name="device_search">搜索设备</string>
     <string name="device_associating">连接中...</string>
     <string name="device_clear">是否清空所有组别？</string>
@@ -114,6 +118,9 @@
     <string name="license_agreement">用户许可协议</string>
     <string name="privacy_statement">公司隐私声明</string>
     <string name="privacy_start">开始</string>
+
+
+    <string name="setting">设置</string>
 
 
 </resources>

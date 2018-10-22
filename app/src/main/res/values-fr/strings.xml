@@ -11,10 +11,13 @@
     <string name="center_title">Centre</string>
 
 
-    <string name="mesh_tab_control">Commander</string>
-    <string name="mesh_tab_device_select">Option De Contrôle</string>
-    <string name="mesh_tab_group_setting">Installation D’équipe</string>
-    <string name="mesh_tab_device_connect">Connexion de l\'appareil</string>
+    <string name="tab_control">Commander</string>
+    <string name="tab_device_select">Option De Contrôle</string>
+    <string name="tab_group_setting">Installation D’équipe</string>
+    <string name="tab_device_connect">Connexion de l\'appareil</string>
+    <string name="tab_ble_control">Contrôle d'éclairage</string>
+    <string name="tab_environmental_monitor">Surveillance environnementale</string>
+    <string name="tab_alarm_setting">Réglage du réveil</string>
 
 
     <string name="menu_rename">Renomer</string>
@@ -67,7 +70,7 @@
     <string name="group_setting_drag">Cliquez pour ajouter</string>
     <string name="group_setting_exceed_number">Dépasser Le Nombre De Paquets</string>
 
-
+    <string name="device_searching">En cours de chercher l'appareil</string>
     <string name="device_search">Rechercher Des Dispositifs</string>
     <string name="device_associating">Connexion En Cours...</string>
     <string name="device_clear">Voulez-vous supprimer tous les groupes?</string>
@@ -124,4 +127,7 @@
     <string name="license_agreement">Le contrat de licence de l\'utilisateur final</string>
     <string name="privacy_statement">La déclaration de confidentialité</string>
     <string name="privacy_start">Début</string>
+
+
+    <string name="setting">Réglage</string>
 </resources>

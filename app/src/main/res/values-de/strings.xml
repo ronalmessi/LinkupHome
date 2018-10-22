@@ -12,10 +12,13 @@
     <string name="product_manual">Produktanweisungen</string>
     <string name="center_title">Zentrum</string>
 
-    <string name="mesh_tab_control">Bedienung</string>
-    <string name="mesh_tab_device_select">Die Steuerung Zu Wählen</string>
-    <string name="mesh_tab_group_setting">Gruppeneinstellungen</string>
-    <string name="mesh_tab_device_connect">Geräteverbindung</string>
+    <string name="tab_control">Bedienung</string>
+    <string name="tab_device_select">Die Steuerung Zu Wählen</string>
+    <string name="tab_group_setting">Gruppeneinstellungen</string>
+    <string name="tab_device_connect">Geräteverbindung</string>
+    <string name="tab_ble_control">Contrôle d'éclairage</string>
+    <string name="tab_environmental_monitor">Umgebungsüberwachung</string>
+    <string name="tab_alarm_setting">Wecker-Einstellungen</string>
 
     <string name="menu_rename">Umbenennen</string>
     <string name="menu_timer">Zeitschalter</string>
@@ -61,6 +64,7 @@
     <string name="group_setting_drag">Klicken zum Hinzufügen</string>
     <string name="group_setting_exceed_number">Exceed Die Anzahl Der Pakete</string>
 
+    <string name="device_searching">Gerät suchen</string>
     <string name="device_search">Suchen Sie Nach Geräten</string>
     <string name="device_associating">Im Anschluss...</string>
     <string name="device_clear">Alle Gruppen löschen?</string>
@@ -117,4 +121,7 @@
     <string name="license_agreement">Die Endbenutzer-Lizenzvereinbarung</string>
     <string name="privacy_statement">Die Datenschutzerklärung</string>
     <string name="privacy_start">Anfang</string>
+
+
+    <string name="setting">Einstellungen</string>
 </resources>

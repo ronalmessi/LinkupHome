@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_lamp_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ihomey.linkuphome.widget.NoScrollViewpager
+                android:id="@+id/control_base_vp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@android:color/white"
+                app:layout_constraintBottom_toTopOf="@+id/control_base_bnv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/control_base_bnv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/control_base_bg"
+                android:gravity="center"
+                app:itemIconTint="@drawable/selector_control_tab_item_background"
+                app:itemTextColor="@drawable/selector_control_tab_item_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/control_base_vp"
+                app:menu="@menu/control_ble_tab_menu" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <include
+            android:id="@+id/nav_drawer_layout"
+            layout="@layout/nav_drawer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+
+</layout>

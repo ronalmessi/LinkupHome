@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.component
 
+import com.ihomey.linkuphome.alarm.AlarmViewModel
 import com.ihomey.linkuphome.module.ApiModule
 import com.ihomey.linkuphome.scan.ScanViewModel
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
@@ -23,6 +24,7 @@ interface AppComponent {
 
     fun inject(mainViewModel: MainViewModel)
 
+    fun inject(alarmViewModel: AlarmViewModel)
 
     fun inject(sceneSettingViewModel: SceneSettingViewModel)
 

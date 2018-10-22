@@ -123,5 +123,7 @@ open class TimerSettingFragment : BaseTimerSettingFragment() {
         return false
     }
 
-
+    override fun getDayOfWeek(): Int {
+        return 0
+    }
 }

@@ -71,7 +71,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             final int top = child.getBottom() + layoutParams.bottomMargin;
             final int bottom = top + mDividerHeight;
             if (mPaint != null) {
-                canvas.drawRect(left + dip2px(child.getContext(), 12), top, right - dip2px(child.getContext(), 12), bottom, mPaint);
+                canvas.drawRect(left , top, right , bottom, mPaint);
             }
         }
     }

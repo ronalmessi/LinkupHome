@@ -4,29 +4,24 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
-import android.widget.CompoundButton
 import android.widget.RadioGroup
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.vo.ControlDevice
-import com.ihomey.linkuphome.data.vo.DeviceInfo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.syncTime
 import com.ihomey.linkuphome.viewmodel.MainViewModel
-import com.ihomey.linkuphome.viewmodel.MainViewModel_MembersInjector
 import com.suke.widget.SwitchButton
 import java.util.*
 
-abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener, View.OnClickListener, SwitchButton.OnCheckedChangeListener{
+abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener, View.OnClickListener, SwitchButton.OnCheckedChangeListener {
 
     private var mControlDevice: ControlDevice? = null
     private var controller: Controller? = null
@@ -41,6 +36,8 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
     abstract fun getHour(): Int
 
     abstract fun getMinute(): Int
+
+    abstract fun getDayOfWeek(): Int
 
     abstract fun isOpenTimer(): Boolean
 
@@ -60,7 +57,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-            if (it?.status == Status.SUCCESS&&it.data!=null) {
+            if (it?.status == Status.SUCCESS && it.data != null) {
                 mControlDevice = it.data
                 initController(it.data.device.type)
                 updateViewData(it.data)
@@ -121,9 +118,11 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     if (isOpenTimer()) {
                         lightState.openTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
                         lightState.openTimerOn = 3
+                        lightState.openDayOfWeek = getDayOfWeek()
                     } else {
                         lightState.closeTimerOn = 3
                         lightState.closeTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
+                        lightState.closeDayOfWeek = getDayOfWeek()
                     }
                 }
                 setTimerOn(true)
@@ -198,71 +197,6 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
         }
     }
 
-//    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-//        Log.d("aa","1111111")
-////        setRepeat(!isRepeat())
-////        if (mControlDevice != null) {
-////            val lightState = mControlDevice?.state
-////            if (lightState != null) {
-////                val calendar = Calendar.getInstance()
-////                calendar.set(Calendar.HOUR_OF_DAY, getHour())
-////                calendar.set(Calendar.MINUTE, getMinute())
-////                if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
-////                if (isOpenTimer()) {
-////                    lightState.openTimer = calendar.timeInMillis
-////                    if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
-////                        controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, isTimerOn(), isRepeat())
-////                    }
-////                } else {
-////                    lightState.closeTimer = calendar.timeInMillis
-////                    if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
-////                        controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, isTimerOn(), isRepeat())
-////                    }
-////                }
-////            }
-////            mViewModel?.updateDevice(mControlDevice)
-////        }
-//    }
-
-//    private fun updateTimerSettingView() {
-//        isManualSwitch = false
-//        if (mControlDevice != null) {
-//            val lightState = mControlDevice?.state
-//            if (lightState != null) {
-//                if (lightState.closeTimerOn == 0 && lightState.openTimerOn == 0) {
-//                    setIsOpenTimer(true, lightState.openTimerOn)
-//                } else {
-//                    setIsOpenTimer(lightState.openTimerOn > 1, if (lightState.openTimerOn > 1) lightState.openTimerOn else lightState.closeTimerOn)
-//                }
-//                val time = if (lightState.openTimerOn > 1) lightState.openTimer else lightState.closeTimer
-//                val timerOn = if (lightState.openTimerOn > 1) lightState.openTimerOn else lightState.closeTimerOn
-//                var isRepeat = false
-//                if (time != 0L) {
-//                    val calendar = Calendar.getInstance()
-//                    calendar.time = Date(time)
-//                    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-//                    val minute = calendar.get(Calendar.MINUTE)
-//                    val year = calendar.get(Calendar.YEAR)
-//                    isRepeat = year == 1970
-//                    setTimer(hour, minute)
-//                } else {
-//                    setTimer(0, 0)
-//                }
-//                if (mControlDevice?.device?.type != 4) {
-//                    if (System.currentTimeMillis() > time) {
-//                        setTimerOn(false)
-//                    } else {
-//                        setTimerOn(timerOn == 3)
-//                    }
-//                } else {
-//                    setTimerOn(timerOn == 3)
-//                    setRepeat(isRepeat)
-//                }
-//            } else {
-//                setTimer(0, 0)
-//            }
-//        }
-//    }
 
     protected fun getMinuteList(): ArrayList<String> {
         val list = ArrayList<String>()

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_tab_ble_device"
+        android:icon="@mipmap/tab_icon_device_connect"
+        android:title="@string/tab_device_connect"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_tab_ble_control"
+        android:icon="@mipmap/tab_icon_ble_control"
+        android:title="@string/tab_ble_control"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_tab_environmental_monitor"
+        android:icon="@mipmap/tab_icon_environmental_monitor"
+        android:title="@string/tab_environmental_monitor"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_tab_alarm_setting"
+        android:icon="@mipmap/tab_icon_alarm_setting"
+        android:title="@string/tab_alarm_setting"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -12,10 +12,13 @@
     <string name="center_title">Informatie Centrum</string>
 
 
-    <string name="mesh_tab_control">Bediening</string>
-    <string name="mesh_tab_device_select">Selecteer groep of lamp</string>
-    <string name="mesh_tab_group_setting">Groepen aanmaken</string>
-    <string name="mesh_tab_device_connect">Apparaatverbinding</string>
+    <string name="tab_control">Bediening</string>
+    <string name="tab_device_select">Selecteer groep of lamp</string>
+    <string name="tab_group_setting">Groepen aanmaken</string>
+    <string name="tab_device_connect">Apparaatverbinding</string>
+    <string name="tab_ble_control">灯光控制</string>
+    <string name="tab_environmental_monitor">环境检测</string>
+    <string name="tab_alarm_setting">闹钟设置</string>
 
 
     <string name="menu_rename">Naam Wijzigen</string>
@@ -66,7 +69,7 @@
     <string name="group_setting_drag">Kies lamp om toe te voegen</string>
     <string name="group_setting_exceed_number">Het aantal groepen is overschreden</string>
 
-
+    <string name="device_searching">设备搜索中</string>
     <string name="device_search">Zoek lamp of apparaat</string>
     <string name="device_associating">Verbinden...</string>
     <string name="device_clear">Wis opmaak voorgeprogrammeerde lampen</string>
@@ -121,6 +124,9 @@
     <string name="license_agreement">De eindgebruikerslicentieovereenkomst</string>
     <string name="privacy_statement">De privacyverklaring</string>
     <string name="privacy_start">Begin</string>
+
+
+    <string name="setting">设置</string>
 </resources>
 
 

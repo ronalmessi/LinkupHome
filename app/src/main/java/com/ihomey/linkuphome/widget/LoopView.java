@@ -235,7 +235,7 @@ public class LoopView extends View {
         mPaddingLeftRight = (mWidgetWidth - mMaxTextWidth-dp2px(mContext,4)) / 2;
 
 
-//        Log.d("aa",mMaxTextWidth+"===mMaxTextWidth==="+mPaddingLeftRight);
+//        Log.d("bg_btn_setting_normal",mMaxTextWidth+"===mMaxTextWidth==="+mPaddingLeftRight);
         mPaddingTopBottom = (mWidgetHeight - mCircularDiameter) / 2;
 
         //topLineY = diameter/2 - itemHeight(mItemHeight)/2 + mPaddingTopBottom

@@ -65,6 +65,9 @@ dependencies {
     // CSRmesh
     implementation(name: 'CSRmeshLibrary', ext: 'aar')
 
+    // BLE
+    implementation 'com.clj.fastble:FastBleLib:2.3.2'
+
     // Kotlin
     implementation Libs.kotlin
 
@@ -107,6 +110,8 @@ dependencies {
         exclude group: 'com.google.android', module: 'support-v4'
     }
 
+
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
 }
 

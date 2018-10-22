@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <!--<variable-->
+        <!--name="handlers"-->
+        <!--type="com.ihomey.linkuphome.control.BaseControlFragment.ToolBarEventHandler" />-->
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/toolbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@mipmap/arrow_icon_left" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="编辑闹钟"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/toolbar_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="right"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="@string/save"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.19" />
+
+
+        <com.ihomey.linkuphome.widget.TimerSettingView
+            android:id="@+id/tsv_alarm_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            app:circle_gap="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:mTextSize="@dimen/alarm_setting_time"
+            app:reached_color="@color/control_tab_item_selected_color"
+            app:slider_bg_color="#76FFFFFF"
+            app:unreached_color="@android:color/white" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:divider="@drawable/bg_alarm_setting_divider"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:showDividers="middle|end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tsv_alarm_setting"
+            app:layout_constraintStart_toStartOf="@+id/tsv_alarm_setting"
+            app:layout_constraintTop_toBottomOf="@+id/tsv_alarm_setting">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_alarm_setting_repeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="6dp"
+                    android:src="@drawable/ic_alarm_setting_repeat" />
+
+                <TextView
+                    android:id="@+id/tv_alarm_setting_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="32dp"
+                    android:text="重复"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/tv_alarm_setting_repeat_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="92dp"
+                    android:layout_toStartOf="@+id/iv_alarm_setting_repeat"
+                    android:ellipsize="end"
+                    android:gravity="left"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_alarm_setting_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_alarm_setting_arrow" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_alarm_setting_ring"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:src="@drawable/ic_alarm_setting_ring" />
+
+                <TextView
+                    android:id="@+id/tv_alarm_setting_ring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="32dp"
+                    android:text="铃声"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/tv_alarm_setting_ring_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="92dp"
+                    android:layout_toStartOf="@+id/iv_alarm_setting_ring"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_alarm_setting_ring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_alarm_setting_arrow" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_alarm_setting_lighting" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="32dp"
+                    android:text="灯光"
+                    android:textColor="@android:color/white" />
+
+
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/sb_alarm_setting_lighting"
+                    android:layout_width="64dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    app:sb_background="#949393"
+                    app:sb_button_color="@android:color/white"
+                    app:sb_checked="false"
+                    app:sb_checked_color="@color/control_tab_item_selected_color"
+                    app:sb_checkline_color="#FFFFFF"
+                    app:sb_enable_effect="true"
+                    app:sb_uncheckcircle_color="@android:color/white" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_alarm_setting_voice" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="32dp"
+                    android:text="声音"
+                    android:textColor="@android:color/white" />
+
+
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/sb_alarm_setting_voice"
+                    android:layout_width="64dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    app:sb_background="#949393"
+                    app:sb_button_color="@android:color/white"
+                    app:sb_checked="false"
+                    app:sb_checked_color="@color/control_tab_item_selected_color"
+                    app:sb_checkline_color="#FFFFFF"
+                    app:sb_enable_effect="true"
+                    app:sb_uncheckcircle_color="@android:color/white" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

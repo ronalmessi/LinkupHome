@@ -45,7 +45,7 @@ import java.util.*
  * Created by dongcaizheng on 2018/4/9.
  */
 
-fun BottomNavigationView.disableShiftMode() {
+fun BottomNavigationView.disableShiftMode(iconScaleRatio:Float) {
     val menuView = this.getChildAt(0) as BottomNavigationMenuView
     try {
         val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
@@ -63,8 +63,8 @@ fun BottomNavigationView.disableShiftMode() {
             smallLabel.setLineSpacing(0f, 0.8f)
             largeLabel.gravity = Gravity.CENTER_HORIZONTAL
             smallLabel.gravity = Gravity.CENTER_HORIZONTAL
-            icon.scaleX = 1.5f
-            icon.scaleY = 1.5f
+            icon.scaleX =iconScaleRatio
+            icon.scaleY = iconScaleRatio
             val baselineLayout = largeLabel.parent as android.support.design.internal.BaselineLayout
             baselineLayout.setPadding(0, 0, 0, 0)
             val layoutParams = baselineLayout.layoutParams as FrameLayout.LayoutParams
@@ -238,6 +238,61 @@ fun decodeHex(data: CharArray): ByteArray {
     return out
 }
 
+/**
+ * 十六进制String转换成Byte[]
+ * @param hexString the hex string
+ * *
+ * @return byte[]
+ */
+fun hexStringToBytes(hexString: String?): ByteArray? {
+    var hexString = hexString
+    if (hexString == null || hexString == "") {
+        return null
+    }
+    hexString = hexString.toUpperCase()
+    val length = hexString.length / 2
+    val hexChars = hexString.toCharArray()
+    val d = ByteArray(length)
+    for (i in 0..length - 1) {
+        val pos = i * 2
+        d[i] = (charToByte(hexChars[pos]).toInt() shl 4 or charToByte(hexChars[pos + 1]).toInt()).toByte()
+    }
+    return d
+}
+
+
+/**
+ * Convert char to byte
+ * @param c char
+ * *
+ * @return byte
+ */
+private fun charToByte(c: Char): Byte {
+
+    return "0123456789ABCDEF".indexOf(c).toByte()
+}
+
+/* 这里我们可以将byte转换成int，然后利用Integer.toHexString(int)来转换成16进制字符串。
+    * @param src byte[] data
+    * @return hex string
+    */
+fun bytesToHexString(src: ByteArray?): String? {
+    val stringBuilder = StringBuilder("")
+    if (src == null || src.size <= 0) {
+        return null
+    }
+    for (i in 0..src.size-1) {
+        val v = src[i].toInt() and 0xFF
+        val hv = Integer.toHexString(v)
+        if (hv.length < 2) {
+            stringBuilder.append(0)
+        }
+        stringBuilder.append(hv)
+    }
+    return stringBuilder.toString()
+}
+
+
 fun toDigit(ch: Char, index: Int): Int {
     val digit = Character.digit(ch, 16)
     if (digit == -1) {
@@ -385,7 +440,8 @@ val REQUEST_BT_RESULT_CODE = 102
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
 val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg)
 val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
-
+val dayOfWeek=listOf("每周日", "每周一", "每周二", "每周三", "每周四", "每周五", "每周六").toMutableList()
+val ringTypeNames =listOf("海浪海鸥音效", "细流声", "晨鸟之歌").toMutableList()
 
 /**
  * LiveData that propagates only distinct emissions.

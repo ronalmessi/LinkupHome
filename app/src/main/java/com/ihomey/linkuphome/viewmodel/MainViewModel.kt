@@ -5,10 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.ihomey.linkuphome.component.DaggerAppComponent
-import com.ihomey.linkuphome.data.repository.CategoryRepository
-import com.ihomey.linkuphome.data.repository.DeviceRepository
-import com.ihomey.linkuphome.data.repository.GroupRepository
-import com.ihomey.linkuphome.data.repository.ModelRepository
+import com.ihomey.linkuphome.data.repository.*
 import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
 
@@ -28,6 +25,7 @@ class MainViewModel : ViewModel() {
     private var modelResults: LiveData<Resource<List<Model>>>
     private var deviceResults: LiveData<Resource<List<SingleDevice>>>
     private val controlDeviceResults: LiveData<Resource<List<ControlDevice>>>
+//    val alarmResults: LiveData<Resource<List<Alarm>>>
     private var bondedDeviceResults: LiveData<Resource<List<SingleDevice>>>
     private var unBondedDeviceResults: LiveData<Resource<List<SingleDevice>>>
     private var currentControlDevice: LiveData<Resource<ControlDevice>>
@@ -44,6 +42,9 @@ class MainViewModel : ViewModel() {
     lateinit var mDeviceRepository: DeviceRepository
     @Inject
     lateinit var modelRepository: ModelRepository
+    @Inject
+    lateinit var malarmRepository: AlarmRepository
+
 
     init {
         DaggerAppComponent.builder().build().inject(this)
@@ -67,12 +68,15 @@ class MainViewModel : ViewModel() {
         }
         currentControlDevice = Transformations.switchMap(currentControlDeviceInfo) { input ->
             mDeviceRepository.setLastUsedDeviceId(input.deviceId, input.deviceType)
-            if (input.deviceId in 1..32768) {
+            if ((input.deviceId in 1..32768) && input.deviceType < 5) {
                 mGroupRepository.getGroup(input.deviceType, input.deviceId)
             } else {
                 mDeviceRepository.getDevice(input.deviceType, input.deviceId)
             }
         }
+//        alarmResults = Transformations.switchMap(currentControlDeviceInfo) { input ->
+//            malarmRepository.getAlarms(input.deviceId)
+//        }
     }
 
     fun getCategoryResults(): LiveData<Resource<List<LampCategory>>>? {
@@ -85,6 +89,11 @@ class MainViewModel : ViewModel() {
     fun getGroupResults(type: Int): LiveData<Resource<List<GroupDevice>>>? {
         return mGroupRepository.getGroups(type)
     }
+
+    fun getAlarmResults(deviceId: Int): LiveData<Resource<List<Alarm>>>? {
+        return  malarmRepository.getAlarms(deviceId)
+    }
+
 
     fun getDeviceResults(): LiveData<Resource<List<SingleDevice>>> {
         return deviceResults
@@ -130,7 +139,6 @@ class MainViewModel : ViewModel() {
         loadGroupInfo.value = deviceInfo
     }
 
-
     fun addSingleDevice(setting: LampCategory, singleDevice: SingleDevice) {
         mDeviceRepository.addSingleDevice(setting, singleDevice)
     }
@@ -152,7 +160,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun updateDeviceName(deviceType: Int, deviceId: Int, deviceName: String) {
-        if (deviceId in 1..32768) {
+        if ((deviceId in 1..32768) && deviceType < 5) {
             mGroupRepository.updateGroupName(deviceType, deviceId, deviceName)
         } else {
             mDeviceRepository.updateSingleDeviceName(deviceType, deviceId, deviceName)
@@ -161,7 +169,7 @@ class MainViewModel : ViewModel() {
 
     fun updateDevice(controlDevice: ControlDevice?) {
         if (controlDevice != null) {
-            if (controlDevice.id in 1..32768) {
+            if (controlDevice.id in 1..32768 && controlDevice.device.type < 5) {
                 mGroupRepository.updateDevice(GroupDevice(controlDevice.id, controlDevice.device, controlDevice.state))
             } else {
                 mDeviceRepository.updateDeviceState(controlDevice.id, controlDevice.state)

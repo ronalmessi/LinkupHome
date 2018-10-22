@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="control"
+            type="com.ihomey.linkuphome.data.vo.ControlDevice" />
+
+        <variable
+            name="handlers"
+            type="com.ihomey.linkuphome.control.BaseControlFragment.ToolBarEventHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <ImageButton
+                android:id="@+id/toolbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@mipmap/arrow_icon_left"
+                android:onClick="@{handlers::onClick}" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="@string/setting"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+        <ScrollView
+            android:id="@+id/rg_control_switch"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/bg_bed_control_setting_divider"
+                android:orientation="vertical"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:showDividers="middle|end">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_time_synchronization" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="45dp"
+                        android:text="时间同步" />
+
+
+                    <com.suke.widget.SwitchButton
+                        android:id="@+id/sb_control_setting_time_synchronization"
+                        android:layout_width="64dp"
+                        android:layout_height="32dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        app:sb_background="#949393"
+                        app:sb_button_color="@android:color/white"
+                        app:sb_checked="false"
+                        app:sb_checked_color="@color/control_tab_item_selected_color"
+                        app:sb_checkline_color="#FFFFFF"
+                        app:sb_enable_effect="true"
+                        app:sb_uncheckcircle_color="@android:color/white" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_gesture_control" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="45dp"
+                        android:text="手势控制" />
+
+
+                    <com.suke.widget.SwitchButton
+                        android:id="@+id/sb_control_setting_gesture_control"
+                        android:layout_width="64dp"
+                        android:layout_height="32dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        app:sb_background="#949393"
+                        app:sb_button_color="@android:color/white"
+                        app:sb_checked="false"
+                        app:sb_checked_color="@color/control_tab_item_selected_color"
+                        app:sb_checkline_color="#FFFFFF"
+                        app:sb_enable_effect="true"
+                        app:sb_uncheckcircle_color="@android:color/white" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_control_setting_cycling"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp">
+
+                        <ImageView
+                            android:id="@+id/iv_control_setting_cycling"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/lamp_state_icon_cycling_on" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="45dp"
+                            android:text="灯光变化速度" />
+
+                        <ImageView
+                            android:id="@+id/iv_control_setting_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="6dp"
+                            android:background="@drawable/ic_bed_control_setting_arrow"
+                           />
+                    </RelativeLayout>
+
+                    <net.cachapa.expandablelayout.ExpandableLayout
+                        android:id="@+id/el_control_setting_cycling"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:el_duration="750"
+                        app:el_expanded="false">
+
+                        <com.ihomey.linkuphome.widget.SingleSelectToggleGroup
+                            android:id="@+id/sstg_cycling_speed"
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/device_color_cycling_btn_unchecked_bg"
+                            android:saveEnabled="true"
+                            android:textSize="12sp"
+                            app:buttonHeight="32dp"
+                            app:buttonSpacing="auto"
+                            app:buttonWidth="90dp"
+                            app:checkedBackground="@drawable/device_color_cycling_btn_checked_bg"
+                            app:checkedTextColor="@android:color/white"
+                            app:textButtons="@array/speed_choices"
+                            app:uncheckedTextColor="@android:color/white"
+                            app:wrap="false" />
+
+                    </net.cachapa.expandablelayout.ExpandableLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_control_setting_scene_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/lamp_scene_mode_icon_checked" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="45dp"
+                        android:text="情景模式" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="6dp"
+                        android:src="@drawable/ic_bed_control_setting_arrow" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_control_setting_alarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/toolbar_menu_alarm_select" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="45dp"
+                        android:text="定时开关" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="6dp"
+                        android:src="@drawable/ic_bed_control_setting_arrow" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+    </LinearLayout>
+</layout>

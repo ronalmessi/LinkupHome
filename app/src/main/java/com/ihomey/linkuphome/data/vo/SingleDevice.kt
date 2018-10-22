@@ -1,22 +1,23 @@
 package com.ihomey.linkuphome.data.vo
 
 import android.arch.persistence.room.*
+import android.text.TextUtils
 
 
 /**
  * Created by dongcaizheng on 2018/4/9.
  */
 @Entity(tableName = "device")
-data class SingleDevice(@PrimaryKey var id: Int, @Embedded var device: Device, @ColumnInfo(name = "hash") var hash: Int, @ColumnInfo(name = "groupsSupported") var groupsSupported: Int, @ColumnInfo(name = "modelSupportL") var modelSupportL: Long, @ColumnInfo(name = "modelSupportH") var modelSupportH: Long, @Embedded var state: ControlState?) {
+data class SingleDevice(@PrimaryKey var id: Int, @Embedded var device: Device, @ColumnInfo(name = "hash") var hash: Int, @ColumnInfo(name = "macAddress") var macAddress: String="", @ColumnInfo(name = "groupsSupported") var groupsSupported: Int, @ColumnInfo(name = "modelSupportL") var modelSupportL: Long, @ColumnInfo(name = "modelSupportH") var modelSupportH: Long, @Embedded var state: ControlState?) {
 
     override fun equals(obj: Any?): Boolean {
         if (obj == null || obj !is SingleDevice) {
             return false
         }
         val singleDevice = obj as SingleDevice?
-        if (singleDevice!!.id == this.id ) {
+        if (singleDevice!!.id == this.id &&singleDevice.device.type<5) {
             return true
-        }else if(singleDevice.hash == this.hash && singleDevice.device.type == this.device.type){
+        }else if(singleDevice.hash == this.hash&&TextUtils.equals(singleDevice.macAddress,this.macAddress)&& singleDevice.device.type == this.device.type){
             return true
         }
         return super.equals(obj)

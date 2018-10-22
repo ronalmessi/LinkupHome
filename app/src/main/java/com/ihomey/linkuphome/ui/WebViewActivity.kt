@@ -16,7 +16,7 @@ import com.ihomey.linkuphome.listener.EventHandler
 class WebViewActivity : BaseActivity() {
 
     companion object {
-        const val INSTRUCTIONS_URL = "http://ihomey.cc/guide/guide.html"
+        const val INSTRUCTIONS_URL = "http://ihomey.ic_arrow_left/guide/guide.html"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -9,12 +9,11 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.LanguageListAdapter
 import com.ihomey.linkuphome.base.LocaleHelper

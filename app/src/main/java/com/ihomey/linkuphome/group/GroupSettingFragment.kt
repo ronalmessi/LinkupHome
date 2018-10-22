@@ -19,7 +19,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceAdapter
 import com.ihomey.linkuphome.adapter.UnBondedDeviceAdapter
