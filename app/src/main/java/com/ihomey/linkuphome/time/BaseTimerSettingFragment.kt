@@ -139,35 +139,47 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                 if (isOpenTimer()) {
                     lightState.openTimerOn = if (isChecked) 3 else 2
                     if (isChecked) {
-                        if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
-                            if (mControlDevice?.device?.type != 4) {
-                                controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), true)
-                            } else {
-                                controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, true, isRepeat())
+                        if (mControlDevice?.device?.type!! < 5) {
+                            if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                                if (mControlDevice?.device?.type != 4) {
+                                    controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), true)
+                                } else {
+                                    controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, true, isRepeat())
+                                }
                             }
+                        } else {
+                            controller?.setRepeatTimer(mControlDevice?.device?.macAddress!!, getMinute(), getHour(), true, true, lightState.openDayOfWeek)
                         }
                     } else {
                         if (mControlDevice?.device?.type == 4) {
                             if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
                                 controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, false, isRepeat())
                             }
+                        } else if (mControlDevice?.device?.type == 5) {
+                            controller?.setRepeatTimer(mControlDevice?.device?.macAddress!!, getMinute(), getHour(), true, false, lightState.openDayOfWeek)
                         }
                     }
                 } else {
                     lightState.closeTimerOn = if (isChecked) 3 else 2
                     if (isChecked) {
-                        if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
-                            if (mControlDevice?.device?.type != 4) {
-                                controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), false)
-                            } else {
-                                controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, true, isRepeat())
+                        if (mControlDevice?.device?.type!! < 5) {
+                            if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                                if (mControlDevice?.device?.type != 4) {
+                                    controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), false)
+                                } else {
+                                    controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, true, isRepeat())
+                                }
                             }
+                        } else {
+                            controller?.setRepeatTimer(mControlDevice?.device?.macAddress!!, getMinute(), getHour(), false, true, lightState.closeDayOfWeek)
                         }
                     } else {
                         if (mControlDevice?.device?.type == 4) {
                             if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
                                 controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, false, isRepeat())
                             }
+                        } else if (mControlDevice?.device?.type == 5) {
+                            controller?.setRepeatTimer(mControlDevice?.device?.macAddress!!, getMinute(), getHour(), false, false, lightState.closeDayOfWeek)
                         }
                     }
                 }

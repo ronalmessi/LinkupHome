@@ -164,7 +164,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
             uuidHashArray.put(uuidHash, shortName)
             val deviceType = DeviceType.values()[lampCategoryType]
             val deviceShortName = getShortName(deviceType)
-            if (TextUtils.equals(deviceShortName, shortName)) adapter?.addData(SingleDevice(0, Device(deviceType.name, lampCategoryType), uuidHash, "",0, 0, 0, null))
+            if (TextUtils.equals(deviceShortName, shortName)) adapter?.addData(SingleDevice(0, Device(deviceType.name, lampCategoryType,""), uuidHash, 0, 0, 0, null))
         }
     }
 
@@ -176,7 +176,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     override fun deviceAssociated(deviceId: Int, uuidHash: Int, bitmap: Long) {
         val deviceType = DeviceType.values()[lampCategoryType]
-        val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType), uuidHash, "",0, bitmap, 0, ControlState())
+        val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType,""), uuidHash, 0, bitmap, 0, ControlState())
         val position = adapter?.data?.indexOf(device) ?: -1
         if (position != -1) {
             adapter?.getItem(position)?.id = deviceId
@@ -196,7 +196,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         deviceRemoveFragment.dismiss()
         isDeviceRemoving = false
         val deviceType = DeviceType.values()[lampCategoryType]
-        val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType), uuidHash, "",0, 0, 0, ControlState())
+        val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType,""), uuidHash, 0, 0, 0, ControlState())
         val position = adapter?.data?.indexOf(device) ?: -1
         if (position != -1) {
             uuidHashArray.remove(uuidHash)

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.databinding.FragmentSceneSettingBedBinding
 import com.ihomey.linkuphome.databinding.FragmentSceneSettingRgbBinding
 
@@ -16,33 +17,41 @@ class BedSceneSettingFragment : BaseSceneSettingFragment() {
 
     lateinit var mViewDataBinding: FragmentSceneSettingBedBinding
 
-    fun newInstance(deviceId: Int, sceneMode: Int?): BedSceneSettingFragment {
-        val fragment = BedSceneSettingFragment()
-        val bundle = Bundle()
-        bundle.putInt("deviceId", deviceId)
-        if (sceneMode != null) bundle.putInt("sceneMode", sceneMode)
-        fragment.arguments = bundle
-        return fragment
+    fun newInstance(): BedSceneSettingFragment {
+        return BedSceneSettingFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_scene_setting_bed, container, false)
-        initController(5, arguments.getInt("deviceId", -1))
+        initController(5)
         mViewDataBinding.toolbarBack.setOnClickListener {
             activity.onBackPressed()
         }
         return mViewDataBinding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        when(arguments.getInt("sceneMode", -1)){
-            0->mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_read_rgb)
-            1->mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_rgb)
-            2->mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rest_rgb)
-            3->mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_rgb)
-            4->mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_rgb)
+    override fun updateViewData(controlDevice: ControlDevice?) {
+        if (controlDevice != null) {
+            mViewDataBinding.control = controlDevice
+            mControlDevice = controlDevice
+//            if (mControlDevice != null) {
+//                when (mControlDevice?.state?.sceneMode) {
+//                    0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_read_rgb)
+//                    1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_rgb)
+//                    2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rest_rgb)
+//                    3 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_rgb)
+//                    4 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_rgb)
+//                }
+//            }
+            mViewDataBinding.deviceRgpScene.setOnCheckedChangeListener(this)
+        } else {
+            mViewDataBinding.control = null
+            mControlDevice = null
         }
-        mViewDataBinding.deviceRgpScene.setOnCheckedChangeListener(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mViewDataBinding.deviceRgpScene.setOnCheckedChangeListener(null)
     }
 }

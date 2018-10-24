@@ -12,6 +12,7 @@ class ControllerFactory {
             2 -> ColorTemperatureController()
             3 -> LedController()
             4 -> OutdoorController()
+            5 -> BedController()
             else -> null
         }
     }

@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothGatt
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import com.clj.fastble.BleManager
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BleLampPageAdapter
@@ -23,11 +22,7 @@ import android.util.Log
 
 import android.view.*
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.clj.fastble.callback.BleScanAndConnectCallback
-import com.clj.fastble.callback.BleScanCallback
-import com.clj.fastble.data.BleDevice
-import com.clj.fastble.exception.BleException
-import com.clj.fastble.scan.BleScanRuleConfig
+import com.clj.fastble.BleManager
 import com.ihomey.linkuphome.adapter.DrawerMenuAdapter
 import com.ihomey.linkuphome.base.LocaleHelper.getLanguage
 import com.ihomey.linkuphome.data.vo.*
@@ -57,6 +52,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
+                Log.d("aa","getCurrentControlDevice--"+it.data.id+"--"+it.data.device.macAddress)
                 mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_ble_control
             }
         })
@@ -116,43 +112,6 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
             }
         }
         return true
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-//        val scanRuleConfig = BleScanRuleConfig.Builder()
-//                .setDeviceName(true, "Linkuphome M1").setAutoConnect(true).setScanTimeOut(-1).build()
-//        BleManager.getInstance().initScanRule(scanRuleConfig)
-//        BleManager.getInstance().scanAndConnect(object : BleScanAndConnectCallback() {
-//            override fun onStartConnect() {
-//
-//            }
-//
-//            override fun onScanStarted(success: Boolean) {
-//
-//            }
-//
-//            override fun onDisConnected(isActiveDisConnected: Boolean, device: BleDevice?, gatt: BluetoothGatt?, status: Int) {
-//
-//            }
-//
-//            override fun onConnectSuccess(bleDevice: BleDevice?, gatt: BluetoothGatt?, status: Int) {
-//               Log.d("aa",bleDevice?.mac+"---"+BleManager.getInstance())
-//            }
-//
-//            override fun onScanFinished(scanResult: BleDevice?) {
-//
-//            }
-//
-//            override fun onConnectFail(bleDevice: BleDevice?, exception: BleException?) {
-//            }
-//
-//            override fun onScanning(bleDevice: BleDevice?) {
-//
-//            }
-//
-//        })
     }
 
     override fun onBackPressed(): Boolean {

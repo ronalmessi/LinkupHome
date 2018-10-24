@@ -10,11 +10,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.AlarmListAdapter
+import com.ihomey.linkuphome.controller.BedController
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentAlarmListBinding
 import com.ihomey.linkuphome.dip2px
@@ -29,13 +29,15 @@ import com.yanzhenjie.recyclerview.swipe.*
 /**
  * Created by dongcaizheng on 2017/12/25.
  */
-class AlarmListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
+class AlarmListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemClickListener, AlarmListAdapter.AlarmStateListener {
 
     private lateinit var mViewDataBinding: FragmentAlarmListBinding
 
     private var mViewModel: MainViewModel? = null
     private var alarmViewModel: AlarmViewModel? = null
 
+    private val controller: BedController = BedController()
+    private var controlDevice: ControlDevice? = null
     private lateinit var adapter: AlarmListAdapter
 
     fun newInstance(): AlarmListFragment {
@@ -51,12 +53,19 @@ class AlarmListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         alarmViewModel = ViewModelProviders.of(parentFragment).get(AlarmViewModel::class.java)
+        mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                controlDevice = it.data
+                loadData(controlDevice?.id)
+                Log.d("aa", "deviceId--" + it.data.id)
+            }
+        })
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = AlarmListAdapter(arrayListOf())
-        adapter.onItemChildClickListener = this
+        adapter.setAlarmStateListener(this)
         mViewDataBinding.rcvAlarmList.layoutManager = LinearLayoutManager(context)
         mViewDataBinding.rcvAlarmList.addItemDecoration(VerticalSpaceItemDecoration(Utils.dip2px(context, 6f).toInt()))
         mViewDataBinding.rcvAlarmList.adapter = adapter
@@ -77,31 +86,33 @@ class AlarmListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
 
     override fun onResume() {
         super.onResume()
-        loadData()
+        loadData(controlDevice?.id)
     }
 
-    private fun loadData() {
-        val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_5", -1)
-        mViewModel?.getAlarmResults(lastUsedDeviceId)?.observe(this, Observer<Resource<List<Alarm>>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                val newData = arrayListOf<Alarm>()
-                newData.addAll(it.data)
-                if (it.data.size < 2) newData.add(Alarm(-1, 0, 0, 0, 0, 0, 0, 0))
-                adapter.setNewData(newData)
-            }
-        })
+    private fun loadData(deviceId: Int?) {
+        if (deviceId != null) {
+            mViewModel?.getAlarmResults(deviceId)?.observe(this, Observer<Resource<List<Alarm>>> {
+                if (it?.status == Status.SUCCESS && it.data != null) {
+                    val newData = arrayListOf<Alarm>()
+                    newData.addAll(it.data)
+                    if (it.data.size < 2) newData.add(Alarm(-1, -1, 0, 0, 0, 1, 1, 0))
+                    adapter.setNewData(newData)
+                }
+            })
+        }
     }
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?) {
         val alarm = adapter.getItem(menuBridge?.adapterPosition!!) as Alarm
         alarmViewModel?.deleteAlarm(alarm)
-        loadData()
+        loadData(controlDevice?.id)
         menuBridge.closeMenu()
     }
 
     override fun onItemClick(itemView: View?, position: Int) {
         if (parentFragment is IFragmentStackHolder) {
             val alarm = adapter.getItem(position) as Alarm
+            if (alarm.id == -1) alarm.id = getAlarmId()
             alarmViewModel?.setAlarm(alarm)
             val newFrag = AlarmSettingFragment().newInstance()
             val fsh = parentFragment as IFragmentStackHolder
@@ -109,14 +120,33 @@ class AlarmListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
         }
     }
 
-    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-
-    }
-
     override fun onStart() {
         super.onStart()
         val bleLampFragment = parentFragment.parentFragment as BleLampFragment
         bleLampFragment.showBottomNavigationView()
+    }
+
+
+    override fun onStateChanged(isOn: Boolean, position: Int) {
+        val alarm = adapter.getItem(position) as Alarm
+        if (isOn) {
+            alarm.isOn = 1
+            controlDevice?.device?.macAddress?.let { controller.setAlarm(it, alarm) }
+        } else {
+            alarm.isOn = 0
+            controlDevice?.device?.macAddress?.let { controller.cancelAlarm(it, alarm.id) }
+        }
+        alarmViewModel?.updateAlarm(alarm)
+    }
+
+
+    private fun getAlarmId(): Int {
+        return if (adapter.itemCount == 0) {
+            1
+        } else {
+            val alarm = adapter.getItem(0) as Alarm
+            if (alarm.id == 1) 2 else 1
+        }
     }
 
 }

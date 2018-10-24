@@ -25,7 +25,6 @@ class MainViewModel : ViewModel() {
     private var modelResults: LiveData<Resource<List<Model>>>
     private var deviceResults: LiveData<Resource<List<SingleDevice>>>
     private val controlDeviceResults: LiveData<Resource<List<ControlDevice>>>
-//    val alarmResults: LiveData<Resource<List<Alarm>>>
     private var bondedDeviceResults: LiveData<Resource<List<SingleDevice>>>
     private var unBondedDeviceResults: LiveData<Resource<List<SingleDevice>>>
     private var currentControlDevice: LiveData<Resource<ControlDevice>>
@@ -33,6 +32,7 @@ class MainViewModel : ViewModel() {
     private var localSetting: LiveData<Resource<LampCategory>>
 
     private val bridgeState = MutableLiveData<Boolean>()
+
 
     @Inject
     lateinit var mCategoryRepository: CategoryRepository
@@ -74,9 +74,6 @@ class MainViewModel : ViewModel() {
                 mDeviceRepository.getDevice(input.deviceType, input.deviceId)
             }
         }
-//        alarmResults = Transformations.switchMap(currentControlDeviceInfo) { input ->
-//            malarmRepository.getAlarms(input.deviceId)
-//        }
     }
 
     fun getCategoryResults(): LiveData<Resource<List<LampCategory>>>? {
@@ -91,7 +88,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getAlarmResults(deviceId: Int): LiveData<Resource<List<Alarm>>>? {
-        return  malarmRepository.getAlarms(deviceId)
+        return malarmRepository.getAlarms(deviceId)
     }
 
 

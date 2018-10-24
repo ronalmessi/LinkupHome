@@ -21,6 +21,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -31,9 +32,18 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.clj.fastble.BleManager
+import com.clj.fastble.callback.BleWriteCallback
+import com.clj.fastble.data.BleDevice
+import com.clj.fastble.exception.BleException
 import com.csr.mesh.DataModelApi
+import com.ihomey.linkuphome.controller.BedController.Companion.CODE_LIGHT_SYNC_TIME_BASE
+import com.ihomey.linkuphome.controller.BedController.Companion.UUID_CHARACTERISTIC_WRITE
+import com.ihomey.linkuphome.controller.BedController.Companion.UUID_SERVICE
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
+import com.inuker.bluetooth.library.BluetoothClient
+import com.inuker.bluetooth.library.Constants
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -45,7 +55,7 @@ import java.util.*
  * Created by dongcaizheng on 2018/4/9.
  */
 
-fun BottomNavigationView.disableShiftMode(iconScaleRatio:Float) {
+fun BottomNavigationView.disableShiftMode(iconScaleRatio: Float) {
     val menuView = this.getChildAt(0) as BottomNavigationMenuView
     try {
         val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
@@ -63,7 +73,7 @@ fun BottomNavigationView.disableShiftMode(iconScaleRatio:Float) {
             smallLabel.setLineSpacing(0f, 0.8f)
             largeLabel.gravity = Gravity.CENTER_HORIZONTAL
             smallLabel.gravity = Gravity.CENTER_HORIZONTAL
-            icon.scaleX =iconScaleRatio
+            icon.scaleX = iconScaleRatio
             icon.scaleY = iconScaleRatio
             val baselineLayout = largeLabel.parent as android.support.design.internal.BaselineLayout
             baselineLayout.setPadding(0, 0, 0, 0)
@@ -90,6 +100,39 @@ fun Activity.setTranslucentStatus() {
         window.statusBarColor = Color.TRANSPARENT
     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+}
+
+fun BluetoothClient.write(mac: String, service: String, character: String, value: String) {
+    Log.d("aa", "--" + this.getConnectStatus(mac) + "---" + Constants.STATUS_DEVICE_CONNECTED)
+    if (this.getConnectStatus(mac) == Constants.STATUS_DEVICE_CONNECTED) write(mac, UUID.fromString(service), UUID.fromString(character), HexUtil.hexStringToBytes(value)) {}
+}
+
+fun BleManager.write(mac: String, service: String, character: String, value: String) {
+    Log.d("aa", "--" + isConnected(mac))
+    if (isConnected(mac)) {
+        val bluetoothDevice = bluetoothAdapter.getRemoteDevice(mac)
+        val bleDevice = BleDevice(bluetoothDevice, 0, null, 0)
+        write(bleDevice, service, character, HexUtil.hexStringToBytes(value), object : BleWriteCallback() {
+            override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
+
+            }
+
+            override fun onWriteFailure(exception: BleException?) {
+                Log.d("aa", exception.toString())
+            }
+
+        })
+    }
+}
+
+
+fun BleManager.disconnect(mac: String) {
+    Log.d("aa", "--" + isConnected(mac))
+    if (isConnected(mac)) {
+        val bluetoothDevice = bluetoothAdapter.getRemoteDevice(mac)
+        val bleDevice = BleDevice(bluetoothDevice, 0, null, 0)
+        disconnect(bleDevice)
     }
 }
 
@@ -238,28 +281,6 @@ fun decodeHex(data: CharArray): ByteArray {
     return out
 }
 
-/**
- * 十六进制String转换成Byte[]
- * @param hexString the hex string
- * *
- * @return byte[]
- */
-fun hexStringToBytes(hexString: String?): ByteArray? {
-    var hexString = hexString
-    if (hexString == null || hexString == "") {
-        return null
-    }
-    hexString = hexString.toUpperCase()
-    val length = hexString.length / 2
-    val hexChars = hexString.toCharArray()
-    val d = ByteArray(length)
-    for (i in 0..length - 1) {
-        val pos = i * 2
-        d[i] = (charToByte(hexChars[pos]).toInt() shl 4 or charToByte(hexChars[pos + 1]).toInt()).toByte()
-    }
-    return d
-}
-
 
 /**
  * Convert char to byte
@@ -270,26 +291,6 @@ fun hexStringToBytes(hexString: String?): ByteArray? {
 private fun charToByte(c: Char): Byte {
 
     return "0123456789ABCDEF".indexOf(c).toByte()
-}
-
-/* 这里我们可以将byte转换成int，然后利用Integer.toHexString(int)来转换成16进制字符串。
-    * @param src byte[] data
-    * @return hex string
-    */
-fun bytesToHexString(src: ByteArray?): String? {
-    val stringBuilder = StringBuilder("")
-    if (src == null || src.size <= 0) {
-        return null
-    }
-    for (i in 0..src.size-1) {
-        val v = src[i].toInt() and 0xFF
-        val hv = Integer.toHexString(v)
-        if (hv.length < 2) {
-            stringBuilder.append(0)
-        }
-        stringBuilder.append(hv)
-    }
-    return stringBuilder.toString()
 }
 
 
@@ -367,22 +368,31 @@ fun syncTime(deviceId: Int) {
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
     val minute = calendar.get(Calendar.MINUTE)
     val second = calendar.get(Calendar.SECOND)
-    val code_lawn_time_prefix ="C201F304F2"+(if (hour >= 10) ""+hour else "0$hour")+(if (minute >= 10) ""+minute else "0$minute")+(if (second >= 10) ""+second else "0$second")
+    val code_lawn_time_prefix = "C201F304F2" + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
     val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_time_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16))
     val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
     DataModelApi.sendData(deviceId, decodeHex(code_lawn_time.toCharArray()), false)
 }
 
 
-//fun getName(type: DeviceType) =
-//        when (type) {
-//            DeviceType.C3 -> "LinkupHome C3"
-//            DeviceType.R2 -> "LinkupHome R2"
-//            DeviceType.A2 -> "LinkupHome A2"
-//            DeviceType.N1 -> "LinkupHome N1"
-//            DeviceType.V1 -> "LinkupHome V1"
-//        }
-
+fun syncTime(mac: String) {
+    val calendar = Calendar.getInstance()
+    calendar.time = Date()
+    val year = calendar.get(Calendar.YEAR) - 2000
+    val month = calendar.get(Calendar.MONTH)
+    val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+    var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+    if (dayOfWeek == 1) dayOfWeek = 7 else {
+        dayOfWeek -= 1
+    }
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+    val second = calendar.get(Calendar.SECOND)
+    val code_lawn_time_prefix = CODE_LIGHT_SYNC_TIME_BASE + (if (year >= 10) "" + year else "0$year") + (if (month >= 10) "" + month else "0$month") + (if (dayOfMonth >= 10) "" + dayOfMonth else "0$dayOfMonth") + (if (dayOfWeek >= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
+    val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16) + Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16) + Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
+    val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+    BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_time)
+}
 
 fun getShortName(type: DeviceType) =
         when (type) {
@@ -440,8 +450,8 @@ val REQUEST_BT_RESULT_CODE = 102
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
 val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg)
 val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
-val dayOfWeek=listOf("每周日", "每周一", "每周二", "每周三", "每周四", "每周五", "每周六").toMutableList()
-val ringTypeNames =listOf("海浪海鸥音效", "细流声", "晨鸟之歌").toMutableList()
+val dayOfWeek = listOf("每周日", "每周一", "每周二", "每周三", "每周四", "每周五", "每周六").toMutableList()
+val ringTypeNames = listOf("海浪海鸥音效", "细流声", "晨鸟之歌").toMutableList()
 
 /**
  * LiveData that propagates only distinct emissions.

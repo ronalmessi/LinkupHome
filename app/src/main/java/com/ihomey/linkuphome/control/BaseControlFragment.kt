@@ -33,6 +33,7 @@ import com.ihomey.linkuphome.time.RepeatTimerSettingFragment
 import com.ihomey.linkuphome.time.TimerSettingFragment
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.RGBCircleView
+import com.ihomey.linkuphome.widget.RadioGroupPlus
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
 import com.ihomey.linkuphome.widget.toprightmenu.TopRightMenu
@@ -41,7 +42,7 @@ import com.ihomey.linkuphome.widget.toprightmenu.TopRightMenu
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener, TopRightMenu.OnMenuItemClickListener, View.OnClickListener {
+abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, RadioGroupPlus.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener, TopRightMenu.OnMenuItemClickListener, View.OnClickListener {
 
     protected var lampCategory: Int = -1
     private var controller: Controller? = null
@@ -76,6 +77,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS) {
                 updateViewData(it.data)
+                Log.d("aa", "hahahasfsdf" + "---" + this.javaClass.simpleName)
             }
         })
     }
@@ -100,7 +102,13 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     override fun onColorValueChanged(time: Int) {
-        if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightColor(mControlDevice?.id!!, CODE_LIGHT_COLORS[time])
+        if (mControlDevice != null) {
+            if (mControlDevice?.device?.type!! < 5) {
+                if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice?.id!!, CODE_LIGHT_COLORS[time])
+            } else {
+                mControlDevice?.device?.macAddress?.let { controller?.setLightColor(it, CODE_LIGHT_COLORS[time]) }
+            }
+        }
         mControlDevice?.state?.colorPosition = (time * 151 * (2 * Math.PI) / 3600).toFloat()
         mControlDevice?.state?.changeMode = -1
         mControlDevice?.state?.light = 0
@@ -108,7 +116,13 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     override fun onColorValueChange(time: Int) {
-        if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightColor(mControlDevice?.id!!, CODE_LIGHT_COLORS[time])
+        if (mControlDevice != null) {
+            if (mControlDevice?.device?.type!! < 5) {
+                if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice?.id!!, CODE_LIGHT_COLORS[time])
+            } else {
+                mControlDevice?.device?.macAddress?.let { controller?.setLightColor(it, CODE_LIGHT_COLORS[time]) }
+            }
+        }
         mControlDevice?.state?.colorPosition = (time * 151 * (2 * Math.PI) / 3600).toFloat()
         mControlDevice?.state?.changeMode = -1
         mControlDevice?.state?.light = 0
@@ -116,12 +130,25 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     override fun onColorTemperatureValueChanged(temperature: Int) {
-        if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightColorTemperature(mControlDevice?.id!!, temperature)
+        if (mControlDevice != null) {
+            if (mControlDevice?.device?.type!! < 5) {
+                if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice?.id!!, temperature)
+            } else {
+                mControlDevice?.device?.macAddress?.let { controller?.setLightColorTemperature(it, temperature) }
+            }
+        }
         mControlDevice?.state?.colorTemperature = temperature
         mViewModel?.updateDevice(mControlDevice)
     }
 
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
+        if (mControlDevice != null) {
+            if (mControlDevice?.device?.type!! < 5) {
+                if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice?.id!!, position)
+            } else {
+                mControlDevice?.device?.macAddress?.let { controller?.setLightSpeed(it, position) }
+            }
+        }
         if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightSpeed(mControlDevice?.id!!, position)
         mControlDevice?.state?.changeMode = position
         mControlDevice?.state?.light = 0
@@ -129,7 +156,13 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightBright(mControlDevice?.id!!, seekBar.progress.plus(15))
+        if (mControlDevice != null) {
+            if (mControlDevice?.device?.type!! < 5) {
+                if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice?.id!!, seekBar.progress.plus(15))
+            } else {
+                mControlDevice?.device?.macAddress?.let { controller?.setLightBright(it, seekBar.progress.plus(15)) }
+            }
+        }
         mControlDevice?.state?.brightness = seekBar.progress
         mViewModel?.updateDevice(mControlDevice)
     }
@@ -137,8 +170,33 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
             R.id.device_state_cb_power -> {
-                mControlDevice?.state?.on = if (isChecked) 1 else 0
-                if (listener.isMeshServiceConnected() && mControlDevice != null) controller?.setLightPowerState(mControlDevice?.id!!, if (isChecked) 1 else 0)
+                if (mControlDevice != null) {
+                    mControlDevice?.state?.on = if (isChecked) 1 else 0
+                    if (mControlDevice?.device?.type!! < 5) {
+                        if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice?.id!!, if (isChecked) 1 else 0)
+                    } else {
+                        mControlDevice?.device?.macAddress?.let { controller?.setLightPowerState(it, if (isChecked) 1 else 0) }
+                    }
+                }
+            }
+        }
+        mViewModel?.updateDevice(mControlDevice)
+    }
+
+    override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
+        var sceneModeValue = -1
+        when (checkedId) {
+            R.id.rb_scene_read_rgb, R.id.rb_scene_spring_led -> sceneModeValue = 0
+            R.id.rb_scene_sunset_rgb, R.id.rb_scene_rainforest_led -> sceneModeValue = 1
+            R.id.rb_scene_rest_rgb, R.id.rb_scene_sunset_led -> sceneModeValue = 2
+            R.id.rb_scene_spring_rgb, R.id.rb_scene_lighting_led -> sceneModeValue = 3
+            R.id.rb_scene_rainforest_rgb -> sceneModeValue = 4
+        }
+        if (mControlDevice != null) {
+            if (mControlDevice?.device?.type!! < 5) {
+                if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice?.id!!, sceneModeValue)
+            } else {
+                mControlDevice?.device?.macAddress?.let { controller?.setLightScene(it, sceneModeValue) }
             }
         }
         mViewModel?.updateDevice(mControlDevice)
@@ -194,15 +252,18 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
             }
             R.id.rl_control_setting_scene_mode -> {
-                val newFrag = BedSceneSettingFragment().newInstance(5, 1)
-                val fsh = parentFragment as IFragmentStackHolder
-                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+                mControlDevice?.device?.macAddress?.let {
+                    val newFrag = BedSceneSettingFragment().newInstance()
+                    val fsh = parentFragment as IFragmentStackHolder
+                    fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+                }
             }
             R.id.rl_control_setting_alarm -> {
                 val newFrag = BedTimerSettingFragment().newInstance()
                 val fsh = parentFragment as IFragmentStackHolder
                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
             }
+            R.id.rl_control_setting_sync_time -> mControlDevice?.device?.macAddress?.let { syncTime(it) }
         }
     }
 
@@ -213,10 +274,8 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                 R.id.toolbar_right_setting -> showTopRightMenu(view)
                 R.id.device_scene_cb_scene -> {
                     if (parentFragment is IFragmentStackHolder) {
-                        val newFrag = if (lampCategory == 1) RGBSceneSettingFragment().newInstance(mControlDevice?.id
-                                ?: -1, mControlDevice?.state?.sceneMode) else LEDSceneSettingFragment().newInstance(mControlDevice?.id
-                                ?: -1, mControlDevice?.device?.type
-                                ?: -1, mControlDevice?.state?.sceneMode)
+                        val newFrag = if (lampCategory == 1) RGBSceneSettingFragment().newInstance() else LEDSceneSettingFragment().newInstance(mControlDevice?.device?.type
+                                ?: -1)
                         val fsh = parentFragment as IFragmentStackHolder
                         fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                     }

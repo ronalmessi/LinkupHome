@@ -110,8 +110,9 @@ dependencies {
         exclude group: 'com.google.android', module: 'support-v4'
     }
 
-
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
+    implementation 'com.inuker.bluetooth:library:1.4.0'
 
 }
 

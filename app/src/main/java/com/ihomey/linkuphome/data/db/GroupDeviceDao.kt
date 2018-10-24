@@ -17,12 +17,10 @@ abstract class GroupDeviceDao {
     @Query("SELECT * FROM group_device WHERE type = :type")
     abstract fun getGroups(type: Int): LiveData<List<GroupDevice>>
 
-
     @Query("SELECT * FROM group_device WHERE id = :id and type=:deviceType")
     protected abstract fun getGroup(deviceType: Int, id: Int): LiveData<ControlDevice>
 
     fun getGroupDistinctLiveData(deviceType: Int, id: Int): LiveData<ControlDevice> = getGroup(deviceType, id).getDistinct()
-
 
     @Delete
     abstract fun delete(lampGroup: GroupDevice)

@@ -25,7 +25,7 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE id = :id and type=:deviceType")
     abstract fun getSingleDevice(deviceType: Int, id: Int): LiveData<SingleDevice>
 
-    @Query("SELECT * FROM group_device WHERE type = :type union SELECT d.id,d.name,d.type,d.isOn,d.isLight,d.changeMode,d.colorPosition,d.colorTemperature,d.brightness,d.sceneMode,d.openTimer,d.closeTimer,d.isOnOpenTimer,d.isOnCloseTimer,d.openDayOfWeek,d.closeDayOfWeek FROM Device AS d WHERE d.type = :type")
+    @Query("SELECT * FROM group_device WHERE type = :type union SELECT d.id,d.name,d.type,d.macAddress,d.isOn,d.isLight,d.changeMode,d.colorPosition,d.colorTemperature,d.brightness,d.sceneMode,d.openTimer,d.closeTimer,d.isOnOpenTimer,d.isOnCloseTimer,d.openDayOfWeek,d.closeDayOfWeek FROM Device AS d WHERE d.type = :type")
     abstract fun getControlDevices(type: Int): LiveData<List<ControlDevice>>
 
     @Query("SELECT * FROM Device WHERE id in (SELECT deviceId FROM Model WHERE groupId = :groupId and type=:deviceType) and type=:deviceType")

@@ -19,7 +19,7 @@ class SceneSettingViewModel : ViewModel() {
     }
 
     fun updateDeviceSceneMode(deviceType:Int,deviceId: Int, sceneMode: Int) {
-        if (deviceId in 1..32768) {
+        if (deviceId in 1..32768&&deviceType<5) {
             mGroupRepository.updateDeviceSceneMode(deviceType,deviceId, sceneMode)
         } else {
             mDeviceRepository.updateDeviceSceneMode(deviceType,deviceId, sceneMode)

@@ -35,10 +35,11 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
     private var mainViewModel: MainViewModel? = null
     private var alarmViewModel: AlarmViewModel? = null
 
-//    private var deviceId = 0
+    private var deviceId = -1
 
     fun newInstance(): AlarmSettingFragment {
-        return AlarmSettingFragment()
+        val fragment=AlarmSettingFragment()
+        return fragment
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -63,11 +64,12 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
         alarmViewModel?.getAlarm()?.observe(this, Observer<Alarm> {
             showAlarmInfo(it)
         })
-//        mainViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-//            if (it?.status == Status.SUCCESS && it.data != null) {
-//                Log.d("aa","deviceId--"+it.data.id)
-//            }
-//        })
+        mainViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                deviceId=it.data.id
+                Log.d("aa","deviceId--"+it.data.id)
+            }
+        })
     }
 
     private fun showAlarmInfo(alarm: Alarm?) {
@@ -148,22 +150,20 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
     }
 
     private fun saveAlarm() {
-        if (alarmViewModel?.getAlarm() != null) {
+        if (alarmViewModel?.getAlarm() != null&&deviceId!=-1) {
             val alarm = alarmViewModel?.getAlarm()!!.value
             if (alarm != null) {
                 alarm.hour = mViewDataBinding.tsvAlarmSetting.getHour()
                 alarm.minute = mViewDataBinding.tsvAlarmSetting.getMinute()
-                if (alarm.id == -1) {
-                    alarm.id = 0
-                    val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_5", -1)
-                    alarm.deviceId = lastUsedDeviceId
+                if (alarm.deviceId == -1) {
+                    alarm.deviceId = deviceId
                     alarmViewModel?.saveAlarm(alarm)
                 } else {
                     alarmViewModel?.updateAlarm(alarm)
                 }
-                activity.onBackPressed()
             }
         }
+        activity.onBackPressed()
     }
 
 }

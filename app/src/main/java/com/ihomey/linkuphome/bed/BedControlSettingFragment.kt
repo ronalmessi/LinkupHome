@@ -17,10 +17,6 @@ import net.cachapa.expandablelayout.ExpandableLayout
 
 class BedControlSettingFragment : BaseControlFragment() {
 
-    override fun updateViewData(controlDevice: ControlDevice?) {
-
-    }
-
     private lateinit var mViewDataBinding: FragmentControlBedSettingBinding
 
     fun newInstance(): BedControlSettingFragment {
@@ -48,14 +44,40 @@ class BedControlSettingFragment : BaseControlFragment() {
                 mViewDataBinding.ivControlSettingArrow.setBackgroundResource(R.drawable.ic_bed_control_setting_arrow)
             }
         }
-        mViewDataBinding.rlControlSettingSceneMode.setOnClickListener(this)
-        mViewDataBinding.rlControlSettingAlarm.setOnClickListener(this)
         return mViewDataBinding.root
+    }
+
+    override fun updateViewData(controlDevice: ControlDevice?) {
+        if (controlDevice != null) {
+            mViewDataBinding.control = controlDevice
+            mControlDevice = controlDevice
+//            if (mControlDevice != null) {
+//                if (mControlDevice!!.state.changeMode != -1) {
+//                    mViewDataBinding.sstgCyclingSpeed.setCheckedAt(mControlDevice!!.state.changeMode, true)
+//                }
+//            }
+            mViewDataBinding.rlControlSettingSyncTime.setOnClickListener(this)
+            mViewDataBinding.rlControlSettingSceneMode.setOnClickListener(this)
+            mViewDataBinding.rlControlSettingAlarm.setOnClickListener(this)
+            mViewDataBinding.sstgCyclingSpeed.setOnCheckedChangeListener(this)
+        } else {
+            mViewDataBinding.control = null
+            mControlDevice = null
+        }
     }
 
     override fun onStart() {
         super.onStart()
+        mViewDataBinding.elControlSettingCycling.collapse()
         val bleLampFragment = parentFragment.parentFragment as BleLampFragment
         bleLampFragment.hideBottomNavigationView()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mViewDataBinding.rlControlSettingSceneMode.setOnClickListener(null)
+        mViewDataBinding.rlControlSettingAlarm.setOnClickListener(null)
+        mViewDataBinding.sstgCyclingSpeed.setOnCheckedChangeListener(null)
     }
 }

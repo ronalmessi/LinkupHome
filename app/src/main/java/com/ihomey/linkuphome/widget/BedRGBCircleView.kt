@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.widget
 import android.content.Context
 import android.graphics.*
 import android.os.Bundle
+import android.os.Handler
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Log
@@ -39,8 +40,20 @@ class BedRGBCircleView : View {
     private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
 
+    private var mCurrentValue: Int = 0 // seconds
+
     // Runt
     private var mCircleValueListener: RGBCircleView.ColorValueListener? = null
+
+
+    private var startTime: Long = 0
+    private var endTime: Long = 0
+
+    private var downX: Float = 0f
+    private var downY: Float = 0f
+
+    private var moveX: Float = 0f
+    private var moveY: Float = 0f
 
     constructor(context: Context) : super(context) {
         init(context, null)
@@ -92,6 +105,7 @@ class BedRGBCircleView : View {
         canvas.drawBitmap(arrowBitmap, (width / 2 - arrowBitmap.width / 2).toFloat(), mCircleWidth + mArrowGap, mCirclePaint)
         canvas.restore()
 
+
     }
 
 
@@ -106,9 +120,19 @@ class BedRGBCircleView : View {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action and event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                startTime = System.currentTimeMillis()
+                downX = event.x//float DownX
+                downY = event.y//float DownY
+                moveX = 0f
+                moveY = 0f
                 mPreRadian = getRadian(event.x, event.y)
+                handler.postDelayed(runnable, 200)
             }
             MotionEvent.ACTION_MOVE -> {
+                moveX += Math.abs(event.x - downX)//X轴距离
+                moveY += Math.abs(event.y - downY)//y轴距离
+                downX = event.x
+                downX = event.y
                 val temp = getRadian(event.x, event.y)
                 mCurrentRadian += temp - mPreRadian
                 mPreRadian = temp
@@ -117,9 +141,26 @@ class BedRGBCircleView : View {
                 } else if (mCurrentRadian < 0) {
                     mCurrentRadian += (2 * Math.PI).toFloat()
                 }
-                if (mCircleValueListener != null)
-                    mCircleValueListener?.onColorValueChange((mCurrentRadian * 360 / (2 * Math.PI * 15)).toInt())
+                mCurrentValue = getCurrentValue()
                 invalidate()
+            }
+            MotionEvent.ACTION_UP -> {
+                endTime = System.currentTimeMillis()
+                handler.removeCallbacks(runnable)
+                if (endTime - startTime > 200 && (moveX > 20 || moveY > 20)) {
+                    if (mCurrentValue != getCurrentValue()) {
+                        if (mCircleValueListener != null) {
+                            mCircleValueListener?.onColorValueChanged(mCurrentValue)
+                        }
+                    }
+                } else {
+                    mCurrentRadian = getRadian(event.x, event.y)
+                    if (mCurrentValue != getCurrentValue()) {
+                        if (mCircleValueListener != null) {
+                            mCircleValueListener?.onColorValueChanged(mCurrentValue)
+                        }
+                    }
+                }
             }
         }
         return true
@@ -141,30 +182,54 @@ class BedRGBCircleView : View {
         super.onRestoreInstanceState(state)
     }
 
-    fun setColorValue(value: Int) {
-        mCurrentRadian = ((2 * Math.PI * 15) * value / 360).toFloat()
-        invalidate()
-    }
 
     fun setCurrentRadian(radian: Float) {
         mCurrentRadian = radian
         invalidate()
     }
 
-
-    fun setColorValueListener(mCircleValueListener: RGBCircleView.ColorValueListener?) {
-        this.mCircleValueListener = mCircleValueListener
-    }
-
+    // Use tri to cal radian
     private fun getRadian(x: Float, y: Float): Float {
         var alpha = Math.atan(((x - mCx) / (mCy - y)).toDouble()).toFloat()
+        // Quadrant
         if (x > mCx && y > mCy) {
+            // 2
             alpha += Math.PI.toFloat()
         } else if (x < mCx && y > mCy) {
+            // 3
             alpha += Math.PI.toFloat()
         } else if (x < mCx && y < mCy) {
+            // 4
             alpha = (2 * Math.PI + alpha).toFloat()
         }
         return alpha
     }
+
+
+    /**
+     * set timer listener
+     *
+     * @param mCircleTimerListener
+     */
+    fun setColorValueListener(mCircleTimerListener: RGBCircleView.ColorValueListener?) {
+        this.mCircleValueListener = mCircleTimerListener
+    }
+
+
+    private fun getCurrentValue(): Int {
+        return (60 / (2 * Math.PI) * mCurrentRadian.toDouble() * 60.0).toInt() / 151
+    }
+
+
+    internal var handler = Handler()
+    internal var runnable: Runnable = object : Runnable {
+        override fun run() {
+            if (mCircleValueListener != null) {
+                mCircleValueListener?.onColorValueChange(mCurrentValue)
+            }
+            handler.postDelayed(this, 200)
+
+        }
+    }
+
 }

@@ -92,7 +92,7 @@ class DataRepository @Inject constructor(private val lampGroupDao: GroupDeviceDa
                 val deviceId = devices.getJSONObject(devicesIndex).getInt(DEVICE_ID_KEY)
                 val deviceName = devices.getJSONObject(devicesIndex).getString(DEVICE_NAME_KEY)
                 val uuidHash = devices.getJSONObject(devicesIndex).getInt(DEVICE_HASH_KEY)
-                val device = SingleDevice(deviceId, Device(deviceName, mDeviceType), uuidHash, "",0, 0, 0, stateArray.get(deviceId))
+                val device = SingleDevice(deviceId, Device(deviceName, mDeviceType), uuidHash,0, 0, 0, stateArray.get(deviceId))
                 val models = devices.getJSONObject(devicesIndex).getJSONArray(DEVICE_MODELS_KEY)
                 for (modelsIndex in 0 until models.length()) {
                     val groupInstances = models.getJSONObject(modelsIndex).getJSONArray(MODEL_GROUP_INSTANCES_KEY)

@@ -42,6 +42,9 @@ class BedWarmColdCircleView : View {
     private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
 
+    // Color
+    private var mCurrentTemperature: Int = 0
+
 
     constructor(context: Context) : super(context) {
         init(context, null)
@@ -153,6 +156,7 @@ class BedWarmColdCircleView : View {
         } else if (value == 6500) {
             mCurrentRadian = (Math.PI / 2).toFloat()
         }
+        mCurrentTemperature=value
         invalidate()
     }
 
@@ -186,8 +190,11 @@ class BedWarmColdCircleView : View {
                         }
                     }
                     mPreRadian = temp
-                    if (mColorTemperatureValueListener != null)
-                        mColorTemperatureValueListener?.onColorTemperatureValueChanged(getColorTemperature())
+                    if ((mCurrentTemperature==0||mCurrentTemperature!=getColorTemperature())&&mColorTemperatureValueListener != null){
+                        mCurrentTemperature=getColorTemperature()
+                        mColorTemperatureValueListener?.onColorTemperatureValueChanged(mCurrentTemperature)
+                    }
+
                     invalidate()
                 }
             }
