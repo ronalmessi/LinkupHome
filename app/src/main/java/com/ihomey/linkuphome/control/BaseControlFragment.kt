@@ -77,15 +77,16 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS) {
                 updateViewData(it.data)
-                Log.d("aa", "hahahasfsdf" + "---" + this.javaClass.simpleName)
             }
         })
     }
 
     override fun onResume() {
         super.onResume()
-        val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategory", -1)
-        mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(lampCategory, lastUsedDeviceId))
+        if (lampCategory < 5) {
+            val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategory", -1)
+            mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(lampCategory, lastUsedDeviceId))
+        }
     }
 
     fun initController(type: Int) {

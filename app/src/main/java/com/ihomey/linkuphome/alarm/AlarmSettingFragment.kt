@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.controller.BedController
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentAlarmSettingBinding
 import com.ihomey.linkuphome.dayOfWeek
@@ -34,12 +35,12 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
 
     private var mainViewModel: MainViewModel? = null
     private var alarmViewModel: AlarmViewModel? = null
-
+    private val controller: BedController = BedController()
     private var deviceId = -1
+    private var deviceMac: String? = null
 
     fun newInstance(): AlarmSettingFragment {
-        val fragment=AlarmSettingFragment()
-        return fragment
+        return AlarmSettingFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,15 +61,16 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mainViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mainViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                deviceId = it.data.id
+                deviceMac = it.data.device.macAddress
+                Log.d("aa", "deviceId--" + it.data.id)
+            }
+        })
         alarmViewModel = ViewModelProviders.of(parentFragment).get(AlarmViewModel::class.java)
         alarmViewModel?.getAlarm()?.observe(this, Observer<Alarm> {
             showAlarmInfo(it)
-        })
-        mainViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                deviceId=it.data.id
-                Log.d("aa","deviceId--"+it.data.id)
-            }
         })
     }
 
@@ -104,6 +106,7 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
         mViewDataBinding.tsvAlarmSetting.setTime(alarm.hour, alarm.minute)
         mViewDataBinding.sbAlarmSettingVoice.setOnCheckedChangeListener(this)
         mViewDataBinding.sbAlarmSettingLighting.setOnCheckedChangeListener(this)
+        deviceMac?.let { controller.setAlarmType(it, alarm) }
     }
 
     override fun onStart() {
@@ -150,7 +153,7 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
     }
 
     private fun saveAlarm() {
-        if (alarmViewModel?.getAlarm() != null&&deviceId!=-1) {
+        if (alarmViewModel?.getAlarm() != null && deviceId != -1) {
             val alarm = alarmViewModel?.getAlarm()!!.value
             if (alarm != null) {
                 alarm.hour = mViewDataBinding.tsvAlarmSetting.getHour()
