@@ -148,7 +148,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
         BleManager.getInstance().init(application)
         BleManager.getInstance().enableLog(true).setReConnectCount(1, 5000).setConnectOverTime(20000).operateTimeout = 5000;
-//        BleManager.getInstance().enableLog(true).setReConnectCount(1, 5000).operateTimeout = 5000
         BluetoothClientManager.getInstance().init(application)
         if (savedInstanceState == null) {
             val hasAgreed by PreferenceHelper("hasAgreed", false)

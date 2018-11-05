@@ -39,6 +39,8 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     private var mViewModel: MainViewModel? = null
     private var onDrawerMenuItemClickListener: OnDrawerMenuItemClickListener? = null
 
+    private var isReName: Boolean = false
+
     fun newInstance(categoryType: Int): BleLampFragment {
         val fragment = BleLampFragment()
         val bundle = Bundle()
@@ -52,8 +54,8 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("aa","getCurrentControlDevice--"+it.data.id+"--"+it.data.device.macAddress)
-                mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_ble_control
+                Log.d("aa", "getCurrentControlDevice--" + it.data.id + "--" + it.data.device.macAddress)
+                if (!isReName()) mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_ble_control
             }
         })
     }
@@ -122,6 +124,8 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     override fun onStop() {
         super.onStop()
         BleManager.getInstance().cancelScan()
+        BleManager.getInstance().disconnectAllDevice()
+        BleManager.getInstance().destroy()
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -146,5 +150,13 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
 
     fun setOnDrawerMenuItemClickListener(onDrawerMenuItemClickListener: OnDrawerMenuItemClickListener) {
         this.onDrawerMenuItemClickListener = onDrawerMenuItemClickListener
+    }
+
+    fun isReName(): Boolean {
+        return isReName
+    }
+
+    fun setIsReName(flag: Boolean) {
+        this.isReName = flag
     }
 }

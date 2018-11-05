@@ -33,7 +33,6 @@ class MainViewModel : ViewModel() {
 
     private val bridgeState = MutableLiveData<Boolean>()
 
-
     @Inject
     lateinit var mCategoryRepository: CategoryRepository
     @Inject

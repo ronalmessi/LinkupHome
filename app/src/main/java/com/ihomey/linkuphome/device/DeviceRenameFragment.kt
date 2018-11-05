@@ -23,6 +23,8 @@ class DeviceRenameFragment : DialogFragment(), View.OnClickListener {
     private var mDeviceId: Int = -1
     private var mDeviceType: Int = -1
 
+    private var listener: DeviceRenameListener? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dialog_device_rename, container, false)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -45,10 +47,20 @@ class DeviceRenameFragment : DialogFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v?.id == R.id.device_rename_btn_confirm) {
             if (mViewDataBinding.deviceRenameEtName.text != null && !TextUtils.equals(mDeviceName, mViewDataBinding.deviceRenameEtName.text.toString()) && !TextUtils.isEmpty(mViewDataBinding.deviceRenameEtName.text.toString())) {
-                mViewModel?.updateDeviceName(mDeviceType,mDeviceId, mViewDataBinding.deviceRenameEtName.text.toString())
+                mViewModel?.updateDeviceName(mDeviceType, mDeviceId, mViewDataBinding.deviceRenameEtName.text.toString())
+                if(listener!=null) listener?.onDeviceNameUpdated(mViewDataBinding.deviceRenameEtName.text.toString())
             }
         }
         v?.context?.hideInput(mViewDataBinding.deviceRenameEtName)
         dismiss()
+    }
+
+
+    fun setDeviceRenameListener(listener: DeviceRenameListener) {
+        this.listener = listener
+    }
+
+    interface DeviceRenameListener {
+        fun onDeviceNameUpdated(newName: String)
     }
 }

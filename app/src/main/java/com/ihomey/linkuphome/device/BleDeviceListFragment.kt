@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.callback.BleScanCallback
@@ -29,6 +30,7 @@ import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceBleListBinding
 import com.ihomey.linkuphome.disconnect
+import com.ihomey.linkuphome.main.BleLampFragment
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.VerticalSpaceItemDecoration
@@ -45,17 +47,15 @@ import com.yanzhenjie.recyclerview.swipe.*
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemClickListener {
+class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemLongClickListener {
 
     private var lampCategoryType: Int = -1
     private var isDeviceRemoving = false
     private var setting: LampCategory? = null
     private lateinit var mViewDataBinding: FragmentDeviceBleListBinding
-    private var adapter: DeviceListAdapter? = null
+    private var deviceListAdapter: DeviceListAdapter? = null
     private var mViewModel: MainViewModel? = null
     private val deviceAssociateFragment = BleDeviceAssociateFragment()
-
-    private val mClient = BluetoothClientManager.getInstance().client
 
     fun newInstance(lampCategoryType: Int): BleDeviceListFragment {
         val fragment = BleDeviceListFragment()
@@ -76,7 +76,8 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = DeviceListAdapter(R.layout.lamp_device_mesh_list_item)
+        deviceListAdapter = DeviceListAdapter(R.layout.lamp_device_mesh_list_item)
+        deviceListAdapter?.onItemLongClickListener = this
 
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
             val width = Utils.dip2px(context, 48f)
@@ -87,7 +88,8 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
 
         mViewDataBinding.lampDeviceBleRcvList.layoutManager = LinearLayoutManager(context)
         mViewDataBinding.lampDeviceBleRcvList.addItemDecoration(VerticalSpaceItemDecoration(Utils.dip2px(context, 12f).toInt()))
-        mViewDataBinding.lampDeviceBleRcvList.adapter = adapter
+        mViewDataBinding.lampDeviceBleRcvList.adapter = deviceListAdapter
+
         mViewDataBinding.lampDeviceBleRcvList.setSwipeItemClickListener(this)
         mViewDataBinding.lampDeviceBleRcvList.setSwipeMenuCreator(swipeMenuCreator)
         mViewDataBinding.lampDeviceBleRcvList.setSwipeMenuItemClickListener(this)
@@ -101,11 +103,11 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
             if (it?.status == Status.SUCCESS) {
                 var hasConnected by PreferenceHelper("hasConnected$lampCategoryType", false)
                 hasConnected = !(it.data == null || it.data.isEmpty())
-                if (adapter?.itemCount == 0) {
-                    adapter?.setNewData(it.data)
+                if (deviceListAdapter?.itemCount == 0) {
+                    deviceListAdapter?.setNewData(it.data)
                     if (it.data != null) connectBleDevices(it.data)
                 }
-                if (adapter?.itemCount == 0) {
+                if (deviceListAdapter?.itemCount == 0) {
                     mViewDataBinding.llBleDeviceSearching.visibility = View.VISIBLE
                 } else {
                     mViewDataBinding.llBleDeviceSearching.visibility = View.GONE
@@ -132,27 +134,43 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
         BleManager.getInstance().cancelScan()
     }
 
+    override fun onItemLongClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int): Boolean {
+        val singleDevice = deviceListAdapter?.getItem(position)
+        if (singleDevice != null) {
+            val bleLampFragment = parentFragment as BleLampFragment
+            bleLampFragment.setIsReName(true)
+            val dialog = DeviceRenameFragment()
+            val bundle = Bundle()
+            bundle.putString("controlDeviceName", singleDevice.device.name)
+            bundle.putInt("controlDeviceId", singleDevice.id)
+            bundle.putInt("controlDeviceType", 5)
+            dialog.arguments = bundle
+            dialog.setDeviceRenameListener(object : DeviceRenameFragment.DeviceRenameListener {
+                override fun onDeviceNameUpdated(newName: String) {
+                    singleDevice.device.name = newName
+                    deviceListAdapter?.notifyItemChanged(position)
+                }
+            })
+            dialog.show(activity.fragmentManager, "DeviceRenameFragment")
+        }
+        return true
+    }
+
     override fun onItemClick(itemView: View?, position: Int) {
-        val singleDevice = adapter?.getItem(position)
+        val singleDevice = deviceListAdapter?.getItem(position)
         if (singleDevice != null) {
             if (!BleManager.getInstance().isConnected(singleDevice.device.macAddress)) {
-//                BleManager.getInstance().cancelScan()
                 connectBleDevice(singleDevice, false)
             } else {
+                val bleLampFragment = parentFragment as BleLampFragment
+                bleLampFragment.setIsReName(false)
                 mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice.device.type, singleDevice.id))
             }
-
-//            val status = mClient.getConnectStatus(singleDevice.device.macAddress)
-//            if (status != Constants.STATUS_DEVICE_CONNECTED && singleDevice.id == 0) {
-////                connectBleDevice(singleDevice, false)
-//            } else {
-//                mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice.device.type, singleDevice.id))
-//            }
         }
     }
 
     override fun onItemClick(menuBridge: SwipeMenuBridge) {
-        val singleDevice = adapter?.getItem(menuBridge.adapterPosition)
+        val singleDevice = deviceListAdapter?.getItem(menuBridge.adapterPosition)
         if (singleDevice?.id != 0) {
             isDeviceRemoving = true
             showDeviceRemoveAlertDialog(singleDevice!!)
@@ -164,9 +182,9 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
         val builder = AlertDialog.Builder(activity)
         builder.setMessage(getString(R.string.delete) + " " + singleDevice.device.name + "?")
         builder.setPositiveButton(R.string.confirm) { _, _ ->
-            val position = adapter?.data?.indexOf(singleDevice) ?: -1
+            val position = deviceListAdapter?.data?.indexOf(singleDevice) ?: -1
             if (position != -1) {
-                adapter?.remove(position)
+                deviceListAdapter?.remove(position)
                 mViewModel?.deleteSingleDevice(lampCategoryType, singleDevice.id)
                 isDeviceRemoving = false
                 BleManager.getInstance().disconnect(singleDevice.device.macAddress)
@@ -187,33 +205,6 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
     }
 
     private fun discoverDevices() {
-//        val request = SearchRequest.Builder().searchBluetoothLeDevice(1000 * 5, 1).build()
-//        mClient.search(request, object : SearchResponse {
-//            override fun onSearchStopped() {
-//                discoverDevices()
-////                Log.d("aa", "onSearchStopped")
-//            }
-//
-//            override fun onSearchStarted() {
-////                Log.d("aa", "onSearchStarted")
-//            }
-//
-//            override fun onSearchCanceled() {
-////                Log.d("aa", "onSearchCanceled")
-//            }
-//
-//            override fun onDeviceFounded(bleDevice: SearchResult) {
-//                if (!isDeviceRemoving && TextUtils.equals("Linkuphome M1", bleDevice.name) && !keyMap.containsKey(bleDevice.address)) {
-//                    keyMap[bleDevice.address] = bleDevice.name
-//                    val device = SingleDevice(0, Device(bleDevice.name, lampCategoryType,bleDevice.address), 0,  0, 0, 0, null)
-//                    val position = adapter?.data?.indexOf(device) ?: -1
-//                    if (bleDevice.address != null && bleDevice.name != null && position == -1) {
-//                        mViewDataBinding.llBleDeviceSearching.visibility = View.GONE
-//                        adapter?.addData(device)
-//                    }
-//                }
-//            }
-//        })
         val scanRuleConfig = BleScanRuleConfig.Builder()
                 .setServiceUuids(null)
                 .setDeviceName(true, "Linkuphome M1")
@@ -234,10 +225,10 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
             override fun onScanning(bleDevice: BleDevice?) {
                 if (!isDeviceRemoving && bleDevice?.mac != null && bleDevice.name != null) {
                     val device = SingleDevice(0, Device(bleDevice.name, lampCategoryType, bleDevice.mac), 0, 0, 0, 0, null)
-                    val position = adapter?.data?.indexOf(device) ?: -1
+                    val position = deviceListAdapter?.data?.indexOf(device) ?: -1
                     if (position == -1) {
                         mViewDataBinding.llBleDeviceSearching.visibility = View.GONE
-                        adapter?.addData(device)
+                        deviceListAdapter?.addData(device)
                     }
                 }
             }
@@ -250,30 +241,6 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
             deviceAssociateFragment.show(activity.fragmentManager, "DeviceAssociateFragment")
             mViewDataBinding.llBleDeviceSearching.postDelayed(associateProgressChangedAction, 300)
         }
-//        val options = BleConnectOptions.Builder()
-//                .setConnectRetry(10)   // 连接如果失败重试3次
-//                .setConnectTimeout(30000)   // 连接超时30s
-//                .setServiceDiscoverRetry(10)  // 发现服务如果失败重试3次
-//                .setServiceDiscoverTimeout(30000)  // 发现服务超时20s
-//                .build()
-//        mClient.connect(singleDevice.device.macAddress, if (isAutoConnect) options else null) { code, data ->
-//            if (!isAutoConnect) {
-//                if (code == REQUEST_SUCCESS) {
-//                    val device = SingleDevice(setting?.nextDeviceIndex!!, Device(singleDevice.device.name, lampCategoryType, singleDevice.device.macAddress), 0, 0, 0, 0, ControlState())
-//                    val position = adapter?.data?.indexOf(device) ?: -1
-//                    if (position != -1) {
-//                        adapter?.getItem(position)?.id = setting?.nextDeviceIndex!!
-//                        adapter?.notifyItemChanged(position)
-//                        mViewModel?.addSingleDevice(setting!!, device)
-//                    }
-//                }
-//                mViewDataBinding.llBleDeviceSearching.removeCallbacks(associateProgressChangedAction)
-//                deviceAssociateFragment.dismiss()
-//            } else {
-//
-//            }
-//            Log.d("aa", "code-33333-" + code)
-//        }
         BleManager.getInstance().connect(singleDevice.device.macAddress, object : BleGattCallback() {
             override fun onStartConnect() {
                 Log.d("aa", "11")
@@ -291,10 +258,10 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
                 Log.d("aa", "333")
                 if (!isAutoConnect) {
                     val device = SingleDevice(setting?.nextDeviceIndex!!, Device(singleDevice.device.name, lampCategoryType, singleDevice.device.macAddress), 0, 0, 0, 0, ControlState())
-                    val position = adapter?.data?.indexOf(device) ?: -1
+                    val position = deviceListAdapter?.data?.indexOf(device) ?: -1
                     if (position != -1) {
-                        adapter?.getItem(position)?.id = setting?.nextDeviceIndex!!
-                        adapter?.notifyItemChanged(position)
+                        deviceListAdapter?.getItem(position)?.id = setting?.nextDeviceIndex!!
+                        deviceListAdapter?.notifyItemChanged(position)
                         mViewModel?.addSingleDevice(setting!!, device)
                     }
                     mViewDataBinding.llBleDeviceSearching.removeCallbacks(associateProgressChangedAction)
