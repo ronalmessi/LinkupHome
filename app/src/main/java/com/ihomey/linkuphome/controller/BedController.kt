@@ -2,8 +2,6 @@ package com.ihomey.linkuphome.controller
 
 import android.util.Log
 import com.clj.fastble.BleManager
-import com.csr.mesh.DataModelApi
-import com.ihomey.linkuphome.BluetoothClientManager
 import com.ihomey.linkuphome.data.vo.Alarm
 import com.ihomey.linkuphome.write
 
@@ -87,7 +85,6 @@ class BedController : Controller() {
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(18, 20), 16))
         val code_lawn_scene = code_lawn_scene_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
 //        BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_scene)
-
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_scene)
     }
 

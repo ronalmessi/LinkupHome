@@ -23,7 +23,6 @@ import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.linkuphome.BluetoothClientManager
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
@@ -34,12 +33,6 @@ import com.ihomey.linkuphome.main.BleLampFragment
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.VerticalSpaceItemDecoration
-import com.inuker.bluetooth.library.Code.REQUEST_SUCCESS
-import com.inuker.bluetooth.library.Constants
-import com.inuker.bluetooth.library.connect.options.BleConnectOptions
-import com.inuker.bluetooth.library.search.SearchRequest
-import com.inuker.bluetooth.library.search.SearchResult
-import com.inuker.bluetooth.library.search.response.SearchResponse
 import com.yanzhenjie.loading.Utils
 import com.yanzhenjie.recyclerview.swipe.*
 

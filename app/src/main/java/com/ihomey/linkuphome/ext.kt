@@ -42,8 +42,6 @@ import com.ihomey.linkuphome.controller.BedController.Companion.UUID_CHARACTERIS
 import com.ihomey.linkuphome.controller.BedController.Companion.UUID_SERVICE
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.inuker.bluetooth.library.BluetoothClient
-import com.inuker.bluetooth.library.Constants
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -103,10 +101,6 @@ fun Activity.setTranslucentStatus() {
     }
 }
 
-fun BluetoothClient.write(mac: String, service: String, character: String, value: String) {
-    Log.d("aa", "--" + this.getConnectStatus(mac) + "---" + Constants.STATUS_DEVICE_CONNECTED)
-    if (this.getConnectStatus(mac) == Constants.STATUS_DEVICE_CONNECTED) write(mac, UUID.fromString(service), UUID.fromString(character), HexUtil.hexStringToBytes(value)) {}
-}
 
 fun BleManager.write(mac: String, service: String, character: String, value: String) {
     Log.d("aa", "--" + isConnected(mac))
@@ -391,7 +385,8 @@ fun syncTime(mac: String) {
     val code_lawn_time_prefix = CODE_LIGHT_SYNC_TIME_BASE + (if (year >= 10) "" + year else "0$year") + (if (month >= 10) "" + month else "0$month") + (if (dayOfMonth >= 10) "" + dayOfMonth else "0$dayOfMonth") + (if (dayOfWeek >= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
     val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16) + Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16) + Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
     val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-    BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_time)
+    BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_time)
+    Log.d("aa", "--" + code_lawn_time)
 }
 
 fun getShortName(type: DeviceType) =
