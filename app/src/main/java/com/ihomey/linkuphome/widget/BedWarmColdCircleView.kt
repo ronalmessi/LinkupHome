@@ -42,6 +42,16 @@ class BedWarmColdCircleView : View {
     private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
 
+    private var startTime: Long = 0
+    private var endTime: Long = 0
+
+    private var downX: Float = 0f
+    private var downY: Float = 0f
+
+
+    private var moveX: Float = 0f
+    private var moveY: Float = 0f
+
     // Color
     private var mCurrentTemperature: Int = 0
 
@@ -156,7 +166,7 @@ class BedWarmColdCircleView : View {
         } else if (value == 6500) {
             mCurrentRadian = (Math.PI / 2).toFloat()
         }
-        mCurrentTemperature=value
+        mCurrentTemperature = value
         invalidate()
     }
 
@@ -171,8 +181,19 @@ class BedWarmColdCircleView : View {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action and event.actionMasked) {
-            MotionEvent.ACTION_DOWN -> mPreRadian = getRadian(event.x, event.y)
+            MotionEvent.ACTION_DOWN -> {
+                startTime = System.currentTimeMillis()
+                downX = event.x//float DownX
+                downY = event.y//float DownY
+                moveX = 0f
+                moveY = 0f
+                mPreRadian = getRadian(event.x, event.y)
+            }
             MotionEvent.ACTION_MOVE -> {
+                moveX += Math.abs(event.x - downX)//X轴距离
+                moveY += Math.abs(event.y - downY)//y轴距离
+                downX = event.x
+                downX = event.y
                 val temp = getRadian(event.x, event.y)
                 if (Math.abs(temp - mPreRadian) > 0.01) {
                     mCurrentRadian += temp - mPreRadian
@@ -190,15 +211,17 @@ class BedWarmColdCircleView : View {
                         }
                     }
                     mPreRadian = temp
-                    if ((mCurrentTemperature==0||mCurrentTemperature!=getColorTemperature())&&mColorTemperatureValueListener != null){
-                        mCurrentTemperature=getColorTemperature()
+                    if ((mCurrentTemperature == 0 || mCurrentTemperature != getColorTemperature()) && mColorTemperatureValueListener != null) {
+                        mCurrentTemperature = getColorTemperature()
                         mColorTemperatureValueListener?.onColorTemperatureValueChanged(mCurrentTemperature)
                     }
-
                     invalidate()
                 }
             }
             MotionEvent.ACTION_UP -> {
+                endTime = System.currentTimeMillis()
+                val isClick = endTime - startTime <= 200 || (moveX <= 20 && moveY <= 20)
+                if (isClick) mCurrentRadian = getRadian(event.x, event.y)
                 if (mCurrentRadian > (Math.PI / 4).toFloat() && mCurrentRadian <= (3 * Math.PI / 4).toFloat()) {
                     mCurrentRadian = (Math.PI / 2).toFloat()
                     invalidate()
@@ -208,6 +231,12 @@ class BedWarmColdCircleView : View {
                 } else if (mCurrentRadian < (Math.PI * 7 / 4).toFloat() && mCurrentRadian >= (5 * Math.PI / 4).toFloat()) {
                     mCurrentRadian = (Math.PI * 3 / 2).toFloat()
                     invalidate()
+                }
+                if (isClick) {
+                    if ((mCurrentTemperature == 0 || mCurrentTemperature != getColorTemperature()) && mColorTemperatureValueListener != null) {
+                        mCurrentTemperature = getColorTemperature()
+                        mColorTemperatureValueListener?.onColorTemperatureValueChanged(mCurrentTemperature)
+                    }
                 }
             }
         }
@@ -228,7 +257,7 @@ class BedWarmColdCircleView : View {
 
     private var mColorTemperatureValueListener: DashboardView.ColorTemperatureListener? = null
 
-    fun setColorTemperatureListener(mCircleTemperatureListener:DashboardView.ColorTemperatureListener?) {
+    fun setColorTemperatureListener(mCircleTemperatureListener: DashboardView.ColorTemperatureListener?) {
         this.mColorTemperatureValueListener = mCircleTemperatureListener
     }
 }
