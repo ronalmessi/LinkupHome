@@ -1,5 +1,7 @@
 package com.ihomey.linkuphome.listeners
 
+import com.ihomey.linkuphome.listener.BatteryValueListener
+
 /**
  * Created by Administrator on 2017/6/21.
  */

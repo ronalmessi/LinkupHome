@@ -6,14 +6,20 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
+import com.clj.fastble.BleManager
+import com.clj.fastble.callback.BleNotifyCallback
+import com.clj.fastble.data.BleDevice
+import com.clj.fastble.exception.BleException
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.bed.BedControlSettingFragment
+import com.ihomey.linkuphome.controller.BedController
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.vo.ControlDevice
@@ -83,10 +89,8 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
 
     override fun onResume() {
         super.onResume()
-        if (lampCategory < 5) {
-            val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategory", -1)
-            mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(lampCategory, lastUsedDeviceId))
-        }
+        val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategory", -1)
+        mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(lampCategory, lastUsedDeviceId))
     }
 
     fun initController(type: Int) {

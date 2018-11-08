@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="control"
+            type="com.ihomey.linkuphome.data.vo.ControlDevice" />
+
+        <!--<variable-->
+        <!--name="handlers"-->
+        <!--type="com.ihomey.linkuphome.control.BaseControlFragment.ToolBarEventHandler" />-->
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_environment_temperature">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/toolbar_open_drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_bed_lamp_drawer" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="@string/tab_environmental_monitor"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <TextView
+            android:id="@+id/tv_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="室内温度"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+        <TextView
+            android:id="@+id/tv_temperature_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0°C"
+            android:textColor="#E86D82"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
+
+        <com.ihomey.linkuphome.widget.ThermometerView
+            android:id="@+id/thermometer_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:inner_circle_color="#E86D82"
+            app:inner_circle_radius="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_temperature_value"
+            app:outer_circle_color="#ffffff"
+            app:outer_circle_radius="22dp"
+            app:unreached_line_color="#CBCBCB" />
+
+        <FrameLayout
+            android:id="@+id/fl_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/btn_refresh"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:background="@drawable/bg_btn_refresh" />
+
+            <ImageView
+                android:id="@+id/btn_home"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_btn_home" />
+
+        </FrameLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

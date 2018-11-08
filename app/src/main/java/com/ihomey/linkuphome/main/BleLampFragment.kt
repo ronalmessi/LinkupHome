@@ -3,9 +3,15 @@ package com.ihomey.linkuphome.main
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.bluetooth.BluetoothGatt
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.content.LocalBroadcastManager
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BleLampPageAdapter
@@ -23,12 +29,19 @@ import android.util.Log
 import android.view.*
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.clj.fastble.BleManager
+import com.clj.fastble.callback.BleNotifyCallback
+import com.clj.fastble.callback.BleReadCallback
+import com.clj.fastble.data.BleDevice
+import com.clj.fastble.exception.BleException
+import com.ihomey.linkuphome.HexUtil
 import com.ihomey.linkuphome.adapter.DrawerMenuAdapter
 import com.ihomey.linkuphome.base.LocaleHelper.getLanguage
+import com.ihomey.linkuphome.controller.BedController
 import com.ihomey.linkuphome.data.vo.*
 
 import com.ihomey.linkuphome.widget.toprightmenu.MenuItem
 import com.ihomey.linkuphome.listener.OnDrawerMenuItemClickListener
+import com.ihomey.linkuphome.listener.SensorValueListener
 import com.ihomey.linkuphome.widget.DividerDecoration
 
 
@@ -38,8 +51,9 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     private lateinit var mViewDataBinding: FragmentLampBleBinding
     private var mViewModel: MainViewModel? = null
     private var onDrawerMenuItemClickListener: OnDrawerMenuItemClickListener? = null
-
     private var isReName: Boolean = false
+    private var sensorType: String = "F1"
+    private lateinit var drawerMenuAdapter: DrawerMenuAdapter
 
     fun newInstance(categoryType: Int): BleLampFragment {
         val fragment = BleLampFragment()
@@ -51,6 +65,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerSensorValueReceiver()
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
@@ -72,25 +87,13 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
 
         val drawerMenuRcv = mViewDataBinding.navDrawerLayout?.findViewById<RecyclerView>(R.id.drawer_rcv_menu)
         val menuItems = ArrayList<MenuItem>()
-        if (TextUtils.equals(getLanguage(context), "zh")) {
-            menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
-            menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
-            menuItems.add(MenuItem(R.drawable.ic_menu_pm25, R.string.drawer_menu_pm25))
-            menuItems.add(MenuItem(R.drawable.ic_menu_hcho, R.string.drawer_menu_hcho))
-            menuItems.add(MenuItem(R.drawable.ic_menu_voc, R.string.drawer_menu_voc))
-        } else {
-            menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
-            menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
-            menuItems.add(MenuItem(R.drawable.ic_menu_co, R.string.drawer_menu_co))
-            menuItems.add(MenuItem(R.drawable.ic_menu_co2, R.string.drawer_menu_co2))
-            menuItems.add(MenuItem(R.drawable.ic_menu_voc, R.string.drawer_menu_voc))
-        }
+        menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
+        menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
         drawerMenuRcv?.layoutManager = LinearLayoutManager(context)
-        val drawerMenuAdapter = DrawerMenuAdapter(R.layout.item_drawer_menu, menuItems)
+        drawerMenuAdapter = DrawerMenuAdapter(R.layout.item_drawer_menu, menuItems)
         drawerMenuAdapter.onItemClickListener = this
         drawerMenuRcv?.adapter = drawerMenuAdapter
         drawerMenuRcv?.addItemDecoration(DividerDecoration(context, LinearLayoutManager.VERTICAL, false))
-
         return mViewDataBinding.root
     }
 
@@ -116,6 +119,40 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         return true
     }
 
+
+    private fun registerSensorValueReceiver() {
+        val lbm = LocalBroadcastManager.getInstance(context)
+        val filter = IntentFilter()
+        filter.addAction("com.ihomey.linkuphome.SENSOR_VALUE_CHANGED")
+        lbm.registerReceiver(sensorValueReceiver, filter)
+    }
+
+    private val sensorValueReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val sensorValue = intent.getStringExtra("sensorValue")
+            if (Integer.parseInt(sensorValue.substring(16, 18).toUpperCase(), 16) > 240) {
+                val sensorTypeValue = sensorValue.substring(16, 18).toUpperCase()
+                setSensorType(sensorTypeValue)
+            }
+        }
+    }
+
+    private fun setSensorType(sensorType: String) {
+        this.sensorType = sensorType
+        val menuItems = ArrayList<MenuItem>()
+        if (TextUtils.equals(getLanguage(context), "F1")) {
+            menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
+            menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
+        } else {
+            menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
+//            menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
+            menuItems.add(MenuItem(R.drawable.ic_menu_pm25, R.string.drawer_menu_pm25))
+            menuItems.add(MenuItem(R.drawable.ic_menu_hcho, R.string.drawer_menu_hcho))
+            menuItems.add(MenuItem(R.drawable.ic_menu_voc, R.string.drawer_menu_voc))
+        }
+        drawerMenuAdapter.setNewData(menuItems)
+    }
+
     override fun onBackPressed(): Boolean {
         return handleBackPress(this)
     }
@@ -126,6 +163,11 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         BleManager.getInstance().cancelScan()
         BleManager.getInstance().disconnectAllDevice()
         BleManager.getInstance().destroy()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(sensorValueReceiver)
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -152,11 +194,15 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         this.onDrawerMenuItemClickListener = onDrawerMenuItemClickListener
     }
 
-    fun isReName(): Boolean {
+    private fun isReName(): Boolean {
         return isReName
     }
 
     fun setIsReName(flag: Boolean) {
         this.isReName = flag
+    }
+
+    fun getSensorType(): String {
+        return sensorType
     }
 }

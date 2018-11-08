@@ -9,6 +9,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
@@ -18,14 +19,17 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
+import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleScanCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
 import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.HexUtil
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
+import com.ihomey.linkuphome.controller.BedController
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceBleListBinding
 import com.ihomey.linkuphome.disconnect
@@ -50,6 +54,8 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
     private var mViewModel: MainViewModel? = null
     private val deviceAssociateFragment = BleDeviceAssociateFragment()
 
+    private val controller: BedController = BedController()
+
     fun newInstance(lampCategoryType: Int): BleDeviceListFragment {
         val fragment = BleDeviceListFragment()
         val bundle = Bundle()
@@ -57,7 +63,6 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
         fragment.arguments = bundle
         return fragment
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_ble_list, container, false)
@@ -155,9 +160,25 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
             if (!BleManager.getInstance().isConnected(singleDevice.device.macAddress)) {
                 connectBleDevice(singleDevice, false)
             } else {
-                val bleLampFragment = parentFragment as BleLampFragment
-                bleLampFragment.setIsReName(false)
-                mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice.device.type, singleDevice.id))
+                val bluetoothDevice = BleManager.getInstance().bluetoothAdapter.getRemoteDevice(singleDevice.device.macAddress)
+                val bleDevice = BleDevice(bluetoothDevice, 0, null, 0)
+                BleManager.getInstance().notify(bleDevice, BedController.UUID_SERVICE, BedController.UUID_CHARACTERISTIC_READ, object : BleNotifyCallback() {
+                    override fun onCharacteristicChanged(data: ByteArray?) {
+                        sendBroadcast(HexUtil.formatHexString(data))
+                    }
+
+                    override fun onNotifyFailure(exception: BleException?) {
+                        Log.d("aa", exception.toString())
+                    }
+
+                    override fun onNotifySuccess() {
+                        Log.d("aa", "2222")
+                        controller.getSensorVersion(singleDevice.device.macAddress)
+                        val bleLampFragment = parentFragment as BleLampFragment
+                        bleLampFragment.setIsReName(false)
+                        mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice.device.type, singleDevice.id))
+                    }
+                })
             }
         }
     }
@@ -182,7 +203,6 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
                 isDeviceRemoving = false
                 BleManager.getInstance().disconnect(singleDevice.device.macAddress)
                 mViewDataBinding.lampDeviceBleRcvList.postDelayed({ discoverDevices() }, 1000)
-
             }
         }
         builder.setNegativeButton(R.string.cancel, null)
@@ -198,13 +218,7 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
     }
 
     private fun discoverDevices() {
-        val scanRuleConfig = BleScanRuleConfig.Builder()
-                .setServiceUuids(null)
-                .setDeviceName(true, "Linkuphome M1")
-                .setDeviceMac(null)
-                .setAutoConnect(false)
-                .setScanTimeOut(10000)
-                .build()
+        val scanRuleConfig = BleScanRuleConfig.Builder().setServiceUuids(null).setDeviceName(true, "Linkuphome M1").setDeviceMac(null).setAutoConnect(false).setScanTimeOut(10000).build()
         BleManager.getInstance().initScanRule(scanRuleConfig)
         BleManager.getInstance().scan(object : BleScanCallback() {
             override fun onScanFinished(scanResultList: MutableList<BleDevice>?) {
@@ -240,7 +254,6 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
             }
 
             override fun onDisConnected(isActiveDisConnected: Boolean, device: BleDevice?, gatt: BluetoothGatt?, status: Int) {
-                Log.d("aa", "22" + isActiveDisConnected)
                 if (!isAutoConnect) {
                     mViewDataBinding.llBleDeviceSearching.removeCallbacks(associateProgressChangedAction)
                     deviceAssociateFragment.dismiss()
@@ -260,6 +273,9 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
                     mViewDataBinding.llBleDeviceSearching.removeCallbacks(associateProgressChangedAction)
                     deviceAssociateFragment.dismiss()
                 }
+
+                val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_5", -1)
+                if (singleDevice.id == lastUsedDeviceId) enableNotify(singleDevice.device.macAddress)
             }
 
             override fun onConnectFail(bleDevice: BleDevice?, exception: BleException?) {
@@ -281,6 +297,31 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
                 mViewDataBinding.llBleDeviceSearching.postDelayed(this, 300)
             }
         }
+    }
+
+    private fun enableNotify(mac: String) {
+        val bluetoothDevice = BleManager.getInstance().bluetoothAdapter.getRemoteDevice(mac)
+        val bleDevice = BleDevice(bluetoothDevice, 0, null, 0)
+        BleManager.getInstance().notify(bleDevice, BedController.UUID_SERVICE, BedController.UUID_CHARACTERISTIC_READ, object : BleNotifyCallback() {
+            override fun onCharacteristicChanged(data: ByteArray?) {
+                sendBroadcast(HexUtil.formatHexString(data))
+            }
+
+            override fun onNotifyFailure(exception: BleException?) {
+                Log.d("aa", exception.toString())
+            }
+
+            override fun onNotifySuccess() {
+                Log.d("aa", "2222")
+                controller.getSensorVersion(mac)
+            }
+        })
+    }
+
+    private fun sendBroadcast(sensorValue: String) {
+        val localIntent = Intent("com.ihomey.linkuphome.SENSOR_VALUE_CHANGED")
+        localIntent.putExtra("sensorValue", sensorValue)
+        LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent)
     }
 
 }

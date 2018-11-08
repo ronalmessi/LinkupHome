@@ -12,7 +12,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.batteryIcons
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.databinding.FragmentControlLawnBinding
-import com.ihomey.linkuphome.listeners.BatteryValueListener
+import com.ihomey.linkuphome.listener.BatteryValueListener
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
 import com.ihomey.linkuphome.widget.toprightmenu.MenuItem

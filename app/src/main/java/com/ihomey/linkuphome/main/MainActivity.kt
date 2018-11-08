@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.util.ArrayMap
 import android.util.Log
-import android.util.SparseArray
 import android.util.SparseIntArray
 import android.view.Gravity
 import android.widget.TextView
@@ -30,9 +29,9 @@ import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.device.MeshDeviceListFragment
 import com.ihomey.linkuphome.group.GroupSettingFragment
+import com.ihomey.linkuphome.listener.BatteryValueListener
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listener.OnLanguageListener

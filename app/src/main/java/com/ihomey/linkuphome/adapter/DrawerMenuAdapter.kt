@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
 
-import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.R

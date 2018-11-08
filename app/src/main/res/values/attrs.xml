@@ -152,6 +152,42 @@
     </declare-styleable>
 
 
+    <declare-styleable name="ThermometerView">
+        <attr name="inner_circle_radius" format="dimension" />
+        <attr name="outer_circle_radius" format="dimension" />
+        <attr name="scale_width" format="dimension" />
+        <attr name="scale_length" format="dimension" />
+        <attr name="outer_circle_color" format="color" />
+        <attr name="inner_circle_color" format="color" />
+        <attr name="unreached_line_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PM25View">
+        <attr name="scale_line_width" format="dimension" />
+        <attr name="scale_line_length" format="dimension" />
+        <attr name="scale_line_color" format="color" />
+        <attr name="scale_line_highlight_color" format="color" />
+        <attr name="value_textSize" format="dimension" />
+        <attr name="unit_textSize" format="dimension" />
+        <attr name="level_textSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="HCHOView">
+        <attr name="line_width" format="dimension" />
+        <attr name="line_length" format="dimension" />
+        <attr name="line_color" format="color" />
+        <attr name="h_value_textSize" format="dimension" />
+        <attr name="h_unit_textSize" format="dimension" />
+        <attr name="h_level_textSize" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="VOCView">
+        <attr name="value_text_size" format="dimension" />
+        <attr name="level_text_size" format="dimension" />
+    </declare-styleable>
+
+
     <declare-styleable name="TimerSettingView">
         <attr name="mTextSize" format="dimension" />
         <attr name="reached_color" format="color" />
