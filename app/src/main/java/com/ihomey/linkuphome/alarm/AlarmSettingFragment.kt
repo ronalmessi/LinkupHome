@@ -164,6 +164,7 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
                 } else {
                     alarmViewModel?.updateAlarm(alarm)
                 }
+                deviceMac?.let { controller.setAlarm(it, alarm)}
             }
         }
         activity.onBackPressed()

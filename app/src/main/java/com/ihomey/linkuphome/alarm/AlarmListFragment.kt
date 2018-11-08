@@ -95,7 +95,7 @@ class AlarmListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
                 if (it?.status == Status.SUCCESS && it.data != null) {
                     val newData = arrayListOf<Alarm>()
                     newData.addAll(it.data)
-                    if (it.data.size < 2) newData.add(Alarm(-1, -1, 0, 0, 0, 1, 1, 0))
+                    if (it.data.size < 2) newData.add(Alarm(-1, -1, 0, 0, 0, 1, 1, 1))
                     adapter.setNewData(newData)
                 }
             })

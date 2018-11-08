@@ -13,11 +13,8 @@ import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.content.LocalBroadcastManager
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BleLampPageAdapter
 import com.ihomey.linkuphome.databinding.FragmentLampBleBinding
-import com.ihomey.linkuphome.disableShiftMode
-import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import android.support.v4.widget.DrawerLayout
@@ -33,7 +30,7 @@ import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleReadCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
-import com.ihomey.linkuphome.HexUtil
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DrawerMenuAdapter
 import com.ihomey.linkuphome.base.LocaleHelper.getLanguage
 import com.ihomey.linkuphome.controller.BedController
@@ -133,7 +130,14 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
             if (Integer.parseInt(sensorValue.substring(16, 18).toUpperCase(), 16) > 240) {
                 val sensorTypeValue = sensorValue.substring(16, 18).toUpperCase()
                 setSensorType(sensorTypeValue)
+            } else if (sensorValue.startsWith("fe01d101da0003c402")) {
+                val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
+                activity.toast("闹钟" + alarmId + "取消")
+            }else if (sensorValue.startsWith("fe01d101da0003c401")) {
+                val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
+                activity.toast("闹钟" + alarmId + "设置成功")
             }
+
         }
     }
 
@@ -157,16 +161,11 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         return handleBackPress(this)
     }
 
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         BleManager.getInstance().cancelScan()
         BleManager.getInstance().disconnectAllDevice()
         BleManager.getInstance().destroy()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         LocalBroadcastManager.getInstance(context).unregisterReceiver(sensorValueReceiver)
     }
 
