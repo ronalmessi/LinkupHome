@@ -43,12 +43,13 @@ import com.ihomey.linkuphome.widget.RadioGroupPlus
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
 import com.ihomey.linkuphome.widget.toprightmenu.TopRightMenu
+import com.suke.widget.SwitchButton
 
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, RadioGroupPlus.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener, TopRightMenu.OnMenuItemClickListener, View.OnClickListener {
+abstract class BaseControlFragment : BaseFragment(), SwitchButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener, RadioGroupPlus.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener, TopRightMenu.OnMenuItemClickListener, View.OnClickListener {
 
     protected var lampCategory: Int = -1
     private var controller: Controller? = null
@@ -186,6 +187,16 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
             }
         }
         mViewModel?.updateDevice(mControlDevice)
+    }
+
+    override fun onCheckedChanged(buttonView: SwitchButton?, isChecked: Boolean) {
+        when (buttonView?.id) {
+            R.id.sb_control_setting_gesture_control -> {
+                if (mControlDevice != null) {
+                    mControlDevice?.device?.macAddress?.let { controller?.setGestureState(it, isChecked) }
+                }
+            }
+        }
     }
 
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {

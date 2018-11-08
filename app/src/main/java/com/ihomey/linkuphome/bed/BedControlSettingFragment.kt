@@ -13,9 +13,10 @@ import com.ihomey.linkuphome.control.BaseControlFragment
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.databinding.FragmentControlBedSettingBinding
 import com.ihomey.linkuphome.main.BleLampFragment
+import com.suke.widget.SwitchButton
 import net.cachapa.expandablelayout.ExpandableLayout
 
-class BedControlSettingFragment : BaseControlFragment() {
+class BedControlSettingFragment : BaseControlFragment(){
 
     private lateinit var mViewDataBinding: FragmentControlBedSettingBinding
 
@@ -60,6 +61,7 @@ class BedControlSettingFragment : BaseControlFragment() {
             mViewDataBinding.rlControlSettingSceneMode.setOnClickListener(this)
             mViewDataBinding.rlControlSettingAlarm.setOnClickListener(this)
             mViewDataBinding.sstgCyclingSpeed.setOnCheckedChangeListener(this)
+            mViewDataBinding.sbControlSettingGestureControl.setOnCheckedChangeListener(this)
         } else {
             mViewDataBinding.control = null
             mControlDevice = null
@@ -76,8 +78,11 @@ class BedControlSettingFragment : BaseControlFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mViewDataBinding.rlControlSettingSyncTime.setOnClickListener(null)
         mViewDataBinding.rlControlSettingSceneMode.setOnClickListener(null)
         mViewDataBinding.rlControlSettingAlarm.setOnClickListener(null)
         mViewDataBinding.sstgCyclingSpeed.setOnCheckedChangeListener(null)
+        mViewDataBinding.sbControlSettingGestureControl.setOnCheckedChangeListener(null)
     }
+
 }

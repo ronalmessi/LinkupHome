@@ -1,6 +1,8 @@
 package com.ihomey.linkuphome.controller
 
 
+
+
 /**
  * Created by Administrator on 2017/6/16.
  */
@@ -27,6 +29,8 @@ abstract class Controller {
     open fun setLightPowerState(deviceId: Int, powerState: Int){}
 
     open fun setLightPowerState(mac: String, powerState: Int){}
+
+    open fun setGestureState(mac: String, isOn: Boolean){}
 
     open fun setLightScene(deviceId: Int, sceneValue: Int){}
 
