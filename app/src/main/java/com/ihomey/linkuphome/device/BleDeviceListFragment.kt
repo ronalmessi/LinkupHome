@@ -25,16 +25,14 @@ import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.linkuphome.HexUtil
-import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.controller.BedController
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceBleListBinding
-import com.ihomey.linkuphome.disconnect
 import com.ihomey.linkuphome.main.BleLampFragment
-import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.VerticalSpaceItemDecoration
 import com.yanzhenjie.loading.Utils
@@ -173,6 +171,7 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
 
                     override fun onNotifySuccess() {
                         Log.d("aa", "2222")
+                        syncDeviceTime(singleDevice.device.macAddress)
                         controller.getSensorVersion(singleDevice.device.macAddress)
                         val bleLampFragment = parentFragment as BleLampFragment
                         bleLampFragment.setIsReName(false)
@@ -313,6 +312,7 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
 
             override fun onNotifySuccess() {
                 Log.d("aa", "2222")
+                syncDeviceTime(mac)
                 controller.getSensorVersion(mac)
             }
         })
@@ -322,6 +322,14 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
         val localIntent = Intent("com.ihomey.linkuphome.SENSOR_VALUE_CHANGED")
         localIntent.putExtra("sensorValue", sensorValue)
         LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent)
+    }
+
+    private fun syncDeviceTime(mac:String){
+        mViewDataBinding.lampDeviceBleRcvList.postDelayed(object :Runnable{
+            override fun run() {
+                syncTime(mac)
+            }
+        },1500)
     }
 
 }
