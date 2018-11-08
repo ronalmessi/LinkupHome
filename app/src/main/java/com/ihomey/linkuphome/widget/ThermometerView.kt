@@ -7,6 +7,9 @@ import android.util.TypedValue
 import android.view.View
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.dip2px
+import android.animation.ValueAnimator
+import android.view.animation.LinearInterpolator
+
 
 class ThermometerView : View {
 
@@ -112,7 +115,6 @@ class ThermometerView : View {
         canvas.drawRoundRect(mUnReachedLineRectF, mInnerCircleRadius / 3, mInnerCircleRadius / 3, mUnReachedLinePaint)
         canvas.drawCircle(mCx, height - mOuterCircleRadius, mInnerCircleRadius, mInnerCirclePaint)
 
-
         val scaleEndY = height - mOuterCircleRadius * 2
         val scaleStartY = mInnerCircleRadius - context.dip2px(2f)
         val scaleCurrentY = mInnerCircleRadius + context.dip2px(2f)
@@ -125,7 +127,6 @@ class ThermometerView : View {
                 canvas.drawLine(mCx - mInnerCircleRadius * 3 / 2 - mScaleLength, scaleCurrentY + rangY * i, mCx - mInnerCircleRadius * 3 / 2, scaleCurrentY + rangY * i, mScaleLinePaint)
             }
         }
-
         val currentY = scaleCurrentY + rangY * (12 - (currentTemperature - MIN_VALUE) / 10)
         canvas.drawRect(mCx - mInnerCircleRadius / 3, currentY, mCx + mInnerCircleRadius / 3, height - mInnerCircleRadius * 2, mReachedLinePaint)
         canvas.restore()
@@ -133,12 +134,13 @@ class ThermometerView : View {
 
 
     fun setTemperature(temperature: Float) {
-        when {
-            temperature >= MAX_VALUE -> this.currentTemperature = MAX_VALUE
-            temperature <= MIN_VALUE -> this.currentTemperature = MIN_VALUE
-            else -> this.currentTemperature = temperature
+        val animator = ValueAnimator.ofFloat(-40f, temperature)
+        animator.addUpdateListener { animation ->
+            currentTemperature = animation?.animatedValue as Float
+            invalidate()
         }
-        invalidate()
+        animator.duration = 800
+        animator.interpolator = LinearInterpolator()
+        animator.start()
     }
-
 }
