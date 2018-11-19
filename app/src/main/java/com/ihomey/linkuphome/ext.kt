@@ -318,39 +318,6 @@ fun syncTime(deviceId: Int) {
     DataModelApi.sendData(deviceId, decodeHex(code_lawn_time.toCharArray()), false)
 }
 
-
-//<<<<<<< HEAD
-////fun getName(type: DeviceType) =
-////        when (type) {
-////            DeviceType.C3 -> "LinkupHome C3"
-////            DeviceType.R2 -> "LinkupHome R2"
-////            DeviceType.A2 -> "LinkupHome A2"
-////            DeviceType.N1 -> "LinkupHome N1"
-////            DeviceType.V1 -> "LinkupHome V1"
-////        }
-//
-//=======
-//fun syncTime(mac: String) {
-//    val calendar = Calendar.getInstance()
-//    calendar.time = Date()
-//    val year = calendar.get(Calendar.YEAR) - 2000
-//    val month = calendar.get(Calendar.MONTH) + 1
-//    val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-//    var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-//    if (dayOfWeek == 1) dayOfWeek = 7 else {
-//        dayOfWeek -= 1
-//    }
-//    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-//    val minute = calendar.get(Calendar.MINUTE)
-//    val second = calendar.get(Calendar.SECOND)
-//    val code_lawn_time_prefix = CODE_LIGHT_SYNC_TIME_BASE + (if (year >= 10) "" + year else "0$year") + (if (month >= 10) "" + month else "0$month") + (if (dayOfMonth >= 10) "" + dayOfMonth else "0$dayOfMonth") + (if (dayOfWeek >= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
-//    val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16) + Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16) + Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
-//    val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//    BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_time)
-//    Log.d("aa", "--" + code_lawn_time)
-//}
-//>>>>>>> d1ba46f... 修改七牛云服务器的域名
-
 fun getShortName(type: DeviceType) =
         when (type) {
             DeviceType.C3 -> "iHomey C3"
@@ -358,6 +325,8 @@ fun getShortName(type: DeviceType) =
             DeviceType.A2 -> "iHomey A2"
             DeviceType.N1 -> "iHomey N1"
             DeviceType.V1 -> "iHomey V1"
+            DeviceType.S1 -> "iHomey S1"
+            DeviceType.S2 -> "iHomey S2"
         }
 
 
@@ -368,6 +337,8 @@ fun getIcon(type: Int) =
             2 -> R.mipmap.lamp_icon_warm_cold_unadded
             3 -> R.mipmap.lamp_icon_led_unadded
             4 -> R.mipmap.lamp_icon_outdoor_unadded
+            5 -> R.mipmap.lamp_icon_s_unadded
+            6 -> R.mipmap.lamp_icon_s_unadded
             else -> R.mipmap.lamp_icon_bed_unadded
         }
 

@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import java.util.*
 import javax.inject.Singleton
+import android.arch.persistence.room.migration.Migration
 
 
 /**
@@ -29,9 +30,19 @@ class ApiModule {
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(1,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(2,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(3,0,'$uniqueID',1,-1)")
-//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
+                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
+                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,-1)")
             }
-        }).build()
+        }).addMigrations(MIGRATION_1_2).build()
+    }
+
+    private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=5")
+            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=5")
+            database.execSQL("update category set type=4 where id=6")
+            database.execSQL("update category set type=5 where id=7")
+        }
     }
 
     @Singleton
