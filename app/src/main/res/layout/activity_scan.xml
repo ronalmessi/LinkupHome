@@ -144,6 +144,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="64dp"
                 android:text="@string/scan_qrCode"
+                android:onClick="@{handlers::onClick}"
                 android:textColor="#93daf8"
                 android:textSize="18sp" />
 

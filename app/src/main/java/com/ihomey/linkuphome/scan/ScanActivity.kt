@@ -212,7 +212,11 @@ class ScanActivity : BaseActivity(), QRCodeView.Delegate {
         fun onClick(view: View) {
             when (view.id) {
                 R.id.toolbar_back -> this@ScanActivity.finish()
-                R.id.tv_myQRCodeView -> view.context.startActivity(Intent(this@ScanActivity, ShareActivity::class.java))
+                R.id.tv_myQRCodeView -> {
+                    val intent = Intent(this@ScanActivity, ShareActivity::class.java)
+                    intent.putExtra("lampCategoryType", lampCategoryType)
+                    startActivity(intent)
+                }
             }
         }
     }
