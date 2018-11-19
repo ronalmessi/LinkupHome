@@ -373,7 +373,7 @@ fun syncTime(mac: String) {
     val calendar = Calendar.getInstance()
     calendar.time = Date()
     val year = calendar.get(Calendar.YEAR) - 2000
-    val month = calendar.get(Calendar.MONTH)+1
+    val month = calendar.get(Calendar.MONTH) + 1
     val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
     var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
     if (dayOfWeek == 1) dayOfWeek = 7 else {
@@ -414,7 +414,7 @@ var ACCESS_KEY = "MOeoLYAGZgMIe98ZTDo_Uk4c7rYrLAD2AVFVIwC5"
 //七牛后台的secret
 var SECRET_KEY = "0N370nRJKrEvnkdZKzjExgYFZo1p195x_y5uUlN0"
 var BUCKET_NAME = "linkuphome"
-var DOMAIN = "http://oopawrxkj.bkt.clouddn.com/"
+var DOMAIN = "http://img.ihomey.cc/"
 var UPDATE_URL = DOMAIN + "androidVersionInfo_"
 
 
