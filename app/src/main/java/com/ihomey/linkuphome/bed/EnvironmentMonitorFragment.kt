@@ -62,10 +62,10 @@ class EnvironmentMonitorFragment : BaseFragment(), OnDrawerMenuItemClickListener
     override fun onMenuItemClick(viewId: Int, position: Int) {
         when (position) {
             0 -> showFragment(TemperatureFragment().newInstance())
-            1 -> showFragment(PM25Fragment().newInstance())
-//            2 -> showFragment(PM25Fragment().newInstance())
-            2 -> showFragment(HCHOFragment().newInstance())
-            3 -> showFragment(VOCFragment().newInstance())
+            1 -> showFragment(HumidityFragment().newInstance())
+            2 -> showFragment(PM25Fragment().newInstance())
+            3 -> showFragment(HCHOFragment().newInstance())
+            4 -> showFragment(VOCFragment().newInstance())
         }
     }
 

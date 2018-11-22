@@ -57,4 +57,10 @@
 
     <color name="scale">#000000</color>
 
+
+    <!--<color name="red">#FFFF785A</color>-->
+    <color name="yellow">#FFFFC864</color>
+    <color name="blue">#FF6EBEE6</color>
+    <color name="green">#FF5ADC96</color>
+
 </resources>
