@@ -19,11 +19,7 @@ import com.ihomey.linkuphome.main.BleLampFragment
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.databinding.FragmentEnvironmentHumidityBinding
-import android.widget.SeekBar
-import android.databinding.adapters.SeekBarBindingAdapter.setProgress
-import android.databinding.adapters.SeekBarBindingAdapter.setOnSeekBarChangeListener
-
-
+import android.util.Log
 
 
 /**
@@ -73,35 +69,14 @@ class HumidityFragment : BaseFragment(), SensorValueListener {
             startAnimation()
         }
         startAnimation()
-
-
-
-//       val colors = intArrayOf(resources.getColor(R.color.green), resources.getColor(R.color.blue), resources.getColor(R.color.yellow), resources.getColor(R.color.red))
-//        val drawable = WaterDropCompassDrawable()
-//        mViewDataBinding.thermometerTemperature.setImageDrawable(drawable)
-
-
-//        drawable.setCurrentColor(2, "health");
-
-//        mViewDataBinding.thermometerTemperature.setOmegaByProgress(40);
-//        mViewDataBinding.thermometerTemperature.setWaveHeightByProgress(40);
-//        mViewDataBinding.thermometerTemperature.setMoveSpeedByProgress(40);
-//        mViewDataBinding.thermometerTemperature.setHeightOffsetByProgress(40);
-
-
-//        val objectAnimator1 = ObjectAnimator.ofFloat( mViewDataBinding.thermometerTemperature, "progress", 0f, 40f)
-//        objectAnimator1.duration = 3000
-//        objectAnimator1.interpolator = AccelerateInterpolator()
-//        objectAnimator1.start()
     }
 
     override fun onSensorValueChanged(sensorValue: String) {
         if (sensorValue.startsWith("fe01d101da0006c104")) {
-//            val temperatureValue = Integer.parseInt(sensorValue.substring(18, 20), 16) * 256 + Integer.parseInt(sensorValue.substring(20, 22), 16)
-//            mViewDataBinding.tvTemperatureValue.text=""+temperatureValue/10.0f+"°C"
-//            mViewDataBinding.thermometerTemperature.setTemperature(temperatureValue/10.0f)
-//            stopAnimation()
-//            Log.d("aa", "temperatureValue--" + temperatureValue)
+            val humidityValue = Integer.parseInt(sensorValue.substring(22, 24), 16) * 256 + Integer.parseInt(sensorValue.substring(24, 26), 16)
+            mViewDataBinding.tvHumidityValue.text=""+humidityValue/10.0f+"%"
+            mViewDataBinding.thermometerTemperature.setHumidityValue(humidityValue/10.0f)
+            stopAnimation()
         }
     }
 

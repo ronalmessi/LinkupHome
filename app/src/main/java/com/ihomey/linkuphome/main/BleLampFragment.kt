@@ -137,7 +137,6 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
                 val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
                 activity.toast("闹钟" + alarmId + "设置成功")
             }
-
         }
     }
 
@@ -149,7 +148,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
             menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
         } else {
             menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
-//            menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
+            menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
             menuItems.add(MenuItem(R.drawable.ic_menu_pm25, R.string.drawer_menu_pm25))
             menuItems.add(MenuItem(R.drawable.ic_menu_hcho, R.string.drawer_menu_hcho))
             menuItems.add(MenuItem(R.drawable.ic_menu_voc, R.string.drawer_menu_voc))

@@ -73,7 +73,7 @@
             android:id="@+id/tv_humidity_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="45%"
+            android:text="0%"
             android:textColor="#73BCD6"
             android:textSize="64sp"
             android:textStyle="bold"
@@ -81,13 +81,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_humidity" />
 
-        <com.ihomey.linkuphome.widget.HumidityView1
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.18" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.82" />
+
+        <com.ihomey.linkuphome.widget.HumidityView
             android:id="@+id/thermometer_temperature"
-            android:layout_width="360dp"
-            android:layout_height="240dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toBottomOf="@+id/tv_humidity_value" />
 
 

@@ -112,8 +112,6 @@ dependencies {
 
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
-//    implementation 'com.inuker.bluetooth:library:1.4.0'
-
 }
 
 

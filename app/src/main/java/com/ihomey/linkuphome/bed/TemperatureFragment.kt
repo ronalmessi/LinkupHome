@@ -77,7 +77,6 @@ class TemperatureFragment : BaseFragment(), SensorValueListener {
             mViewDataBinding.tvTemperatureValue.text=""+temperatureValue/10.0f+"°C"
             mViewDataBinding.thermometerTemperature.setTemperature(temperatureValue/10.0f)
             stopAnimation()
-            Log.d("aa", "temperatureValue--" + temperatureValue)
         }
     }
 
