@@ -43,10 +43,10 @@ class AlarmListAdapter(data: MutableList<Alarm>?) : BaseMultiItemQuickAdapter<Al
                         }
                     }
                     helper.setText(R.id.tv_alarm_day, sb2.toString().dropLastWhile { TextUtils.equals(" ", it.toString()) })
-                    helper.setChecked(R.id.sb_alarm_state, item.isOn == 1)
                 } else {
                     helper.setText(R.id.tv_alarm_day, " ")
                 }
+                helper.setChecked(R.id.sb_alarm_state, item.isOn == 1)
                 val hour = if (item.hour > 9) "" + item.hour else "0" + item.hour
                 val minute = if (item.minute > 9) "" + item.minute else "0" + item.minute
                 helper.setText(R.id.tv_alarm_time, "$hour:$minute")
