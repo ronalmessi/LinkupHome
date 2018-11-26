@@ -116,11 +116,13 @@ class TimerSettingView : View {
     private fun drawTimerText(canvas: Canvas) {
         val rect = Rect()
 
-        val hourStr = getCurrentHour()
+        val hour = getCurrentHour()
+        val hourStr = if (hour < 10) "0$hour" else hour.toString()
         mTextPaint.getTextBounds(hourStr, 0, hourStr.length, rect)
         canvas.drawText(hourStr, mCx - mTextPaint.measureText(hourStr) - context.dip2px(6f), mCy + rect.height() / 2, mTextPaint)
 
-        val minuteStr = getCurrentMinute()
+        val minute = getCurrentMinute()
+        val minuteStr = if (minute < 10) "0$minute" else minute.toString()
         mTextPaint.getTextBounds(minuteStr, 0, minuteStr.length, rect)
         canvas.drawText(minuteStr, mCx + context.dip2px(6f), mCy + rect.height() / 2, mTextPaint)
 
@@ -211,7 +213,7 @@ class TimerSettingView : View {
         } else {
             mPreHourRadian = mPreRadian
             mCurrentHourRadian = mCurrentRadian
-            if (getCurrentHour().toInt() > 23) {
+            if (getCurrentHour() > 23) {
                 mPreMinuteRadian = 0f
                 mCurrentMinuteRadian = 0f
             }
@@ -219,29 +221,17 @@ class TimerSettingView : View {
         invalidate()
     }
 
-
-    private fun getCurrentHour(): String {
-        val hour = (mCurrentHourRadian / (2 * Math.PI) * 24).toInt()
-        return if (hour < 10) "0$hour" else hour.toString()
-    }
-
-    private fun getCurrentMinute(): String {
-        var minute = (mCurrentMinuteRadian / (2 * Math.PI) * 60).toInt()
-        if (minute == 60) minute = 59
-        return if (minute < 10) "0$minute" else minute.toString()
-    }
-
-
-    fun getHour(): Int {
-        val hour = (mCurrentHourRadian / (2 * Math.PI) * 24).toInt()
+    fun getCurrentHour(): Int {
+        var hour = Math.ceil(mCurrentHourRadian / (2 * Math.PI) * 23).toInt()
+        if (hour == 24) hour = 23
         return hour
     }
 
-    fun getMinute(): Int {
-        var minute = (mCurrentMinuteRadian / (2 * Math.PI) * 60).toInt()
+    fun getCurrentMinute(): Int {
+        var minute = Math.ceil(mCurrentMinuteRadian / (2 * Math.PI) * 59).toInt()
+        if (minute == 60) minute = 59
         return minute
     }
-
 
 
     private fun initElements() {
@@ -333,8 +323,10 @@ class TimerSettingView : View {
     }
 
     fun setTime(hour: Int, minute: Int) {
-        mCurrentHourRadian = (hour.toFloat() / 24.0 * 2 * Math.PI).toFloat()
-        mCurrentMinuteRadian = (minute.toFloat() / 60.0 * 2 * Math.PI).toFloat()
-        invalidate()
+        if (getCurrentHour() != hour && getCurrentMinute() != minute) {
+            mCurrentHourRadian = (hour.toFloat() / 24.0 * 2 * Math.PI).toFloat()
+            mCurrentMinuteRadian = (minute.toFloat() / 60.0 * 2 * Math.PI).toFloat()
+            invalidate()
+        }
     }
 }

@@ -127,15 +127,28 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     private val sensorValueReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val sensorValue = intent.getStringExtra("sensorValue")
-            if (Integer.parseInt(sensorValue.substring(16, 18).toUpperCase(), 16) > 240) {
-                val sensorTypeValue = sensorValue.substring(16, 18).toUpperCase()
-                setSensorType(sensorTypeValue)
-            } else if (sensorValue.startsWith("fe01d101da0003c402")) {
-                val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
-                activity.toast("闹钟" + alarmId + "取消")
-            }else if (sensorValue.startsWith("fe01d101da0003c401")) {
-                val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
-                activity.toast("闹钟" + alarmId + "设置成功")
+            when {
+                Integer.parseInt(sensorValue.substring(16, 18).toUpperCase(), 16) > 240 -> {
+                    val sensorTypeValue = sensorValue.substring(16, 18).toUpperCase()
+                    setSensorType(sensorTypeValue)
+                }
+                sensorValue.startsWith("fe01d101da0003c402") -> {
+                    val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
+                    activity.toast("闹钟" + alarmId + "取消")
+                }
+                sensorValue.startsWith("fe01d101da0003c401") -> {
+                    val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
+                    activity.toast("闹钟" + alarmId + "设置成功")
+                }
+                sensorValue.startsWith("fe01d101da0004c20602") -> {
+                    val alarmId = Integer.parseInt(sensorValue.substring(20, 22), 16)
+                    activity.toast("定时" + alarmId + "取消")
+                }
+                sensorValue.startsWith("fe01d101da0004c20601") -> {
+                    val alarmId = Integer.parseInt(sensorValue.substring(20, 22), 16)
+                    activity.toast("定时" + alarmId + "设置成功")
+                }
+                sensorValue.startsWith("fe01d101da0004c2050101") -> activity.toast( "正在播放音乐")
             }
         }
     }

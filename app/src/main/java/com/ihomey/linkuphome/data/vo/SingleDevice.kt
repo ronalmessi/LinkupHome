@@ -17,10 +17,8 @@ data class SingleDevice(@PrimaryKey var id: Int, @Embedded var device: Device, @
         }
         val singleDevice = obj as SingleDevice?
         if (singleDevice!!.id == this.id &&singleDevice.device.type<5) {
-            Log.d("aa","222")
             return true
         }else if(singleDevice.hash == this.hash&&TextUtils.equals(singleDevice.device.macAddress,this.device.macAddress)&& singleDevice.device.type == this.device.type){
-            Log.d("aa","3333"+this.device.macAddress+"---"+device.macAddress)
             return true
         }
         return super.equals(obj)

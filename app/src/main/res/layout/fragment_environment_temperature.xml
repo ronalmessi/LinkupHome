@@ -92,7 +92,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_temperature_value"
             app:outer_circle_color="#ffffff"
-            app:outer_circle_radius="22dp"
+            app:outer_circle_radius="24dp"
             app:unreached_line_color="#CBCBCB" />
 
         <FrameLayout

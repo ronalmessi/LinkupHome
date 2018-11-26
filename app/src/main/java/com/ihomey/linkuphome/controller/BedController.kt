@@ -168,7 +168,7 @@ class BedController : Controller() {
         val alarmId = "0" + alarm.id
         val type = "0" + alarm.type
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_TYPE_BASE + alarmId + type
-        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         Log.d("aa", code_lawn_timer)
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)

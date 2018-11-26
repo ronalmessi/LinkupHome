@@ -82,8 +82,12 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
         val lampCategory = addedLampCategoryAdapter.getItem(position)
         val fsh = activity as IFragmentStackHolder
         if (lampCategory != null) {
-            val hasConnected by PreferenceHelper("hasConnected" + lampCategory.type, false)
-            fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(lampCategory.type, hasConnected, false))
+            if(lampCategory.type<5){
+                val hasConnected by PreferenceHelper("hasConnected" + lampCategory.type, false)
+                fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(lampCategory.type, hasConnected, false))
+            }else{
+                fsh.replaceFragment(R.id.container, BleLampFragment().newInstance(lampCategory.type))
+            }
             mViewModel.loadData(lampCategory.type)
         }
     }

@@ -145,11 +145,9 @@ public class RGBCircleView extends View {
             case MotionEvent.ACTION_UP:
                 endTime = System.currentTimeMillis();
                 handler.removeCallbacks(runnable);
-                Log.d("aa","--"+endTime+"---"+startTime+"--"+(endTime - startTime > 200)+"--"+moveX+"---"+moveY+"---"+(moveX > 20 || moveY > 20));
                 if (endTime - startTime > 200 && (moveX > 20 || moveY > 20)) {
                     if (mCurrentIndex == 0 || mCurrentIndex != getIndexColor(getCurrentTime())) {
                         if (mCircleTimerListener != null) {
-                            Log.d("aa","3333");
                             mCircleTimerListener.onColorValueChanged(getIndex(getCurrentTime()));
                             mCurrentIndex = getIndexColor(getCurrentTime());
                         }
@@ -161,7 +159,6 @@ public class RGBCircleView extends View {
                     setCircleBgColor(colorIndex2);
                     if (mCurrentIndex == 0 || mCurrentIndex != getIndexColor(getCurrentTime())) {
                         if (mCircleTimerListener != null) {
-                            Log.d("aa","4444");
                             mCircleTimerListener.onColorValueChanged(getIndex(getCurrentTime()));
                             mCurrentIndex = getIndexColor(getCurrentTime());
                         }

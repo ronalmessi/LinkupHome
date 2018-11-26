@@ -126,11 +126,11 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
         val ish = parentFragment as IFragmentStackHolder
         when (v?.id) {
             R.id.rl_alarm_setting_repeat -> {
-                alarmViewModel?.setTime(mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute())
+                alarmViewModel?.setTime(mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute())
                 ish.replaceFragment(R.id.inner_frag_control_container, AlarmDaySettingFragment().newInstance())
             }
             R.id.rl_alarm_setting_ring -> {
-                alarmViewModel?.setTime(mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute())
+                alarmViewModel?.setTime(mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute())
                 ish.replaceFragment(R.id.inner_frag_control_container, AlarmRingSettingFragment().newInstance())
             }
         }
@@ -139,15 +139,15 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
     override fun onCheckedChanged(view: SwitchButton, isChecked: Boolean) {
         if (view.id == R.id.sb_alarm_setting_voice) {
             if (mViewDataBinding.sbAlarmSettingLighting.isChecked) {
-                if (isChecked) alarmViewModel?.setType(3, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute()) else alarmViewModel?.setType(2, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute())
+                if (isChecked) alarmViewModel?.setType(3, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute()) else alarmViewModel?.setType(2, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute())
             } else {
-                if (isChecked) alarmViewModel?.setType(1, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute()) else alarmViewModel?.setType(0, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute())
+                if (isChecked) alarmViewModel?.setType(1, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute()) else alarmViewModel?.setType(0, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute())
             }
         } else if (view.id == R.id.sb_alarm_setting_lighting) {
             if (mViewDataBinding.sbAlarmSettingVoice.isChecked) {
-                if (isChecked) alarmViewModel?.setType(3, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute()) else alarmViewModel?.setType(1, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute())
+                if (isChecked) alarmViewModel?.setType(3, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute()) else alarmViewModel?.setType(1, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute())
             } else {
-                if (isChecked) alarmViewModel?.setType(2, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute()) else alarmViewModel?.setType(0, mViewDataBinding.tsvAlarmSetting.getHour(), mViewDataBinding.tsvAlarmSetting.getMinute())
+                if (isChecked) alarmViewModel?.setType(2, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute()) else alarmViewModel?.setType(0, mViewDataBinding.tsvAlarmSetting.getCurrentHour(), mViewDataBinding.tsvAlarmSetting.getCurrentMinute())
             }
         }
     }
@@ -156,8 +156,8 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
         if (alarmViewModel?.getAlarm() != null && deviceId != -1) {
             val alarm = alarmViewModel?.getAlarm()!!.value
             if (alarm != null) {
-                alarm.hour = mViewDataBinding.tsvAlarmSetting.getHour()
-                alarm.minute = mViewDataBinding.tsvAlarmSetting.getMinute()
+                alarm.hour = mViewDataBinding.tsvAlarmSetting.getCurrentHour()
+                alarm.minute = mViewDataBinding.tsvAlarmSetting.getCurrentMinute()
                 if (alarm.deviceId == -1) {
                     alarm.deviceId = deviceId
                     alarmViewModel?.saveAlarm(alarm)

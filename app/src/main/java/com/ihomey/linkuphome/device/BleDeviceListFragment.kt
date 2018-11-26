@@ -249,7 +249,7 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
         }
         BleManager.getInstance().connect(singleDevice.device.macAddress, object : BleGattCallback() {
             override fun onStartConnect() {
-                Log.d("aa", "11")
+
             }
 
             override fun onDisConnected(isActiveDisConnected: Boolean, device: BleDevice?, gatt: BluetoothGatt?, status: Int) {
@@ -260,7 +260,6 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
             }
 
             override fun onConnectSuccess(bleDevice: BleDevice?, gatt: BluetoothGatt?, status: Int) {
-                Log.d("aa", "333")
                 if (!isAutoConnect) {
                     val device = SingleDevice(setting?.nextDeviceIndex!!, Device(singleDevice.device.name, lampCategoryType, singleDevice.device.macAddress), 0, 0, 0, 0, ControlState())
                     val position = deviceListAdapter?.data?.indexOf(device) ?: -1
@@ -278,7 +277,6 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
             }
 
             override fun onConnectFail(bleDevice: BleDevice?, exception: BleException?) {
-                Log.d("aa", "444")
                 if (!isAutoConnect) {
                     mViewDataBinding.llBleDeviceSearching.removeCallbacks(associateProgressChangedAction)
                     deviceAssociateFragment.dismiss()

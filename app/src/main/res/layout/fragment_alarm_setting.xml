@@ -85,8 +85,6 @@
             android:divider="@drawable/bg_alarm_setting_divider"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:showDividers="middle|end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tsv_alarm_setting"
