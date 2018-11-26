@@ -148,7 +148,6 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
                     val alarmId = Integer.parseInt(sensorValue.substring(20, 22), 16)
                     activity.toast("定时" + alarmId + "设置成功")
                 }
-                sensorValue.startsWith("fe01d101da0004c2050101") -> activity.toast( "正在播放音乐")
             }
         }
     }
