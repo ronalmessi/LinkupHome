@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.RadioGroup
@@ -119,10 +118,16 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                         lightState.openTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
                         lightState.openTimerOn = 3
                         lightState.openDayOfWeek = getDayOfWeek()
+                        if (mControlDevice?.device?.type == 5) {
+                            controller?.setRepeatTimer(mControlDevice?.device?.macAddress!!, getMinute(), getHour(), true, true, lightState.openDayOfWeek)
+                        }
                     } else {
                         lightState.closeTimerOn = 3
                         lightState.closeTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
                         lightState.closeDayOfWeek = getDayOfWeek()
+                        if (mControlDevice?.device?.type == 5) {
+                            controller?.setRepeatTimer(mControlDevice?.device?.macAddress!!, getMinute(), getHour(), false, true, lightState.closeDayOfWeek)
+                        }
                     }
                 }
                 setTimerOn(true)

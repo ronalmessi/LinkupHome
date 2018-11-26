@@ -134,8 +134,6 @@ open class BedTimerSettingFragment : BaseTimerSettingFragment(), BaseQuickAdapte
                 mViewDataBinding.wheelTimerHour.selectedItemPosition = 0
                 mViewDataBinding.wheelTimerMinute.selectedItemPosition = 0
             }
-
-
             updateView(sb?.toString()!!)
 
         } else {
