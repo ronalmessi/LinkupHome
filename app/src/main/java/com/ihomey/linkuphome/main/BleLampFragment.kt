@@ -49,7 +49,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     private var mViewModel: MainViewModel? = null
     private var onDrawerMenuItemClickListener: OnDrawerMenuItemClickListener? = null
     private var isReName: Boolean = false
-    private var sensorType: String = "F1"
+    private var sensorType=0
     private lateinit var drawerMenuAdapter: DrawerMenuAdapter
 
     fun newInstance(categoryType: Int): BleLampFragment {
@@ -70,7 +70,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
                     Log.d("aa", "getCurrentControlDevice--" + it.data.id + "--" + it.data.device.macAddress)
                     if (!isReName()) mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_ble_control
                 }else{
-                    setSensorType("F1")
+                    setSensorType(0)
                 }
             }
         })
@@ -132,9 +132,9 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         override fun onReceive(context: Context, intent: Intent) {
             val sensorValue = intent.getStringExtra("sensorValue")
             when {
-                Integer.parseInt(sensorValue.substring(16, 18).toUpperCase(), 16) > 240 -> {
-                    val sensorTypeValue = sensorValue.substring(16, 18).toUpperCase()
-                    setSensorType(sensorTypeValue)
+                sensorValue.startsWith("fe01d101da0004c1f") -> {
+                    val sensorType = if(sensorValue.startsWith("fe01d101da0004c1f2f2f2")) 1 else 0
+                    setSensorType(sensorType)
                 }
                 sensorValue.startsWith("fe01d101da0003c402") -> {
                     val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
@@ -156,10 +156,10 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         }
     }
 
-    private fun setSensorType(sensorType: String) {
+    private fun setSensorType(sensorType: Int) {
         this.sensorType = sensorType
         val menuItems = ArrayList<MenuItem>()
-        if (TextUtils.equals(sensorType, "F1")) {
+        if (sensorType==0) {
             menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
             menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
         } else {
@@ -216,7 +216,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         this.isReName = flag
     }
 
-    fun getSensorType(): String {
+    fun getSensorType(): Int {
         return sensorType
     }
 }

@@ -32,8 +32,8 @@ class BedController : Controller() {
         val CODE_LIGHT_ALARM_TYPE_BASE: String = "BF01D101CD05C40401"
 
         val CODE_LIGHT_NOTIFY_VERSION: String = "BF01D101CD04C101F101"
-        val CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_F2: String = "BF01D101CD04C10204EF"
-        val CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_F1: String = "BF01D101CD04C10104EF"
+        val CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_B: String = "BF01D101CD04C10204EF"
+        val CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_A: String = "BF01D101CD04C10104EF"
         val CODE_LIGHT_NOTIFY_FORMALDEHYDE: String = "BF01D101CD04C10202EF"
         val CODE_LIGHT_NOTIFY_VOC: String = "BF01D101CD04C10203EF"
         val CODE_LIGHT_NOTIFY_PM25: String = "BF01D101CD04C10201EF"
@@ -181,8 +181,8 @@ class BedController : Controller() {
     }
 
 
-    fun getTemperatureAndHumidity(mac: String, sensorType: String) {
-        val code_lawn_timer_prefix = if (TextUtils.equals("F1", sensorType)) CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_F1 else CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_F2
+    fun getTemperatureAndHumidity(mac: String, sensorType: Int) {
+        val code_lawn_timer_prefix = if (sensorType==0) CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_A else CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_B
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_time = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         BleManager.getInstance().write(mac, BedController.UUID_SERVICE, BedController.UUID_CHARACTERISTIC_WRITE, code_lawn_time)
