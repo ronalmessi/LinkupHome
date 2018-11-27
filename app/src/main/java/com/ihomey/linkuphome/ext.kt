@@ -395,6 +395,7 @@ fun getShortName(type: DeviceType) =
             DeviceType.A2 -> "iHomey A2"
             DeviceType.N1 -> "iHomey N1"
             DeviceType.V1 -> "iHomey V1"
+            DeviceType.M1 -> "iHomey M1"
         }
 
 

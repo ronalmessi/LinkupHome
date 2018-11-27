@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.widget
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.LinearInterpolator
 import com.ihomey.linkuphome.R
 
 class HCHOView : View {
@@ -191,11 +193,18 @@ class HCHOView : View {
     }
 
     fun setValue(value: Int) {
-        mCurrentHCHOValue = when {
+        val hchoValue = when {
             value <= 0 -> 0
             value >= 10000 -> 10000
             else -> value
         }
-        invalidate()
+        val animator = ValueAnimator.ofInt(0, hchoValue)
+        animator.addUpdateListener { animation ->
+            mCurrentHCHOValue = animation?.animatedValue as Int
+            invalidate()
+        }
+        animator.duration = 800
+        animator.interpolator = LinearInterpolator()
+        animator.start()
     }
 }

@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.widget
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.LinearInterpolator
 import com.ihomey.linkuphome.R
 
 class PM25View : View {
@@ -198,11 +200,18 @@ class PM25View : View {
     }
 
     fun setValue(value: Int) {
-        when {
-            value >= 0 -> this.mCurrentPM25Value = 0
-            value <= 500 -> this.mCurrentPM25Value = 500
-            else -> this.mCurrentPM25Value = value
+        val pm25Value = when {
+            value <= 0 -> 0
+            value >= 500 -> 500
+            else -> value
         }
-        invalidate()
+        val animator = ValueAnimator.ofInt(0, pm25Value)
+        animator.addUpdateListener { animation ->
+            mCurrentPM25Value = animation?.animatedValue as Int
+            invalidate()
+        }
+        animator.duration = 800
+        animator.interpolator = LinearInterpolator()
+        animator.start()
     }
 }

@@ -54,10 +54,13 @@ class AlarmListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemC
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         alarmViewModel = ViewModelProviders.of(parentFragment).get(AlarmViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
+            if (it?.status == Status.SUCCESS ) {
                 controlDevice = it.data
-                loadData(controlDevice?.id)
-                Log.d("aa", "deviceId--" + it.data.id)
+                if(it.data != null){
+                    loadData(controlDevice?.id)
+                }else{
+                    adapter.setNewData(null)
+                }
             }
         })
     }

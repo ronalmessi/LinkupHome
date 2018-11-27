@@ -91,7 +91,7 @@ abstract class BaseControlFragment : BaseFragment(), SwitchButton.OnCheckedChang
     override fun onResume() {
         super.onResume()
         val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategory", -1)
-        mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(lampCategory, lastUsedDeviceId))
+        if(lampCategory<5) mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(lampCategory, lastUsedDeviceId))
     }
 
     fun initController(type: Int) {

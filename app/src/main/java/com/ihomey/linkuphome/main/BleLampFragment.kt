@@ -65,9 +65,13 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         registerSensorValueReceiver()
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("aa", "getCurrentControlDevice--" + it.data.id + "--" + it.data.device.macAddress)
-                if (!isReName()) mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_ble_control
+            if (it?.status == Status.SUCCESS ) {
+                if(it.data != null){
+                    Log.d("aa", "getCurrentControlDevice--" + it.data.id + "--" + it.data.device.macAddress)
+                    if (!isReName()) mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_ble_control
+                }else{
+                    setSensorType("F1")
+                }
             }
         })
     }
@@ -155,7 +159,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     private fun setSensorType(sensorType: String) {
         this.sensorType = sensorType
         val menuItems = ArrayList<MenuItem>()
-        if (TextUtils.equals(getLanguage(context), "F1")) {
+        if (TextUtils.equals(sensorType, "F1")) {
             menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
             menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
         } else {
