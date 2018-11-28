@@ -1,5 +1,7 @@
 package com.ihomey.linkuphome.main
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.bluetooth.BluetoothGatt
@@ -8,8 +10,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.content.LocalBroadcastManager
 import com.ihomey.linkuphome.base.BaseFragment
@@ -30,6 +34,7 @@ import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleReadCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
+import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DrawerMenuAdapter
 import com.ihomey.linkuphome.base.LocaleHelper.getLanguage
@@ -49,7 +54,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     private var mViewModel: MainViewModel? = null
     private var onDrawerMenuItemClickListener: OnDrawerMenuItemClickListener? = null
     private var isReName: Boolean = false
-    private var sensorType=0
+    private var sensorType = 0
     private lateinit var drawerMenuAdapter: DrawerMenuAdapter
 
     fun newInstance(categoryType: Int): BleLampFragment {
@@ -65,11 +70,11 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         registerSensorValueReceiver()
         mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
-            if (it?.status == Status.SUCCESS ) {
-                if(it.data != null){
+            if (it?.status == Status.SUCCESS) {
+                if (it.data != null) {
                     Log.d("aa", "getCurrentControlDevice--" + it.data.id + "--" + it.data.device.macAddress)
                     if (!isReName()) mViewDataBinding.controlBaseBnv.selectedItemId = R.id.item_tab_ble_control
-                }else{
+                } else {
                     setSensorType(0)
                 }
             }
@@ -128,12 +133,14 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         lbm.registerReceiver(sensorValueReceiver, filter)
     }
 
+
+
     private val sensorValueReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val sensorValue = intent.getStringExtra("sensorValue")
             when {
                 sensorValue.startsWith("fe01d101da0004c1f") -> {
-                    val sensorType = if(sensorValue.startsWith("fe01d101da0004c1f2f2f2")) 1 else 0
+                    val sensorType = if (sensorValue.startsWith("fe01d101da0004c1f2f2f2")) 1 else 0
                     setSensorType(sensorType)
                 }
                 sensorValue.startsWith("fe01d101da0003c402") -> {
@@ -152,6 +159,16 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
                     val alarmId = Integer.parseInt(sensorValue.substring(20, 22), 16)
                     activity.toast("定时" + alarmId + "设置成功")
                 }
+                sensorValue.startsWith("fe01d101da000bc107") -> {
+                    val pm25Value = Integer.parseInt(sensorValue.substring(18, 20), 16) * 256 + Integer.parseInt(sensorValue.substring(20, 22), 16)
+                    val hchoValue = Integer.parseInt(sensorValue.substring(22, 24), 16) * 256 + Integer.parseInt(sensorValue.substring(24, 26), 16)
+                    val vocValue = Integer.parseInt(sensorValue.substring(26, 28), 16)
+                    val temperatureValue = Integer.parseInt(sensorValue.substring(28, 30), 16) * 256 + Integer.parseInt(sensorValue.substring(30, 32), 16)
+                    val humidityValue = Integer.parseInt(sensorValue.substring(32, 34), 16) * 256 + Integer.parseInt(sensorValue.substring(34, 36), 16)
+                    var lastPushTime by PreferenceHelper("lastPushTime", 0L)
+                    lastPushTime=System.currentTimeMillis()
+                    NotifyManager.getInstance(context).showNotify("欢迎回家","室内温度："+temperatureValue/10.0f+"°C，空气湿度："+humidityValue/10.0f+"%，入肺颗粒物："+pm25Value+"，甲醛含量："+hchoValue+" μg/m³，空气质量："+vocValue)
+                }
             }
         }
     }
@@ -159,7 +176,7 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     private fun setSensorType(sensorType: Int) {
         this.sensorType = sensorType
         val menuItems = ArrayList<MenuItem>()
-        if (sensorType==0) {
+        if (sensorType == 0) {
             menuItems.add(MenuItem(R.drawable.ic_menu_temperature, R.string.drawer_menu_temperature))
             menuItems.add(MenuItem(R.drawable.ic_menu_humidity, R.string.drawer_menu_humidity))
         } else {
@@ -183,6 +200,8 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         BleManager.getInstance().destroy()
         LocalBroadcastManager.getInstance(context).unregisterReceiver(sensorValueReceiver)
     }
+
+
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         if (onDrawerMenuItemClickListener != null) {

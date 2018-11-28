@@ -4,14 +4,8 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.bluetooth.BluetoothAdapter
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
-import android.os.Message
+import android.content.*
+import android.os.*
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.util.ArrayMap
@@ -209,14 +203,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     }
 
     private fun onDisConnected(name: String) {
-//        val textView = TextView(this)
-//        textView.width = getScreenW()
-//        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
-//        textView.gravity = Gravity.CENTER
-//        textView.setTextColor(resources.getColor(android.R.color.white))
-//        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
-//        textView.text = '"' + name + '"' + " " + getString(R.string.disconnected)
-//        Crouton.make(this, textView).show()
         mViewModel?.setBridgeState(mConnected)
     }
 

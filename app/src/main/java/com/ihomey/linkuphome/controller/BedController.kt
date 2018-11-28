@@ -34,9 +34,10 @@ class BedController : Controller() {
         val CODE_LIGHT_NOTIFY_VERSION: String = "BF01D101CD04C101F101"
         val CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_B: String = "BF01D101CD04C10204EF"
         val CODE_LIGHT_NOTIFY_TEMPERATURE_HUMIDITY_A: String = "BF01D101CD04C10104EF"
-        val CODE_LIGHT_NOTIFY_FORMALDEHYDE: String = "BF01D101CD04C10202EF"
+        val CODE_LIGHT_NOTIFY_HCHO: String = "BF01D101CD04C10202EF"
         val CODE_LIGHT_NOTIFY_VOC: String = "BF01D101CD04C10203EF"
         val CODE_LIGHT_NOTIFY_PM25: String = "BF01D101CD04C10201EF"
+        val CODE_LIGHT_NOTIFY_ALL: String = "BF01D101CD04C10207EF"
 
 
     }
@@ -45,20 +46,13 @@ class BedController : Controller() {
         val code_lawn_bright_prefix = CODE_LIGHT_BRIGHT_BASE + if (brightValue >= 16) Integer.toHexString(brightValue) else "0" + Integer.toHexString(brightValue)
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_bright_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(16, 18), 16))
         val code_lawn_bright = code_lawn_bright_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//        BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_bright)
-
-
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_bright)
     }
 
     override fun setLightPowerState(mac: String, powerState: Int) {
         if (powerState == 1) {
-//            BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, CODE_LIGHT_POWER_ON)
-
             BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, CODE_LIGHT_POWER_ON)
         } else if (powerState == 0) {
-//            BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, CODE_LIGHT_POWER_OFF)
-
             BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, CODE_LIGHT_POWER_OFF)
         }
     }
@@ -67,8 +61,6 @@ class BedController : Controller() {
          val code_lawn_color_prefix = CODE_LIGHT_GESTURE_BASE + if(isOn) "01" else "00"
          val code_check = Integer.toHexString(Integer.parseInt(code_lawn_color_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_color_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_color_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_color_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_color_prefix.substring(18, 20), 16))
          val code_lawn_color = code_lawn_color_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-
-        Log.d("aa", code_lawn_color)
          BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_color)
     }
 
@@ -89,7 +81,6 @@ class BedController : Controller() {
         val code_lawn_speed_prefix = CODE_LIGHT_SPEED_BASE + speed
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_speed_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(16, 18), 16))
         val code_lawn_speed = code_lawn_speed_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//        BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_speed)
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_speed)
     }
 
@@ -98,7 +89,6 @@ class BedController : Controller() {
         val code_lawn_scene_prefix = CODE_LIGHT_COLOR_BASE + Integer.toHexString(speed).toUpperCase()
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(18, 20), 16))
         val code_lawn_scene = code_lawn_scene_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//        BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_scene)
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_scene)
     }
 
@@ -112,8 +102,6 @@ class BedController : Controller() {
         val code_lawn_color_prefix = CODE_LIGHT_COLOR_TEMPERATURE_BASE + colorTemperature
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_color_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_color_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_color_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_color_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_color_prefix.substring(18, 20), 16))
         val code_lawn_color = code_lawn_color_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//        BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_color)
-
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_color)
     }
 
@@ -125,7 +113,6 @@ class BedController : Controller() {
             val code_lawn_timer_prefix = CODE_LIGHT_TIMER_BASE + timerId + isRepeat + (if (hourValue >= 10) "" + hourValue else "0$hourValue") + (if (minuteValue >= 10) "" + minuteValue else "0$minuteValue") + if (isOpenTimer) "64" else "00"
             val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(24, 26), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(26, 28), 16))
             val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//            BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
             BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
         } else {
             cancelTimer(mac, timerId)
@@ -136,8 +123,6 @@ class BedController : Controller() {
         val code_lawn_timer_prefix = CODE_LIGHT_TIMER_DISABLE_BASE + timerId
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//        BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
-
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
     }
 
@@ -145,9 +130,6 @@ class BedController : Controller() {
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_DISABLE_BASE + "0" + alarmId
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        Log.d("aa", code_lawn_timer)
-//        BluetoothClientManager.getInstance().client.write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
-
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
     }
 
@@ -159,7 +141,6 @@ class BedController : Controller() {
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_BASE + alarmId + isRepeat + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + "0" + alarm.ringType
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(24, 26), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        Log.d("aa", code_lawn_timer)
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
     }
 
@@ -170,7 +151,6 @@ class BedController : Controller() {
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_TYPE_BASE + alarmId + type
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        Log.d("aa", code_lawn_timer)
         BleManager.getInstance().write(mac, UUID_SERVICE, UUID_CHARACTERISTIC_WRITE, code_lawn_timer)
     }
 
@@ -188,9 +168,9 @@ class BedController : Controller() {
         BleManager.getInstance().write(mac, BedController.UUID_SERVICE, BedController.UUID_CHARACTERISTIC_WRITE, code_lawn_time)
     }
 
-    fun getFormaldehyde(mac: String) {
-        val code_check = Integer.toHexString(Integer.parseInt(CODE_LIGHT_NOTIFY_FORMALDEHYDE.substring(10, 12), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_FORMALDEHYDE.substring(12, 14), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_FORMALDEHYDE.substring(14, 16), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_FORMALDEHYDE.substring(16, 18), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_FORMALDEHYDE.substring(18, 20), 16))
-        val code_lawn_time = CODE_LIGHT_NOTIFY_FORMALDEHYDE + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+    fun getHCHOValue(mac: String) {
+        val code_check = Integer.toHexString(Integer.parseInt(CODE_LIGHT_NOTIFY_HCHO.substring(10, 12), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_HCHO.substring(12, 14), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_HCHO.substring(14, 16), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_HCHO.substring(16, 18), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_HCHO.substring(18, 20), 16))
+        val code_lawn_time = CODE_LIGHT_NOTIFY_HCHO + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         BleManager.getInstance().write(mac, BedController.UUID_SERVICE, BedController.UUID_CHARACTERISTIC_WRITE, code_lawn_time)
     }
 
@@ -203,6 +183,12 @@ class BedController : Controller() {
     fun getPM25Value(mac: String) {
         val code_check = Integer.toHexString(Integer.parseInt(CODE_LIGHT_NOTIFY_PM25.substring(10, 12), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_PM25.substring(12, 14), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_PM25.substring(14, 16), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_PM25.substring(16, 18), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_PM25.substring(18, 20), 16))
         val code_lawn_time = CODE_LIGHT_NOTIFY_PM25 + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+        BleManager.getInstance().write(mac, BedController.UUID_SERVICE, BedController.UUID_CHARACTERISTIC_WRITE, code_lawn_time)
+    }
+
+    fun getAllEnvironmentValue(mac: String) {
+        val code_check = Integer.toHexString(Integer.parseInt(CODE_LIGHT_NOTIFY_ALL.substring(10, 12), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_ALL.substring(12, 14), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_ALL.substring(14, 16), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_ALL.substring(16, 18), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_ALL.substring(18, 20), 16))
+        val code_lawn_time = CODE_LIGHT_NOTIFY_ALL + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         BleManager.getInstance().write(mac, BedController.UUID_SERVICE, BedController.UUID_CHARACTERISTIC_WRITE, code_lawn_time)
     }
 }

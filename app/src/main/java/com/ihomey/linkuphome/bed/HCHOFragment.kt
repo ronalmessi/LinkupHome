@@ -23,8 +23,6 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 
 
-
-
 /**
  * Created by dongcaizheng on 2017/12/27.
  */
@@ -48,7 +46,9 @@ class HCHOFragment : BaseFragment(), SensorValueListener {
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> { it ->
             if (it?.status == Status.SUCCESS) {
                 deviceMacAddress = it.data?.device?.macAddress
-                deviceMacAddress?.let { controller.getFormaldehyde(it) }
+                deviceMacAddress?.let {
+                    controller.getHCHOValue(it)
+                }
             }
         })
     }
@@ -67,7 +67,7 @@ class HCHOFragment : BaseFragment(), SensorValueListener {
             bleLampFragment.openDrawer()
         }
         mViewDataBinding.flRefresh.setOnClickListener {
-            deviceMacAddress?.let { controller.getFormaldehyde(it) }
+            deviceMacAddress?.let { controller.getHCHOValue(it) }
             startAnimation()
         }
         startAnimation()
@@ -76,23 +76,22 @@ class HCHOFragment : BaseFragment(), SensorValueListener {
     override fun onSensorValueChanged(sensorValue: String) {
         if (sensorValue.startsWith("fe01d101da0004c102")) {
             val hchoValue = Integer.parseInt(sensorValue.substring(18, 20), 16) * 256 + Integer.parseInt(sensorValue.substring(20, 22), 16)
-            Log.d("aa", "hchoValue--" + hchoValue)
             mViewDataBinding.hchoView.setValue(hchoValue)
             stopAnimation()
         }
     }
 
     private fun startAnimation() {
-        mViewDataBinding.btnRefresh.isActivated=true
-        mViewDataBinding.btnHome.isActivated=true
+        mViewDataBinding.btnRefresh.isActivated = true
+        mViewDataBinding.btnHome.isActivated = true
         val rotate = AnimationUtils.loadAnimation(context, R.anim.rotate)
         rotate.interpolator = LinearInterpolator()
         mViewDataBinding.btnRefresh.startAnimation(rotate)
     }
 
     private fun stopAnimation() {
-        mViewDataBinding.btnRefresh.isActivated=false
-        mViewDataBinding.btnHome.isActivated=false
+        mViewDataBinding.btnRefresh.isActivated = false
+        mViewDataBinding.btnHome.isActivated = false
         mViewDataBinding.btnRefresh.clearAnimation()
     }
 }
