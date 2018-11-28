@@ -42,6 +42,7 @@ import com.ihomey.linkuphome.controller.BedController.Companion.UUID_CHARACTERIS
 import com.ihomey.linkuphome.controller.BedController.Companion.UUID_SERVICE
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
+import de.keyboardsurfer.android.widget.crouton.Crouton
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -122,7 +123,6 @@ fun BleManager.write(mac: String, service: String, character: String, value: Str
 
 
 fun BleManager.disconnect(mac: String) {
-    Log.d("aa", "--" + isConnected(mac))
     if (isConnected(mac)) {
         val bluetoothDevice = bluetoothAdapter.getRemoteDevice(mac)
         val bleDevice = BleDevice(bluetoothDevice, 0, null, 0)
@@ -190,6 +190,19 @@ fun Context.saveImageToGallery(bmp: Bitmap?, dir: String) {
 
     // 最后通知图库更新
     this.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)))
+}
+
+fun showToast(activity: Activity?, content: String) {
+    if (activity != null) {
+        val textView = TextView(activity)
+        textView.width = activity.getScreenW()
+        textView.setPadding(0, activity.dip2px(36f), 0, activity.dip2px(18f))
+        textView.gravity = Gravity.CENTER
+        textView.setTextColor(activity.resources.getColor(android.R.color.white))
+        textView.setBackgroundResource(R.color.colorPrimary)
+        textView.text = content
+        Crouton.make(activity, textView).show()
+    }
 }
 
 /**
@@ -354,6 +367,8 @@ fun inStringArray(s: String, array: Array<String>): Boolean {
     }
     return false
 }
+
+
 
 
 fun syncTime(deviceId: Int) {

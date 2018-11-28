@@ -345,7 +345,7 @@ class BleDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuI
                         mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice.device.type, singleDevice.id))
                         if (!isFragmentVisible) {
                             val lastPushTime by PreferenceHelper("lastPushTime", 0L)
-                            if ((System.currentTimeMillis() - lastPushTime) >= 60 * 1000) mViewDataBinding.lampDeviceBleRcvList.postDelayed({ controller.getAllEnvironmentValue(singleDevice.device.macAddress) }, 800)
+                            if ((System.currentTimeMillis() - lastPushTime) >= 5*60 * 1000) mViewDataBinding.lampDeviceBleRcvList.postDelayed({ controller.getAllEnvironmentValue(singleDevice.device.macAddress) }, 800)
                         }
                     }
                     autoConnectingDeviceMacList.remove(singleDevice.device.macAddress)

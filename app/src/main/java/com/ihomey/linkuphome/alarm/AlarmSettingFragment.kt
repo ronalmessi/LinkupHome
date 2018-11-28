@@ -103,6 +103,8 @@ class AlarmSettingFragment : BaseFragment(), View.OnClickListener, SwitchButton.
                 mViewDataBinding.sbAlarmSettingLighting.isChecked = true
             }
         }
+
+        Log.d("aa","--"+alarm.hour+"--"+alarm.minute)
         mViewDataBinding.tsvAlarmSetting.setTime(alarm.hour, alarm.minute)
         mViewDataBinding.sbAlarmSettingVoice.setOnCheckedChangeListener(this)
         mViewDataBinding.sbAlarmSettingLighting.setOnCheckedChangeListener(this)

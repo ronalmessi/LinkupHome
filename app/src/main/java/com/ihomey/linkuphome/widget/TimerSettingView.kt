@@ -323,10 +323,8 @@ class TimerSettingView : View {
     }
 
     fun setTime(hour: Int, minute: Int) {
-        if (getCurrentHour() != hour && getCurrentMinute() != minute) {
-            mCurrentHourRadian = (hour.toFloat() / 24.0 * 2 * Math.PI).toFloat()
-            mCurrentMinuteRadian = (minute.toFloat() / 60.0 * 2 * Math.PI).toFloat()
-            invalidate()
-        }
+        if (getCurrentHour() != hour) mCurrentHourRadian = (hour.toFloat() / 24.0 * 2 * Math.PI).toFloat()
+        if (getCurrentMinute() != minute) mCurrentMinuteRadian = (minute.toFloat() / 60.0 * 2 * Math.PI).toFloat()
+        invalidate()
     }
 }

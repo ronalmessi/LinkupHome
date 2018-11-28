@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.main
 
+import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.arch.lifecycle.Observer
@@ -28,6 +29,7 @@ import android.text.TextUtils
 import android.util.Log
 
 import android.view.*
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleNotifyCallback
@@ -45,6 +47,7 @@ import com.ihomey.linkuphome.widget.toprightmenu.MenuItem
 import com.ihomey.linkuphome.listener.OnDrawerMenuItemClickListener
 import com.ihomey.linkuphome.listener.SensorValueListener
 import com.ihomey.linkuphome.widget.DividerDecoration
+import de.keyboardsurfer.android.widget.crouton.Crouton
 
 
 class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.OnNavigationItemSelectedListener, BaseQuickAdapter.OnItemClickListener {
@@ -134,7 +137,6 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
     }
 
 
-
     private val sensorValueReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val sensorValue = intent.getStringExtra("sensorValue")
@@ -145,19 +147,19 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
                 }
                 sensorValue.startsWith("fe01d101da0003c402") -> {
                     val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
-                    activity.toast("闹钟" + alarmId + "取消")
+                    showToast(activity,"闹钟" + alarmId + "取消")
                 }
                 sensorValue.startsWith("fe01d101da0003c401") -> {
                     val alarmId = Integer.parseInt(sensorValue.substring(18, 20), 16)
-                    activity.toast("闹钟" + alarmId + "设置成功")
+                    showToast(activity,"闹钟" + alarmId + "设置成功")
                 }
                 sensorValue.startsWith("fe01d101da0004c20602") -> {
                     val alarmId = Integer.parseInt(sensorValue.substring(20, 22), 16)
-                    activity.toast("定时" + alarmId + "取消")
+                    showToast(activity,"定时" + alarmId + "取消")
                 }
                 sensorValue.startsWith("fe01d101da0004c20601") -> {
                     val alarmId = Integer.parseInt(sensorValue.substring(20, 22), 16)
-                    activity.toast("定时" + alarmId + "设置成功")
+                    showToast(activity,"定时" + alarmId + "设置成功")
                 }
                 sensorValue.startsWith("fe01d101da000bc107") -> {
                     val pm25Value = Integer.parseInt(sensorValue.substring(18, 20), 16) * 256 + Integer.parseInt(sensorValue.substring(20, 22), 16)
@@ -166,8 +168,8 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
                     val temperatureValue = Integer.parseInt(sensorValue.substring(28, 30), 16) * 256 + Integer.parseInt(sensorValue.substring(30, 32), 16)
                     val humidityValue = Integer.parseInt(sensorValue.substring(32, 34), 16) * 256 + Integer.parseInt(sensorValue.substring(34, 36), 16)
                     var lastPushTime by PreferenceHelper("lastPushTime", 0L)
-                    lastPushTime=System.currentTimeMillis()
-                    NotifyManager.getInstance(context).showNotify("欢迎回家","室内温度："+temperatureValue/10.0f+"°C，空气湿度："+humidityValue/10.0f+"%，入肺颗粒物："+pm25Value+"，甲醛含量："+hchoValue+" μg/m³，空气质量："+vocValue)
+                    lastPushTime = System.currentTimeMillis()
+                    NotifyManager.getInstance(context).showNotify("欢迎回家", "室内温度：" + temperatureValue / 10.0f + "°C，空气湿度：" + humidityValue / 10.0f + "%，入肺颗粒物：" + pm25Value + "，甲醛含量：" + hchoValue + " μg/m³，空气质量：" + vocValue)
                 }
             }
         }
@@ -200,8 +202,6 @@ class BleLampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationVie
         BleManager.getInstance().destroy()
         LocalBroadcastManager.getInstance(context).unregisterReceiver(sensorValueReceiver)
     }
-
-
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         if (onDrawerMenuItemClickListener != null) {

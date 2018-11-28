@@ -17,6 +17,7 @@ import com.ihomey.linkuphome.databinding.FragmentEnvironmentMonitorBinding
 import com.ihomey.linkuphome.listener.OnDrawerMenuItemClickListener
 import com.ihomey.linkuphome.listener.SensorValueListener
 import com.ihomey.linkuphome.main.BleLampFragment
+import com.ihomey.linkuphome.showToast
 import com.ihomey.linkuphome.toast
 
 class EnvironmentMonitorFragment : BaseFragment(), OnDrawerMenuItemClickListener {
@@ -80,7 +81,8 @@ class EnvironmentMonitorFragment : BaseFragment(), OnDrawerMenuItemClickListener
     private val sensorValueReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val sensorValue = intent.getStringExtra("sensorValue")
-            if( sensorValue.startsWith("fe01d101da0004c2050101")) activity.toast( "正在播放音乐")
+            if(sensorValue.startsWith("fe01d101da0004c2050101")) showToast(activity,"正在播放音乐")
+
             if (listener != null) listener?.onSensorValueChanged(sensorValue)
         }
     }
