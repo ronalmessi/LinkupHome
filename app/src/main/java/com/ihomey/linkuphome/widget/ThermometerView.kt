@@ -41,7 +41,7 @@ class ThermometerView : View {
     private var mOuterRectF: RectF = RectF()
     private var mUnReachedLineRectF: RectF = RectF()
 
-    private var currentTemperature = -40f//当前温度
+    private var currentTemperature =0f//当前温度
 
 
     constructor(context: Context) : super(context) {
@@ -84,6 +84,7 @@ class ThermometerView : View {
         mReachedLinePaint.style = Paint.Style.FILL
 
         mScaleLinePaint.color = mOuterCircleColor
+        mScaleLinePaint.textSize=TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14f, context.resources.displayMetrics)
         mScaleLinePaint.strokeWidth = mScaleWidth
         mUnReachedLinePaint.style = Paint.Style.FILL
     }
@@ -126,11 +127,22 @@ class ThermometerView : View {
             } else {
                 canvas.drawLine(mCx - mInnerCircleRadius * 3 / 2 - mScaleLength, scaleCurrentY + rangY * i, mCx - mInnerCircleRadius * 3 / 2, scaleCurrentY + rangY * i, mScaleLinePaint)
             }
+
+            if (i== 8) {
+                canvas.drawText("0", mCx - mInnerCircleRadius * 3 / 2 - mScaleLength * 5 / 3 - mScaleLinePaint.measureText("0")*3/2, scaleCurrentY + rangY * i + getFontHeight(mScaleLinePaint,"0")/3f, mScaleLinePaint)
+            }
         }
         val currentY = scaleCurrentY + rangY * (12 - (currentTemperature - MIN_VALUE) / 10)
         canvas.drawRect(mCx - mInnerCircleRadius / 3, currentY, mCx + mInnerCircleRadius / 3, height - mInnerCircleRadius * 2, mReachedLinePaint)
         canvas.restore()
     }
+
+    private fun getFontHeight(paint: Paint, text: String): Float {
+        val rect = Rect()
+        paint.getTextBounds(text, 0, text.length, rect)
+        return rect.height().toFloat()
+    }
+
 
 
     fun setTemperature(temperature: Float) {
