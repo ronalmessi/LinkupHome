@@ -272,15 +272,15 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     }
 
     private fun updateBondedDevicesRcvHeight() {
-        mViewDataBinding.groupSettingRcvBondedDevices.post({
+        mViewDataBinding.groupSettingRcvBondedDevices.post {
             val linearParams = mViewDataBinding.groupSettingRcvBondedDevices.layoutParams as ConstraintLayout.LayoutParams
             if (mViewDataBinding.groupSettingRcvBondedDevices.height > (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height) / 2) {
                 linearParams.height = (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height) / 2
-            } else {
-                linearParams.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            } else if(mViewDataBinding.groupSettingRcvBondedDevices.height <= (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height)/4){
+                linearParams.height = (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height) / 4
             }
             mViewDataBinding.groupSettingRcvBondedDevices.layoutParams = linearParams
-        })
+        }
     }
 
     private fun bindDevice(singleDevice: SingleDevice) {
