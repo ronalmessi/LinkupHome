@@ -44,7 +44,7 @@ class PrivacyFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
         val spannableString = SpannableString(textView.text.toString())
         spannableString.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                (activity as IFragmentStackHolder).replaceFragment(R.id.container, PrivacyStatementFragment().newInstance(if (textView.id == R.id.privacy_tv_license) 0 else 1))
+//                (activity as IFragmentStackHolder).replaceFragment(R.id.container, PrivacyStatementFragment().newInstance(if (textView.id == R.id.privacy_tv_license) 0 else 1))
             }
 
             override fun updateDrawState(textPaint: TextPaint) {

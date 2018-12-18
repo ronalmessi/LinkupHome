@@ -26,12 +26,12 @@ class ApiModule {
                 super.onCreate(db)
                 val uniqueID = UUID.randomUUID()
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(-1,0,'',1,32769)")
-                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(0,0,'$uniqueID',1,-1)")
-                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(1,0,'$uniqueID',1,-1)")
-                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(2,0,'$uniqueID',1,-1)")
-                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(3,0,'$uniqueID',1,-1)")
+//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(0,0,'$uniqueID',1,-1)")
+                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(1,1,'$uniqueID',1,-1)")
+                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(2,1,'$uniqueID',1,-1)")
+//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(3,0,'$uniqueID',1,-1)")
 //                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
-                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,1)")
+//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,1)")
             }
         }).addMigrations(MIGRATION_1_2).build()
     }

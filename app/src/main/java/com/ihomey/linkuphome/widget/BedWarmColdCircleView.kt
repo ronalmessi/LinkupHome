@@ -39,7 +39,7 @@ class BedWarmColdCircleView : View {
     private var mCurrentRadian: Float = 0f
     private var mPreRadian: Float = 0f
 
-    private lateinit var logoBitmap: Bitmap
+//    private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
 
     private var startTime: Long = 0
@@ -95,7 +95,7 @@ class BedWarmColdCircleView : View {
         mValuePaint.style = Paint.Style.FILL_AND_STROKE//实心画笔
         mValuePaint.typeface = Typeface.createFromAsset(context.assets, "VARSITY_REGULAR.TTF")
         mValuePaint.isDither = true
-        logoBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_splash_logo)
+//        logoBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_splash_logo)
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
     }
 
@@ -137,7 +137,7 @@ class BedWarmColdCircleView : View {
         mTextPaint.getTextBounds(colorTemperatureStr, 0, 4, mRect)
         canvas.drawText(colorTemperatureStr, mCx - mTextPaint.measureText(colorTemperatureStr), height.toFloat() - mCircleWidth / 2 + mRect.height() / 2, mValuePaint)
 
-        canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
+//        canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
         canvas.save()
         canvas.rotate(Math.toDegrees(mCurrentRadian.toDouble()).toFloat(), mCx, mCy)
         canvas.drawBitmap(arrowBitmap, (width / 2 - arrowBitmap.width / 2).toFloat(), mCircleWidth + mArrowGap, mCirclePaint)

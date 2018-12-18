@@ -142,7 +142,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         BleManager.getInstance().enableLog(true).setReConnectCount(1, 5000).setConnectOverTime(20000).operateTimeout = 5000
         if (savedInstanceState == null) {
             val hasAgreed by PreferenceHelper("hasAgreed", false)
-            supportFragmentManager.beginTransaction().replace(R.id.container, if (!hasAgreed) PrivacyFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
+            supportFragmentManager.beginTransaction().replace(R.id.container, ProductListFragment().newInstance()).commitNow()
         }
     }
 
@@ -196,7 +196,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         textView.gravity = Gravity.CENTER
         textView.setTextColor(resources.getColor(android.R.color.white))
         textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
-        textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
+        textView.text = '"' + "MeshLight" + '"' + " " + getString(R.string.state_connected)
         Crouton.make(this, textView).show()
         discoverDevices(true, null)
         mMeshHandler.postDelayed({ mViewModel?.setBridgeState(mConnected) }, 550)

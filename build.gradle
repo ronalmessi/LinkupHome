@@ -34,6 +34,6 @@ ext {
     compileSdkVersion = 26
     versionCode = 11
     versionName = "3.3"
-    applicationId = "com.ihomey.linkuphome"
+    applicationId = "com.ronaldong.meshlight"
 
 }

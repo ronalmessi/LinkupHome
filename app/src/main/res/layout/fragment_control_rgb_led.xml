@@ -100,14 +100,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <ImageView
-            android:layout_width="@dimen/device_control_logo_width"
-            android:layout_height="@dimen/device_control_logo_height"
-            android:layout_marginTop="@dimen/device_control_logo_margin"
-            android:background="@drawable/ic_splash_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        <!--<ImageView-->
+            <!--android:layout_width="@dimen/device_control_logo_width"-->
+            <!--android:layout_height="@dimen/device_control_logo_height"-->
+            <!--android:layout_marginTop="@dimen/device_control_logo_margin"-->
+            <!--android:background="@drawable/ic_splash_logo"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
 
         <RelativeLayout
             android:id="@+id/device_control_middle_container"

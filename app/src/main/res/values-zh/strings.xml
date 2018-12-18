@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">家和作用</string>
+    <string name="app_name">MeshLight</string>
 
     <string name="welcome_language">语言</string>
     <string name="welcome_beauty">美好</string>

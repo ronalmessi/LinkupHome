@@ -37,7 +37,7 @@ class BedRGBCircleView : View {
     private var mCurrentRadian: Float = 0f
     private var mPreRadian: Float = 0f
 
-    private lateinit var logoBitmap: Bitmap
+//    private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
 
     private var mCurrentValue: Int = 0 // seconds
@@ -80,7 +80,7 @@ class BedRGBCircleView : View {
     private fun initElements() {
         mCirclePaint.style = Paint.Style.STROKE
         mCirclePaint.strokeWidth = mCircleWidth
-        logoBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_splash_logo)
+//        logoBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_splash_logo)
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
     }
 
@@ -99,7 +99,7 @@ class BedRGBCircleView : View {
             canvas.drawArc(mRectF, -90f + 15f * i, 14f, false, mCirclePaint)//这里就是真正绘制圆弧的地方，从12点方向开始顺时针绘制150度弧度的圆弧
         }
 
-        canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
+//        canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
         canvas.save()
         canvas.rotate(Math.toDegrees(mCurrentRadian.toDouble()).toFloat(), mCx, mCy)
         canvas.drawBitmap(arrowBitmap, (width / 2 - arrowBitmap.width / 2).toFloat(), mCircleWidth + mArrowGap, mCirclePaint)

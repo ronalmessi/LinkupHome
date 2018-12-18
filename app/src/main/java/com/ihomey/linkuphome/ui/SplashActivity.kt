@@ -56,7 +56,7 @@ class SplashActivity : BaseActivity() {
     private fun checkPermission() {
         val permissionStatus = ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.CAMERA)
         when (permissionStatus) {
-            PackageManager.PERMISSION_GRANTED -> binding.ivSplashLogo.startAnimation(alphaAnimation)
+            PackageManager.PERMISSION_GRANTED -> binding.bb.startAnimation(alphaAnimation)
             PackageManager.PERMISSION_DENIED -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA), 100)
         }
     }
@@ -71,7 +71,7 @@ class SplashActivity : BaseActivity() {
                 startActivityForResult(intent, 101)
             }
         } else {
-            binding.ivSplashLogo.startAnimation(alphaAnimation)
+            binding.bb.startAnimation(alphaAnimation)
         }
     }
 }

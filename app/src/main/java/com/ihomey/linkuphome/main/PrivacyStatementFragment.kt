@@ -35,7 +35,7 @@ class PrivacyStatementFragment : BaseFragment() {
             mViewDataBinding.tvLicenseAgreementContent.text=getString(R.string.license_agreement_content)
         }else{
             mViewDataBinding.toolbarTitle.text=getString(R.string.privacy_statement)
-            mViewDataBinding.tvLicenseAgreementTitle.text="The LinkupHome Privacy Statement"
+            mViewDataBinding.tvLicenseAgreementTitle.text="The MeshLight Privacy Statement"
             mViewDataBinding.tvLicenseAgreementContent.text=getString(R.string.privacy_statement_content)
         }
         return mViewDataBinding.root
