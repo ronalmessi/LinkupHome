@@ -177,10 +177,5 @@
                 android:background="@mipmap/device_brightness_icon_high"
                 android:button="@null" />
         </RelativeLayout>
-
-
-
-
-
     </android.support.constraint.ConstraintLayout>
 </layout>

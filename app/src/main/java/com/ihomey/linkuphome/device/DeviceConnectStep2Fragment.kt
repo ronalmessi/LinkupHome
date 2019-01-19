@@ -32,7 +32,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     private lateinit var listener: BridgeListener
     private var mViewModel: MainViewModel? = null
     private lateinit var mViewDataBinding: FragmentDeviceConnectStep2Binding
-    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded, R.mipmap.lamp_icon_s_unadded,R.mipmap.lamp_icon_s_unadded)
+    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded,  R.mipmap.lamp_icon_outdoor_unadded,R.mipmap.lamp_icon_s_unadded,R.mipmap.lamp_icon_s_unadded)
 
     fun newInstance(categoryType: Int, isReConnect: Boolean): DeviceConnectStep2Fragment {
         val addProductFragment = DeviceConnectStep2Fragment()

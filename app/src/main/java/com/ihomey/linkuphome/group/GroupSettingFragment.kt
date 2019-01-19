@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.library.base.BaseFragment
@@ -273,13 +274,11 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
 
     private fun updateBondedDevicesRcvHeight() {
         mViewDataBinding.groupSettingRcvBondedDevices.post {
-            val linearParams = mViewDataBinding.groupSettingRcvBondedDevices.layoutParams as ConstraintLayout.LayoutParams
-            if (mViewDataBinding.groupSettingRcvBondedDevices.height > (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height) / 2) {
-                linearParams.height = (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height) / 2
-            } else if(mViewDataBinding.groupSettingRcvBondedDevices.height <= (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height)/4){
-                linearParams.height = (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height) / 4
+            val linearParams = mViewDataBinding.groupSettingRcvUnBondedDevices.layoutParams as LinearLayout.LayoutParams
+            if (mViewDataBinding.groupSettingRcvUnBondedDevices.height > (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height)*2 / 3) {
+                linearParams.height = (mViewDataBinding.groupSettingCl.height - mViewDataBinding.groupSettingLlHeader.height)*2 / 3
             }
-            mViewDataBinding.groupSettingRcvBondedDevices.layoutParams = linearParams
+            mViewDataBinding.groupSettingRcvUnBondedDevices.layoutParams = linearParams
         }
     }
 

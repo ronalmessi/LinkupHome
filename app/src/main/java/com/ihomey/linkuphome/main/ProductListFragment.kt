@@ -34,7 +34,7 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
 
     private lateinit var mViewModel: MainViewModel
     private lateinit var mViewDataBinding: FragmentProductListBinding
-
+    private var isConnected = false
 
     private val addedLampCategoryAdapter: AddedProductListAdapter = AddedProductListAdapter(R.layout.item_product_list)
 
@@ -61,13 +61,6 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
         mViewDataBinding.lampCategoryAddedRcvList.setSwipeMenuCreator(swipeMenuCreator)
         mViewDataBinding.lampCategoryAddedRcvList.setSwipeMenuItemClickListener(this)
 
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
-        mViewModel.getCategoryResults()?.observe(this, Observer<Resource<List<LampCategory>>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                addedLampCategoryAdapter.setNewData(it.data.filter { it.added == 1 })
-                mViewDataBinding.lampCategoryBtnAdd.visibility = if (it.data.none { it.added == 0 }) View.INVISIBLE else View.VISIBLE
-            }
-        })
         addedLampCategoryAdapter.onItemClickListener = this
         return mViewDataBinding.root
     }
@@ -78,12 +71,36 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
         mViewModel.updateCategory(lampCategory)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mViewModel.getCategoryResults()?.observe(this, Observer<Resource<List<LampCategory>>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                addedLampCategoryAdapter.setNewData(it.data.filter { it.added == 1 })
+                mViewDataBinding.lampCategoryBtnAdd.visibility = if (it.data.none { it -> it.added == 0 }) View.INVISIBLE else View.VISIBLE
+            }
+        })
+        mViewModel.getBridgeState().observe(this, Observer<Boolean> {
+            if (it != null) {
+                isConnected = it
+            }
+        })
+    }
+
     override fun onItemClick(itemView: View?, position: Int) {
         val lampCategory = addedLampCategoryAdapter.getItem(position)
         val fsh = activity as IFragmentStackHolder
         if (lampCategory != null) {
-            val hasConnected by PreferenceHelper("hasConnected" + lampCategory.type, false)
-            fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(lampCategory.type, hasConnected, false))
+            if (isConnected) {
+                fsh.replaceFragment(R.id.container, LampFragment().newInstance(lampCategory.type))
+            } else {
+                val hasConnected by PreferenceHelper("hasConnected" + lampCategory.type, false)
+                fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(lampCategory.type, hasConnected, false))
+            }
             mViewModel.loadData(lampCategory.type)
         }
     }
