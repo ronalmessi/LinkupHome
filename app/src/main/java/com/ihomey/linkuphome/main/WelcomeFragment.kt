@@ -1,13 +1,13 @@
 package com.ihomey.linkuphome.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialog
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,7 +45,7 @@ class WelcomeFragment : BaseFragment(), FragmentBackHandler {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_welcome, container, false)
         mViewDataBinding.handlers = EventHandler()
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mViewModel.getCategoryResults()?.observe(this, Observer<Resource<List<LampCategory>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
                 addedProductCount = it.data.filter { it.added == 1 }.size
@@ -84,9 +84,9 @@ class WelcomeFragment : BaseFragment(), FragmentBackHandler {
                 adapter.setOnItemClickListener(this)
                 val binding = DataBindingUtil.inflate<DialogLanguageSelectionBinding>(LayoutInflater.from(view.context), R.layout.dialog_language_selection, mViewDataBinding.welcomeClContent, false)
                 binding.handlers = EventHandler()
-                binding.languageSelectionRcvList.layoutManager = LinearLayoutManager(view.context)
+                binding.languageSelectionRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
                 binding.languageSelectionRcvList.adapter = adapter
-                binding.languageSelectionRcvList.addItemDecoration(DividerDecoration(view.context, LinearLayoutManager.VERTICAL, true))
+                binding.languageSelectionRcvList.addItemDecoration(DividerDecoration(view.context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, true))
                 dialog?.setContentView(binding.root)
                 dialog?.setOnShowListener { mViewDataBinding.welcomeBtnOpen.visibility = View.GONE }
                 dialog?.setOnDismissListener { mViewDataBinding.welcomeBtnOpen.visibility = View.VISIBLE }

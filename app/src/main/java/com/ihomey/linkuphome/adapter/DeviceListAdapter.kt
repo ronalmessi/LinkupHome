@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.adapter
 
 
-import android.support.v4.content.ContextCompat.getDrawable
+import androidx.core.content.ContextCompat.getDrawable
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -22,7 +22,7 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         val stateTextView = helper.getView<TextView>(R.id.lamp_device_mesh_tv_state)
         stateTextView.setText(if (item.id == 0) R.string.state_disconnected else R.string.state_connected)
         val drawable = getDrawable(mContext, if (item.id == 0) R.mipmap.state_icon_negative else R.mipmap.state_icon_positive)
-        drawable.setBounds(0, 0, mContext.dip2px(17.5f), mContext.dip2px(17.5f))
+        drawable?.setBounds(0, 0, mContext.dip2px(17.5f), mContext.dip2px(17.5f))
         stateTextView.setCompoundDrawables(null, null, drawable, null)
     }
 }

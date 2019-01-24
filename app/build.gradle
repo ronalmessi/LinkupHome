@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -11,7 +13,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
     }
@@ -32,7 +34,7 @@ android {
     }
     sourceSets {
         main {
-           jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['libs']
         }
     }
     dataBinding {
@@ -42,6 +44,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -73,7 +76,7 @@ dependencies {
     implementation Libs.spongycastle_pkix
 
     // Support design
-    implementation Libs.support_design
+//    implementation Libs.support_design
     implementation Libs.support_cardview
     implementation Libs.support_constraint
 
@@ -81,6 +84,9 @@ dependencies {
     implementation Libs.liveData_runtime
     implementation Libs.liveData_extensions
     implementation Libs.room_runtime
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     kapt Libs.liveData_compiler
     kapt Libs.room_compiler
 
@@ -95,7 +101,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.umeng.analytics:analytics:6.1.4'
 
-    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.1'
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.2.2'
     implementation 'com.jackandphantom.android:blurimage:1.2.0'
 
     //qrcode
@@ -107,7 +113,22 @@ dependencies {
         exclude group: 'com.google.android', module: 'support-v4'
     }
 
+    // ViewModel and LiveData
+    def lifecycle_version = "2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    //navigation
+    def nav_version = "1.0.0-alpha09"
+    implementation "android.arch.navigation:navigation-fragment:$nav_version"
+    implementation "android.arch.navigation:navigation-ui:$nav_version"
+
+    //room
+    def room_version = "2.1.0-alpha03"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
 
 }
-
-

@@ -1,14 +1,14 @@
 package com.ihomey.linkuphome.scan
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Vibrator
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.Animation

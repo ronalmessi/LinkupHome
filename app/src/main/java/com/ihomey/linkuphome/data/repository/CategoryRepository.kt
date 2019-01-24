@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.vo.LampCategory

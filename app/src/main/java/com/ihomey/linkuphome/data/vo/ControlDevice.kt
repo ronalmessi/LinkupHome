@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.data.vo
 
-import android.arch.persistence.room.Embedded
+import androidx.room.Embedded
 
 /**
  * Created by dongcaizheng on 2018/4/11.

@@ -12,7 +12,7 @@
             type="com.ihomey.linkuphome.data.vo.ControlDevice" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -197,7 +197,7 @@
             </LinearLayout>
         </com.ihomey.linkuphome.widget.RadioGroupPlus>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
 

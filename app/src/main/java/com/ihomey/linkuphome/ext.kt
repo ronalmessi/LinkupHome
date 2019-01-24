@@ -1,12 +1,12 @@
 package com.ihomey.linkuphome
 
 import android.app.Activity
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.Color
@@ -15,12 +15,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.support.design.internal.BottomNavigationItemView
-import android.support.design.internal.BottomNavigationMenuView
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -32,6 +32,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.csr.mesh.DataModelApi
+import com.google.android.material.internal.BaselineLayout
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import java.io.File
@@ -46,39 +47,39 @@ import java.util.*
  */
 
 fun BottomNavigationView.disableShiftMode() {
-    val menuView = this.getChildAt(0) as BottomNavigationMenuView
-    try {
-        val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
-        shiftingMode.isAccessible = true
-        shiftingMode.setBoolean(menuView, false)
-        shiftingMode.isAccessible = false
-        for (i in 0 until menuView.childCount) {
-            val item = menuView.getChildAt(i) as BottomNavigationItemView
-            val icon = item.findViewById<ImageView>(android.support.design.R.id.icon)
-            val largeLabel = item.findViewById<TextView>(android.support.design.R.id.largeLabel)
-            val smallLabel = item.findViewById<TextView>(android.support.design.R.id.smallLabel)
-            largeLabel.setSingleLine(false)
-            smallLabel.setSingleLine(false)
-            largeLabel.setLineSpacing(0f, 0.8f)
-            smallLabel.setLineSpacing(0f, 0.8f)
-            largeLabel.gravity = Gravity.CENTER_HORIZONTAL
-            smallLabel.gravity = Gravity.CENTER_HORIZONTAL
-            icon.scaleX = 1.5f
-            icon.scaleY = 1.5f
-            val baselineLayout = largeLabel.parent as android.support.design.internal.BaselineLayout
-            baselineLayout.setPadding(0, 0, 0, 0)
-            val layoutParams = baselineLayout.layoutParams as FrameLayout.LayoutParams
-            layoutParams.gravity = Gravity.CENTER_HORIZONTAL
-            layoutParams.topMargin = this.context.dip2px(42f)
-            baselineLayout.layoutParams = layoutParams
-            item.setShiftingMode(false)
-            item.setChecked(item.itemData.isChecked)
-        }
-    } catch (e: NoSuchFieldException) {
-        e.printStackTrace()
-    } catch (e: IllegalAccessException) {
-        e.printStackTrace()
-    }
+//    val menuView = this.getChildAt(0) as BottomNavigationMenuView
+//    try {
+//        val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
+//        shiftingMode.isAccessible = true
+//        shiftingMode.setBoolean(menuView, false)
+//        shiftingMode.isAccessible = false
+//        for (i in 0 until menuView.childCount) {
+//            val item = menuView.getChildAt(i) as BottomNavigationItemView
+//            val icon = item.findViewById<ImageView>(android.support.design.R.id.icon)
+//            val largeLabel = item.findViewById<TextView>(android.support.design.R.id.largeLabel)
+//            val smallLabel = item.findViewById<TextView>(android.support.design.R.id.smallLabel)
+//            largeLabel.setSingleLine(false)
+//            smallLabel.setSingleLine(false)
+//            largeLabel.setLineSpacing(0f, 0.8f)
+//            smallLabel.setLineSpacing(0f, 0.8f)
+//            largeLabel.gravity = Gravity.CENTER_HORIZONTAL
+//            smallLabel.gravity = Gravity.CENTER_HORIZONTAL
+//            icon.scaleX = 1.5f
+//            icon.scaleY = 1.5f
+//            val baselineLayout = largeLabel.parent as BaselineLayout
+//            baselineLayout.setPadding(0, 0, 0, 0)
+//            val layoutParams = baselineLayout.layoutParams as FrameLayout.LayoutParams
+//            layoutParams.gravity = Gravity.CENTER_HORIZONTAL
+//            layoutParams.topMargin = this.context.dip2px(42f)
+//            baselineLayout.layoutParams = layoutParams
+//            item.setShiftingMode(false)
+//            item.setChecked(item.itemData.isChecked)
+//        }
+//    } catch (e: NoSuchFieldException) {
+//        e.printStackTrace()
+//    } catch (e: IllegalAccessException) {
+//        e.printStackTrace()
+//    }
 }
 
 

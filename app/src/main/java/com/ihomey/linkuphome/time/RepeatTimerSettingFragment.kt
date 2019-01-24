@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.time
 
 import android.annotation.SuppressLint
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log

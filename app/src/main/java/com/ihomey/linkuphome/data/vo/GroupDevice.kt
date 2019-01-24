@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.data.vo
 
-import android.arch.persistence.room.Embedded
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.chad.library.adapter.base.entity.MultiItemEntity
 
 /**

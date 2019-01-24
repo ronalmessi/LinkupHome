@@ -1,12 +1,12 @@
 package com.ihomey.linkuphome.main
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,14 +46,14 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_list, container, false)
         mViewDataBinding.handlers = EventHandler()
 
-        mViewDataBinding.lampCategoryAddedRcvList.layoutManager = LinearLayoutManager(context)
-        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context.dip2px(4f)))
+        mViewDataBinding.lampCategoryAddedRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(4f)!!))
         mViewDataBinding.lampCategoryAddedRcvList.adapter = addedLampCategoryAdapter
 
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
-            val width = context.dip2px(96f)
+            val width = context?.dip2px(96f)
             val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
+            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
             swipeRightMenu.addMenuItem(deleteItem)
         }
 
@@ -73,7 +73,7 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -105,8 +105,8 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
         }
     }
 
-    override fun onItemClick(menuBridge: SwipeMenuBridge) {
-        val lampCategory = addedLampCategoryAdapter.getItem(menuBridge.adapterPosition) as LampCategory
+    override fun onItemClick(menuBridge: SwipeMenuBridge,position: Int) {
+        val lampCategory = addedLampCategoryAdapter.getItem(position) as LampCategory
         lampCategory.added = 0
         mViewModel.updateCategory(lampCategory)
         menuBridge.closeMenu()

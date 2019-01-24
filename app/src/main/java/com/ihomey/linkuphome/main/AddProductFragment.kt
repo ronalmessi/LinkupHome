@@ -1,11 +1,11 @@
 package com.ihomey.linkuphome.main
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,11 +46,11 @@ class AddProductFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener 
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_add, container, false)
         mViewDataBinding.handlers = EventHandler()
 
-        mViewDataBinding.lampCategoryAddedRcvList.layoutManager = GridLayoutManager(context, 2)
-        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context.dip2px(8f)))
+        mViewDataBinding.lampCategoryAddedRcvList.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(8f)!!))
         mViewDataBinding.lampCategoryAddedRcvList.adapter = addedLampCategoryAdapter
 
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mViewModel.getCategoryResults()?.observe(this, Observer<Resource<List<LampCategory>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
                 addedLampCategoryAdapter.setNewData(it.data)
@@ -65,10 +65,10 @@ class AddProductFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener 
         val lampCategory = adapter.getItem(position) as LampCategory
         lampCategory.added = 1
         mViewModel.updateCategory(lampCategory)
-        if (arguments.getBoolean("isGoBack", false)) {
-            activity.onBackPressed()
+        if (arguments?.getBoolean("isGoBack", false)!!) {
+            activity?.onBackPressed()
         } else {
-            activity.onBackPressed()
+            activity?.onBackPressed()
             (activity as IFragmentStackHolder).replaceFragment(R.id.container, ProductListFragment().newInstance())
         }
     }

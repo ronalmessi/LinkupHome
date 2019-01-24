@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.ui
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.R

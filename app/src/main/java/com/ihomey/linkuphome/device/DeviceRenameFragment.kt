@@ -1,10 +1,10 @@
 package com.ihomey.linkuphome.device
 
 import android.app.DialogFragment
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.*
 import com.ihomey.linkuphome.R

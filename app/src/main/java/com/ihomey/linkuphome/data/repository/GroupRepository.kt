@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.GroupDeviceDao

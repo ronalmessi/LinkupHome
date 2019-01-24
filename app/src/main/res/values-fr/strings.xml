@@ -75,16 +75,16 @@
 
 
     <string name="device_connect_step1_title">L\'équipement est-il prêt?</string>
-    <string name="device_connect_step1_hint">1. Veuillez vous assurer que l\'alimentation de l\'appareil est correctement connectée.\n2. Si l\'appareil n\'est pas utilisé pour la première fois, assurez-vous que l'appareil a été reset correctement.</string>
+    <string name="device_connect_step1_hint">1. Veuillez vous assurer que l\'alimentation de l\'appareil est correctement connectée.\n2. Si l\'appareil n\'est pas utilisé pour la première fois, assurez-vous que l\'appareil a été reset correctement.</string>
 
     <string name="device_connect_step2_title">Conseils</string>
     <string name="device_connect_step2_hint">Si l\'appareil n\'est pas trouvé pendant environ 10 secondes, veuillez confirmer que l\'appareil est correctement reset.</string>
 
-    <string name="device_reset_hint2">1. Éteignez d\'abord la lumière avec l\'interrupteur.\n2. Allumez la lumière et attendez 1-2 secondes.\n3. Éteignez la lumière et attendez 1-2 secondes.\n4. Allumez la lumière et attendez 1-2 secondes.\n5. Éteignez la lumière et attendez 1-2 secondes.\n6. Lorsque vous allumez la lampe pour la troisième fois, attendez environ 2 secondes. Si la lumière clignote 3 fois, cela signifie que le reset a réussi et que la lampe est revenue au réglage d'usine.\n\n (Si la lumière ne clignote pas trois fois, veuillez suivre à nouveau le processus ci-dessus, jusqu'au succès.)</string>
+    <string name="device_reset_hint2">1. Éteignez d\'abord la lumière avec l\'interrupteur.\n2. Allumez la lumière et attendez 1-2 secondes.\n3. Éteignez la lumière et attendez 1-2 secondes.\n4. Allumez la lumière et attendez 1-2 secondes.\n5. Éteignez la lumière et attendez 1-2 secondes.\n6. Lorsque vous allumez la lampe pour la troisième fois, attendez environ 2 secondes. Si la lumière clignote 3 fois, cela signifie que le reset a réussi et que la lampe est revenue au réglage d\'usine.\n\n (Si la lumière ne clignote pas trois fois, veuillez suivre à nouveau le processus ci-dessus, jusqu\'au succès.)</string>
     <string name="device_reset_hint1">Dans l\'interface Connection de Device, après avoir retiré la trace de connection précédent en la faisant glisser vers la gauche, le périphérique bien reset sera affiché.</string>
 
     <string name="device_reset_tip">Veuillez d\'abord essayer les deux mesures rapides ci-dessous.</string>
-    <string name="device_reset_hint0">1. Éteignez Bluetooth, puis démarrez-le.\n2. Après avoir fermé LinkupHomeAPP en arrière-plan, ouvrez-le à nouveau.\n\nAprès avoir essayé les deux mesures ci-dessus, si vous ne trouvez toujours pas l'appareil, veuillez suivre les étapes ci-dessous pour reset l'appareil.</string>
+    <string name="device_reset_hint0">1. Éteignez Bluetooth, puis démarrez-le.\n2. Après avoir fermé LinkupHomeAPP en arrière-plan, ouvrez-le à nouveau.\n\nAprès avoir essayé les deux mesures ci-dessus, si vous ne trouvez toujours pas l\'appareil, veuillez suivre les étapes ci-dessous pour reset l\'appareil.</string>
 
     <string name="next_step">Étape</string>
     <string name="searching">En cours de chercher</string>

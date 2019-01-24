@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.device
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -41,10 +41,10 @@ class DeviceConnectStep1Fragment : BaseFragment() {
                 R.id.btn_device_connect_next_step -> {
                     if (parentFragment is IFragmentStackHolder) {
                         val fsh = parentFragment as IFragmentStackHolder
-                        fsh.replaceFragment(R.id.inner_frag_device_connect_container, DeviceConnectStep2Fragment().newInstance(arguments.getInt("categoryType", -1), false))
+                        fsh.replaceFragment(R.id.inner_frag_device_connect_container, DeviceConnectStep2Fragment().newInstance(arguments?.getInt("categoryType", -1)!!, false))
                     }
                 }
-                R.id.btn_device_connect_reset -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, DeviceResetFragment().newInstance(arguments.getInt("categoryType", -1)))
+                R.id.btn_device_connect_reset -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, DeviceResetFragment().newInstance(arguments?.getInt("categoryType", -1)!!))
             }
         }
     }

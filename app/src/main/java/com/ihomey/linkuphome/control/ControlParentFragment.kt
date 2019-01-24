@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.control
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,14 +25,14 @@ class ControlParentFragment : BaseFragment(), IFragmentStackHolder, FragmentBack
         return fragment
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater!!.inflate(R.layout.fragment_control_parent, null)
+        return inflater.inflate(R.layout.fragment_control_parent, null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val lampCategoryType = arguments.getInt("lampCategoryType", -1)
+        val lampCategoryType = arguments?.getInt("lampCategoryType", -1)
         when (lampCategoryType) {
             1 -> setFragment(RgbControlFragment().newInstance())
             2 -> setFragment(WarmColdControlFragment().newInstance())

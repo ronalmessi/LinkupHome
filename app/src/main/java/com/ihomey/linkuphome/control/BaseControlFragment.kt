@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.control
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -59,8 +59,8 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     private fun showTopRightMenu(view: View) {
-        val xOffSet = context.getScreenW() * 5 / 12 - context.dip2px(22f) - view.width / 2
-        mTopRightMenu.showAsDropDown(view, -xOffSet, context.dip2px(11f))
+        val xOffSet = context?.getScreenW()!! * 5 / 12 - context?.dip2px(22f)!! - view.width / 2
+        mTopRightMenu.showAsDropDown(view, -xOffSet, context?.dip2px(11f)!!)
     }
 
     override fun onAttach(context: Context?) {
@@ -71,7 +71,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS) {
                 updateViewData(it.data)
@@ -154,7 +154,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                         bundle.putInt("controlDeviceId", mControlDevice?.id!!)
                         bundle.putInt("controlDeviceType", mControlDevice?.device?.type!!)
                         dialog.arguments = bundle
-                        dialog.show(activity.fragmentManager, "DeviceRenameFragment")
+                        dialog.show(activity?.fragmentManager, "DeviceRenameFragment")
                     }
                 }
                 R.mipmap.toolbar_menu_alarm -> {
@@ -168,7 +168,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                 R.mipmap.toolbar_menu_scan -> {
                     val intent = Intent(activity, ScanActivity::class.java)
                     intent.putExtra("lampCategoryType", lampCategory)
-                    activity.startActivityForResult(intent, REQUEST_CODE_SCAN)
+                    activity?.startActivityForResult(intent, REQUEST_CODE_SCAN)
                 }
                 R.mipmap.toolbar_menu_share -> {
                     val intent = Intent(activity, ShareActivity::class.java)
@@ -191,7 +191,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     inner class ToolBarEventHandler {
         fun onClick(view: View) {
             when (view.id) {
-                R.id.toolbar_back -> activity.onBackPressed()
+                R.id.toolbar_back -> activity?.onBackPressed()
                 R.id.toolbar_right_setting -> showTopRightMenu(view)
                 R.id.device_scene_cb_scene -> {
                     if (parentFragment is IFragmentStackHolder) {

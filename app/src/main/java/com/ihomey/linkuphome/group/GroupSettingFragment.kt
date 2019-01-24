@@ -1,19 +1,19 @@
 package com.ihomey.linkuphome.group
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.PointF
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -21,19 +21,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.library.base.BaseFragment
-import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.BondedDeviceAdapter
 import com.ihomey.linkuphome.adapter.UnBondedDeviceAdapter
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentGroupSettingBinding
-import com.ihomey.linkuphome.getIcon
-import com.ihomey.linkuphome.hideInput
 import com.ihomey.linkuphome.listeners.GroupUpdateListener
-import com.ihomey.linkuphome.syncTime
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.ihomey.linkuphome.widget.DragShadowBuilder
-import com.yanzhenjie.loading.Utils
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
@@ -77,9 +73,9 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_group_setting, container, false)
-        lampCategoryType = arguments.getInt("groupType", -1)
-        mGroupId = arguments.getInt("groupId", -1)
-        mGroupName = arguments.getString("groupName", "")
+        lampCategoryType = arguments?.getInt("groupType", -1)!!
+        mGroupId = arguments?.getInt("groupId", -1)!!
+        mGroupName = arguments?.getString("groupName", "")!!
         if (lampCategoryType != -1) {
             mViewDataBinding.groupSettingIvType.setImageResource(getIcon(lampCategoryType))
             mViewDataBinding.groupSettingEtName.setText(mGroupName)
@@ -91,13 +87,13 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         return mViewDataBinding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         unBondedDeviceAdapter = UnBondedDeviceAdapter(R.layout.group_setting_device_unbonded, arrayListOf())
         unBondedDeviceAdapter?.onItemChildClickListener = this
-        mViewDataBinding.groupSettingRcvUnBondedDevices.layoutManager = LinearLayoutManager(context)
-        mViewDataBinding.groupSettingRcvUnBondedDevices.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL, 2, ContextCompat.getColor(context, android.R.color.white), false))
+        mViewDataBinding.groupSettingRcvUnBondedDevices.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        mViewDataBinding.groupSettingRcvUnBondedDevices.addItemDecoration(DividerItemDecoration(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, 2, ContextCompat.getColor(context!!, android.R.color.white), false))
         mViewDataBinding.groupSettingRcvUnBondedDevices.adapter = unBondedDeviceAdapter
         unBondedDeviceAdapter?.onItemLongClickListener = BaseQuickAdapter.OnItemLongClickListener { adapter, view, position ->
             val singleDevice = unBondedDeviceAdapter?.getItem(position)
@@ -108,22 +104,22 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
             mViewDataBinding.groupSettingRcvUnBondedDevices.startDrag(dragData, myShadow, singleDevice, 0);
             true
         }
-        mViewDataBinding.groupSettingRcvUnBondedDevices.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-            override fun onTouchEvent(rv: RecyclerView?, e: MotionEvent?) {
-
-            }
-
-            override fun onInterceptTouchEvent(rv: RecyclerView?, e: MotionEvent): Boolean {
-                isAdd = false;
-                dragTouchPointUnAdded?.set(e.x, e.y)
-                return false
-            }
-
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-
-            }
-
-        })
+//        mViewDataBinding.groupSettingRcvUnBondedDevices.addOnItemTouchListener(object : androidx.recyclerview.widget.RecyclerView.OnItemTouchListener {
+//            override fun onTouchEvent(rv: androidx.recyclerview.widget.RecyclerView?, e: MotionEvent?) {
+//
+//            }
+//
+//            override fun onInterceptTouchEvent(rv: androidx.recyclerview.widget.RecyclerView?, e: MotionEvent): Boolean {
+//                isAdd = false;
+//                dragTouchPointUnAdded?.set(e.x, e.y)
+//                return false
+//            }
+//
+//            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+//
+//            }
+//
+//        })
 
         mViewDataBinding.groupSettingLlUnBondedDevices.setOnDragListener { v, event ->
             val action = event.action
@@ -144,8 +140,8 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         }
 
         bondedDeviceAdapter = BondedDeviceAdapter(R.layout.group_setting_device_bonded, arrayListOf())
-        mViewDataBinding.groupSettingRcvBondedDevices.layoutManager = LinearLayoutManager(context)
-        mViewDataBinding.groupSettingRcvBondedDevices.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL, 2, ContextCompat.getColor(context, android.R.color.white), true))
+        mViewDataBinding.groupSettingRcvBondedDevices.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        mViewDataBinding.groupSettingRcvBondedDevices.addItemDecoration(DividerItemDecoration(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, 2, ContextCompat.getColor(context!!, android.R.color.white), true))
         bondedDeviceAdapter?.bindToRecyclerView(mViewDataBinding.groupSettingRcvBondedDevices)
         bondedDeviceAdapter?.setEmptyView(R.layout.empty_bonded_device_view)
         bondedDeviceAdapter?.onItemLongClickListener = BaseQuickAdapter.OnItemLongClickListener { adapter, view, position ->
@@ -157,22 +153,30 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
             mViewDataBinding.groupSettingRcvBondedDevices.startDrag(dragData, myShadow, singleDevice, 0);
             true
         }
-        mViewDataBinding.groupSettingRcvBondedDevices.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-            override fun onTouchEvent(rv: RecyclerView?, e: MotionEvent?) {
+//        mViewDataBinding.groupSettingRcvBondedDevices.addOnItemTouchListener(object : androidx.recyclerview.widget.RecyclerView.OnItemTouchListener {
+//            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//            override fun onTouchEvent(rv: androidx.recyclerview.widget.RecyclerView?, e: MotionEvent?) {
+//
+//            }
+//
+//            override fun onInterceptTouchEvent(rv: androidx.recyclerview.widget.RecyclerView?, e: MotionEvent): Boolean {
+//                isAdd = true
+//                dragTouchPointAdded?.set(e.x, e.y)
+//                return false
+//            }
+//
+//            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+//
+//            }
 
-            }
-
-            override fun onInterceptTouchEvent(rv: RecyclerView?, e: MotionEvent): Boolean {
-                isAdd = true
-                dragTouchPointAdded?.set(e.x, e.y)
-                return false
-            }
-
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-
-            }
-
-        })
+//        })
         mViewDataBinding.groupSettingRcvBondedDevices.setOnDragListener { v, event ->
             val action = event.action
             val singleDevice = event.localState as SingleDevice
@@ -192,9 +196,9 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         }
 
         swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
-            val width = Utils.dip2px(context, 48f)
+            val width = context?.dip2px(48f)
             val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
+            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
             swipeRightMenu.addMenuItem(deleteItem)
         }
     }
@@ -206,7 +210,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mViewModel?.getBondedDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 bondedDeviceAdapter?.setNewData(it.data)
@@ -250,15 +254,15 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         }
     }
 
-    override fun onItemClick(menuBridge: SwipeMenuBridge?) {
-        val singleDevice = bondedDeviceAdapter?.getItem(menuBridge?.adapterPosition!!) as SingleDevice
+    override fun onItemClick(menuBridge: SwipeMenuBridge?,position:Int) {
+        val singleDevice = bondedDeviceAdapter?.getItem(position) as SingleDevice
         unBindDevice(singleDevice)
         menuBridge?.closeMenu()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        context.hideInput(mViewDataBinding.groupSettingEtName)
+        context?.hideInput(mViewDataBinding.groupSettingEtName)
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -267,7 +271,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
                 mViewModel?.updateDeviceName(lampCategoryType, mGroupId, mViewDataBinding.groupSettingEtName.text.toString())
                 mViewDataBinding.groupSettingEtName.isCursorVisible = false
             }
-            context.hideInput(mViewDataBinding.groupSettingEtName)
+            context?.hideInput(mViewDataBinding.groupSettingEtName)
         }
         return false
     }
@@ -289,7 +293,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         bundle.putInt("updateType", 0)
         mDialog?.arguments = bundle
         mDialog?.isCancelable = false
-        mDialog?.show(activity.fragmentManager, "GroupUpdateFragment")
+        mDialog?.show(activity?.fragmentManager, "GroupUpdateFragment")
         mViewModel?.loadModels(singleDevice.id)
     }
 
@@ -300,7 +304,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         bundle.putInt("updateType", 1)
         mDialog?.arguments = bundle
         mDialog?.isCancelable = false
-        mDialog?.show(activity.fragmentManager, "GroupUpdateFragment")
+        mDialog?.show(activity?.fragmentManager, "GroupUpdateFragment")
         mViewModel?.loadModels(singleDevice.id)
     }
 

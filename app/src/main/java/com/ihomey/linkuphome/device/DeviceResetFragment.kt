@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.device
 
 import android.app.Activity
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +31,7 @@ class DeviceResetFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val categoryType=arguments.getInt("categoryType", 0)
+        val categoryType=arguments?.getInt("categoryType", 0)
         val hasConnected by PreferenceHelper("hasConnected$categoryType", false)
         if(hasConnected){
             mViewDataBinding=DataBindingUtil.inflate<FragmentDeviceConnectedResetBinding>(inflater, R.layout.fragment_device_connected_reset,container, false)

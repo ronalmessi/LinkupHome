@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.group
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,22 +27,22 @@ class GroupFragment : BaseFragment(), IFragmentStackHolder, FragmentBackHandler 
         return fragment
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater!!.inflate(R.layout.fragment_group, null)
+        val view = inflater.inflate(R.layout.fragment_group, null)
         view.findViewById<ImageButton>(R.id.toolbar_back).setOnClickListener {
-            activity.onBackPressed()
+            activity?.onBackPressed()
         }
-        val lampCategoryType = arguments.getInt("lampCategoryType", -1)
+        val lampCategoryType = arguments?.getInt("lampCategoryType", -1)
         if (lampCategoryType != -1) {
-            view.setBackgroundResource(bgRes[lampCategoryType])
+            view.setBackgroundResource(bgRes[lampCategoryType!!])
         }
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFragment(GroupListFragment().newInstance(arguments.getInt("lampCategoryType")))
+        setFragment(GroupListFragment().newInstance(arguments?.getInt("lampCategoryType")!!))
     }
 
     private fun setFragment(frag: BaseFragment) {

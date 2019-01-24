@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.data.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.ihomey.linkuphome.data.vo.GroupDevice
 import com.ihomey.linkuphome.data.vo.LampCategory
 import com.ihomey.linkuphome.data.vo.Model

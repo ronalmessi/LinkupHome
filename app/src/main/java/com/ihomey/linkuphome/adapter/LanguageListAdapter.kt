@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.TextView
@@ -11,10 +11,10 @@ import com.ihomey.linkuphome.dip2px
 /**
  * Created by dongcaizheng on 2017/12/20.
  */
-class LanguageListAdapter(private val items: Array<String>) : RecyclerView.Adapter<LanguageListAdapter.ViewHolder>() {
+class LanguageListAdapter(private val items: Array<String>) : androidx.recyclerview.widget.RecyclerView.Adapter<LanguageListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+        holder.textView.layoutParams= androidx.recyclerview.widget.RecyclerView.LayoutParams(androidx.recyclerview.widget.RecyclerView.LayoutParams.MATCH_PARENT, androidx.recyclerview.widget.RecyclerView.LayoutParams.WRAP_CONTENT)
         holder.textView.gravity=Gravity.CENTER
         if(position==0){
             holder.textView.setPadding(0, holder.textView.context.dip2px(8f), 0, holder.textView.context.dip2px(10f))
@@ -37,7 +37,7 @@ class LanguageListAdapter(private val items: Array<String>) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = items.size+1
 
-    class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+    class ViewHolder(val textView: TextView) : androidx.recyclerview.widget.RecyclerView.ViewHolder(textView)
 
     private var mOnItemClickListener: OnItemClickListener? = null
 

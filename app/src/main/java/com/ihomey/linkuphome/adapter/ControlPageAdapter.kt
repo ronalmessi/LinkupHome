@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.ihomey.linkuphome.control.ControlParentFragment
 import com.ihomey.linkuphome.control.LawnControlFragment
 import com.ihomey.linkuphome.device.MeshDeviceListFragment

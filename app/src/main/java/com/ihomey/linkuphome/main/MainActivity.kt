@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.main
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
@@ -12,7 +12,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.util.ArrayMap
 import android.util.Log

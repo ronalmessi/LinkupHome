@@ -1,16 +1,16 @@
 package com.ihomey.linkuphome.main
 
 import android.app.AlertDialog
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.internal.BottomNavigationItemView
-import android.support.design.internal.BottomNavigationMenuView
-import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -51,7 +51,7 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mViewModel?.getControlDeviceResults()?.observe(this, Observer<Resource<List<ControlDevice>>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
                 val newData = arrayListOf<ControlDevice>()
@@ -68,9 +68,9 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
         mViewModel?.getBridgeState()?.observe(this, Observer<Boolean> {
             if (it != null && !it) {
                 if(activity!=null){
-                    activity.onBackPressed()
+                    activity?.onBackPressed()
                     val fsh = activity as IFragmentStackHolder
-                    fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(arguments.getInt("categoryType", -1), true, true))
+                    fsh.replaceFragment(R.id.container, DeviceConnectFragment().newInstance(arguments?.getInt("categoryType", -1)!!, true, true))
                 }
             }
         })
@@ -78,11 +78,11 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_lamp, container, false)
-        categoryType = arguments.getInt("categoryType", -1)
+        categoryType = arguments?.getInt("categoryType", -1)!!
         mViewDataBinding.controlBaseBnv.disableShiftMode()
         mViewDataBinding.controlBaseVp.offscreenPageLimit = 3
         mViewDataBinding.controlBaseVp.adapter = ControlPageAdapter(categoryType, childFragmentManager)
-        mViewDataBinding.controlBaseVp.addOnPageChangeListener(null)
+//        mViewDataBinding.controlBaseVp.addOnPageChangeListener(null)
         mViewDataBinding.controlBaseBnv.setOnNavigationItemSelectedListener(this)
         mViewDataBinding.controlBaseBnv.setOnNavigationItemReselectedListener(this)
         initControlDeviceSelectionDialog()
@@ -90,11 +90,11 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
     }
 
     private fun initControlDeviceSelectionDialog() {
-        mViewDataBinding.controlDeviceRcvList.setPadding(context.dip2px(8f), context.dip2px(8f), context.dip2px(8f), context.dip2px(8f))
-        mViewDataBinding.controlDeviceRcvList.layoutManager = LinearLayoutManager(context)
-        mViewDataBinding.controlDeviceRcvList.addItemDecoration(SpaceItemDecoration(context.dip2px(2f)))
+        mViewDataBinding.controlDeviceRcvList.setPadding(context?.dip2px(8f)!!, context?.dip2px(8f)!!, context?.dip2px(8f)!!, context?.dip2px(8f)!!)
+        mViewDataBinding.controlDeviceRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        mViewDataBinding.controlDeviceRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(2f)!!))
         mViewDataBinding.controlDeviceRcvList.adapter = adapter
-        mViewDataBinding.controlDeviceRcvList.itemAnimator = DefaultItemAnimator()
+        mViewDataBinding.controlDeviceRcvList.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         behavior = BottomSheetBehavior.from(mViewDataBinding.controlDeviceRcvList)
         behavior.peekHeight = 0
         behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {

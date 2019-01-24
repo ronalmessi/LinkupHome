@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.scene
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,9 +27,9 @@ class LEDSceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_scene_setting_led, container, false)
-        initController(arguments.getInt("deviceType", -1), arguments.getInt("deviceId", -1))
+        initController(arguments?.getInt("deviceType", -1)!!, arguments?.getInt("deviceId", -1)!!)
         mViewDataBinding.toolbarBack.setOnClickListener {
-            activity.onBackPressed()
+            activity?.onBackPressed()
         }
         return mViewDataBinding.root
     }
@@ -37,7 +37,7 @@ class LEDSceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun onResume() {
         super.onResume()
-        when (arguments.getInt("sceneMode", -1)) {
+        when (arguments?.getInt("sceneMode", -1)) {
             0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_led)
             1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_led)
             2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_led)

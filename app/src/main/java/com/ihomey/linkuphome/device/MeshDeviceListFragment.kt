@@ -1,13 +1,13 @@
 package com.ihomey.linkuphome.device
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.util.SparseArray
@@ -20,13 +20,13 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceMeshListBinding
+import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.getShortName
 import com.ihomey.linkuphome.listeners.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
-import com.yanzhenjie.loading.Utils
 import com.yanzhenjie.recyclerview.swipe.*
 
 
@@ -34,6 +34,7 @@ import com.yanzhenjie.recyclerview.swipe.*
  * Created by dongcaizheng on 2018/4/10.
  */
 class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenuItemClickListener, DeviceAssociateListener, DeviceRemoveListener {
+
 
     private var lampCategoryType: Int = -1
     private var isDeviceRemoving = false
@@ -56,24 +57,24 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_mesh_list, container, false)
-        mViewDataBinding.toolbarBack.setOnClickListener { activity.onBackPressed() }
-        lampCategoryType = arguments.getInt("lampCategoryType", -1)
+        mViewDataBinding.toolbarBack.setOnClickListener { activity?.onBackPressed() }
+        lampCategoryType = arguments?.getInt("lampCategoryType", -1)!!
         return mViewDataBinding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = DeviceListAdapter(R.layout.lamp_device_mesh_list_item)
 
-        mViewDataBinding.lampDeviceMeshRcvList.layoutManager = LinearLayoutManager(context)
-        mViewDataBinding.lampDeviceMeshRcvList.addItemDecoration(SpaceItemDecoration(Utils.dip2px(context, 2f).toInt()))
+        mViewDataBinding.lampDeviceMeshRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        mViewDataBinding.lampDeviceMeshRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px( 2f)!!))
         mViewDataBinding.lampDeviceMeshRcvList.adapter = adapter
 
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
-            val width = Utils.dip2px(context, 48f)
+            val width = context?.dip2px( 48f)
             val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
+            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
             swipeRightMenu.addMenuItem(deleteItem)
         }
 
@@ -90,7 +91,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mViewModel?.getDeviceResults()?.observe(this, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 var hasConnected by PreferenceHelper("hasConnected$lampCategoryType", false)
@@ -143,20 +144,21 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         val isShare by PreferenceHelper("share_$lampCategoryType", false)
         if (!isShare && singleDevice?.id == 0) {
             deviceAssociateFragment.isCancelable = false
-            deviceAssociateFragment.show(activity.fragmentManager, "DeviceAssociateFragment")
+            deviceAssociateFragment.show(activity?.fragmentManager, "DeviceAssociateFragment")
             listener.associateDevice(singleDevice.hash, null)
         } else {
             mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice?.device?.type!!, singleDevice.id))
         }
     }
 
-    override fun onItemClick(menuBridge: SwipeMenuBridge) {
-        val singleDevice = adapter?.getItem(menuBridge.adapterPosition)
+
+    override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
+        val singleDevice = adapter?.getItem(position)
         if (singleDevice?.id != 0) {
             isDeviceRemoving = true
             showDeviceRemoveAlertDialog(singleDevice!!)
         }
-        menuBridge.closeMenu()
+        menuBridge?.closeMenu()
     }
 
     override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
@@ -189,7 +191,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     override fun deviceAssociated(deviceId: Int, message: String) {
         deviceAssociateFragment.onAssociateProgressChanged(0)
         deviceAssociateFragment.dismiss()
-        activity.toast(message)
+        activity?.toast(message)
     }
 
     override fun onDeviceRemoved(deviceId: Int, uuidHash: Int, success: Boolean) {
@@ -206,11 +208,11 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     }
 
     private fun showDeviceRemoveAlertDialog(singleDevice: SingleDevice) {
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(activity!!)
         builder.setMessage(getString(R.string.delete) + " " + singleDevice.device.name + "?")
         builder.setPositiveButton(R.string.confirm) { _, _ ->
             deviceRemoveFragment.isCancelable = false
-            deviceRemoveFragment.show(activity.fragmentManager, "DeviceRemoveFragment")
+            deviceRemoveFragment.show(activity?.fragmentManager, "DeviceRemoveFragment")
             listener.removeDevice(singleDevice, this)
         }
         builder.setNegativeButton(R.string.cancel, null)

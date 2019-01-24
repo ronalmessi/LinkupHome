@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.data.vo
 
-import android.arch.persistence.room.ColumnInfo
+import androidx.room.ColumnInfo
 
 
 /**

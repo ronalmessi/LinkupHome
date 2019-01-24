@@ -11,7 +11,7 @@
     app:arrowWidth="12dp"
     app:bubbleColor="#C9C9CB">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trm_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

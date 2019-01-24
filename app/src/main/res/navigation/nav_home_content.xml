@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home_content"
+    app:startDestination="@id/tab_devices">
+
+    <fragment
+        android:id="@+id/tab_devices"
+        android:name="com.ihomey.linkuphome.device1.DevicesFragment"
+        tools:layout="@layout/devices_fragment" />
+    <fragment
+        android:id="@+id/tab_zones"
+        android:name="com.ihomey.linkuphome.zone.ZonesFragment"
+        tools:layout="@layout/zones_fragment"/>
+
+    <fragment
+        android:id="@+id/tab_setting"
+        android:name="com.ihomey.linkuphome.setting.SettingFragment"
+        tools:layout="@layout/setting_fragment">
+        <action
+            android:id="@+id/action_tab_setting_to_moreFragment"
+            app:destination="@id/moreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.ihomey.linkuphome.setting.MoreFragment"
+        tools:layout="@layout/more_fragment"
+        android:label="MoreFragment" />
+
+</navigation>

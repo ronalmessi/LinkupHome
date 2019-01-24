@@ -7,11 +7,11 @@
         <variable name="handlers" type="com.ihomey.linkuphome.listener.EventHandler"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -38,7 +38,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
 
         <RelativeLayout
@@ -80,5 +80,5 @@
         </RelativeLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

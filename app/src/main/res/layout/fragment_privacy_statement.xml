@@ -9,11 +9,11 @@
             type="com.ihomey.linkuphome.main.PrivacyStatementFragment.EventHandler" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -41,9 +41,9 @@
                     android:onClick="@{handlers::onClick}"
                     android:src="@mipmap/ic_close" />
             </com.ihomey.linkuphome.widget.CompatToolbar>
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
@@ -75,9 +75,9 @@
             </LinearLayout>
 
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </layout>

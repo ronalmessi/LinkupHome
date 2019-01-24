@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.data.db
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.data.vo.DeviceModel
 import com.ihomey.linkuphome.data.vo.SingleDevice

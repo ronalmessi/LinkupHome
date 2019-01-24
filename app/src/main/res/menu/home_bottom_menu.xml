@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/tab_devices"
+        android:icon="@mipmap/tab_icon_control"
+        android:title="@string/mesh_tab_control"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/tab_zones"
+        android:icon="@mipmap/tab_icon_device"
+        android:title="@string/mesh_tab_device_connect"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/tab_setting"
+        android:icon="@mipmap/tab_icon_group"
+        android:title="@string/mesh_tab_group_setting"
+        app:showAsAction="ifRoom" />
+</menu>

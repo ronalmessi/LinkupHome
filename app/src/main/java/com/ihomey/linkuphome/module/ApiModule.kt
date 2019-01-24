@@ -1,15 +1,15 @@
 package com.ihomey.linkuphome.module
 
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.ihomey.linkuphome.App
 import com.ihomey.linkuphome.data.db.*
 import dagger.Module
 import dagger.Provides
 import java.util.*
 import javax.inject.Singleton
-import android.arch.persistence.room.migration.Migration
+import androidx.room.migration.Migration
 
 
 /**

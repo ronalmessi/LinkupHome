@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.main
 
 import android.app.Activity
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +29,7 @@ class PrivacyStatementFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_privacy_statement, container, false)
         mViewDataBinding.handlers = EventHandler()
-        if(arguments.getInt("type")==0){
+        if(arguments?.getInt("type")==0){
             mViewDataBinding.toolbarTitle.text=getString(R.string.license_agreement)
             mViewDataBinding.tvLicenseAgreementTitle.text="The End user License Agreement"
             mViewDataBinding.tvLicenseAgreementContent.text=getString(R.string.license_agreement_content)

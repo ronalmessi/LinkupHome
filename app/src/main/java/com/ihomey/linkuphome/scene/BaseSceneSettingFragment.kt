@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.scene
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import com.ihomey.library.base.BaseFragment
@@ -26,7 +26,7 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(SceneSettingViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(SceneSettingViewModel::class.java)
     }
 
     fun initController(deviceType: Int, deviceId: Int) {

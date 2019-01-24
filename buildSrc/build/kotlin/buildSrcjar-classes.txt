@@ -1,0 +1,1 @@
+/Users/dongcaizheng/android/project/LinkupHome/buildSrc/build/classes/kotlin/main/Libs.class:/Users/dongcaizheng/android/project/LinkupHome/buildSrc/build/classes/kotlin/main/Versions.class

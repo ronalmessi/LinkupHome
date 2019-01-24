@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.time
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -58,7 +58,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<Resource<ControlDevice>> {
             if (it?.status == Status.SUCCESS&&it.data!=null) {
                 mControlDevice = it.data
@@ -75,7 +75,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.toolbar_back -> activity.onBackPressed()
+            R.id.toolbar_back -> activity?.onBackPressed()
             R.id.btn_timer_setting_edit -> {
                 if (v.tag != null && v.tag as Boolean) {
                     v.tag = null
@@ -199,7 +199,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
     }
 
 //    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-//        Log.d("aa","1111111")
+//        Log.d("bg_splash","1111111")
 ////        setRepeat(!isRepeat())
 ////        if (mControlDevice != null) {
 ////            val lightState = mControlDevice?.state

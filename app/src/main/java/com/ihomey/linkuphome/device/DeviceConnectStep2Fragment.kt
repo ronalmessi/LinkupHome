@@ -1,11 +1,11 @@
 package com.ihomey.linkuphome.device
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.constraint.ConstraintSet
+import androidx.constraintlayout.widget.ConstraintSet
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
@@ -51,8 +51,8 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_connect_step2, container, false)
         mViewDataBinding.handlers = EventHandler()
-        mViewDataBinding.ivDeviceConnectLampIcon.setImageResource(icons[arguments.getInt("categoryType", 0)])
-        if (arguments.getBoolean("isReConnect", false)) {
+        mViewDataBinding.ivDeviceConnectLampIcon.setImageResource(icons[arguments?.getInt("categoryType", 0)!!])
+        if (arguments?.getBoolean("isReConnect", false)!!) {
             mViewDataBinding.tvDeviceConnectStep2Hint.text = getString(R.string.bridge_disconnected)
             mViewDataBinding.btnDeviceConnectReset.visibility = View.GONE
         } else {
@@ -64,7 +64,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
     }
 
 
@@ -79,7 +79,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (!arguments.getBoolean("isReConnect", false)) {
+        if (!arguments?.getBoolean("isReConnect", false)!!) {
             listener.connectBridge()
         }
     }
@@ -87,8 +87,8 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     private fun showLamp() {
         mViewDataBinding.tvDeviceConnectStep2Hint.postDelayed({
             if (activity != null) {
-                activity.onBackPressed()
-                    (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments.getInt("categoryType", 0)))
+                activity?.onBackPressed()
+                    (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments?.getInt("categoryType", 0)!!))
             }
         }, 1000)
     }
@@ -97,7 +97,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     inner class EventHandler {
         fun onClick(view: View) {
             when (view.id) {
-                R.id.btn_device_connect_reset -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, DeviceResetFragment().newInstance(arguments.getInt("categoryType", 0)))
+                R.id.btn_device_connect_reset -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, DeviceResetFragment().newInstance(arguments?.getInt("categoryType", 0)!!))
             }
         }
     }

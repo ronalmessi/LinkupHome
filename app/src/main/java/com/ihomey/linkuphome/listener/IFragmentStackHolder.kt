@@ -1,6 +1,6 @@
 package com.ihomey.linkuphome.listener
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 /**
  * Created by dongcaizheng on 2018/4/17.

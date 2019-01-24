@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F2F2F2"
+        tools:context=".feature.account.SignInFragment">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F7F7F7"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="更多"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_18ssp"/>
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+            <com.ihomey.linkuphome.widget.InfoTextLayout
+                android:id="@+id/infoTextLayout_setting_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:horizontalMargin="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@android:color/white"
+                app:isShowDivider="false"
+                app:leftText="使用条款"
+                app:leftTextColor="@android:color/black"
+                app:leftTextSize="@dimen/_16ssp"
+                app:rightIcon="@drawable/ic_arrow_right"
+                app:rightTextColor="#807F85"
+                app:rightTextSize="@dimen/_16ssp"
+                app:verticalMargin="@dimen/_18sdp"/>
+
+            <com.ihomey.linkuphome.widget.InfoTextLayout
+                android:id="@+id/infoTextLayout_setting_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:horizontalMargin="@dimen/_20sdp"
+                android:background="@android:color/white"
+                app:isShowDivider="false"
+                app:leftText="隐私协议"
+                app:leftTextColor="@android:color/black"
+                app:leftTextSize="@dimen/_16ssp"
+                app:rightIcon="@drawable/ic_arrow_right"
+                app:rightTextColor="#807F85"
+                app:rightTextSize="@dimen/_16ssp"
+                app:verticalMargin="@dimen/_18sdp"/>
+
+            <com.ihomey.linkuphome.widget.InfoTextLayout
+                android:id="@+id/infoTextLayout_setting_sex"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:horizontalMargin="@dimen/_20sdp"
+                app:isShowDivider="false"
+                app:leftText="分享账号"
+                app:leftTextColor="@android:color/black"
+                app:leftTextSize="@dimen/_16ssp"
+                app:rightIcon="@drawable/ic_arrow_right"
+                app:rightTextColor="#807F85"
+                app:rightTextSize="@dimen/_16ssp"
+                app:verticalMargin="@dimen/_18sdp"/>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+</layout>

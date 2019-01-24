@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_zone_init"
+    app:startDestination="@id/createZoneFragment">
+
+    <fragment
+        android:id="@+id/createZoneFragment"
+        android:name="com.ihomey.linkuphome.zone.CreateZoneFragment"
+        android:label="create_zone_fragment"
+        tools:layout="@layout/create_zone_fragment" >
+        <action
+            android:id="@+id/action_createZoneFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ihomey.linkuphome.home.HomeFragment"
+        tools:layout="@layout/home_fragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_moreFragment2"
+            app:destination="@id/moreFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/moreFragment2"
+        android:name="com.ihomey.linkuphome.setting.MoreFragment"
+        tools:layout="@layout/more_fragment"
+        android:label="MoreFragment" >
+        <action
+            android:id="@+id/action_moreFragment2_to_privacyAgreementFragment"
+            app:destination="@id/privacyAgreementFragment" />
+        <action
+            android:id="@+id/action_moreFragment2_to_termsOfUseFragment"
+            app:destination="@id/termsOfUseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyAgreementFragment"
+        android:name="com.ihomey.linkuphome.setting.PrivacyAgreementFragment"
+        tools:layout="@layout/privacy_agreement_fragment"
+        android:label="PrivacyAgreementFragment" />
+    <fragment
+        android:id="@+id/termsOfUseFragment"
+        android:name="com.ihomey.linkuphome.setting.TermsOfUseFragment"
+        tools:layout="@layout/terms_of_use_fragment"
+        android:label="TermsOfUseFragment" />
+
+
+</navigation>

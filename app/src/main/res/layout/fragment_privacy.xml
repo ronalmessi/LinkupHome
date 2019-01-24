@@ -10,7 +10,7 @@
             type="com.ihomey.linkuphome.main.PrivacyFragment.EventHandler" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/welcome_cl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -103,7 +103,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,5 +111,5 @@
             app:layout_constraintGuide_percent="0.5" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

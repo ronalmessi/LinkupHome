@@ -1,6 +1,6 @@
 object Versions {
-    const val  supportLibrary_version = "26.1.0"
-    const val  kotlin_version = "1.2.31"
+    const val  supportLibrary_version = "28.0.0"
+    const val  kotlin_version = "1.3.11"
     const val  dagger_version = "2.14.1"
     const val  arch_version = "1.0.0"
     const val  spongycastle_version = "1.51.0.0"
@@ -27,7 +27,7 @@ object Libs {
     val dagger="com.google.dagger:dagger-android:${Versions.dagger_version}"
     val dagger_compiler="com.google.dagger:dagger-compiler:${Versions.dagger_version}"
 
-    val kotlin="org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin_version}"
+    val kotlin="org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin_version}"
 
     val qiniu="com.qiniu:qiniu-android-sdk:${Versions.qiniu_version}"
 

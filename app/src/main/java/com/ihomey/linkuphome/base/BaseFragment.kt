@@ -2,7 +2,7 @@ package com.ihomey.library.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.View
 import com.umeng.analytics.MobclickAgent
@@ -22,7 +22,7 @@ abstract class BaseFragment : Fragment() {
         Log.d("BaseFragment", javaClass.simpleName + "-----onAttach")
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("BaseFragment", javaClass.simpleName + "-----onViewCreated")
     }
