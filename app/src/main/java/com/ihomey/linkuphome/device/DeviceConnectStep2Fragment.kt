@@ -5,18 +5,11 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.constraint.ConstraintSet
-import android.transition.AutoTransition
-import android.transition.TransitionManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.vo.SingleDevice
 import com.ihomey.linkuphome.databinding.FragmentDeviceConnectStep2Binding
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
@@ -32,7 +25,7 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     private lateinit var listener: BridgeListener
     private var mViewModel: MainViewModel? = null
     private lateinit var mViewDataBinding: FragmentDeviceConnectStep2Binding
-    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded,  R.mipmap.lamp_icon_outdoor_unadded,R.mipmap.lamp_icon_s_unadded,R.mipmap.lamp_icon_s_unadded)
+    private val icons = arrayListOf(R.mipmap.lamp_icon_lawn_unadded, R.mipmap.lamp_icon_rgb_unadded, R.mipmap.lamp_icon_warm_cold_unadded, R.mipmap.lamp_icon_led_unadded,  R.mipmap.lamp_icon_mini_outdoor_unadded,R.mipmap.lamp_icon_s_unadded,R.mipmap.lamp_icon_s_unadded)
 
     fun newInstance(categoryType: Int, isReConnect: Boolean): DeviceConnectStep2Fragment {
         val addProductFragment = DeviceConnectStep2Fragment()

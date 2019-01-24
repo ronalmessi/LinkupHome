@@ -195,21 +195,21 @@ class ShareActivity : BaseActivity() {
             val auth = Auth.create(ACCESS_KEY, SECRET_KEY)
             UploadManager(Configuration.Builder().build()).put(configuration.toByteArray(), key, auth.uploadToken(BUCKET_NAME), { key, info, response ->
                 if (info.isOK) {
-                    AppExecutors().diskIO().execute({
+                    AppExecutors().diskIO().execute {
                         bitmap = QRCodeEncoder.syncEncodeQRCode(DOMAIN + key, dip2px(215f))
-                        runOnUiThread({
+                        runOnUiThread {
                             generatingDialog.dismiss()
                             mViewDataBinding.ivQrCode.setImageBitmap(bitmap)
                             mViewDataBinding.tvQrCodeGenerateResult.visibility = View.VISIBLE
                             mViewDataBinding.tvQrCodeGenerateResult.setText(R.string.share_qrCode_generate_success)
-                        })
-                    })
+                        }
+                    }
                 } else {
-                    runOnUiThread({
+                    runOnUiThread {
                         generatingDialog.dismiss()
                         mViewDataBinding.tvQrCodeGenerateResult.visibility = View.VISIBLE
                         mViewDataBinding.tvQrCodeGenerateResult.setText(R.string.share_qrCode_generate_fail)
-                    })
+                    }
                 }
             }, null)
         }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="control"
+            type="com.ihomey.linkuphome.data.vo.ControlDevice" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <ImageButton
+                android:id="@+id/toolbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@mipmap/arrow_icon_left" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="@string/scene_mode"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+            <LinearLayout
+                android:id="@+id/ll_device_scene"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                android:padding="16dp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/scene_water_ligghting_bg"
+                    android:gravity="center_vertical">
+
+                    <RadioButton
+                        android:id="@+id/rb_scene"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="24dp"
+                        android:button="@drawable/scene_setting_btn_water_lighting_bg" />
+
+                    <TextView
+                        android:id="@+id/tv_device_scene_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@+id/rb_scene"
+                        android:layout_below="@+id/rb_scene"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/scene_water_lighting"
+                        android:textColor="@color/radio_text_color_water_lighting" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
+

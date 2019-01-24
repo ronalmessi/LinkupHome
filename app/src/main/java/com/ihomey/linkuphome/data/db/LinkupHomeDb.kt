@@ -10,7 +10,7 @@ import com.ihomey.linkuphome.data.vo.SingleDevice
 /**
  * Created by dongcaizheng on 2018/4/9.
  */
-@Database(entities = [(LampCategory::class), (GroupDevice::class), (SingleDevice::class), (Model::class)], version = 2, exportSchema = true)
+@Database(entities = [(LampCategory::class), (GroupDevice::class), (SingleDevice::class), (Model::class)], version = 3, exportSchema = true)
 abstract class LinkupHomeDb : RoomDatabase() {
 
     abstract fun lampCategoryDao(): LampCategoryDao

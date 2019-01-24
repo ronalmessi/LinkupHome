@@ -11,7 +11,7 @@ class ControllerFactory {
             1 -> RgbController()
             2 -> ColorTemperatureController()
             3 -> LedController()
-            4 -> OutdoorController()
+            4 -> MiniOutdoorController()
             5 -> RgbController()
             6 -> ColorTemperatureController()
             else -> null

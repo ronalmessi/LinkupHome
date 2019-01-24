@@ -34,6 +34,8 @@
     <string name="scene_rainforest">热带雨林</string>
     <string name="scene_lighting">照明模式</string>
 
+
+
     <string name="speed_slow">减慢</string>
     <string name="speed_normal">正常</string>
     <string name="speed_fast">加快</string>

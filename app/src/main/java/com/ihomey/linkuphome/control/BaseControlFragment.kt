@@ -25,6 +25,7 @@ import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.main.LampFragment
 import com.ihomey.linkuphome.scan.ScanActivity
 import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
+import com.ihomey.linkuphome.scene.MiniOutdoorSceneSettingFragment
 import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
 import com.ihomey.linkuphome.scene.S1SceneSettingFragment
 import com.ihomey.linkuphome.share.ShareActivity
@@ -199,6 +200,11 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                         when (lampCategory) {
                             1 -> {
                                 val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
+                                        ?: -1, mControlDevice?.state?.sceneMode)
+                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+                            }
+                            4 -> {
+                                val newFrag = MiniOutdoorSceneSettingFragment().newInstance(mControlDevice?.id
                                         ?: -1, mControlDevice?.state?.sceneMode)
                                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                             }

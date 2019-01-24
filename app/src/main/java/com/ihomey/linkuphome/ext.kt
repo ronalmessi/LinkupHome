@@ -336,7 +336,7 @@ fun getIcon(type: Int) =
             1 -> R.mipmap.lamp_icon_rgb_unadded
             2 -> R.mipmap.lamp_icon_warm_cold_unadded
             3 -> R.mipmap.lamp_icon_led_unadded
-            4 -> R.mipmap.lamp_icon_outdoor_unadded
+            4 -> R.mipmap.lamp_icon_mini_outdoor_unadded
             5 -> R.mipmap.lamp_icon_s_unadded
             6 -> R.mipmap.lamp_icon_s_unadded
             else -> R.mipmap.lamp_icon_bed_unadded
