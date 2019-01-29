@@ -25,4 +25,9 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         drawable.setBounds(0, 0, mContext.dip2px(17.5f), mContext.dip2px(17.5f))
         stateTextView.setCompoundDrawables(null, null, drawable, null)
     }
+
+    override fun getItemViewType(position: Int): Int {
+        val singleDevice = getItem(position)
+        return if (singleDevice?.id == 0) -1 else super.getItemViewType(position)
+    }
 }

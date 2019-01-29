@@ -324,9 +324,11 @@ fun getShortName(type: DeviceType) =
             DeviceType.R2 -> "iHomey R2"
             DeviceType.A2 -> "iHomey A2"
             DeviceType.N1 -> "iHomey N1"
+            DeviceType.M1 -> "iHomey M1"
             DeviceType.V1 -> "iHomey V1"
             DeviceType.S1 -> "iHomey S1"
             DeviceType.S2 -> "iHomey S2"
+            DeviceType.T1 -> "iHomey T1"
         }
 
 
@@ -336,9 +338,10 @@ fun getIcon(type: Int) =
             1 -> R.mipmap.lamp_icon_rgb_unadded
             2 -> R.mipmap.lamp_icon_warm_cold_unadded
             3 -> R.mipmap.lamp_icon_led_unadded
-            4 -> R.mipmap.lamp_icon_mini_outdoor_unadded
-            5 -> R.mipmap.lamp_icon_s_unadded
+            4 -> R.mipmap.lamp_icon_bed_unadded
+            5 -> R.mipmap.lamp_icon_mini_outdoor_unadded
             6 -> R.mipmap.lamp_icon_s_unadded
+            7 -> R.mipmap.lamp_icon_s_unadded
             else -> R.mipmap.lamp_icon_bed_unadded
         }
 
@@ -376,7 +379,7 @@ val REQUEST_CODE_SCAN = 101
 val REQUEST_BT_RESULT_CODE = 102
 
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
-val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg,R.mipmap.fragment_rgb_bg,R.mipmap.fragment_warm_cold_bg)
+val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg,R.mipmap.fragment_led_bg,R.mipmap.fragment_rgb_bg,R.mipmap.fragment_warm_cold_bg)
 val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
 
 

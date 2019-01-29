@@ -70,11 +70,13 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         mViewDataBinding.lampDeviceMeshRcvList.addItemDecoration(SpaceItemDecoration(Utils.dip2px(context, 2f).toInt()))
         mViewDataBinding.lampDeviceMeshRcvList.adapter = adapter
 
-        val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
-            val width = Utils.dip2px(context, 48f)
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
-            swipeRightMenu.addMenuItem(deleteItem)
+        val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, viewType ->
+            if(viewType!=-1){
+                val width = Utils.dip2px(context, 48f)
+                val height = ViewGroup.LayoutParams.MATCH_PARENT
+                val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
+                swipeRightMenu.addMenuItem(deleteItem)
+            }
         }
 
         mViewDataBinding.lampDeviceMeshRcvList.setSwipeItemClickListener(this)

@@ -35,7 +35,8 @@
     <string name="scene_spring">Spring Blossoms Mode</string>
     <string name="scene_rainforest">Selva Mode</string>
     <string name="scene_lighting">Lighting Mode</string>
-    <string name="scene_water_lighting">流水灯光</string>
+    <string name="scene_water_lighting">Flowing</string>
+
 
 
     <string name="speed_slow">Slow Speed</string>

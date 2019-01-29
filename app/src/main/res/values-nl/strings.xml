@@ -36,6 +36,7 @@
     <string name="scene_spring">Lente Bloesem Mode</string>
     <string name="scene_rainforest">Selva</string>
     <string name="scene_lighting">Verlichtingsmodus</string>
+    <string name="scene_water_lighting">Flowing</string>
 
 
     <string name="speed_slow">Laag tempo</string>

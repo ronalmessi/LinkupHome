@@ -37,9 +37,9 @@ class ControlParentFragment : BaseFragment(), IFragmentStackHolder, FragmentBack
             1 -> setFragment(RgbControlFragment().newInstance())
             2 -> setFragment(WarmColdControlFragment().newInstance())
             3 -> setFragment(LedControlFragment().newInstance())
-            4 -> setFragment(MiniOutdoorControlFragment().newInstance())
-            5 -> setFragment(S1ControlFragment().newInstance())
-            6 -> setFragment(S2ControlFragment().newInstance())
+            5 -> setFragment(MiniOutdoorControlFragment().newInstance())
+            6 -> setFragment(S1ControlFragment().newInstance())
+            7 -> setFragment(S2ControlFragment().newInstance())
         }
     }
 

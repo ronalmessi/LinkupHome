@@ -33,6 +33,7 @@
     <string name="scene_spring">Frühling Modell</string>
     <string name="scene_rainforest">Regenwald Modell</string>
     <string name="scene_lighting">Beleuchtungsmodus</string>
+    <string name="scene_water_lighting">Flowing</string>
 
     <string name="speed_slow">Verlangsamen</string>
     <string name="speed_normal">Normal</string>

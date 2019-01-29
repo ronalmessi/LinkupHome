@@ -81,7 +81,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     v.tag = null
                     (v as Button).setText(R.string.save)
                     enableEditTimer(true)
-                    if (mDeviceType == 4 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
+                    if (mDeviceType == 5 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
                         syncTime(mControlDevice?.id!!)
                     }
                 } else {
@@ -101,7 +101,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.HOUR_OF_DAY, getHour())
                 calendar.set(Calendar.MINUTE, getMinute())
-                if (mControlDevice?.device?.type == 4) {
+                if (mControlDevice?.device?.type == 5) {
                     if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
                     if (isOpenTimer()) {
                         lightState.openTimer = calendar.timeInMillis
@@ -141,14 +141,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     lightState.openTimerOn = if (isChecked) 3 else 2
                     if (isChecked) {
                         if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
-                            if (mControlDevice?.device?.type != 4) {
+                            if (mControlDevice?.device?.type != 5) {
                                 controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), true)
                             } else {
                                 controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, true, isRepeat())
                             }
                         }
                     } else {
-                        if (mControlDevice?.device?.type == 4) {
+                        if (mControlDevice?.device?.type == 5) {
                             if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
                                 controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), true, false, isRepeat())
                             }
@@ -158,14 +158,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     lightState.closeTimerOn = if (isChecked) 3 else 2
                     if (isChecked) {
                         if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
-                            if (mControlDevice?.device?.type != 4) {
+                            if (mControlDevice?.device?.type != 5) {
                                 controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), false)
                             } else {
                                 controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, true, isRepeat())
                             }
                         }
                     } else {
-                        if (mControlDevice?.device?.type == 4) {
+                        if (mControlDevice?.device?.type == 5) {
                             if (mDeviceType != -1 && mControlDevice != null && mControlDevice?.id != null && listener.isMeshServiceConnected()) {
                                 controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, false, isRepeat())
                             }

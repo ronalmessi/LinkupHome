@@ -161,7 +161,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                 R.mipmap.toolbar_menu_alarm -> {
                     val controlDeviceId = mControlDevice?.id ?: -1
                     if (controlDeviceId != -1) {
-                        val newFrag = if (lampCategory == 4) RepeatTimerSettingFragment().newInstance() else TimerSettingFragment().newInstance()
+                        val newFrag = if (lampCategory == 5) RepeatTimerSettingFragment().newInstance() else TimerSettingFragment().newInstance()
                         val fsh = activity as IFragmentStackHolder
                         fsh.replaceFragment(R.id.container, newFrag)
                     }
@@ -203,12 +203,12 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                                         ?: -1, mControlDevice?.state?.sceneMode)
                                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                             }
-                            4 -> {
+                            5 -> {
                                 val newFrag = MiniOutdoorSceneSettingFragment().newInstance(mControlDevice?.id
                                         ?: -1, mControlDevice?.state?.sceneMode)
                                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                             }
-                            5 -> {
+                            6 -> {
                                 val newFrag = S1SceneSettingFragment().newInstance(mControlDevice?.id
                                         ?: -1, mControlDevice?.state?.sceneMode)
                                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)

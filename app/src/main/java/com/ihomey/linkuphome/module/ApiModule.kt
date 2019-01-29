@@ -30,28 +30,30 @@ class ApiModule {
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(1,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(2,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(3,0,'$uniqueID',1,-1)")
-                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
+//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(4,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(6,0,'$uniqueID',1,-1)")
+                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(7,0,'$uniqueID',1,-1)")
+//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(8,0,'$uniqueID',1,-1)")
             }
-        }).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
+        }).build()
     }
 
-    private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=5")
-            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=5")
-            database.execSQL("update category set type=5 where id=6")
-            database.execSQL("update category set type=6 where id=7")
-        }
-    }
-
-    private val MIGRATION_2_3: Migration = object : Migration(2, 3) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=7")
-            database.execSQL("update category set type=4 where id=8")
-        }
-    }
+//    private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+//        override fun migrate(database: SupportSQLiteDatabase) {
+//            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=5")
+//            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=5")
+//            database.execSQL("update category set type=5 where id=6")
+//            database.execSQL("update category set type=6 where id=7")
+//        }
+//    }
+//
+//    private val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+//        override fun migrate(database: SupportSQLiteDatabase) {
+//            database.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) select type,added,networkKey,next_group_index,next_device_index from category where id=7")
+//            database.execSQL("update category set type=4 where id=8")
+//        }
+//    }
 
     @Singleton
     @Provides

@@ -26,7 +26,7 @@ class S1SceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_scene_setting_rgb, container, false)
-        initController(5, arguments.getInt("deviceId", -1))
+        initController(6, arguments.getInt("deviceId", -1))
         mViewDataBinding.toolbarBack.setOnClickListener {
             activity.onBackPressed()
         }
