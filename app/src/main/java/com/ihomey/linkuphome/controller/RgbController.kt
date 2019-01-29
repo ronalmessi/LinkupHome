@@ -68,4 +68,19 @@ class RgbController : Controller() {
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         DataModelApi.sendData(deviceId, decodeHex(code_lawn_timer.toCharArray()), false)
     }
+
+    override fun setLightColorTemperature(deviceId: Int, colorTemperatureValue: Int) {
+        var colorTemperature = "F1"
+        when (colorTemperatureValue) {
+            3000 -> colorTemperature = "F1"
+            4000 -> colorTemperature = "F2"
+            6500 -> colorTemperature = "F3"
+        }
+        val code_lawn_color_prefix = CODE_LIGHT_COLOR_BASE + colorTemperature
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_color_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_color_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_color_prefix.substring(10, 12), 16))
+        val code_lawn_color = code_lawn_color_prefix + "00" + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+
+        Log.d("aa","---"+code_lawn_color)
+        DataModelApi.sendData(deviceId, decodeHex(code_lawn_color.toCharArray()), false)
+    }
 }

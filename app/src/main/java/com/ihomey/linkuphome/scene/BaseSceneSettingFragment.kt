@@ -12,9 +12,9 @@ import com.ihomey.linkuphome.widget.RadioGroupPlus
 
 abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheckedChangeListener {
 
-     var mDeviceId: Int = -1
+    var mDeviceId: Int = -1
     private var mDeviceType: Int = -1
-     var controller: Controller? = null
+    var controller: Controller? = null
     protected var mViewModel: SceneSettingViewModel? = null
     protected lateinit var listener: MeshServiceStateListener
 
@@ -48,9 +48,9 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             if (mDeviceId != -1 && sceneModeValue != -1) {
                 controller?.setLightScene(mDeviceId, sceneModeValue)
             }
-            if (sceneModeValue != -1) {
-                mViewModel?.updateDeviceSceneMode(mDeviceType, mDeviceId, sceneModeValue)
-            }
+        }
+        if (sceneModeValue != -1) {
+            mViewModel?.updateDeviceSceneMode(mDeviceType, mDeviceId, sceneModeValue)
         }
     }
 

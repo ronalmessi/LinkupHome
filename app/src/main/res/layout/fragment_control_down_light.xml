@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="control"
+            type="com.ihomey.linkuphome.data.vo.ControlDevice" />
+
+        <variable
+            name="handlers"
+            type="com.ihomey.linkuphome.control.BaseControlFragment.ToolBarEventHandler" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/toolbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@mipmap/arrow_icon_left"
+                android:onClick="@{handlers::onClick}" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:text="@string/mesh_tab_control"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/toolbar_right_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@mipmap/toolbar_right_icon_setting"
+                android:onClick="@{handlers::onClick}" />
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+        <com.ihomey.linkuphome.widget.NoScrollViewpager
+            android:id="@+id/ble_control_vp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="27dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <RadioGroup
+            android:id="@+id/rg_control_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <RadioButton
+                android:id="@+id/rb_control_rgb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true"
+                android:drawableStart="@drawable/ic_arrow_left"
+                android:drawablePadding="21dp"
+                android:drawableTint="@color/radio_text_color_down_light_control"
+                android:text="RGB"
+                android:textColor="@color/radio_text_color_down_light_control"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/rb_control_warm_cold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/device_control_circle_top_shadow_margin"
+                android:button="@null"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:drawablePadding="21dp"
+                android:drawableTint="@color/radio_text_color_down_light_control"
+                android:text="冷暖"
+                android:textColor="@color/radio_text_color_down_light_control"
+                android:textSize="16sp" />
+        </RadioGroup>
+
+
+        <TextView
+            android:id="@+id/device_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@{control.device.name}"
+            android:textColor="@color/text_colorPrimary"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rg_control_switch" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

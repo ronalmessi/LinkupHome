@@ -7,6 +7,12 @@
     <dimen name="timer_setting_btn_padding">108dp</dimen>
 
 
+    <dimen name="device_bed_control_circle_outer_width">420dp</dimen>
+    <dimen name="device_bed_control_circle_top_inner_margin">50dp</dimen>
+    <dimen name="device_bed_control_circle_inner_width">279dp</dimen>
+    <dimen name="device_bed_control_circle_inner_radius">42dp</dimen>
+    <dimen name="device_bed_control_circle_left_margin">3dp</dimen>
+
     <dimen name="device_control_circle_outer_width">420dp</dimen>
     <dimen name="device_control_circle_top_outer_margin">30dp</dimen>
     <dimen name="device_control_circle_outer_middle_margin">78dp</dimen>

@@ -195,17 +195,25 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                 R.id.toolbar_back -> activity.onBackPressed()
                 R.id.toolbar_right_setting -> showTopRightMenu(view)
                 R.id.device_scene_cb_scene -> {
-                    if (parentFragment is IFragmentStackHolder) {
+                    if (lampCategory == 8) {
+                        if (parentFragment.parentFragment is IFragmentStackHolder) {
+                            val fsh = parentFragment.parentFragment as IFragmentStackHolder
+                            val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
+                                    ?: -1, 8, mControlDevice?.state?.sceneMode)
+                            fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+
+                        }
+                    } else if (parentFragment is IFragmentStackHolder) {
                         val fsh = parentFragment as IFragmentStackHolder
                         when (lampCategory) {
                             1 -> {
                                 val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
-                                        ?: -1,1, mControlDevice?.state?.sceneMode)
+                                        ?: -1, 1, mControlDevice?.state?.sceneMode)
                                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                             }
                             8 -> {
                                 val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
-                                        ?: -1, 8,mControlDevice?.state?.sceneMode)
+                                        ?: -1, 8, mControlDevice?.state?.sceneMode)
                                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                             }
                             5 -> {

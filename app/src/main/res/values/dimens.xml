@@ -18,6 +18,13 @@
     <dimen name="WheelMargins">8dp</dimen>
 
 
+    <dimen name="device_bed_control_circle_outer_width">320dp</dimen>
+    <dimen name="device_bed_control_circle_top_inner_margin">36.5dp</dimen>
+    <dimen name="device_bed_control_circle_inner_width">216dp</dimen>
+    <dimen name="device_bed_control_circle_inner_radius">34dp</dimen>
+    <dimen name="device_bed_control_circle_left_margin">3dp</dimen>
+
+
     <dimen name="device_control_circle_outer_width">320dp</dimen>
     <dimen name="device_control_circle_top_outer_margin">21dp</dimen>
     <dimen name="device_control_circle_outer_middle_margin">57dp</dimen>

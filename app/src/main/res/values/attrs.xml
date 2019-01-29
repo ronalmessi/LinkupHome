@@ -144,5 +144,13 @@
       <attr name="wheel_font_path" format="string" />
    </declare-styleable>
 
+   <declare-styleable name="BedWarmColdCircleView">
+      <attr name="circle_width" format="dimension" />
+      <attr name="arrow_gap" format="dimension" />
+      <attr name="text_size" format="dimension" />
+      <attr name="mTextColor" format="color" />
+   </declare-styleable>
+
+
 
 </resources>
