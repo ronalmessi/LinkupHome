@@ -47,39 +47,39 @@ import java.util.*
  */
 
 fun BottomNavigationView.disableShiftMode() {
-//    val menuView = this.getChildAt(0) as BottomNavigationMenuView
-//    try {
-//        val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
-//        shiftingMode.isAccessible = true
-//        shiftingMode.setBoolean(menuView, false)
-//        shiftingMode.isAccessible = false
-//        for (i in 0 until menuView.childCount) {
-//            val item = menuView.getChildAt(i) as BottomNavigationItemView
-//            val icon = item.findViewById<ImageView>(android.support.design.R.id.icon)
-//            val largeLabel = item.findViewById<TextView>(android.support.design.R.id.largeLabel)
-//            val smallLabel = item.findViewById<TextView>(android.support.design.R.id.smallLabel)
-//            largeLabel.setSingleLine(false)
-//            smallLabel.setSingleLine(false)
-//            largeLabel.setLineSpacing(0f, 0.8f)
-//            smallLabel.setLineSpacing(0f, 0.8f)
-//            largeLabel.gravity = Gravity.CENTER_HORIZONTAL
-//            smallLabel.gravity = Gravity.CENTER_HORIZONTAL
-//            icon.scaleX = 1.5f
-//            icon.scaleY = 1.5f
-//            val baselineLayout = largeLabel.parent as BaselineLayout
-//            baselineLayout.setPadding(0, 0, 0, 0)
-//            val layoutParams = baselineLayout.layoutParams as FrameLayout.LayoutParams
-//            layoutParams.gravity = Gravity.CENTER_HORIZONTAL
-//            layoutParams.topMargin = this.context.dip2px(42f)
-//            baselineLayout.layoutParams = layoutParams
+    val menuView = this.getChildAt(0) as BottomNavigationMenuView
+    try {
+        val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
+        shiftingMode.isAccessible = true
+        shiftingMode.setBoolean(menuView, false)
+        shiftingMode.isAccessible = false
+        for (i in 0 until menuView.childCount) {
+            val item = menuView.getChildAt(i) as BottomNavigationItemView
+            val icon = item.findViewById<ImageView>(R.id.icon)
+            val largeLabel = item.findViewById<TextView>(R.id.largeLabel)
+            val smallLabel = item.findViewById<TextView>(R.id.smallLabel)
+            largeLabel.setSingleLine(false)
+            smallLabel.setSingleLine(false)
+            largeLabel.setLineSpacing(0f, 0.8f)
+            smallLabel.setLineSpacing(0f, 0.8f)
+            largeLabel.gravity = Gravity.CENTER_HORIZONTAL
+            smallLabel.gravity = Gravity.CENTER_HORIZONTAL
+            icon.scaleX = 5f
+            icon.scaleY = 5f
+            val baselineLayout = largeLabel.parent as BaselineLayout
+            baselineLayout.setPadding(0, 0, 0, 0)
+            val layoutParams = baselineLayout.layoutParams as FrameLayout.LayoutParams
+            layoutParams.gravity = Gravity.CENTER_HORIZONTAL
+            layoutParams.topMargin = this.context.dip2px(72f)
+            baselineLayout.layoutParams = layoutParams
 //            item.setShiftingMode(false)
-//            item.setChecked(item.itemData.isChecked)
-//        }
-//    } catch (e: NoSuchFieldException) {
-//        e.printStackTrace()
-//    } catch (e: IllegalAccessException) {
-//        e.printStackTrace()
-//    }
+            item.setChecked(item.itemData.isChecked)
+        }
+    } catch (e: NoSuchFieldException) {
+        e.printStackTrace()
+    } catch (e: IllegalAccessException) {
+        e.printStackTrace()
+    }
 }
 
 
@@ -91,6 +91,10 @@ fun Activity.setTranslucentStatus() {
         window.statusBarColor = Color.TRANSPARENT
     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
     }
 }
 

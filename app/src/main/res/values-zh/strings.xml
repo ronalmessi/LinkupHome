@@ -77,7 +77,8 @@
     <string name="device_reset_hint1">在“设备连接”界面里把以前连接过的这条痕迹，左滑删除后，重置后的设备会显示出来。</string>
 
     <string name="device_reset_tip">请先尝试以下两种快捷处理方式</string>
-    <string name="device_reset_hint0">一：关闭蓝牙，再启动蓝牙 \n二：从后台关闭LinkupHomeAPP后，再打开APP\n\n以上两种快捷方式尝试后如果仍然无法搜索到设备，请按照以下步骤重置设备</string>
+    <string name="device_reset_hint0">一：关闭蓝牙，再启动蓝牙 \n二：从后台关闭LinkupHomeAPP后，再打开APP</string>
+    <string name="device_reset_hint3">以上两种快捷方式尝试后如果仍然无法搜索到设备，请按照以下步骤重置设备</string>
 
     <string name="next_step">下一步</string>
     <string name="searching">正在搜索</string>

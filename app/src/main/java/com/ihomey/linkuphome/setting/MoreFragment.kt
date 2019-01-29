@@ -1,8 +1,6 @@
 package com.ihomey.linkuphome.setting
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +17,13 @@ class MoreFragment : BaseFragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.more_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
         infoTextLayout_setting_name.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_moreFragment2_to_termsOfUseFragment) }
         infoTextLayout_setting_avatar.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_moreFragment2_to_privacyAgreementFragment) }
     }

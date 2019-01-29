@@ -82,8 +82,8 @@
     <string name="device_reset_hint1">Verwijder de oude connectie in "aansluitingen" Daarna krijgt u automatisch de reset functie te zien.</string>
 
     <string name="device_reset_tip">Probeer eerst de volgende twee shortcuts</string>
-    <string name="device_reset_hint0">1. Herstart Bluetooth\n2. Stop de LinkedupHome APP via de instellingen van je telefoon. Stop de app via Apps; Apps info; alles stoppen. Herstart hierna de app op de normale manier.\n\nAls de twee hiervoor genoemde shortcuts niet werken reset de lampen via de volgende stappen</string>
-
+    <string name="device_reset_hint0">1. Herstart Bluetooth\n2. Stop de LinkedupHome APP via de instellingen van je telefoon. Stop de app via Apps; Apps info; alles stoppen. Herstart hierna de app op de normale manier.</string>
+    <string name="device_reset_hint3">Als de twee hiervoor genoemde shortcuts niet werken reset de lampen via de volgende stappen</string>
     <string name="next_step">Volgende stap</string>
     <string name="searching">Zoeken</string>
 

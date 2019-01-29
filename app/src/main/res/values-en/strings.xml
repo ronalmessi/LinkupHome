@@ -83,7 +83,8 @@
     <string name="device_reset_hint1">Please delete the old connection in "Device Connect",then the reset device will show up</string>
 
     <string name="device_reset_tip">Please try the following two shortcuts first.</string>
-    <string name="device_reset_hint0">1.Restart Bluetooth \n2.Restart LinkupHome APP at  background system of the phone\n\nIf you still can not find the devices after you try above two shortcuts, please reset the devices according to below steps.</string>
+    <string name="device_reset_hint0">1.Restart Bluetooth \n2.Restart LinkupHome APP at  background system of the phone</string>
+    <string name="device_reset_hint3">If you still can not find the devices after you try above two shortcuts, please reset the devices according to below steps.</string>
 
     <string name="next_step">Next Step</string>
     <string name="searching">Searching</string>

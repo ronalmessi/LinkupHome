@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import com.ihomey.library.base.BaseFragment
 
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.disableShiftMode
 import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : BaseFragment() {
@@ -32,6 +33,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        bottom_nav_view.disableShiftMode()
         bottom_nav_view.setOnNavigationItemSelectedListener { item ->
             onNavDestinationSelected(item, Navigation.findNavController(activity!!, R.id.home_nav_host_fragment))
         }

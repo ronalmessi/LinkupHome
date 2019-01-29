@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/tab_devices"
-        android:icon="@mipmap/tab_icon_control"
-        android:title="@string/mesh_tab_control"
+        android:icon="@mipmap/ic_tab_setting"
+        android:title="@string/devices_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_zones"
-        android:icon="@mipmap/tab_icon_device"
-        android:title="@string/mesh_tab_device_connect"
+        android:icon="@mipmap/ic_tab_setting"
+        android:title="@string/zones_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_setting"
-        android:icon="@mipmap/tab_icon_group"
-        android:title="@string/mesh_tab_group_setting"
+        android:icon="@mipmap/ic_tab_setting"
+        android:title="@string/setting_title"
         app:showAsAction="ifRoom" />
 </menu>

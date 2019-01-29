@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -126,6 +126,10 @@ dependencies {
     def room_version = "2.1.0-alpha03"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    //BaseRecyclerViewAdapterHelper
+    def baseRecyclerViewAdapterHelper_version = "2.9.40"
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$baseRecyclerViewAdapterHelper_version"
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

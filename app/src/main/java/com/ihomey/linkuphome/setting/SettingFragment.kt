@@ -34,7 +34,7 @@ class SettingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        infoTextLayout_setting_avatar.setOnClickListener {
+        infoTextLayout_setting_more.setOnClickListener {
             Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_homeFragment_to_moreFragment2)
         }
     }

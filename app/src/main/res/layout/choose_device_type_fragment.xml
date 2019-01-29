@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F2F2"
+        android:orientation="vertical">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F7F7F7">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/choose_device_type_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_18ssp" />
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_device_type_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</layout>

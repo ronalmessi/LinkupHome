@@ -44,8 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            app:itemIconTint="@drawable/selector_control_tab_item_background"
-            app:itemTextColor="@drawable/selector_control_tab_item_background"
+            app:itemIconTint="@drawable/bg_home_tab_icon_title"
+            app:itemTextColor="@drawable/bg_home_tab_icon_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/control_cdl"
             app:menu="@menu/control_mesh_tab_menu" />

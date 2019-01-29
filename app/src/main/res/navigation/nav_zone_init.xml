@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_moreFragment2"
             app:destination="@id/moreFragment2" />
+        <action
+            android:id="@+id/action_homeFragment_to_chooseDeviceTypeFragment"
+            app:destination="@id/chooseDeviceTypeFragment" />
     </fragment>
     <fragment
         android:id="@+id/moreFragment2"
@@ -46,5 +49,48 @@
         tools:layout="@layout/terms_of_use_fragment"
         android:label="TermsOfUseFragment" />
 
+    <fragment
+        android:id="@+id/chooseDeviceTypeFragment"
+        android:name="com.ihomey.linkuphome.device1.ChooseDeviceTypeFragment"
+        tools:layout="@layout/choose_device_type_fragment"
+        android:label="ChooseDeviceTypeFragment" >
+        <action
+            android:id="@+id/action_chooseDeviceTypeFragment_to_searchDeviceHintFragment"
+            app:destination="@id/searchDeviceHintFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchDeviceHintFragment"
+        android:name="com.ihomey.linkuphome.device1.SearchDeviceHintFragment"
+        tools:layout="@layout/search_device_hint_fragment"
+        android:label="SearchDeviceHintFragment" >
+        <action
+            android:id="@+id/action_searchDeviceHintFragment_to_resetDeviceFragment"
+            app:destination="@id/resetDeviceFragment" />
+        <action
+            android:id="@+id/action_searchDeviceHintFragment_to_searchDeviceFragment"
+            app:destination="@id/searchDeviceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetDeviceFragment"
+        android:name="com.ihomey.linkuphome.device1.ResetDeviceFragment"
+        tools:layout="@layout/reset_device_fragment"
+        android:label="ResetDeviceFragment" />
+    <fragment
+        android:id="@+id/searchDeviceFragment"
+        android:name="com.ihomey.linkuphome.device1.SearchDeviceFragment"
+        tools:layout="@layout/search_device_fragment"
+        android:label="SearchDeviceFragment" >
+        <action
+            android:id="@+id/action_searchDeviceFragment_to_resetDeviceFragment"
+            app:destination="@id/resetDeviceFragment" />
+        <action
+            android:id="@+id/action_searchDeviceFragment_to_connectDeviceFragment"
+            app:destination="@id/connectDeviceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/connectDeviceFragment"
+        android:name="com.ihomey.linkuphome.device1.ConnectDeviceFragment"
+        tools:layout="@layout/connect_device_fragment"
+        android:label="ConnectDeviceFragment" />
 
 </navigation>

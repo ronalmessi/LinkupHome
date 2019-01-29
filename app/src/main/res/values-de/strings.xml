@@ -77,8 +77,8 @@
     <string name="device_reset_hint1">Nachdem der zuvor verbundene Datensatz in der Schnittstelle "Geräteverbindung" indem Schieben nach links gelöscht wurde, wird das  zurückgesetzte Gerät angezeigt.</string>
 
     <string name="device_reset_tip">Bitte versuchen Sie es zuerst mit den folgenden zwei schnellen Verarbeitungsmethoden.</string>
-    <string name="device_reset_hint0">1, Bitte deaktivieren Sie zuerst Bluetooth, und aktivieren Sie dann Bluetooth.\n2, Nachdem Sie LinkupHomeAPP im Hintergrund geschlossen haben, öffnen Sie die App erneut.\n\nWenn Sie das Gerät immer noch nicht finden, nachdem Sie die beiden obigen Verarbeitungsmethoden versucht haben, führen Sie die folgenden Schritte aus, um das Gerät zurückzusetzen.</string>
-
+    <string name="device_reset_hint0">1, Bitte deaktivieren Sie zuerst Bluetooth, und aktivieren Sie dann Bluetooth.\n2, Nachdem Sie LinkupHomeAPP im Hintergrund geschlossen haben, öffnen Sie die App erneut.</string>
+    <string name="device_reset_hint3">Wenn Sie das Gerät immer noch nicht finden, nachdem Sie die beiden obigen Verarbeitungsmethoden versucht haben, führen Sie die folgenden Schritte aus, um das Gerät zurückzusetzen.</string>
     <string name="next_step">Weiter</string>
     <string name="searching">suchen</string>
 

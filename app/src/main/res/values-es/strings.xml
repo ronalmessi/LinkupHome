@@ -74,7 +74,8 @@
     <string name="device_reset_hint1">Después de eliminar la memoria de conexión anterior en la interfaz de "conexión de dispositivo" deslizando a la izquierda, el dispositivo reestablecido se muestra en la interfaz</string>
 
     <string name="device_reset_tip">intente a tomar los dos siguientes métodos para tratarlo</string>
-    <string name="device_reset_hint0">I: Desactive el Bluetooth, y luego active denuvo\nII: apague la aplicación LinkupHome mediante el segundo plano, y luego encienda de nuevo\n\nSi no puede todavía buscar el dispositivo usando los dos métodos, siga los pasos a continuación para reestablecer el dispositivo</string>
+    <string name="device_reset_hint0">I: Desactive el Bluetooth, y luego active denuvo\nII: apague la aplicación LinkupHome mediante el segundo plano, y luego encienda de nuevo</string>
+    <string name="device_reset_hint3">Si no puede todavía buscar el dispositivo usando los dos métodos, siga los pasos a continuación para reestablecer el dispositivo</string>
 
     <string name="next_step">El Siguiente Paso</string>
     <string name="searching">está buscando</string>
