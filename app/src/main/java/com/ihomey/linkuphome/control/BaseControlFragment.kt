@@ -200,7 +200,12 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                         when (lampCategory) {
                             1 -> {
                                 val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
-                                        ?: -1, mControlDevice?.state?.sceneMode)
+                                        ?: -1,1, mControlDevice?.state?.sceneMode)
+                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+                            }
+                            8 -> {
+                                val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
+                                        ?: -1, 8,mControlDevice?.state?.sceneMode)
                                 fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
                             }
                             5 -> {

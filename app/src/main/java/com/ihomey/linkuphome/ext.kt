@@ -312,7 +312,7 @@ fun syncTime(deviceId: Int) {
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
     val minute = calendar.get(Calendar.MINUTE)
     val second = calendar.get(Calendar.SECOND)
-    val code_lawn_time_prefix ="C201F304F2"+(if (hour >= 10) ""+hour else "0$hour")+(if (minute >= 10) ""+minute else "0$minute")+(if (second >= 10) ""+second else "0$second")
+    val code_lawn_time_prefix = "C201F304F2" + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
     val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_time_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16))
     val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
     DataModelApi.sendData(deviceId, decodeHex(code_lawn_time.toCharArray()), false)
@@ -342,6 +342,7 @@ fun getIcon(type: Int) =
             5 -> R.mipmap.lamp_icon_mini_outdoor_unadded
             6 -> R.mipmap.lamp_icon_s_unadded
             7 -> R.mipmap.lamp_icon_s_unadded
+            8 -> R.mipmap.lamp_icon_down_unadded
             else -> R.mipmap.lamp_icon_bed_unadded
         }
 
@@ -379,7 +380,7 @@ val REQUEST_CODE_SCAN = 101
 val REQUEST_BT_RESULT_CODE = 102
 
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
-val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg,R.mipmap.fragment_led_bg,R.mipmap.fragment_rgb_bg,R.mipmap.fragment_warm_cold_bg)
+val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_rgb_bg)
 val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
 
 

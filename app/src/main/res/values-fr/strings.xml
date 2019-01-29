@@ -119,6 +119,7 @@
     <string name="lamp_mini_outdoor">Mini lumière de jardin</string>
     <string name="lamp_cct">Lampe connue de froid et de chaleur</string>
     <string name="lamp_led_strip">Bande de lumière à LED</string>
+    <string name="lamp_down_light">Down Light</string>
 
 
     <string name="privacy_tip">Veuillez confirmer que vous avez lu et accepté</string>

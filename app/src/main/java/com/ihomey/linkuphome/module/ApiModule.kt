@@ -34,7 +34,7 @@ class ApiModule {
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(5,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(6,0,'$uniqueID',1,-1)")
                 db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(7,0,'$uniqueID',1,-1)")
-//                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(8,0,'$uniqueID',1,-1)")
+                db.execSQL("insert into category(type,added,networkKey,next_group_index,next_device_index) Values(8,0,'$uniqueID',1,-1)")
             }
         }).build()
     }

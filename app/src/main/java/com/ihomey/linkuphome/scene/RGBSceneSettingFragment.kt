@@ -15,10 +15,11 @@ class RGBSceneSettingFragment : BaseSceneSettingFragment() {
 
     lateinit var mViewDataBinding: FragmentSceneSettingRgbBinding
 
-    fun newInstance(deviceId: Int, sceneMode: Int?): RGBSceneSettingFragment {
+    fun newInstance(deviceId: Int,deviceType:Int, sceneMode: Int?): RGBSceneSettingFragment {
         val fragment = RGBSceneSettingFragment()
         val bundle = Bundle()
         bundle.putInt("deviceId", deviceId)
+        bundle.putInt("deviceType", deviceType)
         if (sceneMode != null) bundle.putInt("sceneMode", sceneMode)
         fragment.arguments = bundle
         return fragment
@@ -26,7 +27,7 @@ class RGBSceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_scene_setting_rgb, container, false)
-        initController(1, arguments.getInt("deviceId", -1))
+        initController(arguments.getInt("deviceType", -1), arguments.getInt("deviceId", -1))
         mViewDataBinding.toolbarBack.setOnClickListener {
             activity.onBackPressed()
         }

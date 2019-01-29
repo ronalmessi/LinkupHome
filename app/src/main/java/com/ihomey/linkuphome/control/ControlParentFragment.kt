@@ -40,6 +40,7 @@ class ControlParentFragment : BaseFragment(), IFragmentStackHolder, FragmentBack
             5 -> setFragment(MiniOutdoorControlFragment().newInstance())
             6 -> setFragment(S1ControlFragment().newInstance())
             7 -> setFragment(S2ControlFragment().newInstance())
+            8 -> setFragment(DownLightControlFragment().newInstance())
         }
     }
 

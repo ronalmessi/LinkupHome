@@ -112,6 +112,7 @@
     <string name="lamp_mini_outdoor">Mini-Gartenleuchte</string>
     <string name="lamp_cct">Temperaturschwankungsglühbirne</string>
     <string name="lamp_led_strip">LED Leuchterband</string>
+    <string name="lamp_down_light">Down Light</string>
 
 
     <string name="privacy_tip">Bitte bestätigen Sie, dass Sie gelesen haben und zustimmen</string>
