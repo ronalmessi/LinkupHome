@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.R
@@ -16,6 +17,10 @@ class UnAddedProductListAdapter(layoutId: Int) : BaseQuickAdapter<LampCategory, 
     override fun convert(helper: BaseViewHolder?, item: LampCategory?) {
         helper?.setText(R.id.lamp_category_added_tv_model, models[item?.type!!])
         helper?.setText(R.id.lamp_category_added_tv_name, names[item?.type!!])
+        if(item?.type==8){
+            helper?.getView<ImageView>(R.id.lamp_category_added_iv_icon)?.scaleX=0.9f
+            helper?.getView<ImageView>(R.id.lamp_category_added_iv_icon)?.scaleY=0.9f
+        }
         helper?.setImageResource(R.id.lamp_category_added_iv_icon, icons[item?.type!!])
     }
 }

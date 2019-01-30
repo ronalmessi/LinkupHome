@@ -112,6 +112,8 @@
     <string name="lamp_cct">冷暖灯泡</string>
     <string name="lamp_led_strip">LED灯带</string>
     <string name="lamp_down_light">筒灯</string>
+    <string name="lamp_s1">彩光射灯</string>
+    <string name="lamp_s2">白光射灯</string>
 
     <string name="privacy_tip">请仔细阅读并确认以下协议</string>
     <string name="license_agreement">用户许可协议</string>

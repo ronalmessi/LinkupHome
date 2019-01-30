@@ -105,7 +105,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
             val dragData = ClipData(singleDevice?.device?.name as CharSequence, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
             val point = Point(((dragTouchPointUnAdded?.x?.minus(view.x))?.toInt()!!), ((dragTouchPointUnAdded.y.minus(view.y)).toInt()))
             val myShadow = DragShadowBuilder(view, point)
-            mViewDataBinding.groupSettingRcvUnBondedDevices.startDrag(dragData, myShadow, singleDevice, 0);
+            mViewDataBinding.groupSettingRcvUnBondedDevices.startDrag(dragData, myShadow, singleDevice, 0)
             true
         }
         mViewDataBinding.groupSettingRcvUnBondedDevices.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
@@ -244,7 +244,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mDialog?.dismiss()
         if (groupId == 0) {
             mViewModel?.deleteModel(deviceId, mGroupId, groupIndex)
-            if (lampCategoryType == 4) syncTime(deviceId)
+            if (lampCategoryType == 5) syncTime(deviceId)
         } else if (groupId != -1) {
             mViewModel?.addModel(Model(null, deviceId, groupId, groupIndex, lampCategoryType))
         }

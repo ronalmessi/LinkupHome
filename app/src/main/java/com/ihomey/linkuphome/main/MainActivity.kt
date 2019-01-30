@@ -378,9 +378,9 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                             parentActivity.mConnected = false
                             val name = parentActivity.addressToNameMap[address]
                             if (name != null && !TextUtils.isEmpty(name)) {
-                                parentActivity.runOnUiThread({
+                                parentActivity.runOnUiThread {
                                     parentActivity.onDisConnected(name)
-                                })
+                                }
                             }
                         }
                     }
@@ -403,7 +403,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                     val meshRequestId = msg.data.getInt(MeshService.EXTRA_MESH_REQUEST_ID)
                     parentActivity?.onMessageTimeout(expectedMsg, id, meshRequestId)
                 }
-
             }
         }
     }
@@ -437,6 +436,4 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
             }
         }
     }
-
-
 }

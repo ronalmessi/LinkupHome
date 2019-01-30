@@ -10,6 +10,7 @@ import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.Color
+import android.graphics.Matrix
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
@@ -245,6 +246,24 @@ fun toDigit(ch: Char, index: Int): Int {
                 + " at index " + index)
     }
     return digit
+}
+
+
+//按比例缩放
+fun scaleBitmap(origin: Bitmap?, scale: Float): Bitmap? {
+    if (origin == null) {
+        return null
+    }
+    val width = origin.width
+    val height = origin.height
+    val matrix = Matrix()
+    matrix.preScale(scale, scale)
+    val newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false)
+    if (newBM == origin) {
+        return newBM
+    }
+    origin.recycle()
+    return newBM
 }
 
 
