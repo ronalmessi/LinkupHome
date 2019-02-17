@@ -17,6 +17,10 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE type = :type")
     abstract fun getDevices(type: Int): LiveData<List<SingleDevice>>
 
+
+    @Query("SELECT * FROM Device order by type asc")
+    abstract fun getDevices(): LiveData<List<SingleDevice>>
+
     @Query("SELECT * FROM Device WHERE id = :id and type=:deviceType")
     protected abstract fun getDevice(deviceType: Int, id: Int): LiveData<ControlDevice>
 
@@ -40,8 +44,8 @@ abstract class SingleDeviceDao {
     @Delete
     abstract fun delete(singleDevice: SingleDevice)
 
-    @Query("DELETE FROM Device WHERE id = :id and type=:deviceType")
-    abstract fun deleteById(deviceType: Int, id: Int)
+    @Query("DELETE FROM Device WHERE id = :id")
+    abstract fun deleteById( id: Int)
 
     @Query("DELETE FROM Device WHERE type = :type")
     abstract fun deleteByType(type: Int)

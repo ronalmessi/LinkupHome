@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_control_unit_item_background"
+    android:gravity="center_vertical"
+    android:paddingTop="@dimen/_2sdp"
+    android:paddingBottom="@dimen/_2sdp"
+    android:paddingLeft="@dimen/_12sdp"
+    android:paddingRight="@dimen/_12sdp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_device_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tv_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_toEndOf="@+id/iv_device_icon"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textColor="@color/text_colorPrimary"
+        android:textSize="@dimen/_18ssp" />
+
+    <TextView
+        android:id="@+id/tv_device_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:drawablePadding="@dimen/_16sdp"
+        android:drawableEnd="@mipmap/ic_device_unconnected"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:text="@string/state_disconnected"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        android:textColor="#807F85"
+        android:textSize="@dimen/_16ssp" />
+
+</RelativeLayout>

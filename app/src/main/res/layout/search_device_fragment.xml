@@ -100,7 +100,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/_32sdp"
-        android:src="@mipmap/ic_lamp_c3"
         android:scaleX="1.5"
         android:scaleY="1.5"
         app:layout_constraintBottom_toTopOf="@+id/tv_device_connect_step2_searching"

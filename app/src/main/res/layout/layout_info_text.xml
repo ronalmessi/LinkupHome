@@ -1,55 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rootLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
-            android:id="@+id/tv_info_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawablePadding="@dimen/_15sdp"
-            android:gravity="center"
-        />
+        android:id="@+id/tv_info_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawablePadding="@dimen/_15sdp"
+        android:gravity="center" />
 
     <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_32sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
-            android:layout_toStartOf="@+id/iv_info_right"
-            android:layout_toEndOf="@+id/tv_info_left">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_32sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_toStartOf="@+id/iv_info_right"
+        android:layout_toEndOf="@+id/tv_info_left">
 
         <TextView
-                android:id="@+id/tv_info_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:drawablePadding="@dimen/_8sdp"
-                android:ellipsize="end"
-                android:gravity="right"
-                android:maxLines="1"
-                android:singleLine="true"/>
+            android:id="@+id/tv_info_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:maxLines="1"
+            android:singleLine="true" />
 
     </RelativeLayout>
 
 
     <ImageView
-            android:id="@+id/iv_info_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:paddingTop="@dimen/_2sdp"/>
+        android:id="@+id/iv_info_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:paddingTop="@dimen/_2sdp" />
 
     <View
-            android:id="@+id/v_info_divider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorAccent"/>
+        android:id="@+id/v_info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent" />
 
 </RelativeLayout>

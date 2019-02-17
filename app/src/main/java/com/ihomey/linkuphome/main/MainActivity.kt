@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.util.ArrayMap
 import android.util.Log
-import android.util.SparseArray
 import android.util.SparseIntArray
 import android.view.Gravity
 import android.widget.TextView
@@ -29,10 +28,11 @@ import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.device.MeshDeviceListFragment
 import com.ihomey.linkuphome.group.GroupSettingFragment
+import com.ihomey.linkuphome.inform.InformFragment
 import com.ihomey.linkuphome.listener.BridgeListener
+import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.listeners.*
@@ -146,7 +146,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
         if (savedInstanceState == null) {
             val hasAgreed by PreferenceHelper("hasAgreed", false)
-            supportFragmentManager.beginTransaction().replace(R.id.container, if (!hasAgreed) PrivacyFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
+            supportFragmentManager.beginTransaction().replace(R.id.container, if (!hasAgreed) InformFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
         }
     }
 
@@ -385,7 +385,6 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
                         }
                     }
                 }
-
                 MeshService.MESSAGE_LE_DISCONNECT_COMPLETE -> {
                     parentActivity?.finish()
                 }

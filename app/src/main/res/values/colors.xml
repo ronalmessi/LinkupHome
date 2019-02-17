@@ -13,7 +13,7 @@
     <color name="center_instruction_bgColor">#B4E3EC</color>
 
     <color name="control_tab_item_normal_color">#959595</color>
-    <color name="control_tab_item_selected_color">#FC8A79</color>
+    <color name="control_tab_item_selected_color">#FC5951</color>
 
     <color name="lamp_group_tint_color">#494949</color>
 
@@ -27,6 +27,8 @@
     <color name="wheel_selected_text_color">#FEFFFFFF</color>
 
     <color name="wheel_text_color">#88FFFFFF</color>
+
+    <color name="divider">#EFEFF0</color>
 
     <color name="c1">#E10012</color>
     <color name="c2">#E10032</color>

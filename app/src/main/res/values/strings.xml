@@ -136,6 +136,7 @@
     <string name="zone_create_title">创建新空间</string>
     <string name="zone_create_hint">这是为您的LinkupHome设备创建的\n一个新空间。\n给新空间取个名字吧</string>
     <string name="zone_name_default">家</string>
+    <string name="zones_empty_hint">创建房间，轻松管理设备</string>
 
 
     <string name="devices_title">设备</string>

@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/tab_devices"
-        android:icon="@mipmap/ic_tab_setting"
+        android:icon="@mipmap/ic_tab_devices"
         android:title="@string/devices_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_zones"
-        android:icon="@mipmap/ic_tab_setting"
+        android:icon="@mipmap/ic_tab_zones"
         android:title="@string/zones_title"
         app:showAsAction="ifRoom" />
     <item

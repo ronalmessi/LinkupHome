@@ -10,20 +10,23 @@ import android.view.View;
 
 public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
-    private int space;
+    private int leftSpace;
+    private int rightSpace;
+    private int topSpace;
+    private int bottomtSpace;
 
-    public SpaceItemDecoration(int space) {
-        this.space=space;
+    public SpaceItemDecoration(int leftSpace,int rightSpace,int topSpace,int bottomtSpace) {
+        this.leftSpace=leftSpace;
+        this.rightSpace=rightSpace;
+        this.topSpace=topSpace;
+        this.bottomtSpace=bottomtSpace;
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//        outRect.left=space;
-        outRect.right=space;
-        outRect.bottom=space;
-        //注释这两行是为了上下间距相同
-//        if(parent.getChildAdapterPosition(view)==0){
-//        outRect.top=space;
-//        }
+        outRect.right=rightSpace;
+        outRect.bottom=bottomtSpace;
+        outRect.left=leftSpace;
+        outRect.top=topSpace;
     }
 }

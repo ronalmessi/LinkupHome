@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.util.SparseArray
@@ -17,7 +16,7 @@ import android.view.ViewGroup
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.adapter.DeviceListAdapter
+import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceMeshListBinding
 import com.ihomey.linkuphome.dip2px
@@ -40,7 +39,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     private var isDeviceRemoving = false
     private val uuidHashArray: SparseArray<String> = SparseArray()
     private lateinit var mViewDataBinding: FragmentDeviceMeshListBinding
-    private var adapter: DeviceListAdapter? = null
+    private var adapter: ScanDeviceListAdapter? = null
     private lateinit var listener: DevicesStateListener
     private var mViewModel: MainViewModel? = null
     private var setting: LampCategory? = null
@@ -65,10 +64,10 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = DeviceListAdapter(R.layout.lamp_device_mesh_list_item)
+        adapter = ScanDeviceListAdapter(R.layout.lamp_device_mesh_list_item)
 
         mViewDataBinding.lampDeviceMeshRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        mViewDataBinding.lampDeviceMeshRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px( 2f)!!))
+        mViewDataBinding.lampDeviceMeshRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px( 2f)!!,context?.dip2px( 2f)!!,context?.dip2px( 2f)!!,context?.dip2px( 2f)!!))
         mViewDataBinding.lampDeviceMeshRcvList.adapter = adapter
 
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
@@ -144,7 +143,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         val isShare by PreferenceHelper("share_$lampCategoryType", false)
         if (!isShare && singleDevice?.id == 0) {
             deviceAssociateFragment.isCancelable = false
-            deviceAssociateFragment.show(activity?.fragmentManager, "DeviceAssociateFragment")
+//            deviceAssociateFragment.show(activity?.fragmentManager, "DeviceAssociateFragment")
             listener.associateDevice(singleDevice.hash, null)
         } else {
             mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice?.device?.type!!, singleDevice.id))
@@ -212,7 +211,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         builder.setMessage(getString(R.string.delete) + " " + singleDevice.device.name + "?")
         builder.setPositiveButton(R.string.confirm) { _, _ ->
             deviceRemoveFragment.isCancelable = false
-            deviceRemoveFragment.show(activity?.fragmentManager, "DeviceRemoveFragment")
+//            deviceRemoveFragment.show(activity?.fragmentManager, "DeviceRemoveFragment")
             listener.removeDevice(singleDevice, this)
         }
         builder.setNegativeButton(R.string.cancel, null)

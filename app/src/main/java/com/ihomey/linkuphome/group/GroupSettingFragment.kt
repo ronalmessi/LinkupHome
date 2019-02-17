@@ -10,10 +10,7 @@ import android.graphics.Color
 import android.graphics.Point
 import android.graphics.PointF
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -26,7 +23,7 @@ import com.ihomey.linkuphome.adapter.BondedDeviceAdapter
 import com.ihomey.linkuphome.adapter.UnBondedDeviceAdapter
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentGroupSettingBinding
-import com.ihomey.linkuphome.listeners.GroupUpdateListener
+import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.ihomey.linkuphome.widget.DragShadowBuilder

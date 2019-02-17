@@ -19,7 +19,7 @@
         custom:donut_progress="4"
         custom:donut_text_color="@color/control_tab_item_selected_color"
         custom:donut_text_size="20sp"
-        custom:donut_unfinished_color="@android:color/white"
+        custom:donut_unfinished_color="#959595"
         custom:donut_unfinished_stroke_width="5dp" />
 
     <TextView
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/device_associate_progress"
         android:textSize="16sp"
         android:layout_marginTop="12dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

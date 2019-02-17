@@ -47,7 +47,7 @@ class AddProductFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener 
         mViewDataBinding.handlers = EventHandler()
 
         mViewDataBinding.lampCategoryAddedRcvList.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
-        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(8f)!!))
+        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(8f)!!,context?.dip2px(8f)!!,context?.dip2px(8f)!!,context?.dip2px(8f)!!))
         mViewDataBinding.lampCategoryAddedRcvList.adapter = addedLampCategoryAdapter
 
         mViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)

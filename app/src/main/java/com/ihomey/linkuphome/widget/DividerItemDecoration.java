@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
+import com.ihomey.linkuphome.R;
+
 import static com.ihomey.linkuphome.ExtKt.dip2px;
 
 /**
@@ -71,7 +73,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             final int top = child.getBottom() + layoutParams.bottomMargin;
             final int bottom = top + mDividerHeight;
             if (mPaint != null) {
-                canvas.drawRect(left + dip2px(child.getContext(), 12), top, right - dip2px(child.getContext(), 12), bottom, mPaint);
+                canvas.drawRect(left + child.getContext().getResources().getDimension(R.dimen._63sdp), top, right, bottom, mPaint);
             }
         }
     }

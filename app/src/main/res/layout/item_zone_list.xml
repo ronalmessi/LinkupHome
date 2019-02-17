@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selectable_lamp_category_added_item_background"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/_16sdp"
+    android:paddingBottom="@dimen/_16ssp">
+
+    <ImageView
+        android:id="@+id/iv_zone_current_flag"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_marginStart="@dimen/_27sdp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_zone_flag_current" />
+
+    <TextView
+        android:id="@+id/tv_zone_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_63sdp"
+        android:text="家"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_16ssp" />
+
+    <ImageView
+        android:id="@+id/iv_zone_rename"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_rename" />
+
+</RelativeLayout>

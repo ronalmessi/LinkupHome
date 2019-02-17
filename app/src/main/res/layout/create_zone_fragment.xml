@@ -3,13 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/bg_create_zone">
 
     <com.ihomey.linkuphome.widget.CompatToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:visibility="gone"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/btn_save"
@@ -27,6 +36,7 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:maxEms="9"
+            android:textStyle="bold"
             android:singleLine="true"
             android:text="@string/zone_create_title"
             android:textColor="@android:color/black"
@@ -38,22 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.153" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.847" />
+        app:layout_constraintGuide_percent="0.545" />
 
     <TextView
         android:id="@+id/tv_zone_create_hint"
@@ -64,8 +59,8 @@
         android:text="@string/zone_create_hint"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_15ssp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline2"
-        app:layout_constraintRight_toRightOf="@+id/guideline3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline1" />
 
 
@@ -84,9 +79,10 @@
         app:layout_constraintGuide_percent="0.73" />
 
     <EditText
+        android:id="@+id/et_zone_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_21sdp"
         android:background="@drawable/bg_et_zone_name"
         android:gravity="center"
         android:paddingTop="@dimen/_8sdp"

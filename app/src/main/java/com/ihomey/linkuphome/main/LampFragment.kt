@@ -92,7 +92,7 @@ class LampFragment : BaseFragment(), FragmentBackHandler, BottomNavigationView.O
     private fun initControlDeviceSelectionDialog() {
         mViewDataBinding.controlDeviceRcvList.setPadding(context?.dip2px(8f)!!, context?.dip2px(8f)!!, context?.dip2px(8f)!!, context?.dip2px(8f)!!)
         mViewDataBinding.controlDeviceRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        mViewDataBinding.controlDeviceRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(2f)!!))
+        mViewDataBinding.controlDeviceRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(2f)!!,context?.dip2px(2f)!!,context?.dip2px(2f)!!,context?.dip2px(2f)!!))
         mViewDataBinding.controlDeviceRcvList.adapter = adapter
         mViewDataBinding.controlDeviceRcvList.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         behavior = BottomSheetBehavior.from(mViewDataBinding.controlDeviceRcvList)

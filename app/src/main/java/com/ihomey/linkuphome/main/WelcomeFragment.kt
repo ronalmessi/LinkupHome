@@ -26,7 +26,6 @@ import com.ihomey.linkuphome.databinding.FragmentWelcomeBinding
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listener.OnLanguageListener
-import com.ihomey.linkuphome.ui.CenterActivity
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.DividerDecoration
 
@@ -70,7 +69,7 @@ class WelcomeFragment : BaseFragment(), FragmentBackHandler {
 
         fun onClick(view: View) {
             when (view.id) {
-                R.id.toolbar_center -> view.context.startActivity(Intent(view.context, CenterActivity::class.java))
+//                R.id.toolbar_center -> view.context.startActivity(Intent(view.context, CenterActivity::class.java))
                 R.id.toolbar_language -> showLanguageSelectionDialog(view)
                 R.id.welcome_btn_open -> (activity as IFragmentStackHolder).replaceFragment(R.id.container, if(addedProductCount==0) AddProductFragment().newInstance(false) else ProductListFragment().newInstance())
                 R.id.language_selection_btn_cancel ->dialog?.dismiss()

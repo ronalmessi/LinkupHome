@@ -23,6 +23,14 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
         }.asLiveData()
     }
 
+    fun getDevices(): LiveData<Resource<List<SingleDevice>>> {
+        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<SingleDevice>> {
+                return singleDeviceDao.getDevices()
+            }
+        }.asLiveData()
+    }
+
     fun getDeviceModels(lampGroupType: Int): LiveData<Resource<List<DeviceModel>>> {
         return object : NetworkBoundResource<List<DeviceModel>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<DeviceModel>> {
@@ -74,9 +82,9 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
     fun deleteSingleDevice(deviceType: Int, singleDeviceId: Int) {
         appExecutors.diskIO().execute {
-            var lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$deviceType", -1)
-            lastUsedDeviceId = -1
-            singleDeviceDao.deleteById(deviceType, singleDeviceId)
+//            var lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$deviceType", -1)
+//            lastUsedDeviceId = -1
+            singleDeviceDao.deleteById(singleDeviceId)
         }
     }
 

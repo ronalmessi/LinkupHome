@@ -47,7 +47,7 @@ class ProductListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener
         mViewDataBinding.handlers = EventHandler()
 
         mViewDataBinding.lampCategoryAddedRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(4f)!!))
+        mViewDataBinding.lampCategoryAddedRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px(4f)!!,context?.dip2px(4f)!!,context?.dip2px(4f)!!,context?.dip2px(4f)!!))
         mViewDataBinding.lampCategoryAddedRcvList.adapter = addedLampCategoryAdapter
 
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->

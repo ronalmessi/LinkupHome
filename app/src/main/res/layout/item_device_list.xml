@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_sub_zone_list"
+    android:orientation="vertical">
+
+    <com.daimajia.swipe.SwipeLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/btn_delete"
+            android:layout_width="@dimen/_69sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_item_sub_zone_list_delete"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_16ssp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_item_sub_zone_list_top"
+            android:paddingLeft="@dimen/_12sdp"
+            android:paddingTop="@dimen/_6sdp"
+            android:paddingRight="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/iv_device_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:src="@mipmap/ic_lamp_c3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tv_device_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:singleLine="true"
+                android:text="家"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_18ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/iv_device_icon"
+                app:layout_constraintRight_toLeftOf="@+id/sb_power"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.suke.widget.SwitchButton
+                android:id="@+id/sb_power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sb_background="@color/transparent"
+                app:sb_checked_color="@color/control_tab_item_selected_color"
+                app:sb_show_indicator="false"
+                app:sb_uncheckcircle_color="@color/transparent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.daimajia.swipe.SwipeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_21sdp"
+        android:paddingRight="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/iv_brightness_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@mipmap/ic_brightness_low" />
+
+        <SeekBar
+            android:id="@+id/device_seek_bar_brightness"
+            style="@style/Widget.SeekBar.Normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:layout_toStartOf="@+id/iv_brightness_high"
+            android:layout_toEndOf="@+id/iv_brightness_low"
+            android:clickable="false"
+            android:max="85"
+            android:progress="20" />
+
+        <ImageView
+            android:id="@+id/iv_brightness_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@mipmap/ic_brightness_high" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -69,4 +69,16 @@ class ApiModule {
         return db.modelDao()
     }
 
+    @Singleton
+    @Provides
+    fun provideZoneDao(db: LinkupHomeDb): ZoneDao {
+        return db.zoneDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubZoneDao(db: LinkupHomeDb): SubZoneDao {
+        return db.subZoneDao()
+    }
+
 }

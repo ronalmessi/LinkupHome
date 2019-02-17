@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="control"
+            type="com.ihomey.linkuphome.data.vo.SingleDevice" />
+
+        <variable
+            name="handlers"
+            type="com.ihomey.linkuphome.control1.BaseControlFragment.ToolBarEventHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolBar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F7F7F7">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:onClick="@{handlers::onClick}"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{handlers::onClick}"
+                android:layout_gravity="center"
+                android:text="@string/choose_device_type_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_18ssp" />
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+
+        <ImageView
+            android:id="@+id/device_iv_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+        <TextView
+            android:id="@+id/device_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:text="@{control.device.name}"
+            android:textColor="@color/text_colorPrimary"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_iv_battery" />
+
+        <ImageView
+            android:id="@+id/device_circle_iv_bg"
+            android:layout_width="@dimen/_320sdp"
+            android:layout_height="@dimen/_320sdp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="@dimen/_21sdp"
+            android:background="@mipmap/control_circle_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+        <ImageView
+            android:id="@+id/device_circle_iv"
+            android:layout_width="@dimen/_216sdp"
+            android:layout_height="@dimen/_216sdp"
+            android:layout_marginTop="@dimen/_57sdp"
+            android:background="@mipmap/control_icon_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+        <com.ihomey.linkuphome.widget.RGBCircleView
+            android:id="@+id/device_color_rgb_cv"
+            android:layout_width="@dimen/_218sdp"
+            android:layout_height="@dimen/_218sdp"
+            android:layout_marginLeft="0.5dp"
+            android:layout_marginTop="@dimen/_56sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+        <ImageView
+            android:layout_width="@dimen/device_control_logo_width"
+            android:layout_height="@dimen/device_control_logo_height"
+            android:layout_marginTop="@dimen/device_control_logo_margin"
+            android:background="@drawable/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+
+        <RelativeLayout
+            android:id="@+id/device_control_middle_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/device_color_cb_lighting"
+            app:layout_constraintTop_toBottomOf="@+id/device_circle_iv">
+
+
+            <ImageView
+                android:id="@+id/device_brightness_icon_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="2dp"
+                android:background="@mipmap/device_brightness_icon_low"
+                android:button="@null" />
+
+            <SeekBar
+                android:id="@+id/device_seek_bar_brightness"
+                style="@style/Widget.SeekBar.Normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/device_brightness_icon_low"
+                android:layout_toStartOf="@+id/device_brightness_icon_high"
+                android:clickable="false"
+                android:max="85"
+                android:progress="@{control.state!=null?control.state.brightness:35}" />
+
+            <ImageView
+                android:id="@+id/device_brightness_icon_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="48dp"
+                android:background="@mipmap/device_brightness_icon_high"
+                android:button="@null" />
+
+        </RelativeLayout>
+
+
+
+
+        <com.ihomey.linkuphome.widget.SingleSelectToggleGroup
+            android:id="@+id/device_cycling_sstg_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:background="@drawable/device_color_cycling_btn_unchecked_bg"
+            android:saveEnabled="true"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:buttonHeight="32dp"
+            app:buttonSpacing="auto"
+            app:buttonWidth="90dp"
+            android:layout_marginBottom="18dp"
+            app:checkedBackground="@drawable/device_color_cycling_btn_checked_bg"
+            app:checkedTextColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/device_color_cb_cycling"
+            app:textButtons="@array/speed_choices"
+            app:uncheckedTextColor="@android:color/white"
+            app:wrap="false" />
+
+        <CheckBox
+            android:id="@+id/device_color_cb_cycling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="81dp"
+            android:background="@drawable/selector_control_btn_cycling_background"
+            android:button="@null"
+            android:checked="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/device_color_cb_lighting"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/device_color_cb_lighting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/selector_control_btn_lighting_background"
+            android:button="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/device_state_cb_power"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/device_color_cb_cycling" />
+
+        <CheckBox
+            android:id="@+id/device_state_cb_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:layout_marginRight="81dp"
+            android:background="@drawable/selector_control_btn_power_background"
+            android:button="@null"
+            android:checked="@{control.state.on>0?true:false}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/device_color_cb_lighting" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

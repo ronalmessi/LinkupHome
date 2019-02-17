@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -332,6 +333,7 @@ fun getShortName(type: DeviceType) =
             DeviceType.V1 -> "iHomey V1"
             DeviceType.S1 -> "iHomey S1"
             DeviceType.S2 -> "iHomey S2"
+            DeviceType.M1 -> "iHomey M1"
         }
 
 
@@ -396,10 +398,12 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
 
         override fun onChanged(obj: T?) {
             if (!initialized) {
+                Log.d("aa","hhahahahaahaha")
                 initialized = true
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             } else if ((obj == null && lastObj != null) || obj != lastObj) {
+                Log.d("aa","ggggggg")
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             }
