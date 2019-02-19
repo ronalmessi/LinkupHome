@@ -1,15 +1,13 @@
 package com.ihomey.linkuphome.adapter
 
 
-import androidx.core.content.ContextCompat.getDrawable
-import android.widget.TextView
+import android.widget.SeekBar
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.vo.SingleDevice
-import com.ihomey.linkuphome.dip2px
-import com.ihomey.linkuphome.getIcon
+import com.suke.widget.SwitchButton
 
 
 /**
@@ -17,6 +15,18 @@ import com.ihomey.linkuphome.getIcon
  */
 
 class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseViewHolder>(layoutId) {
+
+    private lateinit var onCheckedChangeListener: OnCheckedChangeListener
+    private lateinit var onSeekBarChangeListener: OnSeekBarChangeListener
+
+    fun setOnCheckedChangeListener(listener: OnCheckedChangeListener) {
+        this.onCheckedChangeListener = listener
+    }
+
+    fun setOnSeekBarChangeListener(listener: OnSeekBarChangeListener) {
+        this.onSeekBarChangeListener = listener
+    }
+
 
     private val icons = arrayListOf(R.mipmap.ic_lamp_m1, R.mipmap.ic_lamp_n1, R.mipmap.ic_lamp_r2_a2, R.mipmap.ic_lamp_r2_a2, R.mipmap.ic_lamp_c3, R.mipmap.ic_lamp_v1, R.mipmap.ic_lamp_s1_s2, R.mipmap.ic_lamp_s1_s2)
 
@@ -27,5 +37,35 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         swipeLayout.showMode = SwipeLayout.ShowMode.LayDown
         helper.addOnClickListener(R.id.btn_delete)
         helper.addOnClickListener(R.id.tv_device_name)
+
+        val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
+        sb_power.isChecked = item.state?.on == 1
+        sb_power.setOnCheckedChangeListener { _, isChecked -> onCheckedChangeListener.onCheckedChanged(item, isChecked) }
+
+        val seek_bar_brightness = helper.getView<SeekBar>(R.id.device_seek_bar_brightness)
+        seek_bar_brightness.progress = item.state?.brightness ?: 20
+
+        seek_bar_brightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                onSeekBarChangeListener.onProgressChanged(item, seekBar.progress)
+            }
+
+        })
+    }
+
+    interface OnCheckedChangeListener {
+        fun onCheckedChanged(item: SingleDevice, isChecked: Boolean)
+    }
+
+    interface OnSeekBarChangeListener {
+        fun onProgressChanged(item: SingleDevice, progress: Int)
     }
 }

@@ -13,6 +13,7 @@ import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceTypeListAdapter
 import com.ihomey.linkuphome.data.vo.LampCategory
+import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.choose_device_type_fragment.*
 
@@ -36,6 +37,7 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
         adapter = DeviceTypeListAdapter(R.layout.item_device_type_list)
         adapter.onItemClickListener = this
         rcv_device_type_list.layoutManager = GridLayoutManager(context, 2)
@@ -43,15 +45,15 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         rcv_device_type_list.adapter = adapter
         adapter.setNewData(listOf(LampCategory(0, 3, 0, "", 0, 0), LampCategory(0, 4, 0, "", 0, 0)))
 //        adapter.setNewData(listOf(LampCategory(0, 0, 0, "", 0, 0), LampCategory(0, 1, 0, "", 0, 0), LampCategory(0, 2, 0, "", 0, 0), LampCategory(0, 3, 0, "", 0, 0), LampCategory(0, 4, 0, "", 0, 0), LampCategory(0, 5, 0, "", 0, 0), LampCategory(0, 6, 0, "", 0, 0), LampCategory(0, 7, 0, "", 0, 0)))
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 
-    override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val lampCategory = adapter.getItem(position)
         if (lampCategory != null) {
             val bundle = Bundle()
             bundle.putInt("deviceType", lampCategory.type)
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_chooseDeviceTypeFragment_to_searchDeviceHintFragment, bundle)
+            Navigation.findNavController(view).navigate(R.id.action_chooseDeviceTypeFragment_to_searchDeviceHintFragment2, bundle)
         }
     }
 }

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ihomey.linkuphome.widget.CompatToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text="分享空间"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+    </com.ihomey.linkuphome.widget.CompatToolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_12sdp"
+                android:background="#F2F2F2" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:src="@mipmap/ic_zone_invite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:gravity="center"
+                android:text="我的邀请码"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_18ssp" />
+
+            <TextView
+                android:id="@+id/tv_invite_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_36sdp"
+                android:background="@drawable/bg_text_invite_code"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_42sdp"
+                android:paddingTop="@dimen/_6sdp"
+                android:paddingRight="@dimen/_42sdp"
+                android:paddingBottom="@dimen/_6sdp"
+                android:text="695789"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_21ssp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_12sdp"
+                android:background="#F2F2F2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_marginTop="@dimen/_27sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="@string/zone_share_tip1"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_15ssp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="@string/zone_share_tip2"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_15ssp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="@string/zone_share_tip3"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_15ssp" />
+            
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_40sdp"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="注意 : "
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_12ssp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zone_share_warning"
+                    android:lineSpacingMultiplier="1.2"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_12ssp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

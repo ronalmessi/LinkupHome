@@ -7,7 +7,7 @@
     </item>
 
     <item android:state_pressed="false">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval"  android:useLevel="false">
             <stroke android:width="@dimen/_1sdp" android:color="@color/colorAccent" />
         </shape>
     </item>

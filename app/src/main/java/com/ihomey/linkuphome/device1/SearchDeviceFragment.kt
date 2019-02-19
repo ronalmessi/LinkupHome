@@ -42,15 +42,15 @@ class SearchDeviceFragment : BaseFragment() {
             if (it != null && it) {
                 val bundle = Bundle()
                 bundle.putInt("deviceType", arguments?.getInt("deviceType")!!)
-                Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_searchDeviceFragment_to_connectDeviceFragment,bundle)
+                Navigation.findNavController(iv_back).navigate(R.id.action_searchDeviceFragment_to_connectDeviceFragment2,bundle)
             }
         })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
-        btn_device_reset.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_searchDeviceHintFragment_to_resetDeviceFragment) }
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
+        btn_device_reset.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_searchDeviceFragment_to_resetDeviceFragment2) }
         iv_device_connect_lamp_icon.setImageResource(icons[arguments?.getInt("deviceType", 1)!!])
     }
 

@@ -7,11 +7,11 @@ class ControllerFactory {
 
     fun createController(type: Int): Controller? {
         return when (type) {
-            0 -> LawnController()
-            1 -> RgbController()
+            4 -> LawnController()
+            3 -> RgbController()
             2 -> ColorTemperatureController()
-            3 -> LedController()
-            4 -> OutdoorController()
+            0 -> LedController()
+            1-> OutdoorController()
             5 -> RgbController()
             6 -> ColorTemperatureController()
             else -> null

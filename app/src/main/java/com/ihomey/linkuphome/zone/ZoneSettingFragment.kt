@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.zone
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,22 +11,31 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.data.vo.SubZone
 import com.ihomey.linkuphome.data.vo.Zone
+import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 import com.ihomey.linkuphome.widget.DividerItemDecoration
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
+import kotlinx.android.synthetic.main.setting_fragment.*
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
-class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener {
+class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, SwipeMenuItemClickListener {
 
     companion object {
         fun newInstance() = ZoneSettingFragment()
     }
 
-    private lateinit var viewModel: ZoneSettingViewModel
+    private lateinit var viewModel: HomeActivityViewModel
     private lateinit var adapter: ZoneListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,7 +44,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ZoneSettingViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
@@ -51,21 +59,30 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         adapter.onItemClickListener = this
         rcv_zone_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(context, LinearLayoutManager.VERTICAL, it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_zone_list.addItemDecoration(it) }
+        val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
+            val width = context?.resources?.getDimension(R.dimen._72sdp)
+            val height = ViewGroup.LayoutParams.MATCH_PARENT
+            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
+            swipeRightMenu.addMenuItem(deleteItem)
+        }
+        rcv_zone_list.setSwipeMenuCreator(swipeMenuCreator)
+        rcv_zone_list.setSwipeMenuItemClickListener(this)
         rcv_zone_list.adapter = adapter
 
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
         btn_create_zone.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean("isCurrent", false)
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_zoneSettingFragment_to_createZoneFragment, bundle)
+            Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_createZoneFragment2, bundle)
         }
         btn_join_zone.setOnClickListener {
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_zoneSettingFragment_to_createZoneFragment)
+            Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_joinZoneFragment)
         }
         btn_share_zone.setOnClickListener {
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_zoneSettingFragment_to_createZoneFragment)
+            Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_shareZoneListFragment)
         }
+        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -81,13 +98,31 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         }
     }
 
-    override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val zone = adapter.getItem(position)
         if (zone != null) {
             viewModel.setCurrentZone(zone.id)
-            Navigation.findNavController(activity!!, R.id.nav_host).popBackStack()
+            Navigation.findNavController(view).popBackStack()
         }
     }
+
+    override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
+        val zone = adapter.getItem(position)
+        if (zone != null) {
+            if (adapter.itemCount == 1) {
+                val deleteZoneFragment = DeleteZoneFragment()
+                deleteZoneFragment.isCancelable = false
+                val bundle = Bundle()
+                bundle.putString("hintText", "请至少保留一个空间用于添加设备")
+                deleteZoneFragment.arguments = bundle
+                deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
+            } else {
+                viewModel.deleteZone(zone.id)
+            }
+        }
+        menuBridge?.closeMenu()
+    }
+
 
     override fun updateZoneName(id: Int, newName: String) {
         viewModel.updateZoneName(newName, id)

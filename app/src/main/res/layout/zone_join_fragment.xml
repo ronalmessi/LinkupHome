@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ihomey.linkuphome.widget.CompatToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text="@string/zone_join_title"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+    </com.ihomey.linkuphome.widget.CompatToolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_30sdp"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/zone_join_tip1"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_15ssp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:src="@mipmap/ic_zone_join" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_21sdp"
+                android:gravity="center"
+                android:text="@string/zone_join_tip2"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_18ssp" />
+
+            <EditText
+                android:id="@+id/et_invite_code"
+                android:layout_width="@dimen/_190sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_18sdp"
+                android:background="@drawable/bg_et_invite_code"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxEms="6"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/btn_join_zone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_btn_join_zone"
+                android:paddingLeft="@dimen/_24sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingRight="@dimen/_24sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:text="加入"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_16ssp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_42sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_40sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="注意 : "
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@string/zone_share_warning"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_12ssp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

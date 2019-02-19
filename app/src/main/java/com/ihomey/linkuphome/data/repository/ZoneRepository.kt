@@ -52,11 +52,11 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
         }
     }
 
-//    fun deleteModel(deviceId: Int,groupId: Int,groupIndex:Int) {
-//        appExecutors.diskIO().execute {
-//            modelDao.deleteModel(deviceId, groupId, groupIndex)
-//        }
-//    }
+    fun deleteZone(zoneId: Int) {
+        appExecutors.diskIO().execute {
+            zoneDao.delete(zoneId)
+        }
+    }
 }
 
 

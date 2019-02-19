@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.databinding.FragmentSceneSettingRgbBinding
+import com.ihomey.linkuphome.data.vo.SingleDevice
+import com.ihomey.linkuphome.databinding.R2SceneSettingFragmentBinding
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
 class RGBSceneSettingFragment : BaseSceneSettingFragment() {
+    override fun updateViewData(singleDevice: SingleDevice) {
 
-    lateinit var mViewDataBinding: FragmentSceneSettingRgbBinding
+    }
+
+    lateinit var mViewDataBinding: R2SceneSettingFragmentBinding
 
     fun newInstance(deviceId: Int, sceneMode: Int?): RGBSceneSettingFragment {
         val fragment = RGBSceneSettingFragment()
@@ -25,9 +29,9 @@ class RGBSceneSettingFragment : BaseSceneSettingFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_scene_setting_rgb, container, false)
-        initController(1, arguments?.getInt("deviceId", -1)!!)
-        mViewDataBinding.toolbarBack.setOnClickListener {
+        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.r2_scene_setting_fragment, container, false)
+//        initController(1, arguments?.getInt("deviceId", -1)!!)
+        mViewDataBinding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }
         return mViewDataBinding.root

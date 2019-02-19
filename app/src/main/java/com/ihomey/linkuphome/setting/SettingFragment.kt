@@ -13,6 +13,8 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.Zone
+import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.home.HomeFragment
 import kotlinx.android.synthetic.main.setting_fragment.*
 
 class SettingFragment : BaseFragment() {
@@ -21,34 +23,33 @@ class SettingFragment : BaseFragment() {
         fun newInstance() = SettingFragment()
     }
 
-    private lateinit var viewModel: SettingViewModel
+    private lateinit var viewModel: HomeActivityViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.setting_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SettingViewModel::class.java)
-        viewModel.getCurrentZone().observe(this, Observer<Resource<Zone>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                infoTextLayout_setting_current_zone.setTextValue(it.data.name)
+        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
+            if (it?.status == Status.SUCCESS&&it.data!=null) {
+                it.data.find { it.isCurrent }?.name?.let { it1 -> infoTextLayout_setting_current_zone.setTextValue(it1) }
             }
         })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(true)
         infoTextLayout_setting_current_zone.setOnClickListener {
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_homeFragment_to_zoneSettingFragment)
+            Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_zoneSettingFragment)
         }
         infoTextLayout_setting_more.setOnClickListener {
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_homeFragment_to_moreFragment2)
+            Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_moreFragment)
         }
         infoTextLayout_setting_instructions.setOnClickListener {
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_homeFragment_to_instructionsFragment)
+            Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_instructionsFragment)
         }
     }
 }

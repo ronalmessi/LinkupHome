@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -20,18 +19,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.csr.mesh.ConfigModelApi
+import com.csr.mesh.DataModelApi
+import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.library.base.BaseActivity
 import com.ihomey.linkuphome.*
-import com.ihomey.linkuphome.data.vo.LampCategory
-import com.ihomey.linkuphome.data.vo.Resource
-import com.ihomey.linkuphome.data.vo.SingleDevice
-import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device.MeshDeviceListFragment
+import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.device1.DevicesFragment
+import com.ihomey.linkuphome.device1.UnBindedDevicesFragment
 import com.ihomey.linkuphome.listener.BridgeListener
+import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.listeners.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
@@ -41,7 +40,8 @@ import java.lang.ref.WeakReference
 import java.util.HashSet
 
 
-class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, DevicesFragment.DevicesStateListener {
+class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, DevicesFragment.DevicesStateListener, UnBindedDevicesFragment.BindDeviceListener {
+
 
     private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
 
@@ -59,6 +59,9 @@ class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, C
     private var mRemovedUuidHash: Int = 0
     private var mRemovedDeviceId: Int = 0
 
+    private var mGroupUpdateListener: GroupUpdateListener? = null
+    private var mBindSubZoneId: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTranslucentStatus()
@@ -66,6 +69,24 @@ class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, C
         scheduleScreen()
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            releaseResource()
+            unbindService(mServiceConnection)
+        } catch (e: Exception) {
+            Log.d("LinkupHome", "oh,some error happen!")
+        }
+    }
+
+    private fun releaseResource() {
+        Crouton.cancelAllCroutons()
+        mService?.setDeviceDiscoveryFilterEnabled(false)
+        if (mConnected) mService?.disconnectBridge()
+        mService?.setHandler(null)
+        mMeshHandler.removeCallbacksAndMessages(null)
     }
 
     private fun scheduleScreen() {
@@ -171,6 +192,35 @@ class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, C
                         }
                     }
                 }
+                MeshService.MESSAGE_GROUP_NUM_GROUPIDS -> {
+                    if (parentActivity?.mGroupUpdateListener != null) {
+                        val numIds = msg.data.getByte(MeshService.EXTRA_NUM_GROUP_IDS).toInt()
+                        val modelNo = msg.data.getByte(MeshService.EXTRA_MODEL_NO).toInt()
+                        val deviceId = msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
+                        Log.d("aa", "--" + deviceId + "--" + modelNo + "---" + numIds + "--" + parentActivity.mBindSubZoneId + "---")
+                        parentActivity.assignGroups(deviceId, numIds)
+                    }
+                }
+                MeshService.MESSAGE_GROUP_MODEL_GROUPID -> {
+                    if (parentActivity?.mGroupUpdateListener != null) {
+                        val index = msg.data.getByte(MeshService.EXTRA_GROUP_INDEX).toInt()
+                        val groupId = msg.data.getInt(MeshService.EXTRA_GROUP_ID)
+                        val deviceId = msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
+                        Log.d("aa", "---" + index + "--" + groupId + "--" + deviceId)
+                        parentActivity.mGroupUpdateListener?.groupsUpdated(deviceId, groupId, index, true, null)
+                    }
+                }
+                MeshService.MESSAGE_TIMEOUT -> {
+                    val expectedMsg = msg.data.getInt(MeshService.EXTRA_EXPECTED_MESSAGE)
+                    var id = if (msg.data.containsKey(MeshService.EXTRA_UUIDHASH_31)) {
+                        msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
+                    } else {
+                        msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
+                    }
+                    val meshRequestId = msg.data.getInt(MeshService.EXTRA_MESH_REQUEST_ID)
+                    parentActivity?.onMessageTimeout(expectedMsg, id, meshRequestId)
+                }
+
             }
         }
     }
@@ -182,6 +232,26 @@ class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, C
             mRemovedUuidHash = 0
             mRemovedDeviceId = 0
             mService?.setDeviceDiscoveryFilterEnabled(false)
+        }
+    }
+
+    private fun onMessageTimeout(expectedMessage: Int, id: Int, meshRequestId: Int) {
+        when (expectedMessage) {
+            MeshService.MESSAGE_GROUP_NUM_GROUPIDS -> {
+                if (mGroupUpdateListener != null) {
+                    mGroupUpdateListener?.groupsUpdated(id, -1, -1, false, null)
+                }
+            }
+            MeshService.MESSAGE_GROUP_MODEL_GROUPID -> {
+                if (mGroupUpdateListener != null) {
+                    mGroupUpdateListener?.groupsUpdated(id, -1, -1, false, null)
+                }
+            }
+            MeshService.MESSAGE_DEVICE_ASSOCIATED, MeshService.MESSAGE_CONFIG_MODELS -> {
+                if (meshAssListener != null) {
+                    meshAssListener?.deviceAssociated(-1, getString(R.string.device_associate_fail))
+                }
+            }
         }
     }
 
@@ -219,8 +289,8 @@ class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, C
         }
     }
 
-    override fun removeDevice(deviceId: Int,deviceHash:Int, listener: DeviceRemoveListener) {
-        mRemovedUuidHash =deviceHash
+    override fun removeDevice(deviceId: Int, deviceHash: Int, listener: DeviceRemoveListener) {
+        mRemovedUuidHash = deviceHash
         mRemovedDeviceId = deviceId
         mRemovedListener = listener
         mService?.setDeviceDiscoveryFilterEnabled(true)
@@ -233,6 +303,44 @@ class HomeActivity : BaseActivity(), BridgeListener, MeshServiceStateListener, C
     }
 
     override fun getBatteryState(deviceId: Int, batteryValueListener: BatteryValueListener) {
+
+    }
+
+    override fun bindDevice(deviceId: Int, groupId: Int, groupUpdateListener: GroupUpdateListener) {
+        this.mGroupUpdateListener = groupUpdateListener
+        mBindSubZoneId = groupId
+        GroupModelApi.getNumModelGroupIds(deviceId, DataModelApi.MODEL_NUMBER)
+    }
+
+    private fun assignGroups(deviceId: Int, maxNum: Int) {
+        val mModelsToQueryForGroups = IntArray(maxNum)
+        mViewModel.getModels(deviceId).observe(this, Observer<Resource<List<Model1>>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                if (it.data.size <= maxNum) {
+                    var unBindingGroupIndex = -1
+                    for (model in it.data) {
+                        if (model.subZoneId == mBindSubZoneId && model.deviceId == deviceId) unBindingGroupIndex = model.groupIndex
+                        mModelsToQueryForGroups[model.groupIndex] = 1
+                    }
+                    if (unBindingGroupIndex != -1) {
+                        GroupModelApi.setModelGroupId(deviceId, DataModelApi.MODEL_NUMBER, unBindingGroupIndex, 0, 0)
+                    } else {
+                        var groupIndex = 0
+                        for (index in 0 until mModelsToQueryForGroups.size) {
+                            if (mModelsToQueryForGroups[index] == 0) {
+                                groupIndex = index
+                                break
+                            }
+                        }
+                        GroupModelApi.setModelGroupId(deviceId, DataModelApi.MODEL_NUMBER, groupIndex, 0, mBindSubZoneId)
+                    }
+                } else {
+                    if (mGroupUpdateListener != null) {
+                        mGroupUpdateListener?.groupsUpdated(-1, -1, -1, false, getString(R.string.group_setting_exceed_number))
+                    }
+                }
+            }
+        })
 
     }
 

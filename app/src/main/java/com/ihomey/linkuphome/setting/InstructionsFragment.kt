@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import com.ihomey.library.base.BaseFragment
 
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.home.HomeFragment
 import kotlinx.android.synthetic.main.instructions_fragment.*
 
 class InstructionsFragment : BaseFragment() {
@@ -25,7 +26,8 @@ class InstructionsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
+        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         webView.settings.setSupportZoom(true)
         webView.settings.builtInZoomControls = true
         webView.settings.displayZoomControls = false

@@ -3,21 +3,24 @@ package com.ihomey.linkuphome.scene
 import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.ihomey.library.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.data.vo.SingleDevice
+import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.RadioGroupPlus
 
 abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheckedChangeListener {
 
-    private var mDeviceId: Int = -1
-    private var mDeviceType: Int = -1
+    protected lateinit var mControlDevice: SingleDevice
     private var controller: Controller? = null
-    protected var mViewModel: SceneSettingViewModel? = null
+    protected lateinit var viewModel: HomeActivityViewModel
     protected lateinit var listener: MeshServiceStateListener
 
+    abstract fun updateViewData(singleDevice: SingleDevice)
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -26,13 +29,14 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity!!).get(SceneSettingViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        viewModel.getCurrentControlDevice().observe(this, Observer<SingleDevice> {
+            updateViewData(it)
+        })
     }
 
-    fun initController(deviceType: Int, deviceId: Int) {
+    fun initController(deviceType: Int) {
         controller = ControllerFactory().createController(deviceType)
-        mDeviceId = deviceId
-        mDeviceType = deviceType
     }
 
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
@@ -44,13 +48,8 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             R.id.rb_scene_spring_rgb, R.id.rb_scene_lighting_led -> sceneModeValue = 3
             R.id.rb_scene_rainforest_rgb -> sceneModeValue = 4
         }
-//        if (listener.isMeshServiceConnected() && mDeviceId != -1 && sceneModeValue != -1) {
-        if (mDeviceId != -1 && sceneModeValue != -1) {
-            controller?.setLightScene(mDeviceId, sceneModeValue)
-        }
-        if (sceneModeValue != -1) {
-            mViewModel?.updateDeviceSceneMode(mDeviceType, mDeviceId, sceneModeValue)
-        }
+        if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.id, sceneModeValue)
+        mControlDevice.state?.sceneMode = sceneModeValue
+        viewModel.updateDevice(mControlDevice)
     }
-
 }

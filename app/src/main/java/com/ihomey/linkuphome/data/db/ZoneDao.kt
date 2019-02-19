@@ -33,6 +33,7 @@ abstract class ZoneDao {
     @Query("UPDATE zone set isCurrent =0 WHERE isCurrent =1 ")
     abstract fun deleteCurrentZone()
 
+
     @Query("UPDATE zone set isCurrent =1 WHERE id = :id ")
     abstract fun setCurrentZone(id: Int)
 

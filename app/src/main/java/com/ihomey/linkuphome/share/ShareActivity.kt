@@ -22,6 +22,7 @@ import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.ActivityShareBinding
 import com.ihomey.linkuphome.scan.core.QRCodeEncoder
+import com.ihomey.linkuphome.share1.LoadingFragment
 import com.qiniu.android.storage.Configuration
 import com.qiniu.android.storage.UploadManager
 import org.json.JSONArray
@@ -36,7 +37,7 @@ class ShareActivity : BaseActivity() {
 
     private lateinit var mViewDataBinding: ActivityShareBinding
     private lateinit var mViewModel: ShareViewModel
-    private lateinit var generatingDialog: ShareCodeGeneraeFragment
+    private lateinit var generatingDialog: LoadingFragment
     private var lampCategoryType = -1
     private var bitmap: Bitmap? = null
     private var settings: List<LampCategory>? = null
@@ -50,7 +51,7 @@ class ShareActivity : BaseActivity() {
         val currentLanguage = LocaleHelper.getLanguage(this)
         mViewDataBinding.isChinese = TextUtils.equals("zh", currentLanguage)
         mViewDataBinding.handlers = ShareHandler()
-        generatingDialog = ShareCodeGeneraeFragment()
+        generatingDialog = LoadingFragment()
 
         lampCategoryType = intent.getIntExtra("lampCategoryType", -1)
 
@@ -67,7 +68,6 @@ class ShareActivity : BaseActivity() {
                 groups = it.data
                 createShareCode()
             }
-
         })
 
         mViewModel.getSettingResults().observe(this, Observer<Resource<List<LampCategory>>> {
@@ -181,9 +181,9 @@ class ShareActivity : BaseActivity() {
 
     private fun loadShareData() {
         if (lampCategoryType != -1) {
-            generatingDialog.isCancelable = false
-            generatingDialog.show(fragmentManager, "ShareCodeGeneraeFragment")
-            mViewModel.loadSettings(lampCategoryType)
+//            generatingDialog.isCancelable = false
+//            generatingDialog.show(fragmentManager, "LoadingFragment")
+//            mViewModel.loadSettings(lampCategoryType)
         }
     }
 

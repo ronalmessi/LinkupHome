@@ -16,14 +16,13 @@ class TermsOfUseFragment : BaseFragment() {
         fun newInstance() = TermsOfUseFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.terms_of_use_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_close.setOnClickListener {  Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
+        iv_close.setOnClickListener {  Navigation.findNavController(it).popBackStack() }
     }
 
 }

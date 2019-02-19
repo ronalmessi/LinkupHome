@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.data.vo.SingleDevice
 import com.ihomey.linkuphome.databinding.FragmentSceneSettingLedBinding
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
 class LEDSceneSettingFragment : BaseSceneSettingFragment() {
+    override fun updateViewData(singleDevice: SingleDevice) {
+
+    }
 
     private lateinit var mViewDataBinding: FragmentSceneSettingLedBinding
 
@@ -27,7 +31,7 @@ class LEDSceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_scene_setting_led, container, false)
-        initController(arguments?.getInt("deviceType", -1)!!, arguments?.getInt("deviceId", -1)!!)
+//        initController(arguments?.getInt("deviceType", -1)!!, arguments?.getInt("deviceId", -1)!!)
         mViewDataBinding.toolbarBack.setOnClickListener {
             activity?.onBackPressed()
         }

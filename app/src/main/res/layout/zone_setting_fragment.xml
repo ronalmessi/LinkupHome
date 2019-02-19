@@ -52,7 +52,7 @@
                 android:layout_height="@dimen/_12sdp"
                 android:background="#F2F2F2"/>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
                 android:id="@+id/rcv_zone_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

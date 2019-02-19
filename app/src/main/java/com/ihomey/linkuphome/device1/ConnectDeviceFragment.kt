@@ -71,7 +71,7 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
         adapter.setEmptyView(R.layout.view_scan_device_list_empty, rcv_device_list)
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack(R.id.homeFragment, false) }
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack(R.id.tab_devices, false) }
     }
 
     override fun onResume() {
@@ -112,7 +112,7 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
             viewModel.addSingleDevice(setting!!, device)
         }
         deviceAssociateFragment.dismiss()
-        if (adapter.data.none { it.id == 0 }) Navigation.findNavController(activity!!, R.id.nav_host).popBackStack(R.id.homeFragment, false)
+        if (adapter.data.none { it.id == 0 }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
     }
 
     override fun associationProgress(progress: Int) {

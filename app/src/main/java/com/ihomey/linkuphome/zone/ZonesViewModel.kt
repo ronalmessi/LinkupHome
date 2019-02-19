@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.ihomey.linkuphome.component.DaggerAppComponent
 import com.ihomey.linkuphome.data.repository.SubZoneRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
-import com.ihomey.linkuphome.data.vo.Resource
-import com.ihomey.linkuphome.data.vo.SingleDevice
-import com.ihomey.linkuphome.data.vo.SubZone
-import com.ihomey.linkuphome.data.vo.Zone
+import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
 
 class ZonesViewModel : ViewModel() {
@@ -23,17 +20,13 @@ class ZonesViewModel : ViewModel() {
 
     private val mCurrentZone = MutableLiveData<Zone>()
 
-    val subZonesResult: LiveData<Resource<List<SubZone>>>
+    val subZonesResult: LiveData<Resource<List<SubZoneModel>>>
 
     init {
         DaggerAppComponent.builder().build().inject(this)
         subZonesResult = Transformations.switchMap(mCurrentZone) { input ->
-            subZoneRepository.getSubZones(input.id)
+            subZoneRepository.getSubZoneModels(input.id)
         }
-    }
-
-    fun getCurrentZone(): LiveData<Resource<Zone>> {
-        return zoneRepository.getCurrentZone()
     }
 
     fun setCurrentZone(zone: Zone) {
@@ -42,5 +35,9 @@ class ZonesViewModel : ViewModel() {
 
     fun deleteSubZone(id: Int) {
         subZoneRepository.delete(id)
+    }
+
+    fun updateSubZone(subZone: SubZone) {
+        subZone.state?.let { subZoneRepository.updateSubZoneState(subZone.id, it) }
     }
 }

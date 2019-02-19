@@ -27,8 +27,14 @@ class HomeFragment : BaseFragment() {
             onNavDestinationSelected(item, Navigation.findNavController(activity!!, R.id.home_nav_host_fragment))
         }
 
-        Log.d("ic_setting_zone","1111")
+        Log.d("ic_setting_zone", "1111")
 //        bottom_nav_view.selectedItemId=R.id.tab_zones
 //        onNavDestinationSelected(bottom_nav_view.menu.getItem(1), Navigation.findNavController(activity!!, R.id.home_nav_host_fragment))
     }
+
+
+    fun showBottomNavigationBar(isVisible: Boolean) {
+        bottom_nav_view.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
 }

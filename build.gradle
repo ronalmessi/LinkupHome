@@ -21,6 +21,11 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
     }
+    afterEvaluate {
+        tasks.withType(JavaCompile.class) {
+            options.compilerArgs << "-Xmaxerrs" << "500"
+        }
+    }
 }
 
 

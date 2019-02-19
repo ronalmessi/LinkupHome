@@ -23,14 +23,14 @@ class SearchDeviceHintFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         btn_device_reset.setOnClickListener {
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_searchDeviceHintFragment_to_resetDeviceFragment)
+            Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_resetDeviceFragment2)
         }
         btn_next.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt("deviceType", arguments?.getInt("deviceType")!!)
-            Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment, bundle)
+            arguments?.getInt("deviceType")?.let { it1 -> bundle.putInt("deviceType", it1) }
+            Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment2, bundle)
         }
     }
 }

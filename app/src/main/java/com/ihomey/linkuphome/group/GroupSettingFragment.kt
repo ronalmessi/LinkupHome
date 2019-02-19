@@ -288,10 +288,10 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mDialog = GroupUpdateFragment()
         val bundle = Bundle()
         bundle.putInt("updateType", 0)
-        mDialog?.arguments = bundle
-        mDialog?.isCancelable = false
-        mDialog?.show(activity?.fragmentManager, "GroupUpdateFragment")
-        mViewModel?.loadModels(singleDevice.id)
+//        mDialog?.arguments = bundle
+//        mDialog?.isCancelable = false
+//        mDialog?.show(activity?.fragmentManager, "GroupUpdateFragment")
+//        mViewModel?.loadModels(singleDevice.id)
     }
 
     private fun unBindDevice(singleDevice: SingleDevice) {
@@ -299,10 +299,10 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mDialog = GroupUpdateFragment()
         val bundle = Bundle()
         bundle.putInt("updateType", 1)
-        mDialog?.arguments = bundle
-        mDialog?.isCancelable = false
-        mDialog?.show(activity?.fragmentManager, "GroupUpdateFragment")
-        mViewModel?.loadModels(singleDevice.id)
+//        mDialog?.arguments = bundle
+//        mDialog?.isCancelable = false
+//        mDialog?.show(activity?.fragmentManager, "GroupUpdateFragment")
+//        mViewModel?.loadModels(singleDevice.id)
     }
 
     interface ModelUpdateListener {

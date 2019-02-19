@@ -36,8 +36,8 @@ class CreateZoneFragment : BaseFragment() {
         if(!isCurrent) iv_back.visibility=View.VISIBLE
         btn_save.setOnClickListener {
             viewModel.createZone(et_zone_name.text.toString().trim(),isCurrent)
-            if(isCurrent)NavHostFragment.findNavController(this@CreateZoneFragment).navigate(R.id.action_createZoneFragment_to_homeFragment) else Navigation.findNavController(activity!!, R.id.nav_host).popBackStack()
+            if(isCurrent)NavHostFragment.findNavController(this@CreateZoneFragment).navigate(R.id.action_createZoneFragment_to_homeFragment) else Navigation.findNavController(it).popBackStack()
         }
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 }

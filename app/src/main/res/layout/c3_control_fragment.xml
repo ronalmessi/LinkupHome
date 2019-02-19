@@ -23,10 +23,10 @@
 
         <com.ihomey.linkuphome.widget.CompatToolbar
             android:id="@+id/toolBar"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F7F7F7">
+            android:background="#F7F7F7"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/iv_back"
@@ -40,13 +40,12 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{handlers::onClick}"
                 android:layout_gravity="center"
-                android:text="@string/choose_device_type_title"
+                android:onClick="@{handlers::onClick}"
+                android:text="@{control.device.name}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
-
 
 
         <ImageView
@@ -59,23 +58,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
-        <TextView
-            android:id="@+id/device_tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:text="@{control.device.name}"
-            android:textColor="@color/text_colorPrimary"
-            android:textSize="@dimen/_14ssp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/device_iv_battery" />
+        <!--<TextView-->
+        <!--android:id="@+id/device_tv_name"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="@dimen/_12sdp"-->
+        <!--android:text="@{control.device.name}"-->
+        <!--android:textColor="@color/text_colorPrimary"-->
+        <!--android:textSize="@dimen/_14ssp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/device_iv_battery" />-->
 
         <ImageView
             android:id="@+id/device_circle_iv_bg"
-            android:layout_width="@dimen/_320sdp"
-            android:layout_height="@dimen/_320sdp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="@dimen/_21sdp"
+            android:layout_width="@dimen/_360sdp"
+            android:layout_height="@dimen/_360sdp"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:background="@mipmap/control_circle_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,9 +82,9 @@
 
         <ImageView
             android:id="@+id/device_circle_iv"
-            android:layout_width="@dimen/_216sdp"
-            android:layout_height="@dimen/_216sdp"
-            android:layout_marginTop="@dimen/_57sdp"
+            android:layout_width="@dimen/_240sdp"
+            android:layout_height="@dimen/_240sdp"
+            android:layout_marginTop="@dimen/_55sdp"
             android:background="@mipmap/control_icon_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -93,42 +92,58 @@
 
         <com.ihomey.linkuphome.widget.RGBCircleView
             android:id="@+id/device_color_rgb_cv"
-            android:layout_width="@dimen/_218sdp"
-            android:layout_height="@dimen/_218sdp"
-            android:layout_marginLeft="0.5dp"
-            android:layout_marginTop="@dimen/_56sdp"
+            android:layout_width="@dimen/_236sdp"
+            android:layout_height="@dimen/_236sdp"
+            android:layout_marginStart="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_58sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
         <ImageView
-            android:layout_width="@dimen/device_control_logo_width"
-            android:layout_height="@dimen/device_control_logo_height"
-            android:layout_marginTop="@dimen/device_control_logo_margin"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_166sdp"
             android:background="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+        <CheckBox
+            android:id="@+id/device_state_cb_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_45sdp"
+            android:layout_marginEnd="@dimen/_56sdp"
+            android:background="@drawable/selector_control_btn_power_background"
+            android:button="@null"
+            android:checked="@{control.state.on>0?true:false}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_circle_iv" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.925" />
 
 
         <RelativeLayout
             android:id="@+id/device_control_middle_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginTop="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/device_color_cb_lighting"
-            app:layout_constraintTop_toBottomOf="@+id/device_circle_iv">
-
+            app:layout_constraintBottom_toTopOf="@+id/btn_device_lighting"
+            app:layout_constraintTop_toBottomOf="@+id/device_state_cb_power">
 
             <ImageView
                 android:id="@+id/device_brightness_icon_low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="2dp"
-                android:background="@mipmap/device_brightness_icon_low"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_54sdp"
+                android:background="@mipmap/ic_brightness_low"
                 android:button="@null" />
 
             <SeekBar
@@ -136,8 +151,8 @@
                 style="@style/Widget.SeekBar.Normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/device_brightness_icon_low"
                 android:layout_toStartOf="@+id/device_brightness_icon_high"
+                android:layout_toEndOf="@+id/device_brightness_icon_low"
                 android:clickable="false"
                 android:max="85"
                 android:progress="@{control.state!=null?control.state.brightness:35}" />
@@ -147,77 +162,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="48dp"
-                android:background="@mipmap/device_brightness_icon_high"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_54sdp"
+                android:background="@mipmap/ic_brightness_high"
                 android:button="@null" />
 
         </RelativeLayout>
-
-
 
 
         <com.ihomey.linkuphome.widget.SingleSelectToggleGroup
             android:id="@+id/device_cycling_sstg_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="48dp"
-            android:layout_marginRight="48dp"
+            android:layout_marginLeft="@dimen/_54sdp"
+            android:layout_marginRight="@dimen/_54sdp"
             android:background="@drawable/device_color_cycling_btn_unchecked_bg"
             android:saveEnabled="true"
-            android:textSize="12sp"
+            android:textSize="@dimen/_12ssp"
             android:visibility="gone"
-            app:buttonHeight="32dp"
+            app:buttonHeight="@dimen/_36sdp"
             app:buttonSpacing="auto"
-            app:buttonWidth="90dp"
-            android:layout_marginBottom="18dp"
+            app:buttonWidth="@dimen/_90sdp"
             app:checkedBackground="@drawable/device_color_cycling_btn_checked_bg"
             app:checkedTextColor="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@+id/device_color_cb_cycling"
+            app:layout_constraintBottom_toTopOf="@+id/btn_device_lighting"
+            app:layout_constraintTop_toBottomOf="@+id/device_state_cb_power"
             app:textButtons="@array/speed_choices"
             app:uncheckedTextColor="@android:color/white"
             app:wrap="false" />
 
-        <CheckBox
-            android:id="@+id/device_color_cb_cycling"
+        <ImageButton
+            android:id="@+id/btn_device_cycling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:layout_marginLeft="81dp"
-            android:background="@drawable/selector_control_btn_cycling_background"
+            android:layout_marginStart="@dimen/_54sdp"
+            android:background="@mipmap/ic_color_cycling"
             android:button="@null"
-            android:checked="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/device_color_cb_lighting"
+            app:layout_constraintBottom_toTopOf="@+id/guideLine"
+            app:layout_constraintEnd_toStartOf="@+id/btn_device_lighting"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageButton
-            android:id="@+id/device_color_cb_lighting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/selector_control_btn_lighting_background"
-            android:button="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/device_state_cb_power"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/device_color_cb_cycling" />
 
-        <CheckBox
-            android:id="@+id/device_state_cb_power"
+        <ImageButton
+            android:id="@+id/btn_device_lighting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:layout_marginRight="81dp"
-            android:background="@drawable/selector_control_btn_power_background"
+            android:background="@mipmap/ic_lighting"
+            android:onClick="@{handlers::onClick}"
+            android:layout_marginEnd="@dimen/_54sdp"
             android:button="@null"
-            android:checked="@{control.state.on>0?true:false}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:checked="false"
+            app:layout_constraintBottom_toTopOf="@+id/guideLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/device_color_cb_lighting" />
+            app:layout_constraintStart_toEndOf="@+id/btn_device_cycling" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

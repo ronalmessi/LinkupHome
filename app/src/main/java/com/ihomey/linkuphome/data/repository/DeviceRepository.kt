@@ -64,6 +64,25 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
         }.asLiveData()
     }
 
+
+    fun getUnBondedDevices(subZoneId: Int): LiveData<Resource<List<SingleDevice>>> {
+        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<SingleDevice>> {
+                return singleDeviceDao.getUnBondedDevices(subZoneId)
+            }
+        }.asLiveData()
+    }
+
+
+    fun getBindedDevices(subZoneId: Int): LiveData<Resource<List<SingleDevice>>> {
+        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<SingleDevice>> {
+                return singleDeviceDao.getBindedDevices(subZoneId)
+            }
+        }.asLiveData()
+    }
+
+
     fun getDevice(deviceType: Int, id: Int): LiveData<Resource<ControlDevice>> {
         return object : NetworkBoundResource<ControlDevice>(appExecutors) {
             override fun loadFromDb(): LiveData<ControlDevice> {
@@ -97,6 +116,12 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
     fun updateSingleDeviceName(deviceType: Int, singleDeviceId: Int, name: String) {
         appExecutors.diskIO().execute {
             singleDeviceDao.updateDeviceName(deviceType, name, singleDeviceId)
+        }
+    }
+
+    fun updateSingleDeviceName(singleDeviceId: Int, name: String) {
+        appExecutors.diskIO().execute {
+            singleDeviceDao.updateDeviceName(name, singleDeviceId)
         }
     }
 

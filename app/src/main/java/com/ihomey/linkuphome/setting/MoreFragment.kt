@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import com.ihomey.library.base.BaseFragment
 
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.home.HomeFragment
 import kotlinx.android.synthetic.main.more_fragment.*
 
 class MoreFragment : BaseFragment() {
@@ -16,15 +17,15 @@ class MoreFragment : BaseFragment() {
         fun newInstance() = MoreFragment()
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.more_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
-        infoTextLayout_setting_name.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_moreFragment2_to_termsOfUseFragment) }
-        infoTextLayout_setting_avatar.setOnClickListener { Navigation.findNavController(activity!!, R.id.nav_host).navigate(R.id.action_moreFragment2_to_privacyAgreementFragment) }
+        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
+        infoTextLayout_setting_name.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_moreFragment_to_termsOfUseFragment) }
+        infoTextLayout_setting_avatar.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_moreFragment_to_privacyAgreementFragment) }
     }
 }

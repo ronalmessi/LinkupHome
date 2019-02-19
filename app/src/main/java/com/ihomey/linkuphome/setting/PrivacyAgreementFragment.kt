@@ -25,6 +25,6 @@ class PrivacyAgreementFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_close.setOnClickListener {  Navigation.findNavController(activity!!, R.id.nav_host).popBackStack() }
+        iv_close.setOnClickListener {  Navigation.findNavController(it).popBackStack() }
     }
 }
