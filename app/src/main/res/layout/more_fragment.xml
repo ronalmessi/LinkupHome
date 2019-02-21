@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="更多"
+                android:text="@string/setting_more"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
@@ -51,7 +51,7 @@
                 app:horizontalMargin="@dimen/_20sdp"
                 app:isShowDivider="false"
                 app:leftIcon="@mipmap/ic_terms_of_use"
-                app:leftText="使用条款"
+                app:leftText="@string/license_agreement"
                 app:leftTextColor="@android:color/black"
                 app:leftTextSize="@dimen/_16ssp"
                 app:rightIcon="@drawable/ic_arrow_right"
@@ -67,7 +67,7 @@
                 app:horizontalMargin="@dimen/_20sdp"
                 app:isShowDivider="false"
                 app:leftIcon="@mipmap/ic_privacy_agreements"
-                app:leftText="隐私协议"
+                app:leftText="@string/privacy_statement"
                 app:leftTextColor="@android:color/black"
                 app:leftTextSize="@dimen/_16ssp"
                 app:rightIcon="@drawable/ic_arrow_right"

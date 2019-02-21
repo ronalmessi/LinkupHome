@@ -71,79 +71,59 @@ kapt {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // CSRmesh
     implementation(name: 'CSRmeshLibrary', ext: 'aar')
-
     // Kotlin
     implementation Libs.kotlin
-
     //encrypt
     implementation Libs.spongycastle_core
     implementation Libs.spongycastle_pkix
-
     // Support design
-//    implementation Libs.support_design
+    //    implementation Libs.support_design
     implementation Libs.support_cardview
     implementation Libs.support_constraint
-
     // arch
     implementation Libs.liveData_runtime
     implementation Libs.liveData_extensions
     implementation Libs.room_runtime
-
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
     kapt Libs.liveData_compiler
     kapt Libs.room_compiler
-
     // dagger2
     implementation Libs.dagger
     kapt Libs.dagger_compiler
     implementation Libs.qiniu
     implementation Libs.gson
     implementation Libs.baseRecyclerViewAdapterHelper
-
-
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.umeng.analytics:analytics:6.1.4'
-
     implementation 'com.yanzhenjie:recyclerview-swipe:1.2.2'
     implementation 'com.jackandphantom.android:blurimage:1.2.0'
-
     //qrcode
     implementation 'com.google.zxing:core:3.3.3'
-
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
-
     implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
-
     // ViewModel and LiveData
     def lifecycle_version = "2.0.0"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
-
     //navigation
     def nav_version = "1.0.0-beta02"
     implementation "android.arch.navigation:navigation-fragment:$nav_version"
     implementation "android.arch.navigation:navigation-ui:$nav_version"
-
     //room
     def room_version = "2.1.0-alpha04"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
     //BaseRecyclerViewAdapterHelper
     def baseRecyclerViewAdapterHelper_version = "2.9.40"
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$baseRecyclerViewAdapterHelper_version"
-
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-
-    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
-
-
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+    implementation project(':guideview')
 }

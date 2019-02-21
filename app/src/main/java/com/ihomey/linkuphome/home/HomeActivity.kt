@@ -1,7 +1,5 @@
 package com.ihomey.linkuphome.home
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
@@ -98,7 +96,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             mViewModel.setBridgeState(false)
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
-            recreate()
+//            recreate()
         }
     }
 

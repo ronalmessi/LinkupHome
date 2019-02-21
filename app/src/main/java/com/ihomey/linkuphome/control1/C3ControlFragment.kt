@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import cn.iclass.guideview.Component
+import cn.iclass.guideview.GuideBuilder
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.batteryIcons
 import com.ihomey.linkuphome.data.entity.SingleDevice
@@ -16,13 +19,16 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
-import kotlinx.android.synthetic.main.search_device_fragment.*
 
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
 class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
 
+
+    override fun getTitleView(): TextView {
+        return  mViewDataBinding.tvTitle
+    }
     private lateinit var mViewDataBinding: C3ControlFragmentBinding
 
     fun newInstance(): C3ControlFragment {
@@ -35,6 +41,7 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
         mViewDataBinding.handlers = ToolBarEventHandler()
         return mViewDataBinding.root
     }
+
 
 
     override fun updateViewData(singleDevice: SingleDevice) {

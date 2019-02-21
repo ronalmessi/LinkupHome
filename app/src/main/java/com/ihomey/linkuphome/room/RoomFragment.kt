@@ -8,11 +8,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.iclass.guideview.Component
+import cn.iclass.guideview.Guide
+import cn.iclass.guideview.GuideBuilder
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.iclass.soocsecretary.util.PreferenceHelper
 
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BindedDeviceListAdapter
@@ -44,6 +49,8 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
         fun newInstance() = RoomFragment()
     }
 
+    var hasShowRenameRoomGuide by PreferenceHelper("hasShowRenameRoomGuide", false)
+
     private lateinit var mViewModel: RoomViewModel
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var adapter: BindedDeviceListAdapter
@@ -51,6 +58,7 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     private lateinit var bindDeviceListener: UnBindedDevicesFragment.BindDeviceListener
 
     private lateinit var room: Room
+
 
     private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
@@ -118,6 +126,12 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
             dialog.setUpdateZoneNameListener(this)
             dialog.show(fragmentManager, "ReNameDeviceFragment")
         }
+        tv_title.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (!hasShowRenameRoomGuide) showGuideView(tv_title)
+                tv_title.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
@@ -160,6 +174,51 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
         } else {
             if (msg != null) activity?.toast(msg)
         }
+    }
+
+    private fun showGuideView(view: View) {
+        val builder = GuideBuilder()
+        builder.setTargetView(view)
+                .setAlpha(200)
+                .setHighTargetCorner(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
+                .setHighTargetPaddingLeft(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
+                .setHighTargetPaddingRight(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
+                .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
+                .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false)
+        builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
+            override fun onShown() {
+                hasShowRenameRoomGuide = true
+            }
+
+            override fun onDismiss() {}
+        })
+        builder.addComponent(object : Component {
+            override fun getView(inflater: LayoutInflater): View {
+                return inflater.inflate(R.layout.view_guide_device_rename, null)
+            }
+
+            override fun getAnchor(): Int {
+                return Component.ANCHOR_BOTTOM
+            }
+
+            override fun getFitPosition(): Int {
+                return Component.FIT_CENTER
+            }
+
+            override fun getXOffset(): Int {
+                return 0
+            }
+
+            override fun getYOffset(): Int {
+                return context?.resources?.getDimension(R.dimen._8sdp)?.toInt()!!
+            }
+
+        })
+        val guide = builder.createGuide()
+        guide?.setShouldCheckLocInWindow(true)
+        guide?.show(activity)
     }
 
 }

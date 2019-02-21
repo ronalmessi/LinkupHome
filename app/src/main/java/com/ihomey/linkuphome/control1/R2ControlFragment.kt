@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.TextView
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.ControlDevice
@@ -14,7 +15,6 @@ import com.ihomey.linkuphome.databinding.FragmentControlRgbLedBinding
 import com.ihomey.linkuphome.databinding.R2ControlFragmentBinding
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
-import com.ihomey.linkuphome.widget.toprightmenu.MenuItem
 
 /**
  * Created by dongcaizheng on 2018/4/10.
@@ -25,6 +25,11 @@ class R2ControlFragment : BaseControlFragment() {
 
     fun newInstance(): R2ControlFragment {
         return R2ControlFragment()
+    }
+
+
+    override fun getTitleView(): TextView {
+        return  mViewDataBinding.tvTitle
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

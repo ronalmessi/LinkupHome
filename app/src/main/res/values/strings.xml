@@ -130,7 +130,8 @@
     <string name="save">Save</string>
     <string name="tips">Tips</string>
 
-
+    <string name="rename_tip">Tap to rename</string>
+    <string name="bind_device_tip">Tap here , add available devices to the room</string>
     <string name="devices_title">Device</string>
     <string name="devices_empty_hint">No devices, please add</string>
     <string name="action_add_device">Add device</string>

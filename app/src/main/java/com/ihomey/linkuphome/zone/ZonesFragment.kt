@@ -1,14 +1,17 @@
 package com.ihomey.linkuphome.zone
 
 import android.content.Context
+import android.graphics.Rect
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,6 +70,17 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
         })
     }
 
+    fun getViewAbsRect(view: View, parentX: Int, parentY: Int): Rect {
+        val loc = IntArray(2)
+        view.getLocationInWindow(loc)
+        val rect = Rect()
+        rect.set(loc[0], loc[1] - view.measuredHeight, loc[0] + view.measuredWidth, loc[1])
+        rect.offset(-parentX, parentY)
+
+        Log.d("aa", "hahha--" + loc[0] + "--" + loc[1] + "---" + view.width + "--" + view.height)
+        return rect
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(true)
@@ -80,7 +94,7 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
         rcv_zone_list.adapter = adapter
         adapter.setEmptyView(R.layout.view_zone_list_empty, rcv_zone_list)
         adapter.emptyView?.findViewById<FloatingActionButton>(R.id.btn_create_zone)?.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment) }
-        iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment) }
+        iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment)}
     }
 
     override fun deleteSubZone(id: Int) {
@@ -101,6 +115,7 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
                     (view.parent as SwipeLayout).close(true)
                 }
                 R.id.tv_sub_zone_name -> {
+                    adapter.hideGuideView()
                     mViewModel.setSelectedRoom(room)
                     Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
                 }
@@ -130,6 +145,7 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
+        adapter.hideGuideView()
         val room = adapter.getItem(position)
         if (room != null) {
 //            val bundle = Bundle()
