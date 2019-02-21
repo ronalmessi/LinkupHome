@@ -3,10 +3,9 @@ package com.ihomey.linkuphome.data.repository
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.Model1Dao
-import com.ihomey.linkuphome.data.db.ModelDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
-import com.ihomey.linkuphome.data.db.SubZoneDao
-import com.ihomey.linkuphome.data.vo.Model
+import com.ihomey.linkuphome.data.db.RoomDao
+import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.vo.Model1
 import com.ihomey.linkuphome.data.vo.Resource
 import javax.inject.Inject
@@ -16,30 +15,30 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class Model1Repository @Inject constructor(private val modelDao: Model1Dao, private val subZoneDao: SubZoneDao, private val singleDeviceDao: SingleDeviceDao, private var appExecutors: AppExecutors) {
+class Model1Repository @Inject constructor(private val modelDao: Model1Dao, private val subZoneDao: RoomDao, private val singleDeviceDao: SingleDeviceDao, private var appExecutors: AppExecutors) {
 
-    fun getModels(deviceId: Int): LiveData<Resource<List<Model1>>> {
-        return object : NetworkBoundResource<List<Model1>>(appExecutors) {
-            override fun loadFromDb(): LiveData<List<Model1>> {
-                return modelDao.getModels(deviceId)
+    fun getModels(deviceId: Int,zoneId:Int): LiveData<Resource<List<Model>>> {
+        return object : NetworkBoundResource<List<Model>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<Model>> {
+                return modelDao.getModels(deviceId,zoneId)
             }
         }.asLiveData()
     }
 
 
-    fun addModel(model: Model1) {
+    fun addModel(model: Model) {
         appExecutors.diskIO().execute {
             modelDao.insert(model)
-            modelDao.updateType(model.deviceId,model.subZoneId)
-            subZoneDao.updateSendTypes(model.subZoneId)
+            modelDao.updateType(model.deviceId,model.roomId,model.zoneId)
+            subZoneDao.updateSendTypes(model.roomId,model.zoneId)
         }
     }
 
 
-    fun deleteModel(deviceId: Int, groupId: Int, groupIndex: Int) {
+    fun deleteModel(deviceId: Int, roomId: Int, zoneId: Int) {
         appExecutors.diskIO().execute {
-            modelDao.deleteModel(deviceId, groupId, groupIndex)
-            subZoneDao.updateSendTypes(groupId)
+            modelDao.deleteModel(deviceId, roomId, zoneId)
+            subZoneDao.updateSendTypes(roomId,zoneId)
         }
     }
 }

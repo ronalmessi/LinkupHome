@@ -20,7 +20,7 @@
             android:gravity="center"
             android:paddingTop="@dimen/_12sdp"
             android:paddingBottom="@dimen/_12sdp"
-            android:text="温馨提示"
+            android:text="@string/tips"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_18ssp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/tv_dialog_delete_zone_tip"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/_24sdp"
             android:textColor="@android:color/black"

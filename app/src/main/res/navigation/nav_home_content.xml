@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_tab_setting_to_instructionsFragment"
             app:destination="@id/instructionsFragment" />
+        <action
+            android:id="@+id/action_tab_setting_to_languageSettingFragment"
+            app:destination="@id/languageSettingFragment" />
     </fragment>
     <fragment
         android:id="@+id/moreFragment"
@@ -124,13 +127,13 @@
 
     <fragment
         android:id="@+id/chooseZoneTypeFragment"
-        android:name="com.ihomey.linkuphome.zone.ChooseZoneTypeFragment"
+        android:name="com.ihomey.linkuphome.room.ChooseZoneTypeFragment"
         tools:layout="@layout/choose_zone_type_fragment"
         android:label="ChooseZoneTypeFragment" />
 
     <fragment
         android:id="@+id/subZoneFragment"
-        android:name="com.ihomey.linkuphome.zone.SubZoneFragment"
+        android:name="com.ihomey.linkuphome.room.RoomFragment"
         android:label="sub_zone_fragment"
         tools:layout="@layout/sub_zone_fragment" >
         <action
@@ -140,7 +143,7 @@
 
     <fragment
         android:id="@+id/unBondedDevicesFragment"
-        android:name="com.ihomey.linkuphome.device1.UnBindedDevicesFragment"
+        android:name="com.ihomey.linkuphome.room.UnBindedDevicesFragment"
         android:label="unbonded_devices_fragment"
         tools:layout="@layout/unbonded_devices_fragment" >
     </fragment>
@@ -224,6 +227,14 @@
         android:name="com.ihomey.linkuphome.time.TimerSettingFragment"
         android:label="fragment_timer_setting"
         tools:layout="@layout/fragment_timer_setting" >
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/languageSettingFragment"
+        android:name="com.ihomey.linkuphome.setting.LanguageSettingFragment"
+        android:label="language_settingg_fragment"
+        tools:layout="@layout/language_settingg_fragment" >
     </fragment>
 
 </navigation>

@@ -1,4 +1,4 @@
-package com.ihomey.library.base
+package com.ihomey.linkuphome.base
 
 import android.content.Context
 import android.os.Bundle

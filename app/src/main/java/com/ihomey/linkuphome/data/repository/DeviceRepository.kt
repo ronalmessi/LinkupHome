@@ -4,7 +4,13 @@ import androidx.lifecycle.LiveData
 import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.LampCategoryDao
+import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
+import com.ihomey.linkuphome.data.db.ZoneDao
+import com.ihomey.linkuphome.data.entity.Setting
+import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,15 +19,9 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDeviceDao, val lampCategoryDao: LampCategoryDao, private var appExecutors: AppExecutors) {
+class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDeviceDao, private val settingDao: SettingDao, val lampCategoryDao: LampCategoryDao, private var appExecutors: AppExecutors) {
 
-    fun getDevices(lampGroupType: Int): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
-            override fun loadFromDb(): LiveData<List<SingleDevice>> {
-                return singleDeviceDao.getDevices(lampGroupType)
-            }
-        }.asLiveData()
-    }
+
 
     fun getDevices(): LiveData<Resource<List<SingleDevice>>> {
         return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
@@ -65,6 +65,15 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
     }
 
 
+    fun getDevices(zoneId: Int): LiveData<Resource<List<SingleDevice>>> {
+        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<SingleDevice>> {
+                return singleDeviceDao.getDevices(zoneId)
+            }
+        }.asLiveData()
+    }
+
+
     fun getUnBondedDevices(subZoneId: Int): LiveData<Resource<List<SingleDevice>>> {
         return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
@@ -74,10 +83,18 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
     }
 
 
-    fun getBindedDevices(subZoneId: Int): LiveData<Resource<List<SingleDevice>>> {
+    fun getBindedDevices(zoneId: Int,roomId:Int): LiveData<Resource<List<SingleDevice>>> {
         return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
-                return singleDeviceDao.getBindedDevices(subZoneId)
+                return singleDeviceDao.getBindedDevices(zoneId,roomId)
+            }
+        }.asLiveData()
+    }
+
+    fun getUnBindedDevices(zoneId: Int,roomId:Int): LiveData<Resource<List<SingleDevice>>> {
+        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<SingleDevice>> {
+                return singleDeviceDao.getUnBindedDevices(zoneId,roomId)
             }
         }.asLiveData()
     }
@@ -98,6 +115,15 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
             lampCategoryDao.updateCategory(setting)
         }
     }
+
+    fun addSingleDevice(currentSetting: Setting, singleDevice: SingleDevice) {
+        appExecutors.diskIO().execute {
+            singleDeviceDao.insert(singleDevice)
+            currentSetting.nextDeviceIndex = currentSetting.nextDeviceIndex + 1
+            settingDao.update(currentSetting)
+        }
+    }
+
 
     fun deleteSingleDevice(deviceType: Int, singleDeviceId: Int) {
         appExecutors.diskIO().execute {

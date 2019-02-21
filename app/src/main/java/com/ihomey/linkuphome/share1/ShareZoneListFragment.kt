@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ShareZoneListAdapter
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.data.vo.Zone
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
 
@@ -64,13 +64,13 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        val zone = adapter.getItem(position)
-        zone?.let {
-            loadingFragment.isCancelable = false
-            loadingFragment.show(fragmentManager, "LoadingFragment")
-            mViewModel.setCurrentZone(it)
-        }
-        //            Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment)
+//        val zone = adapter.getItem(position)
+//        zone?.let {
+//            loadingFragment.isCancelable = false
+//            loadingFragment.show(fragmentManager, "LoadingFragment")
+//            mViewModel.setCurrentZone(it)
+//        }
+                    Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment)
     }
 
 }

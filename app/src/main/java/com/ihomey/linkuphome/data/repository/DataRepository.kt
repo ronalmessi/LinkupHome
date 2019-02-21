@@ -7,6 +7,8 @@ import com.ihomey.linkuphome.data.db.GroupDeviceDao
 import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.db.ModelDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
+import com.ihomey.linkuphome.data.entity.Model
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import org.json.JSONObject
 import javax.inject.Inject
@@ -85,37 +87,37 @@ class DataRepository @Inject constructor(private val lampGroupDao: GroupDeviceDa
                 groupDevices.add(group)
             }
 
-            val singleDevices = ArrayList<SingleDevice>()
-            val modelList = ArrayList<Model>()
-            // looping through devices
-            for (devicesIndex in 0 until devices.length()) {
-                val deviceId = devices.getJSONObject(devicesIndex).getInt(DEVICE_ID_KEY)
-                val deviceName = devices.getJSONObject(devicesIndex).getString(DEVICE_NAME_KEY)
-                val uuidHash = devices.getJSONObject(devicesIndex).getInt(DEVICE_HASH_KEY)
-                val device = SingleDevice(deviceId, Device(deviceName, mDeviceType), uuidHash, 0, 0, 0, stateArray.get(deviceId))
-                val models = devices.getJSONObject(devicesIndex).getJSONArray(DEVICE_MODELS_KEY)
-                for (modelsIndex in 0 until models.length()) {
-                    val groupInstances = models.getJSONObject(modelsIndex).getJSONArray(MODEL_GROUP_INSTANCES_KEY)
-                    for (i in 0 until groupInstances.length()) {
-                        val groupX = groupInstances.getJSONObject(i).getInt(MODEL_GROUP_X_KEY)
-                        if (groupX != 0) {
-                            val model = Model(null, deviceId, groupX, 0, mDeviceType)
-                            if (!modelList.contains(model)) {
-                                modelList.add(model)
-                            }
-                        }
-                    }
-                }
-                singleDevices.add(device)
-            }
+//            val singleDevices = ArrayList<SingleDevice>()
+//            val modelList = ArrayList<Model>()
+//            // looping through devices
+//            for (devicesIndex in 0 until devices.length()) {
+//                val deviceId = devices.getJSONObject(devicesIndex).getInt(DEVICE_ID_KEY)
+//                val deviceName = devices.getJSONObject(devicesIndex).getString(DEVICE_NAME_KEY)
+//                val uuidHash = devices.getJSONObject(devicesIndex).getInt(DEVICE_HASH_KEY)
+//                val device = SingleDevice(deviceId, Device(deviceName, mDeviceType), uuidHash, 0, 0, 0, stateArray.get(deviceId))
+//                val models = devices.getJSONObject(devicesIndex).getJSONArray(DEVICE_MODELS_KEY)
+//                for (modelsIndex in 0 until models.length()) {
+//                    val groupInstances = models.getJSONObject(modelsIndex).getJSONArray(MODEL_GROUP_INSTANCES_KEY)
+//                    for (i in 0 until groupInstances.length()) {
+//                        val groupX = groupInstances.getJSONObject(i).getInt(MODEL_GROUP_X_KEY)
+//                        if (groupX != 0) {
+//                            val model = Model(null, deviceId, groupX, 0, mDeviceType)
+//                            if (!modelList.contains(model)) {
+//                                modelList.add(model)
+//                            }
+//                        }
+//                    }
+//                }
+//                singleDevices.add(device)
+//            }
 
             // reset database
             singleDeviceDao.deleteByType(mDeviceType)
             lampGroupDao.deleteByType(mDeviceType)
 
-            singleDeviceDao.insertDevices(toArray<SingleDevice>(singleDevices))
-            lampGroupDao.insertGroups(toArray<GroupDevice>(groupDevices))
-            modelDao.insertModels(toArray<Model>(modelList))
+//            singleDeviceDao.insertDevices(toArray<SingleDevice>(singleDevices))
+//            lampGroupDao.insertGroups(toArray<GroupDevice>(groupDevices))
+//            modelDao.insertModels(toArray<Model>(modelList))
 
         }
     }

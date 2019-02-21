@@ -7,8 +7,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.vo.SingleDevice
-import com.ihomey.linkuphome.data.vo.Zone
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.getIcon
 

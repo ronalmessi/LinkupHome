@@ -2,11 +2,12 @@ package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
-import com.ihomey.linkuphome.data.db.ModelDao
+import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.db.ZoneDao
-import com.ihomey.linkuphome.data.vo.Model
+import com.ihomey.linkuphome.data.entity.Setting
+import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.Resource
-import com.ihomey.linkuphome.data.vo.Zone
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,7 +15,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private var appExecutors: AppExecutors) {
+class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private val settingDao: SettingDao, private var appExecutors: AppExecutors) {
 
     fun getZones(): LiveData<Resource<List<Zone>>> {
         return object : NetworkBoundResource<List<Zone>>(appExecutors) {
@@ -24,24 +25,26 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
         }.asLiveData()
     }
 
-    fun getCurrentZone(): LiveData<Resource<Zone>> {
-        return object : NetworkBoundResource<Zone>(appExecutors) {
-            override fun loadFromDb(): LiveData<Zone> {
+    fun getCurrentZone(): LiveData<Resource<ZoneSetting>> {
+        return object : NetworkBoundResource<ZoneSetting>(appExecutors) {
+            override fun loadFromDb(): LiveData<ZoneSetting> {
                 return zoneDao.getCurrentZone()
             }
         }.asLiveData()
     }
 
-    fun insert(zone: Zone) {
+
+    fun insert(zone: Zone, isCurrent: Boolean) {
         appExecutors.diskIO().execute {
-            zoneDao.insert(zone)
+            val id = zoneDao.insert(zone)
+            if (isCurrent) settingDao.insert(Setting(id.toInt()))
         }
     }
 
 
     fun updateZoneName(newName: String, id: Int) {
         appExecutors.diskIO().execute {
-            zoneDao.updateZoneName(newName,id)
+            zoneDao.updateZoneName(newName, id)
         }
     }
 
@@ -49,6 +52,7 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
         appExecutors.diskIO().execute {
             zoneDao.deleteCurrentZone()
             zoneDao.setCurrentZone(id)
+            settingDao.updateZoneId(id)
         }
     }
 

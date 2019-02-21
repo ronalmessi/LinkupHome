@@ -17,10 +17,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.BondedDeviceAdapter
 import com.ihomey.linkuphome.adapter.UnBondedDeviceAdapter
+import com.ihomey.linkuphome.data.entity.Model
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentGroupSettingBinding
 import com.ihomey.linkuphome.listener.GroupUpdateListener
@@ -94,8 +96,8 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         mViewDataBinding.groupSettingRcvUnBondedDevices.adapter = unBondedDeviceAdapter
         unBondedDeviceAdapter?.onItemLongClickListener = BaseQuickAdapter.OnItemLongClickListener { adapter, view, position ->
             val singleDevice = unBondedDeviceAdapter?.getItem(position)
-            val item = ClipData.Item(singleDevice?.device?.name)
-            val dragData = ClipData(singleDevice?.device?.name as CharSequence, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
+            val item = ClipData.Item(singleDevice?.name)
+            val dragData = ClipData(singleDevice?.name as CharSequence, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
             val point = Point(((dragTouchPointUnAdded?.x?.minus(view.x))?.toInt()!!), ((dragTouchPointUnAdded.y.minus(view.y)).toInt()))
             val myShadow = DragShadowBuilder(view, point)
             mViewDataBinding.groupSettingRcvUnBondedDevices.startDrag(dragData, myShadow, singleDevice, 0);
@@ -143,8 +145,8 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         bondedDeviceAdapter?.setEmptyView(R.layout.empty_bonded_device_view)
         bondedDeviceAdapter?.onItemLongClickListener = BaseQuickAdapter.OnItemLongClickListener { adapter, view, position ->
             val singleDevice = bondedDeviceAdapter?.getItem(position)
-            val item = ClipData.Item(singleDevice?.device?.name)
-            val dragData = ClipData(singleDevice?.device?.name as CharSequence, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
+            val item = ClipData.Item(singleDevice?.name)
+            val dragData = ClipData(singleDevice?.name as CharSequence, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
             val point = Point(((dragTouchPointAdded?.x?.minus(view.x))?.toInt()!!), ((dragTouchPointAdded.y.minus(view.y)).toInt()))
             val myShadow = DragShadowBuilder(view, point)
             mViewDataBinding.groupSettingRcvBondedDevices.startDrag(dragData, myShadow, singleDevice, 0);
@@ -247,7 +249,7 @@ class GroupSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
             mViewModel?.deleteModel(deviceId, mGroupId, groupIndex)
             if (lampCategoryType == 4) syncTime(deviceId)
         } else if (groupId != -1) {
-            mViewModel?.addModel(Model(null, deviceId, groupId, groupIndex, lampCategoryType))
+//            mViewModel?.addModel(Model(0, deviceId, groupId, groupIndex, lampCategoryType,1))
         }
     }
 

@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.ControlDevice
-import com.ihomey.linkuphome.data.vo.SingleDevice
 import com.ihomey.linkuphome.databinding.FragmentControlRgbLedBinding
 import com.ihomey.linkuphome.databinding.R2ControlFragmentBinding
 import com.ihomey.linkuphome.moveToViewBottomAnimation

@@ -14,9 +14,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceMeshListBinding
 import com.ihomey.linkuphome.dip2px
@@ -146,7 +147,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 //            deviceAssociateFragment.show(activity?.fragmentManager, "DeviceAssociateFragment")
             listener.associateDevice(singleDevice.hash, null)
         } else {
-            mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice?.device?.type!!, singleDevice.id))
+            mViewModel?.setCurrentControlDeviceInfo(DeviceInfo(singleDevice?.type!!, singleDevice.id))
         }
     }
 
@@ -165,7 +166,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
             uuidHashArray.put(uuidHash, shortName)
             val deviceType = DeviceType.values()[lampCategoryType]
             val deviceShortName = getShortName(deviceType)
-            if (TextUtils.equals(deviceShortName, shortName)) adapter?.addData(SingleDevice(0, Device(deviceType.name, lampCategoryType), uuidHash, 0, 0, 0, null))
+            if (TextUtils.equals(deviceShortName, shortName)) adapter?.addData(SingleDevice(0,1,deviceType.name, lampCategoryType, uuidHash, 0, 0, 0))
         }
     }
 
@@ -177,7 +178,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     override fun deviceAssociated(deviceId: Int, uuidHash: Int, bitmap: Long) {
         val deviceType = DeviceType.values()[lampCategoryType]
-        val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType), uuidHash, 0, bitmap, 0, ControlState())
+        val device = SingleDevice(deviceId,1,deviceType.name, lampCategoryType, uuidHash, 0, bitmap, 0)
         val position = adapter?.data?.indexOf(device) ?: -1
         if (position != -1) {
             adapter?.getItem(position)?.id = deviceId
@@ -197,7 +198,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         deviceRemoveFragment.dismiss()
         isDeviceRemoving = false
         val deviceType = DeviceType.values()[lampCategoryType]
-        val device = SingleDevice(deviceId, Device(deviceType.name, lampCategoryType), uuidHash, 0, 0, 0, ControlState())
+        val device = SingleDevice(deviceId, 1,deviceType.name, lampCategoryType, uuidHash, 0, 0, 0)
         val position = adapter?.data?.indexOf(device) ?: -1
         if (position != -1) {
             uuidHashArray.remove(uuidHash)
@@ -208,7 +209,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
 
     private fun showDeviceRemoveAlertDialog(singleDevice: SingleDevice) {
         val builder = AlertDialog.Builder(activity!!)
-        builder.setMessage(getString(R.string.delete) + " " + singleDevice.device.name + "?")
+        builder.setMessage(getString(R.string.delete) + " " + singleDevice.name + "?")
         builder.setPositiveButton(R.string.confirm) { _, _ ->
             deviceRemoveFragment.isCancelable = false
 //            deviceRemoveFragment.show(activity?.fragmentManager, "DeviceRemoveFragment")

@@ -76,7 +76,7 @@
                 android:textColor="@color/text_color_zone_action"
                 android:textSize="@dimen/_16ssp"
                 android:background="@drawable/bg_btn_zone_setting"
-                android:text="创建新空间"/>
+                android:text="@string/zone_create_title"/>
 
             <TextView
                 android:id="@+id/btn_share_zone"
@@ -91,7 +91,7 @@
                 android:textColor="@color/text_color_zone_action"
                 android:textSize="@dimen/_16ssp"
                 android:background="@drawable/bg_btn_zone_setting"
-                android:text="分享空间"/>
+                android:text="@string/zone_share_title"/>
 
             <TextView
                 android:id="@+id/btn_join_zone"
@@ -107,7 +107,7 @@
                 android:layout_marginBottom="@dimen/_72sdp"
                 android:textSize="@dimen/_16ssp"
                 android:background="@drawable/bg_btn_zone_setting"
-                android:text="加入空间"/>
+                android:text="@string/zone_join_title"/>
 
 
         </LinearLayout>

@@ -3,7 +3,7 @@ package com.ihomey.linkuphome.data.repository
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.ModelDao
-import com.ihomey.linkuphome.data.vo.Model
+import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.vo.Resource
 import javax.inject.Inject
 import javax.inject.Singleton

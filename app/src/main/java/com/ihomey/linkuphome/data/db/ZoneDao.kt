@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.ihomey.linkuphome.data.vo.Zone
+import androidx.room.Update
+import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.entity.ZoneSetting
 
 
 /**
@@ -18,13 +20,21 @@ abstract class ZoneDao {
     abstract fun getZones(): LiveData<List<Zone>>
 
     @Query("SELECT * FROM zone WHERE isCurrent =1")
-    abstract fun getCurrentZone(): LiveData<Zone>
+    abstract fun getCurrentZone(): LiveData<ZoneSetting>
+
+
+//
+//    @Query("SELECT zone.*,setting.* FROM zone inner join setting on zone.id =setting.zoneId WHERE zone.isCurrent =1")
+//    abstract fun getCurrentZone(): LiveData<ZoneSetting>
 
     @Query("DELETE FROM zone WHERE id = :id")
     abstract fun delete(id: Int)
 
     @Insert
-    abstract fun insert(zone: Zone)
+    abstract fun insert(zone: Zone):Long
+
+    @Update
+    abstract fun update(zone: Zone)
 
     @Query("UPDATE zone set name = :newName WHERE id = :id ")
     abstract fun updateZoneName(newName: String, id: Int)

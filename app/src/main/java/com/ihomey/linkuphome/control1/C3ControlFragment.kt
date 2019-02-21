@@ -5,12 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.vo.SingleDevice
+import com.ihomey.linkuphome.batteryIcons
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.databinding.C3ControlFragmentBinding
+import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
+import kotlinx.android.synthetic.main.search_device_fragment.*
 
 /**
  * Created by dongcaizheng on 2018/4/10.
@@ -30,20 +36,6 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
         return mViewDataBinding.root
     }
 
-//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-//        super.setUserVisibleHint(isVisibleToUser)
-//        if (!userVisibleHint) {
-//            try {
-////                mViewDataBinding.deviceIvBattery.visibility = View.INVISIBLE
-//            } catch (e: Exception) {
-//                Log.d("LinkupHome", "you should firstly init ViewDataBinding!")
-//            }
-//        } else {
-//            if (mControlDevice != null) {
-//                listener.getBatteryState(mControlDevice?.id!!, this)
-//            }
-//        }
-//    }
 
     override fun updateViewData(singleDevice: SingleDevice) {
         mViewDataBinding.control = singleDevice
@@ -59,13 +51,11 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        mViewModel?.getBridgeState()?.observe(this, Observer<Boolean> {
-//            if (it != null && it) {
-//                if (mControlDevice != null) {
-//                    listener.getBatteryState(mControlDevice?.id!!, this)
-//                }
-//            }
-//        })
+        mViewModel.getBridgeState().observe(this, Observer<Boolean> {
+            if (it != null && it) {
+                listener.getBatteryState(mControlDevice.id, this)
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -81,8 +71,8 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
 
     override fun onBatteryLevelReceived(deviceId: Int, batteryValue: Int) {
         if (deviceId > 32768) {
-//            mViewDataBinding.deviceIvBattery.visibility = View.VISIBLE
-//            mViewDataBinding.deviceIvBattery.setImageResource(batteryIcons[Math.ceil(batteryValue / 20.0).toInt()])
+            mViewDataBinding.deviceIvBattery.visibility = View.VISIBLE
+            mViewDataBinding.deviceIvBattery.setImageResource(batteryIcons[Math.ceil(batteryValue / 20.0).toInt()])
         }
     }
 

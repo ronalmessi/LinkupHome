@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,28 +17,29 @@ import com.daimajia.swipe.SwipeLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.adapter.SubZoneListAdapter
+import com.ihomey.linkuphome.adapter.RoomListAdapter
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device1.ColorCyclingSettingFragment
-import com.ihomey.linkuphome.device1.DevicesFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.DeleteSubZoneListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.room.DeleteRoomFragment
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.zones_fragment.*
 
-class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, DeleteSubZoneListener, BaseQuickAdapter.OnItemClickListener, SubZoneListAdapter.OnCheckedChangeListener, SubZoneListAdapter.OnSeekBarChangeListener {
+class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, DeleteSubZoneListener, BaseQuickAdapter.OnItemClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener {
 
 
     companion object {
         fun newInstance() = ZonesFragment()
     }
 
-    private lateinit var viewModel: ZonesViewModel
     private lateinit var mViewModel: HomeActivityViewModel
-    private lateinit var adapter: SubZoneListAdapter
+    private lateinit var adapter: RoomListAdapter
     private lateinit var meshServiceStateListener: MeshServiceStateListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,16 +53,13 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ZonesViewModel::class.java)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
-            if (it?.status == Status.SUCCESS&&it.data!=null) {
-                val zone=it.data.find { it.isCurrent }
-                tv_title.text = zone?.name
-                zone?.let { it1 -> viewModel.setCurrentZone(it1) }
+        mViewModel.getCurrentZone().observe(this, Observer<Resource<ZoneSetting>> {
+            if (it?.status == Status.SUCCESS) {
+                tv_title.text = it.data?.zone?.name
             }
         })
-        viewModel.subZonesResult.observe(this, Observer<Resource<List<SubZoneModel>>> {
+        mViewModel.roomsResult.observe(this, Observer<Resource<List<Room>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
                 if (it.data != null && !it.data.isEmpty()) iv_add.visibility = View.VISIBLE else iv_add.visibility = View.INVISIBLE
@@ -73,7 +70,7 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(true)
-        adapter = SubZoneListAdapter(R.layout.item_sub_zone_list)
+        adapter = RoomListAdapter(R.layout.item_sub_zone_list)
         adapter.onItemChildClickListener = this
         adapter.onItemClickListener = this
         adapter.setOnCheckedChangeListener(this)
@@ -87,43 +84,41 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
     }
 
     override fun deleteSubZone(id: Int) {
-        viewModel.deleteSubZone(id)
+        mViewModel.deleteRoom(id)
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        val subZoneModel = adapter.getItem(position)
-        if (subZoneModel?.subZone != null) {
+        val room = adapter.getItem(position)
+        if (room != null) {
             when (view.id) {
                 R.id.btn_delete -> {
-                    val dialog = DeleteSubZoneFragment()
+                    val dialog = DeleteRoomFragment()
                     val bundle = Bundle()
-                    subZoneModel.subZone?.id?.let { bundle.putInt("zoneId", it) }
+                    room.id.let { bundle.putInt("zoneId", it) }
                     dialog.arguments = bundle
                     dialog.setDeleteSubZoneListener(this)
-                    dialog.show(fragmentManager, "DeleteSubZoneFragment")
+                    dialog.show(fragmentManager, "DeleteRoomFragment")
                     (view.parent as SwipeLayout).close(true)
                 }
                 R.id.tv_sub_zone_name -> {
-                    val bundle = Bundle()
-                    subZoneModel.subZone?.id?.let { bundle.putInt("zoneId", it) }
-                    subZoneModel.subZone?.device?.name?.let { bundle.putString("zoneName", it) }
-                    Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment, bundle)
+                    mViewModel.setSelectedRoom(room)
+                    Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
                 }
                 R.id.iv_color_cycling -> {
                     val dialog = ColorCyclingSettingFragment()
                     val bundle = Bundle()
-                    subZoneModel.subZone?.id?.let { bundle.putInt("zoneId", it) }
-                    subZoneModel.subZone?.sendTypes?.let { bundle.putInt("type", it.toInt()) }
+                    room.id.let { bundle.putInt("zoneId", it) }
+                    room.sendTypes?.let { bundle.putInt("type", it.toInt()) }
                     dialog.arguments = bundle
                     dialog.show(fragmentManager, "ColorCyclingSettingFragment")
                 }
                 R.id.iv_lighting -> {
-                    if (!TextUtils.isEmpty(subZoneModel.subZone?.sendTypes)) {
-                        val deviceTypes = subZoneModel.subZone?.sendTypes?.split(",")
+                    if (!TextUtils.isEmpty(room.sendTypes)) {
+                        val deviceTypes = room.sendTypes?.split(",")
                         if (!deviceTypes.isNullOrEmpty()) {
                             for (deviceType in deviceTypes) {
                                 val controller = ControllerFactory().createController(deviceType.toInt())
-                                if (meshServiceStateListener.isMeshServiceConnected()) subZoneModel.subZone?.id?.let {
+                                if (meshServiceStateListener.isMeshServiceConnected()) room.id.let {
                                     Handler().postDelayed({ controller?.setLightingMode(it) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
                                 }
                             }
@@ -135,47 +130,46 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        val subZoneModel = adapter.getItem(position)
-        if (subZoneModel?.subZone != null) {
-            val bundle = Bundle()
-            subZoneModel.subZone?.id?.let { bundle.putInt("zoneId", it) }
-            subZoneModel.subZone?.device?.name?.let { bundle.putString("zoneName", it) }
-            Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment, bundle)
+        val room = adapter.getItem(position)
+        if (room != null) {
+//            val bundle = Bundle()
+//            room.id.let { bundle.putInt("zoneId", it) }
+//            room.name.let { bundle.putString("zoneName", it) }
+            mViewModel.setSelectedRoom(room)
+            Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
         }
     }
 
-    override fun onProgressChanged(item: SubZoneModel, progress: Int) {
-        if (!TextUtils.isEmpty(item.subZone?.sendTypes)) {
-            val deviceTypes = item.subZone?.sendTypes?.split(",")
+    override fun onProgressChanged(item: Room, progress: Int) {
+        if (!TextUtils.isEmpty(item.sendTypes)) {
+            val deviceTypes = item.sendTypes?.split(",")
             if (!deviceTypes.isNullOrEmpty()) {
                 for (deviceType in deviceTypes) {
                     val controller = ControllerFactory().createController(deviceType.toInt())
-                    if (meshServiceStateListener.isMeshServiceConnected()) item.subZone?.id?.let {
-                        val aa = (200 * deviceTypes.indexOf(deviceType)).toLong()
+                    if (meshServiceStateListener.isMeshServiceConnected()) item.id.let {
                         Handler().postDelayed({ controller?.setLightBright(it, progress.plus(15)) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
                     }
                 }
             }
-            item.subZone?.state?.brightness = progress
-            item.subZone?.let { viewModel.updateSubZone(it) }
+            item.state.brightness = progress
+            mViewModel.updateRoom(item)
         }
     }
 
-    override fun onCheckedChanged(item: SubZoneModel, isChecked: Boolean) {
-        if (!TextUtils.isEmpty(item.subZone?.sendTypes)) {
-            val deviceTypes = item.subZone?.sendTypes?.split(",")
+    override fun onCheckedChanged(item: Room, isChecked: Boolean) {
+        if (!TextUtils.isEmpty(item.sendTypes)) {
+            val deviceTypes = item.sendTypes?.split(",")
             if (!deviceTypes.isNullOrEmpty()) {
                 for (deviceType in deviceTypes) {
                     val controller = ControllerFactory().createController(deviceType.toInt())
-                    if (meshServiceStateListener.isMeshServiceConnected()) item.subZone?.id?.let {
+                    if (meshServiceStateListener.isMeshServiceConnected()) item.id.let {
                         Handler().postDelayed({ controller?.setLightPowerState(it, if (isChecked) 1 else 0) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
                     }
                 }
-                item.subZone?.state?.on = if (isChecked) 1 else 0
-                item.subZone?.let { viewModel.updateSubZone(it) }
+                item.state.on = if (isChecked) 1 else 0
+                mViewModel.updateRoom(item)
             }
         }
-
     }
 
 }

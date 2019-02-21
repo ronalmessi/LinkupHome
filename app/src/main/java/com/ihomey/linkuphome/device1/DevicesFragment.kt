@@ -3,22 +3,21 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.daimajia.swipe.SwipeLayout
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device.DeviceRemoveFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -35,7 +34,6 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         fun newInstance() = DevicesFragment()
     }
 
-
     private lateinit var viewModel: DevicesViewModel
     protected lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: DeviceListAdapter
@@ -51,7 +49,7 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
-        viewModel.getDevices().observe(this, Observer<Resource<List<SingleDevice>>> {
+        mViewModel.devicesResult.observe(this, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
                 if (it.data != null && !it.data.isEmpty()) iv_add.visibility = View.VISIBLE else iv_add.visibility = View.INVISIBLE
@@ -104,7 +102,7 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
                 }
                 R.id.tv_device_name -> {
                     mViewModel.setCurrentControlDevice(singleDevice)
-                    when (singleDevice.device.type) {
+                    when (singleDevice.type) {
                         4 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
                         3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
                     }
@@ -117,7 +115,7 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         val singleDevice = adapter.getItem(position)
         if (singleDevice != null) {
             mViewModel.setCurrentControlDevice(singleDevice)
-            when (singleDevice.device.type) {
+            when (singleDevice.type) {
                 4 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
                 3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
             }
@@ -125,23 +123,23 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     }
 
     override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
-        val controller = ControllerFactory().createController(item.device.type)
-        item.state?.on = if (isChecked) 1 else 0
+        val controller = ControllerFactory().createController(item.type)
+        item.state.on = if (isChecked) 1 else 0
         if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightPowerState(item.id, if (isChecked) 1 else 0)
         mViewModel.updateDevice(item)
     }
 
     override fun onProgressChanged(item: SingleDevice, progress: Int) {
-        val controller = ControllerFactory().createController(item.device.type)
+        val controller = ControllerFactory().createController(item.type)
         if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(item.id, progress.plus(15))
-        item.state?.brightness = progress
+        item.state.brightness = progress
         mViewModel.updateDevice(item)
     }
 
 
     override fun onDeviceRemoved(deviceId: Int, uuidHash: Int, success: Boolean) {
         deviceRemoveFragment.dismiss()
-        viewModel.deleteSingleDevice(deviceId)
+        mViewModel.deleteSingleDevice(deviceId)
     }
 
 

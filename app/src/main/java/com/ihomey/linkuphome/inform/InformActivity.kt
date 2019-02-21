@@ -10,7 +10,6 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.vo.LampCategory
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.data.vo.Zone
 import com.ihomey.linkuphome.setTranslucentStatus
 import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.zone.CreateZoneViewModel

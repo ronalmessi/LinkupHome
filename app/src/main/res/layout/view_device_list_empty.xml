@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_81sdp"
         android:text="@string/action_add_device"
+        android:textAllCaps="false"
         android:background="@drawable/bg_btn_add_device"
         android:textColor="@android:color/white"
         android:paddingTop="@dimen/_12sdp"

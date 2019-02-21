@@ -15,8 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.vo.ControlDevice
-import com.ihomey.linkuphome.data.vo.SingleDevice
+import com.ihomey.linkuphome.data.entity.SingleDevice
 
 import com.ihomey.linkuphome.databinding.FragmentTimerSettingBinding
 import java.util.*

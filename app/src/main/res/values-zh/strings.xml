@@ -55,8 +55,7 @@
     <string name="share_img_save_success">图片已保存</string>
     <string name="share_img_save_fail">保存出错了</string>
 
-    <string name="state_disconnected">点击连接</string>
-    <string name="state_connected">已连接</string>
+
 
     <string name="group_setting_drag">点击添加</string>
     <string name="group_setting_exceed_number">超出分组数量</string>
@@ -67,8 +66,7 @@
     <string name="device_clear">是否清空所有组别？</string>
     <string name="device_associate_fail">连接失败，请重启设备进行连接</string>
 
-    <string name="device_connect_step1_title">设备准备好了吗？</string>
-    <string name="device_connect_step1_hint">1.请确保设备电源已正确连接;\n2.如果设备不是第一次使用,请确保设备已经被正确\n重置</string>
+
 
     <string name="device_connect_step2_title">温馨提示</string>
     <string name="device_connect_step2_hint">如果10秒左右搜索不到设备,请确认设备是否被正确重置</string>
@@ -80,24 +78,15 @@
     <string name="device_reset_hint0">一：关闭蓝牙，再启动蓝牙 \n二：从后台关闭LinkupHomeAPP后，再打开APP</string>
     <string name="device_reset_hint3">以上两种快捷方式尝试后如果仍然无法搜索到设备，请按照以下步骤重置设备</string>
 
-    <string name="next_step">下一步</string>
-    <string name="searching">正在搜索</string>
-    <string name="how_to_reset_device">如何重置</string>
-    <string name="how_to_reset_device_step1">步骤一</string>
-    <string name="how_to_reset_device_step2">步骤二</string>
-    <string name="how_to_reset_step">重置步骤</string>
-    <string name="how_to_reset_process">重置流程</string>
-    <string name="bridge_disconnected">设备已断开，正在尝试自动连接</string>
 
-    <string name="save">存储</string>
+
+
     <string name="import_error">二维码内容不符</string>
     <string name="network_error">网络连接失败，请检查网络设置</string>
     <string name="edit">编辑</string>
     <string name="group">组</string>
     <string name="initialize">清除组别</string>
-    <string name="cancel">取消</string>
-    <string name="confirm">确定</string>
-    <string name="delete">删除</string>
+
     <string name="removing">等待删除...</string>
     <string name="add_product">添加设备</string>
     <string name="added">已添加</string>
@@ -115,6 +104,81 @@
     <string name="license_agreement">用户许可协议</string>
     <string name="privacy_statement">公司隐私声明</string>
     <string name="privacy_start">开始</string>
+
+
+
+
+    <string name="lamp_c3">户外灯</string>
+    <string name="lamp_r2">彩光灯泡</string>
+
+
+
+
+
+    <string name="devices_title">设备</string>
+    <string name="devices_empty_hint">暂无设备，请添加</string>
+    <string name="action_add_device">添加设备</string>
+    <string name="choose_device_type_title">选择类别</string>
+    <string name="search_device_title">搜索设备</string>
+    <string name="device_connect_step1_title">设备准备好了吗？</string>
+    <string name="device_connect_step1_hint">1.请确保设备电源已正确连接;\n2.如果设备不是第一次使用,请确保设备已经被正确\n重置</string>
+    <string name="next_step">下一步</string>
+    <string name="searching">正在搜索</string>
+    <string name="how_to_reset_device">如何重置</string>
+    <string name="how_to_reset_device_step1">步骤一</string>
+    <string name="how_to_reset_device_step2">步骤二</string>
+    <string name="how_to_reset_step">重置步骤</string>
+    <string name="how_to_reset_process">重置流程</string>
+    <string name="bridge_disconnected">设备已断开，正在尝试自动连接</string>
+    <string name="connect_device_title">连接设备</string>
+    <string name="state_disconnected">点击连接</string>
+    <string name="state_connected">已连接</string>
+    <string name="delete">删除</string>
+    <string name="delete_device_hint">是否断开连接，并删除设备？</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+
+
+
+    <string name="choose_room_type_title">房间类别</string>
+    <string name="create_room_title">新增房间命名</string>
+    <string name="delete_room_title">删除房间</string>
+    <string name="delete_room_hint">是否删除当前房间？</string>
+    <string name="light_cycling_spped">灯光变化速度</string>
+    <string name="available_devices_title">可添加设备</string>
+    <string name="bind_device_change_title">修改未保存</string>
+    <string name="bind_device_change_hint">修改的数据还没保存，是否确定退出？</string>
+
+
+    <string name="setting_title">设置</string>
+    <string name="setting_current_home">目前空间</string>
+    <string name="setting_language">语言</string>
+    <string name="setting_user_manual">使用说明</string>
+    <string name="setting_faqs">常见问题</string>
+    <string name="setting_more">更多</string>
+
+    <string name="zones_title">空间</string>
+    <string name="zone_create_title">创建新空间</string>
+    <string name="zone_create_hint">这是为您的LinkupHome设备创建的\n一个新空间。\n给新空间取个名字吧</string>
+    <string name="zone_name_default">家</string>
+    <string name="zones_empty_hint">创建房间，轻松管理设备</string>
+    <string name="save">保存</string>
+    <string name="tips">温馨提示</string>
+
+    <string name="zone_delete_hint">请至少保留一个空间用于添加设备</string>
+    <string name="zone_share_title">分享空间</string>
+    <string name="zone_share_invitation_code">我的邀请码</string>
+    <string name="zone_join_title">加入空间</string>
+    <string name="zone_share_tip1">1.分享功能需联网才能使用 , 请确保手机WIFI或移动网络已开启</string>
+    <string name="zone_share_tip2">2.将自动生成的邀请码分享给您的亲人和朋友。</string>
+    <string name="zone_share_tip3">3.被邀请者需要在联网环境下 , 进入\"加入空间\" , 输入邀请码,即可一起操控灯光。</string>
+    <string name="zone_share_notes">注意：</string>
+    <string name="zone_share_warning">如需多人同时操控，请确保灯（开启状态下）的数量不少于移动设备（手机/IPAD)）的数量，否则会出现部分移动设备控制不了灯的情况。</string>
+    <string name="zone_join_tip1">请求空间主人创建邀请码，并分享给您。（设置→ 分享空间→ 选择空间→ 生成邀请码→ 分享邀请码）</string>
+    <string name="zone_join_tip2">在下列方框中输入邀请码</string>
+
+
+    <string name="language_setting_title">设置语言</string>
 
 
 </resources>

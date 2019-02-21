@@ -4,23 +4,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
-import android.widget.CompoundButton
 import android.widget.RadioGroup
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.vo.*
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.syncTime
-import com.ihomey.linkuphome.viewmodel.MainViewModel
-import com.ihomey.linkuphome.viewmodel.MainViewModel_MembersInjector
 import com.suke.widget.SwitchButton
 import java.util.*
 
@@ -59,7 +53,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel?.getCurrentControlDevice()?.observe(this, Observer<SingleDevice> {
             mControlDevice = it
-            initController(mControlDevice.device.type)
+            initController(mControlDevice.type)
             updateViewData(mControlDevice)
         })
     }
@@ -96,7 +90,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.HOUR_OF_DAY, getHour())
                 calendar.set(Calendar.MINUTE, getMinute())
-                if (mControlDevice.device.type == 4) {
+                if (mControlDevice.type == 4) {
                     if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
                     if (isOpenTimer()) {
                         lightState.openTimer = calendar.timeInMillis
@@ -136,14 +130,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     lightState.openTimerOn = if (isChecked) 3 else 2
                     if (isChecked) {
                         if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
-                            if (mControlDevice.device.type != 4) {
+                            if (mControlDevice.type != 4) {
                                 controller?.setTimer(mControlDevice.id, getPeriodMinute(getHour(), getMinute()), true)
                             } else {
                                 controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, true, isRepeat())
                             }
                         }
                     } else {
-                        if (mControlDevice.device.type == 4) {
+                        if (mControlDevice.type == 4) {
                             if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
                                 controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, false, isRepeat())
                             }
@@ -153,14 +147,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     lightState.closeTimerOn = if (isChecked) 3 else 2
                     if (isChecked) {
                         if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
-                            if (mControlDevice.device.type != 4) {
+                            if (mControlDevice.type != 4) {
                                 controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), false)
                             } else {
                                 controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, true, isRepeat())
                             }
                         }
                     } else {
-                        if (mControlDevice.device.type == 4) {
+                        if (mControlDevice.type == 4) {
                             if (mDeviceType != -1&& listener.isMeshServiceConnected()) {
                                 controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, false, isRepeat())
                             }

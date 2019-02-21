@@ -26,7 +26,7 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:maxEms="9"
-            android:text="可添加设备"
+            android:text="@string/available_devices_title"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="right|center_vertical"
-            android:text="保存"
+            android:text="@string/save"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/_16ssp"
             />

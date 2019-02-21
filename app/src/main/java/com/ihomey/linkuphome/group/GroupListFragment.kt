@@ -4,22 +4,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import androidx.databinding.DataBindingUtil
-import android.graphics.Color
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.GroupListAdapter
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentGroupListBinding
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.viewmodel.MainViewModel
-import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.yanzhenjie.recyclerview.swipe.*
 
 

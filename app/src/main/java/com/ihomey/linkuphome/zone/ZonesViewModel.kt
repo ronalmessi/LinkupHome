@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel;
 import com.ihomey.linkuphome.component.DaggerAppComponent
+import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.repository.SubZoneRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
 import com.ihomey.linkuphome.data.vo.*
@@ -37,7 +39,7 @@ class ZonesViewModel : ViewModel() {
         subZoneRepository.delete(id)
     }
 
-    fun updateSubZone(subZone: SubZone) {
+    fun updateSubZone(subZone: Room) {
         subZone.state?.let { subZoneRepository.updateSubZoneState(subZone.id, it) }
     }
 }

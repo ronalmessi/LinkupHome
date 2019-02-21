@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.library.base.BaseActivity
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
@@ -100,13 +100,13 @@ class ShareActivity : BaseActivity() {
             for (deviceModel in deviceModels!!) {
                 val deviceJson = JSONObject()
                 deviceJson.put(DEVICE_ID_KEY, deviceModel.device?.id)
-                deviceJson.put(DEVICE_NAME_KEY, deviceModel.device?.device?.name)
+                deviceJson.put(DEVICE_NAME_KEY, deviceModel.device?.name)
                 deviceJson.put(DEVICE_HASH_KEY, deviceModel.device?.hash)
                 val deviceStateJson = JSONObject()
                 val lightStateJson = JSONObject()
                 val lightState = deviceModel.device?.state
                 getStateJson(lightStateJson, lightState)
-                lightStateJson.put("customName",  deviceModel.device?.device?.name)
+                lightStateJson.put("customName",  deviceModel.device?.name)
                 deviceStateJson.put("" + deviceModel.device?.id, lightStateJson)
                 jsonDevices.put(deviceJson)
                 jsonLightStates.put(deviceStateJson)
@@ -121,7 +121,7 @@ class ShareActivity : BaseActivity() {
                         val jsonGroupsAssigned = JSONArray()
                         for (j in 0 until models.size) {
                             val groupJSON = JSONObject()
-                            groupJSON.put(MODEL_GROUP_X_KEY, models[j].groupId)
+                            groupJSON.put(MODEL_GROUP_X_KEY, models[j].roomId)
                             jsonGroupsAssigned.put(groupJSON)
                         }
                         modelJSON.put(MODEL_GROUP_INSTANCES_KEY, jsonGroupsAssigned)

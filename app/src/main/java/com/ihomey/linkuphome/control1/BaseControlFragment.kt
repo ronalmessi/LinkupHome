@@ -8,21 +8,16 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import androidx.navigation.Navigation
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.device1.DevicesViewModel
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
-import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
-import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
-import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
-import com.ihomey.linkuphome.scene.S1SceneSettingFragment
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
@@ -120,7 +115,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
 
     inner class ToolBarEventHandler : UpdateDeviceNameListener {
         override fun updateDeviceName(id: Int, newName: String) {
-            mControlDevice.device.name = newName
+            mControlDevice.name = newName
             mViewModel.updateDeviceName(id, newName)
             updateViewData(mControlDevice)
         }
@@ -140,7 +135,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     val dialog = ReNameDeviceFragment()
                     val bundle = Bundle()
                     bundle.putInt("deviceId", mControlDevice.id)
-                    bundle.putString("deviceName", mControlDevice.device.name)
+                    bundle.putString("deviceName", mControlDevice.name)
                     dialog.arguments = bundle
                     dialog.setUpdateZoneNameListener(this)
                     dialog.show(fragmentManager, "ReNameDeviceFragment")

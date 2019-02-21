@@ -17,6 +17,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
+import com.ihomey.linkuphome.data.entity.Setting
+import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device.DeviceAssociateFragment
 import com.ihomey.linkuphome.device.DeviceType
@@ -35,12 +39,13 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
     }
 
     private lateinit var listener: DevicesStateListener
-    private lateinit var viewModel: ConnectDeviceViewModel
+//    private lateinit var viewModel: ConnectDeviceViewModel
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: ScanDeviceListAdapter
     private val deviceAssociateFragment = DeviceAssociateFragment()
 
-    private var setting: LampCategory? = null
+    private  var currentZone: Zone?=null
+    private  var currentSetting: Setting?=null
     private val uuidHashArray: SparseArray<String> = SparseArray()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,11 +54,12 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ConnectDeviceViewModel::class.java)
+//        viewModel = ViewModelProviders.of(this).get(ConnectDeviceViewModel::class.java)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> { it ->
+        mViewModel.getCurrentZone().observe(this, Observer<Resource<ZoneSetting>> { it ->
             if (it?.status == Status.SUCCESS && it.data != null) {
-                setting = it.data
+                currentZone = it.data.zone
+                currentSetting=it.data.settings[0]
             }
         })
     }
@@ -91,7 +97,7 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
             uuidHashArray.put(uuidHash, shortName)
             val deviceType = DeviceType.values()[type]
             val deviceShortName = getShortName(deviceType)
-            if (TextUtils.equals(deviceShortName, shortName)) adapter.addData(SingleDevice(0, Device(deviceType.name, type), uuidHash, 0, 0, 0, null))
+            if (TextUtils.equals(deviceShortName, shortName)) adapter.addData(SingleDevice(0, currentZone?.id!!, deviceType.name, type, uuidHash, 0, 0, 0))
         }
     }
 
@@ -104,12 +110,12 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
     override fun deviceAssociated(deviceId: Int, uuidHash: Int, bitmap: Long) {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
-        val device = SingleDevice(deviceId, Device(deviceType.name, type), uuidHash, 0, bitmap, 0, ControlState())
+        val device = SingleDevice(deviceId, currentZone?.id!!, deviceType.name, type, uuidHash, 0, bitmap, 0)
         val position = adapter.data.indexOf(device) ?: -1
         if (position != -1) {
             adapter.getItem(position)?.id = deviceId
             adapter.notifyItemChanged(position)
-            viewModel.addSingleDevice(setting!!, device)
+            mViewModel.addSingleDevice(currentSetting!!, device)
         }
         deviceAssociateFragment.dismiss()
         if (adapter.data.none { it.id == 0 }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.ihomey.linkuphome.data.vo.Model
+import com.ihomey.linkuphome.data.entity.Model
 
 
 /**
@@ -18,7 +18,7 @@ interface ModelDao {
     fun getModels(deviceId: Int): LiveData<List<Model>>
 
 
-    @Query("DELETE FROM model WHERE deviceId = :deviceId and groupId = :groupId and groupIndex = :groupIndex")
+    @Query("DELETE FROM model WHERE deviceId = :deviceId and roomId = :groupId and groupIndex = :groupIndex")
     fun deleteModel(deviceId: Int,groupId: Int,groupIndex:Int)
 
     @Insert

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.vo.Model1
 
 
@@ -14,20 +15,20 @@ import com.ihomey.linkuphome.data.vo.Model1
 @Dao
 interface Model1Dao {
 
-    @Query("SELECT * FROM model1 WHERE deviceId = :deviceId")
-    fun getModels(deviceId: Int): LiveData<List<Model1>>
+    @Query("SELECT * FROM model WHERE deviceId = :deviceId and zoneId=:zoneId")
+    fun getModels(deviceId: Int,zoneId:Int): LiveData<List<Model>>
 
     @Query("SELECT * FROM model1 WHERE subZoneId = :subZoneId")
     fun getModelsBySubZoneId(subZoneId: Int): List<Model1>
 
-    @Query("DELETE FROM model1 WHERE deviceId = :deviceId and subZOneId = :subZOneId and groupIndex = :groupIndex")
-    fun deleteModel(deviceId: Int, subZOneId: Int,groupIndex:Int)
+    @Query("DELETE FROM model WHERE deviceId = :deviceId and roomId = :roomId and zoneId = :zoneId")
+    fun deleteModel(deviceId: Int, roomId: Int, zoneId: Int)
 
     @Insert
-    fun insert(model: Model1)
+    fun insert(model: Model)
 
-    @Query("update model1 set type=(select type from device where id=:deviceId) where deviceId=:deviceId and subZoneId=:subZoneId")
-    fun updateType(deviceId: Int, subZoneId: Int)
+    @Query("update model set type=(select type from device where id=:deviceId  and zoneId=:zoneId) where deviceId=:deviceId and roomId=:roomId and zoneId=:zoneId")
+    fun updateType(deviceId: Int, roomId: Int, zoneId: Int)
 
     @Insert
     fun insertModels(types: Array<Model1>)

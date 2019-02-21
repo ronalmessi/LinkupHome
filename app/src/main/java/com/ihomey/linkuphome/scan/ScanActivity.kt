@@ -14,7 +14,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.TranslateAnimation
-import com.ihomey.library.base.BaseActivity
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.databinding.ActivityScanBinding
 import com.ihomey.linkuphome.scan.core.QRCodeView

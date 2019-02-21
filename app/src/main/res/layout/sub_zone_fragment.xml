@@ -69,6 +69,7 @@
         android:paddingTop="@dimen/_12sdp"
         android:paddingBottom="@dimen/_15sdp"
         android:text="@string/action_add_device"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="@dimen/_16ssp"
         android:visibility="gone"

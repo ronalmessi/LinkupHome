@@ -1,13 +1,11 @@
 package com.ihomey.linkuphome.setting
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 
 import com.ihomey.linkuphome.R
 import kotlinx.android.synthetic.main.privacy_agreement_fragment.*

@@ -8,7 +8,7 @@
 
         <variable
             name="control"
-            type="com.ihomey.linkuphome.data.vo.SingleDevice" />
+            type="com.ihomey.linkuphome.data.entity.SingleDevice" />
 
         <variable
             name="handlers"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:onClick="@{handlers::onClick}"
-                android:text="@{control.device.name}"
+                android:text="@{control.name}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
@@ -52,22 +52,12 @@
             android:id="@+id/device_iv_battery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
-        <!--<TextView-->
-        <!--android:id="@+id/device_tv_name"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="@dimen/_12sdp"-->
-        <!--android:text="@{control.device.name}"-->
-        <!--android:textColor="@color/text_colorPrimary"-->
-        <!--android:textSize="@dimen/_14ssp"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/device_iv_battery" />-->
 
         <ImageView
             android:id="@+id/device_circle_iv_bg"
@@ -208,11 +198,11 @@
             android:id="@+id/btn_device_lighting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_lighting"
-            android:onClick="@{handlers::onClick}"
             android:layout_marginEnd="@dimen/_54sdp"
+            android:background="@mipmap/ic_lighting"
             android:button="@null"
             android:checked="false"
+            android:onClick="@{handlers::onClick}"
             app:layout_constraintBottom_toTopOf="@+id/guideLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

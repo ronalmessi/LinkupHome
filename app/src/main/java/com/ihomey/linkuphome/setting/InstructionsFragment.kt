@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.navigation.Navigation
-import com.ihomey.library.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseFragment
 
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.home.HomeFragment

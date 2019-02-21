@@ -8,7 +8,7 @@
 
         <variable
             name="control"
-            type="com.ihomey.linkuphome.data.vo.SingleDevice" />
+            type="com.ihomey.linkuphome.data.entity.SingleDevice" />
 
         <variable
             name="handlers"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:onClick="@{handlers::onClick}"
-                android:text="@{control.device.name}"
+                android:text="@{control.name}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>

@@ -2,9 +2,9 @@ package com.ihomey.linkuphome.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.data.vo.DeviceModel
-import com.ihomey.linkuphome.data.vo.SingleDevice
 import com.ihomey.linkuphome.getDistinct
 
 
@@ -14,8 +14,8 @@ import com.ihomey.linkuphome.getDistinct
 @Dao
 abstract class SingleDeviceDao {
 
-    @Query("SELECT * FROM Device WHERE type = :type")
-    abstract fun getDevices(type: Int): LiveData<List<SingleDevice>>
+    @Query("SELECT * FROM Device WHERE zoneId = :zoneId")
+    abstract fun getDevices(zoneId: Int): LiveData<List<SingleDevice>>
 
 
     @Query("SELECT * FROM Device order by type asc")
@@ -32,13 +32,17 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM group_device WHERE type = :type union SELECT d.id,d.name,d.type,d.isOn,d.isLight,d.changeMode,d.colorPosition,d.colorTemperature,d.brightness,d.sceneMode,d.openTimer,d.closeTimer,d.isOnOpenTimer,d.isOnCloseTimer FROM Device AS d WHERE d.type = :type")
     abstract fun getControlDevices(type: Int): LiveData<List<ControlDevice>>
 
-    @Query("SELECT * FROM Device WHERE id in (SELECT deviceId FROM Model WHERE groupId = :groupId and type=:deviceType) and type=:deviceType")
+    @Query("SELECT * FROM Device WHERE id in (SELECT deviceId FROM Model WHERE zoneId = :groupId and type=:deviceType) and type=:deviceType")
     abstract fun getBondedDevices(deviceType: Int, groupId: Int): LiveData<List<SingleDevice>>
 
-    @Query("SELECT * FROM Device WHERE id in (SELECT deviceId FROM Model1 WHERE subZOneId = :subZOneId) order by type asc")
-    abstract fun getBindedDevices(subZOneId: Int): LiveData<List<SingleDevice>>
+    @Query("SELECT * FROM Device WHERE id in (SELECT deviceId FROM Model WHERE roomId = :roomId and zoneId=:zoneId) and zoneId=:zoneId order by type asc")
+    abstract fun getBindedDevices(zoneId: Int,roomId:Int): LiveData<List<SingleDevice>>
 
-    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE groupId = :groupId and type=:deviceType) and type=:deviceType")
+
+    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE roomId = :roomId and zoneId=:zoneId)  and zoneId=:zoneId  order by type asc")
+    abstract fun getUnBindedDevices(zoneId: Int,roomId:Int): LiveData<List<SingleDevice>>
+
+    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE zoneId = :groupId and type=:deviceType) and type=:deviceType")
     abstract fun getUnBondedDevices(deviceType: Int, groupId: Int): LiveData<List<SingleDevice>>
 
     @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model1 WHERE subZOneId = :subZOneId)")

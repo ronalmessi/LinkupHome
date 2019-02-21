@@ -2,10 +2,12 @@ package com.ihomey.linkuphome.component
 
 import com.ihomey.linkuphome.device1.ConnectDeviceViewModel
 import com.ihomey.linkuphome.device1.DevicesViewModel
-import com.ihomey.linkuphome.device1.UnBindedDevicesViewModel
+import com.ihomey.linkuphome.room.UnBindedDevicesViewModel
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeViewModel
 import com.ihomey.linkuphome.module.ApiModule
+import com.ihomey.linkuphome.room.ChooseZoneTypeViewModel
+import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.scan.ScanViewModel
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
@@ -48,9 +50,10 @@ interface AppComponent {
 
     fun inject(unBondedDevicesViewModel: UnBindedDevicesViewModel)
 
-    fun inject(subZoneViewModel: SubZoneViewModel)
+    fun inject(roomViewModel: RoomViewModel)
 
     fun inject(homeActivityViewModel: HomeActivityViewModel)
+
 
     fun inject(splashActivityViewModel: SplashActivityViewModel)
 

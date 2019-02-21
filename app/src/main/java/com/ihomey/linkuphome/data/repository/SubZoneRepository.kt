@@ -1,10 +1,13 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.LampCategoryDao
-import com.ihomey.linkuphome.data.db.SubZoneDao
+import com.ihomey.linkuphome.data.db.RoomDao
+import com.ihomey.linkuphome.data.db.SettingDao
+import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.Setting
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,11 +16,11 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class SubZoneRepository @Inject constructor(private val subZoneDao: SubZoneDao, private val lampCategoryDao: LampCategoryDao, private var appExecutors: AppExecutors) {
+class SubZoneRepository @Inject constructor(private val subZoneDao: RoomDao, private val settingDao: SettingDao, private var appExecutors: AppExecutors) {
 
-    fun getSubZones(deviceId: Int): LiveData<Resource<List<SubZone>>> {
-        return object : NetworkBoundResource<List<SubZone>>(appExecutors) {
-            override fun loadFromDb(): LiveData<List<SubZone>> {
+    fun getSubZones(deviceId: Int): LiveData<Resource<List<Room>>> {
+        return object : NetworkBoundResource<List<Room>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<Room>> {
                 return subZoneDao.getSubZones(deviceId)
             }
         }.asLiveData()
@@ -32,11 +35,28 @@ class SubZoneRepository @Inject constructor(private val subZoneDao: SubZoneDao, 
     }
 
 
+    fun addRoom(currentSetting: Setting, name: String, type: Int) {
+        appExecutors.diskIO().execute {
+            subZoneDao.insert(Room(currentSetting.nextGroupIndex,currentSetting.zoneId,name,type))
+            currentSetting.nextGroupIndex = currentSetting.nextGroupIndex + 1
+            settingDao.update(currentSetting)
+        }
+    }
+
+    fun getRooms(deviceId: Int): LiveData<Resource<List<Room>>> {
+        return object : NetworkBoundResource<List<Room>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<Room>> {
+                return subZoneDao.getRooms(deviceId)
+            }
+        }.asLiveData()
+    }
+
+
     fun insert(setting: LampCategory,  name: String, type: Int,parentId: Int) {
         appExecutors.diskIO().execute {
-            subZoneDao.insert(SubZone(setting.nextGroupIndex, Device(name,type),parentId,"",ControlState()))
-            setting.nextGroupIndex = setting.nextGroupIndex + 1
-            lampCategoryDao.updateCategory(setting)
+//            subZoneDao.insert(Room(setting.nextGroupIndex, 1,1,name,type,"",ControlState()))
+//            setting.nextGroupIndex = setting.nextGroupIndex + 1
+//            lampCategoryDao.updateCategory(setting)
         }
     }
 
@@ -52,10 +72,16 @@ class SubZoneRepository @Inject constructor(private val subZoneDao: SubZoneDao, 
         }
     }
 
-
-    fun updateSubZoneName(newName: String, id: Int) {
+    fun updateSendTypes(roomId: Int,zoneId: Int) {
         appExecutors.diskIO().execute {
-            subZoneDao.updateSubZoneName(newName,id)
+            subZoneDao.updateSendTypes(roomId,zoneId)
+        }
+    }
+
+
+    fun updateRoomName(newName: String, id: Int) {
+        appExecutors.diskIO().execute {
+            subZoneDao.updateRoomName(newName,id)
         }
     }
 }

@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_item_sub_zone_list_delete"
             android:gravity="center"
-            android:text="删除"
+            android:text="@string/delete"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_16ssp" />
 
@@ -50,7 +50,6 @@
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:singleLine="true"
-                android:text="家"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp"
                 app:layout_constraintBottom_toBottomOf="parent"

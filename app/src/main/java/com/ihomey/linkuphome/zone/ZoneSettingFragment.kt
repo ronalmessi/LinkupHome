@@ -14,10 +14,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.data.vo.SubZone
-import com.ihomey.linkuphome.data.vo.Zone
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.UpdateZoneNameListener
@@ -26,7 +25,6 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
-import kotlinx.android.synthetic.main.setting_fragment.*
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
 class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, SwipeMenuItemClickListener {
@@ -35,7 +33,8 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         fun newInstance() = ZoneSettingFragment()
     }
 
-    private lateinit var viewModel: HomeActivityViewModel
+    private lateinit var mViewModel: HomeActivityViewModel
+    private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,7 +43,8 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ZoneSettingViewModel::class.java)
         viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
@@ -101,7 +101,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val zone = adapter.getItem(position)
         if (zone != null) {
-            viewModel.setCurrentZone(zone.id)
+            mViewModel.setCurrentZone(zone.id)
             Navigation.findNavController(view).popBackStack()
         }
     }
@@ -113,7 +113,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
                 val deleteZoneFragment = DeleteZoneFragment()
                 deleteZoneFragment.isCancelable = false
                 val bundle = Bundle()
-                bundle.putString("hintText", "请至少保留一个空间用于添加设备")
+                bundle.putString("hintText", getString(R.string.zone_delete_hint))
                 deleteZoneFragment.arguments = bundle
                 deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
             } else {

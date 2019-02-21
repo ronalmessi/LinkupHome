@@ -1,10 +1,9 @@
-package com.ihomey.library.base
+package com.ihomey.linkuphome.base
 
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import com.ihomey.linkuphome.base.LocaleHelper
 import com.umeng.analytics.MobclickAgent
 
 /**

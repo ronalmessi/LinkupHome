@@ -24,9 +24,11 @@ import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
 import com.iclass.soocsecretary.util.PreferenceHelper
-import com.ihomey.library.base.BaseActivity
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.LocaleHelper
+import com.ihomey.linkuphome.data.entity.Model
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device.MeshDeviceListFragment
 import com.ihomey.linkuphome.group.GroupSettingFragment
@@ -230,7 +232,7 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         val mModelsToQueryForGroups = IntArray(maxNums)
         var unBindingGroupIndex = -1
         for (model in mModels) {
-            if (model.groupId == mGroupIdToModel && model.deviceId == mDeviceIdToModel) unBindingGroupIndex = model.groupIndex
+            if (model.roomId == mGroupIdToModel && model.deviceId == mDeviceIdToModel) unBindingGroupIndex = model.groupIndex
             mModelsToQueryForGroups[model.groupIndex] = 1
         }
         if (unBindingGroupIndex != -1) {
