@@ -175,6 +175,12 @@ public class RadioGroupPlus extends LinearLayout {
         }
     }
 
+    private void setPressedStateForLayout(RelativeLayout layout, boolean pressed) {
+        if (layout != null && layout instanceof RelativeLayout) {
+            layout.setSelected(pressed);
+        }
+    }
+
     /**
      * <p>Returns the identifier of the selected radio button in this group.
      * Upon empty selection, the returned value is -1.</p>
@@ -347,8 +353,10 @@ public class RadioGroupPlus extends LinearLayout {
                 RelativeLayout relativeLayout1 = (RelativeLayout) layout.getChildAt(i);
                 CompoundButton compoundButton = (CompoundButton) relativeLayout1.getChildAt(0);
                 if (compoundButton.getId() != id) {
+                    setPressedStateForLayout(relativeLayout1,false);
                     setPressedStateForTextView((TextView) relativeLayout1.getChildAt(1), false);
                 } else {
+                    setPressedStateForLayout(relativeLayout1,true);
                     setPressedStateForTextView((TextView) relativeLayout1.getChildAt(1), true);
                 }
             }
