@@ -69,11 +69,11 @@ class MainViewModel : ViewModel() {
         }
         currentControlDevice = Transformations.switchMap(currentControlDeviceInfo) { input ->
             mDeviceRepository.setLastUsedDeviceId(input.deviceId, input.deviceType)
-            if (input.deviceId in 1..32768) {
+//            if (input.deviceId in 1..32768) {
                 mGroupRepository.getGroup(input.deviceType, input.deviceId)
-            } else {
-                mDeviceRepository.getDevice(input.deviceType, input.deviceId)
-            }
+//            } else {
+//                mDeviceRepository.get(input.deviceType, input.deviceId)
+//            }
         }
     }
 

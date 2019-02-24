@@ -65,7 +65,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ScanDeviceListAdapter(R.layout.lamp_device_mesh_list_item)
+        adapter = ScanDeviceListAdapter(arrayListOf())
 
         mViewDataBinding.lampDeviceMeshRcvList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         mViewDataBinding.lampDeviceMeshRcvList.addItemDecoration(SpaceItemDecoration(context?.dip2px( 2f)!!,context?.dip2px( 2f)!!,context?.dip2px( 2f)!!,context?.dip2px( 2f)!!))

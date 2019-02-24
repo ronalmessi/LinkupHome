@@ -16,30 +16,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
+import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device.DeviceAssociateFragment
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.getShortName
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listeners.DeviceAssociateListener
+import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.connect_device_fragment.*
 
-class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdapter.OnItemClickListener {
 
+class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, DeviceListAdapter.OnCheckedChangeListener {
 
     companion object {
         fun newInstance() = ConnectDeviceFragment()
     }
 
     private lateinit var listener: DevicesStateListener
-    //    private lateinit var viewModel: ConnectDeviceViewModel
+    private lateinit var meshServiceStateListener: MeshServiceStateListener
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: ScanDeviceListAdapter
     private val deviceAssociateFragment = DeviceAssociateFragment()
@@ -54,7 +56,6 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProviders.of(this).get(ConnectDeviceViewModel::class.java)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.getGlobalSetting().observe(this, Observer<Resource<Setting>> { it ->
             if (it?.status == Status.SUCCESS) {
@@ -64,19 +65,33 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
+                if (currentZone != null && currentZone?.id != null) {
+                    currentZone?.id.let { it ->
+                        it?.let { it1 ->
+                            mViewModel.getDevices(arguments?.getInt("deviceType")!!, it1).observe(this, Observer<Resource<List<SingleDevice>>> {
+                                if (it?.status == Status.SUCCESS) {
+                                    if (adapter.itemCount == 1) adapter.setNewData(it.data)
+                                }
+                            })
+                        }
+                    }
+                }
             }
         })
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        meshServiceStateListener = context as MeshServiceStateListener
         listener = context as DevicesStateListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = ScanDeviceListAdapter(R.layout.item_scan_device)
+        adapter = ScanDeviceListAdapter(arrayListOf())
         adapter.onItemClickListener = this
+        adapter.setOnSeekBarChangeListener(this)
+        adapter.setOnCheckedChangeListener(this)
         rcv_device_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
@@ -138,6 +153,22 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
             deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
             listener.associateDevice(singleDevice.hash, null)
         }
+    }
+
+    override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
+        val controller = ControllerFactory().createController(item.type)
+        item.state.on = if (isChecked) 1 else 0
+        if (meshServiceStateListener.isMeshServiceConnected()) {
+            controller?.setLightPowerState(item.id, if (isChecked) 1 else 0)
+        }
+        mViewModel.updateDevice(item)
+    }
+
+    override fun onProgressChanged(item: SingleDevice, progress: Int) {
+        val controller = ControllerFactory().createController(item.type)
+        if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(item.id, progress.plus(15))
+        item.state.brightness = progress
+        mViewModel.updateDevice(item)
     }
 
 

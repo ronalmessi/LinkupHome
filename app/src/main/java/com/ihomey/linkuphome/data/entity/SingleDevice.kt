@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.data.entity
 
 import androidx.room.*
+import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.ihomey.linkuphome.data.vo.ControlState
 import java.util.*
 
@@ -9,7 +10,10 @@ import java.util.*
  * Created by dongcaizheng on 2018/4/9.
  */
 @Entity(tableName = "device",primaryKeys =["id","zoneId"],foreignKeys =[(ForeignKey(entity = Zone::class, parentColumns = arrayOf("id"), childColumns = arrayOf("zoneId"), onDelete = ForeignKey.CASCADE))])
-data class SingleDevice(var id: Int,val zoneId: Int,var name: String, val type: Int,var hash: Int, var groupsSupported: Int, var modelSupportL: Long,var modelSupportH: Long, @Embedded var state: ControlState) {
+data class SingleDevice(var id: Int,val zoneId: Int,var name: String, val type: Int,var hash: Int, var groupsSupported: Int, var modelSupportL: Long,var modelSupportH: Long, @Embedded var state: ControlState): MultiItemEntity {
+    override fun getItemType(): Int {
+        return if (id != 0) 1 else -1
+    }
 
     override fun equals(obj: Any?): Boolean {
         if (obj == null || obj !is SingleDevice) {

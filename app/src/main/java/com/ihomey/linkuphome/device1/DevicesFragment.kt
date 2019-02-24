@@ -139,7 +139,6 @@ open class DevicesFragment : BaseFragment(), FragmentBackHandler, BaseQuickAdapt
         val controller = ControllerFactory().createController(item.type)
         item.state.on = if (isChecked) 1 else 0
         if (meshServiceStateListener.isMeshServiceConnected()) {
-            Log.d("aa", "---" + item.type + "--" + item.id)
             controller?.setLightPowerState(item.id, if (isChecked) 1 else 0)
         }
         mViewModel.updateDevice(item)

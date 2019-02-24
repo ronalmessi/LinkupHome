@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.daimajia.swipe.SwipeLayout
+import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.suke.widget.SwitchButton
@@ -28,12 +29,9 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         this.onSeekBarChangeListener = listener
     }
 
-
-    private val icons = arrayListOf(R.mipmap.ic_lamp_m1, R.mipmap.ic_lamp_n1, R.mipmap.ic_lamp_r2_a2, R.mipmap.ic_lamp_r2_a2, R.mipmap.ic_lamp_c3, R.mipmap.ic_lamp_v1, R.mipmap.ic_lamp_s1_s2, R.mipmap.ic_lamp_s1_s2)
-
     override fun convert(helper: BaseViewHolder, item: SingleDevice) {
         helper.setText(R.id.tv_device_name, item.name)
-        helper.setImageResource(R.id.iv_device_icon, icons[item.type])
+        helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[item.type])
         val swipeLayout = helper.getView<SwipeLayout>(R.id.swipeLayout)
         swipeLayout.showMode = SwipeLayout.ShowMode.LayDown
         helper.addOnClickListener(R.id.btn_delete)
@@ -46,7 +44,6 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         }else if(item.type==3){
             cl_devices_item.setPadding( mContext.resources.getDimension(R.dimen._16sdp).toInt(),0,mContext.resources.getDimension(R.dimen._8sdp).toInt(),0)
         }
-
 
 
         val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
@@ -68,7 +65,6 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 onSeekBarChangeListener.onProgressChanged(item, seekBar.progress)
             }
-
         })
     }
 

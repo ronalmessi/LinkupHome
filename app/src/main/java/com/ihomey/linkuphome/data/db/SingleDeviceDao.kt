@@ -17,6 +17,9 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by id asc, type asc")
     abstract fun getDevices(zoneId: Int): LiveData<List<SingleDevice>>
 
+    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and type= :type order by id asc")
+    abstract fun getDevices(zoneId: Int, type: Int): LiveData<List<SingleDevice>>
+
     @Query("SELECT * FROM Device order by type asc")
     abstract fun getDevices(): LiveData<List<SingleDevice>>
 
@@ -81,5 +84,7 @@ abstract class SingleDeviceDao {
 
     @Query("UPDATE Device set isOn=:on , isLight=:light,changeMode=:changeMode,colorPosition=:colorPosition,colorTemperature=:colorTemperature,brightness=:brightness,sceneMode=:sceneMode,openTimer=:openTimer,closeTimer=:closeTimer,isOnOpenTimer=:openTimerOn,isOnCloseTimer=:closeTimerOn WHERE id = :singleDeviceId")
     abstract fun updateDeviceState(singleDeviceId: Int, on: Int, light: Int, changeMode: Int, colorPosition: Float, colorTemperature: Int, brightness: Int, sceneMode: Int, openTimer: Long, closeTimer: Long, openTimerOn: Int, closeTimerOn: Int)
+
+
 
 }

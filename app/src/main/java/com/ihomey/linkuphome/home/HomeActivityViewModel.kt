@@ -131,4 +131,9 @@ class HomeActivityViewModel : ViewModel() {
         mDeviceRepository.updateSingleDeviceName(deviceId, deviceName)
 
     }
+
+    fun getDevices(deviceId: Int, type: Int): LiveData<Resource<List<SingleDevice>>> {
+       return mDeviceRepository.getDevices(type,deviceId)
+
+    }
 }
