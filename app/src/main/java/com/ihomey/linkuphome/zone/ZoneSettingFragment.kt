@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.zone
 
+import android.content.Context
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
@@ -36,6 +38,8 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
     var currentZoneId by PreferenceHelper("currentZoneId", -1)
 
+
+    private lateinit var listener: BottomNavigationVisibilityListener
     private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
 
@@ -51,6 +55,11 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
                 adapter.setNewData(it.data)
             }
         })
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        listener = context as BottomNavigationVisibilityListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,7 +83,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
         btn_create_zone.setOnClickListener {
             val bundle = Bundle()
-            bundle.putBoolean("isCurrent", false)
+            bundle.putBoolean("isDefault", false)
             Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_createZoneFragment2, bundle)
         }
         btn_join_zone.setOnClickListener {
@@ -83,7 +92,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         btn_share_zone.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_shareZoneListFragment)
         }
-        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
+        listener.showBottomNavigationBar(false)
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -102,7 +111,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val zone = adapter.getItem(position)
         if (zone != null) {
-            currentZoneId=zone.id
+            currentZoneId = zone.id
             Navigation.findNavController(view).popBackStack()
         }
     }
@@ -119,7 +128,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
                 deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
             } else {
                 viewModel.deleteZone(zone.id)
-                currentZoneId=-1
+                currentZoneId = -1
             }
         }
         menuBridge?.closeMenu()
@@ -127,9 +136,9 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
 
     override fun updateZoneName(id: Int, newName: String) {
-        currentZoneId=-1
+        currentZoneId = -1
         viewModel.updateZoneName(newName, id)
-        currentZoneId=id
+        currentZoneId = id
     }
 
 }

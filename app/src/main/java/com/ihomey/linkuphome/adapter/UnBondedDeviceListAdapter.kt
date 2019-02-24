@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.adapter
 
 
 import android.util.Log
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.AppConfig
@@ -17,9 +18,6 @@ class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, 
 
     private val selectedDevices = mutableListOf<SingleDevice>()
 
-    fun clearSelectedDeviceIds() {
-        selectedDevices.clear()
-    }
 
     fun setSelectedDevices(mSelectedDevices: List<SingleDevice>?) {
         selectedDevices.clear()
@@ -32,6 +30,11 @@ class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, 
 
     override fun convert(helper: BaseViewHolder, item: SingleDevice) {
         helper.setText(R.id.tv_device_name, item.name)
+        if(item.type==4){
+            helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._4sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
+        }else if(item.type==3){
+            helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._18sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
+        }
         helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[item.type])
         helper.setChecked(R.id.cb_device_state, selectedDevices.contains(item))
         helper.setOnCheckedChangeListener(R.id.cb_device_state) { _, isChecked -> if (isChecked) selectedDevices.add(item) else selectedDevices.remove(item) }

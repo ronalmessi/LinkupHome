@@ -199,6 +199,7 @@ fun handleBackPress(fragmentManager: FragmentManager): Boolean {
     val fragments = fragmentManager.fragments ?: return false
     for (i in fragments.indices.reversed()) {
         val child = fragments[i]
+        Log.d("aa",child.javaClass.simpleName+"-----")
         if (isFragmentBackHandled(child)) {
             return true
         }

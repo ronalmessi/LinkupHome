@@ -23,9 +23,9 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottom_nav_view.setOnNavigationItemSelectedListener { item ->
-            onNavDestinationSelected(item, Navigation.findNavController(activity!!, R.id.home_nav_host_fragment))
-        }
+//        bottom_nav_view.setOnNavigationItemSelectedListener { item ->
+////            onNavDestinationSelected(item, Navigation.findNavController(activity!!, R.id.home_nav_host_fragment))
+//        }
 
         Log.d("ic_setting_zone", "1111")
 //        bottom_nav_view.selectedItemId=R.id.tab_zones

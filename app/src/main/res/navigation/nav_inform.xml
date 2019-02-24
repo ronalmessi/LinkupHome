@@ -35,12 +35,21 @@
         <action
             android:id="@+id/action_informFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_informFragment_to_createZoneActivity"
+            app:destination="@id/createZoneActivity" />
     </fragment>
 
     <activity  android:id="@+id/homeActivity"
         android:name="com.ihomey.linkuphome.home.HomeActivity"
         tools:layout="@layout/activity_home"
         android:label="HomeActivity"/>
+
+    <activity  android:id="@+id/createZoneActivity"
+        android:name="com.ihomey.linkuphome.zone.CreateZoneActivity"
+        tools:layout="@layout/activity_home"
+        android:label="CreateZoneActivity"/>
+
 
 
 </navigation>

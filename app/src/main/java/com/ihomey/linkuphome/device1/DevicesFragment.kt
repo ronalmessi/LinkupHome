@@ -24,13 +24,18 @@ import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device.DeviceRemoveFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.DeleteDeviceListener
+import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.devices_fragment.*
 
-open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, DeviceRemoveListener, DeleteDeviceListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener {
+open class DevicesFragment : BaseFragment(), FragmentBackHandler, BaseQuickAdapter.OnItemChildClickListener, DeviceRemoveListener, DeleteDeviceListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener {
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
     companion object {
         fun newInstance() = DevicesFragment()
@@ -42,6 +47,7 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     protected lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: DeviceListAdapter
     private lateinit var listener: DevicesStateListener
+    private lateinit var bottomNavigationVisibilityListener: BottomNavigationVisibilityListener
     private lateinit var meshServiceStateListener: MeshServiceStateListener
     private val deviceRemoveFragment = DeviceRemoveFragment()
 
@@ -64,12 +70,13 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as DevicesStateListener
+        bottomNavigationVisibilityListener = context as BottomNavigationVisibilityListener
         meshServiceStateListener = context as MeshServiceStateListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(true)
+        bottomNavigationVisibilityListener.showBottomNavigationBar(true)
         adapter = DeviceListAdapter(R.layout.item_device_list)
         adapter.onItemChildClickListener = this
         adapter.onItemClickListener = this
@@ -131,8 +138,8 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
         val controller = ControllerFactory().createController(item.type)
         item.state.on = if (isChecked) 1 else 0
-        if (meshServiceStateListener.isMeshServiceConnected()){
-            Log.d("aa","---"+item.type+"--"+item.id)
+        if (meshServiceStateListener.isMeshServiceConnected()) {
+            Log.d("aa", "---" + item.type + "--" + item.id)
             controller?.setLightPowerState(item.id, if (isChecked) 1 else 0)
         }
         mViewModel.updateDevice(item)

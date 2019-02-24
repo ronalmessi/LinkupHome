@@ -27,9 +27,12 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device1.ColorCyclingSettingFragment
+import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.DeleteSubZoneListener
+import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.room.DeleteRoomFragment
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
@@ -37,11 +40,11 @@ import kotlinx.android.synthetic.main.zones_fragment.*
 
 class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, DeleteSubZoneListener, BaseQuickAdapter.OnItemClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener {
 
-
     companion object {
         fun newInstance() = ZonesFragment()
     }
 
+    private lateinit var listener: BottomNavigationVisibilityListener
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: RoomListAdapter
     private lateinit var meshServiceStateListener: MeshServiceStateListener
@@ -53,6 +56,7 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         meshServiceStateListener = context as MeshServiceStateListener
+        listener = context as BottomNavigationVisibilityListener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,11 +75,10 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
         })
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(true)
-        adapter = RoomListAdapter(R.layout.item_sub_zone_list,rcv_zone_list)
+        listener.showBottomNavigationBar(true)
+        adapter = RoomListAdapter(R.layout.item_sub_zone_list, rcv_zone_list)
         adapter.onItemChildClickListener = this
         adapter.onItemClickListener = this
         adapter.setOnCheckedChangeListener(this)
@@ -85,7 +88,7 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
         rcv_zone_list.adapter = adapter
         adapter.setEmptyView(R.layout.view_zone_list_empty, rcv_zone_list)
         adapter.emptyView?.findViewById<FloatingActionButton>(R.id.btn_create_zone)?.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment) }
-        iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment)}
+        iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment) }
 
     }
 

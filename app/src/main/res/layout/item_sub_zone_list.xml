@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                android:src="@mipmap/ic_zone_garden"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -100,8 +101,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/_21sdp"
-        android:paddingEnd="@dimen/_12sdp">
+        android:paddingStart="@dimen/_30sdp"
+        android:paddingEnd="@dimen/_18sdp">
 
         <ImageView
             android:id="@+id/iv_brightness_low"
@@ -109,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_7sdp"
             android:background="@mipmap/ic_brightness_low" />
 
         <SeekBar
@@ -118,9 +119,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_12sdp"
             android:layout_toStartOf="@+id/iv_brightness_high"
             android:layout_toEndOf="@+id/iv_brightness_low"
+            android:paddingLeft="@dimen/_6sdp"
+            android:paddingRight="@dimen/_6sdp"
             android:clickable="false"
             android:max="85"
             android:progress="20" />
@@ -130,6 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_4sdp"
             android:layout_alignParentEnd="true"
             android:background="@mipmap/ic_brightness_high" />
 

@@ -4,15 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/home_nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <com.ihomey.linkuphome.widget.NoScrollViewpager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/nav_home_content" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_view"
@@ -23,7 +20,7 @@
         app:itemIconTint="@drawable/bg_home_tab_icon_title"
         app:itemTextColor="@drawable/bg_home_tab_icon_title"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_nav_host_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager"
         app:menu="@menu/home_bottom_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@ import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.group.GroupUpdateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
@@ -53,6 +54,7 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var adapter: BindedDeviceListAdapter
     private lateinit var listener: MeshServiceStateListener
+    private lateinit var bottomNavigationVisibilityListener: BottomNavigationVisibilityListener
     private lateinit var bindDeviceListener: UnBindedDevicesFragment.BindDeviceListener
 
     private lateinit var room: Room
@@ -84,13 +86,13 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as MeshServiceStateListener
+        bottomNavigationVisibilityListener= context as BottomNavigationVisibilityListener
         bindDeviceListener = context as UnBindedDevicesFragment.BindDeviceListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
-
+        bottomNavigationVisibilityListener.showBottomNavigationBar(false)
         adapter = BindedDeviceListAdapter(R.layout.item_binded_device)
         adapter.onItemClickListener = this
         adapter.setOnCheckedChangeListener(this)

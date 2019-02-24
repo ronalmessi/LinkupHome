@@ -28,6 +28,7 @@ import com.ihomey.linkuphome.widget.dashboardview.DashboardView
 import cn.iclass.guideview.GuideBuilder
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
+import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 
 
 /**
@@ -40,6 +41,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     protected lateinit var mControlDevice: SingleDevice
     protected lateinit var mViewModel: HomeActivityViewModel
     protected lateinit var listener: MeshServiceStateListener
+    private lateinit var bottomNavigationVisibilityListener: BottomNavigationVisibilityListener
     private var guide: Guide? = null
 
     var hasShowRenameDeviceGuide by PreferenceHelper("hasShowRenameDeviceGuide", false)
@@ -52,6 +54,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as MeshServiceStateListener
+        bottomNavigationVisibilityListener = context as BottomNavigationVisibilityListener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,7 +74,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
+        bottomNavigationVisibilityListener.showBottomNavigationBar(false)
     }
 
     fun initController(type: Int) {
@@ -157,15 +160,14 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                 R.id.tv_title -> {
                     if (guide != null && guide?.isVisible!!) {
                         guide?.dismiss()
-                    } else {
-                        val dialog = ReNameDeviceFragment()
-                        val bundle = Bundle()
-                        bundle.putInt("deviceId", mControlDevice.id)
-                        bundle.putString("deviceName", mControlDevice.name)
-                        dialog.arguments = bundle
-                        dialog.setUpdateZoneNameListener(this)
-                        dialog.show(fragmentManager, "ReNameDeviceFragment")
                     }
+                    val dialog = ReNameDeviceFragment()
+                    val bundle = Bundle()
+                    bundle.putInt("deviceId", mControlDevice.id)
+                    bundle.putString("deviceName", mControlDevice.name)
+                    dialog.arguments = bundle
+                    dialog.setUpdateZoneNameListener(this)
+                    dialog.show(fragmentManager, "ReNameDeviceFragment")
                 }
             }
         }

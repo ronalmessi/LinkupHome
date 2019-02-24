@@ -13,6 +13,7 @@ import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.inform.InformActivity
+import com.ihomey.linkuphome.zone.CreateZoneActivity
 
 class SplashActivity : BaseActivity() {
 
@@ -47,7 +48,10 @@ class SplashActivity : BaseActivity() {
 
     private fun scheduleScreen() {
         val hasAgreed by PreferenceHelper("hasAgreed", false)
-        startActivity(Intent(this@SplashActivity, if (hasAgreed) HomeActivity::class.java else InformActivity::class.java))
+        val currentZoneId by PreferenceHelper("currentZoneId", -1)
+        startActivity(Intent(this@SplashActivity, if (!hasAgreed) InformActivity::class.java else {
+            if (currentZoneId != -1) HomeActivity::class.java else CreateZoneActivity::class.java
+        }))
         overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
         finish()
     }

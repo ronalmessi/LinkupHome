@@ -3,16 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/tab_devices"
+        android:orderInCategory="0"
         android:icon="@mipmap/ic_tab_devices"
         android:title="@string/devices_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_zones"
+        android:orderInCategory="1"
         android:icon="@mipmap/ic_tab_zones"
         android:title="@string/zones_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_setting"
+        android:orderInCategory="2"
         android:icon="@mipmap/ic_tab_setting"
         android:title="@string/setting_title"
         app:showAsAction="ifRoom" />

@@ -22,19 +22,18 @@
             android:textSize="@dimen/_16ssp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_devices_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_item_sub_zone_list_top"
-            android:paddingLeft="@dimen/_12sdp"
-            android:paddingTop="@dimen/_6sdp"
-            android:paddingRight="@dimen/_8sdp">
+          >
 
             <ImageView
                 android:id="@+id/iv_device_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
                 android:src="@mipmap/ic_lamp_c3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -45,7 +44,7 @@
                 android:id="@+id/tv_device_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
@@ -77,8 +76,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/_21sdp"
-        android:paddingRight="@dimen/_12sdp">
+        android:paddingLeft="@dimen/_24sdp"
+        android:paddingRight="@dimen/_18sdp">
 
         <ImageView
             android:id="@+id/iv_brightness_low"
@@ -86,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_7sdp"
             android:background="@mipmap/ic_brightness_low" />
 
         <SeekBar
@@ -95,9 +94,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_12sdp"
             android:layout_toStartOf="@+id/iv_brightness_high"
             android:layout_toEndOf="@+id/iv_brightness_low"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
             android:clickable="false"
             android:max="85"
             android:progress="20" />
@@ -107,6 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_4sdp"
             android:layout_alignParentEnd="true"
             android:background="@mipmap/ic_brightness_high" />
 

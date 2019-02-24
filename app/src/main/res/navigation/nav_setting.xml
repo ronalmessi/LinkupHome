@@ -2,22 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/tab_devices">
-
-    <fragment
-        android:id="@+id/tab_devices"
-        android:name="com.ihomey.linkuphome.device1.DevicesFragment"
-        tools:layout="@layout/devices_fragment" >
-        <action
-            android:id="@+id/action_tab_devices_to_chooseDeviceTypeFragment"
-            app:destination="@id/chooseDeviceTypeFragment" />
-        <action
-            android:id="@+id/action_tab_devices_to_c3ControlFragment"
-            app:destination="@id/c3ControlFragment" />
-        <action
-            android:id="@+id/action_tab_devices_to_r2ControlFragment"
-            app:destination="@id/r2ControlFragment" />
-    </fragment>
+    app:startDestination="@id/tab_setting">
 
 
     <fragment
@@ -126,5 +111,4 @@
         android:label="language_settingg_fragment"
         tools:layout="@layout/language_settingg_fragment" >
     </fragment>
-
 </navigation>

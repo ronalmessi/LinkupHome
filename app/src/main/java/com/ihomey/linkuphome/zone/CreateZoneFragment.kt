@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.zone
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +11,21 @@ import androidx.navigation.fragment.NavHostFragment
 import com.ihomey.linkuphome.base.BaseFragment
 
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.home.HomeActivity
+import com.ihomey.linkuphome.inform.InformActivity
+import com.ihomey.linkuphome.main.PrivacyStatementFragment
 import kotlinx.android.synthetic.main.create_zone_fragment.*
 
 class CreateZoneFragment : BaseFragment() {
 
     companion object {
-        fun newInstance() = CreateZoneFragment()
+        fun newInstance(isDefault: Boolean): CreateZoneFragment {
+            val fragment = CreateZoneFragment()
+            val bundle = Bundle()
+            bundle.putBoolean("isDefault", isDefault)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
     private lateinit var viewModel: CreateZoneViewModel
@@ -32,11 +42,14 @@ class CreateZoneFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         et_zone_name.setSelection(et_zone_name.text.toString().trim().length)
-        val isCurrent=arguments?.getBoolean("isCurrent")?:true
-        if(!isCurrent) iv_back.visibility=View.VISIBLE
+        val isCurrent = arguments?.getBoolean("isDefault") ?: true
+        if (!isCurrent) iv_back.visibility = View.VISIBLE
         btn_save.setOnClickListener {
-            viewModel.createZone(et_zone_name.text.toString().trim(),isCurrent)
-            if(isCurrent)NavHostFragment.findNavController(this@CreateZoneFragment).navigate(R.id.action_createZoneFragment_to_homeFragment) else Navigation.findNavController(it).popBackStack()
+            viewModel.createZone(et_zone_name.text.toString().trim(), isCurrent)
+            if (isCurrent) {
+                startActivity(Intent(activity, HomeActivity::class.java))
+                activity?.finish()
+            } else Navigation.findNavController(it).popBackStack()
         }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }

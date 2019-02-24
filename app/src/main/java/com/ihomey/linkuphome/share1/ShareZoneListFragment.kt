@@ -59,7 +59,6 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(context, LinearLayoutManager.VERTICAL, it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_zone_list.addItemDecoration(it) }
         rcv_zone_list.adapter = adapter
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
-        (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(false)
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {

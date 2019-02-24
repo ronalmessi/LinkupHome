@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.adapter
 
 
 import android.widget.SeekBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.daimajia.swipe.SwipeLayout
@@ -37,6 +38,16 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         swipeLayout.showMode = SwipeLayout.ShowMode.LayDown
         helper.addOnClickListener(R.id.btn_delete)
         helper.addOnClickListener(R.id.tv_device_name)
+
+
+        val cl_devices_item=swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
+        if(item.type==4){
+            cl_devices_item.setPadding( mContext.resources.getDimension(R.dimen._3sdp).toInt(),0,mContext.resources.getDimension(R.dimen._8sdp).toInt(),0)
+        }else if(item.type==3){
+            cl_devices_item.setPadding( mContext.resources.getDimension(R.dimen._16sdp).toInt(),0,mContext.resources.getDimension(R.dimen._8sdp).toInt(),0)
+        }
+
+
 
         val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
         sb_power.isChecked = item.state.on == 1
