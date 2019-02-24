@@ -2,7 +2,7 @@ package com.ihomey.linkuphome.adapter
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.vo.GroupDevice
 import com.ihomey.linkuphome.getIcon

@@ -1,12 +1,11 @@
 package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.db.ZoneDao
-import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,10 +24,10 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
         }.asLiveData()
     }
 
-    fun getCurrentZone(): LiveData<Resource<ZoneSetting>> {
-        return object : NetworkBoundResource<ZoneSetting>(appExecutors) {
-            override fun loadFromDb(): LiveData<ZoneSetting> {
-                return zoneDao.getCurrentZone()
+    fun getZone(id:Int): LiveData<Resource<Zone>> {
+        return object : NetworkBoundResource<Zone>(appExecutors) {
+            override fun loadFromDb(): LiveData<Zone> {
+                return zoneDao.getZone(id)
             }
         }.asLiveData()
     }
@@ -37,7 +36,10 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
     fun insert(zone: Zone, isCurrent: Boolean) {
         appExecutors.diskIO().execute {
             val id = zoneDao.insert(zone)
-            if (isCurrent) settingDao.insert(Setting(id.toInt()))
+            if (isCurrent) {
+                var currentZoneId by PreferenceHelper("currentZoneId", -1)
+                currentZoneId = id.toInt()
+            }
         }
     }
 
@@ -50,9 +52,9 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
 
     fun setCurrentZone(id: Int) {
         appExecutors.diskIO().execute {
-            zoneDao.deleteCurrentZone()
-            zoneDao.setCurrentZone(id)
-            settingDao.updateZoneId(id)
+//            zoneDao.deleteCurrentZone()
+//            zoneDao.setCurrentZone(id)
+//            settingDao.updateZoneId(id)
         }
     }
 

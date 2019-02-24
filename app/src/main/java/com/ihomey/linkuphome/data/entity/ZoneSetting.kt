@@ -7,8 +7,8 @@ import com.ihomey.linkuphome.data.entity.SingleDevice
 
 
 class ZoneSetting {
-    @Embedded
+
     var zone: Zone? = null
-    @Relation(parentColumn = "id", entityColumn = "zoneId")
+
     var settings: List<Setting> = listOf()
 }

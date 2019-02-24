@@ -39,13 +39,13 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
     }
 
     private lateinit var listener: DevicesStateListener
-//    private lateinit var viewModel: ConnectDeviceViewModel
+    //    private lateinit var viewModel: ConnectDeviceViewModel
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: ScanDeviceListAdapter
     private val deviceAssociateFragment = DeviceAssociateFragment()
 
-    private  var currentZone: Zone?=null
-    private  var currentSetting: Setting?=null
+    private var currentSetting: Setting? = null
+    private var currentZone: Zone? = null
     private val uuidHashArray: SparseArray<String> = SparseArray()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,10 +56,14 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
         super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProviders.of(this).get(ConnectDeviceViewModel::class.java)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.getCurrentZone().observe(this, Observer<Resource<ZoneSetting>> { it ->
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                currentZone = it.data.zone
-                currentSetting=it.data.settings[0]
+        mViewModel.getGlobalSetting().observe(this, Observer<Resource<Setting>> { it ->
+            if (it?.status == Status.SUCCESS) {
+                currentSetting = it.data
+            }
+        })
+        mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
+            if (it?.status == Status.SUCCESS) {
+                currentZone = it.data
             }
         })
     }

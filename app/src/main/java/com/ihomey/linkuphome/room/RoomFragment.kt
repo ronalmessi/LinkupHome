@@ -14,15 +14,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.iclass.guideview.Component
-import cn.iclass.guideview.Guide
 import cn.iclass.guideview.GuideBuilder
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BindedDeviceListAdapter
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*

@@ -23,7 +23,7 @@ import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.LocaleHelper

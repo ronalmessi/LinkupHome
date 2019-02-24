@@ -8,6 +8,7 @@ import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,9 +36,9 @@ class SubZoneRepository @Inject constructor(private val subZoneDao: RoomDao, pri
     }
 
 
-    fun addRoom(currentSetting: Setting, name: String, type: Int) {
+    fun addRoom(currentSetting: Setting, currentZone: Zone , name: String, type: Int) {
         appExecutors.diskIO().execute {
-            subZoneDao.insert(Room(currentSetting.nextGroupIndex,currentSetting.zoneId,name,type))
+            subZoneDao.insert(Room(currentSetting.nextGroupIndex,currentZone.id,name,type))
             currentSetting.nextGroupIndex = currentSetting.nextGroupIndex + 1
             settingDao.update(currentSetting)
         }

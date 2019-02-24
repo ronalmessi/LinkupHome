@@ -96,10 +96,11 @@ class MaskView extends ViewGroup {
     final int w = MeasureSpec.getSize(widthMeasureSpec);
     final int h = MeasureSpec.getSize(heightMeasureSpec);
     setMeasuredDimension(w, h);
-    if (!mCustomFullingRect) {
-      mFullingRect.set(0, 0, w, h);
-      resetOutPath();
-    }
+//    if (!mCustomFullingRect) {
+//      mFullingRect.set(0, 0, w, h);
+//      Log.d("aa","111");
+//      resetOutPath();
+//    }
 
     final int count = getChildCount();
     View child;
@@ -214,29 +215,31 @@ class MaskView extends ViewGroup {
     }
     if (mPadding != 0 && mPaddingTop == 0) {
       mTargetRect.top -= mPadding;
-      mTargetRect.top=mTargetRect.top+mMarginTop;
     }
     if (mPadding != 0 && mPaddingRight == 0) {
       mTargetRect.right += mPadding;
     }
     if (mPadding != 0 && mPaddingBottom == 0) {
       mTargetRect.bottom += mPadding;
-      mTargetRect.bottom += mMarginTop;
     }
     if (mPaddingLeft != 0) {
       mTargetRect.left -= mPaddingLeft;
     }
     if (mPaddingTop != 0) {
       mTargetRect.top -= mPaddingTop;
-      mTargetRect.top=mTargetRect.top+mMarginTop;
+
     }
     if (mPaddingRight != 0) {
       mTargetRect.right += mPaddingRight;
     }
     if (mPaddingBottom != 0) {
       mTargetRect.bottom += mPaddingBottom;
-      mTargetRect.bottom += mMarginTop;
     }
+
+    Log.d("aa",mTargetRect.top+"-bbbbbb----"+mTargetRect.bottom);
+    mTargetRect.top=mTargetRect.top+mMarginTop;
+    mTargetRect.bottom += mMarginTop;
+    Log.d("aa",mTargetRect.top+"-cccccc----"+mTargetRect.bottom);
   }
 
   @Override protected LayoutParams generateDefaultLayoutParams() {
@@ -279,12 +282,14 @@ class MaskView extends ViewGroup {
 
   public void setTargetRect(Rect rect) {
     mTargetRect.set(rect);
+    Log.d("aa","2222");
     resetOutPath();
     invalidate();
   }
 
   public void setFullingRect(Rect rect) {
     mFullingRect.set(rect);
+    Log.d("aa","3333");
     resetOutPath();
     mCustomFullingRect = true;
     invalidate();

@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import com.ihomey.linkuphome.base.BaseFragment
 
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -32,16 +33,9 @@ class SettingFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-//        viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
-//            if (it?.status == Status.SUCCESS&&it.data!=null) {
-//                it.data.find { it.isCurrent }?.name?.let { it1 -> infoTextLayout_setting_current_zone.setTextValue(it1) }
-//            }
-//        })
-
-
-        viewModel.getCurrentZone().observe(this, Observer<Resource<ZoneSetting>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                it.data.zone?.name?.let { it1 -> infoTextLayout_setting_current_zone.setTextValue(it1) }
+        viewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
+            if (it?.status == Status.SUCCESS) {
+                infoTextLayout_setting_current_zone.setTextValue(it.data?.name?:"")
             }
         })
     }
@@ -60,8 +54,6 @@ class SettingFragment : BaseFragment() {
         }
         infoTextLayout_setting_language.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_languageSettingFragment)
-//            activity?.recreate()
-
         }
     }
 }

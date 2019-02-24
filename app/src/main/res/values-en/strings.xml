@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LinkupHome1</string>
+    <string name="app_name">LinkupHome</string>
 
     <string name="welcome_language">Language</string>
     <string name="welcome_beauty">Enjoy</string>
@@ -151,6 +151,7 @@
     <string name="delete_device_hint">Do you want to disconnect and delete device?</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Yes</string>
+    <string name="join">Join</string>
 
     <string name="choose_room_type_title">Room type</string>
     <string name="create_room_title">Rename new room</string>
@@ -176,7 +177,7 @@
     <string name="zone_share_tip1">1.The sharing function only can be available when connect to the network. Please make sure the WiFi or network is turned on in mobile phone.</string>
     <string name="zone_share_tip2">2.Share the automatically generated invitation code with your family and friends.</string>
     <string name="zone_share_tip3">3.The invitee also needs to connect to the network,  enter into "join a home" and input the invitation code to control the lights together.</string>
-    <string name="zone_share_notes">Notes: </string>
+    <string name="zone_share_notes">Notes:  </string>
     <string name="zone_share_warning">if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.It means how many lights on, how many persons can control toghter.</string>
     <string name="zone_join_tip1">Request home host to create invitation code and share it with you.  (settings → share a home→  select a home → generate invitation code→  share invitation code)</string>
     <string name="zone_join_tip2">Input the invitation code below:</string>

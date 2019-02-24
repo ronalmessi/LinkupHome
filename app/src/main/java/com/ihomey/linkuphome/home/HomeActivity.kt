@@ -1,5 +1,7 @@
 package com.ihomey.linkuphome.home
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
@@ -22,13 +24,13 @@ import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Model
+import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.device1.DevicesFragment
@@ -50,6 +52,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
 
+
+    private val mSharedPreferences by lazy { App.instance.getSharedPreferences("LinkupHome", Context.MODE_PRIVATE) }
+
+
+    val currentZoneId by PreferenceHelper("currentZoneId", -1)
     private lateinit var mViewModel: HomeActivityViewModel
     private var mService: MeshService? = null
 
@@ -74,6 +81,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         setContentView(R.layout.activity_home)
         scheduleScreen()
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
+        mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
+            if (it?.status == Status.SUCCESS) {
+                currentZone = it.data
+                if(it.data!=null&&!TextUtils.isEmpty(it.data.networkKey)){
+                    Log.d("aa", "-bbbbb-" + it)
+                    mService?.setNetworkPassPhrase(it.data.networkKey)
+                }
+            }
+        })
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
@@ -97,7 +113,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
 //            recreate()
+            reload()
         }
+    }
+
+
+    fun reload() {
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        val mgr = baseContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent);
+        finish()
+        System.exit(2)
     }
 
 
@@ -110,8 +137,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private fun scheduleScreen() {
-        val hasZone by PreferenceHelper("hasZone", false)
-        val finalHost = NavHostFragment.create(if (hasZone) R.navigation.nav_zone_init_3 else R.navigation.nav_zone_init_1)
+        val finalHost = NavHostFragment.create(if (currentZoneId != -1) R.navigation.nav_zone_init_3 else R.navigation.nav_zone_init_1)
         supportFragmentManager.beginTransaction().replace(R.id.nav_host, finalHost).setPrimaryNavigationFragment(finalHost).commit()
     }
 
@@ -129,12 +155,13 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private fun getNextDeviceIndex() {
-        mViewModel.getCurrentZone().observe(this, Observer<Resource<ZoneSetting>> {
+        mViewModel.getGlobalSetting().observe(this, Observer<Resource<Setting>> {
             if (it?.status == Status.SUCCESS && it.data != null) {
-                mService?.setNextDeviceId(it.data.settings[0].nextDeviceIndex)
-                mService?.setNetworkPassPhrase(it.data.zone?.networkKey)
-                currentZone = it.data.zone
-                it.data.zone?.id?.let { it1 -> mViewModel.setCurrentZoneId(it1) }
+                Log.d("aa","hhahaasdasdad---"+it.data.nextDeviceIndex)
+                mService?.setNextDeviceId(it.data.nextDeviceIndex)
+                mSharedPreferences.intLiveData("currentZoneId", -1).observe(this, Observer {
+                    mViewModel.setCurrentZoneId(it)
+                })
             }
         })
     }

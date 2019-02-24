@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.controller.Controller

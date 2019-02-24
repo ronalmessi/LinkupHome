@@ -15,31 +15,15 @@ import com.ihomey.linkuphome.data.entity.Setting
 @Dao
 interface SettingDao {
 
-    @Query("SELECT * FROM setting WHERE zoneId !=-1")
+    @Query("SELECT * FROM setting")
     fun getSetting(): LiveData<Setting>
 
-
-//
-//
-//    @Query("DELETE FROM model WHERE deviceId = :deviceId and roomId = :groupId and groupIndex = :groupIndex")
-//    fun deleteModel(deviceId: Int,groupId: Int,groupIndex:Int)
-//
     @Insert
     fun insert(setting: Setting)
-
-    @Query("UPDATE setting set zoneId =:zoneId")
-    fun updateZoneId(zoneId: Int)
 
 
     @Update
     fun update(setting: Setting)
 
-
-
-    @Query("UPDATE setting set next_device_index =:next_device_index")
-    fun updateDeviceIndex(next_device_index: Int)
-//
-//    @Insert
-//    fun insertModels(types: Array<Model>)
 
 }

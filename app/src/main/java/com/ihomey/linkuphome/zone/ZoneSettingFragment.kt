@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.daimajia.swipe.SwipeLayout
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
 import com.ihomey.linkuphome.data.entity.Zone
@@ -33,7 +34,8 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         fun newInstance() = ZoneSettingFragment()
     }
 
-    private lateinit var mViewModel: HomeActivityViewModel
+    var currentZoneId by PreferenceHelper("currentZoneId", -1)
+
     private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
 
@@ -43,8 +45,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        viewModel = ViewModelProviders.of(this).get(ZoneSettingViewModel::class.java)
+        viewModel = ViewModelProviders.of(parentFragment!!).get(ZoneSettingViewModel::class.java)
         viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
@@ -101,7 +102,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val zone = adapter.getItem(position)
         if (zone != null) {
-            mViewModel.setCurrentZone(zone.id)
+            currentZoneId=zone.id
             Navigation.findNavController(view).popBackStack()
         }
     }
@@ -118,6 +119,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
                 deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
             } else {
                 viewModel.deleteZone(zone.id)
+                currentZoneId=-1
             }
         }
         menuBridge?.closeMenu()
@@ -125,7 +127,9 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
 
     override fun updateZoneName(id: Int, newName: String) {
+        currentZoneId=-1
         viewModel.updateZoneName(newName, id)
+        currentZoneId=id
     }
 
 }

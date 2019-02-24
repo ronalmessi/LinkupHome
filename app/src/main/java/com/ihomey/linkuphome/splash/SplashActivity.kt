@@ -8,31 +8,18 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.Setting
-import com.ihomey.linkuphome.data.vo.Resource
-import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.inform.InformActivity
 
 class SplashActivity : BaseActivity() {
 
-    private lateinit var viewModel: SplashActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SplashActivityViewModel::class.java)
-        viewModel.getSetting().observe(this, Observer<Resource<Setting>> {
-            if (it?.status == Status.SUCCESS) {
-                var hasZone by PreferenceHelper("hasZone", false)
-                hasZone = it.data != null
-                checkPermission()
-            }
-        })
+        checkPermission()
     }
 
     private fun checkPermission() {

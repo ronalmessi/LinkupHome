@@ -1,14 +1,12 @@
 package com.ihomey.linkuphome.data.repository
 
 import android.util.SparseArray
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.data.db.GroupDeviceDao
 import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.db.ModelDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
-import com.ihomey.linkuphome.data.entity.Model
-import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import org.json.JSONObject
 import javax.inject.Inject

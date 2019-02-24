@@ -23,6 +23,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomListAdapter
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device1.ColorCyclingSettingFragment
@@ -57,9 +58,9 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.getCurrentZone().observe(this, Observer<Resource<ZoneSetting>> {
+        mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
-                tv_title.text = it.data?.zone?.name
+                tv_title.text = it.data?.name
             }
         })
         mViewModel.roomsResult.observe(this, Observer<Resource<List<Room>>> {
@@ -70,21 +71,11 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
         })
     }
 
-    fun getViewAbsRect(view: View, parentX: Int, parentY: Int): Rect {
-        val loc = IntArray(2)
-        view.getLocationInWindow(loc)
-        val rect = Rect()
-        rect.set(loc[0], loc[1] - view.measuredHeight, loc[0] + view.measuredWidth, loc[1])
-        rect.offset(-parentX, parentY)
-
-        Log.d("aa", "hahha--" + loc[0] + "--" + loc[1] + "---" + view.width + "--" + view.height)
-        return rect
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (parentFragment?.parentFragment as HomeFragment).showBottomNavigationBar(true)
-        adapter = RoomListAdapter(R.layout.item_sub_zone_list)
+        adapter = RoomListAdapter(R.layout.item_sub_zone_list,rcv_zone_list)
         adapter.onItemChildClickListener = this
         adapter.onItemClickListener = this
         adapter.setOnCheckedChangeListener(this)
@@ -95,6 +86,7 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
         adapter.setEmptyView(R.layout.view_zone_list_empty, rcv_zone_list)
         adapter.emptyView?.findViewById<FloatingActionButton>(R.id.btn_create_zone)?.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment) }
         iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment)}
+
     }
 
     override fun deleteSubZone(id: Int) {

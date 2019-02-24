@@ -26,7 +26,7 @@ import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
 import cn.iclass.guideview.GuideBuilder
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 
 
@@ -176,8 +176,8 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
         builder.setTargetView(view)
                 .setAlpha(200)
                 .setHighTargetCorner(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
-                .setHighTargetPaddingLeft(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
-                .setHighTargetPaddingRight(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
+                .setHighTargetPaddingLeft(context?.resources?.getDimension(R.dimen._27sdp)?.toInt()!!)
+                .setHighTargetPaddingRight(context?.resources?.getDimension(R.dimen._27sdp)?.toInt()!!)
                 .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setOverlayTarget(false)

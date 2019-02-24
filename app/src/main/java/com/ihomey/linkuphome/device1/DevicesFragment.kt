@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.daimajia.swipe.SwipeLayout
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.base.BaseFragment
 
 import com.ihomey.linkuphome.R
@@ -33,6 +35,8 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     companion object {
         fun newInstance() = DevicesFragment()
     }
+
+    val currentZoneId by PreferenceHelper("currentZoneId", -1)
 
     private lateinit var viewModel: DevicesViewModel
     protected lateinit var mViewModel: HomeActivityViewModel
@@ -75,8 +79,10 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
         adapter.setEmptyView(R.layout.view_device_list_empty, rcv_device_list)
-        adapter.emptyView?.findViewById<Button>(R.id.btn_add_device)?.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
-        iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
+        adapter.emptyView?.findViewById<Button>(R.id.btn_add_device)?.setOnClickListener { if (currentZoneId != -1) Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
+        iv_add.setOnClickListener {
+            if (currentZoneId != -1) Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
+        }
     }
 
 
@@ -125,7 +131,10 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
         val controller = ControllerFactory().createController(item.type)
         item.state.on = if (isChecked) 1 else 0
-        if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightPowerState(item.id, if (isChecked) 1 else 0)
+        if (meshServiceStateListener.isMeshServiceConnected()){
+            Log.d("aa","---"+item.type+"--"+item.id)
+            controller?.setLightPowerState(item.id, if (isChecked) 1 else 0)
+        }
         mViewModel.updateDevice(item)
     }
 

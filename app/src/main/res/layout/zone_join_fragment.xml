@@ -100,7 +100,7 @@
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingRight="@dimen/_24sdp"
                 android:paddingBottom="@dimen/_8sdp"
-                android:text="加入"
+                android:text="@string/join"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
 
@@ -116,7 +116,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="注意 : "
+                    android:text="@string/zone_share_notes"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />

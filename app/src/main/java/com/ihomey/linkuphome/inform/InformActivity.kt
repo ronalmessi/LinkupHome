@@ -2,17 +2,9 @@ package com.ihomey.linkuphome.inform
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
-import com.iclass.soocsecretary.util.PreferenceHelper
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.vo.LampCategory
-import com.ihomey.linkuphome.data.vo.Resource
-import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.setTranslucentStatus
-import com.ihomey.linkuphome.viewmodel.MainViewModel
-import com.ihomey.linkuphome.zone.CreateZoneViewModel
 
 class InformActivity : AppCompatActivity() {
 

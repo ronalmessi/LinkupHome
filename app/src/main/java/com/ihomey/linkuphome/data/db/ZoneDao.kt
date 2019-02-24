@@ -19,8 +19,8 @@ abstract class ZoneDao {
     @Query("SELECT * FROM zone order by id asc")
     abstract fun getZones(): LiveData<List<Zone>>
 
-    @Query("SELECT * FROM zone WHERE isCurrent =1")
-    abstract fun getCurrentZone(): LiveData<ZoneSetting>
+    @Query("SELECT * FROM zone WHERE id =:id")
+    abstract fun getZone(id:Int): LiveData<Zone>
 
 
 //
@@ -40,12 +40,12 @@ abstract class ZoneDao {
     abstract fun updateZoneName(newName: String, id: Int)
 
 
-    @Query("UPDATE zone set isCurrent =0 WHERE isCurrent =1 ")
-    abstract fun deleteCurrentZone()
-
-
-    @Query("UPDATE zone set isCurrent =1 WHERE id = :id ")
-    abstract fun setCurrentZone(id: Int)
+//    @Query("UPDATE zone set isCurrent =0 WHERE isCurrent =1 ")
+//    abstract fun deleteCurrentZone()
+//
+//
+//    @Query("UPDATE zone set isCurrent =1 WHERE id = :id ")
+//    abstract fun setCurrentZone(id: Int)
 
 
 }

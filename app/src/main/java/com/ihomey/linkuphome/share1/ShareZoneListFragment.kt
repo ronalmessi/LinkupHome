@@ -22,6 +22,7 @@ import com.ihomey.linkuphome.home.HomeFragment
 
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.ihomey.linkuphome.zone.ReNameZoneFragment
+import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import kotlinx.android.synthetic.main.zone_share_list_fragment.*
 
 class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
@@ -30,8 +31,7 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         fun newInstance() = ShareZoneListFragment()
     }
 
-    private lateinit var viewModel: HomeActivityViewModel
-    private lateinit var mViewModel: ShareZoneViewModel
+    private lateinit var mViewModel: ZoneSettingViewModel
     private lateinit var adapter: ShareZoneListAdapter
     private lateinit var loadingFragment: LoadingFragment
 
@@ -42,9 +42,8 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel = ViewModelProviders.of(this).get(ShareZoneViewModel::class.java)
-        viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
+        mViewModel = ViewModelProviders.of(parentFragment!!).get(ZoneSettingViewModel::class.java)
+        mViewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
             }
@@ -64,13 +63,7 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-//        val zone = adapter.getItem(position)
-//        zone?.let {
-//            loadingFragment.isCancelable = false
-//            loadingFragment.show(fragmentManager, "LoadingFragment")
-//            mViewModel.setCurrentZone(it)
-//        }
-                    Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment)
+        Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment)
     }
 
 }

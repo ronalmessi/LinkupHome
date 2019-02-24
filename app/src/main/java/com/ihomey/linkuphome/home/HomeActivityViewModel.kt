@@ -16,7 +16,7 @@ class HomeActivityViewModel : ViewModel() {
     lateinit var zoneRepository: ZoneRepository
 
     @Inject
-    lateinit var mCategoryRepository: CategoryRepository
+    lateinit var mSettingRepository: SettingRepository
 
     @Inject
     lateinit var mDeviceRepository: DeviceRepository
@@ -28,12 +28,16 @@ class HomeActivityViewModel : ViewModel() {
     lateinit var subZoneRepository: SubZoneRepository
 
     private val mCurrentZoneId = MutableLiveData<Int>()
+    val mCurrentZone: LiveData<Resource<Zone>>
 
     val devicesResult: LiveData<Resource<List<SingleDevice>>>
     val roomsResult: LiveData<Resource<List<Room>>>
 
     init {
         DaggerAppComponent.builder().build().inject(this)
+        mCurrentZone = Transformations.switchMap(mCurrentZoneId) { input ->
+            zoneRepository.getZone(input)
+        }
         devicesResult = Transformations.switchMap(mCurrentZoneId) { input ->
             mDeviceRepository.getDevices(input)
         }
@@ -42,25 +46,9 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
-
-    fun getZones(): LiveData<Resource<List<Zone>>> {
-        return zoneRepository.getZones()
-    }
-
-    fun getCurrentZone(): LiveData<Resource<ZoneSetting>> {
-        return zoneRepository.getCurrentZone()
-    }
-
-
-
-    fun setCurrentZoneId(zoneId: Int) {
-        mCurrentZoneId.value = zoneId
-    }
-
-
     private val bridgeState = MutableLiveData<Boolean>()
 
-    private var currentControlDevice=MutableLiveData<SingleDevice>()
+    private var currentControlDevice = MutableLiveData<SingleDevice>()
 
 
     fun getBridgeState(): MutableLiveData<Boolean> {
@@ -71,9 +59,6 @@ class HomeActivityViewModel : ViewModel() {
         bridgeState.value = connected
     }
 
-    fun getGlobalSetting(): LiveData<Resource<LampCategory>>? {
-        return mCategoryRepository.getGlobalSetting()
-    }
 
     fun getCurrentControlDevice(): MutableLiveData<SingleDevice> {
         return currentControlDevice
@@ -84,24 +69,28 @@ class HomeActivityViewModel : ViewModel() {
     }
 
 
-
-    fun getModels(deviceId: Int,zoneId: Int):LiveData<Resource<List<Model>>> {
-        return modelRepository.getModels(deviceId,zoneId)
+    fun getModels(deviceId: Int, zoneId: Int): LiveData<Resource<List<Model>>> {
+        return modelRepository.getModels(deviceId, zoneId)
     }
 
 
-    fun setCurrentZone(id: Int) {
-        zoneRepository.setCurrentZone(id)
+    //setting
+    fun getGlobalSetting(): LiveData<Resource<Setting>> {
+        return mSettingRepository.getSetting()
     }
 
+
+    //zone
+    fun setCurrentZoneId(zoneId: Int) {
+        mCurrentZoneId.value = zoneId
+    }
 
 
     //room
+    val mSelectedRoom = MutableLiveData<Room>()
 
-     val mSelectedRoom = MutableLiveData<Room>()
-
-    fun addRoom(currentSetting: Setting, type: Int, name: String) {
-        subZoneRepository.addRoom(currentSetting,name, type)
+    fun addRoom(currentSetting: Setting,currentZone:Zone ,type: Int, name: String) {
+        subZoneRepository.addRoom(currentSetting,currentZone, name, type)
     }
 
     fun deleteRoom(id: Int) {
@@ -112,18 +101,17 @@ class HomeActivityViewModel : ViewModel() {
         subZoneRepository.updateSubZoneState(room.id, room.state)
     }
 
-    fun setSelectedRoom(room:Room) {
-        mSelectedRoom.value=room
+    fun setSelectedRoom(room: Room) {
+        mSelectedRoom.value = room
     }
 
-    fun updateSendTypes(roomId: Int,zoneId:Int) {
-        subZoneRepository.updateSendTypes(roomId,zoneId)
+    fun updateSendTypes(roomId: Int, zoneId: Int) {
+        subZoneRepository.updateSendTypes(roomId, zoneId)
     }
 
     fun updateRoomName(newName: String, id: Int) {
         subZoneRepository.updateRoomName(newName, id)
     }
-
 
 
     //device

@@ -15,7 +15,7 @@ import android.text.style.ClickableSpan
 import android.widget.CompoundButton
 import com.ihomey.linkuphome.databinding.InformFragmentBinding
 import androidx.navigation.fragment.NavHostFragment
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 
 
 /**

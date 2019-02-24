@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 class CreateZoneViewModel : ViewModel() {
 
+
     @Inject
     lateinit var zoneRepository: ZoneRepository
 
@@ -17,7 +18,7 @@ class CreateZoneViewModel : ViewModel() {
     }
 
     fun createZone(name: String, isCurrent: Boolean) {
-        zoneRepository.insert(Zone(name,isCurrent),isCurrent)
+        zoneRepository.insert(Zone(name), isCurrent)
     }
 
 }

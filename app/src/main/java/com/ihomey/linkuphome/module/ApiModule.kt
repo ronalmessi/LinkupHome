@@ -20,14 +20,13 @@ class ApiModule {
     @Provides
     fun provideDb(): LinkupHomeDb {
         return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db")
-               .build()
-
-//                .addCallback(object : RoomDatabase.Callback() {
-//                    override fun onCreate(db: SupportSQLiteDatabase) {
-//                        super.onCreate(db)
-//                        db.execSQL("insert into setting(next_group_index,next_device_index) Values(1,32769)")
-//                    }
-//                })
+                .addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        db.execSQL("insert into setting(next_group_index,next_device_index) Values(1,32769)")
+                    }
+                })
+                .build()
     }
 
     @Singleton

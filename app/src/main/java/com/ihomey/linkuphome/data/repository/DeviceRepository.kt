@@ -1,16 +1,13 @@
 package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
-import com.ihomey.linkuphome.data.db.ZoneDao
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
 import javax.inject.Singleton

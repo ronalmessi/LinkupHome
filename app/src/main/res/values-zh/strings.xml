@@ -138,7 +138,7 @@
     <string name="delete_device_hint">是否断开连接，并删除设备？</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
-
+    <string name="join">加入</string>
 
 
     <string name="choose_room_type_title">房间类别</string>
@@ -173,7 +173,7 @@
     <string name="zone_share_tip1">1.分享功能需联网才能使用 , 请确保手机WIFI或移动网络已开启</string>
     <string name="zone_share_tip2">2.将自动生成的邀请码分享给您的亲人和朋友。</string>
     <string name="zone_share_tip3">3.被邀请者需要在联网环境下 , 进入\"加入空间\" , 输入邀请码,即可一起操控灯光。</string>
-    <string name="zone_share_notes">注意：</string>
+    <string name="zone_share_notes">注意： </string>
     <string name="zone_share_warning">如需多人同时操控，请确保灯（开启状态下）的数量不少于移动设备（手机/IPAD)）的数量，否则会出现部分移动设备控制不了灯的情况。</string>
     <string name="zone_join_tip1">请求空间主人创建邀请码，并分享给您。（设置→ 分享空间→ 选择空间→ 生成邀请码→ 分享邀请码）</string>
     <string name="zone_join_tip2">在下列方框中输入邀请码</string>

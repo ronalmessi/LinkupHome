@@ -1,7 +1,6 @@
-package com.iclass.soocsecretary.util
+package com.ihomey.linkuphome
 
 import android.content.Context
-import com.ihomey.linkuphome.App
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

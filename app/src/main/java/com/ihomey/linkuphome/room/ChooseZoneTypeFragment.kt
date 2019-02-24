@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneTypeListAdapter
 import com.ihomey.linkuphome.data.entity.Setting
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -31,6 +32,7 @@ class ChooseZoneTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener,
     private lateinit var adapter: ZoneTypeListAdapter
     private lateinit var mViewModel: HomeActivityViewModel
     private var currentSetting: Setting? = null
+    private var currentZone: Zone? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.choose_zone_type_fragment, container, false)
@@ -39,9 +41,14 @@ class ChooseZoneTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.getCurrentZone().observe(this, Observer<Resource<ZoneSetting>> { it ->
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                currentSetting = it.data.settings[0]
+        mViewModel.getGlobalSetting().observe(this, Observer<Resource<Setting>> { it ->
+            if (it?.status == Status.SUCCESS) {
+                currentSetting = it.data
+            }
+        })
+        mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
+            if (it?.status == Status.SUCCESS) {
+                currentZone = it.data
             }
         })
     }
@@ -68,7 +75,7 @@ class ChooseZoneTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener,
 
 
     override fun createSubZone(type: Int, name: String) {
-        currentSetting?.let { mViewModel.addRoom(it, type, name) }
+        currentSetting?.let { currentZone?.let { it1 -> mViewModel.addRoom(it, it1, type, name) } }
         Navigation.findNavController(iv_back).popBackStack()
     }
 

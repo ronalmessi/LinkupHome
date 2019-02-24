@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.GroupDeviceDao
 import com.ihomey.linkuphome.data.db.LampCategoryDao

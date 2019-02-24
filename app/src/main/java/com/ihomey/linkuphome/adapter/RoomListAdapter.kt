@@ -5,6 +5,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.SeekBar
+import androidx.recyclerview.widget.RecyclerView
 import cn.iclass.guideview.Component
 import cn.iclass.guideview.Guide
 import cn.iclass.guideview.GuideBuilder
@@ -12,7 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.R
 import com.daimajia.swipe.SwipeLayout
-import com.iclass.soocsecretary.util.PreferenceHelper
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.data.entity.Room
 import com.suke.widget.SwitchButton
 
@@ -21,7 +22,7 @@ import com.suke.widget.SwitchButton
  * Created by dongcaizheng on 2018/4/11.
  */
 
-class RoomListAdapter(layoutId: Int) : BaseQuickAdapter<Room, BaseViewHolder>(layoutId) {
+class RoomListAdapter(layoutId: Int, val fullView: RecyclerView) : BaseQuickAdapter<Room, BaseViewHolder>(layoutId) {
 
     private lateinit var onCheckedChangeListener: OnCheckedChangeListener
     private lateinit var onSeekBarChangeListener: OnSeekBarChangeListener
@@ -93,8 +94,7 @@ class RoomListAdapter(layoutId: Int) : BaseQuickAdapter<Room, BaseViewHolder>(la
         builder.setTargetView(view)
                 .setAlpha(200)
                 .setHighTargetCorner(mContext?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
-                .setHighTargetMarginTop(mContext?.resources?.getDimension(R.dimen._40sdp)?.toInt()!!)
-                .setHighTargetPadding(mContext?.resources?.getDimension(R.dimen._2sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(fullView)+mContext?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(true)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
@@ -137,5 +137,12 @@ class RoomListAdapter(layoutId: Int) : BaseQuickAdapter<Room, BaseViewHolder>(la
 
     interface OnSeekBarChangeListener {
         fun onProgressChanged(item: Room, progress: Int)
+    }
+
+
+    fun getMarginTop(view: View): Int {
+        val loc = IntArray(2)
+        view.getLocationOnScreen(loc)
+        return loc[1]
     }
 }
