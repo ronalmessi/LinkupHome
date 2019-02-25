@@ -1,7 +1,9 @@
 package com.ihomey.linkuphome.adapter
 
 
+import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -38,12 +40,18 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         helper.addOnClickListener(R.id.tv_device_name)
 
 
-        val cl_devices_item=swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
-        if(item.type==4){
-            cl_devices_item.setPadding( mContext.resources.getDimension(R.dimen._3sdp).toInt(),0,mContext.resources.getDimension(R.dimen._8sdp).toInt(),0)
-        }else if(item.type==3){
-            cl_devices_item.setPadding( mContext.resources.getDimension(R.dimen._16sdp).toInt(),0,mContext.resources.getDimension(R.dimen._8sdp).toInt(),0)
+        val cl_devices_item = swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
+        val tv_device_name = cl_devices_item.findViewById<TextView>(R.id.tv_device_name)
+        val layoutParams = tv_device_name.layoutParams as ViewGroup.MarginLayoutParams
+        if (item.type == 4) {
+            cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
+            layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
+        } else if (item.type == 3) {
+            layoutParams.marginStart = mContext.resources.getDimension(R.dimen._15sdp).toInt()
+            layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
+            cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }
+        tv_device_name.layoutParams = layoutParams
 
 
         val sb_power = helper.getView<SwitchButton>(R.id.sb_power)

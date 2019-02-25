@@ -1,8 +1,10 @@
 package com.ihomey.linkuphome.adapter
 
 
+import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.RelativeLayout
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.AppConfig
@@ -23,14 +25,19 @@ class BindedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, Ba
     }
 
     override fun convert(helper: BaseViewHolder, item: SingleDevice) {
-        helper.setText(R.id.tv_device_name, item.name)
-
+        val tv_device_name = helper.getView<TextView>(R.id.tv_device_name)
+        val layoutParams = tv_device_name.layoutParams as ViewGroup.MarginLayoutParams
         val rl_binded_devices_item=helper.getView<RelativeLayout>(R.id.rl_binded_devices_item)
         if (item.type == 4) {
             rl_binded_devices_item.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
+            layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
         } else if (item.type == 3) {
             rl_binded_devices_item.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
+            layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
+            layoutParams.marginStart = mContext.resources.getDimension(R.dimen._15sdp).toInt()
         }
+        tv_device_name.layoutParams=layoutParams
+        helper.setText(R.id.tv_device_name, item.name)
         helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[item.type])
         val sb_power = helper.getView<CheckBox>(R.id.cb_device_power_state)
         sb_power.isChecked = item.state.on == 1
