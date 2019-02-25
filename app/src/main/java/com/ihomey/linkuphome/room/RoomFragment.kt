@@ -86,7 +86,7 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as MeshServiceStateListener
-        bottomNavigationVisibilityListener= context as BottomNavigationVisibilityListener
+        bottomNavigationVisibilityListener = context as BottomNavigationVisibilityListener
         bindDeviceListener = context as UnBindedDevicesFragment.BindDeviceListener
     }
 
@@ -162,6 +162,15 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
         item.state.on = if (isChecked) 1 else 0
         if (listener.isMeshServiceConnected()) controller?.setLightPowerState(item.id, if (isChecked) 1 else 0)
         viewModel.updateDevice(item)
+
+        if (adapter.data.none { it.state.on == 1 }) {
+            room.state.on = 0
+            viewModel.updateRoom(room)
+        }
+        if (adapter.data.none { it.state.on == 0 }) {
+            room.state.on = 1
+            viewModel.updateRoom(room)
+        }
     }
 
     override fun groupsUpdated(deviceId: Int, groupId: Int, groupIndex: Int, success: Boolean, msg: String?) {

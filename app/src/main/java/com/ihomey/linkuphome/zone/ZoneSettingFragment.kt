@@ -16,6 +16,7 @@ import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -28,6 +29,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
+import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
 class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, SwipeMenuItemClickListener {
@@ -41,7 +43,10 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
     private lateinit var listener: BottomNavigationVisibilityListener
     private lateinit var viewModel: ZoneSettingViewModel
+    private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: ZoneListAdapter
+
+    private var connectedDeviceCount = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.zone_setting_fragment, container, false)
@@ -53,6 +58,12 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
+            }
+        })
+        mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        mViewModel.devicesResult.observe(this, Observer<Resource<List<SingleDevice>>> {
+            if (it?.status == Status.SUCCESS && it.data != null) {
+                connectedDeviceCount = it.data.size
             }
         })
     }
@@ -123,7 +134,14 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
                 val deleteZoneFragment = DeleteZoneFragment()
                 deleteZoneFragment.isCancelable = false
                 val bundle = Bundle()
-                bundle.putString("hintText", getString(R.string.zone_delete_hint))
+                bundle.putString("hintText", getString(R.string.zone_delete_hint1))
+                deleteZoneFragment.arguments = bundle
+                deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
+            } else if (connectedDeviceCount > 0) {
+                val deleteZoneFragment = DeleteZoneFragment()
+                deleteZoneFragment.isCancelable = false
+                val bundle = Bundle()
+                bundle.putString("hintText", getString(R.string.zone_delete_hint2))
                 deleteZoneFragment.arguments = bundle
                 deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
             } else {

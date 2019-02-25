@@ -83,10 +83,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_btn_reset_device_step1"
-                android:paddingLeft="@dimen/_32sdp"
-                android:paddingTop="@dimen/_10sdp"
-                android:paddingRight="@dimen/_32sdp"
-                android:paddingBottom="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_36sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingRight="@dimen/_36sdp"
+                android:paddingBottom="@dimen/_8sdp"
                 android:text="@string/how_to_reset_device_step1"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
@@ -98,24 +98,12 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:src="@mipmap/ic_device_reset_guide2" />
 
-            <TextView
-                android:id="@+id/iv_device_reset_step"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="-12dp"
-                android:gravity="left"
-                android:text="@string/how_to_reset_process"
-                android:textColor="#807F85"
-                android:textSize="@dimen/_15ssp"
-                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-
-                android:lineSpacingExtra="@dimen/_8sdp"
+                android:lineSpacingMultiplier="1.4"
                 android:text="@string/device_reset_hint2"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_15ssp" />
@@ -123,12 +111,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_42sdp"
+                android:layout_marginTop="@dimen/_36sdp"
                 android:background="@drawable/bg_btn_reset_device_step1"
-                android:paddingLeft="@dimen/_32sdp"
-                android:paddingTop="@dimen/_10sdp"
-                android:paddingRight="@dimen/_32sdp"
-                android:paddingBottom="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_36sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingRight="@dimen/_36sdp"
+                android:paddingBottom="@dimen/_8sdp"
                 android:text="@string/how_to_reset_device_step2"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
@@ -137,8 +125,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_21sdp"
                 android:text="@string/device_reset_hint1"
+                android:lineSpacingMultiplier="1.4"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_15ssp" />
 
@@ -146,8 +135,8 @@
                 android:id="@+id/iv_device_reset_guide1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_24sdp"
-                android:src="@mipmap/ic_device_reset_guide1_de" />
+                android:layout_marginTop="@dimen/_32sdp"
+                android:src="@mipmap/ic_device_reset_guide1_zh" />
 
         </LinearLayout>
 

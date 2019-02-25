@@ -58,6 +58,7 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         val deviceType = adapter.getItem(position)
         val bundle = Bundle()
         deviceType?.let { bundle.putInt("deviceType", it) }
+        arguments?.getInt("zoneId")?.let { bundle.putInt("zoneId", it) }
         Navigation.findNavController(view).navigate(R.id.action_chooseDeviceTypeFragment_to_searchDeviceHintFragment2, bundle)
     }
 }

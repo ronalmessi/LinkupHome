@@ -1,7 +1,5 @@
 package com.ihomey.linkuphome.home
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
@@ -20,9 +18,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
@@ -34,8 +30,10 @@ import com.ihomey.linkuphome.adapter.HomePageAdapter
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.Setting
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
+import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.device1.DevicesFragment
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
@@ -44,7 +42,7 @@ import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.listeners.BatteryValueListener
-import com.ihomey.linkuphome.listeners.DeviceAssociateListener
+import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import de.keyboardsurfer.android.widget.crouton.Crouton

@@ -46,10 +46,9 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
+
+    //bridge
     private val bridgeState = MutableLiveData<Boolean>()
-
-    private var currentControlDevice = MutableLiveData<SingleDevice>()
-
 
     fun getBridgeState(): MutableLiveData<Boolean> {
         return bridgeState
@@ -59,16 +58,22 @@ class HomeActivityViewModel : ViewModel() {
         bridgeState.value = connected
     }
 
+    private var scanedDevice = MutableLiveData<SingleDevice>()
 
-    fun getCurrentControlDevice(): MutableLiveData<SingleDevice> {
-        return currentControlDevice
+    fun getScanedDevice(): MutableLiveData<SingleDevice> {
+        return scanedDevice
     }
 
-    fun setCurrentControlDevice(singleDevice: SingleDevice) {
-        currentControlDevice.value = singleDevice
+    fun setScanedDevice(singleDevice: SingleDevice) {
+        if (scanedDevice.value == null) scanedDevice.value = singleDevice
+    }
+
+    fun clearScanedDevice() {
+        scanedDevice.value = null
     }
 
 
+    //model
     fun getModels(deviceId: Int, zoneId: Int): LiveData<Resource<List<Model>>> {
         return modelRepository.getModels(deviceId, zoneId)
     }
@@ -89,8 +94,8 @@ class HomeActivityViewModel : ViewModel() {
     //room
     val mSelectedRoom = MutableLiveData<Room>()
 
-    fun addRoom(currentSetting: Setting,currentZone:Zone ,type: Int, name: String) {
-        subZoneRepository.addRoom(currentSetting,currentZone, name, type)
+    fun addRoom(currentSetting: Setting, currentZone: Zone, type: Int, name: String) {
+        subZoneRepository.addRoom(currentSetting, currentZone, name, type)
     }
 
     fun deleteRoom(id: Int) {
@@ -115,6 +120,17 @@ class HomeActivityViewModel : ViewModel() {
 
 
     //device
+
+    private var currentControlDevice = MutableLiveData<SingleDevice>()
+
+    fun getCurrentControlDevice(): MutableLiveData<SingleDevice> {
+        return currentControlDevice
+    }
+
+    fun setCurrentControlDevice(singleDevice: SingleDevice) {
+        currentControlDevice.value = singleDevice
+    }
+
     fun addSingleDevice(currentSetting: Setting, singleDevice: SingleDevice) {
         mDeviceRepository.addSingleDevice(currentSetting, singleDevice)
     }
@@ -133,7 +149,7 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     fun getDevices(deviceId: Int, type: Int): LiveData<Resource<List<SingleDevice>>> {
-       return mDeviceRepository.getDevices(type,deviceId)
+        return mDeviceRepository.getDevices(type, deviceId)
 
     }
 }

@@ -14,7 +14,7 @@ import com.ihomey.linkuphome.getDistinct
 @Dao
 abstract class SingleDeviceDao {
 
-    @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by id asc, type asc")
+    @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
     abstract fun getDevices(zoneId: Int): LiveData<List<SingleDevice>>
 
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId and type= :type order by id asc")

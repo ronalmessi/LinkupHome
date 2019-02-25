@@ -32,10 +32,7 @@ import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.devices_fragment.*
 
-open class DevicesFragment : BaseFragment(), FragmentBackHandler, BaseQuickAdapter.OnItemChildClickListener, DeviceRemoveListener, DeleteDeviceListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener {
-    override fun onBackPressed(): Boolean {
-        return true
-    }
+open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, DeviceRemoveListener, DeleteDeviceListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener {
 
     companion object {
         fun newInstance() = DevicesFragment()
@@ -86,9 +83,19 @@ open class DevicesFragment : BaseFragment(), FragmentBackHandler, BaseQuickAdapt
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
         adapter.setEmptyView(R.layout.view_device_list_empty, rcv_device_list)
-        adapter.emptyView?.findViewById<Button>(R.id.btn_add_device)?.setOnClickListener { if (currentZoneId != -1) Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
+        adapter.emptyView?.findViewById<Button>(R.id.btn_add_device)?.setOnClickListener {
+            if (currentZoneId != -1) {
+                val bundle = Bundle()
+                bundle.putInt("zoneId", currentZoneId)
+                Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment, bundle)
+            }
+        }
         iv_add.setOnClickListener {
-            if (currentZoneId != -1) Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
+            if (currentZoneId != -1) {
+                val bundle = Bundle()
+                bundle.putInt("zoneId", currentZoneId)
+                Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment, bundle)
+            }
         }
     }
 

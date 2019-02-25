@@ -22,7 +22,7 @@ import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.FragmentDeviceMeshListBinding
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.getShortName
-import com.ihomey.linkuphome.listeners.DeviceAssociateListener
+import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.viewmodel.MainViewModel

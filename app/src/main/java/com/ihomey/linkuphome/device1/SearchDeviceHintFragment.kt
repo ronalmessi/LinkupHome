@@ -30,6 +30,7 @@ class SearchDeviceHintFragment : BaseFragment() {
         btn_next.setOnClickListener {
             val bundle = Bundle()
             arguments?.getInt("deviceType")?.let { it1 -> bundle.putInt("deviceType", it1) }
+            arguments?.getInt("zoneId")?.let { it1 -> bundle.putInt("zoneId", it1) }
             Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment2, bundle)
         }
     }

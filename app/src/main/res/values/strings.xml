@@ -76,14 +76,12 @@
     <string name="device_connect_step2_hint">If the device is not found within 10 seconds, please try to reset the device</string>
 
 
-    <string name="device_reset_hint2">1.Switch off the device firstly\n2.Switch it on for 1 or 2 seconds\n3.Switch it off again and wait for 1 or 2 seconds\n4.Switch it on for 1 or 2 seconds\n5.Switch it off again and wait for 1 or 2 seconds\n6.Switch it on the third time. When the light flashes 3 times, it means the device is reset to defaults.\n\n（If no light blinks 3 times, please repeat above steps until reset successfully）</string>
-    <string name="device_reset_hint1">Please delete the old connection in "Device Connect",then the reset device will show up</string>
+    <string name="device_reset_hint2">Please use the switch to operate:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n（If no light flash 3 times, please repeat above steps until reset successfully.Turning on and off the light can\'t be too fast, it takes 1-2 seconds. )</string>
+    <string name="device_reset_hint1">This step suitable for there is no new device appear in the "Device connect" page after reset. If the new device auto pops up, please ignore this step.\n\nIf no new device appear in the "Device connect" page, pls left slide to delete the invalid connection, the reset light can be displayed, then click to connection.</string>
 
-    <string name="device_reset_tip">Please try the following two shortcuts first.</string>
-    <string name="device_reset_hint0">1.Restart Bluetooth \n2.Restart LinkupHome APP at  background system of the phone</string>
-    <string name="device_reset_hint3">If you still can not find the devices after you try above two shortcuts, please reset the devices according to below steps.</string>
-
-
+    <string name="device_reset_tip">Please try following two shortcuts firstly:</string>
+    <string name="device_reset_hint0">Way 1: Turn off bluetooth, then turn on it again. \nWay 2: Exit the app completely from the background system, then restart the app.</string>
+    <string name="device_reset_hint3">If you\'re still unable to find devices after trying two shortcuts, follow the steps below to reset your device.</string>
 
 
     <string name="import_error">QR code does not match</string>
@@ -173,7 +171,8 @@
     <string name="setting_faqs">FAQs</string>
     <string name="setting_more">More</string>
 
-    <string name="zone_delete_hint">Please reserve at least one home for adding devices</string>
+    <string name="zone_delete_hint1">Please reserve at least one home for adding devices</string>
+    <string name="zone_delete_hint2">Devices in the current home are still connected, please go to the device list to delete devices one by one, then you can delete the current home.</string>
     <string name="zone_share_title">Share a home</string>
     <string name="zone_share_invitation_code">My Invitation Code</string>
     <string name="zone_join_title">Join a home</string>

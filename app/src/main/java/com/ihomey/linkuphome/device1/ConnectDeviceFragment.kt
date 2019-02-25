@@ -27,7 +27,7 @@ import com.ihomey.linkuphome.device.DeviceAssociateFragment
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.getShortName
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listeners.DeviceAssociateListener
+import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
@@ -71,6 +71,14 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
                             mViewModel.getDevices(arguments?.getInt("deviceType")!!, it1).observe(this, Observer<Resource<List<SingleDevice>>> {
                                 if (it?.status == Status.SUCCESS) {
                                     if (adapter.itemCount == 1) adapter.setNewData(it.data)
+                                    mViewModel.getScanedDevice().observe(this, Observer<SingleDevice> {
+                                        if (it != null) {
+                                            if (uuidHashArray.indexOfKey(it.hash) < 0) {
+                                                uuidHashArray.put(it.hash, it.name)
+                                                adapter.addData(it)
+                                            }
+                                        }
+                                    })
                                 }
                             })
                         }
@@ -106,6 +114,7 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mViewModel.clearScanedDevice()
         listener.discoverDevices(false, this)
         uuidHashArray.clear()
     }
@@ -113,9 +122,9 @@ class ConnectDeviceFragment : Fragment(), DeviceAssociateListener, BaseQuickAdap
     override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
         val type = arguments?.getInt("deviceType")!!
         if (uuidHashArray.indexOfKey(uuidHash) < 0) {
-            uuidHashArray.put(uuidHash, shortName)
             val deviceType = DeviceType.values()[type]
             val deviceShortName = getShortName(deviceType)
+            uuidHashArray.put(uuidHash, deviceType.name)
             if (TextUtils.equals(deviceShortName, shortName)) adapter.addData(SingleDevice(0, currentZone?.id!!, deviceType.name, type, uuidHash, 0, 0, 0))
         }
     }

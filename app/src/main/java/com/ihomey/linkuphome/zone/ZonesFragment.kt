@@ -143,9 +143,6 @@ class ZonesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Del
         adapter.hideGuideView()
         val room = adapter.getItem(position)
         if (room != null) {
-//            val bundle = Bundle()
-//            room.id.let { bundle.putInt("zoneId", it) }
-//            room.name.let { bundle.putString("zoneName", it) }
             mViewModel.setSelectedRoom(room)
             Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
         }
