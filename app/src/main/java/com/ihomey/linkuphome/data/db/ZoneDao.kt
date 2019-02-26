@@ -23,9 +23,8 @@ abstract class ZoneDao {
     abstract fun getZone(id:Int): LiveData<Zone>
 
 
-//
-//    @Query("SELECT zone.*,setting.* FROM zone inner join setting on zone.id =setting.zoneId WHERE zone.isCurrent =1")
-//    abstract fun getCurrentZone(): LiveData<ZoneSetting>
+    @Query("SELECT min(id) FROM zone")
+    abstract fun getMinZoneId(): Int
 
     @Query("DELETE FROM zone WHERE id = :id")
     abstract fun delete(id: Int)
@@ -39,13 +38,6 @@ abstract class ZoneDao {
     @Query("UPDATE zone set name = :newName WHERE id = :id ")
     abstract fun updateZoneName(newName: String, id: Int)
 
-
-//    @Query("UPDATE zone set isCurrent =0 WHERE isCurrent =1 ")
-//    abstract fun deleteCurrentZone()
-//
-//
-//    @Query("UPDATE zone set isCurrent =1 WHERE id = :id ")
-//    abstract fun setCurrentZone(id: Int)
 
 
 }

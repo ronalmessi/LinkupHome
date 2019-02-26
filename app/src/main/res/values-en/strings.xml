@@ -169,6 +169,7 @@
     <string name="setting_user_manual">User manual</string>
     <string name="setting_faqs">FAQs</string>
     <string name="setting_more">More</string>
+    <string name="setting_action_delete_devices">Go to device list</string>
 
     <string name="zone_delete_hint1">Please reserve at least one home for adding devices</string>
     <string name="zone_delete_hint2">Devices in the current home are still connected, please go to the device list to delete devices one by one, then you can delete the current home.</string>

@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel;
 import com.ihomey.linkuphome.component.DaggerAppComponent
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.repository.SubZoneRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
 import com.ihomey.linkuphome.data.vo.Resource
@@ -19,12 +21,21 @@ class ZoneSettingViewModel : ViewModel() {
     @Inject
     lateinit var subZoneRepository: SubZoneRepository
 
+    @Inject
+    lateinit var mDeviceRepository: DeviceRepository
+
     init {
         DaggerAppComponent.builder().build().inject(this)
     }
 
+    //zone
+
     fun getZones(): LiveData<Resource<List<Zone>>> {
         return zoneRepository.getZones()
+    }
+
+    fun getDevices(zoneId:Int): LiveData<Resource<List<SingleDevice>>> {
+        return  mDeviceRepository.getDevices(zoneId)
     }
 
     fun updateZoneName(newName: String, id: Int) {

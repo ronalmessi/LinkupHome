@@ -5,6 +5,7 @@ import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.db.RoomDao
 import com.ihomey.linkuphome.data.db.SettingDao
+import com.ihomey.linkuphome.data.db.SingleDeviceDao
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.SingleDevice
@@ -17,7 +18,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class SubZoneRepository @Inject constructor(private val subZoneDao: RoomDao, private val settingDao: SettingDao, private var appExecutors: AppExecutors) {
+class SubZoneRepository @Inject constructor(private val subZoneDao: RoomDao,private val deviceDao: SingleDeviceDao, private val settingDao: SettingDao, private var appExecutors: AppExecutors) {
 
     fun getSubZones(deviceId: Int): LiveData<Resource<List<Room>>> {
         return object : NetworkBoundResource<List<Room>>(appExecutors) {
@@ -67,9 +68,10 @@ class SubZoneRepository @Inject constructor(private val subZoneDao: RoomDao, pri
         }
     }
 
-    fun updateSubZoneState(subZoneId: Int,state: ControlState) {
+    fun updateSubZoneState(room: Room) {
         appExecutors.diskIO().execute {
-            subZoneDao.updateSubZoneState(subZoneId,state.on,state.light,state.changeMode,state.colorPosition,state.colorTemperature,state.brightness,state.sceneMode,state.openTimer,state.closeTimer,state.openTimerOn,state.closeTimerOn)
+            subZoneDao.updateSubZoneState(room.id,room.state.on,room.state.light,room.state.changeMode,room.state.colorPosition,room.state.colorTemperature,room.state.brightness,room.state.sceneMode,room.state.openTimer,room.state.closeTimer,room.state.openTimerOn,room.state.closeTimerOn)
+            deviceDao.updateDeviceState(room.zoneId,room.id,room.state.on)
         }
     }
 

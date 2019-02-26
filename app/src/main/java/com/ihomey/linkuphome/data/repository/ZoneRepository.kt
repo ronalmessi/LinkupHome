@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
@@ -24,7 +25,7 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
         }.asLiveData()
     }
 
-    fun getZone(id:Int): LiveData<Resource<Zone>> {
+    fun getZone(id: Int): LiveData<Resource<Zone>> {
         return object : NetworkBoundResource<Zone>(appExecutors) {
             override fun loadFromDb(): LiveData<Zone> {
                 return zoneDao.getZone(id)
@@ -43,24 +44,20 @@ class ZoneRepository @Inject constructor(private val zoneDao: ZoneDao, private v
         }
     }
 
-
     fun updateZoneName(newName: String, id: Int) {
         appExecutors.diskIO().execute {
             zoneDao.updateZoneName(newName, id)
         }
     }
 
-    fun setCurrentZone(id: Int) {
-        appExecutors.diskIO().execute {
-//            zoneDao.deleteCurrentZone()
-//            zoneDao.setCurrentZone(id)
-//            settingDao.updateZoneId(id)
-        }
-    }
-
     fun deleteZone(zoneId: Int) {
         appExecutors.diskIO().execute {
+            var currentZoneId by PreferenceHelper("currentZoneId", -1)
             zoneDao.delete(zoneId)
+            if (currentZoneId == zoneId) {
+                 val minZoneId=zoneDao.getMinZoneId()
+                currentZoneId=minZoneId
+            }
         }
     }
 }

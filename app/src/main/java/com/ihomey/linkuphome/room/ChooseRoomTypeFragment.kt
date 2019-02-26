@@ -1,8 +1,10 @@
 package com.ihomey.linkuphome.room
 
+import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +67,11 @@ class ChooseRoomTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener,
         adapter = ZoneTypeListAdapter(R.layout.item_zone_type_list)
         adapter.onItemClickListener = this
         rcv_zone_type_list.layoutManager = GridLayoutManager(context, 3)
-        context?.resources?.getDimensionPixelSize(R.dimen._21sdp)?.let { SpaceItemDecoration(it, it, it, it) }?.let { rcv_zone_type_list.addItemDecoration(it) }
+
+        val dm = DisplayMetrics()
+        (context as Activity).windowManager.defaultDisplay.getRealMetrics(dm)
+        val verticalMargin=(dm.heightPixels- context?.resources?.getDimensionPixelSize(R.dimen._64sdp)!!*5)/8
+        rcv_zone_type_list.addItemDecoration( SpaceItemDecoration(0, 0, verticalMargin, 0))
         rcv_zone_type_list.adapter = adapter
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }

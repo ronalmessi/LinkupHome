@@ -382,10 +382,12 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
         }
     }
 
-    override fun bindDevice(deviceId: Int, groupId: Int, groupUpdateListener: GroupUpdateListener) {
+    override fun bindDevice(deviceId: Int, groupId: Int, groupUpdateListener: GroupUpdateListener?) {
         this.mGroupUpdateListener = groupUpdateListener
-        mBindRoomId = groupId
-        GroupModelApi.getNumModelGroupIds(deviceId, DataModelApi.MODEL_NUMBER)
+        if (deviceId != -1) {
+            mBindRoomId = groupId
+            GroupModelApi.getNumModelGroupIds(deviceId, DataModelApi.MODEL_NUMBER)
+        }
     }
 
     private fun assignGroups(deviceId: Int, maxNum: Int) {

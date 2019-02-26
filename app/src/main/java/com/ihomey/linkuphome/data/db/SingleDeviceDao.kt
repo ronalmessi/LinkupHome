@@ -17,6 +17,9 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
     abstract fun getDevices(zoneId: Int): LiveData<List<SingleDevice>>
 
+//    @Query("SELECT * FROM Device WHERE id in((SELECT deviceId FROM Model WHERE zoneId=:zoneId)) and zoneId = :zoneId ")
+//    abstract fun getRoomDevices(zoneId: Int,deviceId:Int): LiveData<List<SingleDevice>>
+
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId and type= :type order by id asc")
     abstract fun getDevices(zoneId: Int, type: Int): LiveData<List<SingleDevice>>
 
@@ -41,8 +44,12 @@ abstract class SingleDeviceDao {
     abstract fun getBindedDevices(zoneId: Int,roomId:Int): LiveData<List<SingleDevice>>
 
 
-    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE roomId = :roomId and zoneId=:zoneId)  and zoneId=:zoneId  order by type asc")
-    abstract fun getUnBindedDevices(zoneId: Int,roomId:Int): LiveData<List<SingleDevice>>
+    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE zoneId=:zoneId) and zoneId=:zoneId  order by type asc")
+    abstract fun getUnBindedDevices(zoneId: Int): LiveData<List<SingleDevice>>
+
+
+//    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE roomId = :roomId and zoneId=:zoneId)  and zoneId=:zoneId  order by type asc")
+//    abstract fun getUnBindedDevices(zoneId: Int,roomId:Int): LiveData<List<SingleDevice>>
 
     @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE zoneId = :groupId and type=:deviceType) and type=:deviceType")
     abstract fun getUnBondedDevices(deviceType: Int, groupId: Int): LiveData<List<SingleDevice>>
@@ -86,5 +93,6 @@ abstract class SingleDeviceDao {
     abstract fun updateDeviceState(singleDeviceId: Int, on: Int, light: Int, changeMode: Int, colorPosition: Float, colorTemperature: Int, brightness: Int, sceneMode: Int, openTimer: Long, closeTimer: Long, openTimerOn: Int, closeTimerOn: Int)
 
 
-
+    @Query("UPDATE Device set isOn=:on  WHERE id in (SELECT deviceId FROM Model WHERE zoneId=:zoneId and roomId=:roomId) and zoneId=:zoneId")
+    abstract fun updateDeviceState(zoneId:Int,roomId: Int, on: Int)
 }

@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.component
 
 import com.ihomey.linkuphome.device1.ConnectDeviceViewModel
+import com.ihomey.linkuphome.device1.ConnectedDevicesViewModel
 import com.ihomey.linkuphome.device1.DevicesViewModel
 import com.ihomey.linkuphome.room.UnBindedDevicesViewModel
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -33,6 +34,8 @@ interface AppComponent {
     }
 
     fun inject(homeViewModel: HomeViewModel)
+
+    fun inject(connectedDevicesViewModel: ConnectedDevicesViewModel)
 
     fun inject(zonesViewModel: ZonesViewModel)
 

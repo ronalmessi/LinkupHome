@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.room
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.SingleDevice
@@ -23,7 +25,7 @@ import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.unbonded_devices_fragment.*
 
-class UnBindedDevicesFragment : Fragment(), BondDeviceTipFragment.BondDeviceListener, GroupUpdateListener {
+class UnBindedDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceListener, GroupUpdateListener {
 
     companion object {
         fun newInstance() = UnBindedDevicesFragment()
@@ -34,12 +36,6 @@ class UnBindedDevicesFragment : Fragment(), BondDeviceTipFragment.BondDeviceList
     private lateinit var adapter: UnBondedDeviceListAdapter
     private lateinit var listener: BindDeviceListener
     private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
-
-    private val bindedDevices = mutableListOf<SingleDevice>()
-    private val unBindedDevices = mutableListOf<SingleDevice>()
-
-    private val toBindDevices = mutableListOf<SingleDevice>()
-    private val toUnBindDevices = mutableListOf<SingleDevice>()
 
     private lateinit var room: Room
 
@@ -57,19 +53,9 @@ class UnBindedDevicesFragment : Fragment(), BondDeviceTipFragment.BondDeviceList
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(parentFragment!!).get(RoomViewModel::class.java)
-        mViewModel.bindedDevicesResult.observe(this, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS) {
-                bindedDevices.clear()
-                it.data?.let { it1 -> bindedDevices.addAll(it1) }
-                adapter.setNewData(it.data)
-                adapter.setSelectedDevices(it.data)
-            }
-        })
         mViewModel.unBindedDevicesResult.observe(this, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
-                unBindedDevices.clear()
-                it.data?.let { it1 -> unBindedDevices.addAll(it1) }
-                it.data?.let { it1 -> adapter.addData(it1) }
+                 adapter.setNewData(it.data)
             }
         })
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
@@ -86,7 +72,7 @@ class UnBindedDevicesFragment : Fragment(), BondDeviceTipFragment.BondDeviceList
         rcv_device_list.adapter = adapter
         adapter.setEmptyView(R.layout.view_unbonded_device_list_empty, rcv_device_list)
         iv_back.setOnClickListener {
-            if (bindedDevices.containsAll(adapter.getSelectedDevices()) && adapter.getSelectedDevices().containsAll(bindedDevices)) Navigation.findNavController(it).popBackStack() else {
+            if (adapter.getSelectedDevices().isEmpty()) Navigation.findNavController(it).popBackStack() else {
                 val dialog = BondDeviceTipFragment()
                 dialog.isCancelable = false
                 dialog.setDeleteDeviceListener(this)
@@ -94,7 +80,7 @@ class UnBindedDevicesFragment : Fragment(), BondDeviceTipFragment.BondDeviceList
             }
         }
         btn_save.setOnClickListener {
-            if (bindedDevices.containsAll(adapter.getSelectedDevices()) && adapter.getSelectedDevices().containsAll(bindedDevices)) {
+            if (adapter.getSelectedDevices().isEmpty()) {
                 confirm()
             } else {
                 bindDevice()
@@ -112,44 +98,38 @@ class UnBindedDevicesFragment : Fragment(), BondDeviceTipFragment.BondDeviceList
         mDialog.arguments = bundle
         mDialog.isCancelable = false
         mDialog.show(fragmentManager, "GroupUpdateFragment")
-        count = 0
-        val aa = bindedDevices
-        aa.removeAll(adapter.getSelectedDevices())
-        toUnBindDevices.clear()
-        toUnBindDevices.addAll(aa)
-        val bb = unBindedDevices
-        bb.retainAll(adapter.getSelectedDevices())
-        toBindDevices.clear()
-        toBindDevices.addAll(bb)
-        for (device in toUnBindDevices) {
+        for (device in adapter.getSelectedDevices()) {
             listener.bindDevice(device.id, room.id, this)
         }
-        for (device in toBindDevices) {
-            listener.bindDevice(device.id, room.id, this)
-        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        listener.bindDevice(-1, -1, null)
     }
 
     override fun groupsUpdated(deviceId: Int, groupId: Int, groupIndex: Int, success: Boolean, msg: String?) {
         count++
         if (success) {
-            if(groupId!=0){
-                mViewModel.createModel(Model(0, room.zoneId,deviceId, groupId, groupIndex, -1))
-                viewModel.updateSendTypes(groupId,room.zoneId)
+            if (groupId != 0) {
+                mViewModel.createModel(Model(0, room.zoneId, deviceId, groupId, groupIndex, -1))
+                viewModel.updateSendTypes(groupId, room.zoneId)
             } else {
-                mViewModel.deleteModel(deviceId,room.id,room.zoneId)
-                viewModel.updateSendTypes(room.id,room.zoneId)
+                mViewModel.deleteModel(deviceId, room.id, room.zoneId)
+                viewModel.updateSendTypes(room.id, room.zoneId)
             }
 
         } else {
             if (msg != null) activity?.toast(msg)
         }
-        if (count == (toBindDevices.size + toUnBindDevices.size)) {
+        if (count == adapter.getSelectedDevices().size) {
             mDialog.dismiss()
+            count = 0
             Navigation.findNavController(btn_save).popBackStack()
         }
     }
 
     interface BindDeviceListener {
-        fun bindDevice(deviceId: Int, groupId: Int, groupUpdateListener: GroupUpdateListener)
+        fun bindDevice(deviceId: Int, groupId: Int, groupUpdateListener: GroupUpdateListener?)
     }
 }

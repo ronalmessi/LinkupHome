@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_zoneSettingFragment_to_joinZoneFragment"
             app:destination="@id/joinZoneFragment" />
+        <action
+            android:id="@+id/action_zoneSettingFragment_to_connectedDevicesFragment"
+            app:destination="@id/connectedDevicesFragment" />
     </fragment>
 
     <fragment
@@ -110,5 +113,13 @@
         android:name="com.ihomey.linkuphome.setting.LanguageSettingFragment"
         android:label="language_settingg_fragment"
         tools:layout="@layout/language_settingg_fragment" >
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/connectedDevicesFragment"
+        android:name="com.ihomey.linkuphome.device1.ConnectedDevicesFragment"
+        android:label="connectedDevicesFragment"
+        tools:layout="@layout/connected_devices_fragment" >
     </fragment>
 </navigation>

@@ -40,6 +40,6 @@ class ZonesViewModel : ViewModel() {
     }
 
     fun updateSubZone(subZone: Room) {
-        subZone.state?.let { subZoneRepository.updateSubZoneState(subZone.id, it) }
+        subZone.state?.let { subZoneRepository.updateSubZoneState(subZone) }
     }
 }

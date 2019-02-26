@@ -100,7 +100,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
     fun getUnBindedDevices(zoneId: Int,roomId:Int): LiveData<Resource<List<SingleDevice>>> {
         return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
-                return singleDeviceDao.getUnBindedDevices(zoneId,roomId)
+                return singleDeviceDao.getUnBindedDevices(zoneId)
             }
         }.asLiveData()
     }
@@ -168,6 +168,8 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
             singleDeviceDao.updateDeviceState(singleDeviceId,state.on,state.light,state.changeMode,state.colorPosition,state.colorTemperature,state.brightness,state.sceneMode,state.openTimer,state.closeTimer,state.openTimerOn,state.closeTimerOn)
         }
     }
+
+
 
     fun setLastUsedDeviceId(deviceId: Int, deviceType: Int) {
         appExecutors.diskIO().execute {

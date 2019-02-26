@@ -157,6 +157,7 @@
     <string name="setting_user_manual">使用说明</string>
     <string name="setting_faqs">常见问题</string>
     <string name="setting_more">更多</string>
+    <string name="setting_action_delete_devices">前往设备列表</string>
 
     <string name="zones_title">空间</string>
     <string name="zone_create_title">创建新空间</string>

@@ -84,12 +84,10 @@ class HomeActivityViewModel : ViewModel() {
         return mSettingRepository.getSetting()
     }
 
-
     //zone
     fun setCurrentZoneId(zoneId: Int) {
         mCurrentZoneId.value = zoneId
     }
-
 
     //room
     val mSelectedRoom = MutableLiveData<Room>()
@@ -103,7 +101,7 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     fun updateRoom(room: Room) {
-        subZoneRepository.updateSubZoneState(room.id, room.state)
+        subZoneRepository.updateSubZoneState(room)
     }
 
     fun setSelectedRoom(room: Room) {
