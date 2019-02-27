@@ -6,7 +6,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.ihomey.linkuphome.data.entity.Room
-import com.ihomey.linkuphome.data.vo.SubZoneModel
 
 
 /**
@@ -19,8 +18,6 @@ interface RoomDao {
     fun getSubZones(parentId: Int): LiveData<List<Room>>
 
 
-    @Query("SELECT * FROM room where zoneId=:parentId order by id asc")
-    fun getSubZoneModels(parentId: Int): LiveData<List<SubZoneModel>>
 
 
     @Query("SELECT * FROM room where zoneId=:zoneId order by id asc")

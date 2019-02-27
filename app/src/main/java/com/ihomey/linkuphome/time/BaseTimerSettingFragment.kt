@@ -1,14 +1,14 @@
 package com.ihomey.linkuphome.time
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.RadioGroup
-import com.ihomey.linkuphome.base.BaseFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.SingleDevice

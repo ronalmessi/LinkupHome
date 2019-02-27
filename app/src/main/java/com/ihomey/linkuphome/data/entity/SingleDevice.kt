@@ -1,6 +1,9 @@
 package com.ihomey.linkuphome.data.entity
 
-import androidx.room.*
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Ignore
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.ihomey.linkuphome.data.vo.ControlState
 import java.util.*

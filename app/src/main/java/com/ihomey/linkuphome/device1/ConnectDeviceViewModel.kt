@@ -1,13 +1,10 @@
 package com.ihomey.linkuphome.device1
 
-import androidx.lifecycle.ViewModel;
-import com.ihomey.linkuphome.component.DaggerAppComponent
+import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.repository.DeviceRepository
-import com.ihomey.linkuphome.data.vo.LampCategory
+import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
 class ConnectDeviceViewModel : ViewModel() {

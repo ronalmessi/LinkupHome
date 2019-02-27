@@ -1,31 +1,30 @@
 package com.ihomey.linkuphome.device
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
-import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.base.BaseFragment
+import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.vo.*
+import com.ihomey.linkuphome.data.vo.DeviceInfo
+import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.databinding.FragmentDeviceMeshListBinding
-import com.ihomey.linkuphome.dip2px
-import com.ihomey.linkuphome.getShortName
 import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
-import com.ihomey.linkuphome.toast
-import com.ihomey.linkuphome.viewmodel.MainViewModel
+import com.ihomey.linkuphome.main.MainViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.yanzhenjie.recyclerview.swipe.*
 
@@ -43,7 +42,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
     private var adapter: ScanDeviceListAdapter? = null
     private lateinit var listener: DevicesStateListener
     private var mViewModel: MainViewModel? = null
-    private var setting: LampCategory? = null
+//    private var setting: LampCategory? = null
     private val deviceAssociateFragment = DeviceAssociateFragment()
     private val deviceRemoveFragment = DeviceRemoveFragment()
 
@@ -104,11 +103,11 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
                 }
             }
         })
-        mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> { it ->
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                setting = it.data
-            }
-        })
+//        mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> { it ->
+//            if (it?.status == Status.SUCCESS && it.data != null) {
+//                setting = it.data
+//            }
+//        })
     }
 
     override fun onAttach(context: Context?) {
@@ -183,7 +182,7 @@ class MeshDeviceListFragment : BaseFragment(), SwipeItemClickListener, SwipeMenu
         if (position != -1) {
             adapter?.getItem(position)?.id = deviceId
             adapter?.notifyItemChanged(position)
-            mViewModel?.addSingleDevice(setting!!, device)
+//            mViewModel?.addSingleDevice(setting!!, device)
         }
         deviceAssociateFragment.dismiss()
     }

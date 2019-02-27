@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.data.entity
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 import com.ihomey.linkuphome.data.vo.ControlState
 
 /**

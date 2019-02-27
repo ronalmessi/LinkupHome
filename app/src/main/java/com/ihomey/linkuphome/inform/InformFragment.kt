@@ -1,21 +1,23 @@
 package com.ihomey.linkuphome.inform
 
-import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
-import android.text.*
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.R
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.widget.CompoundButton
-import com.ihomey.linkuphome.databinding.InformFragmentBinding
+import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import com.ihomey.linkuphome.PreferenceHelper
+import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.databinding.InformFragmentBinding
 
 
 /**

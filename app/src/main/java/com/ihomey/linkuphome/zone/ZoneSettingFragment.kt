@@ -2,17 +2,16 @@ package com.ihomey.linkuphome.zone
 
 import android.content.Context
 import android.graphics.Color
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
@@ -21,8 +20,6 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.DeleteDevicesFragment
-import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 import com.ihomey.linkuphome.widget.DividerItemDecoration
@@ -30,7 +27,6 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
-import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
 class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, SwipeMenuItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener {

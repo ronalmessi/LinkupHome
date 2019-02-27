@@ -1,13 +1,13 @@
 package com.ihomey.linkuphome.control
 
-import androidx.lifecycle.Observer
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.batteryIcons
 import com.ihomey.linkuphome.data.vo.ControlDevice

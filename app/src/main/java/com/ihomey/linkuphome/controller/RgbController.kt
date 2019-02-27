@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.controller
 
-import android.util.Log
 import com.csr.mesh.DataModelApi
 import com.ihomey.linkuphome.decodeHex
 

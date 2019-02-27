@@ -2,7 +2,6 @@ package com.ihomey.linkuphome.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.annotation.IdRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
 
 /**
  * <p>This class is used to create a multiple-exclusion scope for a set of radio

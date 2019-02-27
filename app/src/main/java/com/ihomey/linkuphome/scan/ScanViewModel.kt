@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.scan
 
 import androidx.lifecycle.ViewModel
-import com.ihomey.linkuphome.component.DaggerAppComponent
 import com.ihomey.linkuphome.data.repository.DataRepository
+import com.ihomey.linkuphome.dl.DaggerAppComponent
 import org.json.JSONObject
 import javax.inject.Inject
 

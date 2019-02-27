@@ -1,13 +1,11 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
-import com.ihomey.linkuphome.data.db.Model1Dao
-import com.ihomey.linkuphome.data.db.SingleDeviceDao
+import com.ihomey.linkuphome.data.db.ModelDao
 import com.ihomey.linkuphome.data.db.RoomDao
+import com.ihomey.linkuphome.data.db.SingleDeviceDao
 import com.ihomey.linkuphome.data.entity.Model
-import com.ihomey.linkuphome.data.vo.Model1
 import com.ihomey.linkuphome.data.vo.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +14,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class Model1Repository @Inject constructor(private val modelDao: Model1Dao, private val subZoneDao: RoomDao, private val singleDeviceDao: SingleDeviceDao, private var appExecutors: AppExecutors) {
+class Model1Repository @Inject constructor(private val modelDao: ModelDao, private val subZoneDao: RoomDao, private val singleDeviceDao: SingleDeviceDao, private var appExecutors: AppExecutors) {
 
     fun getModels(deviceId: Int,zoneId:Int): LiveData<Resource<List<Model>>> {
         return object : NetworkBoundResource<List<Model>>(appExecutors) {

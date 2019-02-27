@@ -1,22 +1,14 @@
 package com.ihomey.linkuphome.time
 
 import android.annotation.SuppressLint
-import android.content.Context
-import androidx.databinding.DataBindingUtil
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.SingleDevice
-
 import com.ihomey.linkuphome.databinding.FragmentTimerSettingBinding
 import java.util.*
 

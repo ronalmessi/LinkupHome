@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.module
+package com.ihomey.linkuphome.dl
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -10,9 +10,6 @@ import dagger.Provides
 import javax.inject.Singleton
 
 
-/**
- * Created by dongcaizheng on 2018/1/11.
- */
 @Module
 class ApiModule {
 
@@ -29,11 +26,6 @@ class ApiModule {
                 .build()
     }
 
-    @Singleton
-    @Provides
-    fun provideModelDao(db: LinkupHomeDb): ModelDao {
-        return db.modelDao()
-    }
 
     @Singleton
     @Provides
@@ -54,11 +46,6 @@ class ApiModule {
     }
 
 
-    @Singleton
-    @Provides
-    fun provideLampCategoryDao(db: LinkupHomeDb): LampCategoryDao {
-        return db.lampCategoryDao()
-    }
 
     @Singleton
     @Provides
@@ -68,8 +55,8 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideModel1Dao(db: LinkupHomeDb): Model1Dao {
-        return db.model1Dao()
+    fun provideModelDao(db: LinkupHomeDb): ModelDao {
+        return db.modelDao()
     }
 
     @Singleton

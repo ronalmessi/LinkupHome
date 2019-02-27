@@ -2,15 +2,15 @@ package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
-import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.db.RoomDao
 import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Setting
-import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.vo.*
+
+import com.ihomey.linkuphome.data.vo.Resource
+
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,13 +28,13 @@ class SubZoneRepository @Inject constructor(private val subZoneDao: RoomDao,priv
         }.asLiveData()
     }
 
-    fun getSubZoneModels(deviceId: Int): LiveData<Resource<List<SubZoneModel>>> {
-        return object : NetworkBoundResource<List<SubZoneModel>>(appExecutors) {
-            override fun loadFromDb(): LiveData<List<SubZoneModel>> {
-                return subZoneDao.getSubZoneModels(deviceId)
-            }
-        }.asLiveData()
-    }
+//    fun getSubZoneModels(deviceId: Int): LiveData<Resource<List<SubZoneModel>>> {
+//        return object : NetworkBoundResource<List<SubZoneModel>>(appExecutors) {
+//            override fun loadFromDb(): LiveData<List<SubZoneModel>> {
+//                return subZoneDao.getSubZoneModels(deviceId)
+//            }
+//        }.asLiveData()
+//    }
 
 
     fun addRoom(currentSetting: Setting, currentZone: Zone , name: String, type: Int) {
@@ -53,14 +53,14 @@ class SubZoneRepository @Inject constructor(private val subZoneDao: RoomDao,priv
         }.asLiveData()
     }
 
-
-    fun insert(setting: LampCategory,  name: String, type: Int,parentId: Int) {
-        appExecutors.diskIO().execute {
-//            subZoneDao.insert(Room(setting.nextGroupIndex, 1,1,name,type,"",ControlState()))
-//            setting.nextGroupIndex = setting.nextGroupIndex + 1
-//            lampCategoryDao.updateCategory(setting)
-        }
-    }
+//
+//    fun insert(setting: LampCategory,  name: String, type: Int,parentId: Int) {
+//        appExecutors.diskIO().execute {
+////            subZoneDao.insert(Room(setting.nextGroupIndex, 1,1,name,type,"",ControlState()))
+////            setting.nextGroupIndex = setting.nextGroupIndex + 1
+////            lampCategoryDao.updateCategory(setting)
+//        }
+//    }
 
     fun delete(id: Int) {
         appExecutors.diskIO().execute {

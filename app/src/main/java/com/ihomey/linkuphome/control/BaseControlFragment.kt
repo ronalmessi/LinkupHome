@@ -1,17 +1,16 @@
 package com.ihomey.linkuphome.control
 
 import android.app.Activity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.base.BaseFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.vo.ControlDevice
@@ -21,6 +20,7 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device.DeviceRenameFragment
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.main.MainViewModel
 import com.ihomey.linkuphome.scan.ScanActivity
 import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
 import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
@@ -28,7 +28,6 @@ import com.ihomey.linkuphome.scene.S1SceneSettingFragment
 import com.ihomey.linkuphome.share.ShareActivity
 import com.ihomey.linkuphome.time.RepeatTimerSettingFragment
 import com.ihomey.linkuphome.time.TimerSettingFragment
-import com.ihomey.linkuphome.viewmodel.MainViewModel
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView

@@ -2,10 +2,8 @@ package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
-import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.entity.Setting
-import com.ihomey.linkuphome.data.vo.LampCategory
 import com.ihomey.linkuphome.data.vo.Resource
 import javax.inject.Inject
 import javax.inject.Singleton

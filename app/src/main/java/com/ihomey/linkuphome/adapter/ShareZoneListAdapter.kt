@@ -1,16 +1,11 @@
 package com.ihomey.linkuphome.adapter
 
 
-import android.util.Log
-import androidx.core.content.ContextCompat.getDrawable
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.dip2px
-import com.ihomey.linkuphome.getIcon
 
 
 /**

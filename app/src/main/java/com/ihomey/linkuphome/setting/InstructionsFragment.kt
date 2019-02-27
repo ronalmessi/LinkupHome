@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.navigation.Navigation
-import com.ihomey.linkuphome.base.BaseFragment
-
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import kotlinx.android.synthetic.main.instructions_fragment.*
 

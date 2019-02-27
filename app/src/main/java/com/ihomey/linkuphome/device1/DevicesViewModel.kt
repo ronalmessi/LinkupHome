@@ -1,13 +1,9 @@
 package com.ihomey.linkuphome.device1
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel;
-import com.ihomey.linkuphome.component.DaggerAppComponent
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.repository.DeviceRepository
-import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
 class DevicesViewModel : ViewModel() {

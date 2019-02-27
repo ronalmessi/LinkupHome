@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.ihomey.linkuphome.base.BaseFragment
-
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import kotlinx.android.synthetic.main.search_device_hint_fragment.*
 
 class SearchDeviceHintFragment : BaseFragment() {

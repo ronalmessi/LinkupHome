@@ -2,8 +2,8 @@ package com.ihomey.linkuphome.base
 
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.umeng.analytics.MobclickAgent
 
 /**

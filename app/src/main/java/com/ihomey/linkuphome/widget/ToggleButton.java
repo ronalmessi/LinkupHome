@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.IntDef;
-import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -23,6 +21,9 @@ import android.widget.TextView;
 import com.ihomey.linkuphome.R;
 
 import java.lang.annotation.Retention;
+
+import androidx.annotation.IntDef;
+import androidx.core.content.ContextCompat;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 

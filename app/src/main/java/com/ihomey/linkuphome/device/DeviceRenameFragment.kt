@@ -1,16 +1,16 @@
 package com.ihomey.linkuphome.device
 
 import android.app.DialogFragment
-import androidx.lifecycle.ViewModelProviders
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.databinding.FragmentDialogDeviceRenameBinding
 import com.ihomey.linkuphome.hideInput
-import com.ihomey.linkuphome.viewmodel.MainViewModel
+import com.ihomey.linkuphome.main.MainViewModel
 
 /**
  * Created by dongcaizheng on 2018/4/14.

@@ -1,20 +1,19 @@
 package com.ihomey.linkuphome.device
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ihomey.linkuphome.base.BaseFragment
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.databinding.FragmentDeviceConnectStep2Binding
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
-import com.ihomey.linkuphome.main.LampFragment
-import com.ihomey.linkuphome.viewmodel.MainViewModel
+import com.ihomey.linkuphome.main.MainViewModel
 
 
 /**
@@ -78,12 +77,12 @@ class DeviceConnectStep2Fragment : BaseFragment() {
     }
 
     private fun showLamp() {
-        mViewDataBinding.tvDeviceConnectStep2Hint.postDelayed({
-            if (activity != null) {
-                activity?.onBackPressed()
-                    (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments?.getInt("categoryType", 0)!!))
-            }
-        }, 1000)
+//        mViewDataBinding.tvDeviceConnectStep2Hint.postDelayed({
+//            if (activity != null) {
+//                activity?.onBackPressed()
+//                    (activity as IFragmentStackHolder).replaceFragment(R.id.container, LampFragment().newInstance(arguments?.getInt("categoryType", 0)!!))
+//            }
+//        }, 1000)
     }
 
 

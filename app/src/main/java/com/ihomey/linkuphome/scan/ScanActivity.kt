@@ -1,21 +1,21 @@
 package com.ihomey.linkuphome.scan
 
 import android.app.Activity
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Vibrator
-import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.TranslateAnimation
-import com.ihomey.linkuphome.base.BaseActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.databinding.ActivityScanBinding
 import com.ihomey.linkuphome.scan.core.QRCodeView
 import com.ihomey.linkuphome.share.ShareActivity

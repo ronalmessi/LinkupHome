@@ -1,16 +1,17 @@
 package com.ihomey.linkuphome.room
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel;
-import com.ihomey.linkuphome.component.DaggerAppComponent
+import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.repository.*
-import com.ihomey.linkuphome.data.vo.*
+import com.ihomey.linkuphome.data.repository.DeviceRepository
+import com.ihomey.linkuphome.data.repository.Model1Repository
+import com.ihomey.linkuphome.data.repository.SubZoneRepository
+import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
 class RoomViewModel : ViewModel() {

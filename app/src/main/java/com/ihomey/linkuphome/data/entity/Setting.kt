@@ -2,9 +2,7 @@ package com.ihomey.linkuphome.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.util.*
 
 /**
  * Created by dongcaizheng on 2018/4/11.

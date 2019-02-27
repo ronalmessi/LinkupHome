@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.inform
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.setTranslucentStatus

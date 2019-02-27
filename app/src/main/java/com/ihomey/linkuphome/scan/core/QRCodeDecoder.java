@@ -10,7 +10,6 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.GlobalHistogramBinarizer;
 import com.google.zxing.common.HybridBinarizer;
-import com.ihomey.linkuphome.scan.core.BGAQRCodeUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

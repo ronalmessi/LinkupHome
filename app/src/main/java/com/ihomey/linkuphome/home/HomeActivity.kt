@@ -23,32 +23,26 @@ import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.HomePageAdapter
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.Setting
-import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.device.DeviceType
+import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.device1.DevicesFragment
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
-import com.ihomey.linkuphome.room.UnBindedDevicesFragment
-import com.ihomey.linkuphome.listener.BridgeListener
-import com.ihomey.linkuphome.listener.GroupUpdateListener
-import com.ihomey.linkuphome.listener.OnLanguageListener
+import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
-import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.room.UnBindedDevicesFragment
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_fragment.*
 import java.lang.ref.WeakReference
-import java.util.HashSet
+import java.util.*
 
 
 class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, DevicesFragment.DevicesStateListener, UnBindedDevicesFragment.BindDeviceListener {

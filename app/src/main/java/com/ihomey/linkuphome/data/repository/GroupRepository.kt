@@ -1,13 +1,12 @@
 package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
-import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.data.db.GroupDeviceDao
-import com.ihomey.linkuphome.data.db.LampCategoryDao
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.data.vo.GroupDevice
-import com.ihomey.linkuphome.data.vo.LampCategory
+
 import com.ihomey.linkuphome.data.vo.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +15,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class GroupRepository @Inject constructor(private val lampGroupDao: GroupDeviceDao, private val lampCategoryDao: LampCategoryDao, private var appExecutors: AppExecutors) {
+class GroupRepository @Inject constructor(private val lampGroupDao: GroupDeviceDao, private var appExecutors: AppExecutors) {
 
     fun getGroups(lampGroupType: Int): LiveData<Resource<List<GroupDevice>>> {
         return object : NetworkBoundResource<List<GroupDevice>>(appExecutors) {
@@ -40,15 +39,15 @@ class GroupRepository @Inject constructor(private val lampGroupDao: GroupDeviceD
         }
     }
 
-    fun addGroup(setting: LampCategory, settingForType: LampCategory, lampGroup: GroupDevice) {
-        appExecutors.diskIO().execute {
-            lampGroupDao.insert(lampGroup)
-            setting.nextGroupIndex = setting.nextGroupIndex + 1
-            settingForType.nextGroupIndex = settingForType.nextGroupIndex + 1
-            lampCategoryDao.updateCategory(setting)
-            lampCategoryDao.updateCategory(settingForType)
-        }
-    }
+//    fun addGroup(setting: LampCategory, settingForType: LampCategory, lampGroup: GroupDevice) {
+//        appExecutors.diskIO().execute {
+//            lampGroupDao.insert(lampGroup)
+//            setting.nextGroupIndex = setting.nextGroupIndex + 1
+//            settingForType.nextGroupIndex = settingForType.nextGroupIndex + 1
+//            lampCategoryDao.updateCategory(setting)
+//            lampCategoryDao.updateCategory(settingForType)
+//        }
+//    }
 
     fun deleteGroup(lampGroup: GroupDevice) {
         appExecutors.diskIO().execute {

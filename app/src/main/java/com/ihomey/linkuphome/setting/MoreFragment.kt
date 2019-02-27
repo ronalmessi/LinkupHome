@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.ihomey.linkuphome.base.BaseFragment
-
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import kotlinx.android.synthetic.main.more_fragment.*
 

@@ -1,27 +1,20 @@
 package com.ihomey.linkuphome.setting
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import com.ihomey.linkuphome.base.BaseFragment
-
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.entity.ZoneSetting
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
-import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import kotlinx.android.synthetic.main.setting_fragment.*
 
 class SettingFragment : BaseFragment() {

@@ -1,13 +1,13 @@
 package com.ihomey.linkuphome.adapter
 
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StyleSpan
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.ihomey.linkuphome.R
-import android.text.Spanned
-import android.graphics.Typeface
-import android.text.style.StyleSpan
-import android.text.SpannableString
 import com.ihomey.linkuphome.AppConfig
+import com.ihomey.linkuphome.R
 
 
 /**

@@ -1,13 +1,13 @@
 package com.ihomey.linkuphome.control
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ihomey.linkuphome.base.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.IFragmentStackHolder

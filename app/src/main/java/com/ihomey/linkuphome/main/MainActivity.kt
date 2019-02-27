@@ -1,8 +1,6 @@
 package com.ihomey.linkuphome.main
 
 import android.app.Activity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
@@ -12,36 +10,34 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
-import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.util.ArrayMap
 import android.util.Log
 import android.util.SparseIntArray
 import android.view.Gravity
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.device.MeshDeviceListFragment
-import com.ihomey.linkuphome.group.GroupSettingFragment
-import com.ihomey.linkuphome.inform.InformFragment
 import com.ihomey.linkuphome.listener.*
-import com.ihomey.linkuphome.listeners.*
-import com.ihomey.linkuphome.viewmodel.MainViewModel
+import com.ihomey.linkuphome.listeners.BatteryValueListener
+import com.ihomey.linkuphome.listeners.DeviceRemoveListener
+import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragmentStackHolder, MeshDeviceListFragment.DevicesStateListener, MeshServiceStateListener, GroupSettingFragment.ModelUpdateListener {
+class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragmentStackHolder, MeshDeviceListFragment.DevicesStateListener, MeshServiceStateListener {
 
     private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
     private val languageArray: Array<String> = arrayOf("en", "zh", "fr", "de", "es", "nl")
@@ -102,17 +98,17 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         }
     }
 
-    override fun updateModel(deviceId: Int, groupId: Int, models: List<Model>?, groupUpdateListener: GroupUpdateListener) {
-        mGroupUpdateListener = groupUpdateListener
-        mDeviceIdToModel = deviceId
-        mGroupIdToModel = groupId
-        mModels.clear()
-        if (models != null) {
-            mModels.addAll(models)
-            mSupportGroupNums = mModels.size
-        }
-        GroupModelApi.getNumModelGroupIds(deviceId, DataModelApi.MODEL_NUMBER)
-    }
+//    override fun updateModel(deviceId: Int, groupId: Int, models: List<Model>?, groupUpdateListener: GroupUpdateListener) {
+//        mGroupUpdateListener = groupUpdateListener
+//        mDeviceIdToModel = deviceId
+//        mGroupIdToModel = groupId
+//        mModels.clear()
+//        if (models != null) {
+//            mModels.addAll(models)
+//            mSupportGroupNums = mModels.size
+//        }
+//        GroupModelApi.getNumModelGroupIds(deviceId, DataModelApi.MODEL_NUMBER)
+//    }
 
     override fun connectBridge() {
         mService?.setHandler(mMeshHandler)
@@ -137,15 +133,15 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        mViewModel?.getLocalSetting()?.observe(this, Observer<Resource<LampCategory>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                mService?.setNetworkPassPhrase(it.data.networkKey)
-            }
-        })
+//        mViewModel?.getLocalSetting()?.observe(this, Observer<Resource<LampCategory>> {
+//            if (it?.status == Status.SUCCESS && it.data != null) {
+//                mService?.setNetworkPassPhrase(it.data.networkKey)
+//            }
+//        })
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
         if (savedInstanceState == null) {
             val hasAgreed by PreferenceHelper("hasAgreed", false)
-            supportFragmentManager.beginTransaction().replace(R.id.container, if (!hasAgreed) InformFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
+//            supportFragmentManager.beginTransaction().replace(R.id.container, if (!hasAgreed) InformFragment().newInstance() else WelcomeFragment().newInstance()).commitNow()
         }
     }
 
@@ -218,11 +214,11 @@ class MainActivity : BaseActivity(), BridgeListener, OnLanguageListener, IFragme
     }
 
     private fun getNextDeviceIndex() {
-        mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                mService?.setNextDeviceId(it.data.nextDeviceIndex)
-            }
-        })
+//        mViewModel?.getGlobalSetting()?.observe(this, Observer<Resource<LampCategory>> {
+//            if (it?.status == Status.SUCCESS && it.data != null) {
+//                mService?.setNextDeviceId(it.data.nextDeviceIndex)
+//            }
+//        })
     }
 
     private fun assignGroups(maxNums: Int) {

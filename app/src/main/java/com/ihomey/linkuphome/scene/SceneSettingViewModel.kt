@@ -1,9 +1,9 @@
 package com.ihomey.linkuphome.scene
 
 import androidx.lifecycle.ViewModel
-import com.ihomey.linkuphome.component.DaggerAppComponent
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.repository.GroupRepository
+import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
 class SceneSettingViewModel : ViewModel() {

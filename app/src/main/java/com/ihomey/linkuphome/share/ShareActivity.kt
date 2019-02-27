@@ -2,22 +2,21 @@ package com.ihomey.linkuphome.share
 
 import android.Manifest
 import android.app.Activity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.base.BaseActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.*
 import com.ihomey.linkuphome.databinding.ActivityShareBinding
@@ -40,7 +39,7 @@ class ShareActivity : BaseActivity() {
     private lateinit var generatingDialog: LoadingFragment
     private var lampCategoryType = -1
     private var bitmap: Bitmap? = null
-    private var settings: List<LampCategory>? = null
+//    private var settings: List<LampCategory>? = null
     private var deviceModels: List<DeviceModel>? = null
     private var groups: List<GroupDevice>? = null
 
@@ -70,12 +69,12 @@ class ShareActivity : BaseActivity() {
             }
         })
 
-        mViewModel.getSettingResults().observe(this, Observer<Resource<List<LampCategory>>> {
-            if (it?.status == Status.SUCCESS && it.data?.size == 2) {
-                settings = it.data
-                mViewModel.loadDevices(lampCategoryType)
-            }
-        })
+//        mViewModel.getSettingResults().observe(this, Observer<Resource<List<LampCategory>>> {
+//            if (it?.status == Status.SUCCESS && it.data?.size == 2) {
+//                settings = it.data
+//                mViewModel.loadDevices(lampCategoryType)
+//            }
+//        })
 
         loadShareData()
     }
@@ -85,73 +84,73 @@ class ShareActivity : BaseActivity() {
         val objJson = JSONObject()
         val jsonLightStates = JSONArray()
         // settings
-        if (settings != null) {
-            objJson.put(DEVICE_TYPE, lampCategoryType + 1)
-            objJson.put(NETWORK_KEY, settings!![1].networkKey)
-            val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategoryType", -1)
-            objJson.put(CURRENT_ID, lastUsedDeviceId)
-            objJson.put(NEXT_DEVICE_INDEX_KEY, settings!![0].nextDeviceIndex)
-            objJson.put(NEXT_GROUP_INDEX_KEY, settings!![1].nextGroupIndex)
-        }
-
-        // devices
-        val jsonDevices = JSONArray()
-        if (deviceModels != null) {
-            for (deviceModel in deviceModels!!) {
-                val deviceJson = JSONObject()
-                deviceJson.put(DEVICE_ID_KEY, deviceModel.device?.id)
-                deviceJson.put(DEVICE_NAME_KEY, deviceModel.device?.name)
-                deviceJson.put(DEVICE_HASH_KEY, deviceModel.device?.hash)
-                val deviceStateJson = JSONObject()
-                val lightStateJson = JSONObject()
-                val lightState = deviceModel.device?.state
-                getStateJson(lightStateJson, lightState)
-                lightStateJson.put("customName",  deviceModel.device?.name)
-                deviceStateJson.put("" + deviceModel.device?.id, lightStateJson)
-                jsonDevices.put(deviceJson)
-                jsonLightStates.put(deviceStateJson)
-
-                val modelsSupported = deviceModel.device?.getModelsSupported()
-                val models = deviceModel.modelList
-                val jsonModelsList = JSONArray()
-                if (modelsSupported != null && models != null) {
-                    for (type in modelsSupported) {
-                        val modelJSON = JSONObject()
-                        modelJSON.put(MODEL_TYPE_KEY, type)
-                        val jsonGroupsAssigned = JSONArray()
-                        for (j in 0 until models.size) {
-                            val groupJSON = JSONObject()
-                            groupJSON.put(MODEL_GROUP_X_KEY, models[j].roomId)
-                            jsonGroupsAssigned.put(groupJSON)
-                        }
-                        modelJSON.put(MODEL_GROUP_INSTANCES_KEY, jsonGroupsAssigned)
-                        jsonModelsList.put(modelJSON)
-                    }
-                }
-                // add models to the json device
-                deviceJson.put(DEVICE_MODELS_KEY, jsonModelsList);
-            }
-        }
-        objJson.put(DEVICES_KEY, jsonDevices)
-
-        // groups
-        val jsonGroups = JSONArray()
-        if (groups != null) {
-            for (group in groups!!) {
-                val groupJson = JSONObject()
-                groupJson.put(GROUP_ID_KEY, group.id)
-                groupJson.put(GROUP_NAME_KEY, group.device?.name)
-                val groupStateJson = JSONObject()
-                val lightStateJson = JSONObject()
-                val lightState = group.state
-                getStateJson(lightStateJson, lightState)
-                groupStateJson.put("" + group.id, lightStateJson)
-                jsonGroups.put(groupJson)
-                jsonLightStates.put(groupStateJson)
-            }
-        }
-        objJson.put(GROUPS_KEY, jsonGroups)
-        objJson.put("exts", jsonLightStates)
+//        if (settings != null) {
+//            objJson.put(DEVICE_TYPE, lampCategoryType + 1)
+//            objJson.put(NETWORK_KEY, settings!![1].networkKey)
+//            val lastUsedDeviceId by PreferenceHelper("lastUsedDeviceId_$lampCategoryType", -1)
+//            objJson.put(CURRENT_ID, lastUsedDeviceId)
+//            objJson.put(NEXT_DEVICE_INDEX_KEY, settings!![0].nextDeviceIndex)
+//            objJson.put(NEXT_GROUP_INDEX_KEY, settings!![1].nextGroupIndex)
+//        }
+//
+//        // devices
+//        val jsonDevices = JSONArray()
+//        if (deviceModels != null) {
+//            for (deviceModel in deviceModels!!) {
+//                val deviceJson = JSONObject()
+//                deviceJson.put(DEVICE_ID_KEY, deviceModel.device?.id)
+//                deviceJson.put(DEVICE_NAME_KEY, deviceModel.device?.name)
+//                deviceJson.put(DEVICE_HASH_KEY, deviceModel.device?.hash)
+//                val deviceStateJson = JSONObject()
+//                val lightStateJson = JSONObject()
+//                val lightState = deviceModel.device?.state
+//                getStateJson(lightStateJson, lightState)
+//                lightStateJson.put("customName",  deviceModel.device?.name)
+//                deviceStateJson.put("" + deviceModel.device?.id, lightStateJson)
+//                jsonDevices.put(deviceJson)
+//                jsonLightStates.put(deviceStateJson)
+//
+//                val modelsSupported = deviceModel.device?.getModelsSupported()
+//                val models = deviceModel.modelList
+//                val jsonModelsList = JSONArray()
+//                if (modelsSupported != null && models != null) {
+//                    for (type in modelsSupported) {
+//                        val modelJSON = JSONObject()
+//                        modelJSON.put(MODEL_TYPE_KEY, type)
+//                        val jsonGroupsAssigned = JSONArray()
+//                        for (j in 0 until models.size) {
+//                            val groupJSON = JSONObject()
+//                            groupJSON.put(MODEL_GROUP_X_KEY, models[j].roomId)
+//                            jsonGroupsAssigned.put(groupJSON)
+//                        }
+//                        modelJSON.put(MODEL_GROUP_INSTANCES_KEY, jsonGroupsAssigned)
+//                        jsonModelsList.put(modelJSON)
+//                    }
+//                }
+//                // add models to the json device
+//                deviceJson.put(DEVICE_MODELS_KEY, jsonModelsList);
+//            }
+//        }
+//        objJson.put(DEVICES_KEY, jsonDevices)
+//
+//        // groups
+//        val jsonGroups = JSONArray()
+//        if (groups != null) {
+//            for (group in groups!!) {
+//                val groupJson = JSONObject()
+//                groupJson.put(GROUP_ID_KEY, group.id)
+//                groupJson.put(GROUP_NAME_KEY, group.device?.name)
+//                val groupStateJson = JSONObject()
+//                val lightStateJson = JSONObject()
+//                val lightState = group.state
+//                getStateJson(lightStateJson, lightState)
+//                groupStateJson.put("" + group.id, lightStateJson)
+//                jsonGroups.put(groupJson)
+//                jsonLightStates.put(groupStateJson)
+//            }
+//        }
+//        objJson.put(GROUPS_KEY, jsonGroups)
+//        objJson.put("exts", jsonLightStates)
 
         return objJson.toString()
 

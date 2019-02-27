@@ -1,16 +1,16 @@
 package com.ihomey.linkuphome.device
 
 import android.app.Activity
-import androidx.databinding.DataBindingUtil
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ihomey.linkuphome.base.BaseFragment
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.databinding.FragmentDeviceConnectBinding
 import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.jackandphantom.blurimage.BlurImage

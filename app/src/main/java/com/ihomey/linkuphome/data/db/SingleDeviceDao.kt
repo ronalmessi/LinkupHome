@@ -54,8 +54,8 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model WHERE zoneId = :groupId and type=:deviceType) and type=:deviceType")
     abstract fun getUnBondedDevices(deviceType: Int, groupId: Int): LiveData<List<SingleDevice>>
 
-    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model1 WHERE subZOneId = :subZOneId)")
-    abstract fun getUnBondedDevices(subZOneId: Int): LiveData<List<SingleDevice>>
+//    @Query("SELECT * FROM Device WHERE id not in (SELECT deviceId FROM Model1 WHERE subZOneId = :subZOneId)")
+//    abstract fun getUnBondedDevices(subZOneId: Int): LiveData<List<SingleDevice>>
 
     @Insert
     abstract fun insert(singleDevice: SingleDevice)

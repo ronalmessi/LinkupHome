@@ -2,9 +2,8 @@ package com.ihomey.linkuphome.widget
 
 import android.content.Context
 import android.os.Build
-import androidx.appcompat.widget.Toolbar
 import android.util.AttributeSet
-import android.util.Log
+import androidx.appcompat.widget.Toolbar
 import com.ihomey.linkuphome.dip2px
 
 class CompatToolbar : Toolbar {

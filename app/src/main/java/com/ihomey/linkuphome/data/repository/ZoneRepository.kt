@@ -1,9 +1,8 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.AppExecutors
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.db.ZoneDao
 import com.ihomey.linkuphome.data.entity.Zone

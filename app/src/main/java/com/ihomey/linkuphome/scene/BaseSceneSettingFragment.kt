@@ -1,11 +1,11 @@
 package com.ihomey.linkuphome.scene
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.ihomey.linkuphome.base.BaseFragment
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.SingleDevice

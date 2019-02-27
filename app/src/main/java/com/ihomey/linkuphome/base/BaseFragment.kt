@@ -2,9 +2,9 @@ package com.ihomey.linkuphome.base
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.umeng.analytics.MobclickAgent
 
 /**

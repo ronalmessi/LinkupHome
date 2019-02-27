@@ -1,19 +1,15 @@
 package com.ihomey.linkuphome.zone
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import com.ihomey.linkuphome.base.BaseFragment
-
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.home.HomeActivity
-import com.ihomey.linkuphome.inform.InformActivity
-import com.ihomey.linkuphome.main.PrivacyStatementFragment
 import kotlinx.android.synthetic.main.create_zone_fragment.*
 
 class CreateZoneFragment : BaseFragment() {

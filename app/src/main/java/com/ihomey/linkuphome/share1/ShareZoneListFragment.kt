@@ -1,15 +1,14 @@
 package com.ihomey.linkuphome.share1
 
 import android.graphics.Color
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
@@ -17,11 +16,7 @@ import com.ihomey.linkuphome.adapter.ShareZoneListAdapter
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.home.HomeFragment
-
 import com.ihomey.linkuphome.widget.DividerItemDecoration
-import com.ihomey.linkuphome.zone.ReNameZoneFragment
 import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import kotlinx.android.synthetic.main.zone_share_list_fragment.*
 

@@ -1,21 +1,16 @@
 package com.ihomey.linkuphome.control1
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import cn.iclass.guideview.Component
-import cn.iclass.guideview.GuideBuilder
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.batteryIcons
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.databinding.C3ControlFragmentBinding
-import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation

@@ -1,18 +1,17 @@
 package com.ihomey.linkuphome.device1
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.AppConfig
-import com.ihomey.linkuphome.base.BaseFragment
-
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.getShortName

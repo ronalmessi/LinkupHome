@@ -1,7 +1,5 @@
 package com.ihomey.linkuphome.control1
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,25 +8,27 @@ import android.view.ViewTreeObserver
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import cn.iclass.guideview.Component
 import cn.iclass.guideview.Guide
+import cn.iclass.guideview.GuideBuilder
+import com.ihomey.linkuphome.CODE_LIGHT_COLORS
+import com.ihomey.linkuphome.PreferenceHelper
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
-import cn.iclass.guideview.GuideBuilder
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.device1.ReNameDeviceFragment
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 
 
 /**

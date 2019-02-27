@@ -11,9 +11,9 @@ import cn.iclass.guideview.Guide
 import cn.iclass.guideview.GuideBuilder
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.ihomey.linkuphome.R
 import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.PreferenceHelper
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Room
 import com.suke.widget.SwitchButton
 

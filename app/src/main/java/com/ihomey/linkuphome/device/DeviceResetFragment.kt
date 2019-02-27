@@ -1,15 +1,15 @@
 package com.ihomey.linkuphome.device
 
 import android.app.Activity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.databinding.FragmentDeviceConnectedResetBinding
 import com.ihomey.linkuphome.databinding.FragmentDeviceResetBinding

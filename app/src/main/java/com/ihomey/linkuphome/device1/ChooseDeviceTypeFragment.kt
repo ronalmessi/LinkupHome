@@ -1,19 +1,17 @@
 package com.ihomey.linkuphome.device1
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.linkuphome.base.BaseFragment
-
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceTypeListAdapter
-import com.ihomey.linkuphome.home.HomeFragment
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.choose_device_type_fragment.*

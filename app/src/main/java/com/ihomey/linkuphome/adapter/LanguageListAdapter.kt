@@ -1,51 +1,24 @@
 package com.ihomey.linkuphome.adapter
 
-import androidx.recyclerview.widget.RecyclerView
-import android.view.Gravity
-import android.view.ViewGroup
-import android.widget.TextView
+
+import android.text.TextUtils
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
+import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.dip2px
+import com.ihomey.linkuphome.base.LocaleHelper
 
 
 /**
- * Created by dongcaizheng on 2017/12/20.
+ * Created by dongcaizheng on 2018/4/11.
  */
-class LanguageListAdapter(private val items: Array<String>) : androidx.recyclerview.widget.RecyclerView.Adapter<LanguageListAdapter.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.layoutParams= androidx.recyclerview.widget.RecyclerView.LayoutParams(androidx.recyclerview.widget.RecyclerView.LayoutParams.MATCH_PARENT, androidx.recyclerview.widget.RecyclerView.LayoutParams.WRAP_CONTENT)
-        holder.textView.gravity=Gravity.CENTER
-        if(position==0){
-            holder.textView.setPadding(0, holder.textView.context.dip2px(8f), 0, holder.textView.context.dip2px(10f))
-            holder.textView.setText(R.string.welcome_language_select)
-        }else{
-            holder.textView.setPadding(0, holder.textView.context.dip2px(10f), 0, holder.textView.context.dip2px(12f))
-            holder.textView.text = items[position-1]
-            holder.textView.textSize=16f
-            holder.itemView.setOnClickListener {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener!!.onItemClick(position)
-                }
-            }
-        }
-    }
+class LanguageListAdapter(layoutId: Int, data: List<String>) : BaseQuickAdapter<String, BaseViewHolder>(layoutId, data) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(TextView(parent.context))
-    }
-
-    override fun getItemCount(): Int = items.size+1
-
-    class ViewHolder(val textView: TextView) : androidx.recyclerview.widget.RecyclerView.ViewHolder(textView)
-
-    private var mOnItemClickListener: OnItemClickListener? = null
-
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
+    override fun convert(helper: BaseViewHolder, item: String) {
+        helper.setText(R.id.tv_language_name, item)
+        val desLanguage = AppConfig.LANGUAGE[helper.adapterPosition]
+        val currentLanguage = LocaleHelper.getLanguage(mContext)
+        helper.setGone(R.id.iv_current_language, TextUtils.equals(currentLanguage, desLanguage))
     }
 }

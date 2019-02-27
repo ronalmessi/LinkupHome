@@ -1,11 +1,11 @@
 package com.ihomey.linkuphome.control
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.vo.ControlDevice
 import com.ihomey.linkuphome.databinding.FragmentControlRgbLedBinding

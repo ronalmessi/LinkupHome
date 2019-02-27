@@ -9,9 +9,9 @@ import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ihomey.linkuphome.PreferenceHelper
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.home.HomeActivity
-import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.inform.InformActivity
 import com.ihomey.linkuphome.zone.CreateZoneActivity
 

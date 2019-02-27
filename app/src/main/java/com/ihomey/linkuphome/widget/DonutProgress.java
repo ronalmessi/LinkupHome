@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.ihomey.linkuphome.R;
 
 public class DonutProgress extends View {

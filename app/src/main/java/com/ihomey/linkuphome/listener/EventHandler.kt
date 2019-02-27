@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.listener
 
 import android.app.Activity
-import android.content.Intent
 import android.view.View
 import com.ihomey.linkuphome.R
 

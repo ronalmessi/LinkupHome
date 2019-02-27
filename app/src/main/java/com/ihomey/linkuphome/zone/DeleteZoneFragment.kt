@@ -1,19 +1,17 @@
 package com.ihomey.linkuphome.zone
 
-import androidx.fragment.app.DialogFragment
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.ViewGroup
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
-import com.ihomey.linkuphome.R
-import android.util.DisplayMetrics
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
-import com.ihomey.linkuphome.listener.DeleteSubZoneListener
+import androidx.fragment.app.DialogFragment
+import com.ihomey.linkuphome.R
 
 class DeleteZoneFragment : DialogFragment() {
 

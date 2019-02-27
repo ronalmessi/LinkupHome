@@ -1,11 +1,8 @@
 package com.ihomey.linkuphome.setting
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel;
-import com.ihomey.linkuphome.component.DaggerAppComponent
-import com.ihomey.linkuphome.data.entity.Zone
+import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.repository.ZoneRepository
-import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
 class SettingViewModel : ViewModel() {
