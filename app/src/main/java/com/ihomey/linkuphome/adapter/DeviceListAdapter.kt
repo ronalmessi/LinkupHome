@@ -43,10 +43,10 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
         val cl_devices_item = swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
         val tv_device_name = cl_devices_item.findViewById<TextView>(R.id.tv_device_name)
         val layoutParams = tv_device_name.layoutParams as ViewGroup.MarginLayoutParams
-        if (item.type == 4) {
+        if (item.type == 0) {
             cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
             layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
-        } else if (item.type == 3) {
+        } else if (item.type == 1) {
             layoutParams.marginStart = mContext.resources.getDimension(R.dimen._15sdp).toInt()
             layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
             cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)

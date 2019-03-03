@@ -43,6 +43,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     protected lateinit var listener: MeshServiceStateListener
     private lateinit var bottomNavigationVisibilityListener: BottomNavigationVisibilityListener
     private var guide: Guide? = null
+    private var type: Int=-1
 
     var hasShowRenameDeviceGuide by PreferenceHelper("hasShowRenameDeviceGuide", false)
 
@@ -78,6 +79,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     fun initController(type: Int) {
+        this.type=type
         controller = ControllerFactory().createController(type)
     }
 
@@ -155,7 +157,10 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment2)
                 }
                 R.id.btn_device_alarm_setting -> {
-                    Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment2)
+                    when(type){
+                        1->Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment2)
+                        2->Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
+                    }
                 }
                 R.id.tv_title -> {
                     if (guide != null && guide?.isVisible!!) {

@@ -32,7 +32,7 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.c3_control_fragment, container, false)
-        initController(4)
+        initController(0)
         mViewDataBinding.handlers = ToolBarEventHandler()
         return mViewDataBinding.root
     }

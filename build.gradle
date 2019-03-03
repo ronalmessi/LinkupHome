@@ -40,6 +40,6 @@ ext {
     compileSdkVersion = 28
     versionCode = 12
     versionName = "3.4"
-    applicationId = "com.ihomey.linkuphome"
+    applicationId = "com.ihomey.linkuphomet"
 
 }

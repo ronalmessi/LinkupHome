@@ -45,9 +45,9 @@ class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuic
                 swipeLayout.isLeftSwipeEnabled = false
                 swipeLayout.isRightSwipeEnabled = false
                 val cl_devices_item = swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
-                if (item.type == 4) {
+                if (item.type == 0) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                } else if (item.type == 3) {
+                } else if (item.type == 1) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 }
 

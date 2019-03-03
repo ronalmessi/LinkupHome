@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_tab_devices_to_r2ControlFragment"
             app:destination="@id/r2ControlFragment" />
+        <action
+            android:id="@+id/action_tab_devices_to_a2ControlFragment"
+            app:destination="@id/a2ControlFragment" />
     </fragment>
 
 
@@ -71,6 +74,16 @@
         android:name="com.ihomey.linkuphome.control1.C3ControlFragment"
         android:label="c3_control_fragment"
         tools:layout="@layout/c3_control_fragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/a2ControlFragment"
+        android:name="com.ihomey.linkuphome.control1.A2ControlFragment"
+        android:label="a2_control_fragment"
+        tools:layout="@layout/a2_control_fragment" >
+        <action
+            android:id="@+id/action_a2ControlFragment_to_timerSettingFragment"
+            app:destination="@id/timerSettingFragment" />
     </fragment>
 
     <fragment

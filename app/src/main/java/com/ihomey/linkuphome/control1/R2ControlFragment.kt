@@ -30,7 +30,7 @@ class R2ControlFragment : BaseControlFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.r2_control_fragment, container, false)
-        initController(3)
+        initController(1)
         mViewDataBinding.handlers = ToolBarEventHandler()
         return mViewDataBinding.root
     }

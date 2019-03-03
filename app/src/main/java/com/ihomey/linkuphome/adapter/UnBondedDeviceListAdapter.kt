@@ -31,10 +31,10 @@ class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, 
     override fun convert(helper: BaseViewHolder, item: SingleDevice) {
         val tv_device_name = helper.getView<TextView>(R.id.tv_device_name)
         val layoutParams = tv_device_name.layoutParams as ViewGroup.MarginLayoutParams
-        if(item.type==4){
+        if(item.type==0){
             helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._4sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
             layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
-        }else if(item.type==3){
+        }else if(item.type==1){
             helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._18sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
             layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
             layoutParams.marginStart = mContext.resources.getDimension(R.dimen._15sdp).toInt()

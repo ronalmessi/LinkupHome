@@ -120,8 +120,9 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
                 R.id.tv_device_name -> {
                     mViewModel.setCurrentControlDevice(singleDevice)
                     when (singleDevice.type) {
-                        4 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
-                        3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+                        0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
+                        1 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+                        2 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_a2ControlFragment)
                     }
                 }
             }
@@ -133,8 +134,9 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
         if (singleDevice != null) {
             mViewModel.setCurrentControlDevice(singleDevice)
             when (singleDevice.type) {
-                4 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
-                3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+                0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
+                1 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+                2 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_a2ControlFragment)
             }
         }
     }

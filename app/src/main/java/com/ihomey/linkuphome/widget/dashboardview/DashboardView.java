@@ -48,7 +48,7 @@ public class DashboardView extends View {
 
     private Bitmap scaleBitmap;
 
-    private int OFFSET = 30;
+    private int OFFSET = 0;
     private int START_ARC = 118;
     private int DURING_ARC = 304;
 
@@ -118,7 +118,7 @@ public class DashboardView extends View {
         paintNum.setDither(true);
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.color_temperature_icon_cursor);
-        scaleBitmap = scaleBitmap(bitmap, (getResources().getDimension(R.dimen.device_control_circle_temperature_width) - getResources().getDimension(R.dimen.device_control_progress_stroke_width) - getResources().getDimension(R.dimen.device_control_logo_width) * 7 / 12) / bitmap.getWidth());
+        scaleBitmap = scaleBitmap(bitmap, (getResources().getDimension(R.dimen._128sdp)) / bitmap.getWidth());
     }
 
 
@@ -220,7 +220,7 @@ public class DashboardView extends View {
         int temperatureValue = (int) startNum + ((int) (numCount / 4.34)) * 50;
         String temperatureValueStr = temperatureValue + unit;
         length = paintText.measureText(temperatureValueStr);
-        canvas.drawText(temperatureValueStr, -length / 2, mHight / 3 + dip2px(mContext, 6), paintText);
+        canvas.drawText(temperatureValueStr, -length / 2, mHight / 3 + dip2px(mContext, 12), paintText);
     }
 
     public int getCurrentColorTemperature() {
