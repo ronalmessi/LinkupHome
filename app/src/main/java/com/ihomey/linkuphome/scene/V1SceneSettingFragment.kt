@@ -7,22 +7,22 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.databinding.R2SceneSettingFragmentBinding
+import com.ihomey.linkuphome.databinding.V1SceneSettingFragmentBinding
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-class S1SceneSettingFragment : BaseSceneSettingFragment() {
+class V1SceneSettingFragment : BaseSceneSettingFragment() {
 
-    lateinit var mViewDataBinding: R2SceneSettingFragmentBinding
+    lateinit var mViewDataBinding: V1SceneSettingFragmentBinding
 
     companion object {
-        fun newInstance() = S1SceneSettingFragment()
+        fun newInstance() = V1SceneSettingFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.r2_scene_setting_fragment, container, false)
-        initController(6)
+        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.v1_scene_setting_fragment, container, false)
+        initController(5)
         mViewDataBinding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }
@@ -32,11 +32,7 @@ class S1SceneSettingFragment : BaseSceneSettingFragment() {
     override fun updateViewData(singleDevice: SingleDevice) {
         mControlDevice = singleDevice
         when (singleDevice.state.sceneMode) {
-            0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_read_rgb)
-            1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_rgb)
-            2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rest_rgb)
-            3 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_rgb)
-            4 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_rgb)
+            1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_flow_rgb)
         }
         mViewDataBinding.deviceRgpScene.setOnCheckedChangeListener(this)
     }

@@ -71,7 +71,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
                     v.tag = null
                     (v as Button).setText(R.string.save)
                     enableEditTimer(true)
-                    if (mDeviceType == 4 && listener.isMeshServiceConnected()) {
+                    if (mDeviceType == 5 && listener.isMeshServiceConnected()) {
                         syncTime(mControlDevice.id)
                     }
                 } else {
@@ -85,82 +85,79 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
     }
 
     private fun saveTime() {
-            val lightState = mControlDevice.state
-            if (lightState != null) {
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.HOUR_OF_DAY, getHour())
-                calendar.set(Calendar.MINUTE, getMinute())
-                if (mControlDevice.type == 4) {
-                    if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
-                    if (isOpenTimer()) {
-                        lightState.openTimer = calendar.timeInMillis
-                        lightState.openTimerOn = 3
-                        if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
-                            controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, isTimerOn(), isRepeat())
-                        }
-                    } else {
-                        lightState.closeTimer = calendar.timeInMillis
-                        lightState.closeTimerOn = 3
-                        if (mDeviceType != -1  && listener.isMeshServiceConnected()) {
-                            controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, isTimerOn(), isRepeat())
-                        }
-                    }
-                } else {
-                    val isExpired = calendar.timeInMillis - System.currentTimeMillis() < 0
-                    if (isOpenTimer()) {
-                        lightState.openTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
-                        lightState.openTimerOn = 3
-                    } else {
-                        lightState.closeTimerOn = 3
-                        lightState.closeTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
-                    }
+        val lightState = mControlDevice.state
+
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, getHour())
+        calendar.set(Calendar.MINUTE, getMinute())
+        if (mControlDevice.type == 5) {
+            if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
+            if (isOpenTimer()) {
+                lightState.openTimer = calendar.timeInMillis
+                lightState.openTimerOn = 3
+                if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
+                    controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, isTimerOn(), isRepeat())
                 }
-                setTimerOn(true)
+            } else {
+                lightState.closeTimer = calendar.timeInMillis
+                lightState.closeTimerOn = 3
+                if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
+                    controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, isTimerOn(), isRepeat())
+                }
             }
-            mViewModel?.updateDevice(mControlDevice)
+        } else {
+            val isExpired = calendar.timeInMillis - System.currentTimeMillis() < 0
+            if (isOpenTimer()) {
+                lightState.openTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
+                lightState.openTimerOn = 3
+            } else {
+                lightState.closeTimerOn = 3
+                lightState.closeTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
+            }
+        }
+        setTimerOn(true)
+        mViewModel?.updateDevice(mControlDevice)
 
     }
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
         setTimerOn(isChecked)
+        val lightState = mControlDevice.state
 
-            val lightState = mControlDevice.state
-            if (lightState != null) {
-                if (isOpenTimer()) {
-                    lightState.openTimerOn = if (isChecked) 3 else 2
-                    if (isChecked) {
-                        if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
-                            if (mControlDevice.type != 4) {
-                                controller?.setTimer(mControlDevice.id, getPeriodMinute(getHour(), getMinute()), true)
-                            } else {
-                                controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, true, isRepeat())
-                            }
-                        }
+        if (isOpenTimer()) {
+            lightState.openTimerOn = if (isChecked) 3 else 2
+            if (isChecked) {
+                if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
+                    if (mControlDevice.type != 5) {
+                        controller?.setTimer(mControlDevice.id, getPeriodMinute(getHour(), getMinute()), true)
                     } else {
-                        if (mControlDevice.type == 4) {
-                            if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
-                                controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, false, isRepeat())
-                            }
-                        }
-                    }
-                } else {
-                    lightState.closeTimerOn = if (isChecked) 3 else 2
-                    if (isChecked) {
-                        if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
-                            if (mControlDevice.type != 4) {
-                                controller?.setTimer(mControlDevice?.id!!, getPeriodMinute(getHour(), getMinute()), false)
-                            } else {
-                                controller?.setRepeatTimer(mControlDevice?.id!!, getMinute(), getHour(), false, true, isRepeat())
-                            }
-                        }
-                    } else {
-                        if (mControlDevice.type == 4) {
-                            if (mDeviceType != -1&& listener.isMeshServiceConnected()) {
-                                controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, false, isRepeat())
-                            }
-                        }
+                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, true, isRepeat())
                     }
                 }
+            } else {
+                if (mControlDevice.type == 5) {
+                    if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
+                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, false, isRepeat())
+                    }
+                }
+            }
+        } else {
+            lightState.closeTimerOn = if (isChecked) 3 else 2
+            if (isChecked) {
+                if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
+                    if (mControlDevice.type != 5) {
+                        controller?.setTimer(mControlDevice.id, getPeriodMinute(getHour(), getMinute()), false)
+                    } else {
+                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, true, isRepeat())
+                    }
+                }
+            } else {
+                if (mControlDevice.type == 5) {
+                    if (mDeviceType != -1 && listener.isMeshServiceConnected()) {
+                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, false, isRepeat())
+                    }
+                }
+            }
 
             mViewModel?.updateDevice(mControlDevice)
         }
@@ -168,21 +165,20 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroup.OnCheckedCh
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         val radioButtonId = group?.checkedRadioButtonId
-            val lightState = mControlDevice.state
-            if (lightState != null) {
-                if (radioButtonId == R.id.rb_timer_setting_on) {
-                    lightState.openTimerOn = lightState.openTimerOn + 2
-                    if (lightState.closeTimerOn > 1) {
-                        lightState.closeTimerOn = lightState.closeTimerOn - 2
-                    }
-                } else {
-                    lightState.closeTimerOn = lightState.closeTimerOn + 2
-                    if (lightState.openTimerOn > 1) {
-                        lightState.openTimerOn = lightState.openTimerOn - 2
-                    }
-                }
+        val lightState = mControlDevice.state
+        if (radioButtonId == R.id.rb_timer_setting_on) {
+            lightState.openTimerOn = lightState.openTimerOn + 2
+            if (lightState.closeTimerOn > 1) {
+                lightState.closeTimerOn = lightState.closeTimerOn - 2
             }
-            updateViewData(mControlDevice!!)
+        } else {
+            lightState.closeTimerOn = lightState.closeTimerOn + 2
+            if (lightState.openTimerOn > 1) {
+                lightState.openTimerOn = lightState.openTimerOn - 2
+            }
+        }
+
+        updateViewData(mControlDevice)
     }
 
 //    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {

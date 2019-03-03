@@ -1,12 +1,13 @@
 package com.ihomey.linkuphome.controller
 
+import android.util.Log
 import com.csr.mesh.DataModelApi
 import com.ihomey.linkuphome.decodeHex
 
 /**
  * Created by Administrator on 2017/6/16.
  */
-class OutdoorController : Controller() {
+class V1Controller : Controller() {
 
     companion object {
         val CODE_LIGHT_POWER_ON: String = "C201F303C164002816"
@@ -14,7 +15,7 @@ class OutdoorController : Controller() {
         val CODE_LIGHT_BRIGHT_BASE: String = "C201F303C2"
         val CODE_LIGHT_COLOR_BASE: String = "C201F303C3"
         val CODE_LIGHT_SPEED_BASE: String = "C201F303C401F"
-        val CODE_LIGHT_SCENE_BASE: String = "C201F303C402F"
+        val CODE_LIGHT_SCENE_BASE: String = "C201F303C403F"
         val CODE_LIGHT_TIMER_BASE: String = "C201F304"
     }
 
@@ -26,7 +27,7 @@ class OutdoorController : Controller() {
     }
 
     override fun setLightBright(deviceId: Int, brightValue: Int) {
-        val code_lawn_bright_prefix = CODE_LIGHT_BRIGHT_BASE + if (brightValue >= 16) Integer.toHexString(brightValue) else "0" + Integer.toHexString(brightValue)
+        val code_lawn_bright_prefix = CODE_LIGHT_BRIGHT_BASE + if (brightValue/3 >= 16) Integer.toHexString(brightValue/3) else "0" + Integer.toHexString(brightValue/3)
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_bright_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(10, 12), 16))
         val code_lawn_bright = code_lawn_bright_prefix + "00" + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         DataModelApi.sendData(deviceId, decodeHex(code_lawn_bright.toCharArray()), false)
@@ -55,16 +56,10 @@ class OutdoorController : Controller() {
     }
 
     override fun setLightScene(deviceId: Int, sceneValue: Int) {
-        if (sceneValue == 3) {
+        if (sceneValue == 0) {
             setLightingMode( deviceId)
         } else {
-            var scene = sceneValue
-            if (sceneValue == 0) {
-                scene = 4
-            } else if (sceneValue == 1) {
-                scene = 5
-            }
-            val code_lawn_scene_prefix = CODE_LIGHT_SCENE_BASE + scene
+            val code_lawn_scene_prefix = CODE_LIGHT_SCENE_BASE + 2
             val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16))
             val code_lawn_scene = code_lawn_scene_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
             DataModelApi.sendData(deviceId, decodeHex(code_lawn_scene.toCharArray()), false)

@@ -118,7 +118,7 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
                     (view.parent as SwipeLayout).close(true)
                 }
                 R.id.tv_device_name -> {
-                    singleDevice.type=7
+                    singleDevice.type=5
                     mViewModel.setCurrentControlDevice(singleDevice)
                     when (singleDevice.type) {
                         0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
@@ -137,7 +137,7 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val singleDevice = adapter.getItem(position)
         if (singleDevice != null) {
-            singleDevice.type=7
+            singleDevice.type=5
             mViewModel.setCurrentControlDevice(singleDevice)
             when (singleDevice.type) {
                 0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)

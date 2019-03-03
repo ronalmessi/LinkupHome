@@ -11,8 +11,8 @@ class ControllerFactory {
             1 -> R2Controller()
             2 -> A2Controller()
             3 -> N1Controller()
-            4 -> MiniOutdoorController()
-            5 -> R2Controller()
+            4 -> V1Controller()
+            5 -> V1Controller()
             6 -> R2Controller()
             7 -> A2Controller()
             else -> null

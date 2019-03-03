@@ -127,6 +127,20 @@
         android:name="com.ihomey.linkuphome.control1.V1ControlFragment"
         android:label="v1_control_fragment"
         tools:layout="@layout/r2_control_fragment" >
+        <action
+            android:id="@+id/action_v1ControlFragment_to_v1SceneSettingFragment"
+            app:destination="@id/v1SceneSettingFragment" />
+        <action
+            android:id="@+id/action_v1ControlFragment_to_repeatTimerSettingFragment"
+            app:destination="@id/repeatTimerSettingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/v1SceneSettingFragment"
+        android:name="com.ihomey.linkuphome.scene.V1SceneSettingFragment"
+        android:label="v1_scene_setting_fragment"
+        tools:layout="@layout/v1_scene_setting_fragment" >
+
     </fragment>
 
     <fragment
@@ -177,6 +191,14 @@
         android:name="com.ihomey.linkuphome.time.TimerSettingFragment"
         android:label="fragment_timer_setting"
         tools:layout="@layout/fragment_timer_setting" >
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/repeatTimerSettingFragment"
+        android:name="com.ihomey.linkuphome.time.RepeatTimerSettingFragment"
+        android:label="fragment_timer_setting_repeat"
+        tools:layout="@layout/fragment_timer_setting_repeat" >
     </fragment>
 
 

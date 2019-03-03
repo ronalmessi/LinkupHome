@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F2F2">
+
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F7F7F7"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/scene_mode"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_18ssp" />
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+        <com.ihomey.linkuphome.widget.RadioGroupPlus
+            android:id="@+id/device_rgp_scene"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/_16sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_scene_setting_flow"
+                    android:gravity="center_vertical">
+
+                    <RadioButton
+                        android:id="@+id/rb_scene_flow_rgb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/_24sdp"
+                        android:button="@drawable/scene_setting_btn_flow_bg" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/rb_scene_flow_rgb"
+                        android:layout_below="@+id/rb_scene_flow_rgb"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:text="@string/scene_flow"
+                        android:textColor="@color/radio_text_color_flow" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </com.ihomey.linkuphome.widget.RadioGroupPlus>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+

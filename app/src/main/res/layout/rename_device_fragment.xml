@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="重命名"
+            android:text="@string/menu_rename"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp" />
 

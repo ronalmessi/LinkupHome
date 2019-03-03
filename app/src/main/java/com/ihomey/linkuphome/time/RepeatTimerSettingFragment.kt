@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.time
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,13 @@ import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.databinding.FragmentTimerSettingRepeatBinding
+import java.util.*
 
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
 open class RepeatTimerSettingFragment : BaseTimerSettingFragment() {
-    override fun updateViewData(singleDevice: SingleDevice) {
-
-    }
 
     lateinit var mViewDataBinding: FragmentTimerSettingRepeatBinding
 
@@ -47,54 +46,54 @@ open class RepeatTimerSettingFragment : BaseTimerSettingFragment() {
     }
 
 
-//    override fun updateViewData(controlDevice: ControlDevice) {
-//        val lightState = controlDevice.state
-//        if (lightState.openTimerOn > 1 || lightState.closeTimerOn > 1) {
-//            var alarmTime: Long? = null
-//            if (lightState.openTimerOn > 1) {
-//                mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bbF48479"))
-//                mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bbF48479"))
-//                mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_on)
-//                mViewDataBinding.rbTimerSettingOn.isChecked = true
-//                alarmTime = lightState.openTimer
-//
-//                mViewDataBinding.switchButtonTimer.isChecked = lightState.openTimerOn == 3
-//                mViewDataBinding.frameLayoutTimerSetting.isActivated =lightState.openTimerOn == 3
-//
-//            } else {
-//                mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bb949494"))
-//                mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bb949494"))
-//                mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_off)
-//                mViewDataBinding.rbTimerSettingOff.isChecked = true
-//                alarmTime = lightState.closeTimer
-//
-//                mViewDataBinding.switchButtonTimer.isChecked =lightState.closeTimerOn == 3
-//                mViewDataBinding.frameLayoutTimerSetting.isActivated = lightState.closeTimerOn == 3
-//            }
-//            mViewDataBinding.btnTimerSettingEdit.visibility = View.VISIBLE
-//            mViewDataBinding.switchButtonTimer.visibility = View.VISIBLE
-//            if (alarmTime != 0L) {
-//                val calendar = Calendar.getInstance()
-//                calendar.time = Date(alarmTime)
-//                mViewDataBinding.cbTimerSettingRepeat.isChecked = calendar.get(Calendar.YEAR) == 1970
-//                mViewDataBinding.wheelTimerHour.selectedItemPosition = calendar.get(Calendar.HOUR_OF_DAY)
-//                mViewDataBinding.wheelTimerMinute.selectedItemPosition = calendar.get(Calendar.MINUTE)
-//            } else {
-//                mViewDataBinding.wheelTimerHour.selectedItemPosition = 0
-//                mViewDataBinding.wheelTimerMinute.selectedItemPosition = 0
-//            }
-//        } else {
-//            mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bbF48479"))
-//            mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bbF48479"))
-//            mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_on)
-//            mViewDataBinding.btnTimerSettingEdit.visibility = View.INVISIBLE
-//            mViewDataBinding.switchButtonTimer.visibility = View.INVISIBLE
-//        }
-//        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
-//        mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
-//        mViewDataBinding.btnTimerSettingEdit.setOnClickListener(this)
-//        mViewDataBinding.toolbarBack.setOnClickListener(this)
-//    }
+    override fun updateViewData(singleDevice: SingleDevice) {
+        val lightState = singleDevice.state
+        if (lightState.openTimerOn > 1 || lightState.closeTimerOn > 1) {
+            var alarmTime: Long? = null
+            if (lightState.openTimerOn > 1) {
+                mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bbF48479"))
+                mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bbF48479"))
+                mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_on)
+                mViewDataBinding.rbTimerSettingOn.isChecked = true
+                alarmTime = lightState.openTimer
+
+                mViewDataBinding.switchButtonTimer.isChecked = lightState.openTimerOn == 3
+                mViewDataBinding.frameLayoutTimerSetting.isActivated =lightState.openTimerOn == 3
+
+            } else {
+                mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bb949494"))
+                mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bb949494"))
+                mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_off)
+                mViewDataBinding.rbTimerSettingOff.isChecked = true
+                alarmTime = lightState.closeTimer
+
+                mViewDataBinding.switchButtonTimer.isChecked =lightState.closeTimerOn == 3
+                mViewDataBinding.frameLayoutTimerSetting.isActivated = lightState.closeTimerOn == 3
+            }
+            mViewDataBinding.btnTimerSettingEdit.visibility = View.VISIBLE
+            mViewDataBinding.switchButtonTimer.visibility = View.VISIBLE
+            if (alarmTime != 0L) {
+                val calendar = Calendar.getInstance()
+                calendar.time = Date(alarmTime)
+                mViewDataBinding.cbTimerSettingRepeat.isChecked = calendar.get(Calendar.YEAR) == 1970
+                mViewDataBinding.wheelTimerHour.selectedItemPosition = calendar.get(Calendar.HOUR_OF_DAY)
+                mViewDataBinding.wheelTimerMinute.selectedItemPosition = calendar.get(Calendar.MINUTE)
+            } else {
+                mViewDataBinding.wheelTimerHour.selectedItemPosition = 0
+                mViewDataBinding.wheelTimerMinute.selectedItemPosition = 0
+            }
+        } else {
+            mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bbF48479"))
+            mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bbF48479"))
+            mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_on)
+            mViewDataBinding.btnTimerSettingEdit.visibility = View.INVISIBLE
+            mViewDataBinding.switchButtonTimer.visibility = View.INVISIBLE
+        }
+        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
+        mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
+        mViewDataBinding.btnTimerSettingEdit.setOnClickListener(this)
+        mViewDataBinding.toolbarBack.setOnClickListener(this)
+    }
 
     override fun enableEditTimer(flag: Boolean) {
         mViewDataBinding.wheelTimerHour.setEditable(flag)

@@ -47,7 +47,6 @@ open class TimerSettingFragment : BaseTimerSettingFragment() {
 
     override fun updateViewData(singleDevice: SingleDevice) {
         val lightState = singleDevice.state
-        if (lightState != null) {
             if (lightState.openTimerOn > 1 || lightState.closeTimerOn > 1) {
                 var alarmTime: Long? = null
                 if (lightState.openTimerOn > 1) {
@@ -88,8 +87,6 @@ open class TimerSettingFragment : BaseTimerSettingFragment() {
                 mViewDataBinding.btnTimerSettingEdit.visibility = View.INVISIBLE
                 mViewDataBinding.switchButtonTimer.visibility = View.INVISIBLE
             }
-        }
-
         mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
         mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
         mViewDataBinding.btnTimerSettingEdit.setOnClickListener(this)

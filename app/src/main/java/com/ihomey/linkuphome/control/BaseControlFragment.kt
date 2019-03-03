@@ -22,9 +22,6 @@ import com.ihomey.linkuphome.listener.IFragmentStackHolder
 import com.ihomey.linkuphome.listeners.MeshServiceStateListener
 import com.ihomey.linkuphome.main.MainViewModel
 import com.ihomey.linkuphome.scan.ScanActivity
-import com.ihomey.linkuphome.scene.LEDSceneSettingFragment
-import com.ihomey.linkuphome.scene.RGBSceneSettingFragment
-import com.ihomey.linkuphome.scene.S1SceneSettingFragment
 import com.ihomey.linkuphome.share.ShareActivity
 import com.ihomey.linkuphome.time.RepeatTimerSettingFragment
 import com.ihomey.linkuphome.time.TimerSettingFragment
@@ -194,22 +191,22 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     if (parentFragment is IFragmentStackHolder) {
                         val fsh = parentFragment as IFragmentStackHolder
                         when (lampCategory) {
-                            1 -> {
-                                val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
-                                        ?: -1, mControlDevice?.state?.sceneMode)
-                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
-                            }
-                            5 -> {
-                                val newFrag = S1SceneSettingFragment().newInstance(mControlDevice?.id
-                                        ?: -1, mControlDevice?.state?.sceneMode)
-                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
-                            }
-                            else -> {
-                                val newFrag = LEDSceneSettingFragment().newInstance(mControlDevice?.id
-                                        ?: -1, mControlDevice?.device?.type
-                                        ?: -1, mControlDevice?.state?.sceneMode)
-                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
-                            }
+//                            1 -> {
+//                                val newFrag = RGBSceneSettingFragment().newInstance(mControlDevice?.id
+//                                        ?: -1, mControlDevice?.state?.sceneMode)
+//                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+//                            }
+//                            5 -> {
+//                                val newFrag = S1SceneSettingFragment().newInstance(mControlDevice?.id
+//                                        ?: -1, mControlDevice?.state?.sceneMode)
+//                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+//                            }
+//                            else -> {
+//                                val newFrag = LEDSceneSettingFragment().newInstance(mControlDevice?.id
+//                                        ?: -1, mControlDevice?.device?.type
+//                                        ?: -1, mControlDevice?.state?.sceneMode)
+//                                fsh.replaceFragment(R.id.inner_frag_control_container, newFrag)
+//                            }
                         }
                     }
                 }
