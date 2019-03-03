@@ -10,10 +10,11 @@ class ControllerFactory {
             0 -> C3Controller()
             1 -> R2Controller()
             2 -> A2Controller()
-            3 -> LedController()
-            4-> OutdoorController()
+            3 -> N1Controller()
+            4 -> MiniOutdoorController()
             5 -> R2Controller()
-            6 -> A2Controller()
+            6 -> R2Controller()
+            7 -> A2Controller()
             else -> null
         }
     }

@@ -118,11 +118,16 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
                     (view.parent as SwipeLayout).close(true)
                 }
                 R.id.tv_device_name -> {
+                    singleDevice.type=7
                     mViewModel.setCurrentControlDevice(singleDevice)
                     when (singleDevice.type) {
                         0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
                         1 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
                         2 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_a2ControlFragment)
+                        3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+                        5 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_v1ControlFragment)
+                        6 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s1ControlFragment)
+                        7 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s2ControlFragment)
                     }
                 }
             }
@@ -132,11 +137,16 @@ open class DevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLi
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val singleDevice = adapter.getItem(position)
         if (singleDevice != null) {
+            singleDevice.type=7
             mViewModel.setCurrentControlDevice(singleDevice)
             when (singleDevice.type) {
                 0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
                 1 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
                 2 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_a2ControlFragment)
+                3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+                5 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_v1ControlFragment)
+                6 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s1ControlFragment)
+                7 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s2ControlFragment)
             }
         }
     }

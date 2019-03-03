@@ -43,7 +43,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     protected lateinit var listener: MeshServiceStateListener
     private lateinit var bottomNavigationVisibilityListener: BottomNavigationVisibilityListener
     private var guide: Guide? = null
-    private var type: Int=-1
+    private var type: Int = -1
 
     var hasShowRenameDeviceGuide by PreferenceHelper("hasShowRenameDeviceGuide", false)
 
@@ -79,7 +79,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     fun initController(type: Int) {
-        this.type=type
+        this.type = type
         controller = ControllerFactory().createController(type)
     }
 
@@ -154,12 +154,19 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     mViewModel.updateDevice(mControlDevice)
                 }
                 R.id.btn_device_scene_setting -> {
-                    Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment2)
+                    when (type) {
+                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment2)
+                        3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_n1SceneSettingFragment)
+                        6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_r2SceneSettingFragment)
+                    }
                 }
                 R.id.btn_device_alarm_setting -> {
-                    when(type){
-                        1->Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment2)
-                        2->Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
+                    when (type) {
+                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment2)
+                        2 -> Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
+                        3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_timerSettingFragment)
+                        6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
+                        7 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)
                     }
                 }
                 R.id.tv_title -> {

@@ -13,7 +13,7 @@ import java.util.*
  * Created by dongcaizheng on 2018/4/9.
  */
 @Entity(tableName = "device",primaryKeys =["id","zoneId"],foreignKeys =[(ForeignKey(entity = Zone::class, parentColumns = arrayOf("id"), childColumns = arrayOf("zoneId"), onDelete = ForeignKey.CASCADE))])
-data class SingleDevice(var id: Int,val zoneId: Int,var name: String, val type: Int,var hash: Int, var groupsSupported: Int, var modelSupportL: Long,var modelSupportH: Long, @Embedded var state: ControlState): MultiItemEntity {
+data class SingleDevice(var id: Int,val zoneId: Int,var name: String, var type: Int,var hash: Int, var groupsSupported: Int, var modelSupportL: Long,var modelSupportH: Long, @Embedded var state: ControlState): MultiItemEntity {
     override fun getItemType(): Int {
         return if (id != 0) 1 else -1
     }
