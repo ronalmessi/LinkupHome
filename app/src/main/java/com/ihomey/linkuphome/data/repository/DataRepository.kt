@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.data.repository
 
 import com.ihomey.linkuphome.AppExecutors
-import com.ihomey.linkuphome.data.db.GroupDeviceDao
 import com.ihomey.linkuphome.data.db.ModelDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
 import org.json.JSONObject
@@ -13,7 +12,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class DataRepository @Inject constructor(private val lampGroupDao: GroupDeviceDao, private val singleDeviceDao: SingleDeviceDao, private val modelDao: ModelDao, private var appExecutors: AppExecutors) {
+class DataRepository @Inject constructor(private val singleDeviceDao: SingleDeviceDao, private val modelDao: ModelDao, private var appExecutors: AppExecutors) {
 
     fun updateData(jsonObj: JSONObject) {
         appExecutors.diskIO().execute {

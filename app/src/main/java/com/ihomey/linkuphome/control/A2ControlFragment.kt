@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.control1
+package com.ihomey.linkuphome.control
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +13,12 @@ import com.ihomey.linkuphome.databinding.A2ControlFragmentBinding
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class S2ControlFragment : BaseControlFragment() {
+class A2ControlFragment : BaseControlFragment() {
 
     private lateinit var mViewDataBinding: A2ControlFragmentBinding
 
-    fun newInstance(): S2ControlFragment {
-        return S2ControlFragment()
+    fun newInstance(): A2ControlFragment {
+        return A2ControlFragment()
     }
 
 
@@ -28,7 +28,7 @@ class S2ControlFragment : BaseControlFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.a2_control_fragment, container, false)
-        initController(7)
+        initController(2)
         mViewDataBinding.handlers = ToolBarEventHandler()
         return mViewDataBinding.root
     }

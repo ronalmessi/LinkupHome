@@ -1,23 +1,38 @@
 package com.ihomey.linkuphome.device1
 
+import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.device.DeviceType
+import com.ihomey.linkuphome.getShortName
+import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import kotlinx.android.synthetic.main.search_device_hint_fragment.*
 
-class SearchDeviceHintFragment : BaseFragment() {
+class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
 
     companion object {
         fun newInstance() = SearchDeviceHintFragment()
     }
 
+    private lateinit var listener: ConnectDeviceFragment.DevicesStateListener
+    private lateinit var viewModel: HomeActivityViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.search_device_hint_fragment, container, false)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        listener = context as ConnectDeviceFragment.DevicesStateListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,5 +47,33 @@ class SearchDeviceHintFragment : BaseFragment() {
             arguments?.getInt("zoneId")?.let { it1 -> bundle.putInt("zoneId", it1) }
             Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment2, bundle)
         }
+        listener.discoverDevices(true, this)
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+    }
+
+
+    override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
+        val type = arguments?.getInt("deviceType")!!
+        val deviceType = DeviceType.values()[type]
+        val deviceShortName = getShortName(deviceType)
+        if (TextUtils.equals(deviceShortName, shortName)) viewModel.setScanedDevice(SingleDevice(0, arguments?.getInt("zoneId")!!, deviceType.name, type, uuidHash, 0, 0, 0))
+    }
+
+    override fun deviceAssociated(deviceId: Int, message: String) {
+
+    }
+
+    override fun deviceAssociated(deviceId: Int, uuidHash: Int, bitmap: Long) {
+
+    }
+
+    override fun associationProgress(progress: Int) {
+
+    }
+
+
 }

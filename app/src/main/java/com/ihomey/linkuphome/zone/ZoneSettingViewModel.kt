@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.repository.DeviceRepository
-import com.ihomey.linkuphome.data.repository.SubZoneRepository
+import com.ihomey.linkuphome.data.repository.RoomRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
@@ -17,7 +17,7 @@ class ZoneSettingViewModel : ViewModel() {
     lateinit var zoneRepository: ZoneRepository
 
     @Inject
-    lateinit var subZoneRepository: SubZoneRepository
+    lateinit var roomRepository: RoomRepository
 
     @Inject
     lateinit var mDeviceRepository: DeviceRepository

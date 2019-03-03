@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.adapter.ZoneTypeListAdapter
+import com.ihomey.linkuphome.adapter.RoomTypeListAdapter
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
@@ -32,7 +32,7 @@ class ChooseRoomTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener,
     }
 
     private lateinit var listener: BottomNavigationVisibilityListener
-    private lateinit var adapter: ZoneTypeListAdapter
+    private lateinit var adapter: RoomTypeListAdapter
     private lateinit var mViewModel: HomeActivityViewModel
     private var currentSetting: Setting? = null
     private var currentZone: Zone? = null
@@ -64,7 +64,7 @@ class ChooseRoomTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listener.showBottomNavigationBar(false)
-        adapter = ZoneTypeListAdapter(R.layout.item_zone_type_list)
+        adapter = RoomTypeListAdapter(R.layout.item_zone_type_list)
         adapter.onItemClickListener = this
         rcv_zone_type_list.layoutManager = GridLayoutManager(context, 3)
 

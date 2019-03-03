@@ -18,7 +18,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
 import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
@@ -37,7 +36,7 @@ import com.ihomey.linkuphome.device1.DevicesFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.room.UnBindedDevicesFragment
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -54,7 +53,6 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
     private val mSharedPreferences by lazy { App.instance.getSharedPreferences("LinkupHome", Context.MODE_PRIVATE) }
 
 
-    val currentZoneId by PreferenceHelper("currentZoneId", -1)
     private lateinit var mViewModel: HomeActivityViewModel
     private var mService: MeshService? = null
 
@@ -84,7 +82,6 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
                 if (it.data != null && !TextUtils.isEmpty(it.data.networkKey)) {
-                    Log.d("aa", "-bbbbb-" + it)
                     mService?.setNetworkPassPhrase(it.data.networkKey)
                 }
             }
@@ -131,7 +128,6 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
             recreate()
-//            reload()
         }
     }
 
@@ -143,12 +139,6 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
         mService?.setHandler(null)
         mMeshHandler.removeCallbacksAndMessages(null)
     }
-
-    private fun scheduleScreen() {
-        val finalHost = NavHostFragment.create(if (currentZoneId != -1) R.navigation.nav_zone_init_3 else R.navigation.nav_zone_init_1)
-        supportFragmentManager.beginTransaction().replace(R.id.nav_host, finalHost).setPrimaryNavigationFragment(finalHost).commit()
-    }
-
 
     private val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
@@ -179,6 +169,15 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
         mService?.setLeScanCallback(mScanCallBack)
         mService?.setMeshListeningMode(true, true)
         mService?.autoConnect(1, 10000, 100, 0)
+    }
+
+
+    override fun reConnectBridge() {
+        if (mConnected) {
+            releaseResource()
+            mConnected = false
+            viewPager.postDelayed({ connectBridge() }, 250)
+        }
     }
 
     private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
@@ -332,7 +331,6 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
         textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
         textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
         Crouton.make(this, textView).show()
-//        discoverDevices(true, null)
         mMeshHandler.postDelayed({ mViewModel.setBridgeState(mConnected) }, 550)
     }
 

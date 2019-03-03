@@ -25,7 +25,7 @@ class HomeActivityViewModel : ViewModel() {
     lateinit var modelRepository: Model1Repository
 
     @Inject
-    lateinit var subZoneRepository: SubZoneRepository
+    lateinit var roomRepository: RoomRepository
 
     private val mCurrentZoneId = MutableLiveData<Int>()
     val mCurrentZone: LiveData<Resource<Zone>>
@@ -42,7 +42,7 @@ class HomeActivityViewModel : ViewModel() {
             mDeviceRepository.getDevices(input)
         }
         roomsResult = Transformations.switchMap(mCurrentZoneId) { input ->
-            subZoneRepository.getRooms(input)
+            roomRepository.getRooms(input)
         }
     }
 
@@ -93,15 +93,15 @@ class HomeActivityViewModel : ViewModel() {
     val mSelectedRoom = MutableLiveData<Room>()
 
     fun addRoom(currentSetting: Setting, currentZone: Zone, type: Int, name: String) {
-        subZoneRepository.addRoom(currentSetting, currentZone, name, type)
+        roomRepository.addRoom(currentSetting, currentZone, name, type)
     }
 
     fun deleteRoom(id: Int) {
-        subZoneRepository.delete(id)
+        roomRepository.delete(id)
     }
 
     fun updateRoom(room: Room) {
-        subZoneRepository.updateSubZoneState(room)
+        roomRepository.updateSubZoneState(room)
     }
 
     fun setSelectedRoom(room: Room) {
@@ -109,11 +109,11 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     fun updateSendTypes(roomId: Int, zoneId: Int) {
-        subZoneRepository.updateSendTypes(roomId, zoneId)
+        roomRepository.updateSendTypes(roomId, zoneId)
     }
 
     fun updateRoomName(newName: String, id: Int) {
-        subZoneRepository.updateRoomName(newName, id)
+        roomRepository.updateRoomName(newName, id)
     }
 
 

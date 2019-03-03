@@ -54,7 +54,7 @@
                 app:leftText="@string/license_agreement"
                 app:leftTextColor="@android:color/black"
                 app:leftTextSize="@dimen/_16ssp"
-                app:rightIcon="@drawable/ic_arrow_right"
+                app:rightIcon="@drawable/ic_arrow_setting"
                 app:rightTextColor="#807F85"
                 app:rightTextSize="@dimen/_16ssp"
                 app:verticalMargin="@dimen/_18sdp" />
@@ -70,7 +70,7 @@
                 app:leftText="@string/privacy_statement"
                 app:leftTextColor="@android:color/black"
                 app:leftTextSize="@dimen/_16ssp"
-                app:rightIcon="@drawable/ic_arrow_right"
+                app:rightIcon="@drawable/ic_arrow_setting"
                 app:rightTextColor="#807F85"
                 app:rightTextSize="@dimen/_16ssp"
                 app:verticalMargin="@dimen/_18sdp" />
@@ -87,7 +87,7 @@
                 <!--app:leftText="分享账号"-->
                 <!--app:leftTextColor="@android:color/black"-->
                 <!--app:leftTextSize="@dimen/_16ssp"-->
-                <!--app:rightIcon="@drawable/ic_arrow_right"-->
+                <!--app:rightIcon="@drawable/ic_arrow_setting"-->
                 <!--app:rightTextColor="#807F85"-->
                 <!--app:rightTextSize="@dimen/_16ssp"-->
                 <!--app:verticalMargin="@dimen/_18sdp" />-->

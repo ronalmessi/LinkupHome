@@ -15,6 +15,7 @@ class ControllerFactory {
             5 -> V1Controller()
             6 -> R2Controller()
             7 -> A2Controller()
+            8 -> R2Controller()
             else -> null
         }
     }

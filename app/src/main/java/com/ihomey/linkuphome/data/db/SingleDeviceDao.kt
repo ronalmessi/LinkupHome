@@ -34,8 +34,8 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE id = :id and type=:deviceType")
     abstract fun getSingleDevice(deviceType: Int, id: Int): LiveData<SingleDevice>
 
-    @Query("SELECT * FROM group_device WHERE type = :type union SELECT d.id,d.name,d.type,d.isOn,d.isLight,d.changeMode,d.colorPosition,d.colorTemperature,d.brightness,d.sceneMode,d.openTimer,d.closeTimer,d.isOnOpenTimer,d.isOnCloseTimer FROM Device AS d WHERE d.type = :type")
-    abstract fun getControlDevices(type: Int): LiveData<List<ControlDevice>>
+//    @Query("SELECT * FROM group_device WHERE type = :type union SELECT d.id,d.name,d.type,d.isOn,d.isLight,d.changeMode,d.colorPosition,d.colorTemperature,d.brightness,d.sceneMode,d.openTimer,d.closeTimer,d.isOnOpenTimer,d.isOnCloseTimer FROM Device AS d WHERE d.type = :type")
+//    abstract fun getControlDevices(type: Int): LiveData<List<ControlDevice>>
 
     @Query("SELECT * FROM Device WHERE id in (SELECT deviceId FROM Model WHERE zoneId = :groupId and type=:deviceType) and type=:deviceType")
     abstract fun getBondedDevices(deviceType: Int, groupId: Int): LiveData<List<SingleDevice>>

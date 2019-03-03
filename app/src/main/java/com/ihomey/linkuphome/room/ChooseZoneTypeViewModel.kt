@@ -3,7 +3,7 @@ package com.ihomey.linkuphome.room
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.repository.SubZoneRepository
+import com.ihomey.linkuphome.data.repository.RoomRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class ChooseZoneTypeViewModel : ViewModel() {
 
     @Inject
-    lateinit var subZoneRepository: SubZoneRepository
+    lateinit var roomRepository: RoomRepository
 
     @Inject
     lateinit var zoneRepository: ZoneRepository
@@ -26,6 +26,6 @@ class ChooseZoneTypeViewModel : ViewModel() {
     }
 
 //    fun createSubZone(setting: LampCategory, type: Int, name: String, parentId: Int) {
-//        subZoneRepository.insert(setting,name, type, parentId)
+//        roomRepository.insert(setting,name, type, parentId)
 //    }
 }

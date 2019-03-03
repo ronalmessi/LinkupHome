@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.repository.DeviceRepository
-import com.ihomey.linkuphome.data.repository.GroupRepository
 import com.ihomey.linkuphome.data.vo.DeviceModel
-import com.ihomey.linkuphome.data.vo.GroupDevice
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
@@ -16,7 +14,7 @@ class ShareViewModel : ViewModel() {
 
 //    private var settingResults: LiveData<Resource<List<LampCategory>>>
     private var deviceResults: LiveData<Resource<List<DeviceModel>>>
-    private var groupResults: LiveData<Resource<List<GroupDevice>>>
+//    private var groupResults: LiveData<Resource<List<GroupDevice>>>
 
 
     private val loadDeviceType = MutableLiveData<Int>()
@@ -26,8 +24,8 @@ class ShareViewModel : ViewModel() {
 //    @Inject
 //    lateinit var mCategoryRepository: CategoryRepository
 
-    @Inject
-    lateinit var mGroupRepository: GroupRepository
+//    @Inject
+//    lateinit var mGroupRepository: GroupRepository
 
     @Inject
     lateinit var mDeviceRepository: DeviceRepository
@@ -43,14 +41,14 @@ class ShareViewModel : ViewModel() {
             mDeviceRepository.getDeviceModels(input)
 
         })
-        groupResults = Transformations.switchMap(loadGroupDeviceType, { input ->
-            mGroupRepository.getGroups(input)
-        })
+//        groupResults = Transformations.switchMap(loadGroupDeviceType, { input ->
+//            mGroupRepository.getGroups(input)
+//        })
     }
 
-    fun getGroupResults(): LiveData<Resource<List<GroupDevice>>> {
-        return groupResults
-    }
+//    fun getGroupResults(): LiveData<Resource<List<GroupDevice>>> {
+//        return groupResults
+//    }
 
     fun getDeviceResults(): LiveData<Resource<List<DeviceModel>>> {
         return deviceResults

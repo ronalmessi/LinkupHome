@@ -46,13 +46,6 @@ class ApiModule {
     }
 
 
-
-    @Singleton
-    @Provides
-    fun provideGroupDeviceDao(db: LinkupHomeDb): GroupDeviceDao {
-        return db.groupDeviceDao()
-    }
-
     @Singleton
     @Provides
     fun provideModelDao(db: LinkupHomeDb): ModelDao {

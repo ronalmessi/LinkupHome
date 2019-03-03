@@ -105,7 +105,7 @@ public class RGBCircleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         mCirclePaint.setColor(mCircleColor);
-        canvas.drawCircle(mCx, mCy, mRadius -dip2px(this.getContext(), 45), mCirclePaint);
+//        canvas.drawCircle(mCx, mCy, mRadius -dip2px(this.getContext(), 45), mCirclePaint);
         canvas.rotate((float) Math.toDegrees(mCurrentRadian), mCx, mCy);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.control_icon_arrow);
         canvas.drawBitmap(bitmap, getMeasuredWidth() / 2 - bitmap.getWidth() / 2, mCy - mRadius + dip2px(this.getContext(), 51), mCirclePaint);

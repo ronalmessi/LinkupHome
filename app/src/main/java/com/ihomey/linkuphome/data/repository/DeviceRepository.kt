@@ -38,13 +38,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
         }.asLiveData()
     }
 
-    fun getAllControlDevices(lampGroupType: Int): LiveData<Resource<List<ControlDevice>>> {
-        return object : NetworkBoundResource<List<ControlDevice>>(appExecutors) {
-            override fun loadFromDb(): LiveData<List<ControlDevice>> {
-                return singleDeviceDao.getControlDevices(lampGroupType)
-            }
-        }.asLiveData()
-    }
+
 
     fun getBondedDevices(deviceType: Int, groupId: Int): LiveData<Resource<List<SingleDevice>>> {
         return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {

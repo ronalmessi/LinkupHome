@@ -41,7 +41,7 @@ class ShareActivity : BaseActivity() {
     private var bitmap: Bitmap? = null
 //    private var settings: List<LampCategory>? = null
     private var deviceModels: List<DeviceModel>? = null
-    private var groups: List<GroupDevice>? = null
+//    private var groups: List<GroupDevice>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +62,12 @@ class ShareActivity : BaseActivity() {
 
         })
 
-        mViewModel.getGroupResults().observe(this, Observer<Resource<List<GroupDevice>>> {
-            if (it?.status == Status.SUCCESS) {
-                groups = it.data
-                createShareCode()
-            }
-        })
+//        mViewModel.getGroupResults().observe(this, Observer<Resource<List<GroupDevice>>> {
+//            if (it?.status == Status.SUCCESS) {
+//                groups = it.data
+//                createShareCode()
+//            }
+//        })
 
 //        mViewModel.getSettingResults().observe(this, Observer<Resource<List<LampCategory>>> {
 //            if (it?.status == Status.SUCCESS && it.data?.size == 2) {

@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.room
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,7 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
@@ -142,7 +141,6 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
             mDialog.arguments = bundle
             mDialog.isCancelable = false
             mDialog.show(fragmentManager, "GroupUpdateFragment")
-            Log.d("aa","bbbbbbbbb")
             bindDeviceListener.bindDevice(singleDevice.id, room.id, this)
 
         }

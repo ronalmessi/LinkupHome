@@ -79,7 +79,10 @@ class BedRGBCircleView : View {
     private fun initElements() {
         mCirclePaint.style = Paint.Style.STROKE
         mCirclePaint.strokeWidth = mCircleWidth
-        logoBitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
+
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
+        logoBitmap = scaleBitmap(bitmap, resources.getDimension(R.dimen._114sdp) / bitmap.width)
+
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
     }
 
@@ -103,10 +106,22 @@ class BedRGBCircleView : View {
         canvas.rotate(Math.toDegrees(mCurrentRadian.toDouble()).toFloat(), mCx, mCy)
         canvas.drawBitmap(arrowBitmap, (width / 2 - arrowBitmap.width / 2).toFloat(), mCircleWidth + mArrowGap, mCirclePaint)
         canvas.restore()
-
-
     }
 
+
+    //按比例缩放
+    fun scaleBitmap(origin: Bitmap, scale: Float): Bitmap {
+        val width = origin.width
+        val height = origin.height
+        val matrix = Matrix()
+        matrix.preScale(scale, scale)
+        val newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false)
+        if (newBM == origin) {
+            return newBM
+        }
+        origin.recycle()
+        return newBM
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

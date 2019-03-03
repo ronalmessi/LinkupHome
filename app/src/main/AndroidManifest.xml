@@ -40,10 +40,6 @@
         <activity
             android:name=".scan.ScanActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".main.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <service
             android:name="com.csr.mesh.MeshService"

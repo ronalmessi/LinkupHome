@@ -118,6 +118,8 @@
     <string name="lamp_s1">彩光射灯</string>
     <string name="lamp_s2">白光射灯</string>
     <string name="lamp_t1">彩光筒灯</string>
+    <string name="lamp_t1_rgb">彩光</string>
+    <string name="lamp_t1_cct">白光</string>
 
 
 

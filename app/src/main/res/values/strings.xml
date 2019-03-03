@@ -125,6 +125,8 @@
     <string name="lamp_s1">RGB Spotlight</string>
     <string name="lamp_s2">CCT Spotlight</string>
     <string name="lamp_t1">RGB Downlight</string>
+    <string name="lamp_t1_rgb">RGB</string>
+    <string name="lamp_t1_cct">CCT</string>
 
 
     <string name="zones_title">Home</string>
@@ -162,7 +164,7 @@
     <string name="join">Join</string>
 
     <string name="choose_room_type_title">Room type</string>
-    <string name="create_room_title">Rename new room</string>
+    <string name="create_room_title">Name a new room</string>
     <string name="delete_room_title">Delete room</string>
     <string name="delete_room_hint">Do you want to delete current room?</string>
     <string name="light_cycling_spped">Light change speed</string>

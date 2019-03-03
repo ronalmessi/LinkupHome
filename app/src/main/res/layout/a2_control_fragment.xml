@@ -12,7 +12,7 @@
 
         <variable
             name="handlers"
-            type="com.ihomey.linkuphome.control1.BaseControlFragment.ToolBarEventHandler" />
+            type="com.ihomey.linkuphome.control.BaseControlFragment.ToolBarEventHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

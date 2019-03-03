@@ -5,12 +5,10 @@ import com.ihomey.linkuphome.device1.ConnectedDevicesViewModel
 import com.ihomey.linkuphome.device1.DevicesViewModel
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.home.HomeViewModel
-import com.ihomey.linkuphome.main.MainViewModel
 import com.ihomey.linkuphome.room.ChooseZoneTypeViewModel
 import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.room.UnBindedDevicesViewModel
 import com.ihomey.linkuphome.scan.ScanViewModel
-import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
 import com.ihomey.linkuphome.share.ShareViewModel
 import com.ihomey.linkuphome.share1.ShareZoneViewModel
@@ -63,10 +61,8 @@ interface AppComponent {
 
     fun inject(createZoneViewModel: CreateZoneViewModel)
 
-    fun inject(mainViewModel: MainViewModel)
 
 
-    fun inject(sceneSettingViewModel: SceneSettingViewModel)
 
     fun inject(scanViewModel: ScanViewModel)
     fun inject(shareViewModel: ShareViewModel)

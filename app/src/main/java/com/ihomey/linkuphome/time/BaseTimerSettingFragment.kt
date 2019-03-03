@@ -13,7 +13,7 @@ import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.syncTime
 import com.suke.widget.SwitchButton
 import java.util.*

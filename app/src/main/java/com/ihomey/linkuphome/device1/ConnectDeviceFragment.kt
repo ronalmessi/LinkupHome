@@ -27,7 +27,7 @@ import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.getShortName
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeviceAssociateListener
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.connect_device_fragment.*

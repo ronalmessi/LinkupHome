@@ -34,10 +34,20 @@ class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, 
         if(item.type==0){
             helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._4sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
             layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
-        }else if(item.type==1){
+        }else if(item.type==1||item.type==2||item.type==6||item.type==7){
             helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._18sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
             layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
             layoutParams.marginStart = mContext.resources.getDimension(R.dimen._15sdp).toInt()
+        }else if (item.type == 4) {
+            helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._21sdp).toInt(), 0,mContext.resources.getDimension(R.dimen._12sdp).toInt(), 0)
+            layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
+            layoutParams.marginStart = mContext.resources.getDimension(R.dimen._18sdp).toInt()
+        }else if (item.type == 5) {
+            helper.itemView.setPadding( mContext.resources.getDimension(R.dimen._10sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._2sdp).toInt())
+            layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
+            layoutParams.marginStart = mContext.resources.getDimension(R.dimen._4sdp).toInt()
+        }else if (item.type == 3) {
+            helper.itemView.setPadding(0, mContext.resources.getDimension(R.dimen._6sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._6sdp).toInt())
         }
         tv_device_name.layoutParams=layoutParams
         helper.setText(R.id.tv_device_name, item.name)

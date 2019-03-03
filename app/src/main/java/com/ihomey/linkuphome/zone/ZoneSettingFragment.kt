@@ -20,7 +20,9 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.DeleteDevicesFragment
+import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
+import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
@@ -39,6 +41,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
 
     private lateinit var listener: BottomNavigationVisibilityListener
+    private lateinit var bridgeListener: BridgeListener
     private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
 
@@ -60,6 +63,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as BottomNavigationVisibilityListener
+        bridgeListener= context as BridgeListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,6 +115,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
         val zone = adapter.getItem(position)
         if (zone != null) {
+            bridgeListener.reConnectBridge()
             currentZoneId = zone.id
             Navigation.findNavController(view).popBackStack()
         }

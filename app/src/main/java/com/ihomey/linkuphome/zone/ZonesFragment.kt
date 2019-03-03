@@ -26,7 +26,7 @@ import com.ihomey.linkuphome.device1.ColorCyclingSettingFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.DeleteSubZoneListener
-import com.ihomey.linkuphome.listeners.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.room.DeleteRoomFragment
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.zones_fragment.*

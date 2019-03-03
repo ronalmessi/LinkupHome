@@ -8,14 +8,6 @@
        <attr name="range" format="integer" />
    </declare-styleable>
 
-   <declare-styleable name="ViewPagerWithIndicator">
-      <attr name="arrow.enable" format="boolean|reference"/>
-      <attr name="arrow.width" format="dimension|reference" />
-      <attr name="arrow.height" format="dimension|reference" />
-      <attr name="left_arrow.drawable" format="reference" />
-      <attr name="right_arrow.drawable" format="reference" />
-
-   </declare-styleable>
 
    <attr name="checkedTextColor" format="color"/>
    <attr name="uncheckedTextColor" format="color"/>
