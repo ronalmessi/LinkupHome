@@ -335,20 +335,21 @@ fun getShortName(type: DeviceType) =
             DeviceType.S1 -> "iHomey S1"
             DeviceType.S2 -> "iHomey S2"
             DeviceType.M1 -> "iHomey M1"
+            DeviceType.T1 -> "iHomey T1"
         }
 
-
-fun getIcon(type: Int) =
-        when (type) {
-            0 -> R.mipmap.lamp_icon_lawn_unadded
-            1 -> R.mipmap.lamp_icon_rgb_unadded
-            2 -> R.mipmap.lamp_icon_warm_cold_unadded
-            3 -> R.mipmap.lamp_icon_led_unadded
-            4 -> R.mipmap.lamp_icon_outdoor_unadded
-            5 -> R.mipmap.lamp_icon_s_unadded
-            6 -> R.mipmap.lamp_icon_s_unadded
-            else -> R.mipmap.lamp_icon_bed_unadded
-        }
+//
+//fun getIcon(type: Int) =
+//        when (type) {
+//            0 -> R.mipmap.lamp_icon_lawn_unadded
+//            1 -> R.mipmap.lamp_icon_rgb_unadded
+//            2 -> R.mipmap.lamp_icon_warm_cold_unadded
+//            3 -> R.mipmap.lamp_icon_led_unadded
+//            4 -> R.mipmap.lamp_icon_outdoor_unadded
+//            5 -> R.mipmap.lamp_icon_s_unadded
+//            6 -> R.mipmap.lamp_icon_s_unadded
+//            else -> R.mipmap.lamp_icon_bed_unadded
+//        }
 
 //七牛后台的key
 var ACCESS_KEY = "MOeoLYAGZgMIe98ZTDo_Uk4c7rYrLAD2AVFVIwC5"

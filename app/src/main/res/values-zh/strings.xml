@@ -110,6 +110,13 @@
 
     <string name="lamp_c3">户外灯</string>
     <string name="lamp_r2">彩光灯泡</string>
+    <string name="lamp_a2">白光灯泡</string>
+    <string name="lamp_n1">彩光灯带</string>
+    <string name="lamp_m1">床头灯</string>
+    <string name="lamp_v1">迷你花园灯</string>
+    <string name="lamp_s1">彩光射灯</string>
+    <string name="lamp_s2">白光射灯</string>
+    <string name="lamp_t1">彩光筒灯</string>
 
 
 

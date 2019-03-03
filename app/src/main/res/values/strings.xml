@@ -99,8 +99,7 @@
     <string name="lamp_bed">智能床头灯</string>
     <string name="lamp_rgb">RGB Bulb</string>
     <string name="lamp_outdoor">Outdoor Lamp</string>
-    <string name="lamp_s1">S1 Lamp</string>
-    <string name="lamp_s2">S2 Lamp</string>
+
     <string name="lamp_mini_outdoor">Mini Outdoor Lamp</string>
     <string name="lamp_cct">CCT Bulb</string>
     <string name="lamp_led_strip">Strip Light</string>
@@ -118,6 +117,13 @@
 
     <string name="lamp_c3">Outdoor Light</string>
     <string name="lamp_r2">RGB Bulb</string>
+    <string name="lamp_a2">CCT Bulb</string>
+    <string name="lamp_n1">RGB Strip Light</string>
+    <string name="lamp_m1">Bedside Lamp</string>
+    <string name="lamp_v1">Mini Garden light</string>
+    <string name="lamp_s1">RGB Spotlight</string>
+    <string name="lamp_s2">CCT Spotlight</string>
+    <string name="lamp_t1">RGB Downlight</string>
 
 
     <string name="zones_title">Home</string>
