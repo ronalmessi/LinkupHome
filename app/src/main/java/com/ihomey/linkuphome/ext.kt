@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.telephony.TelephonyManager
+import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -34,55 +37,25 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.BaselineLayout
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
+import org.spongycastle.crypto.digests.SHA256Digest
+import org.spongycastle.util.encoders.Hex
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.security.MessageDigest
 import java.util.*
 
 
 /**
  * Created by dongcaizheng on 2018/4/9.
  */
-
-fun BottomNavigationView.disableShiftMode() {
-    val menuView = this.getChildAt(0) as BottomNavigationMenuView
-    try {
-        val shiftingMode = menuView.javaClass.getDeclaredField("mShiftingMode")
-        shiftingMode.isAccessible = true
-        shiftingMode.setBoolean(menuView, false)
-        shiftingMode.isAccessible = false
-        for (i in 0 until menuView.childCount) {
-            val item = menuView.getChildAt(i) as BottomNavigationItemView
-            val icon = item.findViewById<ImageView>(R.id.icon)
-            val largeLabel = item.findViewById<TextView>(R.id.largeLabel)
-            val smallLabel = item.findViewById<TextView>(R.id.smallLabel)
-            largeLabel.setSingleLine(false)
-            smallLabel.setSingleLine(false)
-            largeLabel.setLineSpacing(0f, 0.8f)
-            smallLabel.setLineSpacing(0f, 0.8f)
-            largeLabel.gravity = Gravity.CENTER_HORIZONTAL
-            smallLabel.gravity = Gravity.CENTER_HORIZONTAL
-            icon.scaleX = 5f
-            icon.scaleY = 5f
-            val baselineLayout = largeLabel.parent as BaselineLayout
-            baselineLayout.setPadding(0, 0, 0, 0)
-            val layoutParams = baselineLayout.layoutParams as FrameLayout.LayoutParams
-            layoutParams.gravity = Gravity.CENTER_HORIZONTAL
-            layoutParams.topMargin = this.context.dip2px(72f)
-            baselineLayout.layoutParams = layoutParams
-//            item.setShiftingMode(false)
-            item.setChecked(item.itemData.isChecked)
-        }
-    } catch (e: NoSuchFieldException) {
-        e.printStackTrace()
-    } catch (e: IllegalAccessException) {
-        e.printStackTrace()
-    }
-}
-
 
 fun Activity.setTranslucentStatus() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -120,6 +93,13 @@ fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
 fun Context.hideInput(view: View) {
     val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+@SuppressLint("MissingPermission")
+fun Context.getIMEI(): String {
+    val telephonyManager = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    return if (TextUtils.isEmpty(telephonyManager.deviceId)) "" else telephonyManager.deviceId
+
 }
 
 fun Context.isNetworkAvailable(): Boolean {
@@ -199,7 +179,7 @@ fun handleBackPress(fragmentManager: FragmentManager): Boolean {
     val fragments = fragmentManager.fragments ?: return false
     for (i in fragments.indices.reversed()) {
         val child = fragments[i]
-        Log.d("aa",child.javaClass.simpleName+"-----")
+        Log.d("aa", child.javaClass.simpleName + "-----")
         if (isFragmentBackHandled(child)) {
             return true
         }
@@ -312,6 +292,36 @@ fun inStringArray(s: String, array: Array<String>): Boolean {
     return false
 }
 
+fun String.sha256(): String {
+    val digest = SHA256Digest()
+    digest.update(this.toByteArray(), 0, this.toByteArray().size)
+    val sha256Bytes = ByteArray(digest.digestSize)
+    digest.doFinal(sha256Bytes, 0)
+    return Hex.toHexString(sha256Bytes)
+}
+
+fun String.md5(): String {
+    val digest = MessageDigest.getInstance("MD5")
+    val result = digest.digest(this.toByteArray())
+    return Hex.toHexString(result)
+}
+
+fun <T> beanToJson(t:T):String{
+    return AppConfig.APP_SECRET+getSkipFieldGson("signature").toJson(t).replace(":","").replace("{","").replace("}","").replace(",","").replace("" + "\"","")
+}
+
+fun getSkipFieldGson(filedName:String):Gson{
+    return GsonBuilder().setExclusionStrategies(object : ExclusionStrategy {
+        override fun shouldSkipClass(clazz: Class<*>?): Boolean {
+            return false
+        }
+
+        override fun shouldSkipField(f: FieldAttributes?): Boolean {
+              return TextUtils.equals(filedName,f?.name)
+        }
+    }).create()
+}
+
 
 fun syncTime(deviceId: Int) {
     val calendar = Calendar.getInstance()
@@ -319,7 +329,7 @@ fun syncTime(deviceId: Int) {
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
     val minute = calendar.get(Calendar.MINUTE)
     val second = calendar.get(Calendar.SECOND)
-    val code_lawn_time_prefix ="C201F304F2"+(if (hour >= 10) ""+hour else "0$hour")+(if (minute >= 10) ""+minute else "0$minute")+(if (second >= 10) ""+second else "0$second")
+    val code_lawn_time_prefix = "C201F304F2" + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
     val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_time_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16))
     val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
     DataModelApi.sendData(deviceId, decodeHex(code_lawn_time.toCharArray()), false)
@@ -385,7 +395,7 @@ val REQUEST_CODE_SCAN = 101
 val REQUEST_BT_RESULT_CODE = 102
 
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
-val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg,R.mipmap.fragment_rgb_bg,R.mipmap.fragment_warm_cold_bg)
+val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg)
 val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
 
 
@@ -400,12 +410,12 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
 
         override fun onChanged(obj: T?) {
             if (!initialized) {
-                Log.d("aa","hhahahahaahaha")
+                Log.d("aa", "hhahahahaahaha")
                 initialized = true
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             } else if ((obj == null && lastObj != null) || obj != lastObj) {
-                Log.d("aa","ggggggg")
+                Log.d("aa", "ggggggg")
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             }

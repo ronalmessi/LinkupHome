@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class SettingRepository @Inject constructor(private val settingDao: SettingDao, private var appExecutors: AppExecutors) {
 
     fun getSetting(): LiveData<Resource<Setting>> {
-        return object : NetworkBoundResource<Setting>(appExecutors) {
+        return object : DbBoundResource<Setting>(appExecutors) {
             override fun loadFromDb(): LiveData<Setting> {
                 return settingDao.getSetting()
             }

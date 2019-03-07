@@ -32,7 +32,7 @@ class RoomRepository @Inject constructor(private val subZoneDao: RoomDao, privat
     }
 
     fun getRooms(deviceId: Int): LiveData<Resource<List<Room>>> {
-        return object : NetworkBoundResource<List<Room>>(appExecutors) {
+        return object : DbBoundResource<List<Room>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<Room>> {
                 return subZoneDao.getRooms(deviceId)
             }

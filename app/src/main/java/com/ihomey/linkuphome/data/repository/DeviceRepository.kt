@@ -3,14 +3,15 @@ package com.ihomey.linkuphome.data.repository
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.PreferenceHelper
+import com.ihomey.linkuphome.data.api.AbsentLiveData
+import com.ihomey.linkuphome.data.api.ApiResult
+import com.ihomey.linkuphome.data.api.ApiService
+import com.ihomey.linkuphome.data.api.NetworkBoundResource
 import com.ihomey.linkuphome.data.db.SettingDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.vo.ControlDevice
-import com.ihomey.linkuphome.data.vo.ControlState
-import com.ihomey.linkuphome.data.vo.DeviceModel
-import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,12 +19,32 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDeviceDao, private val settingDao: SettingDao,  private var appExecutors: AppExecutors) {
+class DeviceRepository @Inject constructor(private var apiService: ApiService, private val singleDeviceDao: SingleDeviceDao, private val settingDao: SettingDao, private var appExecutors: AppExecutors) {
 
+
+    fun register(registerDTO: RegisterVO): LiveData<Resource<String>> {
+        return object : NetworkBoundResource<String>(appExecutors) {
+            override fun saveCallResult(item: String) {
+
+            }
+
+            override fun shouldFetch(data: String?): Boolean {
+                return true
+            }
+
+            override fun loadFromDb(): LiveData<String> {
+                return AbsentLiveData.create()
+            }
+
+            override fun createCall(): LiveData<ApiResult<String>> {
+                return apiService.register(registerDTO)
+            }
+        }.asLiveData()
+    }
 
 
     fun getDevices(): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
                 return singleDeviceDao.getDevices()
             }
@@ -31,7 +52,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
     }
 
     fun getDeviceModels(lampGroupType: Int): LiveData<Resource<List<DeviceModel>>> {
-        return object : NetworkBoundResource<List<DeviceModel>>(appExecutors) {
+        return object : DbBoundResource<List<DeviceModel>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<DeviceModel>> {
                 return singleDeviceDao.getDeviceModels(lampGroupType)
             }
@@ -41,7 +62,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
 
     fun getBondedDevices(deviceType: Int, groupId: Int): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
                 return singleDeviceDao.getBondedDevices(deviceType, groupId)
             }
@@ -50,7 +71,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
 
     fun getUnBondedDevices(deviceType: Int, groupId: Int): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
                 return singleDeviceDao.getUnBondedDevices(deviceType, groupId)
             }
@@ -59,7 +80,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
 
     fun getDevices(zoneId: Int): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
                 return singleDeviceDao.getDevices(zoneId)
             }
@@ -68,7 +89,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
 
     fun getDevices(zoneId: Int,type:Int): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
                 return singleDeviceDao.getDevices(zoneId,type)
             }
@@ -77,7 +98,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
 
 //    fun getUnBondedDevices(subZoneId: Int): LiveData<Resource<List<SingleDevice>>> {
-//        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+//        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
 //            override fun loadFromDb(): LiveData<List<SingleDevice>> {
 //                return singleDeviceDao.getUnBondedDevices(subZoneId)
 //            }
@@ -86,7 +107,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
 
     fun getBindedDevices(zoneId: Int,roomId:Int): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
                 return singleDeviceDao.getBindedDevices(zoneId,roomId)
             }
@@ -94,7 +115,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
     }
 
     fun getUnBindedDevices(zoneId: Int,roomId:Int): LiveData<Resource<List<SingleDevice>>> {
-        return object : NetworkBoundResource<List<SingleDevice>>(appExecutors) {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<SingleDevice>> {
                 return singleDeviceDao.getUnBindedDevices(zoneId)
             }
@@ -103,7 +124,7 @@ class DeviceRepository @Inject constructor(private val singleDeviceDao: SingleDe
 
 
 //    fun getDevices(deviceType: Int, id: Int): LiveData<Resource<ControlDevice>> {
-//        return object : NetworkBoundResource<ControlDevice>(appExecutors) {
+//        return object : DbBoundResource<ControlDevice>(appExecutors) {
 //            override fun loadFromDb(): LiveData<ControlDevice> {
 //                return singleDeviceDao.getDeviceDistinctLiveData(deviceType, id)
 //            }

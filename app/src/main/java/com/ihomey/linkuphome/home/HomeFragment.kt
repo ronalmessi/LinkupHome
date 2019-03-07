@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.sha256
 import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : BaseFragment() {
@@ -25,7 +26,7 @@ class HomeFragment : BaseFragment() {
 ////            onNavDestinationSelected(item, Navigation.findNavController(activity!!, R.id.home_nav_host_fragment))
 //        }
 
-        Log.d("ic_setting_zone", "1111")
+
 //        bottom_nav_view.selectedItemId=R.id.tab_zones
 //        onNavDestinationSelected(bottom_nav_view.menu.getItem(1), Navigation.findNavController(activity!!, R.id.home_nav_host_fragment))
     }

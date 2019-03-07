@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class Model1Repository @Inject constructor(private val modelDao: ModelDao, private val subZoneDao: RoomDao, private val singleDeviceDao: SingleDeviceDao, private var appExecutors: AppExecutors) {
 
     fun getModels(deviceId: Int,zoneId:Int): LiveData<Resource<List<Model>>> {
-        return object : NetworkBoundResource<List<Model>>(appExecutors) {
+        return object : DbBoundResource<List<Model>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<Model>> {
                 return modelDao.getModels(deviceId,zoneId)
             }
