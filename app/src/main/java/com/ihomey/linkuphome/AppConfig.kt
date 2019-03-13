@@ -10,6 +10,7 @@ class AppConfig {
         val LANGUAGE: Array<String> = arrayOf("en", "zh", "fr", "de", "es", "nl")
 
         val API_SERVER = "http://linkuphome.ray-joy.com/"
+        val INSTRUCTIONS_URL = "http://ihomey.cc/guide/guide.html"
         val APP_SECRET = "f374cfda69e064322a2be320da6caf96"
     }
 

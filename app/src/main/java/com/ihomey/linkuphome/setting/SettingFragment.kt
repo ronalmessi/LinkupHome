@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.setting
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,7 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
+
 import kotlinx.android.synthetic.main.setting_fragment.*
 
 class SettingFragment : BaseFragment() {
@@ -23,17 +22,10 @@ class SettingFragment : BaseFragment() {
         fun newInstance() = SettingFragment()
     }
 
-
-    private lateinit var listener: BottomNavigationVisibilityListener
     private lateinit var viewModel: HomeActivityViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.setting_fragment, container, false)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as BottomNavigationVisibilityListener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -48,7 +40,7 @@ class SettingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener.showBottomNavigationBar(true)
+        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(true) }
         infoTextLayout_setting_current_zone.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_zoneSettingFragment)
         }

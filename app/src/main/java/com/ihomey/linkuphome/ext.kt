@@ -90,6 +90,27 @@ fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, length).show()
 }
 
+fun Context.toast(errorCode: String) {
+    var message=""
+    when(errorCode){
+        "0001"->message="无效请求，缺少填必参数"
+        "0002"->message="接口签名已过期"
+        "0003"->message="接口签名错误"
+        "0010"->message="未知客户端ID"
+        "0011"->message="客户端唯一编号不能大于225个字符"
+        "0012"->message="客户端类型错误"
+        "0020"->message="未知空间ID"
+        "0021"->message="空间名称不能大于225个字符"
+        "0022"->message="空间类型不能大于64个字符"
+        "0023"->message="空间邀请码已过期"
+        "0024"->message="空间已存在"
+        "0030"->message="未知分组ID"
+        "0031"->message="分组名称不能大于225个字符"
+        "0032"->message="分组类型不能大于64个字符"
+    }
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
 fun Context.hideInput(view: View) {
     val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)

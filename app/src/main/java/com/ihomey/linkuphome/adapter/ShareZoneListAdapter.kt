@@ -14,11 +14,9 @@ import com.ihomey.linkuphome.data.entity.Zone
 
 class ShareZoneListAdapter(layoutId: Int) : BaseQuickAdapter<Zone, BaseViewHolder>(layoutId) {
 
-    val currentZoneId by PreferenceHelper("currentZoneId", -1)
-
     override fun convert(helper: BaseViewHolder, item: Zone) {
         helper.setText(R.id.tv_zone_name, item.name)
-        helper.setImageResource(R.id.iv_zone_current_flag, if (item.id==currentZoneId) R.mipmap.ic_zone_flag_current else R.mipmap.ic_zone_flag)
+        helper.setImageResource(R.id.iv_zone_current_flag, if (item.active==1) R.mipmap.ic_zone_flag_current else R.mipmap.ic_zone_flag)
         helper.addOnClickListener(R.id.iv_zone_share)
     }
 }

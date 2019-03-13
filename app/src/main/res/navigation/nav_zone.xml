@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/tab_zones">
+
+    <fragment
+        android:id="@+id/tab_zones"
+        android:name="com.ihomey.linkuphome.zone.ZoneFragment"
+        tools:layout="@layout/zone_fragment">
+        <action
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
+            android:id="@+id/action_tab_zones_to_chooseZoneTypeFragment"
+            app:destination="@id/chooseZoneTypeFragment" />
+        <action
+            android:id="@+id/action_tab_zones_to_subZoneFragment"
+            app:destination="@id/subZoneFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chooseZoneTypeFragment"
+        android:name="com.ihomey.linkuphome.room.ChooseRoomTypeFragment"
+        tools:layout="@layout/choose_zone_type_fragment"
+        android:label="ChooseZoneTypeFragment" />
+
+    <fragment
+        android:id="@+id/subZoneFragment"
+        android:name="com.ihomey.linkuphome.room.RoomFragment"
+        android:label="sub_zone_fragment"
+        tools:layout="@layout/sub_zone_fragment" >
+        <action
+            android:id="@+id/action_subZoneFragment_to_unBondedDevicesFragment2"
+            app:destination="@id/unBondedDevicesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/unBondedDevicesFragment"
+        android:name="com.ihomey.linkuphome.room.UnBindedDevicesFragment"
+        android:label="unbonded_devices_fragment"
+        tools:layout="@layout/unbonded_devices_fragment" >
+    </fragment>
+</navigation>

@@ -86,7 +86,7 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     //zone
-    fun setCurrentZoneId(zoneId: Int) {
+    fun setCurrentZoneId(zoneId: Int?) {
         mCurrentZoneId.value = zoneId
     }
 

@@ -14,16 +14,15 @@ import android.util.ArrayMap
 import android.util.Log
 import android.util.SparseIntArray
 import android.view.Gravity
-import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
 import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
 import com.ihomey.linkuphome.*
-import com.ihomey.linkuphome.adapter.HomePageAdapter
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Model
@@ -32,19 +31,19 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
-import com.ihomey.linkuphome.device1.DevicesFragment
+import com.ihomey.linkuphome.device1.DeviceFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.room.UnBindedDevicesFragment
 import de.keyboardsurfer.android.widget.crouton.Crouton
-import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.home_activity.*
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, DevicesFragment.DevicesStateListener, UnBindedDevicesFragment.BindDeviceListener {
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, DeviceFragment.DevicesStateListener, UnBindedDevicesFragment.BindDeviceListener {
 
 
     private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
@@ -74,27 +73,27 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTranslucentStatus()
-        setContentView(R.layout.home_fragment)
-        initView()
-        bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
+        setContentView(R.layout.home_activity)
+        initNavController()
+//        bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
-                currentZone = it.data
-                if (it.data != null && !TextUtils.isEmpty(it.data.networkKey)) {
-                    mService?.setNetworkPassPhrase(it.data.networkKey)
-                }
+//                currentZone = it.data
+//                if (it.data != null && !TextUtils.isEmpty(it.data.networkKey)) {
+//                    mService?.setNetworkPassPhrase(it.data.networkKey)
+//                }
             }
         })
+        mViewModel.setCurrentZoneId(intent?.extras?.getInt("currentZoneId"))
     }
 
-    private fun initView() {
-        viewPager.adapter = HomePageAdapter(supportFragmentManager)
-        viewPager.offscreenPageLimit = 3
-        bottom_nav_view.setOnNavigationItemSelectedListener { item ->
-            viewPager.currentItem = bottom_nav_view.menu.findItem(item.itemId).order
-            true
-        }
+    private fun initNavController() {
+        val navHostFragment = nav_host_home as NavHostFragment
+        val inflater = navHostFragment.navController.navInflater
+        val graph = inflater.inflate(R.navigation.nav_home)
+        graph.startDestination = if(intent?.extras?.getInt("currentZoneId")!=0) R.id.homeFragment else R.id.createZoneFragment
+        navHostFragment.navController.graph = graph
     }
 
 
@@ -116,15 +115,11 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
         }
     }
 
-    override fun showBottomNavigationBar(isVisible: Boolean) {
-        bottom_nav_view.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
     override fun onLanguageChange(languageIndex: Int) {
         val desLanguage = AppConfig.LANGUAGE[languageIndex]
         val currentLanguage = LocaleHelper.getLanguage(this)
         if (!TextUtils.equals(currentLanguage, desLanguage)) {
-            mViewModel.setBridgeState(false)
+//            mViewModel.setBridgeState(false)
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
             recreate()
@@ -143,7 +138,7 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
     private val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
             mService = (rawBinder as MeshService.LocalBinder).service
-            getNextDeviceIndex()
+//            getNextDeviceIndex()
             connectBridge()
         }
 
@@ -176,7 +171,7 @@ class HomeActivity : BaseActivity(), BottomNavigationVisibilityListener, BridgeL
         if (mConnected) {
             releaseResource()
             mConnected = false
-            viewPager.postDelayed({ connectBridge() }, 250)
+//            viewPager.postDelayed({ connectBridge() }, 250)
         }
     }
 

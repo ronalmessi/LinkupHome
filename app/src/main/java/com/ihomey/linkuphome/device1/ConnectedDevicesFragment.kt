@@ -19,7 +19,6 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device.DeviceRemoveFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.DeleteDeviceListener
 import com.ihomey.linkuphome.listeners.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
@@ -36,8 +35,7 @@ open class ConnectedDevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChi
     private lateinit var viewModel: HomeActivityViewModel
     protected lateinit var mViewModel: ConnectedDevicesViewModel
     private lateinit var adapter: DeviceListAdapter
-    private lateinit var listener: DevicesFragment.DevicesStateListener
-    private lateinit var bottomNavigationVisibilityListener: BottomNavigationVisibilityListener
+    private lateinit var listener: DeviceFragment.DevicesStateListener
     private lateinit var meshServiceStateListener: MeshServiceStateListener
     private val deviceRemoveFragment = DeviceRemoveFragment()
 
@@ -59,8 +57,7 @@ open class ConnectedDevicesFragment : BaseFragment(), BaseQuickAdapter.OnItemChi
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        listener = context as DevicesFragment.DevicesStateListener
-        bottomNavigationVisibilityListener = context as BottomNavigationVisibilityListener
+        listener = context as DeviceFragment.DevicesStateListener
         meshServiceStateListener = context as MeshServiceStateListener
     }
 

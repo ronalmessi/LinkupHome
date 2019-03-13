@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.zone
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.Zone
@@ -20,7 +19,7 @@ class CreateZoneViewModel : ViewModel() {
         DaggerAppComponent.builder().build().inject(this)
     }
 
-    fun createZone(imei:String,name: String, isCurrent: Boolean): LiveData<Resource<Boolean>> {
+    fun createZone(imei:String,name: String): LiveData<Resource<Zone>> {
         return zoneRepository.createZone(imei.md5(),name)
     }
 

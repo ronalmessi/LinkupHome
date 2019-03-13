@@ -12,8 +12,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceTypeListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
+import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 import kotlinx.android.synthetic.main.choose_device_type_fragment.*
 
 class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
@@ -22,7 +22,6 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         fun newInstance() = ChooseDeviceTypeFragment()
     }
 
-    private lateinit var listener: BottomNavigationVisibilityListener
     private lateinit var viewModel: ChooseDeviceTypeViewModel
     private lateinit var adapter: DeviceTypeListAdapter
 
@@ -35,14 +34,10 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         viewModel = ViewModelProviders.of(this).get(ChooseDeviceTypeViewModel::class.java)
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as BottomNavigationVisibilityListener
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener.showBottomNavigationBar(false)
+        parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
         adapter = DeviceTypeListAdapter(R.layout.item_device_type_list)
         adapter.onItemClickListener = this
         rcv_device_type_list.layoutManager = GridLayoutManager(context, 2)

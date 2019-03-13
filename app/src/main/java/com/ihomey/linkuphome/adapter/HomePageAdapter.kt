@@ -3,9 +3,9 @@ package com.ihomey.linkuphome.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.ihomey.linkuphome.device1.DevicesNavHostFragment
+import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.setting.SettingNavHostFragment
-import com.ihomey.linkuphome.zone.ZonesNavHostFragment
+import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 
 
 class HomePageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
@@ -16,8 +16,8 @@ class HomePageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(f
 
     override fun getItem(position: Int): Fragment? {
         return when (position) {
-            0 -> DevicesNavHostFragment().newInstance()
-            1 -> ZonesNavHostFragment().newInstance()
+            0 -> DeviceNavHostFragment().newInstance()
+            1 -> ZoneNavHostFragment().newInstance()
             2 -> SettingNavHostFragment().newInstance()
             else -> null
         }

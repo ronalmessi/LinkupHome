@@ -7,6 +7,29 @@
 
 
     <fragment
+        android:id="@+id/informFragment"
+        android:name="com.ihomey.linkuphome.inform.InformFragment"
+        tools:layout="@layout/inform_fragment"
+        android:label="InformFragment" >
+        <action
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
+            android:id="@+id/action_informFragment_to_privacyAgreementFragment"
+            app:destination="@id/privacyAgreementFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
+            android:id="@+id/action_informFragment_to_termsOfUseFragment"
+            app:destination="@id/termsOfUseFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_informFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+
+
+    <fragment
         android:id="@+id/privacyAgreementFragment"
         android:name="com.ihomey.linkuphome.setting.PrivacyAgreementFragment"
         tools:layout="@layout/privacy_agreement_fragment"
@@ -17,39 +40,9 @@
         tools:layout="@layout/terms_of_use_fragment"
         android:label="TermsOfUseFragment" />
 
-
-    <fragment
-        android:id="@+id/informFragment"
-        android:name="com.ihomey.linkuphome.inform.InformFragment"
-        tools:layout="@layout/inform_fragment"
-        android:label="InformFragment" >
-        <action
-            android:id="@+id/action_informFragment_to_privacyAgreementFragment"
-            app:destination="@id/privacyAgreementFragment" />
-        <action
-            android:id="@+id/action_informFragment_to_termsOfUseFragment"
-            app:destination="@id/termsOfUseFragment" />
-        <action
-            android:id="@+id/action_informFragment_to_createZoneFragment"
-            app:destination="@id/createZoneFragment" />
-        <action
-            android:id="@+id/action_informFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
-        <action
-            android:id="@+id/action_informFragment_to_createZoneActivity"
-            app:destination="@id/createZoneActivity" />
-    </fragment>
-
     <activity  android:id="@+id/homeActivity"
         android:name="com.ihomey.linkuphome.home.HomeActivity"
         tools:layout="@layout/activity_home"
         android:label="HomeActivity"/>
-
-    <activity  android:id="@+id/createZoneActivity"
-        android:name="com.ihomey.linkuphome.zone.CreateZoneActivity"
-        tools:layout="@layout/activity_home"
-        android:label="CreateZoneActivity"/>
-
-
 
 </navigation>

@@ -26,22 +26,24 @@ class ZoneSettingViewModel : ViewModel() {
         DaggerAppComponent.builder().build().inject(this)
     }
 
-    //zone
-
-    fun getZones(): LiveData<Resource<List<Zone>>> {
+    fun getLocalZones(): LiveData<Resource<List<Zone>>> {
         return zoneRepository.getZones()
+    }
+
+    fun getRemoteZones(guid:String): LiveData<Resource<List<Zone>>> {
+        return zoneRepository.getZones(guid)
+    }
+
+    fun deleteZone(guid:String,zoneId:Int): LiveData<Resource<Boolean>> {
+        return zoneRepository.deleteZone(guid,zoneId)
+    }
+
+    fun changeZoneName(guid:String,zoneId:Int,newName:String): LiveData<Resource<Zone>> {
+        return zoneRepository.changeZoneName(guid,zoneId,newName)
     }
 
     fun getDevices(zoneId:Int): LiveData<Resource<List<SingleDevice>>> {
         return  mDeviceRepository.getDevices(zoneId)
-    }
-
-    fun updateZoneName(newName: String, id: Int) {
-        zoneRepository.updateZoneName(newName, id)
-    }
-
-    fun deleteZone(id: Int) {
-        zoneRepository.deleteZone(id)
     }
 
 }

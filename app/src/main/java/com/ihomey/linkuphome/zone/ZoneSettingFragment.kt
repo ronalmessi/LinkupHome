@@ -12,18 +12,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
-import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.DeleteDevicesFragment
-import com.ihomey.linkuphome.home.HomeActivity
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
+import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.UpdateZoneNameListener
+import com.ihomey.linkuphome.setting.SettingNavHostFragment
+import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
@@ -37,14 +36,9 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         fun newInstance() = ZoneSettingFragment()
     }
 
-    var currentZoneId by PreferenceHelper("currentZoneId", -1)
-
-
-    private lateinit var listener: BottomNavigationVisibilityListener
     private lateinit var bridgeListener: BridgeListener
     private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.zone_setting_fragment, container, false)
@@ -53,16 +47,20 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(parentFragment!!).get(ZoneSettingViewModel::class.java)
-        viewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
+        viewModel.getLocalZones().observe(this, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
             }
         })
+        context?.getIMEI()?.let { it1 ->  viewModel.getRemoteZones(it1).observe(this, Observer<Resource<List<Zone>>> {
+            if (it?.status == Status.SUCCESS) {
+//                adapter.setNewData(it.data)
+            }
+        })}
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        listener = context as BottomNavigationVisibilityListener
         bridgeListener= context as BridgeListener
     }
 
@@ -96,7 +94,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         btn_share_zone.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_shareZoneListFragment)
         }
-        listener.showBottomNavigationBar(false)
+        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(false) }
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -113,41 +111,48 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        val zone = adapter.getItem(position)
-        if (zone != null) {
-            bridgeListener.reConnectBridge()
-            currentZoneId = zone.id
-            Navigation.findNavController(view).popBackStack()
-        }
+//        val zone = adapter.getItem(position)
+//        if (zone != null) {
+//            bridgeListener.reConnectBridge()
+//            currentZoneId = zone.id
+//            Navigation.findNavController(view).popBackStack()
+//        }
     }
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
         val zone = adapter.getItem(position)
         if (zone != null) {
-            if (adapter.itemCount == 1) {
-                val deleteZoneFragment = DeleteZoneFragment()
-                deleteZoneFragment.isCancelable = false
-                val bundle = Bundle()
-                bundle.putString("hintText", getString(R.string.zone_delete_hint1))
-                deleteZoneFragment.arguments = bundle
-                deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
-            } else {
-                viewModel.getDevices(zone.id).observe(this, Observer<Resource<List<SingleDevice>>> {
-                    if (it?.status == Status.SUCCESS && it.data != null) {
-                        if (it.data.isNullOrEmpty()) {
-                            viewModel.deleteZone(zone.id)
-                        } else {
-                            val deleteDevicesFragment = DeleteDevicesFragment()
-                            deleteDevicesFragment.isCancelable = false
-                            deleteDevicesFragment.setConfirmButtonClickListener(this)
-                            val bundle = Bundle()
-                            bundle.putInt("zoneId", zone.id)
-                            deleteDevicesFragment.arguments = bundle
-                            deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
-                        }
-                    }
-                })
-            }
+            context?.getIMEI()?.let { it1 ->  viewModel.deleteZone(it1,zone.id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
+                if (it?.status == Status.SUCCESS) {
+//                adapter.setNewData(it.data)
+                }else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })}
+//            if (adapter.itemCount == 1) {
+//                val deleteZoneFragment = DeleteZoneFragment()
+//                deleteZoneFragment.isCancelable = false
+//                val bundle = Bundle()
+//                bundle.putString("hintText", getString(R.string.zone_delete_hint1))
+//                deleteZoneFragment.arguments = bundle
+//                deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
+//            } else {
+//                viewModel.getDevices(zone.id).observe(this, Observer<Resource<List<SingleDevice>>> {
+//                    if (it?.status == Status.SUCCESS && it.data != null) {
+//                        if (it.data.isNullOrEmpty()) {
+//                            viewModel.deleteZone(zone.id)
+//                        } else {
+//                            val deleteDevicesFragment = DeleteDevicesFragment()
+//                            deleteDevicesFragment.isCancelable = false
+//                            deleteDevicesFragment.setConfirmButtonClickListener(this)
+//                            val bundle = Bundle()
+//                            bundle.putInt("zoneId", zone.id)
+//                            deleteDevicesFragment.arguments = bundle
+//                            deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
+//                        }
+//                    }
+//                })
+//            }
         }
         menuBridge?.closeMenu()
     }
@@ -160,9 +165,13 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
 
 
     override fun updateZoneName(id: Int, newName: String) {
-        currentZoneId = -1
-        viewModel.updateZoneName(newName, id)
-        currentZoneId = id
+        context?.getIMEI()?.let { it1 ->  viewModel.changeZoneName(it1,id,newName).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
+            if (it?.status == Status.SUCCESS) {
+
+            }else if (it?.status == Status.ERROR) {
+                it.message?.let { it2 -> activity?.toast(it2) }
+            }
+        })}
     }
 
 }

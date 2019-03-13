@@ -15,7 +15,6 @@ import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.LanguageListAdapter
 import com.ihomey.linkuphome.base.LocaleHelper
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.language_settingg_fragment.*
@@ -29,7 +28,6 @@ class LanguageSettingFragment : Fragment(), BaseQuickAdapter.OnItemClickListener
 
     private lateinit var adapter: LanguageListAdapter
     private lateinit var onLanguageListener: OnLanguageListener
-    private lateinit var listener: BottomNavigationVisibilityListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.language_settingg_fragment, container, false)
@@ -38,12 +36,11 @@ class LanguageSettingFragment : Fragment(), BaseQuickAdapter.OnItemClickListener
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         onLanguageListener = context as OnLanguageListener
-        listener = context as BottomNavigationVisibilityListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener.showBottomNavigationBar(false)
+        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(false) }
         adapter = LanguageListAdapter(R.layout.item_language_list, view.context.resources.getStringArray(R.array.language_array).toList())
         adapter.onItemClickListener = this
         rcv_language_list.layoutManager = LinearLayoutManager(context)

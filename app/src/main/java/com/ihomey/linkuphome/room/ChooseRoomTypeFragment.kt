@@ -15,23 +15,23 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomTypeListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
 import com.ihomey.linkuphome.listener.CreateSubZoneListener
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
+import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 import kotlinx.android.synthetic.main.choose_zone_type_fragment.*
 
-class ChooseRoomTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener, CreateSubZoneListener {
+class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, CreateSubZoneListener {
 
     companion object {
         fun newInstance() = ChooseRoomTypeFragment()
     }
 
-    private lateinit var listener: BottomNavigationVisibilityListener
     private lateinit var adapter: RoomTypeListAdapter
     private lateinit var mViewModel: HomeActivityViewModel
     private var currentSetting: Setting? = null
@@ -56,18 +56,16 @@ class ChooseRoomTypeFragment : Fragment(), BaseQuickAdapter.OnItemClickListener,
         })
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as BottomNavigationVisibilityListener
+    override fun onResume() {
+        super.onResume()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener.showBottomNavigationBar(false)
         adapter = RoomTypeListAdapter(R.layout.item_zone_type_list)
         adapter.onItemClickListener = this
         rcv_zone_type_list.layoutManager = GridLayoutManager(context, 3)
-
         val dm = DisplayMetrics()
         (context as Activity).windowManager.defaultDisplay.getRealMetrics(dm)
         val verticalMargin=(dm.heightPixels- context?.resources?.getDimensionPixelSize(R.dimen._64sdp)!!*5)/8

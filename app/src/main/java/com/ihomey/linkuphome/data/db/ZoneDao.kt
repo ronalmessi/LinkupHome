@@ -21,6 +21,9 @@ abstract class ZoneDao {
     @Query("SELECT * FROM zone WHERE id =:id")
     abstract fun getZone(id:Int): LiveData<Zone>
 
+    @Query("SELECT distinct id FROM zone WHERE active=1")
+    abstract fun getCurrentZoneId(): LiveData<Int>
+
 
     @Query("SELECT min(id) FROM zone")
     abstract fun getMinZoneId(): Int

@@ -16,6 +16,8 @@ import com.ihomey.linkuphome.adapter.ShareZoneListAdapter
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import kotlinx.android.synthetic.main.zone_share_list_fragment.*
@@ -26,7 +28,7 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         fun newInstance() = ShareZoneListFragment()
     }
 
-    private lateinit var mViewModel: ZoneSettingViewModel
+    private lateinit var mViewModel: ShareZoneListViewModel
     private lateinit var adapter: ShareZoneListAdapter
     private lateinit var loadingFragment: LoadingFragment
 
@@ -37,8 +39,8 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(parentFragment!!).get(ZoneSettingViewModel::class.java)
-        mViewModel.getZones().observe(this, Observer<Resource<List<Zone>>> {
+        mViewModel = ViewModelProviders.of(this).get(ShareZoneListViewModel::class.java)
+        mViewModel.getLocalZones().observe(viewLifecycleOwner, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
             }
@@ -57,7 +59,21 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment)
+        val zone=adapter.getItem(position)
+        if(zone!=null){
+            context?.getIMEI()?.let { it1 ->  mViewModel.shareZone(it1,zone.id).observe(viewLifecycleOwner, Observer<Resource<String>> {
+                if (it?.status == Status.SUCCESS) {
+                    val bundle=Bundle()
+                    bundle.putString("invitationCode","123456")
+                    Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment,bundle)
+                }else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                    val bundle=Bundle()
+                    bundle.putString("invitationCode","123456")
+                    Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment,bundle)
+                }
+            })}
+        }
     }
 
 }

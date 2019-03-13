@@ -1,11 +1,11 @@
 package com.ihomey.linkuphome.zone
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -15,23 +15,18 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.getIMEI
-import com.ihomey.linkuphome.home.HomeActivity
+import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.toast
 import kotlinx.android.synthetic.main.create_zone_fragment.*
-import kotlinx.android.synthetic.main.zones_fragment.*
 
 class CreateZoneFragment : BaseFragment() {
 
     companion object {
-        fun newInstance(isDefault: Boolean): CreateZoneFragment {
-            val fragment = CreateZoneFragment()
-            val bundle = Bundle()
-            bundle.putBoolean("isDefault", isDefault)
-            fragment.arguments = bundle
-            return fragment
-        }
+        fun newInstance() = CreateZoneFragment()
     }
 
-    private lateinit var viewModel: CreateZoneViewModel
+    private lateinit var createZoneViewModel: CreateZoneViewModel
+    private lateinit var homeActivityViewModel: HomeActivityViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.create_zone_fragment, container, false)
@@ -39,28 +34,30 @@ class CreateZoneFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CreateZoneViewModel::class.java)
+        createZoneViewModel = ViewModelProviders.of(this).get(CreateZoneViewModel::class.java)
+        homeActivityViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        et_zone_name.requestFocus()
         et_zone_name.setSelection(et_zone_name.text.toString().trim().length)
-        val isCurrent = arguments?.getBoolean("isDefault") ?: true
-        if (!isCurrent) iv_back.visibility = View.VISIBLE
-        btn_save.setOnClickListener {
-            context?.getIMEI()?.let { it1 -> viewModel.createZone(it1,et_zone_name.text.toString().trim(), isCurrent).observe(this, Observer<Resource<Boolean>> {
+        val isDefault = arguments?.getBoolean("isDefault") ?: true
+        if (!isDefault) iv_back.visibility = View.VISIBLE
+        btn_save.setOnClickListener {it0->
+            context?.getIMEI()?.let { it1 -> createZoneViewModel.createZone(it1,et_zone_name.text.toString().trim()).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
                 if (it?.status == Status.SUCCESS) {
-                      Log.d("aa","---111")
+                    if(isDefault){
+                        homeActivityViewModel.setCurrentZoneId(it.data?.id)
+                        Navigation.findNavController(it0).navigate(R.id.action_createZoneFragment_to_homeFragment)
+                    }else{
+                        Navigation.findNavController(it0).popBackStack()
+                    }
                 }else  if (it?.status == Status.ERROR) {
-                    Log.d("aa","---111"+it.message)
+                    it.message?.let { it2 -> activity?.toast(it2) }
                 }
             }) }
-//            if (isCurrent) {
-//                startActivity(Intent(activity, HomeActivity::class.java))
-//                activity?.finish()
-//            } else Navigation.findNavController(it).popBackStack()
         }
-
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 }

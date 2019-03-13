@@ -11,8 +11,9 @@ import com.ihomey.linkuphome.room.UnBindedDevicesViewModel
 import com.ihomey.linkuphome.scan.ScanViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
 import com.ihomey.linkuphome.share.ShareViewModel
-import com.ihomey.linkuphome.share1.ShareZoneViewModel
-import com.ihomey.linkuphome.splash.SplashActivityViewModel
+import com.ihomey.linkuphome.share1.JoinZoneViewModel
+import com.ihomey.linkuphome.share1.ShareZoneListViewModel
+import com.ihomey.linkuphome.splash.SplashViewModel
 import com.ihomey.linkuphome.zone.CreateZoneViewModel
 import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import com.ihomey.linkuphome.zone.ZonesViewModel
@@ -44,7 +45,7 @@ interface AppComponent {
 
     fun inject(settingViewModel: SettingViewModel)
 
-    fun inject(shareZoneViewModel: ShareZoneViewModel)
+    fun inject(shareZoneListViewModel: ShareZoneListViewModel)
 
     fun inject(connectDeviceViewModel: ConnectDeviceViewModel)
 
@@ -57,11 +58,11 @@ interface AppComponent {
     fun inject(homeActivityViewModel: HomeActivityViewModel)
 
 
-    fun inject(splashActivityViewModel: SplashActivityViewModel)
+    fun inject(splashViewModel: SplashViewModel)
 
     fun inject(createZoneViewModel: CreateZoneViewModel)
 
-
+    fun inject(joinZoneViewModel: JoinZoneViewModel)
 
 
     fun inject(scanViewModel: ScanViewModel)

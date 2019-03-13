@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.data.api
 
+import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
@@ -54,8 +55,7 @@ abstract class NetworkBoundResource<ResultType>
         }
         result.addSource(apiResponse) { response ->
             result.removeSource(dbSource)
-            Log.d("aa","---"+response?.code)
-            if (response?.code == 200) {
+            if (TextUtils.equals("0000",response?.code)) {
                 appExecutors.diskIO().execute {
                     response.data?.let { processResponse(it) }?.let { saveCallResult(it) }
                     appExecutors.mainThread().execute {
@@ -65,11 +65,10 @@ abstract class NetworkBoundResource<ResultType>
             } else {
                 onFetchFailed()
                 result.addSource(dbSource) { newData ->
-                    setValue(Resource.error(response?.msg, newData))
+                    setValue(Resource.error(response?.code, newData))
                 }
             }
         }
-
     }
 
     protected open fun onFetchFailed() {}

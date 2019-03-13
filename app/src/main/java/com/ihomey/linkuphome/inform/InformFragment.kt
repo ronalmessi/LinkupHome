@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.inform
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -75,8 +76,7 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
                 R.id.privacy_btn_start -> {
                     var hasAgreed by PreferenceHelper("hasAgreed", false)
                     hasAgreed = true
-                    val currentZoneId by PreferenceHelper("currentZoneId", -1)
-                    NavHostFragment.findNavController(this@InformFragment).navigate(if (currentZoneId != -1) R.id.action_informFragment_to_homeActivity else R.id.action_informFragment_to_createZoneActivity)
+                    NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_homeActivity)
                     activity?.finish()
                 }
             }

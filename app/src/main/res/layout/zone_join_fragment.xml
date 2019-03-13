@@ -74,7 +74,7 @@
                 android:textSize="@dimen/_18ssp" />
 
             <EditText
-                android:id="@+id/et_invite_code"
+                android:id="@+id/et_invitation_code"
                 android:layout_width="@dimen/_190sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

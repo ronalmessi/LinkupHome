@@ -21,14 +21,16 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.BottomNavigationVisibilityListener
+
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
+import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 
 
 /**
@@ -41,7 +43,6 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     protected lateinit var mControlDevice: SingleDevice
     protected lateinit var mViewModel: HomeActivityViewModel
     protected lateinit var listener: MeshServiceStateListener
-    private lateinit var bottomNavigationVisibilityListener: BottomNavigationVisibilityListener
     private var guide: Guide? = null
     private var type: Int = -1
 
@@ -55,7 +56,6 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as MeshServiceStateListener
-        bottomNavigationVisibilityListener = context as BottomNavigationVisibilityListener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,7 +75,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomNavigationVisibilityListener.showBottomNavigationBar(false)
+        parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
     }
 
     fun initController(type: Int) {
