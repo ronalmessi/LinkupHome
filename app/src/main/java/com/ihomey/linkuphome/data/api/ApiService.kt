@@ -30,7 +30,7 @@ interface ApiService {
     fun shareZone(@Body deleteZoneVO: DeleteZoneVO): LiveData<ApiResult<String>>
 
     //加入空间
-    @POST("/api/space/share")
+    @POST("/api/space/join")
     fun joinZone(@Body joinZoneVO: JoinZoneVO): LiveData<ApiResult<Zone>>
 
     //获取当前空间的详细信息

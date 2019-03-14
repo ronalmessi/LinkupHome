@@ -20,7 +20,7 @@ class CreateZoneViewModel : ViewModel() {
     }
 
     fun createZone(imei:String,name: String): LiveData<Resource<Zone>> {
-        return zoneRepository.createZone(imei.md5(),name)
+        return zoneRepository.createZone(imei,name)
     }
 
 }

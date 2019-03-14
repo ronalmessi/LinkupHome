@@ -9,6 +9,8 @@
         android:name="com.ihomey.linkuphome.device1.DeviceFragment"
         tools:layout="@layout/devices_fragment" >
         <action
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
             android:id="@+id/action_tab_devices_to_chooseDeviceTypeFragment"
             app:destination="@id/chooseDeviceTypeFragment" />
         <action

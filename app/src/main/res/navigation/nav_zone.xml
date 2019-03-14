@@ -2,16 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/tab_zones">
+    app:startDestination="@id/zoneFragment">
 
     <fragment
-        android:id="@+id/tab_zones"
+        android:id="@+id/zoneFragment"
         android:name="com.ihomey.linkuphome.zone.ZoneFragment"
         tools:layout="@layout/zone_fragment">
         <action
             app:enterAnim="@anim/slide_in_bottom"
             app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
-            android:id="@+id/action_tab_zones_to_chooseZoneTypeFragment"
+            android:id="@+id/action_zoneFragment_to_chooseZoneTypeFragment"
             app:destination="@id/chooseZoneTypeFragment" />
         <action
             android:id="@+id/action_tab_zones_to_subZoneFragment"

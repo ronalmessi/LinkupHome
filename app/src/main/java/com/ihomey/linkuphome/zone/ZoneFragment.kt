@@ -79,11 +79,11 @@ class ZoneFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, Dele
         adapter.setEmptyView(R.layout.view_zone_list_empty, rcv_zone_list)
         adapter.emptyView?.findViewById<FloatingActionButton>(R.id.btn_create_zone)?.setOnClickListener {
             parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
-            Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment)
+            Navigation.findNavController(it).navigate(R.id.action_zoneFragment_to_chooseZoneTypeFragment)
         }
         iv_add.setOnClickListener {
             parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
-            Navigation.findNavController(it).navigate(R.id.action_tab_zones_to_chooseZoneTypeFragment)
+            Navigation.findNavController(it).navigate(R.id.action_zoneFragment_to_chooseZoneTypeFragment)
         }
 
     }

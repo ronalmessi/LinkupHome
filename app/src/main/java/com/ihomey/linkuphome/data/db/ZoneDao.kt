@@ -2,10 +2,7 @@ package com.ihomey.linkuphome.data.db
 
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.ihomey.linkuphome.data.entity.Zone
 
 
@@ -31,8 +28,11 @@ abstract class ZoneDao {
     @Query("DELETE FROM zone WHERE id = :id")
     abstract fun delete(id: Int)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(zone: Zone):Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertAll(zones: List<Zone>)
 
     @Update
     abstract fun update(zone: Zone)

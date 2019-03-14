@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.share1
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,14 +64,13 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         if(zone!=null){
             context?.getIMEI()?.let { it1 ->  mViewModel.shareZone(it1,zone.id).observe(viewLifecycleOwner, Observer<Resource<String>> {
                 if (it?.status == Status.SUCCESS) {
-                    val bundle=Bundle()
-                    bundle.putString("invitationCode","123456")
-                    Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment,bundle)
+                    if(!TextUtils.isEmpty(it.data)){
+                        val bundle=Bundle()
+                        bundle.putString("invitationCode",it.data)
+                        Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment,bundle)
+                    }
                 }else if (it?.status == Status.ERROR) {
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                    val bundle=Bundle()
-                    bundle.putString("invitationCode","123456")
-                    Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment,bundle)
+                    it.message?.let { it2 -> activity?.toast(it2)}
                 }
             })}
         }

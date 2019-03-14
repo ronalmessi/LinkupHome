@@ -14,11 +14,20 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.databinding.InformFragmentBinding
+import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.home.HomeActivity
+import com.ihomey.linkuphome.splash.SplashViewModel
+import com.ihomey.linkuphome.toast
 
 
 /**
@@ -27,6 +36,9 @@ import com.ihomey.linkuphome.databinding.InformFragmentBinding
 class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
 
     private lateinit var mViewDataBinding: InformFragmentBinding
+
+    private lateinit var splashViewModel: SplashViewModel
+
 
     fun newInstance(): InformFragment {
         return InformFragment()
@@ -42,6 +54,10 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
         return mViewDataBinding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        splashViewModel= ViewModelProviders.of(this).get(SplashViewModel::class.java)
+    }
 
     private fun styleTextView(textView: TextView) {
         val spannableString = SpannableString(textView.text.toString())
@@ -76,10 +92,33 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
                 R.id.privacy_btn_start -> {
                     var hasAgreed by PreferenceHelper("hasAgreed", false)
                     hasAgreed = true
-                    NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_homeActivity)
-                    activity?.finish()
+                    scheduleScreen()
                 }
             }
         }
+    }
+
+    private fun scheduleScreen() {
+            context?.getIMEI()?.let { it1 -> splashViewModel.getRemoteCurrentZone(it1).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
+                if (it?.status == Status.SUCCESS) {
+                    goToHomeActivity()
+                }else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                    goToHomeActivity()
+                }
+            })
+            }
+    }
+
+    private fun goToHomeActivity() {
+        splashViewModel.getLocalCurrentZone().observe(viewLifecycleOwner, Observer<Resource<Int>> {
+            if (it?.status == Status.SUCCESS) {
+                val intent=Intent(activity, HomeActivity::class.java)
+                intent.putExtra("currentZoneId",it.data)
+                startActivity(intent)
+                activity?.overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
+                activity?.finish()
+            }
+        })
     }
 }

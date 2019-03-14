@@ -57,7 +57,7 @@ abstract class NetworkBoundResource<ResultType>
             result.removeSource(dbSource)
             if (TextUtils.equals("0000",response?.code)) {
                 appExecutors.diskIO().execute {
-                    response.data?.let { processResponse(it) }?.let { saveCallResult(it) }
+                    saveCallResult(processResponse(response.data))
                     appExecutors.mainThread().execute {
                         setValue(Resource.success(response.data))
                     }
@@ -76,10 +76,10 @@ abstract class NetworkBoundResource<ResultType>
     fun asLiveData() = result as LiveData<Resource<ResultType>>
 
     @WorkerThread
-    protected open fun processResponse(response: ResultType) = response
+    protected open fun processResponse(response: ResultType?) = response
 
     @WorkerThread
-    protected abstract fun saveCallResult(item: ResultType)
+    protected abstract fun saveCallResult(item: ResultType?)
 
     @MainThread
     protected abstract fun shouldFetch(data: ResultType?): Boolean

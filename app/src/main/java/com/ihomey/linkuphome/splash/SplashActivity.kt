@@ -60,8 +60,6 @@ class SplashActivity : BaseActivity() {
         if(hasAgreed){
          getIMEI().let { it1 -> splashViewModel.getRemoteCurrentZone(it1).observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
-//                homeActivityViewModel.setCurrentZoneId(it.data?.id)
-//                Navigation.findNavController(it0).navigate(R.id.action_createZoneFragment_to_homeFragment)
                 goToHomeActivity()
             }else  if (it?.status == Status.ERROR) {
                 it.message?.let { it2 -> toast(it2) }
@@ -76,7 +74,6 @@ class SplashActivity : BaseActivity() {
     private fun goToHomeActivity() {
         splashViewModel.getLocalCurrentZone().observe(this, Observer<Resource<Int>> {
             if (it?.status == Status.SUCCESS) {
-                Log.d("aa","---"+it.data)
                 val intent=Intent(this@SplashActivity, HomeActivity::class.java)
                 intent.putExtra("currentZoneId",it.data)
                 startActivity(intent)

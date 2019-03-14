@@ -57,7 +57,6 @@ interface AppComponent {
 
     fun inject(homeActivityViewModel: HomeActivityViewModel)
 
-
     fun inject(splashViewModel: SplashViewModel)
 
     fun inject(createZoneViewModel: CreateZoneViewModel)
