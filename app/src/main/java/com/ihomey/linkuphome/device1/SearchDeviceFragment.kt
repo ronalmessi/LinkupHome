@@ -30,7 +30,7 @@ class SearchDeviceFragment : BaseFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        viewModel.getScanedDevice().observe(this, Observer<SingleDevice> {
+        viewModel.getScanDevice().observe(this, Observer<SingleDevice> {
             if (it != null) {
                 val bundle = Bundle()
                 bundle.putInt("deviceType", arguments?.getInt("deviceType")!!)

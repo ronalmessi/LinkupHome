@@ -4,12 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.ihomey.linkuphome.data.entity.Model
-import com.ihomey.linkuphome.data.entity.Room
-import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.repository.DeviceRepository
-import com.ihomey.linkuphome.data.repository.Model1Repository
-import com.ihomey.linkuphome.data.repository.RoomRepository
+import com.ihomey.linkuphome.data.entity.*
+import com.ihomey.linkuphome.data.repository.*
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
@@ -19,44 +15,24 @@ class RoomViewModel : ViewModel() {
     @Inject
     lateinit var deviceRepository: DeviceRepository
 
-    @Inject
-    lateinit var roomRepository: RoomRepository
-
-    @Inject
-    lateinit var modelRepository: Model1Repository
-
-    val bindedDevicesResult: LiveData<Resource<List<SingleDevice>>>
-
-    val unBindedDevicesResult: LiveData<Resource<List<SingleDevice>>>
+//    val bondedDevicesResult: LiveData<Resource<List<SingleDevice>>>
+//
+//    val unBondedDevicesResult: LiveData<Resource<List<SingleDevice>>>
 
     val mCurrentRoom = MutableLiveData<Room>()
 
     init {
         DaggerAppComponent.builder().build().inject(this)
-        bindedDevicesResult = Transformations.switchMap(mCurrentRoom) { input ->
-            deviceRepository.getBindedDevices(input.zoneId, input.id)
-        }
-        unBindedDevicesResult = Transformations.switchMap(mCurrentRoom) { input ->
-            deviceRepository.getUnBindedDevices(input.zoneId, input.id)
-        }
+//        bondedDevicesResult = Transformations.switchMap(mCurrentRoom) { input ->
+//            deviceRepository.getBondedDevices(input.zoneId,input.instructId)
+//        }
+//        unBondedDevicesResult = Transformations.switchMap(mCurrentRoom) { input ->
+//            deviceRepository.getUnBondedDevices(input.zoneId)
+//        }
     }
 
-    fun setRoom(room: Room) {
+    fun setCurrentRoom(room:Room) {
         mCurrentRoom.value = room
     }
-
-    fun updateDevice(singleDevice: SingleDevice) {
-        deviceRepository.updateDeviceState(singleDevice.id, singleDevice.state)
-    }
-
-    fun deleteModel(deviceId: Int, roomId: Int, zoneId: Int) {
-        modelRepository.deleteModel(deviceId, roomId, zoneId)
-    }
-
-
-    fun createModel(model: Model) {
-        modelRepository.addModel(model)
-    }
-
 
 }

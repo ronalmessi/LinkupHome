@@ -1,8 +1,6 @@
 package com.ihomey.linkuphome.dl
 
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ihomey.linkuphome.App
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.data.api.ApiService
@@ -47,15 +45,9 @@ class AppModule {
     @Singleton
     @Provides
     fun provideDb(): LinkupHomeDb {
-        return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db")
-                .addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        db.execSQL("insert into setting(next_group_index,next_device_index) Values(1,32769)")
-                    }
-                })
-                .build()
+        return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db").build()
     }
+
 
     @Singleton
     @Provides
@@ -65,27 +57,14 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideZoneDao(db: LinkupHomeDb): ZoneDao {
-        return db.zoneDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRoomDao(db: LinkupHomeDb): RoomDao {
+    fun provideRoom1Dao(db: LinkupHomeDb): RoomDao {
         return db.roomDao()
     }
 
-
     @Singleton
     @Provides
-    fun provideModelDao(db: LinkupHomeDb): ModelDao {
-        return db.modelDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideSettingDao(db: LinkupHomeDb): SettingDao {
-        return db.settingDao()
+    fun provideZoneDao(db: LinkupHomeDb): ZoneDao {
+        return db.zoneDao()
     }
 
 }

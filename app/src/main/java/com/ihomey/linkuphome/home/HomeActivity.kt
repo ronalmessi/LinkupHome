@@ -5,10 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
-import android.os.Message
+import android.os.*
 import android.text.TextUtils
 import android.util.ArrayMap
 import android.util.Log
@@ -25,16 +22,15 @@ import com.csr.mesh.MeshService
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
-import com.ihomey.linkuphome.data.entity.Model
-import com.ihomey.linkuphome.data.entity.Setting
 import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.device1.DeviceFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
-import com.ihomey.linkuphome.listeners.DeviceRemoveListener
+import com.ihomey.linkuphome.listener.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.room.UnBindedDevicesFragment
 import de.keyboardsurfer.android.widget.crouton.Crouton
@@ -43,14 +39,10 @@ import java.lang.ref.WeakReference
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, DeviceFragment.DevicesStateListener, UnBindedDevicesFragment.BindDeviceListener {
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, UnBindedDevicesFragment.BindDeviceListener {
 
 
-    private val REMOVE_ACK_WAIT_TIME_MS = 10 * 1000L
-
-
-    private val mSharedPreferences by lazy { App.instance.getSharedPreferences("LinkupHome", Context.MODE_PRIVATE) }
-
+    private val REMOVE_ACK_WAIT_TIME_MS =4 * 1000L
 
     private lateinit var mViewModel: HomeActivityViewModel
     private var mService: MeshService? = null
@@ -61,28 +53,40 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val addressToNameMap = ArrayMap<String, String>()
 
     private var meshAssListener: DeviceAssociateListener? = null
-    private var mRemovedListener: DeviceRemoveListener? = null
-    private var mRemovedUuidHash: Int = 0
-    private var mRemovedDeviceId: Int = 0
+
+    private var mRemoveDeviceVo: RemoveDeviceVo? = null
 
     private var mGroupUpdateListener: GroupUpdateListener? = null
-    private var mBindRoomId: Int = 0
+    private var mBindGroupInstructId: Int = 0
+    private var mBindAction: String="add"
     private var mBatteryListener: BatteryValueListener? = null
-    private var currentZone: Zone? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTranslucentStatus()
         setContentView(R.layout.home_activity)
         initNavController()
-//        bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
+        bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
+        initViewModel()
+    }
+
+    private fun initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
-//                currentZone = it.data
-//                if (it.data != null && !TextUtils.isEmpty(it.data.networkKey)) {
-//                    mService?.setNetworkPassPhrase(it.data.networkKey)
-//                }
+                Log.d("aa", "gggg")
+                it.data?.nextDeviceIndex?.let { it1 -> mService?.setNextDeviceId(it1) }
+                it.data?.netWorkKey?.let { it1 -> mService?.setNetworkPassPhrase(it1) }
+            }
+        })
+        mViewModel.mRemoveDeviceVo.observe(this, Observer<RemoveDeviceVo> {
+            if(it!=null){
+                mRemoveDeviceVo=it
+                ConfigModelApi.resetDevice(it.deviceInstructId)
+                mMeshHandler.postDelayed({
+                    it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
+                    mViewModel.setRemoveDeviceVo(null)
+                }, REMOVE_ACK_WAIT_TIME_MS)
             }
         })
         mViewModel.setCurrentZoneId(intent?.extras?.getInt("currentZoneId"))
@@ -96,7 +100,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         navHostFragment.navController.graph = graph
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         try {
@@ -108,7 +111,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     override fun onBackPressed() {
-        if (!handleBackPress(this)) {
+        val homeFragment = nav_host_home.childFragmentManager.fragments[0]
+        if (!handleBackPress(homeFragment)) {
             finish()
             android.os.Process.killProcess(android.os.Process.myPid())
             System.exit(0)
@@ -116,10 +120,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     override fun onLanguageChange(languageIndex: Int) {
+        mViewModel.setRemoveDeviceFlag(false)
         val desLanguage = AppConfig.LANGUAGE[languageIndex]
         val currentLanguage = LocaleHelper.getLanguage(this)
         if (!TextUtils.equals(currentLanguage, desLanguage)) {
-//            mViewModel.setBridgeState(false)
+            mViewModel.setBridgeState(false)
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
             recreate()
@@ -138,25 +143,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
             mService = (rawBinder as MeshService.LocalBinder).service
-//            getNextDeviceIndex()
             connectBridge()
         }
 
         override fun onServiceDisconnected(classname: ComponentName) {
             mService = null
         }
-    }
-
-    private fun getNextDeviceIndex() {
-        mViewModel.getGlobalSetting().observe(this, Observer<Resource<Setting>> {
-            if (it?.status == Status.SUCCESS && it.data != null) {
-                Log.d("aa", "hhahaasdasdad---" + it.data.nextDeviceIndex)
-                mService?.setNextDeviceId(it.data.nextDeviceIndex)
-                mSharedPreferences.intLiveData("currentZoneId", -1).observe(this, Observer {
-                    mViewModel.setCurrentZoneId(it)
-                })
-            }
-        })
     }
 
     override fun connectBridge() {
@@ -168,11 +160,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
 
     override fun reConnectBridge() {
-        if (mConnected) {
             releaseResource()
             mConnected = false
-//            viewPager.postDelayed({ connectBridge() }, 250)
-        }
+            mMeshHandler.postDelayed({ connectBridge() }, 250)
     }
 
     private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
@@ -203,17 +193,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                                 parentActivity.onConnected(name)
                             }
                         }
-                    }
-                }
-                MeshService.MESSAGE_DEVICE_DISCOVERED -> {
-                    val uuidHash = msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
-                    if (parentActivity?.mRemovedListener != null && parentActivity.mRemovedUuidHash == uuidHash) {
-                        parentActivity.mRemovedListener?.onDeviceRemoved(parentActivity.mRemovedDeviceId, uuidHash, true)
-                        parentActivity.mRemovedListener = null
-                        parentActivity.mRemovedUuidHash = 0
-                        parentActivity.mRemovedDeviceId = 0
-                        parentActivity.mService?.setDeviceDiscoveryFilterEnabled(false)
-                        removeCallbacks(parentActivity.removeDeviceTimeout)
                     }
                 }
                 MeshService.MESSAGE_DEVICE_APPEARANCE -> {
@@ -249,6 +228,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                         val numIds = msg.data.getByte(MeshService.EXTRA_NUM_GROUP_IDS).toInt()
                         val modelNo = msg.data.getByte(MeshService.EXTRA_MODEL_NO).toInt()
                         val deviceId = msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
+                        Log.d("aa","MESSAGE_GROUP_NUM_GROUPIDS--"+numIds+"--"+modelNo+"---"+deviceId)
                         parentActivity.assignGroups(deviceId, numIds)
                     }
                 }
@@ -257,12 +237,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                         val index = msg.data.getByte(MeshService.EXTRA_GROUP_INDEX).toInt()
                         val groupId = msg.data.getInt(MeshService.EXTRA_GROUP_ID)
                         val deviceId = msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
-                        parentActivity.mGroupUpdateListener?.groupsUpdated(deviceId, groupId, index, true, null)
+                        parentActivity.mGroupUpdateListener?.groupsUpdated(deviceId, parentActivity.mBindGroupInstructId, if(groupId==0) "remove" else "and", true, null)
                     }
                 }
                 MeshService.MESSAGE_TIMEOUT -> {
                     val expectedMsg = msg.data.getInt(MeshService.EXTRA_EXPECTED_MESSAGE)
-                    var id = if (msg.data.containsKey(MeshService.EXTRA_UUIDHASH_31)) {
+                    val id = if (msg.data.containsKey(MeshService.EXTRA_UUIDHASH_31)) {
                         msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
                     } else {
                         msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
@@ -286,26 +266,17 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    private val removeDeviceTimeout = Runnable {
-        if (mRemovedListener != null) {
-            mRemovedListener?.onDeviceRemoved(mRemovedDeviceId, mRemovedUuidHash, true)
-            mRemovedListener = null
-            mRemovedUuidHash = 0
-            mRemovedDeviceId = 0
-            mService?.setDeviceDiscoveryFilterEnabled(false)
-        }
-    }
 
     private fun onMessageTimeout(expectedMessage: Int, id: Int, meshRequestId: Int) {
         when (expectedMessage) {
             MeshService.MESSAGE_GROUP_NUM_GROUPIDS -> {
                 if (mGroupUpdateListener != null) {
-                    mGroupUpdateListener?.groupsUpdated(id, -1, -1, false, null)
+                    mGroupUpdateListener?.groupsUpdated(id, -1, "", false, null)
                 }
             }
             MeshService.MESSAGE_GROUP_MODEL_GROUPID -> {
                 if (mGroupUpdateListener != null) {
-                    mGroupUpdateListener?.groupsUpdated(id, -1, -1, false, null)
+                    mGroupUpdateListener?.groupsUpdated(id, -1, "", false, null)
                 }
             }
             MeshService.MESSAGE_DEVICE_ASSOCIATED, MeshService.MESSAGE_CONFIG_MODELS -> {
@@ -349,14 +320,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    override fun removeDevice(deviceId: Int, deviceHash: Int, listener: DeviceRemoveListener) {
-        mRemovedUuidHash = deviceHash
-        mRemovedDeviceId = deviceId
-        mRemovedListener = listener
-        mService?.setDeviceDiscoveryFilterEnabled(true)
-        ConfigModelApi.resetDevice(deviceId)
-        mMeshHandler.postDelayed(removeDeviceTimeout, REMOVE_ACK_WAIT_TIME_MS)
-    }
 
     override fun isMeshServiceConnected(): Boolean {
         return mConnected
@@ -369,46 +332,20 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    override fun bindDevice(deviceId: Int, groupId: Int, groupUpdateListener: GroupUpdateListener?) {
+    override fun bindDevice(deviceInstructId: Int, groupInstructId: Int,action: String,groupUpdateListener: GroupUpdateListener?) {
         this.mGroupUpdateListener = groupUpdateListener
-        if (deviceId != -1) {
-            mBindRoomId = groupId
-            GroupModelApi.getNumModelGroupIds(deviceId, DataModelApi.MODEL_NUMBER)
+        if (deviceInstructId != -1) {
+            mBindGroupInstructId = groupInstructId
+            mBindAction=action
+            GroupModelApi.getNumModelGroupIds(deviceInstructId, DataModelApi.MODEL_NUMBER)
         }
     }
 
-    private fun assignGroups(deviceId: Int, maxNum: Int) {
-        val mModelsToQueryForGroups = IntArray(maxNum)
-        currentZone?.id?.let {
-            mViewModel.getModels(deviceId, it).observe(this, Observer<Resource<List<Model>>> {
-                if (it?.status == Status.SUCCESS && it.data != null) {
-                    if (it.data.size <= maxNum) {
-                        var unBindingGroupIndex = -1
-                        for (model in it.data) {
-                            if (model.roomId == mBindRoomId && model.deviceId == deviceId) unBindingGroupIndex = model.groupIndex
-                            mModelsToQueryForGroups[model.groupIndex] = 1
-                        }
-                        if (unBindingGroupIndex != -1) {
-                            GroupModelApi.setModelGroupId(deviceId, DataModelApi.MODEL_NUMBER, unBindingGroupIndex, 0, 0)
-                        } else {
-                            var groupIndex = 0
-                            for (index in 0 until mModelsToQueryForGroups.size) {
-                                if (mModelsToQueryForGroups[index] == 0) {
-                                    groupIndex = index
-                                    break
-                                }
-                            }
-                            GroupModelApi.setModelGroupId(deviceId, DataModelApi.MODEL_NUMBER, groupIndex, 0, mBindRoomId)
-                        }
-                    } else {
-                        if (mGroupUpdateListener != null) {
-                            mGroupUpdateListener?.groupsUpdated(-1, -1, -1, false, getString(R.string.group_setting_exceed_number))
-                        }
-                    }
-                }
-            })
+    private fun assignGroups(deviceInstructId: Int, maxNum: Int) {
+        if(TextUtils.equals("and",mBindAction)){
+            GroupModelApi.setModelGroupId(deviceInstructId, DataModelApi.MODEL_NUMBER, 0, 0, mBindGroupInstructId)
+        }else{
+            GroupModelApi.setModelGroupId(deviceInstructId, DataModelApi.MODEL_NUMBER, 0, 0, 0)
         }
-
     }
-
 }

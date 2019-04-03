@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.scene
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
@@ -36,20 +37,21 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
     }
 
     fun initController(deviceType: Int) {
-        controller = ControllerFactory().createController(deviceType)
+        controller = ControllerFactory().createController(deviceType+1)
     }
 
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
         var sceneModeValue = -1
         when (checkedId) {
             R.id.rb_scene_read_rgb, R.id.rb_scene_spring_n1-> sceneModeValue = 0
-            R.id.rb_scene_sunset_rgb, R.id.rb_scene_rainforest_n1,R.id.rb_scene_flow_rgb-> sceneModeValue = 1
-            R.id.rb_scene_rest_rgb, R.id.rb_scene_sunset_n1 -> sceneModeValue = 2
-            R.id.rb_scene_spring_rgb, R.id.rb_scene_lighting_n1-> sceneModeValue = 3
-            R.id.rb_scene_rainforest_rgb -> sceneModeValue = 4
+            R.id.rb_scene_sunset_rgb, R.id.rb_scene_rainforest_n1,R.id.rb_scene_flow-> sceneModeValue = 1
+            R.id.rb_scene_rest_rgb, R.id.rb_scene_sunset_n1,R.id.rb_scene_seek -> sceneModeValue = 2
+            R.id.rb_scene_spring_rgb, R.id.rb_scene_lighting_n1,R.id.rb_scene_surf-> sceneModeValue = 3
+            R.id.rb_scene_rainforest_rgb,R.id.rb_scene_rainbow -> sceneModeValue = 4
+            R.id.rb_scene_star->sceneModeValue = 5
         }
-        if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.id, sceneModeValue)
-        mControlDevice.state.sceneMode = sceneModeValue
-        viewModel.updateDevice(mControlDevice)
+        if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
+//        mControlDevice.state.sceneMode = sceneModeValue
+//        viewModel.updateDevice(mControlDevice)
     }
 }

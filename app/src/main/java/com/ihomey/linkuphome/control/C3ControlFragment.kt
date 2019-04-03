@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.control
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import com.ihomey.linkuphome.moveToViewLocationAnimation
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
+class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnClickListener {
 
 
     override fun getTitleView(): TextView {
@@ -38,11 +39,11 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
     }
 
 
-
     override fun updateViewData(singleDevice: SingleDevice) {
         mViewDataBinding.control = singleDevice
         mControlDevice = singleDevice
-        mViewDataBinding.deviceColorRgbCv.currentRadian = mControlDevice.state?.colorPosition!!
+        mViewDataBinding.deviceStateCbPower.isChecked=(singleDevice.parameters?.on==1)
+        singleDevice.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)
@@ -55,7 +56,7 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
         super.onActivityCreated(savedInstanceState)
         mViewModel.getBridgeState().observe(this, Observer<Boolean> {
             if (it != null && it) {
-                listener.getBatteryState(mControlDevice.id, this)
+                listener.getBatteryState(mControlDevice.instructId, this)
             }
         })
     }
@@ -83,6 +84,12 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener {
             val isVisible = mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isVisible) View.GONE else View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = if (!isVisible) moveToViewLocationAnimation() else moveToViewBottomAnimation()
+        }else if(v.id == R.id.btn_device_lighting){
+            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE){
+                mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
+                mViewDataBinding.deviceCyclingSstgSpeed.animation =moveToViewBottomAnimation()
+            }
+            mViewDataBinding.handlers?.onClick(v)
         }
     }
 }

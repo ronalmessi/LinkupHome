@@ -15,7 +15,7 @@ import com.ihomey.linkuphome.moveToViewLocationAnimation
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class V1ControlFragment : BaseControlFragment() {
+class V1ControlFragment : BaseControlFragment(), View.OnClickListener {
 
     private lateinit var mViewDataBinding: R2ControlFragmentBinding
 
@@ -38,7 +38,9 @@ class V1ControlFragment : BaseControlFragment() {
     override fun updateViewData(singleDevice: SingleDevice) {
         mViewDataBinding.control = singleDevice
         mControlDevice = singleDevice
-        mViewDataBinding.deviceColorRgbCv.currentRadian = mControlDevice.state.colorPosition
+        mViewDataBinding.deviceStateCbPower.isChecked=(singleDevice.parameters?.on==1)
+        singleDevice.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+//        mViewDataBinding.deviceColorRgbCv.currentRadian = mControlDevice.state.colorPosition
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)
@@ -62,6 +64,12 @@ class V1ControlFragment : BaseControlFragment() {
             val isVisible = mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isVisible) View.GONE else View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = if (!isVisible) moveToViewLocationAnimation() else moveToViewBottomAnimation()
+        }else if(v.id == R.id.btn_device_lighting){
+            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE){
+                mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
+                mViewDataBinding.deviceCyclingSstgSpeed.animation =moveToViewBottomAnimation()
+            }
+            mViewDataBinding.handlers?.onClick(v)
         }
     }
 }

@@ -31,12 +31,12 @@ class N1SceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun updateViewData(singleDevice: SingleDevice) {
         mControlDevice = singleDevice
-        when (singleDevice.state.sceneMode) {
-            0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_n1)
-            1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_n1)
-            2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_n1)
-            3 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_lighting_n1)
-        }
+//        when (singleDevice.state.sceneMode) {
+//            0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_n1)
+//            1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_n1)
+//            2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_n1)
+//            3 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_lighting_n1)
+//        }
         mViewDataBinding.deviceRgpScene.setOnCheckedChangeListener(this)
     }
 

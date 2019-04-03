@@ -15,7 +15,7 @@ class V1Controller : Controller() {
         val CODE_LIGHT_BRIGHT_BASE: String = "C201F303C2"
         val CODE_LIGHT_COLOR_BASE: String = "C201F303C3"
         val CODE_LIGHT_SPEED_BASE: String = "C201F303C401F"
-        val CODE_LIGHT_SCENE_BASE: String = "C201F303C403F"
+        val CODE_LIGHT_SCENE_BASE: String = "C201F303C40"
         val CODE_LIGHT_TIMER_BASE: String = "C201F304"
     }
 
@@ -56,14 +56,10 @@ class V1Controller : Controller() {
     }
 
     override fun setLightScene(deviceId: Int, sceneValue: Int) {
-        if (sceneValue == 0) {
-            setLightingMode( deviceId)
-        } else {
-            val code_lawn_scene_prefix = CODE_LIGHT_SCENE_BASE + 2
-            val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16))
-            val code_lawn_scene = code_lawn_scene_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-            DataModelApi.sendData(deviceId, decodeHex(code_lawn_scene.toCharArray()), false)
-        }
+        val code_lawn_scene_prefix = CODE_LIGHT_SCENE_BASE +(2+sceneValue)+"F1"
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16))
+        val code_lawn_scene = code_lawn_scene_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+        DataModelApi.sendData(deviceId, decodeHex(code_lawn_scene.toCharArray()), false)
     }
 
     override fun setRepeatTimer(deviceId: Int, minuteValue: Int, hourValue: Int,isOpenTimer: Boolean,isOn: Boolean, isRepeat: Boolean) {

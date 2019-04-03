@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.repository.DeviceRepository
-import com.ihomey.linkuphome.data.repository.RoomRepository
-import com.ihomey.linkuphome.data.repository.ZoneRepository
+import com.ihomey.linkuphome.data.repository.*
 import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
@@ -16,8 +15,7 @@ class ZoneSettingViewModel : ViewModel() {
     @Inject
     lateinit var zoneRepository: ZoneRepository
 
-    @Inject
-    lateinit var roomRepository: RoomRepository
+
 
     @Inject
     lateinit var mDeviceRepository: DeviceRepository
@@ -34,8 +32,12 @@ class ZoneSettingViewModel : ViewModel() {
         return zoneRepository.getZones(guid)
     }
 
-    fun deleteZone(guid:String,zoneId:Int): LiveData<Resource<Boolean>> {
+    fun deleteZone(guid:String,zoneId:Int): LiveData<Resource<Int>> {
         return zoneRepository.deleteZone(guid,zoneId)
+    }
+
+    fun switchZone(guid:String,zoneId:Int): LiveData<Resource<ZoneDetail>> {
+        return zoneRepository.switchZone(guid,zoneId)
     }
 
     fun changeZoneName(guid:String,zoneId:Int,newName:String): LiveData<Resource<Zone>> {
@@ -43,7 +45,7 @@ class ZoneSettingViewModel : ViewModel() {
     }
 
     fun getDevices(zoneId:Int): LiveData<Resource<List<SingleDevice>>> {
-        return  mDeviceRepository.getDevices(zoneId)
+        return mDeviceRepository.getDevices(zoneId)
     }
 
 }

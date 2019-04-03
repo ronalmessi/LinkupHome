@@ -111,7 +111,6 @@
             android:layout_marginEnd="@dimen/_57sdp"
             android:background="@drawable/selector_control_btn_power_background"
             android:button="@null"
-            android:checked="@{control.state.on>0?true:false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/device_circle_iv" />
 
@@ -163,7 +162,7 @@
                 android:max="85"
                 android:paddingStart="@dimen/_6sdp"
                 android:paddingEnd="@dimen/_6sdp"
-                android:progress="@{control.state!=null?control.state.brightness:35}" />
+               />
 
             <ImageView
                 android:id="@+id/device_brightness_icon_high"

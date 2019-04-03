@@ -32,14 +32,6 @@
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/iv_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:src="@mipmap/ic_add"
-            android:visibility="gone" />
     </com.ihomey.linkuphome.widget.CompatToolbar>
 
     <androidx.recyclerview.widget.RecyclerView

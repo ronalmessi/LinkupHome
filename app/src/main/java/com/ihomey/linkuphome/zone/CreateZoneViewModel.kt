@@ -6,7 +6,6 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.repository.ZoneRepository
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
-import com.ihomey.linkuphome.md5
 import javax.inject.Inject
 
 class CreateZoneViewModel : ViewModel() {

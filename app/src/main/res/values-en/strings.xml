@@ -36,6 +36,10 @@
     <string name="scene_rainforest">Selva Mode</string>
     <string name="scene_lighting">Lighting Mode</string>
     <string name="scene_flow">Flowing</string>
+    <string name="scene_seek">Chasing</string>
+    <string name="scene_surf">Waving</string>
+    <string name="scene_rainbow">Rainbow</string>
+    <string name="scene_star">Starry</string>
 
 
     <string name="speed_slow">Slow Speed</string>

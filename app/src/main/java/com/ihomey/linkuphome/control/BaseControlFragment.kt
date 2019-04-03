@@ -14,13 +14,13 @@ import androidx.navigation.Navigation
 import cn.iclass.guideview.Component
 import cn.iclass.guideview.Guide
 import cn.iclass.guideview.GuideBuilder
-import com.ihomey.linkuphome.CODE_LIGHT_COLORS
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -30,13 +30,12 @@ import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
-import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener, View.OnClickListener {
+abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener {
 
 
     private var controller: Controller? = null
@@ -69,7 +68,6 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     getTitleView()?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
                 }
             })
-
         })
     }
 
@@ -80,7 +78,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
 
     fun initController(type: Int) {
         this.type = type
-        controller = ControllerFactory().createController(type)
+        controller = ControllerFactory().createController(type+1)
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -92,68 +90,52 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     }
 
     override fun onColorValueChanged(time: Int) {
-        if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.id, CODE_LIGHT_COLORS[time])
-        mControlDevice.state.colorPosition = (time * 151 * (2 * Math.PI) / 3600).toFloat()
-        mControlDevice.state.changeMode = -1
-        mControlDevice.state.light = 0
-        mViewModel.updateDevice(mControlDevice)
+        if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
     }
 
     override fun onColorValueChange(time: Int) {
-        if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.id, CODE_LIGHT_COLORS[time])
-        mControlDevice.state.colorPosition = (time * 151 * (2 * Math.PI) / 3600).toFloat()
-        mControlDevice.state.changeMode = -1
-        mControlDevice.state.light = 0
-        mViewModel.updateDevice(mControlDevice)
+        if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
     }
 
     override fun onColorTemperatureValueChanged(temperature: Int) {
-        if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.id, temperature)
-        mControlDevice.state.colorTemperature = temperature
-        mViewModel.updateDevice(mControlDevice)
+        if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
     }
 
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
-        if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.id, position)
-        mControlDevice.state.changeMode = position
-        mControlDevice.state.light = 0
-        mViewModel.updateDevice(mControlDevice)
+        if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.id, seekBar.progress.plus(15))
-        mControlDevice.state.brightness = seekBar.progress
-        mViewModel.updateDevice(mControlDevice)
+        if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, seekBar.progress.plus(15))
+        changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
             R.id.device_state_cb_power -> {
-                mControlDevice.state.on = if (isChecked) 1 else 0
-                if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.id, if (isChecked) 1 else 0)
+                if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
+                changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
             }
         }
-        mViewModel.updateDevice(mControlDevice)
     }
 
 
     inner class ToolBarEventHandler : UpdateDeviceNameListener {
         override fun updateDeviceName(id: Int, newName: String) {
-            mControlDevice.name = newName
-            mViewModel.updateDeviceName(id, newName)
-            updateViewData(mControlDevice)
+            context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceName(it1,mControlDevice.zoneId,id,mControlDevice.type,newName).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+                if (it?.status == Status.SUCCESS) {
+                    mControlDevice.name = newName
+                   updateViewData(mControlDevice)
+                }else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })}
         }
 
         fun onClick(view: View) {
             when (view.id) {
                 R.id.iv_back -> Navigation.findNavController(view).popBackStack()
-                R.id.btn_device_lighting -> {
-                    mControlDevice.state.light = 1
-                    mControlDevice.state.sceneMode=-1
-                    mControlDevice.state.changeMode = -1
-                    if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.id)
-                    mViewModel.updateDevice(mControlDevice)
-                }
+                R.id.btn_device_lighting -> if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
                 R.id.btn_device_scene_setting -> {
                     when (type) {
                         1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment2)
@@ -161,6 +143,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                         5 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_v1SceneSettingFragment)
                         6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_r2SceneSettingFragment)
                         8 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_t1SceneSettingFragment)
+                        9 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2SceneSettingFragment)
                     }
                 }
                 R.id.btn_device_alarm_setting -> {
@@ -172,6 +155,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                         6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
                         7 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)
                         8 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_timerSettingFragment)
+                        9 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2SceneSettingFragment)
                     }
                 }
                 R.id.tv_title -> {
@@ -235,4 +219,13 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
         guide?.show(activity)
     }
 
+    private fun changeDeviceState(singleDevice: SingleDevice,key:String,value:String){
+        context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,singleDevice.id,key,value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+            if (it?.status == Status.SUCCESS) {
+
+            }else if (it?.status == Status.ERROR) {
+                it.message?.let { it2 -> activity?.toast(it2) }
+            }
+        })}
+    }
 }

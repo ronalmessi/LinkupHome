@@ -36,7 +36,9 @@ class S2ControlFragment : BaseControlFragment() {
     override fun updateViewData(singleDevice: SingleDevice) {
         mViewDataBinding.control = singleDevice
         mControlDevice = singleDevice
-        mViewDataBinding.deviceDbvColorTemperature.currentColorTemperature = mControlDevice.state.colorTemperature
+        mViewDataBinding.deviceStateCbPower.isChecked=(singleDevice.parameters?.on==1)
+        singleDevice.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+//        mViewDataBinding.deviceDbvColorTemperature.currentColorTemperature = mControlDevice.state.colorTemperature
         mViewDataBinding.deviceDbvColorTemperature.setColorTemperatureListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.deviceStateCbPower.setOnCheckedChangeListener(this)
@@ -49,7 +51,4 @@ class S2ControlFragment : BaseControlFragment() {
         mViewDataBinding.deviceDbvColorTemperature.setColorTemperatureListener(null)
     }
 
-    override fun onClick(v: View?) {
-
-    }
 }

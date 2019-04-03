@@ -33,7 +33,11 @@
     <string name="scene_spring">春暖花开</string>
     <string name="scene_rainforest">热带雨林</string>
     <string name="scene_lighting">照明模式</string>
-    <string name="scene_flow">流水灯光</string>
+    <string name="scene_flow">流水模式</string>
+    <string name="scene_seek">追逐模式</string>
+    <string name="scene_surf">海浪模式</string>
+    <string name="scene_rainbow">彩虹模式</string>
+    <string name="scene_star">星空模式</string>
 
     <string name="speed_slow">减慢</string>
     <string name="speed_normal">正常</string>

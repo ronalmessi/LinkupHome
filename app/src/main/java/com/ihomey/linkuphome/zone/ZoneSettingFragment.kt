@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.device1.DeleteDevicesFragment
 import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 import com.ihomey.linkuphome.setting.SettingNavHostFragment
@@ -39,6 +42,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     private lateinit var bridgeListener: BridgeListener
     private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
+    private lateinit var mViewModel: HomeActivityViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.zone_setting_fragment, container, false)
@@ -47,21 +51,17 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(parentFragment!!).get(ZoneSettingViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.getLocalZones().observe(this, Observer<Resource<List<Zone>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
             }
         })
-        context?.getIMEI()?.let { it1 ->  viewModel.getRemoteZones(it1).observe(this, Observer<Resource<List<Zone>>> {
-            if (it?.status == Status.SUCCESS) {
-//                adapter.setNewData(it.data)
-            }
-        })}
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        bridgeListener= context as BridgeListener
+        bridgeListener = context as BridgeListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,67 +111,90 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-//        val zone = adapter.getItem(position)
-//        if (zone != null) {
-//            bridgeListener.reConnectBridge()
-//            currentZoneId = zone.id
-//            Navigation.findNavController(view).popBackStack()
-//        }
+        val zone = adapter.getItem(position)
+        if (zone != null && zone.active == 0) {
+            context?.getIMEI()?.let { it1 ->
+                viewModel.switchZone(it1, zone.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
+                    if (it?.status == Status.SUCCESS) {
+                        mViewModel.setCurrentZoneId(it.data?.id)
+                        bridgeListener.reConnectBridge()
+                        Navigation.findNavController(view).popBackStack()
+                    } else if (it?.status == Status.ERROR) {
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    }
+                })
+            }
+        }
     }
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
-        val zone = adapter.getItem(position)
-        if (zone != null) {
-            context?.getIMEI()?.let { it1 ->  viewModel.deleteZone(it1,zone.id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
-                if (it?.status == Status.SUCCESS) {
-//                adapter.setNewData(it.data)
-                }else if (it?.status == Status.ERROR) {
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                }
-            })}
-//            if (adapter.itemCount == 1) {
-//                val deleteZoneFragment = DeleteZoneFragment()
-//                deleteZoneFragment.isCancelable = false
-//                val bundle = Bundle()
-//                bundle.putString("hintText", getString(R.string.zone_delete_hint1))
-//                deleteZoneFragment.arguments = bundle
-//                deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
-//            } else {
-//                viewModel.getDevices(zone.id).observe(this, Observer<Resource<List<SingleDevice>>> {
-//                    if (it?.status == Status.SUCCESS && it.data != null) {
-//                        if (it.data.isNullOrEmpty()) {
-//                            viewModel.deleteZone(zone.id)
-//                        } else {
-//                            val deleteDevicesFragment = DeleteDevicesFragment()
-//                            deleteDevicesFragment.isCancelable = false
-//                            deleteDevicesFragment.setConfirmButtonClickListener(this)
-//                            val bundle = Bundle()
-//                            bundle.putInt("zoneId", zone.id)
-//                            deleteDevicesFragment.arguments = bundle
-//                            deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
-//                        }
-//                    }
-//                })
-//            }
+        if (adapter.itemCount == 1) {
+            val deleteZoneFragment = DeleteZoneFragment()
+            deleteZoneFragment.isCancelable = false
+            val bundle = Bundle()
+            bundle.putString("hintText", getString(R.string.zone_delete_hint1))
+            deleteZoneFragment.arguments = bundle
+            deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
+        } else {
+            val zone = adapter.getItem(position)
+            if (zone != null) {
+                viewModel.getDevices(zone.id).observe(this, Observer<Resource<List<SingleDevice>>> {
+                    if (it?.status == Status.SUCCESS && it.data != null) {
+                        if (it.data.isNullOrEmpty()) {
+                            context?.getIMEI()?.let { it1 ->
+                                viewModel.deleteZone(it1, zone.id).observe(viewLifecycleOwner, Observer<Resource<Int>> {
+                                    if (it?.status == Status.SUCCESS) {
+                                        it.data?.let {
+                                            mViewModel.setCurrentZoneId(it)
+                                            bridgeListener.reConnectBridge()
+                                        }
+                                    } else if (it?.status == Status.ERROR) {
+                                        it.message?.let { it2 -> activity?.toast(it2) }
+                                    }
+                                })
+                            }
+                        } else {
+                            val deleteDevicesFragment = DeleteDevicesFragment()
+                            deleteDevicesFragment.isCancelable = false
+                            deleteDevicesFragment.setConfirmButtonClickListener(this)
+                            val bundle = Bundle()
+                            bundle.putInt("zoneId", zone.id)
+                            deleteDevicesFragment.arguments = bundle
+                            deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
+                        }
+                    }
+                })
+            }
         }
         menuBridge?.closeMenu()
     }
 
     override fun confirm(id: Int) {
-        val bundle = Bundle()
-        bundle.putInt("zoneId", id)
-        Navigation.findNavController(btn_share_zone).navigate(R.id.action_zoneSettingFragment_to_connectedDevicesFragment,bundle)
+        mViewModel.setRemoveDeviceFlag(true)
+        context?.getIMEI()?.let { it1 ->
+            viewModel.switchZone(it1, id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
+                if (it?.status == Status.SUCCESS) {
+                    mViewModel.setCurrentZoneId(it.data?.id)
+                    bridgeListener.reConnectBridge()
+                    Navigation.findNavController(btn_share_zone).popBackStack()
+                } else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 
 
     override fun updateZoneName(id: Int, newName: String) {
-        context?.getIMEI()?.let { it1 ->  viewModel.changeZoneName(it1,id,newName).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
-            if (it?.status == Status.SUCCESS) {
-
-            }else if (it?.status == Status.ERROR) {
-                it.message?.let { it2 -> activity?.toast(it2) }
-            }
-        })}
+        context?.getIMEI()?.let { it1 ->
+            viewModel.changeZoneName(it1, id, newName).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
+                if (it?.status == Status.SUCCESS) {
+                    mViewModel.setCurrentZoneId(it.data?.id)
+                } else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 
 }

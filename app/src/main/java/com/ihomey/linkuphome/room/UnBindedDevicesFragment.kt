@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.group.GroupUpdateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.GroupUpdateListener
@@ -52,14 +52,14 @@ class UnBindedDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDevice
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(parentFragment!!).get(RoomViewModel::class.java)
-        mViewModel.unBindedDevicesResult.observe(this, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS) {
-                 adapter.setNewData(it.data)
-            }
-        })
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.mSelectedRoom.observe(this, Observer<Room> {
             room = it
+        })
+        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
+            if (it?.status == Status.SUCCESS) {
+                adapter.setNewData(it.data?.filter { (it.roomId != room.id && it.roomId == 0) })
+            }
         })
     }
 
@@ -98,37 +98,37 @@ class UnBindedDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDevice
         mDialog.isCancelable = false
         mDialog.show(fragmentManager, "GroupUpdateFragment")
         for (device in adapter.getSelectedDevices()) {
-            listener.bindDevice(device.id, room.id, this)
+            listener.bindDevice(device.instructId, room.instructId, "and", this)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        listener.bindDevice(-1, -1, null)
-    }
-
-    override fun groupsUpdated(deviceId: Int, groupId: Int, groupIndex: Int, success: Boolean, msg: String?) {
-        count++
+    override fun groupsUpdated(deviceId: Int, groupId: Int, action: String, success: Boolean, msg: String?) {
         if (success) {
-            if (groupId != 0) {
-                mViewModel.createModel(Model(0, room.zoneId, deviceId, groupId, groupIndex, -1))
-                viewModel.updateSendTypes(groupId, room.zoneId)
-            } else {
-                mViewModel.deleteModel(deviceId, room.id, room.zoneId)
-                viewModel.updateSendTypes(room.id, room.zoneId)
-            }
-
+            bindDevice(room.zoneId, groupId, deviceId, "add")
         } else {
-            if (msg != null) activity?.toast(msg)
-        }
-        if (count == adapter.getSelectedDevices().size) {
-            mDialog.dismiss()
-            count = 0
-            Navigation.findNavController(btn_save).popBackStack()
+            msg?.let { activity?.toast(it) }
         }
     }
 
     interface BindDeviceListener {
-        fun bindDevice(deviceId: Int, groupId: Int, groupUpdateListener: GroupUpdateListener?)
+        fun bindDevice(deviceInstructId: Int, groupInstructId: Int, action: String, groupUpdateListener: GroupUpdateListener?)
+    }
+
+
+    private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructId: Int, act: String) {
+        context?.getIMEI()?.let { it1 ->
+            viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructId, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                if (it?.status == Status.SUCCESS) {
+                    count++
+                    if (count == adapter.getSelectedDevices().size) {
+                        mDialog.dismiss()
+                        count = 0
+                        Navigation.findNavController(btn_save).popBackStack()
+                    }
+                } else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 }

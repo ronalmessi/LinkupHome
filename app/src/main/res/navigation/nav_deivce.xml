@@ -14,27 +14,48 @@
             android:id="@+id/action_tab_devices_to_chooseDeviceTypeFragment"
             app:destination="@id/chooseDeviceTypeFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_c3ControlFragment"
             app:destination="@id/c3ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_r2ControlFragment"
             app:destination="@id/r2ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_a2ControlFragment"
             app:destination="@id/a2ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_n1ControlFragment"
             app:destination="@id/n1ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_v1ControlFragment"
             app:destination="@id/v1ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_tab_devices_to_v2ControlFragment"
+            app:destination="@id/v2ControlFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_s1ControlFragment"
             app:destination="@id/s1ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_s2ControlFragment"
             app:destination="@id/s2ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_devices_to_t1ControlFragment"
             app:destination="@id/t1ControlFragment" />
     </fragment>
@@ -46,6 +67,8 @@
         tools:layout="@layout/choose_device_type_fragment"
         android:label="ChooseDeviceTypeFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_chooseDeviceTypeFragment_to_searchDeviceHintFragment2"
             app:destination="@id/searchDeviceHintFragment" />
     </fragment>
@@ -55,9 +78,13 @@
         tools:layout="@layout/search_device_hint_fragment"
         android:label="SearchDeviceHintFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_searchDeviceHintFragment_to_searchDeviceFragment2"
             app:destination="@id/searchDeviceFragment" />
         <action
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
             android:id="@+id/action_searchDeviceHintFragment_to_resetDeviceFragment2"
             app:destination="@id/resetDeviceFragment" />
     </fragment>
@@ -72,9 +99,13 @@
         tools:layout="@layout/search_device_fragment"
         android:label="SearchDeviceFragment" >
         <action
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
             android:id="@+id/action_searchDeviceFragment_to_resetDeviceFragment2"
             app:destination="@id/resetDeviceFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_searchDeviceFragment_to_connectDeviceFragment2"
             app:destination="@id/connectDeviceFragment" />
     </fragment>
@@ -97,6 +128,8 @@
         android:label="a2_control_fragment"
         tools:layout="@layout/a2_control_fragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_a2ControlFragment_to_timerSettingFragment"
             app:destination="@id/timerSettingFragment" />
     </fragment>
@@ -107,12 +140,18 @@
         android:label="n1_control_fragment"
         tools:layout="@layout/r2_control_fragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_n1ControlFragment_to_n1SceneSettingFragment"
             app:destination="@id/n1SceneSettingFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_n1ControlFragment_to_v1ControlFragment"
             app:destination="@id/v1ControlFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_n1ControlFragment_to_timerSettingFragment"
             app:destination="@id/timerSettingFragment" />
     </fragment>
@@ -131,12 +170,17 @@
         android:label="v1_control_fragment"
         tools:layout="@layout/r2_control_fragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_v1ControlFragment_to_v1SceneSettingFragment"
             app:destination="@id/v1SceneSettingFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_v1ControlFragment_to_repeatTimerSettingFragment"
             app:destination="@id/repeatTimerSettingFragment" />
     </fragment>
+
 
     <fragment
         android:id="@+id/v1SceneSettingFragment"
@@ -147,14 +191,43 @@
     </fragment>
 
     <fragment
+        android:id="@+id/v2ControlFragment"
+        android:name="com.ihomey.linkuphome.control.V2ControlFragment"
+        android:label="v1_control_fragment"
+        tools:layout="@layout/r2_control_fragment" >
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_v2ControlFragment_to_v2SceneSettingFragment"
+            app:destination="@id/v2SceneSettingFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_v2ControlFragment_to_repeatTimerSettingFragment"
+            app:destination="@id/repeatTimerSettingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/v2SceneSettingFragment"
+        android:name="com.ihomey.linkuphome.scene.V2SceneSettingFragment"
+        android:label="v2_scene_setting_fragment"
+        tools:layout="@layout/v2_scene_setting_fragment" >
+
+    </fragment>
+
+    <fragment
         android:id="@+id/s1ControlFragment"
         android:name="com.ihomey.linkuphome.control.S1ControlFragment"
         android:label="s1_control_fragment"
         tools:layout="@layout/r2_control_fragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_s1ControlFragment_to_r2SceneSettingFragment"
             app:destination="@id/r2SceneSettingFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_s1ControlFragment_to_timerSettingFragment"
             app:destination="@id/timerSettingFragment" />
     </fragment>
@@ -165,6 +238,8 @@
         android:label="s2_control_fragment"
         tools:layout="@layout/a2_control_fragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_s2ControlFragment_to_timerSettingFragment"
             app:destination="@id/timerSettingFragment" />
     </fragment>
@@ -175,6 +250,8 @@
         android:label="r2_control_fragment"
         tools:layout="@layout/r2_control_fragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_r2ControlFragment_to_r2SceneSettingFragment2"
             app:destination="@id/r2SceneSettingFragment" />
         <action
@@ -212,9 +289,13 @@
         tools:layout="@layout/t1_control_fragment" >
 
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_t1ControlFragment_to_t1SceneSettingFragment"
             app:destination="@id/t1SceneSettingFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_t1ControlFragment_to_timerSettingFragment"
             app:destination="@id/timerSettingFragment" />
     </fragment>

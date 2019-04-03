@@ -1,13 +1,13 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
 import com.ihomey.linkuphome.data.api.ApiService
 import com.ihomey.linkuphome.data.api.NetworkBoundResource
-import com.ihomey.linkuphome.data.db.SettingDao
+import com.ihomey.linkuphome.data.db.RoomDao
+import com.ihomey.linkuphome.data.db.SingleDeviceDao
 import com.ihomey.linkuphome.data.db.ZoneDao
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
@@ -18,7 +18,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class ZoneRepository @Inject constructor(private var apiService: ApiService, private val zoneDao: ZoneDao, private val settingDao: SettingDao, private var appExecutors: AppExecutors) {
+class ZoneRepository @Inject constructor(private var apiService: ApiService, private val zoneDao: ZoneDao, private val singleDeviceDao: SingleDeviceDao, private val roomDao: RoomDao,private var appExecutors: AppExecutors) {
 
     fun createZone(guid:String,name:String): LiveData<Resource<Zone>> {
         return object : NetworkBoundResource<Zone>(appExecutors) {
@@ -64,24 +64,56 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
         }.asLiveData()
     }
 
-    fun deleteZone(guid:String,zoneId:Int): LiveData<Resource<Boolean>> {
-        return object : NetworkBoundResource<Boolean>(appExecutors) {
-            override fun saveCallResult(item: Boolean?) {
+    fun deleteZone(guid:String,zoneId:Int): LiveData<Resource<Int>> {
+        return object : NetworkBoundResource<Int>(appExecutors) {
+            override fun saveCallResult(item: Int?) {
                   zoneDao.delete(zoneId)
+                  singleDeviceDao.deleteAll(zoneId)
+                  roomDao.deleteAll(zoneId)
+                  item?.let { zoneDao.activeZone(it) }
             }
 
-            override fun shouldFetch(data: Boolean?): Boolean {
+            override fun shouldFetch(data: Int?): Boolean {
                 return true
             }
 
-            override fun loadFromDb(): LiveData<Boolean> {
+            override fun loadFromDb(): LiveData<Int> {
                 return AbsentLiveData.create()
             }
 
-            override fun createCall(): LiveData<ApiResult<Boolean>> {
-                val deleteZoneVO=DeleteZoneVO(guid.md5(),zoneId,System.currentTimeMillis())
+            override fun createCall(): LiveData<ApiResult<Int>> {
+                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
                 deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
                 return apiService.deleteZone(deleteZoneVO)
+            }
+        }.asLiveData()
+    }
+
+    fun switchZone(guid:String,zoneId:Int): LiveData<Resource<ZoneDetail>> {
+        return object : NetworkBoundResource<ZoneDetail>(appExecutors) {
+            override fun saveCallResult(item: ZoneDetail?) {
+                item?.let {
+                    zoneDao.resetAllActiveZone()
+                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active))
+                    singleDeviceDao.deleteAll(it.id)
+                    roomDao.deleteAll(it.id)
+                    it.devices?.let {it2 -> singleDeviceDao.insertAll(it2)}
+                    it.groups?.let { it1 -> roomDao.insertAll(it1)}
+                }
+            }
+
+            override fun shouldFetch(data: ZoneDetail?): Boolean {
+                return true
+            }
+
+            override fun loadFromDb(): LiveData<ZoneDetail> {
+                return AbsentLiveData.create()
+            }
+
+            override fun createCall(): LiveData<ApiResult<ZoneDetail>> {
+                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
+                deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
+                return apiService.switchZone(deleteZoneVO)
             }
         }.asLiveData()
     }
@@ -101,28 +133,35 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<String>> {
-                val deleteZoneVO=DeleteZoneVO(guid.md5(),zoneId,System.currentTimeMillis())
+                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
                 deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
                 return apiService.shareZone(deleteZoneVO)
             }
         }.asLiveData()
     }
 
-    fun joinZone(guid:String,invitationCode:String): LiveData<Resource<Zone>> {
-        return object : NetworkBoundResource<Zone>(appExecutors) {
-            override fun saveCallResult(item: Zone?) {
-//                zoneDao.insert(item)
+    fun joinZone(guid:String,invitationCode:String): LiveData<Resource<ZoneDetail>> {
+        return object : NetworkBoundResource<ZoneDetail>(appExecutors) {
+            override fun saveCallResult(item: ZoneDetail?) {
+                item?.let {
+                    zoneDao.resetAllActiveZone()
+                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active))
+                    singleDeviceDao.deleteAll(it.id)
+                    roomDao.deleteAll(it.id)
+                    it.devices?.let {it2 -> singleDeviceDao.insertAll(it2)}
+                    it.groups?.let { it1 -> roomDao.insertAll(it1)}
+                }
             }
 
-            override fun shouldFetch(data: Zone?): Boolean {
+            override fun shouldFetch(data: ZoneDetail?): Boolean {
                 return true
             }
 
-            override fun loadFromDb(): LiveData<Zone> {
+            override fun loadFromDb(): LiveData<ZoneDetail> {
                 return AbsentLiveData.create()
             }
 
-            override fun createCall(): LiveData<ApiResult<Zone>> {
+            override fun createCall(): LiveData<ApiResult<ZoneDetail>> {
                 val baseVo=JoinZoneVO(invitationCode,guid.md5(),System.currentTimeMillis())
                 baseVo.signature= beanToJson(baseVo).sha256()
                 return apiService.joinZone(baseVo)
@@ -131,21 +170,28 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
     }
 
 
-    fun getCurrentZone(guid:String): LiveData<Resource<Zone>> {
-        return object : NetworkBoundResource<Zone>(appExecutors) {
-            override fun saveCallResult(item: Zone?) {
-                item?.let {  zoneDao.insert(it) }
+    fun getCurrentZone(guid:String): LiveData<Resource<ZoneDetail>> {
+        return object : NetworkBoundResource<ZoneDetail>(appExecutors) {
+            override fun saveCallResult(item: ZoneDetail?) {
+                item?.let {
+                    zoneDao.resetAllActiveZone()
+                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active))
+                    singleDeviceDao.deleteAll(it.id)
+                    roomDao.deleteAll(it.id)
+                    it.devices?.let {it2 -> singleDeviceDao.insertAll(it2)}
+                    it.groups?.let { it1 -> roomDao.insertAll(it1)}
+                }
             }
 
-            override fun shouldFetch(data: Zone?): Boolean {
+            override fun shouldFetch(data: ZoneDetail?): Boolean {
                 return true
             }
 
-            override fun loadFromDb(): LiveData<Zone> {
+            override fun loadFromDb(): LiveData<ZoneDetail> {
                 return AbsentLiveData.create()
             }
 
-            override fun createCall(): LiveData<ApiResult<Zone>> {
+            override fun createCall(): LiveData<ApiResult<ZoneDetail>> {
                 val baseVo=BaseVO(guid.md5(),System.currentTimeMillis())
                 baseVo.signature= beanToJson(baseVo).sha256()
                 return apiService.getCurrentZone(baseVo)
@@ -157,7 +203,10 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
     fun getZones(guid:String): LiveData<Resource<List<Zone>>> {
         return object : NetworkBoundResource<List<Zone>>(appExecutors) {
             override fun saveCallResult(item: List<Zone>?) {
-                item?.let { zoneDao.insertAll(item) }
+                item?.let {
+                    zoneDao.deleteAll()
+                    zoneDao.insertAll(item)
+                }
             }
 
             override fun shouldFetch(data: List<Zone>?): Boolean {

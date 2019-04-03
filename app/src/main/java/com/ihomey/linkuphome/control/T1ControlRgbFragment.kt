@@ -36,7 +36,7 @@ class T1ControlRgbFragment : BaseControlFragment() {
     override fun updateViewData(singleDevice: SingleDevice) {
         mViewDataBinding.control = singleDevice
         mControlDevice = singleDevice
-        mViewDataBinding.deviceColorRgbCv.setCurrentRadian(mControlDevice.state.colorPosition)
+//        mViewDataBinding.deviceColorRgbCv.setCurrentRadian(mControlDevice.state.colorPosition)
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
     }
 
@@ -45,6 +45,4 @@ class T1ControlRgbFragment : BaseControlFragment() {
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(null)
     }
 
-    override fun onClick(v: View) {
-    }
 }

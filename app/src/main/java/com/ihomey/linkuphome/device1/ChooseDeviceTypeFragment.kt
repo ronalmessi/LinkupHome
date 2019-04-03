@@ -22,16 +22,10 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         fun newInstance() = ChooseDeviceTypeFragment()
     }
 
-    private lateinit var viewModel: ChooseDeviceTypeViewModel
     private lateinit var adapter: DeviceTypeListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.choose_device_type_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ChooseDeviceTypeViewModel::class.java)
     }
 
 
@@ -43,7 +37,7 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         rcv_device_type_list.layoutManager = GridLayoutManager(context, 2)
         context?.resources?.getDimensionPixelSize(R.dimen._10sdp)?.let { SpaceItemDecoration(it / 2, it / 2, it / 2, it / 2) }?.let { rcv_device_type_list.addItemDecoration(it) }
         rcv_device_type_list.adapter = adapter
-        adapter.setNewData(listOf(0,1,2,3,5,6,7,8))
+        adapter.setNewData(listOf(0,1,2,3,5,6,7,8,9))
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 

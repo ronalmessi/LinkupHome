@@ -60,7 +60,11 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
-        if (TextUtils.equals(deviceShortName, shortName)) viewModel.setScanedDevice(SingleDevice(0, arguments?.getInt("zoneId")!!, deviceType.name, type, uuidHash, 0, 0, 0))
+        if (TextUtils.equals(deviceShortName, shortName)) {
+            val singleDevice1=SingleDevice(type+1,deviceType.name)
+            singleDevice1.hash=uuidHash
+            viewModel.setScanDevice(singleDevice1)
+        }
     }
 
     override fun deviceAssociated(deviceId: Int, message: String) {

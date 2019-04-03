@@ -31,9 +31,6 @@ class V1SceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun updateViewData(singleDevice: SingleDevice) {
         mControlDevice = singleDevice
-        when (singleDevice.state.sceneMode) {
-            1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_flow_rgb)
-        }
         mViewDataBinding.deviceRgpScene.setOnCheckedChangeListener(this)
     }
 

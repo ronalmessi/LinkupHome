@@ -6,7 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.*
 import com.ihomey.linkuphome.data.repository.*
-import com.ihomey.linkuphome.data.vo.RegisterVO
+import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
@@ -17,13 +17,8 @@ class HomeActivityViewModel : ViewModel() {
     lateinit var zoneRepository: ZoneRepository
 
     @Inject
-    lateinit var mSettingRepository: SettingRepository
-
-    @Inject
     lateinit var mDeviceRepository: DeviceRepository
 
-    @Inject
-    lateinit var modelRepository: Model1Repository
 
     @Inject
     lateinit var roomRepository: RoomRepository
@@ -59,13 +54,32 @@ class HomeActivityViewModel : ViewModel() {
         bridgeState.value = connected
     }
 
+    //remove device
+    val mRemoveDeviceVo = MutableLiveData<RemoveDeviceVo>()
+
+    fun setRemoveDeviceVo(removeDeviceVo: RemoveDeviceVo?) {
+        mRemoveDeviceVo.value = removeDeviceVo
+    }
+
+
+    //removeDeviceFlag
+    private val removeDeviceFlag = MutableLiveData<Boolean>()
+
+    fun getRemoveDeviceFlag(): MutableLiveData<Boolean> {
+        return removeDeviceFlag
+    }
+
+    fun setRemoveDeviceFlag(flag: Boolean) {
+        removeDeviceFlag.value = flag
+    }
+
     private var scanedDevice = MutableLiveData<SingleDevice>()
 
-    fun getScanedDevice(): MutableLiveData<SingleDevice> {
+    fun getScanDevice(): MutableLiveData<SingleDevice> {
         return scanedDevice
     }
 
-    fun setScanedDevice(singleDevice: SingleDevice) {
+    fun setScanDevice(singleDevice: SingleDevice) {
         if (scanedDevice.value == null) scanedDevice.value = singleDevice
     }
 
@@ -73,50 +87,32 @@ class HomeActivityViewModel : ViewModel() {
         scanedDevice.value = null
     }
 
-
-    //model
-    fun getModels(deviceId: Int, zoneId: Int): LiveData<Resource<List<Model>>> {
-        return modelRepository.getModels(deviceId, zoneId)
-    }
-
-
-    //setting
-    fun getGlobalSetting(): LiveData<Resource<Setting>> {
-        return mSettingRepository.getSetting()
-    }
-
-    //zone
     fun setCurrentZoneId(zoneId: Int?) {
         mCurrentZoneId.value = zoneId
     }
 
-    //room
     val mSelectedRoom = MutableLiveData<Room>()
 
-    fun addRoom(currentSetting: Setting, currentZone: Zone, type: Int, name: String) {
-        roomRepository.addRoom(currentSetting, currentZone, name, type)
+
+    fun saveRoom(guid:String,zoneId:Int,type:Int,name:String): LiveData<Resource<Room>> {
+        return roomRepository.saveRoom(guid, zoneId, type, name)
     }
 
-    fun deleteRoom(id: Int) {
-        roomRepository.delete(id)
+    fun deleteRoom(guid:String,roomId: Int): LiveData<Resource<Boolean>> {
+        return roomRepository.deleteRoom(guid, roomId)
     }
 
-    fun updateRoom(room: Room) {
-        roomRepository.updateSubZoneState(room)
+    fun changeRoomName(guid:String,spaceId:Int,id:Int,type:Int,newName:String): LiveData<Resource<Room>> {
+        return roomRepository.changeRoomName(guid,spaceId,id,type,newName)
+    }
+
+    fun changeRoomState(guid:String,id:Int,name:String,value:String): LiveData<Resource<Room>> {
+        return roomRepository.changeRoomState(guid,id,name,value)
     }
 
     fun setSelectedRoom(room: Room) {
         mSelectedRoom.value = room
     }
-
-    fun updateSendTypes(roomId: Int, zoneId: Int) {
-        roomRepository.updateSendTypes(roomId, zoneId)
-    }
-
-    fun updateRoomName(newName: String, id: Int) {
-        roomRepository.updateRoomName(newName, id)
-    }
-
 
     //device
 
@@ -130,28 +126,22 @@ class HomeActivityViewModel : ViewModel() {
         currentControlDevice.value = singleDevice
     }
 
-    fun addSingleDevice(currentSetting: Setting, singleDevice: SingleDevice) {
-        mDeviceRepository.addSingleDevice(currentSetting, singleDevice)
-    }
-
-    fun deleteSingleDevice(singleDeviceId: Int) {
-        mDeviceRepository.deleteSingleDevice(0, singleDeviceId)
-    }
-
-    fun updateDevice(singleDevice: SingleDevice) {
-        mDeviceRepository.updateDeviceState(singleDevice.id, singleDevice.state)
-    }
-
-    fun updateDeviceName(deviceId: Int, deviceName: String) {
-        mDeviceRepository.updateSingleDeviceName(deviceId, deviceName)
-
-    }
-
-    fun getDevices(deviceId: Int, type: Int): LiveData<Resource<List<SingleDevice>>> {
-        return mDeviceRepository.getDevices(type, deviceId)
-
+    fun deleteDevice(guid:String,deviceId: Int): LiveData<Resource<Boolean>> {
+        return mDeviceRepository.deleteDevice(guid, deviceId)
     }
 
 
+    fun changeDeviceName(guid:String,spaceId:Int,id:Int,type:Int,newName:String): LiveData<Resource<SingleDevice>> {
+        return mDeviceRepository.changeDeviceName(guid,spaceId,id,type,newName)
+    }
+
+
+    fun changeDeviceState(guid:String,id:Int,name:String,value:String): LiveData<Resource<SingleDevice>> {
+        return mDeviceRepository.changeDeviceState(guid,id,name,value)
+    }
+
+    fun bindDevice(guid: String,spaceId: Int,groupInstructId: Int, deviceInstructId: Int,act: String): LiveData<Resource<Room>> {
+        return roomRepository.bindDevice(guid,spaceId,groupInstructId,deviceInstructId,act)
+    }
 
 }

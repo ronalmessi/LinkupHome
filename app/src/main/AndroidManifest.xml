@@ -16,6 +16,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <activity
             android:name=".home.HomeActivity"
@@ -31,13 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".share.ShareActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".scan.ScanActivity"
-            android:screenOrientation="portrait" />
 
         <service
             android:name="com.csr.mesh.MeshService"

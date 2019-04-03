@@ -21,8 +21,6 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
@@ -33,14 +31,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import com.csr.mesh.DataModelApi
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.internal.BaselineLayout
-import com.google.gson.ExclusionStrategy
-import com.google.gson.FieldAttributes
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import org.spongycastle.crypto.digests.SHA256Digest
@@ -107,6 +102,7 @@ fun Context.toast(errorCode: String) {
         "0030"->message="未知分组ID"
         "0031"->message="分组名称不能大于225个字符"
         "0032"->message="分组类型不能大于64个字符"
+        "10000"->message="网络错误"
     }
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
@@ -200,7 +196,6 @@ fun handleBackPress(fragmentManager: FragmentManager): Boolean {
     val fragments = fragmentManager.fragments ?: return false
     for (i in fragments.indices.reversed()) {
         val child = fragments[i]
-        Log.d("aa", child.javaClass.simpleName + "-----")
         if (isFragmentBackHandled(child)) {
             return true
         }
@@ -328,19 +323,20 @@ fun String.md5(): String {
 }
 
 fun <T> beanToJson(t:T):String{
-    return AppConfig.APP_SECRET+getSkipFieldGson("signature").toJson(t).replace(":","").replace("{","").replace("}","").replace(",","").replace("" + "\"","")
+    val mapper = ObjectMapper()
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+    return AppConfig.APP_SECRET+mapper.writeValueAsString(t).replace(":","").replace("{","").replace("}","").replace(",","").replace("" + "\"","")
 }
 
-fun getSkipFieldGson(filedName:String):Gson{
-    return GsonBuilder().setExclusionStrategies(object : ExclusionStrategy {
-        override fun shouldSkipClass(clazz: Class<*>?): Boolean {
-            return false
-        }
+fun String.ToDeviceState():DeviceState{
+    if(TextUtils.isEmpty(this)) return DeviceState()
+    return  ObjectMapper().readValue(this,DeviceState::class.java)
+}
 
-        override fun shouldSkipField(f: FieldAttributes?): Boolean {
-              return TextUtils.equals(filedName,f?.name)
-        }
-    }).create()
+fun DeviceState.ToJson():String{
+    val mapper = ObjectMapper()
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+    return mapper.writeValueAsString(this)
 }
 
 
@@ -369,50 +365,8 @@ fun getShortName(type: DeviceType) =
             DeviceType.T1 -> "iHomey T1"
         }
 
-//
-//fun getIcon(type: Int) =
-//        when (type) {
-//            0 -> R.mipmap.lamp_icon_lawn_unadded
-//            1 -> R.mipmap.lamp_icon_rgb_unadded
-//            2 -> R.mipmap.lamp_icon_warm_cold_unadded
-//            3 -> R.mipmap.lamp_icon_led_unadded
-//            4 -> R.mipmap.lamp_icon_outdoor_unadded
-//            5 -> R.mipmap.lamp_icon_s_unadded
-//            6 -> R.mipmap.lamp_icon_s_unadded
-//            else -> R.mipmap.lamp_icon_bed_unadded
-//        }
-
-//七牛后台的key
-var ACCESS_KEY = "MOeoLYAGZgMIe98ZTDo_Uk4c7rYrLAD2AVFVIwC5"
-//七牛后台的secret
-var SECRET_KEY = "0N370nRJKrEvnkdZKzjExgYFZo1p195x_y5uUlN0"
-var BUCKET_NAME = "linkuphome"
 var DOMAIN = "http://img.ihomey.cc/"
-var UPDATE_URL = DOMAIN + "androidVersionInfo_"
 
-
-// json keys.
-val NETWORK_KEY = "networkKey"
-val CURRENT_ID = "currentId"
-val DEVICE_TYPE = "deviceType"
-val NEXT_DEVICE_INDEX_KEY = "nextDeviceIndex"
-val NEXT_GROUP_INDEX_KEY = "nextGroupIndex"
-val DEVICES_KEY = "devices"
-val GROUPS_KEY = "groups"
-val DEVICE_ID_KEY = "deviceID"
-val DEVICE_NAME_KEY = "name"
-val DEVICE_HASH_KEY = "hash"
-val DEVICE_MODELS_KEY = "models"
-val MODEL_TYPE_KEY = "type"
-val MODEL_GROUP_INSTANCES_KEY = "groupInstances"
-val MODEL_GROUP_X_KEY = "groups[x]"
-val GROUP_ID_KEY = "groupID"
-val GROUP_NAME_KEY = "name"
-
-
-val PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 100
-val REQUEST_CODE_Main = 103
-val REQUEST_CODE_SCAN = 101
 val REQUEST_BT_RESULT_CODE = 102
 
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
@@ -431,12 +385,10 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
 
         override fun onChanged(obj: T?) {
             if (!initialized) {
-                Log.d("aa", "hhahahahaahaha")
                 initialized = true
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             } else if ((obj == null && lastObj != null) || obj != lastObj) {
-                Log.d("aa", "ggggggg")
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             }

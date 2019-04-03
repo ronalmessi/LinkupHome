@@ -4,5 +4,5 @@
     android:state_selected="true"
     android:drawable="@mipmap/scene_flow_bg" />
     <item
-    android:drawable="@mipmap/scene_flow_bg" />
+    android:drawable="@drawable/scene_flow_normal_bg" />
 </selector>   

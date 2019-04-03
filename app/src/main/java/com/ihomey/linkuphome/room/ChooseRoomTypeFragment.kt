@@ -1,13 +1,11 @@
 package com.ihomey.linkuphome.room
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -16,12 +14,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomTypeListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.data.entity.Setting
+import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.CreateSubZoneListener
+import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 import kotlinx.android.synthetic.main.choose_zone_type_fragment.*
@@ -34,7 +34,6 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
 
     private lateinit var adapter: RoomTypeListAdapter
     private lateinit var mViewModel: HomeActivityViewModel
-    private var currentSetting: Setting? = null
     private var currentZone: Zone? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,21 +43,12 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.getGlobalSetting().observe(this, Observer<Resource<Setting>> { it ->
-            if (it?.status == Status.SUCCESS) {
-                currentSetting = it.data
-            }
-        })
+
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,6 +62,7 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         rcv_zone_type_list.addItemDecoration( SpaceItemDecoration(0, 0, verticalMargin, 0))
         rcv_zone_type_list.adapter = adapter
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
+        parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -85,8 +76,14 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
 
 
     override fun createSubZone(type: Int, name: String) {
-        currentSetting?.let { currentZone?.let { it1 -> mViewModel.addRoom(it, it1, type, name) } }
-        Navigation.findNavController(iv_back).popBackStack()
+        context?.getIMEI()?.let { it1 -> mViewModel.saveRoom(it1, currentZone?.id!!,type+1,name).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+            if (it?.status == Status.SUCCESS) {
+                mViewModel.setCurrentZoneId(it.data?.zoneId)
+                Navigation.findNavController(iv_back).popBackStack()
+            }else  if (it?.status == Status.ERROR) {
+                it.message?.let { it2 -> activity?.toast(it2) }
+            }
+        })}
     }
 
 }

@@ -1,6 +1,9 @@
 package com.ihomey.linkuphome.data.api
 
 import androidx.lifecycle.LiveData
+import com.ihomey.linkuphome.data.entity.Model
+import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
 import retrofit2.http.Body
@@ -8,10 +11,6 @@ import retrofit2.http.POST
 
 
 interface ApiService {
-
-    //用户注册
-    @POST("/api/client/register")
-    fun register(@Body registerVO: RegisterVO): LiveData<ApiResult<String>>
 
     //创建空间
     @POST("/api/space/save")
@@ -23,31 +22,65 @@ interface ApiService {
 
     //删除空间
     @POST("/api/space/delete")
-    fun deleteZone(@Body deleteZoneVO: DeleteZoneVO): LiveData<ApiResult<Boolean>>
+    fun deleteZone(@Body deleteVO: DeleteVO): LiveData<ApiResult<Int>>
 
     //分享空间
     @POST("/api/space/share")
-    fun shareZone(@Body deleteZoneVO: DeleteZoneVO): LiveData<ApiResult<String>>
+    fun shareZone(@Body deleteVO: DeleteVO): LiveData<ApiResult<String>>
+
+    //切换空间
+    @POST("/api/space/change")
+    fun switchZone(@Body deleteVO: DeleteVO): LiveData<ApiResult<ZoneDetail>>
 
     //加入空间
     @POST("/api/space/join")
-    fun joinZone(@Body joinZoneVO: JoinZoneVO): LiveData<ApiResult<Zone>>
+    fun joinZone(@Body joinZoneVO: JoinZoneVO): LiveData<ApiResult<ZoneDetail>>
 
     //获取当前空间的详细信息
     @POST("/api/space")
-    fun getCurrentZone(@Body baseVO: BaseVO): LiveData<ApiResult<Zone>>
+    fun getCurrentZone(@Body baseVO: BaseVO): LiveData<ApiResult<ZoneDetail>>
 
     //获取空间列表
     @POST("/api/spaces")
     fun getZones(@Body baseVO: BaseVO): LiveData<ApiResult<List<Zone>>>
 
 
-    //创建空间
-//    @FormUrlEncoded
-//    @POST("/api/space/save")
-//    fun createZone(@Field("guid")guid:String,@Field("name")name:String,@Field("signature")signature:String,@Field("timestamp")timestamp:Long): LiveData<ApiResult<Boolean>>
+    //添加设备
+    @POST("/api/device/save")
+    fun saveDevice(@Body saveDeviceVO: SaveDeviceVO): LiveData<ApiResult<SingleDevice>>
+
+    //删除设备
+    @POST("/api/device/delete")
+    fun deleteDevice(@Body deleteVO: DeleteVO): LiveData<ApiResult<Boolean>>
+
+    //修改设备名称
+    @POST("/api/device/save")
+    fun changeDeviceName(@Body changeDeviceNameVO: ChangeDeviceNameVO): LiveData<ApiResult<SingleDevice>>
+
+    //修改设备状态
+    @POST("/api/device/handling")
+    fun changeDeviceState(@Body changeDeviceStateVO: ChangeDeviceStateVO): LiveData<ApiResult<SingleDevice>>
 
 
 
+    //添加房间
+    @POST("/api/group/save")
+    fun saveRoom(@Body saveRoomVO: SaveRoomVO): LiveData<ApiResult<Room>>
+
+    //删除房间
+    @POST("/api/group/delete")
+    fun deleteRoom(@Body deleteVO: DeleteVO): LiveData<ApiResult<Boolean>>
+
+    //修改房间名称
+    @POST("/api/group/save")
+    fun changeRoomName(@Body changeDeviceNameVO: ChangeDeviceNameVO): LiveData<ApiResult<Room>>
+
+    //添加设备到房间
+    @POST("/api/group/device")
+    fun bindDevice(@Body bindDeviceVO: BindDeviceVO): LiveData<ApiResult<Room>>
+
+    //修改设备状态
+    @POST("/api/group/handling")
+    fun changeRoomState(@Body changeDeviceStateVO: ChangeDeviceStateVO): LiveData<ApiResult<Room>>
 
 }

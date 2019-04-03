@@ -4,5 +4,5 @@ package com.ihomey.linkuphome.listener
  * Created by Administrator on 2017/6/21.
  */
 interface DeleteDeviceListener {
-    fun deleteDevice(id: Int,hash:Int)
+    fun deleteDevice(id: Int,instructId: Int)
 }

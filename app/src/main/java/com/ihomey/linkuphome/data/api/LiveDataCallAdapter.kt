@@ -1,14 +1,14 @@
 package com.ihomey.linkuphome.data.api
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import retrofit2.Call
-import retrofit2.CallAdapter
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean
+import android.util.Log
+import retrofit2.*
+import java.net.UnknownHostException
+import java.net.UnknownServiceException
+
 
 /**
  * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
@@ -29,9 +29,13 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
                         override fun onResponse(call: Call<ApiResult<R>>, response: Response<ApiResult<R>>) {
                             postValue(response.body())
                         }
-
                         override fun onFailure(call: Call<ApiResult<R>>, throwable: Throwable) {
-                            postValue(throwable.message?.let { ApiResult<R>("10000", it,null) })
+                            throwable.printStackTrace()
+                            if (throwable is UnknownHostException||throwable is UnknownServiceException) {
+                                postValue(throwable.message?.let { ApiResult<R>("10000", it,null) })
+                            }else{
+
+                            }
                         }
                     })
                 }

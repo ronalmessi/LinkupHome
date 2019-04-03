@@ -27,6 +27,6 @@ class DevicesViewModel : ViewModel() {
 //    }
 
     fun deleteSingleDevice(singleDeviceId: Int) {
-        mDeviceRepository.deleteSingleDevice(0, singleDeviceId)
+//        mDeviceRepository.deleteSingleDevice(0, singleDeviceId)
     }
 }

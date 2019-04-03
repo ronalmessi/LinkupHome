@@ -38,29 +38,32 @@ class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuic
 
     override fun convert(helper: BaseViewHolder, item: SingleDevice) {
         helper.setText(R.id.tv_device_name, item.name)
-        helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[item.type])
+
+        val type=item.type-1
+
+        helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[type])
         when (helper.itemViewType) {
             1 -> {
                 val swipeLayout = helper.getView<SwipeLayout>(R.id.swipeLayout)
                 swipeLayout.isLeftSwipeEnabled = false
                 swipeLayout.isRightSwipeEnabled = false
                 val cl_devices_item = swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
-                if (item.type == 0) {
+                if (type == 0) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                } else if (item.type == 1||item.type==2||item.type==6||item.type==7) {
+                } else if (type == 1||type==2||type==6||type==7) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (item.type == 4) {
+                }else if (type == 4) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (item.type == 5) {
+                }else if (type == 5) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 }
 
                 val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
-                sb_power.isChecked = item.state.on == 1
+                sb_power.isChecked = item.parameters?.on == 1
                 sb_power.setOnCheckedChangeListener { _, isChecked -> onCheckedChangeListener.onCheckedChanged(item, isChecked) }
 
                 val seek_bar_brightness = helper.getView<SeekBar>(R.id.device_seek_bar_brightness)
-                seek_bar_brightness.progress = item.state.brightness ?: 20
+                seek_bar_brightness.progress = item.parameters?.brightness ?: 20
 
                 seek_bar_brightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -77,13 +80,13 @@ class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuic
                 })
             }
             -1 -> {
-                if (item.type == 0) {
+                if (type == 0) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                } else if (item.type == 1||item.type==2||item.type==6||item.type==7) {
+                } else if (type == 1||type==2||type==6||type==7) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (item.type == 4) {
+                }else if (type == 4) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (item.type == 5) {
+                }else if (type == 5) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 }
             }

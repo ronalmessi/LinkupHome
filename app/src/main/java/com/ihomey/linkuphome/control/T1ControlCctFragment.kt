@@ -36,7 +36,7 @@ class T1ControlCctFragment : BaseControlFragment() {
     override fun updateViewData(singleDevice: SingleDevice) {
         mViewDataBinding.control = singleDevice
         mControlDevice = singleDevice
-        mViewDataBinding.deviceColorRgbCv.setColorTemperature(mControlDevice.state.colorTemperature)
+//        mViewDataBinding.deviceColorRgbCv.setColorTemperature(mControlDevice.state.colorTemperature)
         mViewDataBinding.deviceColorRgbCv.setColorTemperatureListener(this)
     }
 
@@ -45,6 +45,4 @@ class T1ControlCctFragment : BaseControlFragment() {
         mViewDataBinding.deviceColorRgbCv.setColorTemperatureListener(null)
     }
 
-    override fun onClick(v: View) {
-    }
 }
