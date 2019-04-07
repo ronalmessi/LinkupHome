@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_item_sub_zone_list"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
     <com.daimajia.swipe.SwipeLayout
@@ -43,7 +44,6 @@
                 android:id="@+id/tv_device_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:singleLine="true"
@@ -74,8 +74,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/_24sdp"
-        android:paddingRight="@dimen/_18sdp">
+        android:paddingStart="@dimen/_24sdp"
+        android:paddingEnd="@dimen/_18sdp">
 
         <ImageView
             android:id="@+id/iv_brightness_low"

@@ -99,20 +99,20 @@ open class DeviceFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
                     dialog.show(fragmentManager, "DeleteDeviceFragment")
                     (view.parent as SwipeLayout).close(true)
                 }
-                R.id.tv_device_name -> {
-                    mViewModel.setCurrentControlDevice(singleDevice)
-                    when (singleDevice.type-1) {
-                        0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
-                        1 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
-                        2 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_a2ControlFragment)
-                        3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_n1ControlFragment)
-                        5 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_v1ControlFragment)
-                        6 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s1ControlFragment)
-                        7 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s2ControlFragment)
-                        8 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_t1ControlFragment)
-                        9 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_v2ControlFragment)
-                    }
-                }
+//                R.id.tv_device_name -> {
+//                    mViewModel.setCurrentControlDevice(singleDevice)
+//                    when (singleDevice.type-1) {
+//                        0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
+//                        1 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+//                        2 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_a2ControlFragment)
+//                        3 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+//                        5 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_v1ControlFragment)
+//                        6 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s1ControlFragment)
+//                        7 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_s2ControlFragment)
+//                        8 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_t1ControlFragment)
+//                        9 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_v2ControlFragment)
+//                    }
+//                }
             }
         }
     }

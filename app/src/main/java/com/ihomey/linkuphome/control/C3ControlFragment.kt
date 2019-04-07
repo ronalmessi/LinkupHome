@@ -35,6 +35,10 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.c3_control_fragment, container, false)
         initController(0)
         mViewDataBinding.handlers = ToolBarEventHandler()
+        mViewDataBinding.root.setOnClickListener {
+            mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
+            mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
+        }
         return mViewDataBinding.root
     }
 

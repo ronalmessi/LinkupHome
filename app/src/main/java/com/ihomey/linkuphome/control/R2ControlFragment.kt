@@ -32,6 +32,10 @@ class R2ControlFragment : BaseControlFragment(), View.OnClickListener {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.r2_control_fragment, container, false)
         initController(1)
         mViewDataBinding.handlers = ToolBarEventHandler()
+        mViewDataBinding.root.setOnClickListener {
+            mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
+            mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
+        }
         return mViewDataBinding.root
     }
 
