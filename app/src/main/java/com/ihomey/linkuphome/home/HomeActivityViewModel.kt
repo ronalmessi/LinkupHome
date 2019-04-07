@@ -91,7 +91,7 @@ class HomeActivityViewModel : ViewModel() {
         mCurrentZoneId.value = zoneId
     }
 
-    val mSelectedRoom = MutableLiveData<Room>()
+    val mSelectedRoom = MutableLiveData<RoomAndDevices>()
 
 
     fun saveRoom(guid:String,zoneId:Int,type:Int,name:String): LiveData<Resource<Room>> {
@@ -110,8 +110,8 @@ class HomeActivityViewModel : ViewModel() {
         return roomRepository.changeRoomState(guid,id,name,value)
     }
 
-    fun setSelectedRoom(room: Room) {
-        mSelectedRoom.value = room
+    fun setSelectedRoom(roomAndDevices: RoomAndDevices) {
+        mSelectedRoom.value = roomAndDevices
     }
 
     //device

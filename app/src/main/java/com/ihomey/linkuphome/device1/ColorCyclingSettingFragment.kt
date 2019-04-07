@@ -1,36 +1,53 @@
 package com.ihomey.linkuphome.device1
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.data.entity.RoomAndDevices
+import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.SingleSelectToggleGroup
+import com.ihomey.linkuphome.widget.ToggleButtonGroup
 
-class ColorCyclingSettingFragment : DialogFragment() {
+class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnCheckedChangeListener {
 
-    private var controller: Controller? = null
-
+    private lateinit var viewModel: HomeActivityViewModel
+    private lateinit var devices: List<SingleDevice>
+    private lateinit var meshServiceStateListener: MeshServiceStateListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.color_cyclingg_setting_fragment, container, false)
-        controller = arguments?.getInt("type")?.let { ControllerFactory().createController(it) }
-
         val colorCyclingSetting = view.findViewById<SingleSelectToggleGroup>(R.id.device_cycling_sstg_speed)
-        colorCyclingSetting.setOnCheckedChangeListener { position, isChecked ->
-            //                if (listener.isMeshServiceConnected())
-            arguments?.getInt("zoneId")?.let { controller?.setLightSpeed(it, position) }
-        }
+        colorCyclingSetting.setOnCheckedChangeListener(this)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         return view
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        meshServiceStateListener = context as MeshServiceStateListener
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        viewModel.mSelectedRoom.observe(this, Observer<RoomAndDevices> {
+            devices=it.devices
+        })
     }
 
     override fun onStart() {
@@ -39,4 +56,15 @@ class ColorCyclingSettingFragment : DialogFragment() {
         dialog?.window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         dialog?.window?.setLayout((displayMetrics.widthPixels - context?.resources?.getDimension(R.dimen._32sdp)!!).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
+
+    override fun onCheckedChange(position: Int, isChecked: Boolean) {
+        for (index in devices.indices) {
+            val device = devices[index]
+            val controller = ControllerFactory().createController(device.type)
+            if (meshServiceStateListener.isMeshServiceConnected()) {
+                Handler().postDelayed({ controller?.setLightSpeed(device.instructId, position)}, 100L * index)
+            }
+        }
+    }
+
 }

@@ -12,6 +12,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -32,7 +33,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     private lateinit var adapter: UnBondedDeviceListAdapter
     private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
-    private lateinit var room: Room
+    private  var room: Room?=null
 
     private var count: Int = 0
 
@@ -44,12 +45,12 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        viewModel.mSelectedRoom.observe(this, Observer<Room> {
-            room = it
+        viewModel.mSelectedRoom.observe(this, Observer<RoomAndDevices> {
+            room = it.room
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
-                adapter.setNewData(it.data?.filter { (it.roomId != room.id && it.roomId == 0) })
+                room?.let { it1->adapter.setNewData(it.data?.filter { (it.roomId != it1.id && it.roomId == 0) }) }
             }
         })
     }
@@ -89,7 +90,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
         mDialog.isCancelable = false
         mDialog.show(fragmentManager, "GroupUpdateFragment")
         for (device in adapter.getSelectedDevices()) {
-            bindDevice(room.zoneId, room.instructId, device.instructId, "add")
+            room?.let { bindDevice(it.zoneId, it.instructId, device.instructId, "add")  }
         }
 
     }

@@ -51,7 +51,7 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
     private lateinit var adapter: RoomListAdapter
     private lateinit var meshServiceStateListener: MeshServiceStateListener
     private var guide: Guide? = null
-    private var isFragmentVisible=false
+    private var isFragmentVisible = false
 
     var hasShowBindDeviceGuide by PreferenceHelper("hasShowBindDeviceGuide", false)
 
@@ -98,132 +98,112 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
         iv_add.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_zoneFragment_to_chooseZoneTypeFragment)
         }
-        val baseNavHostFragment=parentFragment?.parentFragment as ZoneNavHostFragment
+        val baseNavHostFragment = parentFragment?.parentFragment as ZoneNavHostFragment
         baseNavHostFragment.setFragmentVisibleStateListener(this)
     }
 
     override fun onFragmentVisibleStateChanged(isVisible: Boolean) {
-        isFragmentVisible=isVisible
-        if (!hasShowBindDeviceGuide &&isVisible&&adapter.emptyViewCount==0&& adapter.itemCount>0) {
+        isFragmentVisible = isVisible
+        if (!hasShowBindDeviceGuide && isVisible && adapter.emptyViewCount == 0 && adapter.itemCount > 0) {
             rcv_zone_list.post { rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) } }
         }
     }
 
     override fun onResume() {
         super.onResume()
-            rcv_zone_list.postDelayed({
-                if (!hasShowBindDeviceGuide &&isFragmentVisible&&adapter.emptyViewCount==0&& adapter.itemCount>0) {
-                    rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) }
-                }
-            },350)
+        rcv_zone_list.postDelayed({
+            if (!hasShowBindDeviceGuide && isFragmentVisible && adapter.emptyViewCount == 0 && adapter.itemCount > 0) {
+                rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) }
+            }
+        }, 350)
     }
 
     override fun deleteSubZone(id: Int) {
-        context?.getIMEI()?.let { it1 -> mViewModel.deleteRoom(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
-            if (it?.status == Status.SUCCESS) {
+        context?.getIMEI()?.let { it1 ->
+            mViewModel.deleteRoom(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
+                if (it?.status == Status.SUCCESS) {
 
-            }else  if (it?.status == Status.ERROR) {
-                it.message?.let { it2 -> activity?.toast(it2) }
-            }
-        })}
+                } else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        adapter.getItem(position)?.let {
+        val roomAndDevices = adapter.getItem(position)
+        if (roomAndDevices != null) {
             when (view.id) {
                 R.id.btn_delete -> {
-                    it.room?.let {it1->
+                    roomAndDevices.room?.let { it ->
                         val dialog = DeleteRoomFragment()
                         val bundle = Bundle()
-                         bundle.putInt("zoneId", it1.id)
+                        bundle.putInt("zoneId", it.id)
                         dialog.arguments = bundle
                         dialog.setDeleteSubZoneListener(this)
                         dialog.show(fragmentManager, "DeleteRoomFragment")
                         (view.parent as SwipeLayout).close(true)
                     }
                 }
-                R.id.tv_sub_zone_name -> {
+
+                R.id.btn_add, R.id.tv_sub_zone_name -> {
                     hideGuideView()
-                    it.room?.let {it1->
-                        mViewModel.setSelectedRoom(it1)
-                        Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
-                    }
+                    mViewModel.setSelectedRoom(roomAndDevices)
+                    Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
                 }
-                R.id.btn_add -> {
-                    hideGuideView()
-                    it.room?.let {it1->
-                        mViewModel.setSelectedRoom(it1)
-                        Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
-                    }
+
+                R.id.iv_color_cycling -> {
+                    val dialog = ColorCyclingSettingFragment()
+                    mViewModel.setSelectedRoom(roomAndDevices)
+                    dialog.show(fragmentManager, "ColorCyclingSettingFragment")
                 }
-//                R.id.iv_color_cycling -> {
-//                    it.room?.let {it1->
-//                        val dialog = ColorCyclingSettingFragment()
-//                        val bundle = Bundle()
-//                        room.instructId.let { bundle.putInt("zoneId", it) }
-//                        room.deviceTypes.let { bundle.putInt("type", it.toInt()) }
-//                        dialog.arguments = bundle
-//                        dialog.show(fragmentManager, "ColorCyclingSettingFragment")
-//                    }
-//
-//                }
+
                 R.id.iv_lighting -> {
-//                    if (!TextUtils.isEmpty(room.deviceTypes)) {
-//                        val deviceTypes = room.deviceTypes.split(",")
-//                        if (!deviceTypes.isNullOrEmpty()) {
-//                            for (deviceType in deviceTypes) {
-//                                val controller = ControllerFactory().createController(deviceType.toInt())
-//                                if (meshServiceStateListener.isMeshServiceConnected()) room.instructId.let {
-//                                    Handler().postDelayed({ controller?.setLightingMode(it) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
-//                                }
-//                            }
-//                        }
-//                    }
-                    for(device in it.devices){
-                        val controller = ControllerFactory().createController(device.type)
-                        if (meshServiceStateListener.isMeshServiceConnected()){
-                            Handler().postDelayed({ controller?.setLightingMode(device.instructId)},500)
+                    if (isFragmentVisible) {
+                        for (index in roomAndDevices.devices.indices) {
+                            val device = roomAndDevices.devices[index]
+                            val controller = ControllerFactory().createController(device.type)
+                            if (meshServiceStateListener.isMeshServiceConnected()) {
+                                Handler().postDelayed({ controller?.setLightingMode(device.instructId) }, 100L * index)
+                            }
                         }
                     }
-                }
-                else -> {
-
                 }
             }
         }
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-       hideGuideView()
-        adapter.getItem(position)?.room?.let {
+        hideGuideView()
+        adapter.getItem(position)?.let {
             mViewModel.setSelectedRoom(it)
             Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
         }
     }
 
     override fun onProgressChanged(item: RoomAndDevices, progress: Int) {
-        if(isFragmentVisible){
-            for(index in item.devices.indices){
-                val device=item.devices[index]
+        if (isFragmentVisible) {
+            for (index in item.devices.indices) {
+                val device = item.devices[index]
                 val controller = ControllerFactory().createController(device.type)
-                if (meshServiceStateListener.isMeshServiceConnected()){
-                    Handler().postDelayed({ controller?.setLightBright(device.instructId,progress.plus(15))},100L *index)
+                if (meshServiceStateListener.isMeshServiceConnected()) {
+                    Handler().postDelayed({ controller?.setLightBright(device.instructId, progress.plus(15)) }, 100L * index)
                 }
             }
-            item.room?.let { changeRoomState(it,"brightness", progress.toString())}
+            item.room?.let { changeRoomState(it, "brightness", progress.toString()) }
         }
     }
 
     override fun onCheckedChanged(item: RoomAndDevices, isChecked: Boolean) {
-        if(isFragmentVisible){
-            for(index in item.devices.indices){
-                val device=item.devices[index]
+        if (isFragmentVisible) {
+            for (index in item.devices.indices) {
+                val device = item.devices[index]
                 val controller = ControllerFactory().createController(device.type)
-                if (meshServiceStateListener.isMeshServiceConnected()){
-                    Handler().postDelayed({ controller?.setLightPowerState(device.instructId,if (isChecked) 1 else 0)},100L *index)
+                if (meshServiceStateListener.isMeshServiceConnected()) {
+                    Handler().postDelayed({ controller?.setLightPowerState(device.instructId, if (isChecked) 1 else 0) }, 100L * index)
                 }
             }
-            item.room?.let { changeRoomState(it,"on",if (isChecked) "1" else "0") }
+            item.room?.let { changeRoomState(it, "on", if (isChecked) "1" else "0") }
         }
     }
 
@@ -232,7 +212,7 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
         builder.setTargetView(view)
                 .setAlpha(200)
                 .setHighTargetCorner(context?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
-                .setHighTargetMarginTop(getMarginTop(rcv_zone_list)+context?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(rcv_zone_list) + context?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(true)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
@@ -281,14 +261,16 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
         }
     }
 
-    private fun changeRoomState(room: Room, key:String, value:String){
-        context?.getIMEI()?.let { it1 ->  mViewModel.changeRoomState(it1,room.id,key,value).observe(viewLifecycleOwner, Observer<Resource<Room>> {
-            if (it?.status == Status.SUCCESS) {
+    private fun changeRoomState(room: Room, key: String, value: String) {
+        context?.getIMEI()?.let { it1 ->
+            mViewModel.changeRoomState(it1, room.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                if (it?.status == Status.SUCCESS) {
 
-            }else if (it?.status == Status.ERROR) {
+                } else if (it?.status == Status.ERROR) {
 //                it.message?.let { it2 -> activity?.toast(it2) }
-            }
-        })}
+                }
+            })
+        }
     }
 
 }

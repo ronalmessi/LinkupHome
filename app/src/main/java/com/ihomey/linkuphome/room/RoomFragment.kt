@@ -56,7 +56,7 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     private lateinit var adapter: BindedDeviceListAdapter
     private lateinit var listener: MeshServiceStateListener
 
-    private lateinit var room: Room
+    private var room: Room?=null
 
     private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
@@ -67,14 +67,16 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        viewModel.mSelectedRoom.observe(this, Observer<Room> {
-            tv_title.text = it?.name
-            room = it
+        viewModel.mSelectedRoom.observe(this, Observer<RoomAndDevices> {
+            tv_title.text = it.room?.name
+            room = it.room
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
-                adapter.setNewData(it.data?.filter { (it.roomId == room.id) })
-                if (it.data?.filter { it.roomId == room.id }.isNullOrEmpty()) btn_add_device.visibility = View.GONE else btn_add_device.visibility = View.VISIBLE
+                room?.let {it1->
+                    adapter.setNewData(it.data?.filter { (it.roomId == it1.id) })
+                    if (it.data?.filter { it.roomId == it1.id }.isNullOrEmpty()) btn_add_device.visibility = View.GONE else btn_add_device.visibility = View.VISIBLE
+                }
             }
         })
     }
@@ -112,13 +114,15 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
         }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         tv_title.setOnClickListener {
-            val dialog = ReNameDeviceFragment()
-            val bundle = Bundle()
-            bundle.putInt("deviceId", room.id)
-            bundle.putString("deviceName", room.name)
-            dialog.arguments = bundle
-            dialog.setUpdateZoneNameListener(this)
-            dialog.show(fragmentManager, "ReNameDeviceFragment")
+            room?.let {
+                val dialog = ReNameDeviceFragment()
+                val bundle = Bundle()
+                bundle.putInt("deviceId", it.id)
+                bundle.putString("deviceName", it.name)
+                dialog.arguments = bundle
+                dialog.setUpdateZoneNameListener(this)
+                dialog.show(fragmentManager, "ReNameDeviceFragment")
+            }
         }
         tv_title.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -136,8 +140,7 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
             mDialog.arguments = bundle
             mDialog.isCancelable = false
             mDialog.show(fragmentManager, "GroupUpdateFragment")
-            bindDevice(room.zoneId, room.instructId, singleDevice.instructId, "remove")
-
+            room?.let { bindDevice(it.zoneId, it.instructId, singleDevice.instructId, "remove")  }
         }
         menuBridge?.closeMenu()
     }
@@ -224,13 +227,15 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
 
     override fun updateDeviceName(id: Int, newName: String) {
         context?.getIMEI()?.let { it1 ->
-            viewModel.changeRoomName(it1, room.zoneId, id, room.type, newName).observe(viewLifecycleOwner, Observer<Resource<Room>> {
-                if (it?.status == Status.SUCCESS) {
-                    tv_title.text = newName
-                } else if (it?.status == Status.ERROR) {
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                }
-            })
+            room?.let {
+                viewModel.changeRoomName(it1, it.zoneId, id, it.type, newName).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                    if (it?.status == Status.SUCCESS) {
+                        tv_title.text = newName
+                    } else if (it?.status == Status.ERROR) {
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    }
+                })
+            }
         }
     }
 }

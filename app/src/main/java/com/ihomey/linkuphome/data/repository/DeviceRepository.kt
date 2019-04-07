@@ -99,8 +99,8 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             override fun saveCallResult(item: SingleDevice?) {
                 item?.let {
                     singleDeviceDao.insert(it)
-                    val room=roomDao.getRoom(it.roomId)
-                    if (TextUtils.equals("on", name)){
+                    if (TextUtils.equals("on", name)&&it.roomId!=0){
+                        val room=roomDao.getRoom(it.roomId)
                         val deviceList=singleDeviceDao.getDevices(it.zoneId, it.roomId)
                         if(deviceList.filter { it.parameters?.on==1 }.size % deviceList.size==0){
                             room.parameters?.on=if(deviceList.filter { it.parameters?.on == 1 }.isEmpty()) 0 else 1
