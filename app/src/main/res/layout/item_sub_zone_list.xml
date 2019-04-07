@@ -92,12 +92,24 @@
                 app:sb_checked_color="@color/control_tab_item_selected_color"
                 app:sb_show_indicator="false"
                 app:sb_uncheckcircle_color="@color/transparent" />
+
+            <TextView
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/bg_btn_select"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.daimajia.swipe.SwipeLayout>
 
 
     <RelativeLayout
+        android:id="@+id/rl_brightness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/_30sdp"

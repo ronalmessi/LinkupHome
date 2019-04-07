@@ -33,16 +33,33 @@ class RoomListAdapter(layoutId: Int) : BaseQuickAdapter<RoomAndDevices, BaseView
     override fun convert(helper: BaseViewHolder, item: RoomAndDevices) {
         val room = item.room
         room?.let {
+
             helper.setText(R.id.tv_sub_zone_name, it.name)
             val type = it.type.minus(1)
             helper.setImageResource(R.id.iv_sub_zone_type, ROOM_ICON[type])
+
             val swipeLayout = helper.getView<SwipeLayout>(R.id.swipeLayout)
             swipeLayout.showMode = SwipeLayout.ShowMode.LayDown
             helper.addOnClickListener(R.id.btn_delete)
             helper.addOnClickListener(R.id.iv_color_cycling)
             helper.addOnClickListener(R.id.iv_lighting)
             helper.addOnClickListener(R.id.tv_sub_zone_name)
+            helper.addOnClickListener(R.id.btn_add)
+
             if (it.deviceTypes.length == 1) helper.setGone(R.id.iv_color_cycling, true) else helper.setGone(R.id.iv_color_cycling, false)
+            if(item.devices.isNullOrEmpty()){
+                helper.setGone(R.id.rl_brightness, false)
+                helper.setGone(R.id.iv_color_cycling, false)
+                helper.setGone(R.id.sb_power, false)
+                helper.setGone(R.id.iv_lighting, false)
+                helper.setGone(R.id.btn_add, true)
+            }else{
+                helper.setGone(R.id.iv_color_cycling, true)
+                helper.setGone(R.id.sb_power, true)
+                helper.setGone(R.id.iv_lighting, true)
+                helper.setGone(R.id.rl_brightness, true)
+                helper.setGone(R.id.btn_add, false)
+            }
 
             val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
             sb_power.isChecked = it.parameters?.on == 1
@@ -66,8 +83,6 @@ class RoomListAdapter(layoutId: Int) : BaseQuickAdapter<RoomAndDevices, BaseView
 
             })
         }
-
-
     }
 
 

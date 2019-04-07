@@ -135,7 +135,7 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
                     it.room?.let {it1->
                         val dialog = DeleteRoomFragment()
                         val bundle = Bundle()
-                         bundle.putInt("zoneId", it1.zoneId)
+                         bundle.putInt("zoneId", it1.id)
                         dialog.arguments = bundle
                         dialog.setDeleteSubZoneListener(this)
                         dialog.show(fragmentManager, "DeleteRoomFragment")
@@ -143,6 +143,13 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
                     }
                 }
                 R.id.tv_sub_zone_name -> {
+                    hideGuideView()
+                    it.room?.let {it1->
+                        mViewModel.setSelectedRoom(it1)
+                        Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
+                    }
+                }
+                R.id.btn_add -> {
                     hideGuideView()
                     it.room?.let {it1->
                         mViewModel.setSelectedRoom(it1)
