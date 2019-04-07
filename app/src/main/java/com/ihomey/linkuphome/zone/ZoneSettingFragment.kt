@@ -136,34 +136,26 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
             deleteZoneFragment.arguments = bundle
             deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
         } else {
-            val zone = adapter.getItem(position)
-            if (zone != null) {
-                viewModel.getDevices(zone.id).observe(this, Observer<Resource<List<SingleDevice>>> {
-                    if (it?.status == Status.SUCCESS && it.data != null) {
-                        if (it.data.isNullOrEmpty()) {
-                            context?.getIMEI()?.let { it1 ->
-                                viewModel.deleteZone(it1, zone.id).observe(viewLifecycleOwner, Observer<Resource<Int>> {
-                                    if (it?.status == Status.SUCCESS) {
-                                        it.data?.let {
-                                            mViewModel.setCurrentZoneId(it)
-                                            bridgeListener.reConnectBridge()
-                                        }
-                                    } else if (it?.status == Status.ERROR) {
-                                        it.message?.let { it2 -> activity?.toast(it2) }
-                                    }
-                                })
+            adapter.getItem(position)?.let {it0->
+                context?.getIMEI()?.let { it1 ->
+                    viewModel.getZone(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
+                        if (it?.status == Status.SUCCESS) {
+                            if(it.data?.devices.isNullOrEmpty()){
+                                deleteZone(it0.id)
+                            }else{
+                                val deleteDevicesFragment = DeleteDevicesFragment()
+                                deleteDevicesFragment.isCancelable = false
+                                deleteDevicesFragment.setConfirmButtonClickListener(this)
+                                val bundle = Bundle()
+                                bundle.putInt("zoneId", it0.id)
+                                deleteDevicesFragment.arguments = bundle
+                                deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
                             }
-                        } else {
-                            val deleteDevicesFragment = DeleteDevicesFragment()
-                            deleteDevicesFragment.isCancelable = false
-                            deleteDevicesFragment.setConfirmButtonClickListener(this)
-                            val bundle = Bundle()
-                            bundle.putInt("zoneId", zone.id)
-                            deleteDevicesFragment.arguments = bundle
-                            deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
+                        } else if (it?.status == Status.ERROR) {
+                            it.message?.let { it2 -> activity?.toast(it2) }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
         menuBridge?.closeMenu()
@@ -183,6 +175,22 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
             })
         }
     }
+
+     fun deleteZone(zoneId: Int) {
+         context?.getIMEI()?.let { it1 ->
+             viewModel.deleteZone(it1, zoneId).observe(viewLifecycleOwner, Observer<Resource<Int>> {
+                 if (it?.status == Status.SUCCESS) {
+                     it.data?.let {
+                         mViewModel.setCurrentZoneId(it)
+                         bridgeListener.reConnectBridge()
+                     }
+                 } else if (it?.status == Status.ERROR) {
+                     it.message?.let { it2 -> activity?.toast(it2) }
+                 }
+             })
+         }
+    }
+
 
 
     override fun updateZoneName(id: Int, newName: String) {

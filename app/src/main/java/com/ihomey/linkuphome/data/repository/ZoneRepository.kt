@@ -118,6 +118,28 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
         }.asLiveData()
     }
 
+    fun getZone(guid:String,zoneId:Int): LiveData<Resource<ZoneDetail>> {
+        return object : NetworkBoundResource<ZoneDetail>(appExecutors) {
+            override fun saveCallResult(item: ZoneDetail?) {
+
+            }
+
+            override fun shouldFetch(data: ZoneDetail?): Boolean {
+                return true
+            }
+
+            override fun loadFromDb(): LiveData<ZoneDetail> {
+                return AbsentLiveData.create()
+            }
+
+            override fun createCall(): LiveData<ApiResult<ZoneDetail>> {
+                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
+                deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
+                return apiService.getZone(deleteZoneVO)
+            }
+        }.asLiveData()
+    }
+
     fun shareZone(guid:String,zoneId:Int): LiveData<Resource<String>> {
         return object : NetworkBoundResource<String>(appExecutors) {
             override fun saveCallResult(item: String?) {

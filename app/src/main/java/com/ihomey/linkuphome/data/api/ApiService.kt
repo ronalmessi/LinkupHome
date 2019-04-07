@@ -40,6 +40,10 @@ interface ApiService {
     @POST("/api/space")
     fun getCurrentZone(@Body baseVO: BaseVO): LiveData<ApiResult<ZoneDetail>>
 
+    //获取当前空间的详细信息
+    @POST("/api/space")
+    fun getZone(@Body deleteVO: DeleteVO): LiveData<ApiResult<ZoneDetail>>
+
     //获取空间列表
     @POST("/api/spaces")
     fun getZones(@Body baseVO: BaseVO): LiveData<ApiResult<List<Zone>>>

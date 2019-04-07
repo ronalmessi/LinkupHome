@@ -40,6 +40,10 @@ class ZoneSettingViewModel : ViewModel() {
         return zoneRepository.switchZone(guid,zoneId)
     }
 
+    fun getZone(guid:String,zoneId:Int): LiveData<Resource<ZoneDetail>> {
+        return zoneRepository.getZone(guid,zoneId)
+    }
+
     fun changeZoneName(guid:String,zoneId:Int,newName:String): LiveData<Resource<Zone>> {
         return zoneRepository.changeZoneName(guid,zoneId,newName)
     }
