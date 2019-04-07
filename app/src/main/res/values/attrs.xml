@@ -161,4 +161,8 @@
       <attr name="mTextColor" format="color" />
    </declare-styleable>
 
+   <declare-styleable name="MaxHeightRecyclerView">
+      <attr name="maxHeight" format="dimension" />
+   </declare-styleable>
+
 </resources>
