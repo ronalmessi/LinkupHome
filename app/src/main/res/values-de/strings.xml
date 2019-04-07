@@ -117,4 +117,7 @@
     <string name="license_agreement">Die Endbenutzer-Lizenzvereinbarung</string>
     <string name="privacy_statement">Die Datenschutzerklärung</string>
     <string name="privacy_start">Anfang</string>
+
+
+    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 </resources>

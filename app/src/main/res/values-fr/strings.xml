@@ -124,4 +124,6 @@
     <string name="license_agreement">Le contrat de licence de l\'utilisateur final</string>
     <string name="privacy_statement">La déclaration de confidentialité</string>
     <string name="privacy_start">Début</string>
+
+    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 </resources>

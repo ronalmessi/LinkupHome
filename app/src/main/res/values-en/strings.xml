@@ -82,8 +82,8 @@
     <string name="device_connect_step2_hint">If the device is not found within 10 seconds, please try to reset the device</string>
 
 
-    <string name="device_reset_hint2">Please use the switch to operate:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n（If no light flash 3 times, please repeat above steps until reset successfully.Turning on and off the light can\'t be too fast, it takes 1-2 seconds. )</string>
-    <string name="device_reset_hint1">This step suitable for there is no new device appear in the "Device connect" page after reset. If the new device auto pops up, please ignore this step.\n\nIf no new device appear in the "Device connect" page, pls left slide to delete the invalid connection, the reset light can be displayed, then click to connection.</string>
+    <string name="device_reset_hint2">f you have connected this device, but now it is lose control, please delete this unworkable device info in the “Device” list.\nf this is your first time to connect this device, please ignore Step 1 and move on Step 2.</string>
+    <string name="device_reset_hint1">Please use the switch to operate:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n*If no light flash 3 times, please repeat above steps until reset successfully.\n*Turning on and off the light can\'t be too fast, it takes 1-2 seconds. </string>
 
     <string name="device_reset_tip">Please try following two shortcuts firstly:</string>
     <string name="device_reset_hint0">Way 1: Turn off bluetooth, then turn on it again. \nWay 2: Exit the app completely from the background system, then restart the app.</string>
@@ -150,7 +150,7 @@
     <string name="choose_device_type_title">Device type</string>
     <string name="search_device_title">Search devices</string>
     <string name="device_connect_step1_title">Are you ready?</string>
-    <string name="device_connect_step1_hint">1.Make sure the device is correctly powered.\n2.If it was not the initial installation, please reset your device.</string>
+    <string name="device_connect_step1_hint">1.Please ensure the device has been properly installed and turned on.\n2.If it was not the initial installation, please reset your device.</string>
     <string name="next_step">Next Step</string>
     <string name="searching">Searching</string>
     <string name="how_to_reset_device">How to reset</string>
@@ -200,6 +200,8 @@
     <string name="zone_join_tip2">Input the invitation code below:</string>
 
     <string name="language_setting_title">Language Settings</string>
+
+    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 
 </resources>
 

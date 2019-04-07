@@ -116,4 +116,7 @@
     <string name="license_agreement">El acuerdo de licencia de usuario final</string>
     <string name="privacy_statement">La declaración de privacidad</string>
     <string name="privacy_start">comienzo</string>
+
+
+    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 </resources>

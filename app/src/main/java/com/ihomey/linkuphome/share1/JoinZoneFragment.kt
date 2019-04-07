@@ -61,6 +61,7 @@ class JoinZoneFragment : BaseFragment() {
             pullShareInfoDialog.show(fragmentManager, "PullShareInfoFragment")
             context?.getIMEI()?.let { it1 ->  mViewModel.joinZone(it1,invitationCode).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                 if (it?.status == Status.SUCCESS) {
+                    activity?.toast("加入成功")
                     viewModel.setCurrentZoneId(it.data?.id)
                     bridgeListener.reConnectBridge()
                     Navigation.findNavController(et_invitation_code).popBackStack()

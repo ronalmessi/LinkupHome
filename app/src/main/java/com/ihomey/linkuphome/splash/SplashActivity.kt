@@ -60,8 +60,6 @@ class SplashActivity : BaseActivity() {
                 if (it?.status == Status.SUCCESS) {
                     scheduleScreen()
                 } else if (it?.status == Status.ERROR) {
-                    Log.d("aa","11111")
-                    it.message?.let { it2 -> toast(it2) }
                     scheduleScreen()
                 }
             })

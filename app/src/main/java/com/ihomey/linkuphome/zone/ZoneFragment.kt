@@ -286,7 +286,7 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
             if (it?.status == Status.SUCCESS) {
 
             }else if (it?.status == Status.ERROR) {
-                it.message?.let { it2 -> activity?.toast(it2) }
+//                it.message?.let { it2 -> activity?.toast(it2) }
             }
         })}
     }

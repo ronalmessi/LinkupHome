@@ -76,14 +76,12 @@
     <string name="device_connect_step2_title">温馨提示</string>
     <string name="device_connect_step2_hint">如果10秒左右搜索不到设备,请确认设备是否被正确重置</string>
 
-    <string name="device_reset_hint2">请用开关操作以下重置步骤：\n1.用开关先将灯关闭\n2.打开灯，1-2秒后关闭灯。\n3.再次打开灯，1-2秒后关闭灯。\n4.第3次打开灯时，看到灯光闪烁3次代表重置成功，灯已恢复到出厂设置状态。\n\n（如没有看到灯光闪烁3次，请按照以上步骤再次重置。开灯和关灯操作不可过快，需间隔1-2秒）</string>
-    <string name="device_reset_hint1">此步骤适用于灯重置后，“设备连接”页面没有跳出可供连接的新设备。如新设备自动跳出，请忽略该步骤。\n\n灯重置后，“设备连接”页面没有跳出可供连接的灯，可能是存在无效的连接项，点击“编辑”删除无效连接后，重置后的灯即可显示，点击连接进行操控。</string>
+    <string name="device_reset_hint2">如果你之前连接过这个设备，现在无法操控，请先在“设备”列表里删除无效的产品连接。\n如果你是第一次连接这个设备，请直接进行步骤二。</string>
+    <string name="device_reset_hint1">请用开关操作以下重置步骤：\n1.用开关先将灯关闭\n2.打开灯，1-2秒后关闭灯。\n3.再次打开灯，1-2秒后关闭灯。\n4.第3次打开灯时，看到灯光闪烁3次代表重置成功，灯已恢复到出厂设置状态。\n\n*如没有看到灯光闪烁3次，请按照以上步骤再次重置。\n*开灯和关灯操作不可过快，需间隔1-2秒）</string>
 
     <string name="device_reset_tip">请先尝试以下两种快捷处理方式 :</string>
     <string name="device_reset_hint0">方式1：先关闭蓝牙，再重新打开蓝牙。\n方式2：从后台彻底关闭LinkupHome APP后，再重新打开APP。</string>
     <string name="device_reset_hint3">若您尝试了以上两种快捷方式尝试后，仍无法搜索到设备，请按照以下步骤重置设备。</string>
-
-
 
 
     <string name="import_error">二维码内容不符</string>
@@ -136,7 +134,7 @@
     <string name="choose_device_type_title">选择类别</string>
     <string name="search_device_title">搜索设备</string>
     <string name="device_connect_step1_title">设备准备好了吗？</string>
-    <string name="device_connect_step1_hint">1.请确保设备电源已正确连接;\n2.如果设备不是第一次使用,请确保设备已经被正确\n重置</string>
+    <string name="device_connect_step1_hint">1.请确保设备已经正确安装并点亮。\n2.如果设备不是第一次使用,请确保设备已经被正确\n重置</string>
     <string name="next_step">下一步</string>
     <string name="searching">正在搜索</string>
     <string name="how_to_reset_device">如何重置</string>
@@ -196,6 +194,8 @@
 
 
     <string name="language_setting_title">设置语言</string>
+
+    <string name="tip_network_error">当前网络不可用，请检查你的网络设置</string>
 
 
 </resources>

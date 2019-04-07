@@ -123,6 +123,9 @@
     <string name="license_agreement">De eindgebruikerslicentieovereenkomst</string>
     <string name="privacy_statement">De privacyverklaring</string>
     <string name="privacy_start">Begin</string>
+
+
+    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 </resources>
 
 
