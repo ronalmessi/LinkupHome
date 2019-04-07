@@ -2,13 +2,16 @@ package com.ihomey.linkuphome.device1
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavHost
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.daimajia.swipe.SwipeLayout
@@ -30,16 +33,15 @@ import kotlinx.android.synthetic.main.devices_fragment.*
 
 open class DeviceFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, DeviceRemoveListener, DeleteDeviceListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener {
 
-
     companion object {
         fun newInstance() = DeviceFragment()
     }
 
-    private lateinit var viewModel: DevicesViewModel
     protected lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: DeviceListAdapter
     private lateinit var meshServiceStateListener: MeshServiceStateListener
     private val deviceRemoveFragment = DeviceRemoveFragment()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.devices_fragment, container, false)
@@ -48,7 +50,6 @@ open class DeviceFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        viewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
@@ -61,6 +62,7 @@ open class DeviceFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         super.onAttach(context)
         meshServiceStateListener = context as MeshServiceStateListener
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,13 +78,15 @@ open class DeviceFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         adapter.setEmptyView(R.layout.view_device_list_empty, rcv_device_list)
         adapter.emptyView?.findViewById<Button>(R.id.btn_add_device)?.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
         iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
+//        val baseNavHostFragment=parentFragment?.parentFragment as DeviceNavHostFragment
+//        baseNavHostFragment.setFragmentVisibleStateListener(this)
     }
 
 
-    override fun deleteDevice(id: Int,instructId:Int) {
+    override fun deleteDevice(id: Int, instructId: Int) {
         deviceRemoveFragment.isCancelable = false
         deviceRemoveFragment.show(fragmentManager, "DeviceRemoveFragment")
-        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id,instructId,this))
+        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, this))
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
@@ -121,7 +125,7 @@ open class DeviceFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         val singleDevice = adapter.getItem(position)
         if (singleDevice != null) {
             mViewModel.setCurrentControlDevice(singleDevice)
-            when (singleDevice.type-1) {
+            when (singleDevice.type - 1) {
                 0 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_c3ControlFragment)
                 1 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_r2ControlFragment)
                 2 -> Navigation.findNavController(view).navigate(R.id.action_tab_devices_to_a2ControlFragment)
@@ -136,38 +140,48 @@ open class DeviceFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
     }
 
     override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
-        if((item.parameters?.on==0)==isChecked){
-            val controller = ControllerFactory().createController(item.type)
-            if (meshServiceStateListener.isMeshServiceConnected()) { controller?.setLightPowerState(item.instructId, if (isChecked) 1 else 0) }
-            changeDeviceState(item,"on",if (isChecked) "1" else "0")
+        parentFragment?.parentFragment?.let {
+            if ((it as DeviceNavHostFragment).getPagePosition() == 0) {
+                val controller = ControllerFactory().createController(item.type)
+                if (meshServiceStateListener.isMeshServiceConnected()) { controller?.setLightPowerState(item.instructId, if (isChecked) 1 else 0) }
+                changeDeviceState(item, "on", if (isChecked) "1" else "0")
+            }
         }
     }
 
     override fun onProgressChanged(item: SingleDevice, progress: Int) {
-        val controller = ControllerFactory().createController(item.type)
-        if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(item.instructId, progress.plus(15))
-        changeDeviceState(item,"brightness", progress.toString())
+        parentFragment?.parentFragment?.let {
+            if ((it as DeviceNavHostFragment).getPagePosition() == 0) {
+                val controller = ControllerFactory().createController(item.type)
+                if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(item.instructId, progress.plus(15))
+                changeDeviceState(item, "brightness", progress.toString())
+            }
+        }
     }
 
 
     override fun onDeviceRemoved(deviceId: Int, deviceInstructId: Int, success: Boolean) {
-        context?.getIMEI()?.let { it1 -> mViewModel.deleteDevice(it1, deviceId).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
-            if (it?.status == Status.SUCCESS) {
-                deviceRemoveFragment.dismiss()
-            }else if (it?.status == Status.ERROR) {
-                deviceRemoveFragment.dismiss()
-                it.message?.let { it2 -> activity?.toast(it2) }
-            }
-        })}
+        context?.getIMEI()?.let { it1 ->
+            mViewModel.deleteDevice(it1, deviceId).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
+                if (it?.status == Status.SUCCESS) {
+                    deviceRemoveFragment.dismiss()
+                } else if (it?.status == Status.ERROR) {
+                    deviceRemoveFragment.dismiss()
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 
-    private fun changeDeviceState(singleDevice: SingleDevice,key:String,value:String){
-        context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,singleDevice.id,key,value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
-            if (it?.status == Status.SUCCESS) {
+    private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {
+        context?.getIMEI()?.let { it1 ->
+            mViewModel.changeDeviceState(it1, singleDevice.id, key, value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+                if (it?.status == Status.SUCCESS) {
 
-            }else if (it?.status == Status.ERROR) {
-                it.message?.let { it2 -> activity?.toast(it2) }
-            }
-        })}
+                } else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 }

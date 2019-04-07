@@ -27,7 +27,7 @@ class HomeActivityViewModel : ViewModel() {
     val mCurrentZone: LiveData<Resource<Zone>>
 
     val devicesResult: LiveData<Resource<List<SingleDevice>>>
-    val roomsResult: LiveData<Resource<List<Room>>>
+    val roomsResult: LiveData<Resource<List<RoomAndDevices>>>
 
     init {
         DaggerAppComponent.builder().build().inject(this)

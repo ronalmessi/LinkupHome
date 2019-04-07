@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/unBondedDevicesFragment"
-        android:name="com.ihomey.linkuphome.room.UnBindedDevicesFragment"
+        android:name="com.ihomey.linkuphome.room.UnBondDevicesFragment"
         android:label="unbonded_devices_fragment"
         tools:layout="@layout/unbonded_devices_fragment" >
     </fragment>

@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.room
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +21,8 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BindedDeviceListAdapter
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.entity.SingleDeviceModel
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
@@ -43,7 +42,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
 import kotlinx.android.synthetic.main.sub_zone_fragment.*
 
 
-class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemClickListener, GroupUpdateListener, UpdateDeviceNameListener {
+class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemClickListener, UpdateDeviceNameListener {
 
 
     companion object {
@@ -52,11 +51,10 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
 
     var hasShowRenameRoomGuide by PreferenceHelper("hasShowRenameRoomGuide", false)
 
-    private lateinit var mViewModel: RoomViewModel
+
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var adapter: BindedDeviceListAdapter
     private lateinit var listener: MeshServiceStateListener
-    private lateinit var bindDeviceListener: UnBindedDevicesFragment.BindDeviceListener
 
     private lateinit var room: Room
 
@@ -68,10 +66,9 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(parentFragment!!).get(RoomViewModel::class.java)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.mSelectedRoom.observe(this, Observer<Room> {
-            tv_title.text = it.name
+            tv_title.text = it?.name
             room = it
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
@@ -85,7 +82,6 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as MeshServiceStateListener
-        bindDeviceListener = context as UnBindedDevicesFragment.BindDeviceListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -140,7 +136,7 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
             mDialog.arguments = bundle
             mDialog.isCancelable = false
             mDialog.show(fragmentManager, "GroupUpdateFragment")
-            bindDeviceListener.bindDevice(singleDevice.instructId, room.instructId, "remove", this)
+            bindDevice(room.zoneId, room.instructId, singleDevice.instructId, "remove")
 
         }
         menuBridge?.closeMenu()
@@ -156,9 +152,6 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
         changeDeviceState(item, "on", if (isChecked) "1" else "0")
     }
 
-    override fun groupsUpdated(deviceId: Int, groupId: Int, action: String, success: Boolean, msg: String?) {
-        if (success) bindDevice(room.zoneId, groupId, deviceId, action) else msg?.let { activity?.toast(it) }
-    }
 
     private fun showGuideView(view: View) {
         val builder = GuideBuilder()

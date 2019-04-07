@@ -19,11 +19,6 @@ class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, 
     private val selectedDevices = mutableListOf<SingleDevice>()
 
 
-    fun setSelectedDevices(mSelectedDevices: List<SingleDevice>?) {
-        selectedDevices.clear()
-        mSelectedDevices?.let { selectedDevices.addAll(mSelectedDevices) }
-    }
-
     fun getSelectedDevices():List<SingleDevice> {
         return selectedDevices
     }

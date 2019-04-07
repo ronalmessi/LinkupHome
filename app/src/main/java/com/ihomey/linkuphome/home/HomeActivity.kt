@@ -27,19 +27,17 @@ import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
-import com.ihomey.linkuphome.device1.DeviceFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
-import com.ihomey.linkuphome.listener.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
-import com.ihomey.linkuphome.room.UnBindedDevicesFragment
+import com.ihomey.linkuphome.room.UnBondDevicesFragment
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, UnBindedDevicesFragment.BindDeviceListener {
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener {
 
 
     private val REMOVE_ACK_WAIT_TIME_MS =4 * 1000L
@@ -53,12 +51,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val addressToNameMap = ArrayMap<String, String>()
 
     private var meshAssListener: DeviceAssociateListener? = null
-
     private var mRemoveDeviceVo: RemoveDeviceVo? = null
-
-    private var mGroupUpdateListener: GroupUpdateListener? = null
-    private var mBindGroupInstructId: Int = 0
-    private var mBindAction: String="add"
     private var mBatteryListener: BatteryValueListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -223,23 +216,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                         }
                     }
                 }
-                MeshService.MESSAGE_GROUP_NUM_GROUPIDS -> {
-                    if (parentActivity?.mGroupUpdateListener != null) {
-                        val numIds = msg.data.getByte(MeshService.EXTRA_NUM_GROUP_IDS).toInt()
-                        val modelNo = msg.data.getByte(MeshService.EXTRA_MODEL_NO).toInt()
-                        val deviceId = msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
-                        Log.d("aa","MESSAGE_GROUP_NUM_GROUPIDS--"+numIds+"--"+modelNo+"---"+deviceId)
-                        parentActivity.assignGroups(deviceId, numIds)
-                    }
-                }
-                MeshService.MESSAGE_GROUP_MODEL_GROUPID -> {
-                    if (parentActivity?.mGroupUpdateListener != null) {
-                        val index = msg.data.getByte(MeshService.EXTRA_GROUP_INDEX).toInt()
-                        val groupId = msg.data.getInt(MeshService.EXTRA_GROUP_ID)
-                        val deviceId = msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
-                        parentActivity.mGroupUpdateListener?.groupsUpdated(deviceId, parentActivity.mBindGroupInstructId, if(groupId==0) "remove" else "and", true, null)
-                    }
-                }
                 MeshService.MESSAGE_TIMEOUT -> {
                     val expectedMsg = msg.data.getInt(MeshService.EXTRA_EXPECTED_MESSAGE)
                     val id = if (msg.data.containsKey(MeshService.EXTRA_UUIDHASH_31)) {
@@ -269,16 +245,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     private fun onMessageTimeout(expectedMessage: Int, id: Int, meshRequestId: Int) {
         when (expectedMessage) {
-            MeshService.MESSAGE_GROUP_NUM_GROUPIDS -> {
-                if (mGroupUpdateListener != null) {
-                    mGroupUpdateListener?.groupsUpdated(id, -1, "", false, null)
-                }
-            }
-            MeshService.MESSAGE_GROUP_MODEL_GROUPID -> {
-                if (mGroupUpdateListener != null) {
-                    mGroupUpdateListener?.groupsUpdated(id, -1, "", false, null)
-                }
-            }
             MeshService.MESSAGE_DEVICE_ASSOCIATED, MeshService.MESSAGE_CONFIG_MODELS -> {
                 if (meshAssListener != null) {
                     meshAssListener?.deviceAssociated(-1, getString(R.string.device_associate_fail))
@@ -332,20 +298,4 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    override fun bindDevice(deviceInstructId: Int, groupInstructId: Int,action: String,groupUpdateListener: GroupUpdateListener?) {
-        this.mGroupUpdateListener = groupUpdateListener
-        if (deviceInstructId != -1) {
-            mBindGroupInstructId = groupInstructId
-            mBindAction=action
-            GroupModelApi.getNumModelGroupIds(deviceInstructId, DataModelApi.MODEL_NUMBER)
-        }
-    }
-
-    private fun assignGroups(deviceInstructId: Int, maxNum: Int) {
-        if(TextUtils.equals("and",mBindAction)){
-            GroupModelApi.setModelGroupId(deviceInstructId, DataModelApi.MODEL_NUMBER, 0, 0, mBindGroupInstructId)
-        }else{
-            GroupModelApi.setModelGroupId(deviceInstructId, DataModelApi.MODEL_NUMBER, 0, 0, 0)
-        }
-    }
 }

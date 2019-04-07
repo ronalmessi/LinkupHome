@@ -42,4 +42,7 @@ class HomeFragment : BaseFragment() {
         bottom_nav_view.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
+    fun getPagePosition():Int{
+        return viewPager.currentItem
+    }
 }

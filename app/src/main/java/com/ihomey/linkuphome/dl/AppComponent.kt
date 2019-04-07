@@ -5,7 +5,7 @@ import com.ihomey.linkuphome.device1.DevicesViewModel
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.inform.InformViewModel
 import com.ihomey.linkuphome.room.RoomViewModel
-import com.ihomey.linkuphome.room.UnBindedDevicesViewModel
+import com.ihomey.linkuphome.room.UnBondDevicesViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
 import com.ihomey.linkuphome.share1.JoinZoneViewModel
 import com.ihomey.linkuphome.share1.ShareZoneListViewModel
@@ -44,7 +44,7 @@ interface AppComponent {
 
     fun inject(devicesViewModel: DevicesViewModel)
 
-    fun inject(unBondedDevicesViewModel: UnBindedDevicesViewModel)
+    fun inject(unBondedDevicesViewModel: UnBondDevicesViewModel)
 
     fun inject(roomViewModel: RoomViewModel)
 

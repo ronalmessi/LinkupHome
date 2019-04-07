@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.SingleDevice
-import com.ihomey.linkuphome.data.entity.SingleDeviceModel
 
 
 /**

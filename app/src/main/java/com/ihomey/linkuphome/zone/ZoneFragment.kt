@@ -25,6 +25,7 @@ import com.ihomey.linkuphome.adapter.RoomListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
@@ -54,7 +55,6 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
 
     var hasShowBindDeviceGuide by PreferenceHelper("hasShowBindDeviceGuide", false)
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.zone_fragment, container, false)
     }
@@ -72,7 +72,7 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
                 tv_title.text = it.data?.name
             }
         })
-        mViewModel.roomsResult.observe(this, Observer<Resource<List<Room>>> {
+        mViewModel.roomsResult.observe(this, Observer<Resource<List<RoomAndDevices>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
                 if (it.data != null && !it.data.isEmpty()) iv_add.visibility = View.VISIBLE else iv_add.visibility = View.INVISIBLE
@@ -126,47 +126,61 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
                 it.message?.let { it2 -> activity?.toast(it2) }
             }
         })}
-
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        val room = adapter.getItem(position)
-        if (room != null) {
+        adapter.getItem(position)?.let {
             when (view.id) {
                 R.id.btn_delete -> {
-                    val dialog = DeleteRoomFragment()
-                    val bundle = Bundle()
-                    room.id.let { bundle.putInt("zoneId", it) }
-                    dialog.arguments = bundle
-                    dialog.setDeleteSubZoneListener(this)
-                    dialog.show(fragmentManager, "DeleteRoomFragment")
-                    (view.parent as SwipeLayout).close(true)
+                    it.room?.let {it1->
+                        val dialog = DeleteRoomFragment()
+                        val bundle = Bundle()
+                         bundle.putInt("zoneId", it1.zoneId)
+                        dialog.arguments = bundle
+                        dialog.setDeleteSubZoneListener(this)
+                        dialog.show(fragmentManager, "DeleteRoomFragment")
+                        (view.parent as SwipeLayout).close(true)
+                    }
                 }
                 R.id.tv_sub_zone_name -> {
                     hideGuideView()
-                    mViewModel.setSelectedRoom(room)
-                    Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
+                    it.room?.let {it1->
+                        mViewModel.setSelectedRoom(it1)
+                        Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
+                    }
                 }
-                R.id.iv_color_cycling -> {
-                    val dialog = ColorCyclingSettingFragment()
-                    val bundle = Bundle()
-                    room.instructId.let { bundle.putInt("zoneId", it) }
-                    room.deviceTypes.let { bundle.putInt("type", it.toInt()) }
-                    dialog.arguments = bundle
-                    dialog.show(fragmentManager, "ColorCyclingSettingFragment")
-                }
+//                R.id.iv_color_cycling -> {
+//                    it.room?.let {it1->
+//                        val dialog = ColorCyclingSettingFragment()
+//                        val bundle = Bundle()
+//                        room.instructId.let { bundle.putInt("zoneId", it) }
+//                        room.deviceTypes.let { bundle.putInt("type", it.toInt()) }
+//                        dialog.arguments = bundle
+//                        dialog.show(fragmentManager, "ColorCyclingSettingFragment")
+//                    }
+//
+//                }
                 R.id.iv_lighting -> {
-                    if (!TextUtils.isEmpty(room.deviceTypes)) {
-                        val deviceTypes = room.deviceTypes.split(",")
-                        if (!deviceTypes.isNullOrEmpty()) {
-                            for (deviceType in deviceTypes) {
-                                val controller = ControllerFactory().createController(deviceType.toInt())
-                                if (meshServiceStateListener.isMeshServiceConnected()) room.instructId.let {
-                                    Handler().postDelayed({ controller?.setLightingMode(it) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
-                                }
-                            }
+//                    if (!TextUtils.isEmpty(room.deviceTypes)) {
+//                        val deviceTypes = room.deviceTypes.split(",")
+//                        if (!deviceTypes.isNullOrEmpty()) {
+//                            for (deviceType in deviceTypes) {
+//                                val controller = ControllerFactory().createController(deviceType.toInt())
+//                                if (meshServiceStateListener.isMeshServiceConnected()) room.instructId.let {
+//                                    Handler().postDelayed({ controller?.setLightingMode(it) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
+//                                }
+//                            }
+//                        }
+//                    }
+                    for(device in it.devices){
+                        val controller = ControllerFactory().createController(device.type)
+                        if (meshServiceStateListener.isMeshServiceConnected()){
+                            Handler().postDelayed({ controller?.setLightingMode(device.instructId)},500)
                         }
                     }
+                }
+                else -> {
+
                 }
             }
         }
@@ -174,40 +188,35 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
        hideGuideView()
-        val room = adapter.getItem(position)
-        if (room != null) {
-            mViewModel.setSelectedRoom(room)
+        adapter.getItem(position)?.room?.let {
+            mViewModel.setSelectedRoom(it)
             Navigation.findNavController(view).navigate(R.id.action_tab_zones_to_subZoneFragment)
         }
     }
 
-    override fun onProgressChanged(item: Room, progress: Int) {
-        if (!TextUtils.isEmpty(item.deviceTypes)) {
-            val deviceTypes = item.deviceTypes.split(",")
-            if (!deviceTypes.isNullOrEmpty()) {
-                for (deviceType in deviceTypes) {
-                    val controller = ControllerFactory().createController(deviceType.toInt())
-                    if (meshServiceStateListener.isMeshServiceConnected()) item.instructId.let {
-                        Handler().postDelayed({ controller?.setLightBright(it, progress.plus(15)) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
-                    }
+    override fun onProgressChanged(item: RoomAndDevices, progress: Int) {
+        if(isFragmentVisible){
+            for(index in item.devices.indices){
+                val device=item.devices[index]
+                val controller = ControllerFactory().createController(device.type)
+                if (meshServiceStateListener.isMeshServiceConnected()){
+                    Handler().postDelayed({ controller?.setLightBright(device.instructId,progress.plus(15))},100L *index)
                 }
-                changeRoomState(item,"brightness", progress.toString())
             }
+            item.room?.let { changeRoomState(it,"brightness", progress.toString())}
         }
     }
 
-    override fun onCheckedChanged(item: Room, isChecked: Boolean) {
-        if (!TextUtils.isEmpty(item.deviceTypes)) {
-            val deviceTypes = item.deviceTypes.split(",")
-            if (!deviceTypes.isNullOrEmpty()) {
-                for (deviceType in deviceTypes) {
-                    val controller = ControllerFactory().createController(deviceType.toInt())
-                    if (meshServiceStateListener.isMeshServiceConnected()) item.instructId.let {
-                        Handler().postDelayed({ controller?.setLightPowerState(it, if (isChecked) 1 else 0) }, (100 * deviceTypes.indexOf(deviceType)).toLong())
-                    }
+    override fun onCheckedChanged(item: RoomAndDevices, isChecked: Boolean) {
+        if(isFragmentVisible){
+            for(index in item.devices.indices){
+                val device=item.devices[index]
+                val controller = ControllerFactory().createController(device.type)
+                if (meshServiceStateListener.isMeshServiceConnected()){
+                    Handler().postDelayed({ controller?.setLightPowerState(device.instructId,if (isChecked) 1 else 0)},100L *index)
                 }
-                changeRoomState(item,"on",if (isChecked) "1" else "0")
             }
+            item.room?.let { changeRoomState(it,"on",if (isChecked) "1" else "0") }
         }
     }
 

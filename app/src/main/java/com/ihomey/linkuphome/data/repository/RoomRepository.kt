@@ -151,9 +151,9 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
         }.asLiveData()
     }
 
-    fun getRooms(zoneId: Int): LiveData<Resource<List<Room>>> {
-        return object : DbBoundResource<List<Room>>(appExecutors) {
-            override fun loadFromDb(): LiveData<List<Room>> {
+    fun getRooms(zoneId: Int): LiveData<Resource<List<RoomAndDevices>>> {
+        return object : DbBoundResource<List<RoomAndDevices>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<RoomAndDevices>> {
                 return roomDao.getRooms(zoneId)
             }
         }.asLiveData()

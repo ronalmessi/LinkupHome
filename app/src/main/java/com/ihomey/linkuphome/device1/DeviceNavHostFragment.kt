@@ -30,4 +30,8 @@ class DeviceNavHostFragment : BaseFragment(),FragmentBackHandler {
     override fun onBackPressed(): Boolean {
         return handleBackPress(childFragmentManager.fragments[0])
     }
+
+    fun getPagePosition():Int{
+        return (parentFragment as HomeFragment).getPagePosition()
+    }
 }
