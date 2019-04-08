@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -61,7 +62,7 @@ class JoinZoneFragment : BaseFragment() {
             pullShareInfoDialog.show(fragmentManager, "PullShareInfoFragment")
             context?.getIMEI()?.let { it1 ->  mViewModel.joinZone(it1,invitationCode).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                 if (it?.status == Status.SUCCESS) {
-                    activity?.toast("加入成功")
+                    activity?.toast("加入成功", Toast.LENGTH_SHORT)
                     viewModel.setCurrentZoneId(it.data?.id)
                     bridgeListener.reConnectBridge()
                     Navigation.findNavController(et_invitation_code).popBackStack()
@@ -72,7 +73,7 @@ class JoinZoneFragment : BaseFragment() {
                 }
             })}
         }else{
-            activity?.toast("请输入邀请码")
+            activity?.toast("请输入邀请码",Toast.LENGTH_SHORT)
         }
     }
 }
