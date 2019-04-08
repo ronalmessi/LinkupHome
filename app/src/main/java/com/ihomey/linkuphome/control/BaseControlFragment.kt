@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.control
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
@@ -24,18 +25,20 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.FragmentBackHandler
 
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
+import kotlinx.android.synthetic.main.zone_fragment.*
 
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener {
+abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener {
 
 
     private var controller: Controller? = null
@@ -79,6 +82,15 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
     fun initController(type: Int) {
         this.type = type
         controller = ControllerFactory().createController(type+1)
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (guide != null && guide?.isVisible!!) {
+            hideGuideView()
+            true
+        }else{
+            false
+        }
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -159,9 +171,7 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                     }
                 }
                 R.id.tv_title -> {
-                    if (guide != null && guide?.isVisible!!) {
-                        guide?.dismiss()
-                    }
+                    hideGuideView()
                     val dialog = ReNameDeviceFragment()
                     val bundle = Bundle()
                     bundle.putInt("deviceId", mControlDevice.id)
@@ -183,8 +193,10 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
                 .setHighTargetPaddingRight(context?.resources?.getDimension(R.dimen._27sdp)?.toInt()!!)
                 .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(view)+context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
+                .setAutoDismiss(false)
                 .setOverlayTarget(false)
-                .setOutsideTouchable(true)
+                .setOutsideTouchable(false)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
             override fun onShown() {
                 hasShowRenameDeviceGuide = true
@@ -217,6 +229,18 @@ abstract class BaseControlFragment : BaseFragment(), SeekBar.OnSeekBarChangeList
         guide = builder.createGuide()
         guide?.setShouldCheckLocInWindow(true)
         guide?.show(activity)
+    }
+
+    private fun getMarginTop(view: View): Int {
+        val loc = IntArray(2)
+        view.getLocationOnScreen(loc)
+        return loc[1]
+    }
+
+    private fun hideGuideView() {
+        if (guide != null && guide?.isVisible!!) {
+            guide?.dismiss()
+        }
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice,key:String,value:String){

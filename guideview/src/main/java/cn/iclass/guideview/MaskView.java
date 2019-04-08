@@ -236,10 +236,9 @@ class MaskView extends ViewGroup {
       mTargetRect.bottom += mPaddingBottom;
     }
 
-    Log.d("aa",mTargetRect.top+"-bbbbbb----"+mTargetRect.bottom);
+
     mTargetRect.top=mTargetRect.top+mMarginTop;
     mTargetRect.bottom += mMarginTop;
-    Log.d("aa",mTargetRect.top+"-cccccc----"+mTargetRect.bottom);
   }
 
   @Override protected LayoutParams generateDefaultLayoutParams() {
@@ -282,14 +281,16 @@ class MaskView extends ViewGroup {
 
   public void setTargetRect(Rect rect) {
     mTargetRect.set(rect);
-    Log.d("aa","2222");
     resetOutPath();
     invalidate();
   }
 
+  public RectF getTargetRect() {
+    return mTargetRect;
+  }
+
   public void setFullingRect(Rect rect) {
     mFullingRect.set(rect);
-    Log.d("aa","3333");
     resetOutPath();
     mCustomFullingRect = true;
     invalidate();

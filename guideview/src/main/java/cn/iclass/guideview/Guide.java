@@ -1,9 +1,11 @@
 package cn.iclass.guideview;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,7 +18,7 @@ import android.view.animation.AnimationUtils;
  *
  * Created by binIoter
  */
-public class Guide implements View.OnKeyListener, View.OnClickListener {
+public class Guide implements View.OnKeyListener,View.OnTouchListener {
   /**
    * Cannot initialize out of package <font
    * color=red>包内才可见，外部使用时必须调用GuideBuilder来创建.</font>
@@ -145,6 +147,7 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
     mShouldCheckLocInWindow = set;
   }
 
+  @SuppressLint("ClickableViewAccessibility")
   private MaskView onCreateView(Activity activity) {
     ViewGroup content = (ViewGroup) activity.findViewById(android.R.id.content);
     // ViewGroup content = (ViewGroup) activity.getWindow().getDecorView();
@@ -193,14 +196,9 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
         e.printStackTrace();
       }
     }
-    // if (content != null) {
-    // int[] loc = new int[2];
-    // content.getLocationInWindow(loc);
-    // parentX = loc[0];
-    // parentY = loc[1];
-    // }
 
     if (mConfiguration.mTargetView != null) {
+
       maskView.setTargetRect(Common.getViewAbsRect(mConfiguration.mTargetView, parentX, parentY));
     } else {
       // Gets the target view's abs rect
@@ -222,7 +220,7 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
     if (mConfiguration.mOutsideTouchable) {
       maskView.setClickable(false);
     } else {
-      maskView.setOnClickListener(this);
+      maskView.setOnTouchListener(this);
     }
 
     // Adds the components to the mask view.
@@ -253,9 +251,10 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
     return false;
   }
 
-  @Override public void onClick(View v) {
-    if (mConfiguration != null && mConfiguration.mAutoDismiss) {
-      dismiss();
-    }
+  @Override
+  public boolean onTouch(View v, MotionEvent event) {
+    v.performClick();
+    return !mMaskView.getTargetRect().contains(event.getX(), event.getY());
   }
+
 }

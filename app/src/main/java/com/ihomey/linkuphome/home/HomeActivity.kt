@@ -67,7 +67,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
-                Log.d("aa", "gggg")
                 it.data?.nextDeviceIndex?.let { it1 -> mService?.setNextDeviceId(it1) }
                 it.data?.netWorkKey?.let { it1 -> mService?.setNetworkPassPhrase(it1) }
             }
@@ -188,6 +187,16 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                         }
                     }
                 }
+                MeshService.MESSAGE_LE_DISCONNECTED -> {
+                    val numConnections = msg.data.getInt(MeshService.EXTRA_NUM_CONNECTIONS)
+                    val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
+                    Log.d("aa","---"+numConnections+"---"+address)
+                    if(numConnections==0){
+                        parentActivity?.runOnUiThread {
+                            parentActivity.onDisConnected("")
+                        }
+                    }
+                }
                 MeshService.MESSAGE_DEVICE_APPEARANCE -> {
                     val appearance = msg.data.getByteArray(MeshService.EXTRA_APPEARANCE)
                     val shortName = msg.data.getString(MeshService.EXTRA_SHORTNAME)
@@ -267,6 +276,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private fun onDisConnected(name: String) {
+        mConnected=false
         mViewModel.setBridgeState(mConnected)
     }
 

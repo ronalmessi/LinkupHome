@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.iclass.guideview.Component
+import cn.iclass.guideview.Guide
 import cn.iclass.guideview.GuideBuilder
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.PreferenceHelper
@@ -29,6 +30,7 @@ import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.group.GroupUpdateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
@@ -42,7 +44,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
 import kotlinx.android.synthetic.main.sub_zone_fragment.*
 
 
-class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemClickListener, UpdateDeviceNameListener {
+class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnCheckedChangeListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemClickListener, UpdateDeviceNameListener {
 
 
     companion object {
@@ -57,6 +59,8 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
     private lateinit var listener: MeshServiceStateListener
 
     private var room: Room?=null
+
+    private var guide: Guide? = null
 
     private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
@@ -115,6 +119,9 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         tv_title.setOnClickListener {
             room?.let {
+                if (guide != null && guide?.isVisible!!) {
+                    guide?.dismiss()
+                }
                 val dialog = ReNameDeviceFragment()
                 val bundle = Bundle()
                 bundle.putInt("deviceId", it.id)
@@ -165,6 +172,8 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
                 .setHighTargetPaddingRight(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
                 .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(view)+context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
+                .setAutoDismiss(false)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
@@ -195,9 +204,21 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
                 return context?.resources?.getDimension(R.dimen._8sdp)?.toInt()!!
             }
         })
-        val guide = builder.createGuide()
+        guide = builder.createGuide()
         guide?.setShouldCheckLocInWindow(true)
         guide?.show(activity)
+    }
+
+    private fun getMarginTop(view: View): Int {
+        val loc = IntArray(2)
+        view.getLocationOnScreen(loc)
+        return loc[1]
+    }
+
+    private fun hideGuideView() {
+        if (guide != null && guide?.isVisible!!) {
+            guide?.dismiss()
+        }
     }
 
     private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructId: Int, act: String) {
@@ -222,6 +243,15 @@ class RoomFragment : Fragment(), BindedDeviceListAdapter.OnCheckedChangeListener
 //                    it.message?.let { it2 -> activity?.toast(it2) }
                 }
             })
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (guide != null && guide?.isVisible!!) {
+            hideGuideView()
+            true
+        }else{
+            false
         }
     }
 

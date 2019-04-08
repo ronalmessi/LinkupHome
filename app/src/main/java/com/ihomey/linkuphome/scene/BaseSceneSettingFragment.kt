@@ -43,15 +43,12 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
         var sceneModeValue = -1
         when (checkedId) {
-            R.id.rb_scene_read_rgb, R.id.rb_scene_spring_n1-> sceneModeValue = 0
-            R.id.rb_scene_sunset_rgb, R.id.rb_scene_rainforest_n1,R.id.rb_scene_flow-> sceneModeValue = 1
-            R.id.rb_scene_rest_rgb, R.id.rb_scene_sunset_n1,R.id.rb_scene_seek -> sceneModeValue = 2
+            R.id.rb_scene_read_rgb, R.id.rb_scene_spring_n1,R.id.rb_scene_flow-> sceneModeValue = 0
+            R.id.rb_scene_sunset_rgb, R.id.rb_scene_rainforest_n1,R.id.rb_scene_star-> sceneModeValue = 1
+            R.id.rb_scene_rest_rgb, R.id.rb_scene_sunset_n1,R.id.rb_scene_rainbow -> sceneModeValue = 2
             R.id.rb_scene_spring_rgb, R.id.rb_scene_lighting_n1,R.id.rb_scene_surf-> sceneModeValue = 3
-            R.id.rb_scene_rainforest_rgb,R.id.rb_scene_rainbow -> sceneModeValue = 4
-            R.id.rb_scene_star->sceneModeValue = 5
+            R.id.rb_scene_rainforest_rgb,R.id.rb_scene_seek -> sceneModeValue = 4
         }
         if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
-//        mControlDevice.state.sceneMode = sceneModeValue
-//        viewModel.updateDevice(mControlDevice)
     }
 }

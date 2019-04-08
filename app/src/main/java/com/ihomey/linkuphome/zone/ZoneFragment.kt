@@ -34,6 +34,7 @@ import com.ihomey.linkuphome.device1.ColorCyclingSettingFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeleteSubZoneListener
+import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.room.DeleteRoomFragment
@@ -41,7 +42,7 @@ import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.zone_fragment.*
 
-class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, DeleteSubZoneListener, BaseQuickAdapter.OnItemClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener, FragmentVisibleStateListener {
+class ZoneFragment : BaseFragment(),FragmentBackHandler, BaseQuickAdapter.OnItemChildClickListener, DeleteSubZoneListener, BaseQuickAdapter.OnItemClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener, FragmentVisibleStateListener {
 
     companion object {
         fun newInstance() = ZoneFragment()
@@ -105,7 +106,7 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
     override fun onFragmentVisibleStateChanged(isVisible: Boolean) {
         isFragmentVisible = isVisible
         if (!hasShowBindDeviceGuide && isVisible && adapter.emptyViewCount == 0 && adapter.itemCount > 0) {
-            rcv_zone_list.post { rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) } }
+            rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) } }
         }
     }
 
@@ -207,19 +208,28 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
         }
     }
 
+    override fun onBackPressed(): Boolean {
+        return if (guide != null && guide?.isVisible!!) {
+            hideGuideView()
+            true
+        }else{
+            false
+        }
+    }
+
     private fun showGuideView(view: View) {
         val builder = GuideBuilder()
         builder.setTargetView(view)
                 .setAlpha(200)
                 .setHighTargetCorner(context?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
-                .setHighTargetMarginTop(getMarginTop(rcv_zone_list) + context?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(rcv_zone_list)+context?.resources?.getDimension(R.dimen._12sdp)?.toInt()!!)
+                .setAutoDismiss(false)
                 .setOverlayTarget(false)
-                .setOutsideTouchable(true)
+                .setOutsideTouchable(false)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
             override fun onShown() {
                 hasShowBindDeviceGuide = true
             }
-
             override fun onDismiss() {}
         })
         builder.addComponent(object : Component {
@@ -244,9 +254,11 @@ class ZoneFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, 
             }
 
         })
-        guide = builder.createGuide()
-        guide?.setShouldCheckLocInWindow(true)
-        guide?.show(context as Activity)
+        if(guide==null){
+            guide = builder.createGuide()
+            guide?.setShouldCheckLocInWindow(true)
+        }
+        if(!guide?.isVisible!!) guide?.show(context as Activity)
     }
 
     private fun getMarginTop(view: View): Int {
