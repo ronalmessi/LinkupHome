@@ -177,12 +177,14 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 }
                 MeshService.MESSAGE_LE_CONNECTED -> {
                     val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
-                    if (parentActivity != null) {
-                        parentActivity.mConnectedDevices.add(address)
-                        val name = parentActivity.addressToNameMap[address]
-                        if (!parentActivity.mConnected && name != null && !TextUtils.isEmpty(name)) {
-                            parentActivity.runOnUiThread {
-                                parentActivity.onConnected(name)
+                    address?.let {
+                        if (parentActivity != null) {
+                            parentActivity.mConnectedDevices.add(it)
+                            val name = parentActivity.addressToNameMap[it]
+                            if (!parentActivity.mConnected && name != null && !TextUtils.isEmpty(name)) {
+                                parentActivity.runOnUiThread {
+                                    parentActivity.onConnected(name)
+                                }
                             }
                         }
                     }
@@ -190,10 +192,17 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 MeshService.MESSAGE_LE_DISCONNECTED -> {
                     val numConnections = msg.data.getInt(MeshService.EXTRA_NUM_CONNECTIONS)
                     val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
-                    Log.d("aa","---"+numConnections+"---"+address)
                     if(numConnections==0){
-                        parentActivity?.runOnUiThread {
-                            parentActivity.onDisConnected("")
+                        address?.let {
+                            if (parentActivity != null) {
+                                parentActivity.mConnectedDevices.remove(it)
+                                val name = parentActivity.addressToNameMap[it]
+                                if (parentActivity.mConnected && name != null && !TextUtils.isEmpty(name)) {
+                                    parentActivity.runOnUiThread {
+                                        parentActivity.onDisConnected(name)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -278,8 +287,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private fun onDisConnected(name: String) {
         mConnected=false
         mViewModel.setBridgeState(mConnected)
+        val textView = TextView(this)
+        textView.width = getScreenW()
+        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
+        textView.gravity = Gravity.CENTER
+        textView.setTextColor(resources.getColor(android.R.color.white))
+        textView.setBackgroundResource(R.color.colorPrimaryDark)
+        textView.text = '"' + name + '"' + " " + getString(R.string.bridge_disconnected)
+        Crouton.make(this, textView).show()
     }
-
 
     override fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?) {
         meshAssListener = if (enabled && listener != null) listener else null

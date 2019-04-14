@@ -113,10 +113,10 @@ class ZoneFragment : BaseFragment(),FragmentBackHandler, BaseQuickAdapter.OnItem
     override fun onResume() {
         super.onResume()
         rcv_zone_list.postDelayed({
-            if (!hasShowBindDeviceGuide && isFragmentVisible && adapter.emptyViewCount == 0 && adapter.itemCount > 0) {
+            if (!hasShowBindDeviceGuide&&isFragmentVisible && adapter.emptyViewCount == 0 && adapter.itemCount > 0) {
                 rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) }
             }
-        }, 350)
+        }, 250)
     }
 
     override fun deleteSubZone(id: Int) {
