@@ -57,6 +57,9 @@ class DeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseView
             layoutParams.marginStart = mContext.resources.getDimension(R.dimen._8sdp).toInt()
             layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
             cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
+        }else if (type == 8) {
+            layoutParams.marginEnd = mContext.resources.getDimension(R.dimen._12sdp).toInt()
+            cl_devices_item.setPadding(0, mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt())
         }
         tv_device_name.layoutParams = layoutParams
 

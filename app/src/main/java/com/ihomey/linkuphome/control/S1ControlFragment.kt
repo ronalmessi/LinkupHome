@@ -32,6 +32,7 @@ class S1ControlFragment : BaseControlFragment(), View.OnClickListener {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.r2_control_fragment, container, false)
         initController(6)
         mViewDataBinding.handlers = ToolBarEventHandler()
+        mViewDataBinding.deviceSeekBarBrightness.max=85
         mViewDataBinding.root.setOnClickListener {
             mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()

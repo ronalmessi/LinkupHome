@@ -255,6 +255,8 @@
             android:id="@+id/action_r2ControlFragment_to_r2SceneSettingFragment2"
             app:destination="@id/r2SceneSettingFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_r2ControlFragment_to_timerSettingFragment2"
             app:destination="@id/timerSettingFragment" />
     </fragment>

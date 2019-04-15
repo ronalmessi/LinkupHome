@@ -76,7 +76,13 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
+        if(type!=8){
+            parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
+        } else{
+            if(parentFragment?.parentFragment is DeviceNavHostFragment){
+                parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
+            }
+        }
     }
 
     fun initController(type: Int) {
@@ -118,7 +124,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, seekBar.progress.plus(15))
+        if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if(type==5||type==9) seekBar.progress.plus(5) else seekBar.progress.plus(15))
         changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
     }
 

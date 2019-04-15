@@ -39,6 +39,7 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
             mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
         }
+        mViewDataBinding.deviceSeekBarBrightness.max=85
         return mViewDataBinding.root
     }
 

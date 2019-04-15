@@ -19,7 +19,6 @@ class HomeActivityViewModel : ViewModel() {
     @Inject
     lateinit var mDeviceRepository: DeviceRepository
 
-
     @Inject
     lateinit var roomRepository: RoomRepository
 
@@ -114,8 +113,9 @@ class HomeActivityViewModel : ViewModel() {
         mSelectedRoom.value = roomAndDevices
     }
 
-    //device
 
+
+    //device
     private var currentControlDevice = MutableLiveData<SingleDevice>()
 
     fun getCurrentControlDevice(): MutableLiveData<SingleDevice> {
@@ -130,11 +130,9 @@ class HomeActivityViewModel : ViewModel() {
         return mDeviceRepository.deleteDevice(guid, deviceId)
     }
 
-
     fun changeDeviceName(guid:String,spaceId:Int,id:Int,type:Int,newName:String): LiveData<Resource<SingleDevice>> {
         return mDeviceRepository.changeDeviceName(guid,spaceId,id,type,newName)
     }
-
 
     fun changeDeviceState(guid:String,id:Int,name:String,value:String): LiveData<Resource<SingleDevice>> {
         return mDeviceRepository.changeDeviceState(guid,id,name,value)

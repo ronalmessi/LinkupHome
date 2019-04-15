@@ -1,10 +1,7 @@
 package com.ihomey.linkuphome.data.entity
 
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.annotations.SerializedName
 import com.ihomey.linkuphome.data.db.DeviceStateValueConverter

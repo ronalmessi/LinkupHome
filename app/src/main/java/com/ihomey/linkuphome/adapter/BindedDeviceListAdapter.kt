@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.adapter
 
 
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.RelativeLayout
@@ -46,7 +47,10 @@ class BindedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, Ba
             layoutParams.marginStart = mContext.resources.getDimension(R.dimen._4sdp).toInt()
         }else if (type == 3) {
             helper.itemView.setPadding(0, mContext.resources.getDimension(R.dimen._6sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._6sdp).toInt())
+        }else if (type == 8) {
+            rl_binded_devices_item.setPadding(0, mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt())
         }
+
         tv_device_name.layoutParams=layoutParams
         helper.setText(R.id.tv_device_name, item.name)
         helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[type])

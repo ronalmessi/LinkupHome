@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +24,6 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -106,7 +103,10 @@ class ZoneFragment : BaseFragment(),FragmentBackHandler, BaseQuickAdapter.OnItem
     override fun onFragmentVisibleStateChanged(isVisible: Boolean) {
         isFragmentVisible = isVisible
         if (!hasShowBindDeviceGuide && isVisible && adapter.emptyViewCount == 0 && adapter.itemCount > 0) {
-            rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) } }
+            val room=adapter.getItem(0)
+            room?.let {it1->
+                rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,it1.devices.size) } }
+            }
         }
     }
 
@@ -114,7 +114,10 @@ class ZoneFragment : BaseFragment(),FragmentBackHandler, BaseQuickAdapter.OnItem
         super.onResume()
         rcv_zone_list.postDelayed({
             if (!hasShowBindDeviceGuide&&isFragmentVisible && adapter.emptyViewCount == 0 && adapter.itemCount > 0) {
-                rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it) }
+                val room=adapter.getItem(0)
+                room?.let {it1->
+                    rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,it1.devices.size) }
+                }
             }
         }, 250)
     }
@@ -217,12 +220,12 @@ class ZoneFragment : BaseFragment(),FragmentBackHandler, BaseQuickAdapter.OnItem
         }
     }
 
-    private fun showGuideView(view: View) {
+    private fun showGuideView(view: View, size: Int) {
         val builder = GuideBuilder()
         builder.setTargetView(view)
                 .setAlpha(200)
                 .setHighTargetCorner(context?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
-                .setHighTargetMarginTop(getMarginTop(rcv_zone_list)+context?.resources?.getDimension(R.dimen._12sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(rcv_zone_list)+ if(size>0) context?.resources?.getDimension(R.dimen._10sdp)?.toInt()!! else context?.resources?.getDimension(R.dimen._12sdp)?.toInt()!!)
                 .setAutoDismiss(false)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false)

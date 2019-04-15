@@ -44,6 +44,8 @@ class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, 
             layoutParams.marginStart = mContext.resources.getDimension(R.dimen._4sdp).toInt()
         }else if (type == 3) {
             helper.itemView.setPadding(0, mContext.resources.getDimension(R.dimen._6sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._6sdp).toInt())
+        }else if (type == 8) {
+            helper.itemView.setPadding(0, mContext.resources.getDimension(R.dimen._10sdp).toInt(),mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._16sdp).toInt())
         }
         tv_device_name.layoutParams=layoutParams
         helper.setText(R.id.tv_device_name, item.name)

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.databinding.N1SceneSettingFragmentBinding
 
@@ -29,14 +30,13 @@ class N1SceneSettingFragment : BaseSceneSettingFragment() {
         return mViewDataBinding.root
     }
 
-    override fun updateViewData(singleDevice: SingleDevice) {
-        mControlDevice = singleDevice
-//        when (singleDevice.state.sceneMode) {
-//            0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_n1)
-//            1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_n1)
-//            2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_n1)
-//            3 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_lighting_n1)
-//        }
+    override fun updateViewData(localState: LocalState?) {
+        when (localState?.sceneMode) {
+            0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_spring_n1)
+            1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rainforest_n1)
+            2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_n1)
+            3 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_lighting_n1)
+        }
         mViewDataBinding.deviceRgpScene.setOnCheckedChangeListener(this)
     }
 

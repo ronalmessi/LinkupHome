@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.data.api
 
 import androidx.lifecycle.LiveData
-import com.ihomey.linkuphome.data.entity.Model
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.entity.Zone

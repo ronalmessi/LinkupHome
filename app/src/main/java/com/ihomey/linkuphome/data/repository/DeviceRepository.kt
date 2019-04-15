@@ -8,9 +8,12 @@ import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
 import com.ihomey.linkuphome.data.api.ApiService
 import com.ihomey.linkuphome.data.api.NetworkBoundResource
+import com.ihomey.linkuphome.data.db.LocalStateDao
 import com.ihomey.linkuphome.data.db.RoomDao
 import com.ihomey.linkuphome.data.db.SingleDeviceDao
 import com.ihomey.linkuphome.data.db.ZoneDao
+import com.ihomey.linkuphome.data.entity.DeviceState
+import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.data.vo.*
 import javax.inject.Inject
@@ -20,7 +23,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class DeviceRepository @Inject constructor(private var apiService: ApiService, private val singleDeviceDao: SingleDeviceDao,private val roomDao: RoomDao, private val zoneDao: ZoneDao, private var appExecutors: AppExecutors) {
+class DeviceRepository @Inject constructor(private var apiService: ApiService, private val singleDeviceDao: SingleDeviceDao, private val localStateDao: LocalStateDao,private val roomDao: RoomDao, private val zoneDao: ZoneDao, private var appExecutors: AppExecutors) {
 
     fun saveDevice(guid: String, zoneId: Int, type: Int, name: String): LiveData<Resource<SingleDevice>> {
         return object : NetworkBoundResource<SingleDevice>(appExecutors) {
@@ -52,6 +55,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         return object : NetworkBoundResource<Boolean>(appExecutors) {
             override fun saveCallResult(item: Boolean?) {
                 singleDeviceDao.delete(deviceId)
+                localStateDao.delete(deviceId)
             }
 
             override fun shouldFetch(data: Boolean?): Boolean {
@@ -133,6 +137,21 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
                 return singleDeviceDao.getDevices(zoneId)
             }
         }.asLiveData()
+    }
+
+
+    fun getLocalState(id: Int): LiveData<Resource<LocalState>> {
+        return object : DbBoundResource<LocalState>(appExecutors) {
+            override fun loadFromDb(): LiveData<LocalState> {
+                return localStateDao.getLocalState(id)
+            }
+        }.asLiveData()
+    }
+
+    fun updateLocalState(localState: LocalState) {
+        appExecutors.diskIO().execute {
+            localStateDao.insert(localState)
+        }
     }
 }
 

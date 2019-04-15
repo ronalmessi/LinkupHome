@@ -94,7 +94,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             override fun saveCallResult(item: ZoneDetail?) {
                 item?.let {
                     zoneDao.resetAllActiveZone()
-                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active))
+                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active,it.type))
                     singleDeviceDao.deleteAll(it.id)
                     roomDao.deleteAll(it.id)
                     it.devices?.let {it2 -> singleDeviceDao.insertAll(it2)}
@@ -167,7 +167,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             override fun saveCallResult(item: ZoneDetail?) {
                 item?.let {
                     zoneDao.resetAllActiveZone()
-                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active))
+                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active,it.type))
                     singleDeviceDao.deleteAll(it.id)
                     roomDao.deleteAll(it.id)
                     it.devices?.let {it2 -> singleDeviceDao.insertAll(it2)}
@@ -197,7 +197,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             override fun saveCallResult(item: ZoneDetail?) {
                 item?.let {
                     zoneDao.resetAllActiveZone()
-                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active))
+                    zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active,it.type))
                     singleDeviceDao.deleteAll(it.id)
                     roomDao.deleteAll(it.id)
                     it.devices?.let {it2 -> singleDeviceDao.insertAll(it2)}

@@ -37,6 +37,7 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
         initController(8)
         mViewDataBinding.handlers = ToolBarEventHandler()
+        mViewDataBinding.deviceSeekBarBrightness.max=85
         mViewDataBinding.root.setOnClickListener {
             mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()

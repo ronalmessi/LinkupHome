@@ -38,9 +38,7 @@ class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuic
 
     override fun convert(helper: BaseViewHolder, item: SingleDevice) {
         helper.setText(R.id.tv_device_name, item.name)
-
         val type=item.type-1
-
         helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[type])
         when (helper.itemViewType) {
             1 -> {
@@ -56,6 +54,8 @@ class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuic
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 }else if (type == 5) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
+                }else if (type == 8) {
+                    cl_devices_item.setPadding(0, mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt())
                 }
 
                 val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
@@ -88,6 +88,8 @@ class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuic
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 }else if (type == 5) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
+                }else if (type == 8) {
+                    helper.itemView.setPadding(0, mContext.resources.getDimension(R.dimen._11sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._11sdp).toInt())
                 }
             }
         }

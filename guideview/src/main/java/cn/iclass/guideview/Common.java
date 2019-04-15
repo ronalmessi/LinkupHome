@@ -29,6 +29,8 @@ class Common {
    * Rect在屏幕上去掉状态栏高度的绝对位置
    */
   static Rect getViewAbsRect(View view, int parentX, int parentY) {
+
+    Log.d("aa","---"+view.getPaddingTop()+"---"+view.getPaddingBottom());
     int[] loc = new int[2];
     view.getLocationInWindow(loc);
     Rect rect = new Rect();

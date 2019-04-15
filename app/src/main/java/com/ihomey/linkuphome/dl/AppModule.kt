@@ -67,4 +67,10 @@ class AppModule {
         return db.zoneDao()
     }
 
+    @Singleton
+    @Provides
+    fun provideLocalStateDao(db: LinkupHomeDb): LocalStateDao {
+        return db.localStateDao()
+    }
+
 }
