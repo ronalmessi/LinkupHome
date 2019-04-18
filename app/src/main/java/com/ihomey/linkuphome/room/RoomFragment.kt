@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.room
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ import cn.iclass.guideview.GuideBuilder
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.adapter.BindedDeviceListAdapter
+import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
@@ -31,7 +32,6 @@ import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.group.GroupUpdateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listener.GroupUpdateListener
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
@@ -44,7 +44,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
 import kotlinx.android.synthetic.main.sub_zone_fragment.*
 
 
-class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnCheckedChangeListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemClickListener, UpdateDeviceNameListener {
+class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnCheckedChangeListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemClickListener, UpdateDeviceNameListener {
 
 
     companion object {
@@ -55,7 +55,7 @@ class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnC
 
 
     private lateinit var viewModel: HomeActivityViewModel
-    private lateinit var adapter: BindedDeviceListAdapter
+    private lateinit var adapter: BondedDeviceListAdapter
     private lateinit var listener: MeshServiceStateListener
 
     private var room: Room?=null
@@ -75,14 +75,17 @@ class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnC
             tv_title.text = it.room?.name
             room = it.room
         })
-        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
-            if (it?.status == Status.SUCCESS) {
-                room?.let {it1->
-                    adapter.setNewData(it.data?.filter { (it.roomId == it1.id) })
-                    if (it.data?.filter { it.roomId == it1.id }.isNullOrEmpty()) btn_add_device.visibility = View.GONE else btn_add_device.visibility = View.VISIBLE
-                }
-            }
-        })
+//        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
+//            if (it?.status == Status.SUCCESS) {
+//                room?.let {it1->
+//                    Log.d("aa","haaaa")
+//                    adapter.setOnCheckedChangeListener(null)
+//                    adapter.setNewData(it.data?.filter { (it.roomId == it1.id) })
+//                    adapter.setOnCheckedChangeListener(this)
+//                    if (it.data?.filter { it.roomId == it1.id }.isNullOrEmpty()) btn_add_device.visibility = View.GONE else btn_add_device.visibility = View.VISIBLE
+//                }
+//            }
+//        })
     }
 
     override fun onAttach(context: Context?) {
@@ -93,9 +96,8 @@ class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
-        adapter = BindedDeviceListAdapter(R.layout.item_binded_device)
+        adapter = BondedDeviceListAdapter(R.layout.item_binded_device)
         adapter.onItemClickListener = this
-        adapter.setOnCheckedChangeListener(this)
         rcv_device_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
@@ -147,7 +149,7 @@ class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnC
             mDialog.arguments = bundle
             mDialog.isCancelable = false
             mDialog.show(fragmentManager, "GroupUpdateFragment")
-            room?.let { bindDevice(it.zoneId, it.instructId, singleDevice.instructId, "remove")  }
+            room?.let { bindDevice(it.zoneId, it.instructId, singleDevice.instructId.toString(), "remove")  }
         }
         menuBridge?.closeMenu()
     }
@@ -157,6 +159,7 @@ class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnC
     }
 
     override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
+        Log.d("aa","-------"+isChecked+"---"+item.parameters+"---"+item.name)
         val controller = ControllerFactory().createController(item.type)
         if (listener.isMeshServiceConnected()) controller?.setLightPowerState(item.instructId, if (isChecked) 1 else 0)
         changeDeviceState(item, "on", if (isChecked) "1" else "0")
@@ -221,7 +224,7 @@ class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnC
         }
     }
 
-    private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructId: Int, act: String) {
+    private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructId: String, act: String) {
         context?.getIMEI()?.let { it1 ->
             viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructId, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 if (it?.status == Status.SUCCESS) {
@@ -235,6 +238,7 @@ class RoomFragment : Fragment(),FragmentBackHandler, BindedDeviceListAdapter.OnC
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {
+        Log.d("aa","1111")
         context?.getIMEI()?.let { it1 ->
             viewModel.changeDeviceState(it1, singleDevice.id, key, value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
                 if (it?.status == Status.SUCCESS) {

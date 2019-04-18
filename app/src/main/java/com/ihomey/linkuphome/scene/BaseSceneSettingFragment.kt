@@ -65,8 +65,7 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
         mControlDevice.let {
             if (mLocalState == null) mLocalState = LocalState(it.id)
-            mLocalState?.let {
-                it.sceneMode = sceneModeValue
+            mLocalState?.let { it.sceneMode = sceneModeValue
                 mViewModel.updateLocalState(it)
             }
         }

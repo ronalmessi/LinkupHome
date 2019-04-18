@@ -1,74 +1,30 @@
 package com.ihomey.linkuphome.adapter
 
-
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SeekBar
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.daimajia.swipe.SwipeLayout
-import com.ihomey.linkuphome.AppConfig.Companion.ROOM_ICON
-import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.Room
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.suke.widget.SwitchButton
+
+class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCallback) {
+
+    private var mOnItemClickListener: OnItemClickListener? = null
+    private var mOnItemChildClickListener: OnItemChildClickListener? = null
+    private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
+    private var mOnSeekBarChangeListener: OnSeekBarChangeListener? = null
 
 
-/**
- * Created by dongcaizheng on 2018/4/11.
- */
-
-class RoomListAdapter(layoutId: Int) : BaseQuickAdapter<RoomAndDevices, BaseViewHolder>(layoutId) {
-
-    private lateinit var onCheckedChangeListener: OnCheckedChangeListener
-    private lateinit var onSeekBarChangeListener: OnSeekBarChangeListener
-
-
-    fun setOnCheckedChangeListener(listener: OnCheckedChangeListener) {
-        this.onCheckedChangeListener = listener
-    }
-
-    fun setOnSeekBarChangeListener(listener: OnSeekBarChangeListener) {
-        this.onSeekBarChangeListener = listener
-    }
-
-    override fun convert(helper: BaseViewHolder, item: RoomAndDevices) {
-        val room = item.room
-        room?.let {
-
-            helper.setText(R.id.tv_sub_zone_name, it.name)
-            val type = it.type.minus(1)
-            helper.setImageResource(R.id.iv_sub_zone_type, ROOM_ICON[type])
-
-            val swipeLayout = helper.getView<SwipeLayout>(R.id.swipeLayout)
-            swipeLayout.showMode = SwipeLayout.ShowMode.LayDown
-            helper.addOnClickListener(R.id.btn_delete)
-            helper.addOnClickListener(R.id.iv_color_cycling)
-            helper.addOnClickListener(R.id.iv_lighting)
-            helper.addOnClickListener(R.id.tv_sub_zone_name)
-            helper.addOnClickListener(R.id.btn_add)
-
-            if (it.deviceTypes.length == 1) helper.setGone(R.id.iv_color_cycling, true) else helper.setGone(R.id.iv_color_cycling, false)
-            if(item.devices.isNullOrEmpty()){
-                helper.setGone(R.id.rl_brightness, false)
-                helper.setGone(R.id.iv_color_cycling, false)
-                helper.setGone(R.id.sb_power, false)
-                helper.setGone(R.id.iv_lighting, false)
-                helper.setGone(R.id.btn_add, true)
-            }else{
-                helper.setGone(R.id.iv_color_cycling, true)
-                helper.setGone(R.id.sb_power, true)
-                helper.setGone(R.id.iv_lighting, true)
-                helper.setGone(R.id.rl_brightness, true)
-                helper.setGone(R.id.btn_add, false)
+    override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
+        getItem(position)?.let {
+            holder.bindTo(it, mOnItemClickListener, mOnItemChildClickListener,mOnCheckedChangeListener)
+            holder.itemView.setOnClickListener { it1 ->
+                mOnItemClickListener?.onItemClick(it)
             }
-
-            val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
-            sb_power.isChecked = it.parameters?.on == 1
-            sb_power.setOnCheckedChangeListener { _, isChecked -> onCheckedChangeListener.onCheckedChanged(item, isChecked) }
-
-            val seek_bar_brightness = helper.getView<SeekBar>(R.id.device_seek_bar_brightness)
-            seek_bar_brightness.progress = it.parameters?.brightness ?: 20
-
-            seek_bar_brightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            holder.powerStateView.setOnCheckedChangeListener { _, isChecked ->
+                mOnCheckedChangeListener?.onCheckedChanged(position, isChecked)
+            }
+            holder.brightnessView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
                 }
@@ -78,21 +34,69 @@ class RoomListAdapter(layoutId: Int) : BaseQuickAdapter<RoomAndDevices, BaseView
                 }
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {
-                    onSeekBarChangeListener.onProgressChanged(item, seekBar.progress)
+                    mOnSeekBarChangeListener?.onProgressChanged(position, seekBar.progress)
                 }
-
             })
         }
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder = RoomViewHolder(parent)
+
+    companion object {
+        /**
+         * This diff callback informs the PagedListAdapter how to compute list differences when new
+         * PagedLists arrive.
+         * <p>
+         * When you add a Cheese with the 'Add' button, the PagedListAdapter uses diffCallback to
+         * detect there's only a single item difference from before, so it only needs to animate and
+         * rebind a single view.
+         *
+         * @see android.support.v7.util.DiffUtil
+         */
+        private val diffCallback = object : DiffUtil.ItemCallback<RoomAndDevices>() {
+            override fun areItemsTheSame(oldItem: RoomAndDevices, newItem: RoomAndDevices): Boolean {
+                return (oldItem.room?.id == newItem.room?.id )
+            }
+
+            /**
+             * Note that in kotlin, == checking on data classes compares all contents, but in Java,
+             * typically you'll implement Object#equals, and use it to compare object contents.
+             */
+            override fun areContentsTheSame(oldItem: RoomAndDevices, newItem: RoomAndDevices): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(roomAndDevices: RoomAndDevices)
+    }
+
+    interface OnItemChildClickListener {
+        fun onItemChildClick(roomAndDevices: RoomAndDevices, view: View)
+    }
 
     interface OnCheckedChangeListener {
-        fun onCheckedChanged(item: RoomAndDevices, isChecked: Boolean)
+        fun onCheckedChanged(position: Int, isChecked: Boolean)
     }
 
     interface OnSeekBarChangeListener {
-        fun onProgressChanged(item: RoomAndDevices, progress: Int)
+        fun onProgressChanged(position: Int, progress: Int)
     }
 
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        mOnItemClickListener = listener
+    }
 
+    fun setOnItemChildClickListener(listener: OnItemChildClickListener) {
+        mOnItemChildClickListener = listener
+    }
+
+    fun setOnCheckedChangeListener(listener: OnCheckedChangeListener) {
+        this.mOnCheckedChangeListener = listener
+    }
+
+    fun setOnSeekBarChangeListener(listener:OnSeekBarChangeListener) {
+        this.mOnSeekBarChangeListener = listener
+    }
 }

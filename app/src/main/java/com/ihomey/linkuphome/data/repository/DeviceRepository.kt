@@ -3,6 +3,8 @@ package com.ihomey.linkuphome.data.repository
 import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
@@ -137,6 +139,11 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
                 return singleDeviceDao.getDevices(zoneId)
             }
         }.asLiveData()
+    }
+
+
+    fun getPagingDevices(zoneId: Int): LiveData<PagedList<SingleDevice>> {
+        return LivePagedListBuilder(singleDeviceDao.getPagingDevices(zoneId), /* page size */6).build()
     }
 
 

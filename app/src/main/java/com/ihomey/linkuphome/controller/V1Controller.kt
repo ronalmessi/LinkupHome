@@ -59,6 +59,7 @@ class V1Controller : Controller() {
         val code_lawn_scene_prefix = CODE_LIGHT_SCENE_BASE +(3+sceneValue)+"F1"
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16))
         val code_lawn_scene = code_lawn_scene_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+        Log.d("aa",code_lawn_scene)
         DataModelApi.sendData(deviceId, decodeHex(code_lawn_scene.toCharArray()), false)
     }
 

@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_item_sub_zone_list"
-    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
     <com.daimajia.swipe.SwipeLayout
         android:id="@+id/swipeLayout"
+        app:clickToClose="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,16 +26,15 @@
             android:id="@+id/cl_devices_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_item_sub_zone_list_top"
-          >
+            android:background="@drawable/bg_item_sub_zone_list_top">
 
             <ImageView
                 android:id="@+id/iv_device_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX="0.7"
-                android:scaleY="0.7"
-                android:src="@mipmap/ic_lamp_t1"
+                android:scaleX="0.65"
+                android:scaleY="0.65"
+                android:src="@mipmap/ic_lamp_r2_a2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

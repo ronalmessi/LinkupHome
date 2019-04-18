@@ -51,7 +51,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val addressToNameMap = ArrayMap<String, String>()
 
     private var meshAssListener: DeviceAssociateListener? = null
-    private var mRemoveDeviceVo: RemoveDeviceVo? = null
     private var mBatteryListener: BatteryValueListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,11 +72,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         })
         mViewModel.mRemoveDeviceVo.observe(this, Observer<RemoveDeviceVo> {
             if(it!=null){
-                mRemoveDeviceVo=it
                 ConfigModelApi.resetDevice(it.deviceInstructId)
                 mMeshHandler.postDelayed({
-                    it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
                     mViewModel.setRemoveDeviceVo(null)
+                    it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
                 }, REMOVE_ACK_WAIT_TIME_MS)
             }
         })

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/rl_binded_devices_item"
+    android:id="@+id/rl_bonded_devices_item"
     android:background="@drawable/selector_control_unit_item_background"
     android:gravity="center_vertical"
    >
@@ -23,6 +23,9 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/iv_device_icon"
         android:ellipsize="end"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:layout_marginEnd="@dimen/_48sdp"
         android:gravity="center"
         android:textColor="@color/text_colorPrimary"
         android:textSize="@dimen/_18ssp" />

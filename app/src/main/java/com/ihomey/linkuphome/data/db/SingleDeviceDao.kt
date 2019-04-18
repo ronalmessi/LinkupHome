@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.data.db
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.SingleDevice
@@ -14,6 +15,10 @@ abstract class SingleDeviceDao {
 
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
     abstract fun getDevices(zoneId: Int): LiveData<List<SingleDevice>>
+
+    @Transaction
+    @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
+    abstract fun getPagingDevices(zoneId: Int): DataSource.Factory<Int, SingleDevice>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertAll(devices: List<SingleDevice>)

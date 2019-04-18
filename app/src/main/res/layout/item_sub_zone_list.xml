@@ -8,6 +8,7 @@
 
     <com.daimajia.swipe.SwipeLayout
         android:id="@+id/swipeLayout"
+        app:clickToClose="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -95,6 +96,8 @@
 
             <TextView
                 android:id="@+id/btn_add"
+                android:clickable="false"
+                android:focusable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

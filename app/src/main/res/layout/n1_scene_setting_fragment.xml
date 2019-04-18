@@ -54,9 +54,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/_96sdp"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_scene_setting_spring"
                     android:gravity="center_vertical">
 
@@ -81,9 +80,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_weight="1"
+                    android:layout_height="@dimen/_96sdp"
+                    android:layout_marginTop="@dimen/_24sdp"
                     android:background="@drawable/bg_scene_setting_rain_forest"
                     android:gravity="center_vertical">
 
@@ -109,9 +107,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_weight="1"
+                    android:layout_height="@dimen/_96sdp"
+                    android:layout_marginTop="@dimen/_24sdp"
                     android:background="@drawable/bg_scene_setting_sunset"
                     android:gravity="center_vertical">
 
@@ -137,9 +134,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_weight="1"
+                    android:layout_height="@dimen/_96sdp"
+                    android:layout_marginTop="@dimen/_24sdp"
                     android:background="@mipmap/scene_lighting_bg"
                     android:gravity="center_vertical">
 

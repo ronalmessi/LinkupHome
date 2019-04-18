@@ -63,7 +63,7 @@
         android:id="@+id/btn_add_device"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginBottom="@dimen/_36sdp"
         android:background="@drawable/bg_btn_add_device"
         android:paddingTop="@dimen/_12sdp"

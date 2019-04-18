@@ -4,10 +4,10 @@ package com.ihomey.linkuphome.data.api
 import androidx.lifecycle.LiveData
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean
-import android.util.Log
 import retrofit2.*
-import java.net.UnknownHostException
-import java.net.UnknownServiceException
+import retrofit2.HttpException
+import java.io.IOException
+import java.net.SocketTimeoutException
 
 
 /**
@@ -30,12 +30,11 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
                             postValue(response.body())
                         }
                         override fun onFailure(call: Call<ApiResult<R>>, throwable: Throwable) {
-                            throwable.printStackTrace()
-                            if (throwable is UnknownHostException||throwable is UnknownServiceException) {
-                                postValue(throwable.message?.let { ApiResult<R>("10000", it,null) })
-                            }else{
-
-                            }
+//                            if (throwable is HttpException||throwable is SocketTimeoutException||throwable is IOException) {
+//                                postValue(throwable.message?.let { ApiResult<R>("10000", it,null) })
+//                            } else {
+////                                view.onUnknownError(e.getMessage())
+//                            }
                         }
                     })
                 }

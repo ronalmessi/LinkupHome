@@ -102,6 +102,10 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
 
+    //paging
+    def paging_version = "1.0.1"
+    implementation "android.arch.paging:runtime:$paging_version"
+
     // retrofit2
     def retrofit_version = "2.3.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

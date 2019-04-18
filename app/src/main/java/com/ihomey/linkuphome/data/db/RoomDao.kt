@@ -2,10 +2,12 @@ package com.ihomey.linkuphome.data.db
 
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
+import com.ihomey.linkuphome.data.entity.SingleDevice
 
 
 /**
@@ -26,6 +28,10 @@ interface RoomDao {
     @Transaction
     @Query("SELECT * FROM room where zoneId=:zoneId order by id asc")
     fun getRooms(zoneId: Int): LiveData<List<RoomAndDevices>>
+
+    @Transaction
+    @Query("SELECT * FROM room where zoneId=:zoneId order by id asc")
+    fun getPagingRooms(zoneId: Int): DataSource.Factory<Int, RoomAndDevices>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(rooms: List<Room>)

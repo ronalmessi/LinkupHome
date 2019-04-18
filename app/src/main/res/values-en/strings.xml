@@ -114,7 +114,7 @@
 
 
 
-    <string name="privacy_tip">Please confirm that you have read and agree to</string>
+    <string name="privacy_tip">Please confirm that you have read and agreed to</string>
     <string name="license_agreement">The End user License Agreement</string>
     <string name="privacy_statement">The Privacy Statement</string>
     <string name="privacy_start">start</string>

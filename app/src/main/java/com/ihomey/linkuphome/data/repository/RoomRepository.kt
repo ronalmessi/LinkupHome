@@ -3,6 +3,8 @@ package com.ihomey.linkuphome.data.repository
 import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.beanToJson
 import com.ihomey.linkuphome.data.api.AbsentLiveData
@@ -93,16 +95,16 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
         }.asLiveData()
     }
 
-    fun bindDevice(guid: String, spaceId: Int, groupInstructId: Int, deviceInstructId: Int, act: String): LiveData<Resource<Room>> {
+    fun bindDevice(guid: String, spaceId: Int, groupInstructId: Int, deviceInstructIds: String, act: String): LiveData<Resource<Room>> {
         return object : NetworkBoundResource<Room>(appExecutors) {
             override fun saveCallResult(item: Room?) {
                 item?.let {
                     roomDao.insert(item)
-                    if (TextUtils.equals("add", act)) {
-                        singleDeviceDao.bondToRoom(item.id, deviceInstructId, spaceId)
-                    } else {
-                        singleDeviceDao.unBondDeviceFromRoom(deviceInstructId, spaceId)
-                    }
+//                    if (TextUtils.equals("add", act)) {
+//                        singleDeviceDao.bondToRoom(item.id, deviceInstructId, spaceId)
+//                    } else {
+//                        singleDeviceDao.unBondDeviceFromRoom(deviceInstructId, spaceId)
+//                    }
                 }
             }
 
@@ -115,7 +117,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Room>> {
-                val bindDeviceVO = BindDeviceVO(guid.md5(), spaceId, groupInstructId, deviceInstructId, act, System.currentTimeMillis())
+                val bindDeviceVO = BindDeviceVO(guid.md5(), spaceId, groupInstructId, deviceInstructIds, act, System.currentTimeMillis())
                 bindDeviceVO.signature = beanToJson(bindDeviceVO).sha256()
                 return apiService.bindDevice(bindDeviceVO)
             }
@@ -151,12 +153,9 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
         }.asLiveData()
     }
 
-    fun getRooms(zoneId: Int): LiveData<Resource<List<RoomAndDevices>>> {
-        return object : DbBoundResource<List<RoomAndDevices>>(appExecutors) {
-            override fun loadFromDb(): LiveData<List<RoomAndDevices>> {
-                return roomDao.getRooms(zoneId)
-            }
-        }.asLiveData()
+
+    fun getPagingRooms(zoneId: Int): LiveData<PagedList<RoomAndDevices>> {
+        return LivePagedListBuilder(roomDao.getPagingRooms(zoneId), /* page size */6).build()
     }
 }
 

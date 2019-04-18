@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.ihomey.linkuphome.data.entity.*
 import com.ihomey.linkuphome.data.repository.*
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
@@ -25,8 +26,8 @@ class HomeActivityViewModel : ViewModel() {
     private val mCurrentZoneId = MutableLiveData<Int>()
     val mCurrentZone: LiveData<Resource<Zone>>
 
-    val devicesResult: LiveData<Resource<List<SingleDevice>>>
-    val roomsResult: LiveData<Resource<List<RoomAndDevices>>>
+    val devicesResult: LiveData<PagedList<SingleDevice>>
+    val roomsResult:  LiveData<PagedList<RoomAndDevices>>
 
     init {
         DaggerAppComponent.builder().build().inject(this)
@@ -34,13 +35,12 @@ class HomeActivityViewModel : ViewModel() {
             zoneRepository.getZone(input)
         }
         devicesResult = Transformations.switchMap(mCurrentZoneId) { input ->
-            mDeviceRepository.getDevices(input)
+            mDeviceRepository.getPagingDevices(input)
         }
         roomsResult = Transformations.switchMap(mCurrentZoneId) { input ->
-            roomRepository.getRooms(input)
+            roomRepository.getPagingRooms(input)
         }
     }
-
 
     //bridge
     private val bridgeState = MutableLiveData<Boolean>()
@@ -114,7 +114,6 @@ class HomeActivityViewModel : ViewModel() {
     }
 
 
-
     //device
     private var currentControlDevice = MutableLiveData<SingleDevice>()
 
@@ -138,7 +137,7 @@ class HomeActivityViewModel : ViewModel() {
         return mDeviceRepository.changeDeviceState(guid,id,name,value)
     }
 
-    fun bindDevice(guid: String,spaceId: Int,groupInstructId: Int, deviceInstructId: Int,act: String): LiveData<Resource<Room>> {
+    fun bindDevice(guid: String,spaceId: Int,groupInstructId: Int, deviceInstructId: String,act: String): LiveData<Resource<Room>> {
         return roomRepository.bindDevice(guid,spaceId,groupInstructId,deviceInstructId,act)
     }
 
