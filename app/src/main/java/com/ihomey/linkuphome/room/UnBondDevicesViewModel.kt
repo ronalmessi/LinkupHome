@@ -1,39 +1,34 @@
 package com.ihomey.linkuphome.room
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import androidx.paging.PagedList
+import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
 class UnBondDevicesViewModel : ViewModel() {
 
-//    @Inject
-//    lateinit var deviceRepository: DeviceRepository
-//
-//    @Inject
-//    lateinit var modelRepository: Model1Repository
-//
-//    @Inject
-//    lateinit var roomRepository: RoomRepository
+    val unBondedDevicesResult1: LiveData<PagedList<SingleDevice>>
+    val isUnBondedDevicesListEmptyLiveData = MediatorLiveData<Boolean>()
 
-//    val devicesResult: LiveData<Resource<List<SingleDevice>>>
+    val mZoneId = MutableLiveData<Int>()
 
-    val mSubZoneId = MutableLiveData<Int>()
+
+    @Inject
+    lateinit var deviceRepository: DeviceRepository
 
     init {
         DaggerAppComponent.builder().build().inject(this)
-//        devicesResult = Transformations.switchMap(mSubZoneId) { input ->
-//            deviceRepository.getUnBondedDevices(input)
-//        }
+        unBondedDevicesResult1 = Transformations.switchMap(mZoneId) { input ->
+            deviceRepository.getPagingUnBondedDevices(input)
+        }
+        isUnBondedDevicesListEmptyLiveData.addSource(unBondedDevicesResult1) {
+            isUnBondedDevicesListEmptyLiveData.value = it?.size == 0
+        }
     }
 
-    fun setSubZoneId(id: Int) {
-        mSubZoneId.value=id
+    fun setZoneId(id: Int?) {
+        mZoneId.value=id
     }
-
-//    fun createModel(model: Model1) {
-////        modelRepository.addModel(model)
-//    }
-
-
 }

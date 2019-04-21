@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 
 class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCallback) {
@@ -14,12 +15,37 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
     private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
     private var mOnSeekBarChangeListener: OnSeekBarChangeListener? = null
 
+    var isSwiping:Boolean= false
+
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bindTo(it, mOnItemClickListener, mOnItemChildClickListener,mOnCheckedChangeListener)
-            holder.itemView.setOnClickListener { it1 ->
-                mOnItemClickListener?.onItemClick(it)
+            holder.bindTo(it)
+            holder.itemView.setOnClickListener {
+                mOnItemClickListener?.onItemClick(position)
+            }
+            holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener{
+                override fun onOpen(layout: SwipeLayout?) {
+                }
+
+                override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
+                    isSwiping=true
+                }
+
+                override fun onStartOpen(layout: SwipeLayout?) {
+                }
+
+                override fun onStartClose(layout: SwipeLayout?) {
+                }
+
+                override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
+
+                override fun onClose(layout: SwipeLayout?) {
+                    holder.swipeLayout.postDelayed({ isSwiping=false},550)
+                }
+            })
+            holder.swipeLayout.setOnClickListener {
+                if(!isSwiping) mOnItemClickListener?.onItemClick(position)
             }
             holder.powerStateView.setOnCheckedChangeListener { _, isChecked ->
                 mOnCheckedChangeListener?.onCheckedChanged(position, isChecked)
@@ -37,6 +63,16 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
                     mOnSeekBarChangeListener?.onProgressChanged(position, seekBar.progress)
                 }
             })
+            holder.deleteBtn.setOnClickListener {
+                holder.swipeLayout.close()
+                mOnItemChildClickListener?.onItemChildClick(position, it)
+            }
+            holder.lightingBtn.setOnClickListener {
+                mOnItemChildClickListener?.onItemChildClick(position, it)
+            }
+            holder.colorCyclingBtn.setOnClickListener {
+                mOnItemChildClickListener?.onItemChildClick(position, it)
+            }
         }
     }
 
@@ -55,7 +91,7 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
          */
         private val diffCallback = object : DiffUtil.ItemCallback<RoomAndDevices>() {
             override fun areItemsTheSame(oldItem: RoomAndDevices, newItem: RoomAndDevices): Boolean {
-                return (oldItem.room?.id == newItem.room?.id )
+                return oldItem.room?.id == newItem.room?.id&&oldItem.devices==newItem.devices&&oldItem.room?.parameters?.on==newItem.room?.parameters?.on&&oldItem.room?.parameters?.brightness==newItem.room?.parameters?.brightness
             }
 
             /**
@@ -69,11 +105,11 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
     }
 
     interface OnItemClickListener {
-        fun onItemClick(roomAndDevices: RoomAndDevices)
+        fun onItemClick(position: Int)
     }
 
     interface OnItemChildClickListener {
-        fun onItemChildClick(roomAndDevices: RoomAndDevices, view: View)
+        fun onItemChildClick(position: Int, view: View)
     }
 
     interface OnCheckedChangeListener {

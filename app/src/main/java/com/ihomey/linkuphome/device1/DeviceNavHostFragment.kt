@@ -9,9 +9,14 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.FragmentBackHandler
+import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 
 
 class DeviceNavHostFragment : BaseFragment(),FragmentBackHandler {
+
+    private var listener: FragmentVisibleStateListener? = null
+
+    var isVisibleToUser: Boolean = false
 
     fun newInstance(): DeviceNavHostFragment {
         return DeviceNavHostFragment()
@@ -33,5 +38,15 @@ class DeviceNavHostFragment : BaseFragment(),FragmentBackHandler {
 
     fun getPagePosition():Int{
         return (parentFragment as HomeFragment).getPagePosition()
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        this.isVisibleToUser = isVisibleToUser
+        if (listener != null) listener?.onFragmentVisibleStateChanged(isVisibleToUser)
+    }
+
+    fun setFragmentVisibleStateListener(listener: FragmentVisibleStateListener) {
+        this.listener = listener
     }
 }

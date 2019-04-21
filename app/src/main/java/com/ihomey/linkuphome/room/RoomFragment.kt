@@ -8,19 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.iclass.guideview.Component
 import cn.iclass.guideview.Guide
 import cn.iclass.guideview.GuideBuilder
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
+import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter1
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
@@ -37,15 +37,14 @@ import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.ihomey.linkuphome.zone.ZoneNavHostFragment
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
+import com.yanzhenjie.recyclerview.*
+
 import kotlinx.android.synthetic.main.sub_zone_fragment.*
 
+import kotlinx.android.synthetic.main.view_device_list_empty.*
 
-class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnCheckedChangeListener, SwipeMenuItemClickListener, BaseQuickAdapter.OnItemClickListener, UpdateDeviceNameListener {
 
+class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, OnItemMenuClickListener, BondedDeviceListAdapter1.OnCheckedChangeListener, BondedDeviceListAdapter.OnCheckedChangeListener {
 
     companion object {
         fun newInstance() = RoomFragment()
@@ -55,6 +54,7 @@ class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnC
 
 
     private lateinit var viewModel: HomeActivityViewModel
+    private lateinit var mViewModel: RoomViewModel
     private lateinit var adapter: BondedDeviceListAdapter
     private lateinit var listener: MeshServiceStateListener
 
@@ -71,21 +71,25 @@ class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnC
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this).get(RoomViewModel::class.java)
         viewModel.mSelectedRoom.observe(this, Observer<RoomAndDevices> {
             tv_title.text = it.room?.name
             room = it.room
+            mViewModel.setCurrentRoom(room)
         })
-//        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
-//            if (it?.status == Status.SUCCESS) {
-//                room?.let {it1->
-//                    Log.d("aa","haaaa")
-//                    adapter.setOnCheckedChangeListener(null)
-//                    adapter.setNewData(it.data?.filter { (it.roomId == it1.id) })
-//                    adapter.setOnCheckedChangeListener(this)
-//                    if (it.data?.filter { it.roomId == it1.id }.isNullOrEmpty()) btn_add_device.visibility = View.GONE else btn_add_device.visibility = View.VISIBLE
-//                }
-//            }
-//        })
+        mViewModel.bondedDevicesResult1.observe(viewLifecycleOwner, Observer<PagedList<SingleDevice>> {
+            Log.d("aa","222222---"+it.size)
+            adapter.submitList(it)
+        })
+        mViewModel.isBondedDevicesListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
+            if(it){
+                emptyView.visibility=View.VISIBLE
+                btn_add.visibility=View.GONE
+            } else{
+                emptyView.visibility=View.GONE
+                btn_add.visibility=View.VISIBLE
+            }
+        })
     }
 
     override fun onAttach(context: Context?) {
@@ -96,8 +100,8 @@ class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
-        adapter = BondedDeviceListAdapter(R.layout.item_binded_device)
-        adapter.onItemClickListener = this
+        adapter = BondedDeviceListAdapter()
+        adapter.setOnCheckedChangeListener(this)
         rcv_device_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
@@ -107,15 +111,12 @@ class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnC
             swipeRightMenu.addMenuItem(deleteItem)
         }
         rcv_device_list.setSwipeMenuCreator(swipeMenuCreator)
-        rcv_device_list.setSwipeMenuItemClickListener(this)
+        rcv_device_list.setOnItemMenuClickListener(this)
         rcv_device_list.adapter = adapter
-
-        adapter.setEmptyView(R.layout.view_device_list_empty, rcv_device_list)
-        adapter.emptyView?.findViewById<Button>(R.id.btn_add_device)?.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_subZoneFragment_to_unBondedDevicesFragment2)
-
-        }
         btn_add_device.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_subZoneFragment_to_unBondedDevicesFragment2)
+        }
+        btn_add.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_subZoneFragment_to_unBondedDevicesFragment2)
         }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
@@ -142,28 +143,32 @@ class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnC
     }
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
-        val singleDevice = adapter.getItem(position)
-        if (singleDevice != null) {
-            val bundle = Bundle()
-            bundle.putInt("updateType", 1)
-            mDialog.arguments = bundle
-            mDialog.isCancelable = false
-            mDialog.show(fragmentManager, "GroupUpdateFragment")
-            room?.let { bindDevice(it.zoneId, it.instructId, singleDevice.instructId.toString(), "remove")  }
+        adapter.currentList?.get(position)?.let {it1->
+          val bundle = Bundle()
+          bundle.putInt("updateType", 1)
+          mDialog.arguments = bundle
+          mDialog.isCancelable = false
+          mDialog.show(fragmentManager, "GroupUpdateFragment")
+          room?.let { bindDevice(it.zoneId, it.instructId,it1.instructId.toString(), "remove")  }
         }
         menuBridge?.closeMenu()
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-
-    }
 
     override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
-        Log.d("aa","-------"+isChecked+"---"+item.parameters+"---"+item.name)
         val controller = ControllerFactory().createController(item.type)
         if (listener.isMeshServiceConnected()) controller?.setLightPowerState(item.instructId, if (isChecked) 1 else 0)
         changeDeviceState(item, "on", if (isChecked) "1" else "0")
     }
+
+    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
+        adapter.currentList?.get(position)?.let {
+            val controller = ControllerFactory().createController(it.type)
+            if (listener.isMeshServiceConnected()) controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
+            changeDeviceState(it, "on", if (isChecked) "1" else "0")
+        }
+    }
+
 
 
     private fun showGuideView(view: View) {
@@ -227,6 +232,7 @@ class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnC
     private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructId: String, act: String) {
         context?.getIMEI()?.let { it1 ->
             viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructId, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                mViewModel.setCurrentRoom(room)
                 if (it?.status == Status.SUCCESS) {
                     mDialog.dismiss()
                 } else if (it?.status == Status.ERROR) {
@@ -238,14 +244,9 @@ class RoomFragment : Fragment(),FragmentBackHandler, BondedDeviceListAdapter.OnC
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {
-        Log.d("aa","1111")
         context?.getIMEI()?.let { it1 ->
             viewModel.changeDeviceState(it1, singleDevice.id, key, value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
-                if (it?.status == Status.SUCCESS) {
 
-                } else if (it?.status == Status.ERROR) {
-//                    it.message?.let { it2 -> activity?.toast(it2) }
-                }
             })
         }
     }

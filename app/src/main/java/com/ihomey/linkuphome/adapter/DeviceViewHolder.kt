@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -28,39 +27,14 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
 
     var singleDevice: SingleDevice? = null
 
-    var isSwiping:Boolean= false
-
     /**
      * Items might be null if they are not paged in yet. PagedListAdapter will re-bind the
      * ViewHolder when Item is loaded.
      */
-    fun bindTo(singleDevice: SingleDevice, mOnItemClickListener: DeviceListAdapter.OnItemClickListener?, mOnItemChildClickListener: DeviceListAdapter.OnItemChildClickListener?) {
+    fun bindTo(singleDevice: SingleDevice,mOnItemChildClickListener: DeviceListAdapter.OnItemChildClickListener?) {
         this.singleDevice = singleDevice
-        swipeLayout.addSwipeListener(object :SwipeLayout.SwipeListener{
-            override fun onOpen(layout: SwipeLayout?) {
-            }
-
-            override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
-                isSwiping=true
-            }
-
-            override fun onStartOpen(layout: SwipeLayout?) {
-            }
-
-            override fun onStartClose(layout: SwipeLayout?) {
-            }
-
-            override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
-
-            override fun onClose(layout: SwipeLayout?) {
-                swipeLayout.postDelayed({ isSwiping=false},550)
-            }
-        })
-
-        swipeLayout.setOnClickListener {
-           if(!isSwiping) mOnItemClickListener?.onItemClick(singleDevice)
-        }
         deleteBtn.setOnClickListener {
+            swipeLayout.close()
            mOnItemChildClickListener?.onItemChildClick(singleDevice,it)
         }
         nameView.text = singleDevice.name

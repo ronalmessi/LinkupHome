@@ -3,12 +3,13 @@ package com.ihomey.linkuphome.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.ihomey.linkuphome.R;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 
-public class MaxHeightRecyclerView extends SwipeMenuRecyclerView {
+public class MaxHeightRecyclerView extends SwipeRecyclerView {
     private int mMaxHeight;
 
     public MaxHeightRecyclerView(Context context) {
@@ -34,7 +35,7 @@ public class MaxHeightRecyclerView extends SwipeMenuRecyclerView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mMaxHeight > 0) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
+            heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

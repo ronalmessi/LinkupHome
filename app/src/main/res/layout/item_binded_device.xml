@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/rl_bonded_devices_item"
-    android:background="@drawable/selector_control_unit_item_background"
+    android:background="@drawable/control_unit_bg_normal"
     android:gravity="center_vertical"
    >
 

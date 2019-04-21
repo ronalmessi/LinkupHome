@@ -146,6 +146,13 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         return LivePagedListBuilder(singleDeviceDao.getPagingDevices(zoneId), /* page size */6).build()
     }
 
+    fun getPagingUnBondedDevices(zoneId: Int): LiveData<PagedList<SingleDevice>> {
+        return LivePagedListBuilder(singleDeviceDao.getPagingUnBondedDevices(zoneId), /* page size */6).build()
+    }
+
+    fun getPagingBondedDevices(zoneId: Int,roomId:Int): LiveData<PagedList<SingleDevice>> {
+        return LivePagedListBuilder(singleDeviceDao.getPagingBondedDevices(zoneId,roomId), /* page size */6).build()
+    }
 
     fun getLocalState(id: Int): LiveData<Resource<LocalState>> {
         return object : DbBoundResource<LocalState>(appExecutors) {

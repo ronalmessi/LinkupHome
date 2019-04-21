@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.data.entity.SingleDevice
 
 class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffCallback) {
@@ -16,13 +17,37 @@ class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffC
     private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
     private var mOnSeekBarChangeListener: OnSeekBarChangeListener? = null
 
+    var isSwiping:Boolean= false
+
 
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         getItem(position)?.let {
-            Log.d("aa","yyyy")
-            holder.bindTo(it, mOnItemClickListener, mOnItemChildClickListener)
-            holder.itemView.setOnClickListener { _ ->
-                mOnItemClickListener?.onItemClick(it)
+            holder.bindTo(it, mOnItemChildClickListener)
+            holder.itemView.setOnClickListener {
+                mOnItemClickListener?.onItemClick(position)
+            }
+            holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener{
+                override fun onOpen(layout: SwipeLayout?) {
+                }
+
+                override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
+                    isSwiping=true
+                }
+
+                override fun onStartOpen(layout: SwipeLayout?) {
+                }
+
+                override fun onStartClose(layout: SwipeLayout?) {
+                }
+
+                override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
+
+                override fun onClose(layout: SwipeLayout?) {
+                    holder.swipeLayout.postDelayed({ isSwiping=false},550)
+                }
+            })
+            holder.swipeLayout.setOnClickListener {
+                if(!isSwiping) mOnItemClickListener?.onItemClick(position)
             }
             holder.powerStateView.setOnCheckedChangeListener { _, isChecked ->
                 mOnCheckedChangeListener?.onCheckedChanged(position, isChecked)
@@ -58,7 +83,7 @@ class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffC
          */
         private val diffCallback = object : DiffUtil.ItemCallback<SingleDevice>() {
             override fun areItemsTheSame(oldItem: SingleDevice, newItem: SingleDevice): Boolean {
-                return (oldItem.id == newItem.id&&oldItem.parameters?.on==newItem.parameters?.on)
+                return (oldItem.id == newItem.id&&oldItem.parameters?.on==newItem.parameters?.on&&oldItem.parameters?.brightness==newItem.parameters?.brightness)
             }
 
             /**
@@ -72,7 +97,7 @@ class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffC
     }
 
     interface OnItemClickListener {
-        fun onItemClick(singleDevice: SingleDevice)
+        fun onItemClick(position: Int)
     }
 
     interface OnItemChildClickListener {

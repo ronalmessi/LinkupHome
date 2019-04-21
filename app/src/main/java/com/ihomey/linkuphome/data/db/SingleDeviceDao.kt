@@ -20,6 +20,14 @@ abstract class SingleDeviceDao {
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
     abstract fun getPagingDevices(zoneId: Int): DataSource.Factory<Int, SingleDevice>
 
+    @Transaction
+    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and roomId =0 order by type asc,id asc")
+    abstract fun getPagingUnBondedDevices(zoneId: Int): DataSource.Factory<Int, SingleDevice>
+
+    @Transaction
+    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and roomId = :roomId order by type asc,id asc")
+    abstract fun getPagingBondedDevices(zoneId: Int,roomId: Int): DataSource.Factory<Int, SingleDevice>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertAll(devices: List<SingleDevice>)
 

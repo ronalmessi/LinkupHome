@@ -1,8 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
-import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.ihomey.linkuphome.data.entity.SingleDevice
@@ -11,26 +9,16 @@ class UnBondedDeviceListAdapter1 : PagedListAdapter<SingleDevice, UnBondedDevice
 
     private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
 
+    private val selectedDevices = mutableListOf<SingleDevice>()
+
+    fun getSelectedDevices():List<SingleDevice> {
+        return selectedDevices
+    }
 
     override fun onBindViewHolder(holder: UnBondedDeviceViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bindTo(it,mOnCheckedChangeListener)
-//            holder.powerStateView.setOnCheckedChangeListener { _, isChecked ->
-//                mOnCheckedChangeListener?.onCheckedChanged(position, isChecked)
-//            }
-//            holder.brightnessView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-//                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-//
-//                }
-//
-//                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-//
-//                }
-//
-//                override fun onStopTrackingTouch(seekBar: SeekBar) {
-//                    mOnSeekBarChangeListener?.onProgressChanged(position, seekBar.progress)
-//                }
-//            })
+            holder.stateView.setOnCheckedChangeListener { _, isChecked -> if(isChecked) selectedDevices.add(it) else selectedDevices.remove(it) }
         }
     }
 

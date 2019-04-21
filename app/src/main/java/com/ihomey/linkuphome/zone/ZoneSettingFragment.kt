@@ -27,13 +27,15 @@ import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 import com.ihomey.linkuphome.setting.SettingNavHostFragment
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
+import com.yanzhenjie.recyclerview.OnItemMenuClickListener
+import com.yanzhenjie.recyclerview.SwipeMenuBridge
+import com.yanzhenjie.recyclerview.SwipeMenuCreator
+import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
-class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, SwipeMenuItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener {
+class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener, OnItemMenuClickListener {
+    override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
+    }
 
     companion object {
         fun newInstance() = ZoneSettingFragment()
@@ -78,7 +80,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
             swipeRightMenu.addMenuItem(deleteItem)
         }
         rcv_zone_list.setSwipeMenuCreator(swipeMenuCreator)
-        rcv_zone_list.setSwipeMenuItemClickListener(this)
+        rcv_zone_list.setOnItemMenuClickListener(this)
         rcv_zone_list.adapter = adapter
 
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
@@ -127,39 +129,39 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         }
     }
 
-    override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
-        if (adapter.itemCount == 1) {
-            val deleteZoneFragment = DeleteZoneFragment()
-            deleteZoneFragment.isCancelable = false
-            val bundle = Bundle()
-            bundle.putString("hintText", getString(R.string.zone_delete_hint1))
-            deleteZoneFragment.arguments = bundle
-            deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
-        } else {
-            adapter.getItem(position)?.let {it0->
-                context?.getIMEI()?.let { it1 ->
-                    viewModel.getZone(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
-                        if (it?.status == Status.SUCCESS) {
-                            if(it.data?.devices.isNullOrEmpty()){
-                                deleteZone(it0.id)
-                            }else{
-                                val deleteDevicesFragment = DeleteDevicesFragment()
-                                deleteDevicesFragment.isCancelable = false
-                                deleteDevicesFragment.setConfirmButtonClickListener(this)
-                                val bundle = Bundle()
-                                bundle.putInt("zoneId", it0.id)
-                                deleteDevicesFragment.arguments = bundle
-                                deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
-                            }
-                        } else if (it?.status == Status.ERROR) {
-                            it.message?.let { it2 -> activity?.toast(it2) }
-                        }
-                    })
-                }
-            }
-        }
-        menuBridge?.closeMenu()
-    }
+//    override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
+//        if (adapter.itemCount == 1) {
+//            val deleteZoneFragment = DeleteZoneFragment()
+//            deleteZoneFragment.isCancelable = false
+//            val bundle = Bundle()
+//            bundle.putString("hintText", getString(R.string.zone_delete_hint1))
+//            deleteZoneFragment.arguments = bundle
+//            deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
+//        } else {
+//            adapter.getItem(position)?.let {it0->
+//                context?.getIMEI()?.let { it1 ->
+//                    viewModel.getZone(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
+//                        if (it?.status == Status.SUCCESS) {
+//                            if(it.data?.devices.isNullOrEmpty()){
+//                                deleteZone(it0.id)
+//                            }else{
+//                                val deleteDevicesFragment = DeleteDevicesFragment()
+//                                deleteDevicesFragment.isCancelable = false
+//                                deleteDevicesFragment.setConfirmButtonClickListener(this)
+//                                val bundle = Bundle()
+//                                bundle.putInt("zoneId", it0.id)
+//                                deleteDevicesFragment.arguments = bundle
+//                                deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
+//                            }
+//                        } else if (it?.status == Status.ERROR) {
+//                            it.message?.let { it2 -> activity?.toast(it2) }
+//                        }
+//                    })
+//                }
+//            }
+//        }
+//        menuBridge?.closeMenu()
+//    }
 
     override fun confirm(id: Int) {
         mViewModel.setRemoveDeviceFlag(true)

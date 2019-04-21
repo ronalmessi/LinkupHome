@@ -8,4 +8,4 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
  */
 
 @JsonPropertyOrder("act","deviceInstructId","groupInstructId","guid","spaceId","timestamp")
-data class BindDeviceVO(val guid: String, val spaceId: Int, val groupInstructId: Int, val deviceInstructIds: String,val act: String,val timestamp:Long,var signature:String?=null)
+data class BindDeviceVO(val guid: String, val spaceId: Int, val groupInstructId: Int, val deviceInstructId: String,val act: String,val timestamp:Long,var signature:String?=null)

@@ -95,16 +95,16 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
         }.asLiveData()
     }
 
-    fun bindDevice(guid: String, spaceId: Int, groupInstructId: Int, deviceInstructIds: String, act: String): LiveData<Resource<Room>> {
+    fun bindDevice(guid: String, spaceId: Int, groupInstructId: Int, deviceInstructId: String, act: String): LiveData<Resource<Room>> {
         return object : NetworkBoundResource<Room>(appExecutors) {
             override fun saveCallResult(item: Room?) {
                 item?.let {
                     roomDao.insert(item)
-//                    if (TextUtils.equals("add", act)) {
-//                        singleDeviceDao.bondToRoom(item.id, deviceInstructId, spaceId)
-//                    } else {
-//                        singleDeviceDao.unBondDeviceFromRoom(deviceInstructId, spaceId)
-//                    }
+                    if (TextUtils.equals("add", act)) {
+                        singleDeviceDao.bondToRoom(item.id, deviceInstructId.toInt(), spaceId)
+                    } else {
+                        singleDeviceDao.unBondDeviceFromRoom(deviceInstructId.toInt(), spaceId)
+                    }
                 }
             }
 
@@ -117,7 +117,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Room>> {
-                val bindDeviceVO = BindDeviceVO(guid.md5(), spaceId, groupInstructId, deviceInstructIds, act, System.currentTimeMillis())
+                val bindDeviceVO = BindDeviceVO(guid.md5(), spaceId, groupInstructId, deviceInstructId, act, System.currentTimeMillis())
                 bindDeviceVO.signature = beanToJson(bindDeviceVO).sha256()
                 return apiService.bindDevice(bindDeviceVO)
             }

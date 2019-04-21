@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.room
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.navigation.Navigation
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter
 import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter1
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Room
@@ -33,6 +31,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     }
 
     private lateinit var viewModel: HomeActivityViewModel
+    private lateinit var mViewModel: UnBondDevicesViewModel
     private lateinit var adapter: UnBondedDeviceListAdapter1
     private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
@@ -47,12 +46,17 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this).get(UnBondDevicesViewModel::class.java)
         viewModel.mSelectedRoom.observe(this, Observer<RoomAndDevices> {
             room = it.room
+            mViewModel.setZoneId(it.room?.zoneId)
         })
-        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<SingleDevice>> {
-//            it.snapshot()
-//                room?.let { it1->adapter.submitList(it?.filter { (it.roomId != it1.id && it.roomId == 0) }) }
+
+        mViewModel.unBondedDevicesResult1.observe(viewLifecycleOwner, Observer<PagedList<SingleDevice>> {
+            adapter.submitList(it)
+        })
+        mViewModel.isUnBondedDevicesListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
+            if(it) emptyView.visibility=View.VISIBLE else emptyView.visibility=View.GONE
         })
     }
 
@@ -62,22 +66,21 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
         rcv_device_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
-//        adapter.setEmptyView(R.layout.view_unbonded_device_list_empty, rcv_device_list)
-//        iv_back.setOnClickListener {
-//            if (adapter.getSelectedDevices().isEmpty()) Navigation.findNavController(it).popBackStack() else {
-//                val dialog = BondDeviceTipFragment()
-//                dialog.isCancelable = false
-//                dialog.setDeleteDeviceListener(this)
-//                dialog.show(fragmentManager, "BondDeviceTipFragment")
-//            }
-//        }
-//        btn_save.setOnClickListener {it1->
-//            if (adapter.getSelectedDevices().isEmpty()) {
-//                confirm()
-//            } else {
-//                bindDevice()
-//            }
-//        }
+        iv_back.setOnClickListener {
+            if (adapter.getSelectedDevices().isEmpty()) Navigation.findNavController(it).popBackStack() else {
+                val dialog = BondDeviceTipFragment()
+                dialog.isCancelable = false
+                dialog.setDeleteDeviceListener(this)
+                dialog.show(fragmentManager, "BondDeviceTipFragment")
+            }
+        }
+        btn_save.setOnClickListener {it1->
+            if (adapter.getSelectedDevices().isEmpty()) {
+                confirm()
+            } else {
+                bindDevice()
+            }
+        }
     }
 
     override fun confirm() {
@@ -90,6 +93,10 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
         mDialog.arguments = bundle
         mDialog.isCancelable = false
         mDialog.show(fragmentManager, "GroupUpdateFragment")
+        for (device in adapter.getSelectedDevices()) {
+            room?.let { bindDevice(it.zoneId, it.instructId, device.instructId.toString(), "add")  }
+        }
+
 //        room?.let { bindDevice(it.zoneId, it.instructId, adapter.getSelectedDevices().map { it.instructId }.joinToString(","), "add")  }
     }
 
@@ -99,11 +106,11 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
             viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructIds, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 if (it?.status == Status.SUCCESS) {
                     count++
-//                    if (count == adapter.getSelectedDevices().size) {
-//                        mDialog.dismiss()
-//                        count = 0
-//                        Navigation.findNavController(btn_save).popBackStack()
-//                    }
+                    if (count == adapter.getSelectedDevices().size) {
+                        mDialog.dismiss()
+                        count = 0
+                        Navigation.findNavController(btn_save).popBackStack()
+                    }
                 } else if (it?.status == Status.ERROR) {
                     count++
                     it.message?.let { it2 -> activity?.toast(it2) }

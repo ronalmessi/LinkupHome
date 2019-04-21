@@ -1,9 +1,6 @@
 package com.ihomey.linkuphome.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.ihomey.linkuphome.data.entity.*
 import com.ihomey.linkuphome.data.repository.*
@@ -29,6 +26,10 @@ class HomeActivityViewModel : ViewModel() {
     val devicesResult: LiveData<PagedList<SingleDevice>>
     val roomsResult:  LiveData<PagedList<RoomAndDevices>>
 
+
+    val isDeviceListEmptyLiveData = MediatorLiveData<Boolean>()
+    val isRoomListEmptyLiveData = MediatorLiveData<Boolean>()
+
     init {
         DaggerAppComponent.builder().build().inject(this)
         mCurrentZone = Transformations.switchMap(mCurrentZoneId) { input ->
@@ -37,8 +38,14 @@ class HomeActivityViewModel : ViewModel() {
         devicesResult = Transformations.switchMap(mCurrentZoneId) { input ->
             mDeviceRepository.getPagingDevices(input)
         }
+        isDeviceListEmptyLiveData.addSource(devicesResult) {
+            isDeviceListEmptyLiveData.value = it?.size == 0
+        }
         roomsResult = Transformations.switchMap(mCurrentZoneId) { input ->
             roomRepository.getPagingRooms(input)
+        }
+        isRoomListEmptyLiveData.addSource(roomsResult) {
+            isRoomListEmptyLiveData.value = it?.size == 0
         }
     }
 

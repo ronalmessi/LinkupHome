@@ -96,12 +96,6 @@ class MaskView extends ViewGroup {
     final int w = MeasureSpec.getSize(widthMeasureSpec);
     final int h = MeasureSpec.getSize(heightMeasureSpec);
     setMeasuredDimension(w, h);
-//    if (!mCustomFullingRect) {
-//      mFullingRect.set(0, 0, w, h);
-//      Log.d("aa","111");
-//      resetOutPath();
-//    }
-
     final int count = getChildCount();
     View child;
     for (int i = 0; i < count; i++) {
