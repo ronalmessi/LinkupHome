@@ -132,6 +132,11 @@ class HomeActivityViewModel : ViewModel() {
         currentControlDevice.value = singleDevice
     }
 
+    fun deleteDevice(deviceId: Int) {
+        mRemoveDeviceVo.value=null
+        return mDeviceRepository.deleteDevice(deviceId)
+    }
+
     fun deleteDevice(guid:String,deviceId: Int): LiveData<Resource<Boolean>> {
         return mDeviceRepository.deleteDevice(guid, deviceId)
     }

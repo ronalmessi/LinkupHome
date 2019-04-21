@@ -103,6 +103,7 @@ fun Context.toast(errorCode: String) {
         "0031"->message="分组名称不能大于225个字符"
         "0032"->message="分组类型不能大于64个字符"
         "10000"->message=this.getString(R.string.tip_network_error)
+        "10001"->message="未知错误"
     }
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

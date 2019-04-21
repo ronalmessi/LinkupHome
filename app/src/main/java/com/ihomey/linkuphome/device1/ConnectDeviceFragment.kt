@@ -33,10 +33,7 @@ import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.connect_device_fragment.*
 
 
-class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociateListener,  DeviceListAdapter.OnCheckedChangeListener {
-    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
-
-    }
+class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociateListener,  DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener {
 
     companion object {
         fun newInstance() = ConnectDeviceFragment()
@@ -62,17 +59,18 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
+                currentZone?.id?.let { viewModel.setQuery(it,arguments?.getInt("deviceType")!!+1) }
             }
         })
-//        mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
-//            if (it?.status == Status.SUCCESS&&(adapter.emptyViewCount==1&&adapter.itemCount==1)) {
-//                adapter.setNewData(it.data?.filter { it.type == arguments?.getInt("deviceType")!!+1 })
-//                val scanDevice = mViewModel.getScanDevice().value
-//                if (scanDevice != null && adapter.data.indexOf(scanDevice) == -1) {
-//                    adapter.addData(scanDevice)
-//                }
-//            }
-//        })
+        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
+            if (it?.status == Status.SUCCESS&&(adapter.emptyViewCount==1&&adapter.itemCount==1)) {
+                adapter.setNewData(it.data)
+                val scanDevice = mViewModel.getScanDevice().value
+                if (scanDevice != null && adapter.data.indexOf(scanDevice) == -1) {
+                    adapter.addData(scanDevice)
+                }
+            }
+        })
     }
 
     override fun onBackPressed(): Boolean {
@@ -89,9 +87,9 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = ScanDeviceListAdapter(arrayListOf())
-//        adapter.onItemClickListener = this
-//        adapter.setOnSeekBarChangeListener(this)
-//        adapter.setOnCheckedChangeListener(this)
+        adapter.onItemClickListener = this
+        adapter.setOnSeekBarChangeListener(this)
+        adapter.setOnCheckedChangeListener(this)
         rcv_device_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
@@ -157,30 +155,30 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         }
     }
 
-//    override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-//        val singleDevice = adapter.getItem(position)
-//        if (singleDevice?.id == 0) {
-//            deviceAssociateFragment.isCancelable = false
-//            deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
-//            listener.associateDevice(singleDevice.hash, null)
-//        }
-//    }
+    override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        val singleDevice = adapter.getItem(position)
+        if (singleDevice?.id == 0) {
+            deviceAssociateFragment.isCancelable = false
+            deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
+            listener.associateDevice(singleDevice.hash, null)
+        }
+    }
 
-//    override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
-//        val controller = ControllerFactory().createController(item.type)
-////        item.state.on = if (isChecked) 1 else 0
-//        if (meshServiceStateListener.isMeshServiceConnected()) { controller?.setLightPowerState(item.instructId, if (isChecked) 1 else 0) }
-//        changeDeviceState(item,"on",if (isChecked) "1" else "0")
-////        mViewModel.updateDevice(item)
-//    }
-//
-//    override fun onProgressChanged(item: SingleDevice, progress: Int) {
-////        val controller = ControllerFactory().createController(item.type)
-////        if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(item.instructId, progress.plus(15))
-////        changeDeviceState(item,"brightness", progress.toString())
-////        item.state.brightness = progress
-////        mViewModel.updateDevice(item)
-//    }
+    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
+        adapter.getItem(position)?.let {
+            val controller = ControllerFactory().createController(it.type)
+            if (meshServiceStateListener.isMeshServiceConnected()) { controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0) }
+            changeDeviceState(it,"on",if (isChecked) "1" else "0")
+        }
+    }
+
+    override fun onProgressChanged(position: Int, progress: Int) {
+        adapter.getItem(position)?.let {
+            val controller = ControllerFactory().createController(it.type)
+            if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(it.instructId, progress.plus(15))
+            changeDeviceState(it,"brightness", progress.toString())
+        }
+    }
 
 
     interface DevicesStateListener {
@@ -193,7 +191,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
             if (it?.status == Status.SUCCESS) {
 
             }else if (it?.status == Status.ERROR) {
-                it.message?.let { it2 -> activity?.toast(it2) }
+
             }
         })}
     }

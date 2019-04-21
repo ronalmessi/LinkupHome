@@ -20,7 +20,6 @@ import cn.iclass.guideview.GuideBuilder
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
-import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter1
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
@@ -44,7 +43,7 @@ import kotlinx.android.synthetic.main.sub_zone_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
 
-class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, OnItemMenuClickListener, BondedDeviceListAdapter1.OnCheckedChangeListener, BondedDeviceListAdapter.OnCheckedChangeListener {
+class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, OnItemMenuClickListener,  BondedDeviceListAdapter.OnCheckedChangeListener {
 
     companion object {
         fun newInstance() = RoomFragment()
@@ -154,12 +153,6 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
         menuBridge?.closeMenu()
     }
 
-
-    override fun onCheckedChanged(item: SingleDevice, isChecked: Boolean) {
-        val controller = ControllerFactory().createController(item.type)
-        if (listener.isMeshServiceConnected()) controller?.setLightPowerState(item.instructId, if (isChecked) 1 else 0)
-        changeDeviceState(item, "on", if (isChecked) "1" else "0")
-    }
 
     override fun onCheckedChanged(position: Int, isChecked: Boolean) {
         adapter.currentList?.get(position)?.let {

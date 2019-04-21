@@ -65,9 +65,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
                 iv_add.visibility = View.VISIBLE
             }
         })
-        mViewModel.roomsResult.observe(this, Observer<PagedList<RoomAndDevices>> {
-            Log.d("aa","11111roomsResult--"+it.size+"---"+it[1]?.devices?.size)
-        })
     }
 
     override fun onAttach(context: Context?) {
@@ -103,9 +100,17 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
 
     override fun deleteDevice(id: Int, instructId: Int) {
-        deviceRemoveFragment.isCancelable = false
-        deviceRemoveFragment.show(fragmentManager, "DeviceRemoveFragment")
-        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, this))
+        context?.getIMEI()?.let { it1 ->
+            mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
+                if (it?.status == Status.SUCCESS) {
+                    deviceRemoveFragment.isCancelable = false
+                    deviceRemoveFragment.show(fragmentManager, "DeviceRemoveFragment")
+                    mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, this))
+                } else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 
     override fun onItemChildClick(singleDevice: SingleDevice, view: View) {
@@ -179,17 +184,10 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         isUserTouch=false
     }
 
-    override fun onDeviceRemoved(deviceId: Int, deviceInstructId: Int, success: Boolean) {
-        context?.getIMEI()?.let { it1 ->
-            mViewModel.deleteDevice(it1, deviceId).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
-                if (it?.status == Status.SUCCESS) {
-                    deviceRemoveFragment.dismiss()
-                } else if (it?.status == Status.ERROR) {
-                    deviceRemoveFragment.dismiss()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                }
-            })
-        }
+    override fun onDeviceRemoved(deviceId: Int, uuidHash: Int, success: Boolean) {
+        deviceRemoveFragment.dismiss()
+        isUserTouch=false
+        mViewModel.deleteDevice(deviceId)
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {

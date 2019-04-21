@@ -56,8 +56,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     fun deleteDevice(guid:String,deviceId:Int): LiveData<Resource<Boolean>> {
         return object : NetworkBoundResource<Boolean>(appExecutors) {
             override fun saveCallResult(item: Boolean?) {
-                singleDeviceDao.delete(deviceId)
-                localStateDao.delete(deviceId)
+
             }
 
             override fun shouldFetch(data: Boolean?): Boolean {
@@ -141,6 +140,14 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }.asLiveData()
     }
 
+    fun getDevicesByType(zoneId: Int,type:Int): LiveData<Resource<List<SingleDevice>>> {
+        return object : DbBoundResource<List<SingleDevice>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<SingleDevice>> {
+                return singleDeviceDao.getDevicesByType(zoneId,type)
+            }
+        }.asLiveData()
+    }
+
 
     fun getPagingDevices(zoneId: Int): LiveData<PagedList<SingleDevice>> {
         return LivePagedListBuilder(singleDeviceDao.getPagingDevices(zoneId), /* page size */6).build()
@@ -165,6 +172,13 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     fun updateLocalState(localState: LocalState) {
         appExecutors.diskIO().execute {
             localStateDao.insert(localState)
+        }
+    }
+
+    fun deleteDevice(deviceId: Int) {
+        appExecutors.diskIO().execute {
+            singleDeviceDao.delete(deviceId)
+            localStateDao.delete(deviceId)
         }
     }
 }

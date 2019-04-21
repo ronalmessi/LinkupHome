@@ -18,7 +18,11 @@ abstract class SingleDeviceDao {
 
     @Transaction
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
-    abstract fun getPagingDevices(zoneId: Int): DataSource.Factory<Int, SingleDevice>
+    abstract fun getPagingDevices(zoneId: Int):DataSource.Factory<Int, SingleDevice>
+
+    @Transaction
+    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and type =:type order by id asc")
+    abstract fun getDevicesByType(zoneId: Int,type:Int):LiveData<List<SingleDevice>>
 
     @Transaction
     @Query("SELECT * FROM Device WHERE zoneId = :zoneId and roomId =0 order by type asc,id asc")

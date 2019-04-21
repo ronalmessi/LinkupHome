@@ -30,11 +30,13 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
                             postValue(response.body())
                         }
                         override fun onFailure(call: Call<ApiResult<R>>, throwable: Throwable) {
-//                            if (throwable is HttpException||throwable is SocketTimeoutException||throwable is IOException) {
-//                                postValue(throwable.message?.let { ApiResult<R>("10000", it,null) })
-//                            } else {
-////                                view.onUnknownError(e.getMessage())
-//                            }
+                            if (throwable is SocketTimeoutException||throwable is IOException) {
+                                postValue(throwable.message?.let { ApiResult<R>("10000", it,null) })
+                            } else if (throwable is HttpException){
+                                postValue(throwable.message?.let { ApiResult<R>("10001", it,null) })
+                            }else {
+                                postValue(throwable.message?.let { ApiResult<R>("10001", it,null) })
+                            }
                         }
                     })
                 }

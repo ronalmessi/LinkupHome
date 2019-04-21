@@ -34,15 +34,6 @@ public class LiveDataCallAdapterFactory extends CallAdapter.Factory {
             return null;
         }
         Type observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
-//        Class<?> rawObservableType = getRawType(observableType);
-//        if (rawObservableType != ApiResult.class) {
-//            throw new IllegalArgumentException("type must be a resource");
-//        }
-//        if (!(observableType instanceof ParameterizedType)) {
-//            throw new IllegalArgumentException("resource must be parameterized");
-//        }
-//        Type bodyType = getParameterUpperBound(0, (ParameterizedType) observableType);
-//        Type resultType = new ParameterizedTypeImpl(ApiResult.class, new Class[]{getRawType(bodyType)});
         return new LiveDataCallAdapter<>(observableType);
     }
 }

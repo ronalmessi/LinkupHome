@@ -74,7 +74,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             if(it!=null){
                 ConfigModelApi.resetDevice(it.deviceInstructId)
                 mMeshHandler.postDelayed({
-                    mViewModel.setRemoveDeviceVo(null)
                     it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
                 }, REMOVE_ACK_WAIT_TIME_MS)
             }
