@@ -29,7 +29,7 @@ class S2ControlFragment : BaseControlFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.a2_control_fragment, container, false)
         initController(7)
-        mViewDataBinding.deviceSeekBarBrightness.max=245
+        mViewDataBinding.deviceSeekBarBrightness.max=240
         mViewDataBinding.handlers = ToolBarEventHandler()
         return mViewDataBinding.root
     }

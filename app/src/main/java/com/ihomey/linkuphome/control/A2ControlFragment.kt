@@ -30,7 +30,7 @@ class A2ControlFragment : BaseControlFragment() {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.a2_control_fragment, container, false)
         initController(2)
         mViewDataBinding.handlers = ToolBarEventHandler()
-        mViewDataBinding.deviceSeekBarBrightness.max=245
+        mViewDataBinding.deviceSeekBarBrightness.max=240
         return mViewDataBinding.root
     }
 

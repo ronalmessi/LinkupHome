@@ -17,7 +17,7 @@ class UnBondedDeviceListAdapter1 : PagedListAdapter<SingleDevice, UnBondedDevice
 
     override fun onBindViewHolder(holder: UnBondedDeviceViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bindTo(it,mOnCheckedChangeListener)
+            holder.bindTo(it)
             holder.stateView.setOnCheckedChangeListener { _, isChecked -> if(isChecked) selectedDevices.add(it) else selectedDevices.remove(it) }
         }
     }

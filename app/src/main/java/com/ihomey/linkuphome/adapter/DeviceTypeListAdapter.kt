@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.AppConfig
@@ -20,6 +21,11 @@ class DeviceTypeListAdapter(layoutId: Int) : BaseQuickAdapter<Int, BaseViewHolde
         val spannableString = SpannableString(deviceTypeName)
         spannableString.setSpan(StyleSpan(Typeface.BOLD), 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         helper?.setText(R.id.tv_device_type_name, spannableString)
-        helper?.setImageResource(R.id.iv_device_type, AppConfig.DEVICE_ICON[item])
+        val iconView=helper?.getView<ImageView>(R.id.iv_device_type)
+        if(item==8) {
+            iconView?.scaleY=1.2f
+            iconView?.scaleX=1.2f
+        }
+        iconView?.setImageResource(AppConfig.DEVICE_ICON[item])
     }
 }

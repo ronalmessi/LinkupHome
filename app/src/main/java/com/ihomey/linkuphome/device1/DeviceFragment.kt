@@ -130,7 +130,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         deviceList?.let {
             val singleDevice=it[position]
             mViewModel.setCurrentControlDevice(singleDevice)
-            when (singleDevice.type - 1) {
+            when (singleDevice.type-1) {
                 0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
                 1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
                 2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)

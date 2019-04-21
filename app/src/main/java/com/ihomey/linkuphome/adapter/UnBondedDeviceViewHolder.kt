@@ -25,7 +25,7 @@ class UnBondedDeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(
      * Items might be null if they are not paged in yet. PagedListAdapter will re-bind the
      * ViewHolder when Item is loaded.
      */
-    fun bindTo(singleDevice: SingleDevice, mOnCheckedChangeListener: UnBondedDeviceListAdapter1.OnCheckedChangeListener?) {
+    fun bindTo(singleDevice: SingleDevice) {
         this.singleDevice = singleDevice
         nameView.text = singleDevice.name
         val type= singleDevice.type.minus(1)
@@ -38,19 +38,24 @@ class UnBondedDeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._18sdp).toInt(), parent.context.resources.getDimension(R.dimen._2sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._2sdp).toInt())
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._35sdp).toInt()
         }else if (type==6||type==7) {
+            iconView.scaleX=0.8f
+            iconView.scaleY=0.8f
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._15sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt())
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._33sdp).toInt()
         }else if (type == 4) {
             containerLayout.setPadding( parent.context.resources.getDimension(R.dimen._21sdp).toInt(), 0,parent.context.resources.getDimension(R.dimen._12sdp).toInt(), 0)
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._38sdp).toInt()
         }else if (type == 5||type == 9) {
-            layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._26sdp).toInt()
-            containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._4sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._12sdp).toInt(), 0)
+            layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._24sdp).toInt()
+            containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._12sdp).toInt(), 0)
         }else if (type == 3) {
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._8sdp).toInt()
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._13sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._13sdp).toInt())
         }else if (type == 8) {
-            containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._13sdp).toInt(), parent.context.resources.getDimension(R.dimen._13sdp).toInt())
+            iconView.scaleX=0.8f
+            iconView.scaleY=0.8f
+            layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._14sdp).toInt()
+            containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._16sdp).toInt(), parent.context.resources.getDimension(R.dimen._13sdp).toInt(), parent.context.resources.getDimension(R.dimen._16sdp).toInt())
         }
         nameView.layoutParams = layoutParams
     }

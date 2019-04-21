@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">   
     <item   
     android:state_selected="true"
-    android:drawable="@mipmap/scene_flow_bg" />
+    android:drawable="@mipmap/scene_seek_bg" />
     <item
     android:drawable="@drawable/scene_seek_normal_bg" />
 </selector>   
