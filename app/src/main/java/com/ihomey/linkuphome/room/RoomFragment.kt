@@ -77,7 +77,6 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
             mViewModel.setCurrentRoom(room)
         })
         mViewModel.bondedDevicesResult1.observe(viewLifecycleOwner, Observer<PagedList<SingleDevice>> {
-            Log.d("aa","222222---"+it.size)
             adapter.submitList(it)
         })
         mViewModel.isBondedDevicesListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {

@@ -79,7 +79,6 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
         })
         mViewModel.roomsResult.observe(this, Observer<PagedList<RoomAndDevices>> {
             roomList=it
-            Log.d("aa","roomsResult--"+isUserTouch)
             if(!isUserTouch)adapter.submitList(it)
         })
 
@@ -119,10 +118,9 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
     override fun onFragmentVisibleStateChanged(isVisible: Boolean) {
         isFragmentVisible = isVisible
         if(!isVisible) isUserTouch=false
-        Log.d("aa","ZoneFragment---"+isFragmentVisible)
         if (!hasShowBindDeviceGuide && isVisible&&adapter.itemCount > 0) {
-            adapter.currentList?.get(0).let {
-                rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,adapter.itemCount) } }
+            adapter.currentList?.get(0)?.let {it1->
+                rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,it1.devices.size) } }
             }
         }
     }
@@ -131,8 +129,8 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
         super.onResume()
         rcv_zone_list.postDelayed({
             if (!hasShowBindDeviceGuide&&isFragmentVisible&& adapter.itemCount > 0) {
-                adapter.currentList?.get(0).let {
-                    rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,adapter.itemCount) } }
+                adapter.currentList?.get(0)?.let {it1->
+                    rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,it1.devices.size) } }
                 }
             }
         }, 250)
@@ -245,7 +243,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
         builder.setTargetView(view)
                 .setAlpha(200)
                 .setHighTargetCorner(context?.resources?.getDimension(R.dimen._6sdp)?.toInt()!!)
-                .setHighTargetMarginTop(getMarginTop(rcv_zone_list) + if (size > 0) context?.resources?.getDimension(R.dimen._10sdp)?.toInt()!! else context?.resources?.getDimension(R.dimen._12sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(rcv_zone_list) + if (size > 0) context?.resources?.getDimension(R.dimen._10sdp)?.toInt()!! else context?.resources?.getDimension(R.dimen._16sdp)?.toInt()!!)
                 .setAutoDismiss(false)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false)
