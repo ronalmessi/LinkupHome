@@ -102,17 +102,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     fun changeDeviceState(guid:String,id:Int,name:String,value:String): LiveData<Resource<SingleDevice>> {
         return object : NetworkBoundResource<SingleDevice>(appExecutors) {
             override fun saveCallResult(item: SingleDevice?) {
-                item?.let {
-                    singleDeviceDao.insert(it)
-                    if (TextUtils.equals("on", name)&&it.roomId!=0){
-                        val room=roomDao.getRoom(it.roomId)
-                        val deviceList=singleDeviceDao.getDevices(it.zoneId, it.roomId)
-                        if(deviceList.filter { it.parameters?.on==1 }.size % deviceList.size==0){
-                            room.parameters?.on=if(deviceList.filter { it.parameters?.on == 1 }.isEmpty()) 0 else 1
-                            room.parameters?.let { it1 -> roomDao.updateState(it.roomId, it1) }
-                        }
-                    }
-                }
+
             }
 
             override fun shouldFetch(data: SingleDevice?): Boolean {
@@ -172,6 +162,26 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     fun updateLocalState(localState: LocalState) {
         appExecutors.diskIO().execute {
             localStateDao.insert(localState)
+        }
+    }
+
+    fun updateState(singleDevice:SingleDevice,deviceState:DeviceState) {
+        appExecutors.diskIO().execute {
+            singleDeviceDao.updateState(singleDevice.id,deviceState)
+        }
+    }
+
+    fun updateRoomAndDeviceState(singleDevice:SingleDevice,deviceState:DeviceState) {
+        appExecutors.diskIO().execute {
+            singleDeviceDao.updateState(singleDevice.id,deviceState)
+            val room=roomDao.getRoom(singleDevice.roomId)
+            if(room!=null){
+                val deviceList=singleDeviceDao.getDevices(singleDevice.zoneId, singleDevice.roomId)
+                if(deviceList.filter { it.parameters?.on==1 }.size % deviceList.size==0){
+                    room.parameters?.on=if(deviceList.filter { it.parameters?.on == 1 }.isEmpty()) 0 else 1
+                    room.parameters?.let { it1 -> roomDao.updateState(singleDevice.roomId, it1) }
+                }
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.device1
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -191,10 +192,27 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {
+        updateState(singleDevice, key, value)
         context?.getIMEI()?.let { it1 ->
             mViewModel.changeDeviceState(it1, singleDevice.id, key, value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
 
             })
+        }
+    }
+
+    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+        if(TextUtils.equals("brightness", key)){
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.brightness=value.toInt()
+                mViewModel.updateDeviceState(singleDevice,it)
+            }
+        }else{
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.on=value.toInt()
+                mViewModel.updateRoomAndDeviceState(singleDevice,it)
+            }
         }
     }
 }

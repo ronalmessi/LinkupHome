@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -78,7 +79,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
             }
         })
         mViewModel.roomsResult.observe(this, Observer<PagedList<RoomAndDevices>> {
-            roomList=it
+            roomList=it.snapshot()
             if(!isUserTouch)adapter.submitList(it)
         })
 
@@ -208,7 +209,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
                        Handler().postDelayed({ controller?.setLightBright(device.instructId, progress.plus(15)) }, 100L * index)
                    }
                }
-               it.room?.let { changeRoomState(it, "brightness", progress.toString()) }
+               changeRoomState(it, "brightness", progress.toString())
            }
        }
     }
@@ -224,7 +225,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
                         Handler().postDelayed({ controller?.setLightPowerState(device.instructId, if (isChecked) 1 else 0) }, 100L * index)
                     }
                 }
-                it.room?.let { changeRoomState(it, "on", if (isChecked) "1" else "0") }
+                changeRoomState(it, "on", if (isChecked) "1" else "0")
             }
         }
     }
@@ -295,10 +296,22 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
         }
     }
 
-    private fun changeRoomState(room: Room, key: String, value: String) {
+    private fun changeRoomState(roomAndDevices: RoomAndDevices, key: String, value: String) {
+        updateState(roomAndDevices,key,value)
         context?.getIMEI()?.let { it1 ->
-            mViewModel.changeRoomState(it1, room.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Room>> {
-            })
+            roomAndDevices.room?.let {
+                mViewModel.changeRoomState(it1, it.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+
+                })
+            }
+        }
+    }
+
+    private fun updateState(roomAndDevices: RoomAndDevices, key: String, value: String) {
+        roomAndDevices.room?.let {
+            val deviceState = it.parameters
+            if (TextUtils.equals("on", key)) deviceState?.on = value.toInt() else deviceState?.brightness = value.toInt()
+            deviceState?.let {it1-> mViewModel.updateState(roomAndDevices, it1)}
         }
     }
 

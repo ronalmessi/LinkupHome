@@ -127,14 +127,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
     fun changeRoomState(guid: String, id: Int, name: String, value: String): LiveData<Resource<Room>> {
         return object : NetworkBoundResource<Room>(appExecutors) {
             override fun saveCallResult(item: Room?) {
-                item?.let {
-                    roomDao.insert(it)
-                    for (device in singleDeviceDao.getDevices(it.zoneId, it.id)) {
-                        val deviceState = device.parameters
-                        if (TextUtils.equals("on", name)) deviceState?.on = value.toInt() else deviceState?.brightness = value.toInt()
-                        deviceState?.let { it1 -> singleDeviceDao.updateState(it.id, it1) }
-                    }
-                }
+
             }
 
             override fun shouldFetch(data: Room?): Boolean {
@@ -157,6 +150,18 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
     fun getPagingRooms(zoneId: Int): LiveData<PagedList<RoomAndDevices>> {
         return LivePagedListBuilder(roomDao.getPagingRooms(zoneId), /* page size */6).build()
     }
+
+    fun updateState(roomAndDevices: RoomAndDevices,deviceState:DeviceState) {
+        appExecutors.diskIO().execute {
+            roomAndDevices.room?.let {
+                roomDao.updateState(it.id,deviceState)
+                for(device in roomAndDevices.devices){
+                    singleDeviceDao.updateStateByRoomId(it.id,deviceState)
+                }
+            }
+        }
+    }
+
 }
 
 

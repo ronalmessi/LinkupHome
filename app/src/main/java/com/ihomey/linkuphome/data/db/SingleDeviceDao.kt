@@ -61,6 +61,13 @@ abstract class SingleDeviceDao {
     abstract fun getDevices(zoneId: Int,roomId:Int): List<SingleDevice>
 
     @Query("UPDATE Device set parameters= :deviceState WHERE roomId = :roomId")
-    abstract fun updateState(roomId: Int,deviceState:DeviceState)
+    abstract fun updateStateByRoomId(roomId: Int,deviceState:DeviceState)
+
+
+    @Query("UPDATE Device set parameters= :deviceState WHERE id = :deviceId")
+    abstract fun updateState(deviceId: Int,deviceState:DeviceState)
+
+
+
 
 }

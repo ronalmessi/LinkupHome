@@ -23,7 +23,7 @@ interface RoomDao {
     fun insert(room: Room)
 
     @Query("SELECT * FROM room where id=:roomId ")
-    fun getRoom(roomId: Int): Room
+    fun getRoom(roomId: Int): Room?
 
     @Transaction
     @Query("SELECT * FROM room where zoneId=:zoneId order by id asc")

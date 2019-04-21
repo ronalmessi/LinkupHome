@@ -149,8 +149,23 @@ class HomeActivityViewModel : ViewModel() {
         return mDeviceRepository.changeDeviceState(guid,id,name,value)
     }
 
+
     fun bindDevice(guid: String,spaceId: Int,groupInstructId: Int, deviceInstructId: String,act: String): LiveData<Resource<Room>> {
         return roomRepository.bindDevice(guid,spaceId,groupInstructId,deviceInstructId,act)
     }
+
+
+    fun updateState(roomAndDevices: RoomAndDevices,deviceState:DeviceState) {
+        return roomRepository.updateState(roomAndDevices, deviceState)
+    }
+
+    fun updateDeviceState(singleDevice:SingleDevice,deviceState:DeviceState) {
+        return mDeviceRepository.updateState(singleDevice, deviceState)
+    }
+
+    fun updateRoomAndDeviceState(singleDevice:SingleDevice,deviceState:DeviceState) {
+        return mDeviceRepository.updateRoomAndDeviceState(singleDevice, deviceState)
+    }
+
 
 }
