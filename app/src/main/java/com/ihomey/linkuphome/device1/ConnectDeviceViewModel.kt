@@ -37,4 +37,6 @@ class ConnectDeviceViewModel : ViewModel() {
     fun setQuery(zoneId: Int,type:Int){
         mQuery.value=Query(zoneId,type)
     }
+
+
 }

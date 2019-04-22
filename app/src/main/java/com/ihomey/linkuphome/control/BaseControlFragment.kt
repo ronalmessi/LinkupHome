@@ -156,7 +156,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                 R.id.btn_device_lighting -> if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
                 R.id.btn_device_scene_setting -> {
                     when (type) {
-                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment2)
+                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment)
                         3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_n1SceneSettingFragment)
                         5 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_v1SceneSettingFragment)
                         6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_r2SceneSettingFragment)
@@ -166,7 +166,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                 }
                 R.id.btn_device_alarm_setting -> {
                     when (type) {
-                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment2)
+                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment)
                         2 -> Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
                         3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_timerSettingFragment)
                         5 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_repeatTimerSettingFragment)
