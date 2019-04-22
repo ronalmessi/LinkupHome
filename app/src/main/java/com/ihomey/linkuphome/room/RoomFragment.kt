@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
@@ -77,7 +76,7 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
             room = it.room
             mViewModel.setCurrentRoom(room)
         })
-        mViewModel.bondedDevicesResult1.observe(viewLifecycleOwner, Observer<PagedList<SingleDevice>> {
+        mViewModel.bondedDevicesResult1.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             adapter.submitList(it)
         })
         mViewModel.isBondedDevicesListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
@@ -236,10 +235,10 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
         }
     }
 
-    private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {
-        updateState(singleDevice, key, value)
+    private fun changeDeviceState(device: Device, key: String, value: String) {
+        updateState(device, key, value)
         context?.getIMEI()?.let { it1 ->
-            viewModel.changeDeviceState(it1, singleDevice.id, key, value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+            viewModel.changeDeviceState(it1, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
 
             })
         }
@@ -268,18 +267,18 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
         }
     }
 
-    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+    private fun updateState(device: Device, key: String, value: String) {
         if(TextUtils.equals("brightness", key)){
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.brightness=value.toInt()
-                viewModel.updateDeviceState(singleDevice,it)
+                viewModel.updateDeviceState(device,it)
             }
         }else{
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.on=value.toInt()
-                viewModel.updateRoomAndDeviceState(singleDevice,it)
+                viewModel.updateRoomAndDeviceState(device,it)
             }
         }
     }

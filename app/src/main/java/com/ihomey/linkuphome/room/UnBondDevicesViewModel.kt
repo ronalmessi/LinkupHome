@@ -2,14 +2,14 @@ package com.ihomey.linkuphome.room
 
 import androidx.lifecycle.*
 import androidx.paging.PagedList
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
 class UnBondDevicesViewModel : ViewModel() {
 
-    val unBondedDevicesResult1: LiveData<PagedList<SingleDevice>>
+    val unBondedDevicesResult1: LiveData<PagedList<Device>>
     val isUnBondedDevicesListEmptyLiveData = MediatorLiveData<Boolean>()
 
     val mZoneId = MutableLiveData<Int>()

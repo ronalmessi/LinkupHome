@@ -49,10 +49,15 @@ class AppModule {
     fun provideDb(): LinkupHomeDb {
         return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db").addMigrations(object :Migration(1,2){
             override fun migrate(database: SupportSQLiteDatabase) {
-                 database.execSQL("DROP TABLE device")
-                 database.execSQL("DROP TABLE group_device")
-                 database.execSQL("DROP TABLE category")
-                 database.execSQL("DROP TABLE model")
+                database.execSQL("CREATE TABLE device1 (id INTEGER not null,zoneId INTEGER not null,roomId INTEGER not null,name TEXT not null,type INTEGER not null,instructId INTEGER not null,parameters TEXT , PRIMARY KEY(id))")
+                database.execSQL("CREATE TABLE room (id INTEGER not null,zoneId INTEGER not null,name TEXT not null,deviceTypes TEXT not null,type INTEGER not null,instructId INTEGER not null,parameters TEXT , PRIMARY KEY(id))")
+                database.execSQL("CREATE TABLE zone (id INTEGER not null, name TEXT not null,netWorkKey TEXT not null,nextDeviceIndex INTEGER not null,nextGroupIndex INTEGER not null,active INTEGER not null, type INTEGER not null,PRIMARY KEY(id))")
+                database.execSQL("CREATE TABLE local_state (id INTEGER not null,sceneMode INTEGER DEFAULT 0, openTimer INTEGER not null DEFAULT 0,closeTimer INTEGER not null DEFAULT 0,isOnOpenTimer INTEGER not null DEFAULT 0,isOnCloseTimer INTEGER not null DEFAULT 0, PRIMARY KEY(id))")
+
+                database.execSQL("DROP TABLE device")
+                database.execSQL("DROP TABLE group_device")
+                database.execSQL("DROP TABLE category")
+                database.execSQL("DROP TABLE model")
             }
 
         }).build()
@@ -61,8 +66,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideSingleDeviceDao(db: LinkupHomeDb): SingleDeviceDao {
-        return db.singleDeviceDao()
+    fun provideDeviceDao(db: LinkupHomeDb): DeviceDao {
+        return db.deviceDao()
     }
 
     @Singleton

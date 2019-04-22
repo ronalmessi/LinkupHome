@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.control
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
@@ -20,7 +19,7 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.DeviceNavHostFragment
@@ -33,7 +32,6 @@ import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
-import kotlinx.android.synthetic.main.zone_fragment.*
 
 
 /**
@@ -43,7 +41,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
 
     private var controller: Controller? = null
-    protected lateinit var mControlDevice: SingleDevice
+    protected lateinit var mControlDevice: Device
     protected lateinit var mViewModel: HomeActivityViewModel
     protected lateinit var listener: MeshServiceStateListener
     private var guide: Guide? = null
@@ -51,7 +49,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     var hasShowRenameDeviceGuide by PreferenceHelper("hasShowRenameDeviceGuide", false)
 
-    abstract fun updateViewData(singleDevice: SingleDevice)
+    abstract fun updateViewData(device: Device)
 
     abstract fun getTitleView(): TextView?
 
@@ -64,7 +62,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.getCurrentControlDevice().observe(this, Observer<SingleDevice> {
+        mViewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             updateViewData(it)
             getTitleView()?.viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
@@ -141,7 +139,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     inner class ToolBarEventHandler : UpdateDeviceNameListener {
         override fun updateDeviceName(id: Int, newName: String) {
-            context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceName(it1,mControlDevice.zoneId,id,mControlDevice.type,newName).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+            context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceName(it1,mControlDevice.zoneId,id,mControlDevice.type,newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                 if (it?.status == Status.SUCCESS) {
                     mControlDevice.name = newName
                    updateViewData(mControlDevice)
@@ -250,9 +248,9 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         }
     }
 
-    private fun changeDeviceState(singleDevice: SingleDevice,key:String,value:String){
-        updateState(singleDevice, key, value)
-        context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,singleDevice.id,key,value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+    private fun changeDeviceState(device: Device, key:String, value:String){
+        updateState(device, key, value)
+        context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,device.id,key,value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
             if (it?.status == Status.SUCCESS) {
 
             }else if (it?.status == Status.ERROR) {
@@ -261,18 +259,18 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         })}
     }
 
-    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+    private fun updateState(device: Device, key: String, value: String) {
         if(TextUtils.equals("brightness", key)){
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.brightness=value.toInt()
-                mViewModel.updateDeviceState(singleDevice,it)
+                mViewModel.updateDeviceState(device,it)
             }
         }else{
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.on=value.toInt()
-                mViewModel.updateRoomAndDeviceState(singleDevice,it)
+                mViewModel.updateRoomAndDeviceState(device,it)
             }
         }
     }

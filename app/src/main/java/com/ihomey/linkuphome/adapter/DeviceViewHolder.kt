@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.suke.widget.SwitchButton
 
 
@@ -25,20 +25,20 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
 
     private val deleteBtn = itemView.findViewById<TextView>(R.id.btn_delete)
 
-    var singleDevice: SingleDevice? = null
+    var device: Device? = null
 
     /**
      * Items might be null if they are not paged in yet. PagedListAdapter will re-bind the
      * ViewHolder when Item is loaded.
      */
-    fun bindTo(singleDevice: SingleDevice,mOnItemChildClickListener: DeviceListAdapter.OnItemChildClickListener?) {
-        this.singleDevice = singleDevice
+    fun bindTo(device: Device, mOnItemChildClickListener: DeviceListAdapter.OnItemChildClickListener?) {
+        this.device = device
         deleteBtn.setOnClickListener {
             swipeLayout.close()
-           mOnItemChildClickListener?.onItemChildClick(singleDevice,it)
+           mOnItemChildClickListener?.onItemChildClick(device,it)
         }
-        nameView.text = singleDevice.name
-        val type= singleDevice.type.minus(1)
+        nameView.text = device.name
+        val type= device.type.minus(1)
         iconView.setImageResource(AppConfig.DEVICE_ICON[type])
         val layoutParams = nameView.layoutParams as ViewGroup.MarginLayoutParams
         if (type == 0) {
@@ -68,8 +68,8 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt())
         }
         nameView.layoutParams = layoutParams
-        powerStateView.isChecked = singleDevice.parameters?.on == 1
-        brightnessView.progress = singleDevice.parameters?.brightness?:20
+        powerStateView.isChecked = device.parameters?.on == 1
+        brightnessView.progress = device.parameters?.brightness?:20
     }
 
 }

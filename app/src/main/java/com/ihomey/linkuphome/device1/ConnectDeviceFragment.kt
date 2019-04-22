@@ -16,7 +16,7 @@ import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -62,7 +62,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
                 currentZone?.id?.let { viewModel.setQuery(it,arguments?.getInt("deviceType")!!+1) }
             }
         })
-        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<SingleDevice>>> {
+        viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
             if (it?.status == Status.SUCCESS&&(adapter.emptyViewCount==1&&adapter.itemCount==1)) {
                 adapter.setNewData(it.data)
                 val scanDevice = mViewModel.getScanDevice().value
@@ -113,7 +113,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
         if (TextUtils.equals(deviceShortName, shortName)) {
-            val singleDevice1 = SingleDevice(type+1,deviceType.name)
+            val singleDevice1 = Device(type+1,deviceType.name)
             singleDevice1.hash = uuidHash
             if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
         }
@@ -129,7 +129,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         context?.getIMEI()?.let { it1 ->
-            viewModel.saveDevice(it1, currentZone?.id!!, type + 1, deviceType.name).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+            viewModel.saveDevice(it1, currentZone?.id!!, type + 1, deviceType.name).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                 if (it?.status == Status.SUCCESS&&it.data!=null) {
                     it.data.hash=uuidHash
                     val position = adapter.data.indexOf(it.data) ?: -1
@@ -186,9 +186,9 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         fun associateDevice(uuidHash: Int, shortCode: String?)
     }
 
-    private fun changeDeviceState(singleDevice: SingleDevice,key:String,value:String){
-        updateState(singleDevice, key, value)
-        context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,singleDevice.id,key,value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+    private fun changeDeviceState(device: Device, key:String, value:String){
+        updateState(device, key, value)
+        context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,device.id,key,value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
             if (it?.status == Status.SUCCESS) {
 
             }else if (it?.status == Status.ERROR) {
@@ -197,18 +197,18 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         })}
     }
 
-    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+    private fun updateState(device: Device, key: String, value: String) {
         if(TextUtils.equals("brightness", key)){
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.brightness=value.toInt()
-                mViewModel.updateDeviceState(singleDevice,it)
+                mViewModel.updateDeviceState(device,it)
             }
         }else{
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.on=value.toInt()
-                mViewModel.updateRoomAndDeviceState(singleDevice,it)
+                mViewModel.updateRoomAndDeviceState(device,it)
             }
         }
     }

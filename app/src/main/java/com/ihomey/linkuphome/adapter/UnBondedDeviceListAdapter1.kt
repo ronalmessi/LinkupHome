@@ -3,15 +3,15 @@ package com.ihomey.linkuphome.adapter
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 
-class UnBondedDeviceListAdapter1 : PagedListAdapter<SingleDevice, UnBondedDeviceViewHolder>(diffCallback) {
+class UnBondedDeviceListAdapter1 : PagedListAdapter<Device, UnBondedDeviceViewHolder>(diffCallback) {
 
     private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
 
-    private val selectedDevices = mutableListOf<SingleDevice>()
+    private val selectedDevices = mutableListOf<Device>()
 
-    fun getSelectedDevices():List<SingleDevice> {
+    fun getSelectedDevices():List<Device> {
         return selectedDevices
     }
 
@@ -35,8 +35,8 @@ class UnBondedDeviceListAdapter1 : PagedListAdapter<SingleDevice, UnBondedDevice
          *
          * @see android.support.v7.util.DiffUtil
          */
-        private val diffCallback = object : DiffUtil.ItemCallback<SingleDevice>() {
-            override fun areItemsTheSame(oldItem: SingleDevice, newItem: SingleDevice): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<Device>() {
+            override fun areItemsTheSame(oldItem: Device, newItem: Device): Boolean {
                 return (oldItem.id == newItem.id)
             }
 
@@ -44,7 +44,7 @@ class UnBondedDeviceListAdapter1 : PagedListAdapter<SingleDevice, UnBondedDevice
              * Note that in kotlin, == checking on data classes compares all contents, but in Java,
              * typically you'll implement Object#equals, and use it to compare object contents.
              */
-            override fun areContentsTheSame(oldItem: SingleDevice, newItem: SingleDevice): Boolean {
+            override fun areContentsTheSame(oldItem: Device, newItem: Device): Boolean {
                 return oldItem == newItem
             }
         }

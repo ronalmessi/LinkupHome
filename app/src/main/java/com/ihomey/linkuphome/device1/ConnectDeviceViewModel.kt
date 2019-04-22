@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.vo.Query
 import com.ihomey.linkuphome.data.vo.Resource
@@ -20,7 +19,7 @@ class ConnectDeviceViewModel : ViewModel() {
 
     private val mQuery = MutableLiveData<Query>()
 
-    val devicesResult: LiveData<Resource<List<SingleDevice>>>
+    val devicesResult: LiveData<Resource<List<Device>>>
 
     init {
         DaggerAppComponent.builder().build().inject(this)
@@ -29,7 +28,7 @@ class ConnectDeviceViewModel : ViewModel() {
         }
     }
 
-    fun saveDevice(guid:String,zoneId:Int,type:Int,name:String): LiveData<Resource<SingleDevice>> {
+    fun saveDevice(guid:String,zoneId:Int,type:Int,name:String): LiveData<Resource<Device>> {
         return mDeviceRepository.saveDevice(guid, zoneId, type, name)
     }
 

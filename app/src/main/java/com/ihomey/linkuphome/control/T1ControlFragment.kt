@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.T1ControlViewAdapter
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.T1ControlFragmentBinding
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
@@ -45,11 +45,11 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         return mViewDataBinding.root
     }
 
-    override fun updateViewData(singleDevice: SingleDevice) {
-        mViewDataBinding.control = singleDevice
-        mControlDevice = singleDevice
-        mViewDataBinding.deviceStateCbPower.isChecked=(singleDevice.parameters?.on==1)
-        singleDevice.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+    override fun updateViewData(device: Device) {
+        mViewDataBinding.control = device
+        mControlDevice = device
+        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)
         mViewDataBinding.btnDeviceLighting.setOnClickListener(this)

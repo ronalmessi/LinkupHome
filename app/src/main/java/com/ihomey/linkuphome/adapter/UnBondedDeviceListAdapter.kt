@@ -8,22 +8,22 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 
 
 /**
  * Created by dongcaizheng on 2018/4/11.
  */
 
-class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<SingleDevice, BaseViewHolder>(layoutId) {
+class UnBondedDeviceListAdapter(layoutId: Int) : BaseQuickAdapter<Device, BaseViewHolder>(layoutId) {
 
-    private val selectedDevices = mutableListOf<SingleDevice>()
+    private val selectedDevices = mutableListOf<Device>()
 
-    fun getSelectedDevices():List<SingleDevice> {
+    fun getSelectedDevices():List<Device> {
         return selectedDevices
     }
 
-    override fun convert(helper: BaseViewHolder, item: SingleDevice) {
+    override fun convert(helper: BaseViewHolder, item: Device) {
         val type=item.type-1
         val tv_device_name = helper.getView<TextView>(R.id.tv_device_name)
         val layoutParams = tv_device_name.layoutParams as ViewGroup.MarginLayoutParams

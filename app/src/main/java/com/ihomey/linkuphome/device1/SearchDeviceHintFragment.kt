@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.getShortName
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -61,7 +61,7 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
         if (TextUtils.equals(deviceShortName, shortName)) {
-            val singleDevice1=SingleDevice(type+1,deviceType.name)
+            val singleDevice1=Device(type+1,deviceType.name)
             singleDevice1.hash=uuidHash
             viewModel.setScanDevice(singleDevice1)
         }

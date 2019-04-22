@@ -3,9 +3,9 @@ package com.ihomey.linkuphome.adapter
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 
-class BondedDeviceListAdapter : PagedListAdapter<SingleDevice, BondedDeviceViewHolder>(diffCallback) {
+class BondedDeviceListAdapter : PagedListAdapter<Device, BondedDeviceViewHolder>(diffCallback) {
 
     private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
 
@@ -30,8 +30,8 @@ class BondedDeviceListAdapter : PagedListAdapter<SingleDevice, BondedDeviceViewH
          *
          * @see android.support.v7.util.DiffUtil
          */
-        private val diffCallback = object : DiffUtil.ItemCallback<SingleDevice>() {
-            override fun areItemsTheSame(oldItem: SingleDevice, newItem: SingleDevice): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<Device>() {
+            override fun areItemsTheSame(oldItem: Device, newItem: Device): Boolean {
                 return (oldItem.id == newItem.id)
             }
 
@@ -39,7 +39,7 @@ class BondedDeviceListAdapter : PagedListAdapter<SingleDevice, BondedDeviceViewH
              * Note that in kotlin, == checking on data classes compares all contents, but in Java,
              * typically you'll implement Object#equals, and use it to compare object contents.
              */
-            override fun areContentsTheSame(oldItem: SingleDevice, newItem: SingleDevice): Boolean {
+            override fun areContentsTheSame(oldItem: Device, newItem: Device): Boolean {
                 return oldItem == newItem
             }
         }

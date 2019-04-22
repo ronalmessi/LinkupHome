@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.T1ControlRgbFragmentBinding
 
 /**
@@ -33,9 +33,9 @@ class T1ControlRgbFragment : BaseControlFragment() {
         return mViewDataBinding.root
     }
 
-    override fun updateViewData(singleDevice: SingleDevice) {
-        mViewDataBinding.control = singleDevice
-        mControlDevice = singleDevice
+    override fun updateViewData(device: Device) {
+        mViewDataBinding.control = device
+        mControlDevice = device
 //        mViewDataBinding.deviceColorRgbCv.setCurrentRadian(mControlDevice.state.colorPosition)
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
     }

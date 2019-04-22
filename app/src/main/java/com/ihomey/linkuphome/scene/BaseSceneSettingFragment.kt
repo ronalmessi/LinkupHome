@@ -2,7 +2,6 @@ package com.ihomey.linkuphome.scene
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
@@ -10,7 +9,7 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.LocalState
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -19,7 +18,7 @@ import com.ihomey.linkuphome.widget.RadioGroupPlus
 
 abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheckedChangeListener {
 
-    protected lateinit var mControlDevice: SingleDevice
+    protected lateinit var mControlDevice: Device
     private var mLocalState: LocalState? = null
     private var controller: Controller? = null
     protected lateinit var viewModel: HomeActivityViewModel
@@ -37,7 +36,7 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
-        viewModel.getCurrentControlDevice().observe(this, Observer<SingleDevice> {
+        viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             mControlDevice = it
             mViewModel.setCurrentDeviceId(it.id)
         })

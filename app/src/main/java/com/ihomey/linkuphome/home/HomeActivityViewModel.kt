@@ -23,7 +23,7 @@ class HomeActivityViewModel : ViewModel() {
     private val mCurrentZoneId = MutableLiveData<Int>()
     val mCurrentZone: LiveData<Resource<Zone>>
 
-    val devicesResult: LiveData<PagedList<SingleDevice>>
+    val devicesResult: LiveData<PagedList<Device>>
     val roomsResult:  LiveData<PagedList<RoomAndDevices>>
 
 
@@ -79,14 +79,14 @@ class HomeActivityViewModel : ViewModel() {
         removeDeviceFlag.value = flag
     }
 
-    private var scanedDevice = MutableLiveData<SingleDevice>()
+    private var scanedDevice = MutableLiveData<Device>()
 
-    fun getScanDevice(): MutableLiveData<SingleDevice> {
+    fun getScanDevice(): MutableLiveData<Device> {
         return scanedDevice
     }
 
-    fun setScanDevice(singleDevice: SingleDevice) {
-        if (scanedDevice.value == null) scanedDevice.value = singleDevice
+    fun setScanDevice(device: Device) {
+        if (scanedDevice.value == null) scanedDevice.value = device
     }
 
     fun clearScanedDevice() {
@@ -122,14 +122,14 @@ class HomeActivityViewModel : ViewModel() {
 
 
     //device
-    private var currentControlDevice = MutableLiveData<SingleDevice>()
+    private var currentControlDevice = MutableLiveData<Device>()
 
-    fun getCurrentControlDevice(): MutableLiveData<SingleDevice> {
+    fun getCurrentControlDevice(): MutableLiveData<Device> {
         return currentControlDevice
     }
 
-    fun setCurrentControlDevice(singleDevice: SingleDevice) {
-        currentControlDevice.value = singleDevice
+    fun setCurrentControlDevice(device: Device) {
+        currentControlDevice.value = device
     }
 
     fun deleteDevice(deviceId: Int) {
@@ -141,11 +141,11 @@ class HomeActivityViewModel : ViewModel() {
         return mDeviceRepository.deleteDevice(guid, deviceId)
     }
 
-    fun changeDeviceName(guid:String,spaceId:Int,id:Int,type:Int,newName:String): LiveData<Resource<SingleDevice>> {
+    fun changeDeviceName(guid:String,spaceId:Int,id:Int,type:Int,newName:String): LiveData<Resource<Device>> {
         return mDeviceRepository.changeDeviceName(guid,spaceId,id,type,newName)
     }
 
-    fun changeDeviceState(guid:String,id:Int,name:String,value:String): LiveData<Resource<SingleDevice>> {
+    fun changeDeviceState(guid:String,id:Int,name:String,value:String): LiveData<Resource<Device>> {
         return mDeviceRepository.changeDeviceState(guid,id,name,value)
     }
 
@@ -159,12 +159,12 @@ class HomeActivityViewModel : ViewModel() {
         return roomRepository.updateState(roomAndDevices, deviceState)
     }
 
-    fun updateDeviceState(singleDevice:SingleDevice,deviceState:DeviceState) {
-        return mDeviceRepository.updateState(singleDevice, deviceState)
+    fun updateDeviceState(device:Device, deviceState:DeviceState) {
+        return mDeviceRepository.updateState(device, deviceState)
     }
 
-    fun updateRoomAndDeviceState(singleDevice:SingleDevice,deviceState:DeviceState) {
-        return mDeviceRepository.updateRoomAndDeviceState(singleDevice, deviceState)
+    fun updateRoomAndDeviceState(device:Device, deviceState:DeviceState) {
+        return mDeviceRepository.updateRoomAndDeviceState(device, deviceState)
     }
 
 

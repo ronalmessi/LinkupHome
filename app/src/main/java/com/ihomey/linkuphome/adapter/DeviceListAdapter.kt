@@ -6,9 +6,9 @@ import android.widget.SeekBar
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.daimajia.swipe.SwipeLayout
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 
-class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffCallback) {
+class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallback) {
 
     private var mOnItemClickListener: OnItemClickListener? = null
     private var mOnItemChildClickListener: OnItemChildClickListener? = null
@@ -79,8 +79,8 @@ class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffC
          *
          * @see android.support.v7.util.DiffUtil
          */
-        private val diffCallback = object : DiffUtil.ItemCallback<SingleDevice>() {
-            override fun areItemsTheSame(oldItem: SingleDevice, newItem: SingleDevice): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<Device>() {
+            override fun areItemsTheSame(oldItem: Device, newItem: Device): Boolean {
                 return (oldItem.id == newItem.id&&oldItem.parameters?.on==newItem.parameters?.on&&oldItem.parameters?.brightness==newItem.parameters?.brightness)
             }
 
@@ -88,7 +88,7 @@ class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffC
              * Note that in kotlin, == checking on data classes compares all contents, but in Java,
              * typically you'll implement Object#equals, and use it to compare object contents.
              */
-            override fun areContentsTheSame(oldItem: SingleDevice, newItem: SingleDevice): Boolean {
+            override fun areContentsTheSame(oldItem: Device, newItem: Device): Boolean {
                 return oldItem == newItem
             }
         }
@@ -99,7 +99,7 @@ class DeviceListAdapter : PagedListAdapter<SingleDevice, DeviceViewHolder>(diffC
     }
 
     interface OnItemChildClickListener {
-        fun onItemChildClick(singleDevice: SingleDevice, view: View)
+        fun onItemChildClick(device: Device, view: View)
     }
 
     interface OnCheckedChangeListener {

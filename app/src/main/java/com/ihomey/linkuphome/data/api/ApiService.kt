@@ -2,7 +2,7 @@ package com.ihomey.linkuphome.data.api
 
 import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.data.entity.Room
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
 import retrofit2.http.Body
@@ -50,7 +50,7 @@ interface ApiService {
 
     //添加设备
     @POST("/api/device/save")
-    fun saveDevice(@Body saveDeviceVO: SaveDeviceVO): LiveData<ApiResult<SingleDevice>>
+    fun saveDevice(@Body saveDeviceVO: SaveDeviceVO): LiveData<ApiResult<Device>>
 
     //删除设备
     @POST("/api/device/delete")
@@ -58,11 +58,11 @@ interface ApiService {
 
     //修改设备名称
     @POST("/api/device/save")
-    fun changeDeviceName(@Body changeDeviceNameVO: ChangeDeviceNameVO): LiveData<ApiResult<SingleDevice>>
+    fun changeDeviceName(@Body changeDeviceNameVO: ChangeDeviceNameVO): LiveData<ApiResult<Device>>
 
     //修改设备状态
     @POST("/api/device/handling")
-    fun changeDeviceState(@Body changeDeviceStateVO: ChangeDeviceStateVO): LiveData<ApiResult<SingleDevice>>
+    fun changeDeviceState(@Body changeDeviceStateVO: ChangeDeviceStateVO): LiveData<ApiResult<Device>>
 
 
 

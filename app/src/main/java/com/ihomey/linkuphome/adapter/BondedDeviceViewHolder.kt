@@ -7,7 +7,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 
 
 class BondedDeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_binded_device, parent, false)) {
@@ -17,15 +17,15 @@ class BondedDeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(La
      val iconView = itemView.findViewById<ImageView>(R.id.iv_device_icon)
      val powerStateView = itemView.findViewById<CheckBox>(R.id.cb_device_power_state)
 
-     var singleDevice: SingleDevice? = null
+     var device: Device? = null
 
     /**
      * Items might be null if they are not paged in yet. PagedListAdapter will re-bind the
      * ViewHolder when Item is loaded.
      */
-    fun bindTo(singleDevice: SingleDevice) {
-        this.singleDevice = singleDevice
-        val type=singleDevice.type-1
+    fun bindTo(device: Device) {
+        this.device = device
+        val type=device.type-1
         val layoutParams = nameView.layoutParams as ViewGroup.MarginLayoutParams
         if (type == 0) {
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._20sdp).toInt()
@@ -54,9 +54,9 @@ class BondedDeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(La
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._16sdp).toInt(), parent.context.resources.getDimension(R.dimen._13sdp).toInt(), parent.context.resources.getDimension(R.dimen._16sdp).toInt())
         }
         nameView.layoutParams=layoutParams
-        nameView.text=singleDevice.name
+        nameView.text=device.name
         iconView.setImageResource(AppConfig.DEVICE_ICON[type])
-        powerStateView.isChecked = singleDevice.parameters?.on == 1
+        powerStateView.isChecked = device.parameters?.on == 1
     }
 
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.A2ControlFragmentBinding
 
 /**
@@ -34,11 +34,11 @@ class S2ControlFragment : BaseControlFragment() {
         return mViewDataBinding.root
     }
 
-    override fun updateViewData(singleDevice: SingleDevice) {
-        mViewDataBinding.control = singleDevice
-        mControlDevice = singleDevice
-        mViewDataBinding.deviceStateCbPower.isChecked=(singleDevice.parameters?.on==1)
-        singleDevice.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+    override fun updateViewData(device: Device) {
+        mViewDataBinding.control = device
+        mControlDevice = device
+        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
 //        mViewDataBinding.deviceDbvColorTemperature.currentColorTemperature = mControlDevice.state.colorTemperature
         mViewDataBinding.deviceDbvColorTemperature.setColorTemperatureListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)

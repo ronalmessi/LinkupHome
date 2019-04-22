@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.data.repository
 
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -12,7 +11,7 @@ import com.ihomey.linkuphome.data.api.ApiResult
 import com.ihomey.linkuphome.data.api.ApiService
 import com.ihomey.linkuphome.data.api.NetworkBoundResource
 import com.ihomey.linkuphome.data.db.RoomDao
-import com.ihomey.linkuphome.data.db.SingleDeviceDao
+import com.ihomey.linkuphome.data.db.DeviceDao
 import com.ihomey.linkuphome.data.entity.*
 import com.ihomey.linkuphome.data.vo.*
 
@@ -26,7 +25,7 @@ import javax.inject.Singleton
  * Created by dongcaizheng on 2018/4/9.
  */
 @Singleton
-class RoomRepository @Inject constructor(private var apiService: ApiService, private val roomDao: RoomDao, private val singleDeviceDao: SingleDeviceDao, private var appExecutors: AppExecutors) {
+class RoomRepository @Inject constructor(private var apiService: ApiService, private val roomDao: RoomDao, private val deviceDao: DeviceDao, private var appExecutors: AppExecutors) {
 
     fun saveRoom(guid: String, zoneId: Int, type: Int, name: String): LiveData<Resource<Room>> {
         return object : NetworkBoundResource<Room>(appExecutors) {
@@ -54,7 +53,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
         return object : NetworkBoundResource<Boolean>(appExecutors) {
             override fun saveCallResult(item: Boolean?) {
                 roomDao.delete(roomId)
-                singleDeviceDao.unBondFromRoom(roomId)
+                deviceDao.unBondFromRoom(roomId)
             }
 
             override fun shouldFetch(data: Boolean?): Boolean {
@@ -101,9 +100,9 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
                 item?.let {
                     roomDao.insert(item)
                     if (TextUtils.equals("add", act)) {
-                        singleDeviceDao.bondToRoom(item.id, deviceInstructId.toInt(), spaceId)
+                        deviceDao.bondToRoom(item.id, deviceInstructId.toInt(), spaceId)
                     } else {
-                        singleDeviceDao.unBondDeviceFromRoom(deviceInstructId.toInt(), spaceId)
+                        deviceDao.unBondDeviceFromRoom(deviceInstructId.toInt(), spaceId)
                     }
                 }
             }
@@ -156,7 +155,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             roomAndDevices.room?.let {
                 roomDao.updateState(it.id,deviceState)
                 for(device in roomAndDevices.devices){
-                    singleDeviceDao.updateStateByRoomId(it.id,deviceState)
+                    deviceDao.updateStateByRoomId(it.id,deviceState)
                 }
             }
         }

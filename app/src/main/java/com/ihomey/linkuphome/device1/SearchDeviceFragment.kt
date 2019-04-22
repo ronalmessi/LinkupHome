@@ -10,7 +10,7 @@ import androidx.navigation.Navigation
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import kotlinx.android.synthetic.main.search_device_fragment.*
 
@@ -30,7 +30,7 @@ class SearchDeviceFragment : BaseFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        viewModel.getScanDevice().observe(this, Observer<SingleDevice> {
+        viewModel.getScanDevice().observe(this, Observer<Device> {
             if (it != null) {
                 val bundle = Bundle()
                 bundle.putInt("deviceType", arguments?.getInt("deviceType")!!)

@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,7 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -44,7 +42,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     private lateinit var meshServiceStateListener: MeshServiceStateListener
     private val deviceRemoveFragment = DeviceRemoveFragment()
     private var isUserTouch: Boolean=false
-    private var deviceList:List<SingleDevice>?=null
+    private var deviceList:List<Device>?=null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.devices_fragment, container, false)
@@ -53,7 +51,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<SingleDevice>> {
+        mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList=it.snapshot()
             if(!isUserTouch) adapter.submitList(it)
         })
@@ -114,12 +112,12 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         }
     }
 
-    override fun onItemChildClick(singleDevice: SingleDevice, view: View) {
+    override fun onItemChildClick(device: Device, view: View) {
         if (view.id == R.id.btn_delete) {
             val dialog = DeleteDeviceFragment()
             val bundle = Bundle()
-            bundle.putInt("deviceId", singleDevice.id)
-            bundle.putInt("deviceInstructId", singleDevice.instructId)
+            bundle.putInt("deviceId", device.id)
+            bundle.putInt("deviceInstructId", device.instructId)
             dialog.arguments = bundle
             dialog.setDeleteDeviceListener(this)
             dialog.show(fragmentManager, "DeleteDeviceFragment")
@@ -191,27 +189,27 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel.deleteDevice(deviceId)
     }
 
-    private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {
-        updateState(singleDevice, key, value)
+    private fun changeDeviceState(device: Device, key: String, value: String) {
+        updateState(device, key, value)
         context?.getIMEI()?.let { it1 ->
-            mViewModel.changeDeviceState(it1, singleDevice.id, key, value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
+            mViewModel.changeDeviceState(it1, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
 
             })
         }
     }
 
-    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+    private fun updateState(device: Device, key: String, value: String) {
         if(TextUtils.equals("brightness", key)){
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.brightness=value.toInt()
-                mViewModel.updateDeviceState(singleDevice,it)
+                mViewModel.updateDeviceState(device,it)
             }
         }else{
-            val deviceState = singleDevice.parameters
+            val deviceState = device.parameters
             deviceState?.let {
                 it.on=value.toInt()
-                mViewModel.updateRoomAndDeviceState(singleDevice,it)
+                mViewModel.updateRoomAndDeviceState(device,it)
             }
         }
     }

@@ -12,6 +12,6 @@ class RoomAndDevices{
     var room: Room? = null
 
     @Relation(parentColumn ="id",entityColumn = "roomId")
-    var devices: List<SingleDevice> = ArrayList()
+    var devices: List<Device> = ArrayList()
 }
 

@@ -13,7 +13,7 @@ class DevicesViewModel : ViewModel() {
 
     private val mCurrentZoneId = MutableLiveData<Int>()
 
-//    val devicesResult: LiveData<Resource<List<SingleDevice>>>
+//    val devicesResult: LiveData<Resource<List<Device>>>
 
     init {
         DaggerAppComponent.builder().build().inject(this)

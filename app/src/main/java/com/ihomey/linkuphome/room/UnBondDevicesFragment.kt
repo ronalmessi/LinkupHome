@@ -14,7 +14,7 @@ import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter1
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.getIMEI
@@ -52,7 +52,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
             mViewModel.setZoneId(it.room?.zoneId)
         })
 
-        mViewModel.unBondedDevicesResult1.observe(viewLifecycleOwner, Observer<PagedList<SingleDevice>> {
+        mViewModel.unBondedDevicesResult1.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             adapter.submitList(it)
         })
         mViewModel.isUnBondedDevicesListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {

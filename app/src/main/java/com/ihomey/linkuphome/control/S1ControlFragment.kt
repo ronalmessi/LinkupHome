@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.R2ControlFragmentBinding
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
@@ -40,11 +40,11 @@ class S1ControlFragment : BaseControlFragment(), View.OnClickListener {
         return mViewDataBinding.root
     }
 
-    override fun updateViewData(singleDevice: SingleDevice) {
-        mViewDataBinding.control = singleDevice
-        mControlDevice = singleDevice
-        mViewDataBinding.deviceStateCbPower.isChecked=(singleDevice.parameters?.on==1)
-        singleDevice.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+    override fun updateViewData(device: Device) {
+        mViewDataBinding.control = device
+        mControlDevice = device
+        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
 //        mViewDataBinding.deviceColorRgbCv.currentRadian = mControlDevice.state.colorPosition
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)

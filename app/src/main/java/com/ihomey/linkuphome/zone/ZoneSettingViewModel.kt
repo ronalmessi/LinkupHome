@@ -2,7 +2,7 @@ package com.ihomey.linkuphome.zone
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.repository.*
 import com.ihomey.linkuphome.data.vo.Resource
@@ -48,7 +48,7 @@ class ZoneSettingViewModel : ViewModel() {
         return zoneRepository.changeZoneName(guid,zoneId,newName)
     }
 
-    fun getDevices(zoneId:Int): LiveData<Resource<List<SingleDevice>>> {
+    fun getDevices(zoneId:Int): LiveData<Resource<List<Device>>> {
         return mDeviceRepository.getDevices(zoneId)
     }
 

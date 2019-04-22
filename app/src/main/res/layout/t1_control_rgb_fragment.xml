@@ -9,7 +9,7 @@
 
         <variable
             name="control"
-            type="com.ihomey.linkuphome.data.entity.SingleDevice" />
+            type="com.ihomey.linkuphome.data.entity.Device" />
 
         <variable
             name="handlers"

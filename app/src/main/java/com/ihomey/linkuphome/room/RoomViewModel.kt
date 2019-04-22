@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.ihomey.linkuphome.data.entity.*
 import com.ihomey.linkuphome.data.repository.*
-import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
@@ -14,7 +13,7 @@ class RoomViewModel : ViewModel() {
     lateinit var deviceRepository: DeviceRepository
 
 
-    val bondedDevicesResult1: LiveData<PagedList<SingleDevice>>
+    val bondedDevicesResult1: LiveData<PagedList<Device>>
 
     val isBondedDevicesListEmptyLiveData = MediatorLiveData<Boolean>()
 

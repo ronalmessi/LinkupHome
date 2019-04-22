@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.control
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.batteryIcons
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.C3ControlFragmentBinding
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.moveToViewBottomAnimation
@@ -44,11 +43,11 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
     }
 
 
-    override fun updateViewData(singleDevice: SingleDevice) {
-        mViewDataBinding.control = singleDevice
-        mControlDevice = singleDevice
-        mViewDataBinding.deviceStateCbPower.isChecked=(singleDevice.parameters?.on==1)
-        singleDevice.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+    override fun updateViewData(device: Device) {
+        mViewDataBinding.control = device
+        mControlDevice = device
+        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)

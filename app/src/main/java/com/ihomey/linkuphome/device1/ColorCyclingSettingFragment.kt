@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.SingleSelectToggleGroup
@@ -25,7 +25,7 @@ import com.ihomey.linkuphome.widget.ToggleButtonGroup
 class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnCheckedChangeListener {
 
     private lateinit var viewModel: HomeActivityViewModel
-    private lateinit var devices: List<SingleDevice>
+    private lateinit var devices: List<Device>
     private lateinit var meshServiceStateListener: MeshServiceStateListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

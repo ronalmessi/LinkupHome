@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.SingleDevice
+import com.ihomey.linkuphome.data.entity.Device
 import com.suke.widget.SwitchButton
 
 
@@ -16,7 +16,7 @@ import com.suke.widget.SwitchButton
  * Created by dongcaizheng on 2018/4/11.
  */
 
-class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuickAdapter<SingleDevice, BaseViewHolder>(data) {
+class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapter<Device, BaseViewHolder>(data) {
 
 
     private lateinit var onCheckedChangeListener: DeviceListAdapter.OnCheckedChangeListener
@@ -36,7 +36,7 @@ class ScanDeviceListAdapter(data: MutableList<SingleDevice>) : BaseMultiItemQuic
         addItemType(1, R.layout.item_device_list)
     }
 
-    override fun convert(helper: BaseViewHolder, item: SingleDevice) {
+    override fun convert(helper: BaseViewHolder, item: Device) {
         helper.setText(R.id.tv_device_name, item.name)
         val type=item.type-1
         helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[type])
