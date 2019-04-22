@@ -91,22 +91,24 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
 
-            <ImageView
-                android:id="@+id/iv_device_reset_guide2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:src="@mipmap/ic_device_reset_guide2" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_18sdp"
                 android:lineSpacingMultiplier="1.4"
                 android:text="@string/device_reset_hint2"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_15ssp" />
+
+            <ImageView
+                android:id="@+id/iv_device_reset_guide2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_27sdp"
+                android:src="@mipmap/ic_device_reset_guide1_zh" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,22 +123,23 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
 
+            <ImageView
+                android:id="@+id/iv_device_reset_guide1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:src="@mipmap/ic_device_reset_guide2" />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_21sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:text="@string/device_reset_hint1"
                 android:lineSpacingMultiplier="1.4"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_15ssp" />
 
-            <ImageView
-                android:id="@+id/iv_device_reset_guide1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_32sdp"
-                android:src="@mipmap/ic_device_reset_guide1_zh" />
 
         </LinearLayout>
 

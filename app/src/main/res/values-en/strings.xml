@@ -82,7 +82,7 @@
     <string name="device_connect_step2_hint">If the device is not found within 10 seconds, please try to reset the device</string>
 
 
-    <string name="device_reset_hint2">f you have connected this device, but now it is lose control, please delete this unworkable device info in the “Device” list.\nf this is your first time to connect this device, please ignore Step 1 and move on Step 2.</string>
+    <string name="device_reset_hint2">f you have connected this device, but now it is lose control, please delete this unworkable device info in the “Device” list.\n\nf this is your first time to connect this device, please ignore Step 1 and move on Step 2.</string>
     <string name="device_reset_hint1">Please use the switch to operate:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n*If no light flash 3 times, please repeat above steps until reset successfully.\n*Turning on and off the light can\'t be too fast, it takes 1-2 seconds. </string>
 
     <string name="device_reset_tip">Please try following two shortcuts firstly:</string>
