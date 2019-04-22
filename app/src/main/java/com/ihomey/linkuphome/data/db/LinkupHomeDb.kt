@@ -10,7 +10,7 @@ import com.ihomey.linkuphome.data.entity.*
  */
 
 @TypeConverters(DeviceStateValueConverter::class)
-@Database(entities = [(SingleDevice::class),(Room::class), (Zone::class),(LocalState::class)], version = 1, exportSchema = true)
+@Database(entities = [(SingleDevice::class),(Room::class), (Zone::class),(LocalState::class)], version = 2, exportSchema = true)
 abstract class LinkupHomeDb : RoomDatabase() {
     abstract fun singleDeviceDao(): SingleDeviceDao
     abstract fun roomDao(): RoomDao

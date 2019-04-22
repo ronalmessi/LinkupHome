@@ -1,6 +1,8 @@
 package com.ihomey.linkuphome.dl
 
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ihomey.linkuphome.App
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.data.api.ApiService
@@ -45,7 +47,15 @@ class AppModule {
     @Singleton
     @Provides
     fun provideDb(): LinkupHomeDb {
-        return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db").build()
+        return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db").addMigrations(object :Migration(1,2){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                 database.execSQL("DROP TABLE device")
+                 database.execSQL("DROP TABLE group_device")
+                 database.execSQL("DROP TABLE category")
+                 database.execSQL("DROP TABLE model")
+            }
+
+        }).build()
     }
 
 

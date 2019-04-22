@@ -2,7 +2,6 @@ package com.ihomey.linkuphome;
 
 import android.app.Application;
 import android.content.Context;
-import com.facebook.stetho.Stetho;
 import com.ihomey.linkuphome.base.LocaleHelper;
 import com.umeng.analytics.MobclickAgent;
 import java.util.Locale;
@@ -16,7 +15,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        Stetho.initializeWithDefaults(this);
         MobclickAgent.openActivityDurationTrack(true);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
     }

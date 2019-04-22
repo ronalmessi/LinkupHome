@@ -10,7 +10,7 @@ import com.ihomey.linkuphome.data.db.DeviceStateValueConverter
 /**
  * Created by dongcaizheng on 2018/4/9.
  */
-@Entity(tableName = "device")
+@Entity(tableName = "_device")
 data class SingleDevice(@PrimaryKey var id: Int, @SerializedName("spaceId")var zoneId: Int, @SerializedName("groupId")var roomId: Int, var name: String, var type: Int, var instructId:Int, @TypeConverters(DeviceStateValueConverter::class) var parameters: DeviceState?): MultiItemEntity {
 
     @Ignore var hash: Int=0

@@ -13,23 +13,23 @@ import com.ihomey.linkuphome.data.entity.SingleDevice
 @Dao
 abstract class SingleDeviceDao {
 
-    @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
+    @Query("SELECT * FROM _device WHERE zoneId = :zoneId order by type asc,id asc")
     abstract fun getDevices(zoneId: Int): LiveData<List<SingleDevice>>
 
     @Transaction
-    @Query("SELECT * FROM Device WHERE zoneId = :zoneId order by type asc,id asc")
+    @Query("SELECT * FROM _device WHERE zoneId = :zoneId order by type asc,id asc")
     abstract fun getPagingDevices(zoneId: Int):DataSource.Factory<Int, SingleDevice>
 
     @Transaction
-    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and type =:type order by id asc")
+    @Query("SELECT * FROM _device WHERE zoneId = :zoneId and type =:type order by id asc")
     abstract fun getDevicesByType(zoneId: Int,type:Int):LiveData<List<SingleDevice>>
 
     @Transaction
-    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and roomId =0 order by type asc,id asc")
+    @Query("SELECT * FROM _device WHERE zoneId = :zoneId and roomId =0 order by type asc,id asc")
     abstract fun getPagingUnBondedDevices(zoneId: Int): DataSource.Factory<Int, SingleDevice>
 
     @Transaction
-    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and roomId = :roomId order by type asc,id asc")
+    @Query("SELECT * FROM _device WHERE zoneId = :zoneId and roomId = :roomId order by type asc,id asc")
     abstract fun getPagingBondedDevices(zoneId: Int,roomId: Int): DataSource.Factory<Int, SingleDevice>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -41,30 +41,30 @@ abstract class SingleDeviceDao {
     @Delete
     abstract fun delete(singleDevice: SingleDevice)
 
-    @Query("DELETE FROM Device WHERE id = :id")
+    @Query("DELETE FROM _device WHERE id = :id")
     abstract fun delete(id: Int)
 
-    @Query("DELETE FROM Device WHERE zoneId = :zoneId")
+    @Query("DELETE FROM _device WHERE zoneId = :zoneId")
     abstract fun deleteAll(zoneId: Int)
 
-    @Query("UPDATE Device set roomId = 0 WHERE roomId = :roomId")
+    @Query("UPDATE _device set roomId = 0 WHERE roomId = :roomId")
     abstract fun unBondFromRoom(roomId: Int)
 
-    @Query("UPDATE Device set roomId = 0 WHERE instructId = :deviceInstructId and zoneId= :zoneId")
+    @Query("UPDATE _device set roomId = 0 WHERE instructId = :deviceInstructId and zoneId= :zoneId")
     abstract fun unBondDeviceFromRoom(deviceInstructId:Int,zoneId:Int)
 
-    @Query("UPDATE Device set roomId = :roomId WHERE instructId = :deviceInstructId and zoneId= :zoneId")
+    @Query("UPDATE _device set roomId = :roomId WHERE instructId = :deviceInstructId and zoneId= :zoneId")
     abstract fun bondToRoom(roomId: Int,deviceInstructId:Int,zoneId: Int)
 
 
-    @Query("SELECT * FROM Device WHERE zoneId = :zoneId and roomId = :roomId")
+    @Query("SELECT * FROM _device WHERE zoneId = :zoneId and roomId = :roomId")
     abstract fun getDevices(zoneId: Int,roomId:Int): List<SingleDevice>
 
-    @Query("UPDATE Device set parameters= :deviceState WHERE roomId = :roomId")
+    @Query("UPDATE _device set parameters= :deviceState WHERE roomId = :roomId")
     abstract fun updateStateByRoomId(roomId: Int,deviceState:DeviceState)
 
 
-    @Query("UPDATE Device set parameters= :deviceState WHERE id = :deviceId")
+    @Query("UPDATE _device set parameters= :deviceState WHERE id = :deviceId")
     abstract fun updateState(deviceId: Int,deviceState:DeviceState)
 
 
