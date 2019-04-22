@@ -133,6 +133,7 @@ dependencies {
     implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
+
     
     //BaseRecyclerViewAdapterHelper
     def baseRecyclerViewAdapterHelper_version = "2.9.40"

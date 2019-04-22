@@ -187,6 +187,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice,key:String,value:String){
+        updateState(singleDevice, key, value)
         context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,singleDevice.id,key,value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
             if (it?.status == Status.SUCCESS) {
 
@@ -194,5 +195,21 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
 
             }
         })}
+    }
+
+    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+        if(TextUtils.equals("brightness", key)){
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.brightness=value.toInt()
+                mViewModel.updateDeviceState(singleDevice,it)
+            }
+        }else{
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.on=value.toInt()
+                mViewModel.updateRoomAndDeviceState(singleDevice,it)
+            }
+        }
     }
 }

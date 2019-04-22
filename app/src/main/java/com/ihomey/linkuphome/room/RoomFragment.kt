@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.room
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -236,6 +237,7 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice, key: String, value: String) {
+        updateState(singleDevice, key, value)
         context?.getIMEI()?.let { it1 ->
             viewModel.changeDeviceState(it1, singleDevice.id, key, value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
 
@@ -262,6 +264,22 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
                         it.message?.let { it2 -> activity?.toast(it2) }
                     }
                 })
+            }
+        }
+    }
+
+    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+        if(TextUtils.equals("brightness", key)){
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.brightness=value.toInt()
+                viewModel.updateDeviceState(singleDevice,it)
+            }
+        }else{
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.on=value.toInt()
+                viewModel.updateRoomAndDeviceState(singleDevice,it)
             }
         }
     }

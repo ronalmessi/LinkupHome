@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.control
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -158,7 +159,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                     when (type) {
                         1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment)
                         3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_n1SceneSettingFragment)
-                        5 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_v1SceneSettingFragment)
+                        4 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_v1SceneSettingFragment)
                         6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_r2SceneSettingFragment)
                         8 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_t1SceneSettingFragment)
                         9 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2SceneSettingFragment)
@@ -169,7 +170,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                         1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment)
                         2 -> Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
                         3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_timerSettingFragment)
-                        5 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_repeatTimerSettingFragment)
+                        4 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_repeatTimerSettingFragment)
                         6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
                         7 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)
                         8 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_timerSettingFragment)
@@ -250,6 +251,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     }
 
     private fun changeDeviceState(singleDevice: SingleDevice,key:String,value:String){
+        updateState(singleDevice, key, value)
         context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,singleDevice.id,key,value).observe(viewLifecycleOwner, Observer<Resource<SingleDevice>> {
             if (it?.status == Status.SUCCESS) {
 
@@ -257,5 +259,21 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                 it.message?.let { it2 -> activity?.toast(it2) }
             }
         })}
+    }
+
+    private fun updateState(singleDevice: SingleDevice, key: String, value: String) {
+        if(TextUtils.equals("brightness", key)){
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.brightness=value.toInt()
+                mViewModel.updateDeviceState(singleDevice,it)
+            }
+        }else{
+            val deviceState = singleDevice.parameters
+            deviceState?.let {
+                it.on=value.toInt()
+                mViewModel.updateRoomAndDeviceState(singleDevice,it)
+            }
+        }
     }
 }

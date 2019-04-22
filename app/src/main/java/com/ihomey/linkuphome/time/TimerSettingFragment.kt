@@ -12,6 +12,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.entity.SingleDevice
 import com.ihomey.linkuphome.databinding.FragmentTimerSettingBinding
+import com.ihomey.linkuphome.widget.RadioGroupPlus
 import java.util.*
 
 
@@ -48,6 +49,7 @@ open class TimerSettingFragment : BaseTimerSettingFragment() {
 
 
     override fun updateViewData(localState: LocalState?) {
+        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
         localState?.let {
             if (it.openTimerOn > 1 || it.closeTimerOn > 1) {
                 var alarmTime: Long? = null
@@ -90,7 +92,7 @@ open class TimerSettingFragment : BaseTimerSettingFragment() {
                 mViewDataBinding.switchButtonTimer.visibility = View.INVISIBLE
             }
         }
-        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
+
         mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
         mViewDataBinding.btnTimerSettingEdit.setOnClickListener(this)
         mViewDataBinding.toolbarBack.setOnClickListener(this)

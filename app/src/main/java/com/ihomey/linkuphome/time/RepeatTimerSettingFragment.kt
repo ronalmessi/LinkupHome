@@ -91,7 +91,7 @@ open class RepeatTimerSettingFragment : BaseTimerSettingFragment() {
                 mViewDataBinding.switchButtonTimer.visibility = View.INVISIBLE
             }
         }
-        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
+//        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
         mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
         mViewDataBinding.btnTimerSettingEdit.setOnClickListener(this)
         mViewDataBinding.toolbarBack.setOnClickListener(this)

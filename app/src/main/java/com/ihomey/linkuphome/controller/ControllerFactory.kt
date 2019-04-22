@@ -11,7 +11,6 @@ class ControllerFactory {
             2 -> R2Controller()
             3 -> A2Controller()
             4 -> N1Controller()
-            5 -> V1Controller()
             6 -> V1Controller()
             7 -> R2Controller()
             8 -> A2Controller()

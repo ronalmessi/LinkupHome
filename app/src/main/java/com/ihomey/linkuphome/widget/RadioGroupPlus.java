@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -352,13 +353,14 @@ public class RadioGroupPlus extends LinearLayout {
             LinearLayout layout = (LinearLayout) buttonView.getParent().getParent();
             for (int i = 0; i < layout.getChildCount(); i++) {
                 RelativeLayout relativeLayout1 = (RelativeLayout) layout.getChildAt(i);
+                TextView textView=(TextView) relativeLayout1.getChildAt(1);
                 CompoundButton compoundButton = (CompoundButton) relativeLayout1.getChildAt(0);
                 if (compoundButton.getId() != id) {
                     setPressedStateForLayout(relativeLayout1,false);
-                    setPressedStateForTextView((TextView) relativeLayout1.getChildAt(1), false);
+                    if(textView!=null) setPressedStateForTextView(textView, false);
                 } else {
                     setPressedStateForLayout(relativeLayout1,true);
-                    setPressedStateForTextView((TextView) relativeLayout1.getChildAt(1), true);
+                    if(textView!=null) setPressedStateForTextView(textView, true);
                 }
             }
         }
