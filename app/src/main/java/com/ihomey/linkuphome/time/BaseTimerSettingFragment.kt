@@ -50,6 +50,8 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
 
     abstract fun isRepeat(): Boolean
 
+    private var isUserTouch: Boolean=false
+
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -67,8 +69,10 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         })
         mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
             if (it.status == Status.SUCCESS) {
-               if(it.data!=null) mLocalState = it.data
-                updateViewData(mLocalState)
+                if(it.data!=null) mLocalState = it.data
+                if(!isUserTouch){
+                    updateViewData(mLocalState)
+                }
             }
         })
     }
@@ -82,7 +86,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
                     (v as Button).setText(R.string.save)
                     enableEditTimer(true)
                     if ((mControlDevice.type == 6||mControlDevice.type == 10) && listener.isMeshServiceConnected()) {
-                        syncTime(mControlDevice.id)
+                        syncTime(mControlDevice.instructId)
                     }
                 } else {
                     v.tag = true
@@ -104,13 +108,13 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
                 mLocalState.openTimer = calendar.timeInMillis
                 mLocalState.openTimerOn = 3
                 if (listener.isMeshServiceConnected()) {
-                    controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, isTimerOn(), isRepeat())
+                    controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, isTimerOn(), isRepeat())
                 }
             } else {
                 mLocalState.closeTimer = calendar.timeInMillis
                 mLocalState.closeTimerOn = 3
                 if (listener.isMeshServiceConnected()) {
-                    controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, isTimerOn(), isRepeat())
+                    controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, isTimerOn(), isRepeat())
                 }
             }
         } else {
@@ -123,6 +127,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
                 mLocalState.closeTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
             }
         }
+        isUserTouch=true
         setTimerOn(true)
         updateDeviceLocalSate()
     }
@@ -136,22 +141,22 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
 
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
+        isUserTouch=true
         setTimerOn(isChecked)
         if (isOpenTimer()) {
             mLocalState.openTimerOn = if (isChecked) 3 else 2
             if (isChecked) {
                 if (listener.isMeshServiceConnected()) {
                     if (mControlDevice.type == 6||mControlDevice.type == 10) {
-                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, true, isRepeat())
+                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, true, isRepeat())
                     } else {
-                        Log.d("aa","1111")
-                        controller?.setTimer(mControlDevice.id, getPeriodMinute(getHour(), getMinute()), true)
+                        controller?.setTimer(mControlDevice.instructId, getPeriodMinute(getHour(), getMinute()), true)
                     }
                 }
             } else {
                 if (mControlDevice.type == 6||mControlDevice.type == 10) {
                     if (listener.isMeshServiceConnected()) {
-                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), true, false, isRepeat())
+                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, false, isRepeat())
                     }
                 }
             }
@@ -160,16 +165,15 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             if (isChecked) {
                 if (listener.isMeshServiceConnected()) {
                     if (mControlDevice.type == 6||mControlDevice.type == 10) {
-                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, true, isRepeat())
+                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, true, isRepeat())
                     } else {
-                        Log.d("aa","2222")
-                        controller?.setTimer(mControlDevice.id, getPeriodMinute(getHour(), getMinute()), false)
+                        controller?.setTimer(mControlDevice.instructId, getPeriodMinute(getHour(), getMinute()), false)
                     }
                 }
             } else {
                 if (mControlDevice.type == 6||mControlDevice.type == 10) {
                     if (listener.isMeshServiceConnected()) {
-                        controller?.setRepeatTimer(mControlDevice.id, getMinute(), getHour(), false, false, isRepeat())
+                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, false, isRepeat())
                     }
                 }
             }
@@ -178,7 +182,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
     }
 
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
-        Log.d("aa","hahahahhahaa")
+        isUserTouch=false
         val radioButtonId = group?.checkedRadioButtonId
         if (radioButtonId == R.id.rb_timer_setting_on) {
             mLocalState.openTimerOn = mLocalState.openTimerOn + 2

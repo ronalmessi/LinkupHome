@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.time
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,7 +92,7 @@ open class RepeatTimerSettingFragment : BaseTimerSettingFragment() {
                 mViewDataBinding.switchButtonTimer.visibility = View.INVISIBLE
             }
         }
-//        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
+        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
         mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
         mViewDataBinding.btnTimerSettingEdit.setOnClickListener(this)
         mViewDataBinding.toolbarBack.setOnClickListener(this)
@@ -100,9 +101,7 @@ open class RepeatTimerSettingFragment : BaseTimerSettingFragment() {
     override fun enableEditTimer(flag: Boolean) {
         mViewDataBinding.wheelTimerHour.setEditable(flag)
         mViewDataBinding.wheelTimerMinute.setEditable(flag)
-        mViewDataBinding.rbTimerSettingOn.visibility = if (flag) View.GONE else View.VISIBLE
-        mViewDataBinding.rbTimerSettingOff.visibility = if (flag) View.GONE else View.VISIBLE
-        mViewDataBinding.rbTimerSettingOn.visibility = if (flag) View.GONE else View.VISIBLE
+        mViewDataBinding.rgTimerSetting.visibility = if (flag) View.GONE else View.VISIBLE
         mViewDataBinding.cbTimerSettingRepeat.visibility = if (flag) View.VISIBLE else View.GONE
         mViewDataBinding.switchButtonTimer.visibility = if(flag) View.INVISIBLE else View.VISIBLE
         mViewDataBinding.frameLayoutTimerSetting.isActivated = !flag

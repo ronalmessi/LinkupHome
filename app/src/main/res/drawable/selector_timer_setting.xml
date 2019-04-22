@@ -6,6 +6,10 @@
         android:drawable="@drawable/round_timer_setting_checked_bg" />
 
     <item
+        android:state_checked="true"
+        android:drawable="@drawable/round_timer_setting_checked_bg" />
+
+    <item
         android:drawable="@drawable/round_timer_setting_unchecked_bg" />
 
 </selector>

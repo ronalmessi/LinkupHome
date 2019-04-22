@@ -31,12 +31,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintGuide_percent="0.18"/>
 
 
         <CheckBox
@@ -45,8 +39,8 @@
             android:layout_height="wrap_content"
             android:theme="@style/PrivacyCheckBox"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintRight_toLeftOf="@+id/privacy_tv_license"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintEnd_toStartOf="@+id/privacy_tv_license"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_h" />
 
 
@@ -58,8 +52,9 @@
             android:text="@string/license_agreement"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/privacy_cb_license"
-            app:layout_constraintLeft_toRightOf="@+id/privacy_cb_license"
+            app:layout_constraintStart_toEndOf="@+id/privacy_cb_license"
             app:layout_constraintTop_toBottomOf="@+id/guideline_h" />
 
         <CheckBox

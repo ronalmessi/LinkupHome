@@ -1,182 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/frameLayout_timer_setting"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/rg_timer_setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="1.5">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.6"
+        android:orientation="horizontal" />
 
-            <com.ihomey.linkuphome.widget.CompatToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/frameLayout_timer_setting"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guide0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-                <ImageButton
-                    android:id="@+id/toolbar_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@mipmap/arrow_icon_left" />
-            </com.ihomey.linkuphome.widget.CompatToolbar>
+        <com.ihomey.linkuphome.widget.CompatToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-
-            <LinearLayout
-                android:id="@+id/layout_timer_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_horizontal"
-                android:paddingTop="36dp">
-
-                <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
-                    android:id="@+id/wheel_timer_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="21dp"
-                    android:paddingRight="21dp"
-                    app:wheel_atmospheric="true"
-                    app:wheel_curved="true"
-                    app:wheel_cyclic="true"
-                    app:wheel_item_text_color="@color/wheel_text_color"
-                    app:wheel_item_text_size="48sp"
-                    app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:text=":"
-                    android:textColor="@android:color/white"
-                    android:textSize="54sp" />
-
-                <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
-                    android:id="@+id/wheel_timer_minute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="21dp"
-                    android:paddingRight="21dp"
-                    app:wheel_atmospheric="true"
-                    app:wheel_curved="true"
-                    app:wheel_cyclic="true"
-                    app:wheel_item_text_color="@color/wheel_text_color"
-                    app:wheel_item_text_size="48sp"
-                    app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_timer_setting_edit"
+            <ImageButton
+                android:id="@+id/toolbar_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="16dp"
-                android:background="@null"
-                android:gravity="left|center_vertical"
-                android:text="@string/edit"
+                android:layout_gravity="start"
+                android:background="@mipmap/arrow_icon_left" />
+        </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+        <LinearLayout
+            android:id="@+id/layout_timer_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/_30sdp">
+
+            <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
+                android:id="@+id/wheel_timer_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_21sdp"
+                android:paddingRight="@dimen/_21sdp"
+                app:wheel_atmospheric="true"
+                app:wheel_curved="true"
+                app:wheel_cyclic="true"
+                app:wheel_item_text_color="@color/wheel_text_color"
+                app:wheel_item_text_size="@dimen/_42ssp"
+                app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_12sdp"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:text=":"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="@dimen/_36ssp" />
 
-            <com.suke.widget.SwitchButton
-                android:id="@+id/switch_button_timer"
+            <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
+                android:id="@+id/wheel_timer_minute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
-                app:sb_background="@color/transparent"
-                app:sb_checked_color="@color/control_tab_item_selected_color"
-                app:sb_show_indicator="false"
-                app:sb_uncheckcircle_color="@color/transparent" />
+                android:paddingLeft="@dimen/_21sdp"
+                android:paddingRight="@dimen/_21sdp"
+                app:wheel_atmospheric="true"
+                app:wheel_curved="true"
+                app:wheel_cyclic="true"
+                app:wheel_item_text_color="@color/wheel_text_color"
+                app:wheel_item_text_size="@dimen/_42ssp"
+                app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_timer_setting"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
+        <Button
+            android:id="@+id/btn_timer_setting_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:background="@null"
+            android:gravity="start|center_vertical"
+            android:text="@string/edit"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_18ssp" />
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/switch_button_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:sb_background="@color/transparent"
+            app:sb_checked_color="@color/control_tab_item_selected_color"
+            app:sb_show_indicator="false"
+            app:sb_uncheckcircle_color="@color/transparent" />
+
+    </RelativeLayout>
+
+    <com.ihomey.linkuphome.widget.RadioGroupPlus
+        android:id="@+id/rg_timer_setting"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guide0"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout_timer_setting"
-            app:layout_constraintVertical_weight="1">
+            android:gravity="center"
+            >
 
-            <RadioButton
-                android:id="@+id/rb_timer_setting_on"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_timer_setting"
-                android:button="@null"
-                android:drawablePadding="4dp"
-                android:drawableStart="@mipmap/alarm_btn_icon_light_on"
-                android:gravity="center"
-                android:paddingBottom="12dp"
-                android:paddingLeft="@dimen/timer_setting_btn_padding"
-                android:paddingRight="@dimen/timer_setting_btn_padding"
-                android:paddingTop="12dp"
-                android:text="@string/timer_open_time"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:minWidth="@dimen/_320sdp"
+                android:background="@drawable/selector_timer_setting">
 
-            <RadioButton
-                android:id="@+id/rb_timer_setting_off"
+                <RadioButton
+                    android:id="@+id/rb_timer_setting_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:layout_centerHorizontal="true"
+                    android:drawableStart="@mipmap/alarm_btn_icon_light_on"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_12sdp"
+                    android:textSize="@dimen/_16ssp"
+                    android:text="@string/timer_open_time"
+                    android:textColor="@android:color/white"
+                    android:button="@null" />
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/selector_timer_setting"
-                android:button="@null"
-                android:drawablePadding="4dp"
-                android:drawableStart="@mipmap/alarm_btn_icon_light_off"
-                android:gravity="center"
-                android:paddingBottom="12dp"
-                android:paddingLeft="@dimen/timer_setting_btn_padding"
-                android:paddingRight="@dimen/timer_setting_btn_padding"
-                android:paddingTop="12dp"
-                android:text="@string/timer_close_time"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:minWidth="@dimen/_320sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/selector_timer_setting">
 
+                <RadioButton
+                    android:id="@+id/rb_timer_setting_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:layout_centerHorizontal="true"
+                    android:drawableStart="@mipmap/alarm_btn_icon_light_off"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_12sdp"
+                    android:textSize="@dimen/_16ssp"
+                    android:text="@string/timer_close_time"
+                    android:textColor="@android:color/white"
+                    android:button="@null" />
+            </RelativeLayout>
 
-            <CheckBox
-                android:id="@+id/cb_timer_setting_repeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/selector_timer_setting"
-                android:button="@null"
-                android:drawablePadding="4dp"
-                android:drawableStart="@mipmap/alarm_cb_icon_repeat"
-                android:gravity="center"
-                android:paddingBottom="12dp"
-                android:paddingLeft="@dimen/timer_setting_btn_padding"
-                android:paddingRight="@dimen/timer_setting_btn_padding"
-                android:paddingTop="12dp"
-                android:text="@string/timer_loop"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:visibility="gone" />
+        </LinearLayout>
 
+    </com.ihomey.linkuphome.widget.RadioGroupPlus>
 
-        </RadioGroup>
+    <CheckBox
+        android:id="@+id/cb_timer_setting_repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guide0"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/selector_timer_setting"
+        android:button="@null"
+        android:drawablePadding="@dimen/_4sdp"
+        android:drawableStart="@mipmap/alarm_cb_icon_repeat"
+        android:paddingStart="@dimen/_100sdp"
+        android:paddingEnd="@dimen/_100sdp"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_12sdp"
+        android:paddingTop="@dimen/_12sdp"
+        android:text="@string/timer_loop"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_16ssp"
+        android:visibility="gone" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
