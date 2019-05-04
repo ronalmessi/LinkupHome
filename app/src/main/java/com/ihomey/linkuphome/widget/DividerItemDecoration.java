@@ -20,19 +20,21 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private boolean mHideBottom = false;
     private Paint mPaint;
     private int mDividerHeight = 2;//分割线高度，默认为1px
+    private int mDividerPadding = 0;//分割线高度，默认为1px
     private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
     /**
      * 自定义分割线
      *
-     * @param context
      * @param orientation   列表方向
      * @param dividerHeight 分割线高度
      * @param dividerColor  分割线颜色
      */
-    public DividerItemDecoration(Context context, int orientation, int dividerHeight, int dividerColor, boolean hideBottom) {
+    public DividerItemDecoration(int orientation, int dividerPadding,int dividerHeight, int dividerColor, boolean hideBottom) {
         mDividerHeight = dividerHeight;
+        mDividerPadding=dividerPadding;
+        mOrientation=orientation;
         mHideBottom = hideBottom;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(dividerColor);
@@ -72,7 +74,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             final int top = child.getBottom() + layoutParams.bottomMargin;
             final int bottom = top + mDividerHeight;
             if (mPaint != null) {
-                canvas.drawRect(left + child.getContext().getResources().getDimension(R.dimen._63sdp), top, right, bottom, mPaint);
+                canvas.drawRect(left + mDividerPadding, top, right, bottom, mPaint);
             }
         }
     }

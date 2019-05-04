@@ -29,7 +29,7 @@ class StringResourceGenerator {
             if(file.isFile&&file.exists()){
                 val inputStream =FileInputStream(file)
                 val workBook = Workbook.getWorkbook(inputStream)
-                val stringBuilderList=listOf(StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>"))
+                val stringBuilderList=listOf(StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"),StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"))
                 for(k in 0 until workBook.numberOfSheets){
                     val sheet = workBook.getSheet(k)
                     val fieldNameList=fieldNameLists[k]
@@ -54,7 +54,13 @@ class StringResourceGenerator {
                                     }
                                 }
                             }else if(k==2){
-                                if(text.isNotEmpty())stringBuilderList[i].append("<string name=\"").append(fieldNameList[j-1]).append("\">").append(text).append("</string>").append("\n")
+                                if(text.isNotEmpty()){
+                                    when (j) {
+                                        in 1..7 -> stringBuilderList[i].append("<string name=\"").append(fieldNameList[j-1]).append("\">").append(text).append("</string>").append("\n")
+                                        9 -> stringBuilderList[i].append("<string name=\"").append(fieldNameList[j-1]).append("\">").append(text).append("</string>").append("\n")
+                                        in 11..14 -> stringBuilderList[i].append("<string name=\"").append(fieldNameList[j-1]).append("\">").append(text).append("</string>").append("\n")
+                                    }
+                                }
                             }else if(k==3){
                                 if(text.isNotEmpty()){
                                     when (j) {
@@ -85,7 +91,7 @@ class StringResourceGenerator {
 //                System.out.println(stringBuilderList[0].toString())
                 for(l in 0 until  stringBuilderList.size){
                     val fileContent=stringBuilderList[l].append("</resources>").toString()
-                    writeStringToFile("/Users/dongcaizheng/Desktop/values/values-"+languageList[l],"/string.xml",fileContent)
+                    writeStringToFile("/Users/dongcaizheng/Desktop/values/values-"+languageList[l],"/strings.xml",fileContent)
                 }
             }
         }

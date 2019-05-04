@@ -44,7 +44,7 @@ class LanguageSettingFragment : Fragment(), BaseQuickAdapter.OnItemClickListener
         adapter = LanguageListAdapter(R.layout.item_language_list, view.context.resources.getStringArray(R.array.language_array).toList())
         adapter.onItemClickListener = this
         rcv_language_list.layoutManager = LinearLayoutManager(context)
-        context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(context, LinearLayoutManager.VERTICAL, it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_language_list.addItemDecoration(it) }
+        context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(LinearLayoutManager.HORIZONTAL, context?.resources?.getDimension(R.dimen._27sdp)?.toInt()!!,it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_language_list.addItemDecoration(it) }
         rcv_language_list.adapter = adapter
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }

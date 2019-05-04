@@ -69,7 +69,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         adapter.onItemChildClickListener = this
         adapter.onItemClickListener = this
         rcv_zone_list.layoutManager = LinearLayoutManager(context)
-        context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(context, LinearLayoutManager.VERTICAL, it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_zone_list.addItemDecoration(it) }
+        context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(LinearLayoutManager.HORIZONTAL, context?.resources?.getDimension(R.dimen._63sdp)?.toInt()!!,it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_zone_list.addItemDecoration(it) }
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
             val width = context?.resources?.getDimension(R.dimen._72sdp)
             val height = ViewGroup.LayoutParams.MATCH_PARENT
