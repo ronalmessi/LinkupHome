@@ -51,7 +51,6 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._16sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }else if (type==6||type==7) {
             if(type == 6) brightnessView.max=85 else brightnessView.max=240
-            brightnessView.max=85
             iconView.scaleX=0.8f
             iconView.scaleY=0.8f
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._30sdp).toInt()

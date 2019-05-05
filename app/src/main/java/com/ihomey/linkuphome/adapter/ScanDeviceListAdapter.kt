@@ -45,6 +45,7 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                 val swipeLayout = helper.getView<SwipeLayout>(R.id.swipeLayout)
                 swipeLayout.isLeftSwipeEnabled = false
                 swipeLayout.isRightSwipeEnabled = false
+                val seek_bar_brightness = helper.getView<SeekBar>(R.id.device_seek_bar_brightness)
                 val cl_devices_item = swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
                 if (type == 0) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
@@ -58,13 +59,26 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                     cl_devices_item.setPadding(0, mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt())
                 }
 
+                if (type == 0) {
+                    seek_bar_brightness.max=85
+                }else if (type == 1||type==2) {
+                    if(type == 1) seek_bar_brightness.max=85 else seek_bar_brightness.max=240
+                }else if (type==6||type==7) {
+                    if(type == 6) seek_bar_brightness.max=85 else seek_bar_brightness.max=240
+                } else if (type == 3) {
+                    seek_bar_brightness.max=85
+                }else if (type == 4) {
+                    seek_bar_brightness.max=85
+                }else if (type == 5||type == 9) {
+                    seek_bar_brightness.max=27
+                }else if (type == 8) {
+                    seek_bar_brightness.max=85
+                }
                 val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
                 sb_power.isChecked = item.parameters?.on == 1
                 sb_power.setOnCheckedChangeListener { _, isChecked -> onCheckedChangeListener.onCheckedChanged(helper.adapterPosition, isChecked) }
 
-                val seek_bar_brightness = helper.getView<SeekBar>(R.id.device_seek_bar_brightness)
                 seek_bar_brightness.progress = item.parameters?.brightness ?: 20
-
                 seek_bar_brightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 

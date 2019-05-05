@@ -29,7 +29,6 @@ class JoinZoneFragment : BaseFragment() {
     }
 
     private lateinit var mViewModel: JoinZoneViewModel
-//    private lateinit var pullShareInfoDialog: PullShareInfoFragment
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var bridgeListener: BridgeListener
 
@@ -57,19 +56,18 @@ class JoinZoneFragment : BaseFragment() {
     private fun joinZone() {
         val invitationCode=et_invitation_code.text.toString().trim()
         if(!TextUtils.isEmpty(invitationCode)){
-//            pullShareInfoDialog = PullShareInfoFragment()
-//            pullShareInfoDialog.isCancelable = false
-//            pullShareInfoDialog.show(fragmentManager, "PullShareInfoFragment")
             context?.getIMEI()?.let { it1 ->  mViewModel.joinZone(it1,invitationCode).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                 if (it?.status == Status.SUCCESS) {
-                    activity?.toast("加入成功", Toast.LENGTH_SHORT)
+                    hideLoadingView()
+                    activity?.toast(getString(R.string.msg_join_zone_success), Toast.LENGTH_SHORT)
                     viewModel.setCurrentZoneId(it.data?.id)
                     bridgeListener.reConnectBridge()
                     Navigation.findNavController(et_invitation_code).popBackStack()
-//                    pullShareInfoDialog.dismiss()
                 }else if (it?.status == Status.ERROR) {
-//                    pullShareInfoDialog.dismiss()
-                    it.message?.let { it2 -> activity?.toast(it2) }
+                    hideLoadingView()
+                    activity?.toast(getString(R.string.msg_error_invitation_code), Toast.LENGTH_SHORT)
+                }else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                 }
             })}
         }

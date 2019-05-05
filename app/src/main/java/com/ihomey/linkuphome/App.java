@@ -20,30 +20,4 @@ public class App extends Application {
         MobclickAgent.openActivityDurationTrack(true);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
     }
-
-    @Override
-    protected void attachBaseContext(Context base){
-        String currentLanguage = Locale.getDefault().getDisplayLanguage().toLowerCase();
-        Log.d("aa",currentLanguage+"--"+ Locale.getDefault().getCountry());
-        switch (currentLanguage) {
-            case "español":
-                super.attachBaseContext(LocaleHelper.onAttach(base, "es"));
-                break;
-            case "deutsch":
-                super.attachBaseContext(LocaleHelper.onAttach(base, "de"));
-                break;
-            case "français":
-                super.attachBaseContext(LocaleHelper.onAttach(base, "fr"));
-                break;
-            case "nederlands":
-                super.attachBaseContext(LocaleHelper.onAttach(base, "nl"));
-                break;
-            case "中文":
-                super.attachBaseContext(LocaleHelper.onAttach(base, "zh"));
-                break;
-            default:
-                super.attachBaseContext(LocaleHelper.onAttach(base, "en"));
-                break;
-        }
-    }
 }

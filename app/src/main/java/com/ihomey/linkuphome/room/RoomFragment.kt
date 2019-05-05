@@ -20,6 +20,7 @@ import cn.iclass.guideview.GuideBuilder
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
@@ -28,7 +29,6 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.getIMEI
-import com.ihomey.linkuphome.group.GroupUpdateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
@@ -43,7 +43,7 @@ import kotlinx.android.synthetic.main.room_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
 
-class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, OnItemMenuClickListener,  BondedDeviceListAdapter.OnCheckedChangeListener {
+class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListener, OnItemMenuClickListener,  BondedDeviceListAdapter.OnCheckedChangeListener {
 
     companion object {
         fun newInstance() = RoomFragment()
@@ -61,7 +61,6 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
 
     private var guide: Guide? = null
 
-    private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.room_fragment, container, false)
@@ -142,11 +141,6 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
         adapter.currentList?.get(position)?.let {it1->
-          val bundle = Bundle()
-          bundle.putInt("updateType", 1)
-          mDialog.arguments = bundle
-          mDialog.isCancelable = false
-          mDialog.show(fragmentManager, "GroupUpdateFragment")
           room?.let { bindDevice(it.zoneId, it.instructId,it1.instructId.toString(), "remove")  }
         }
         menuBridge?.closeMenu()
@@ -226,9 +220,12 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
             viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructId, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 mViewModel.setCurrentRoom(room)
                 if (it?.status == Status.SUCCESS) {
-                    mDialog.dismiss()
+                    hideLoadingView()
                 } else if (it?.status == Status.ERROR) {
-                    mDialog.dismiss()
+                   hideLoadingView()
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }else if (it?.status == Status.LOADING) {
+                   showLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
                 }
             })

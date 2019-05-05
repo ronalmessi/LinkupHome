@@ -14,16 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ShareZoneListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.LoadingFragment
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
-import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import kotlinx.android.synthetic.main.zone_share_list_fragment.*
 
-class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
+class ShareZoneListFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     companion object {
         fun newInstance() = ShareZoneListFragment()
@@ -64,13 +65,17 @@ class ShareZoneListFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         if(zone!=null){
             context?.getIMEI()?.let { it1 ->  mViewModel.shareZone(it1,zone.id).observe(viewLifecycleOwner, Observer<Resource<String>> {
                 if (it?.status == Status.SUCCESS) {
+                    hideLoadingView()
                     if(!TextUtils.isEmpty(it.data)){
                         val bundle=Bundle()
                         bundle.putString("invitationCode",it.data)
                         Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment,bundle)
                     }
                 }else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2)}
+                }else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                 }
             })}
         }

@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -20,7 +21,16 @@ public class LocaleHelper {
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
 
     public static Context onAttach(Context context) {
-        String lang = getPersistedData(context, Locale.getDefault().getLanguage());
+        String language=Locale.getDefault().getLanguage();
+        String country=Locale.getDefault().getCountry();
+        if(TextUtils.equals("zh",language)){
+            if(TextUtils.equals("TW",country)){
+                language="zh-rTW";
+            } else{
+                language="zh-rCN";
+            }
+        }
+        String lang = getPersistedData(context,language);
         return setLocale(context, lang);
     }
 
@@ -51,7 +61,6 @@ public class LocaleHelper {
     private static void persist(Context context, String language) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-
         editor.putString(SELECTED_LANGUAGE, language);
         editor.apply();
     }

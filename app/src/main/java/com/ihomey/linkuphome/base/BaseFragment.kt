@@ -12,6 +12,9 @@ import com.umeng.analytics.MobclickAgent
  */
 abstract class BaseFragment : Fragment() {
 
+
+    private var loadingFragment: LoadingFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("BaseFragment", javaClass.simpleName + "-----onCreate")
@@ -75,5 +78,19 @@ abstract class BaseFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d("BaseFragment", javaClass.simpleName + "-----onDestroy")
+    }
+
+    fun showLoadingView() {
+        if (loadingFragment == null) {
+            loadingFragment = LoadingFragment()
+        }
+        loadingFragment?.isCancelable = false
+        if(!loadingFragment?.isAdded!!) loadingFragment?.show(childFragmentManager, "LoadingFragment")
+    }
+
+    fun hideLoadingView() {
+        if (loadingFragment != null) {
+            loadingFragment?.dismiss()
+        }
     }
 }

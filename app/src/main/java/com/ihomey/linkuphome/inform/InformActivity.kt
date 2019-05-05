@@ -6,10 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.setTranslucentStatus
 
-class InformActivity : AppCompatActivity(){
+class InformActivity : BaseActivity(){
 
     private lateinit var mViewModel: InformViewModel
 

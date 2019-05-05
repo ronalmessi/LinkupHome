@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -32,7 +33,7 @@ import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
-class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener, OnItemMenuClickListener {
+class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener, OnItemMenuClickListener {
 
     companion object {
         fun newInstance() = ZoneSettingFragment()
@@ -115,11 +116,15 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
             context?.getIMEI()?.let { it1 ->
                 viewModel.switchZone(it1, zone.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                     if (it?.status == Status.SUCCESS) {
+                        hideLoadingView()
                         mViewModel.setCurrentZoneId(it.data?.id)
                         bridgeListener.reConnectBridge()
                         Navigation.findNavController(iv_back).popBackStack()
                     } else if (it?.status == Status.ERROR) {
+                        hideLoadingView()
                         it.message?.let { it2 -> activity?.toast(it2) }
+                    }else if (it?.status == Status.LOADING) {
+                        showLoadingView()
                     }
                 })
             }
@@ -131,7 +136,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
             val deleteZoneFragment = DeleteZoneFragment()
             deleteZoneFragment.isCancelable = false
             val bundle = Bundle()
-            bundle.putString("hintText", getString(R.string.msg_delete_zone_hint))
+            bundle.putString("hintText", getString(R.string.msg_minimum_zone))
             deleteZoneFragment.arguments = bundle
             deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
         } else {
@@ -165,11 +170,15 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         context?.getIMEI()?.let { it1 ->
             viewModel.switchZone(it1, id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                 if (it?.status == Status.SUCCESS) {
+                    hideLoadingView()
                     mViewModel.setCurrentZoneId(it.data?.id)
                     bridgeListener.reConnectBridge()
                     Navigation.findNavController(btn_share_zone).popBackStack()
                 } else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
+                }else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                 }
             })
         }
@@ -179,12 +188,16 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
          context?.getIMEI()?.let { it1 ->
              viewModel.deleteZone(it1, zoneId).observe(viewLifecycleOwner, Observer<Resource<Int>> {
                  if (it?.status == Status.SUCCESS) {
+                     hideLoadingView()
                      it.data?.let {
                          mViewModel.setCurrentZoneId(it)
                          bridgeListener.reConnectBridge()
                      }
                  } else if (it?.status == Status.ERROR) {
+                     hideLoadingView()
                      it.message?.let { it2 -> activity?.toast(it2) }
+                 }else if (it?.status == Status.LOADING) {
+                     showLoadingView()
                  }
              })
          }
@@ -196,9 +209,13 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         context?.getIMEI()?.let { it1 ->
             viewModel.changeZoneName(it1, id, newName).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
                 if (it?.status == Status.SUCCESS) {
+                    hideLoadingView()
                     mViewModel.setCurrentZoneId(it.data?.id)
                 } else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
+                }else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                 }
             })
         }

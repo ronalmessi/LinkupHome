@@ -23,7 +23,10 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
     fun createZone(guid:String,name:String): LiveData<Resource<Zone>> {
         return object : NetworkBoundResource<Zone>(appExecutors) {
             override fun saveCallResult(item: Zone?) {
-                item?.let {  zoneDao.insert(it) }
+                item?.let {
+                    zoneDao.resetAllActiveZone()
+                    zoneDao.insert(it)
+                }
             }
 
             override fun shouldFetch(data: Zone?): Boolean {

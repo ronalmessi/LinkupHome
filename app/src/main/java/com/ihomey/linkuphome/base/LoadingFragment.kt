@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.device
+package com.ihomey.linkuphome.base
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,13 +13,13 @@ import com.ihomey.linkuphome.R
 /**
  * Created by dongcaizheng on 2018/4/14.
  */
-class DeviceRemoveFragment : DialogFragment() {
+class LoadingFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.setDimAmount(0f)
-        return inflater.inflate(R.layout.dialog_delete_device, container, false)
+        return inflater.inflate(R.layout.dialog_loading, container, false)
     }
 
 }

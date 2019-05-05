@@ -18,7 +18,6 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.getIMEI
-import com.ihomey.linkuphome.group.GroupUpdateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
@@ -33,7 +32,6 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var mViewModel: UnBondDevicesViewModel
     private lateinit var adapter: UnBondedDeviceListAdapter1
-    private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
     private  var room: Room?=null
 
@@ -88,26 +86,21 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     }
 
     private fun bindDevice() {
-        val bundle = Bundle()
-        bundle.putInt("updateType", 0)
-        mDialog.arguments = bundle
-        mDialog.isCancelable = false
-        mDialog.show(fragmentManager, "GroupUpdateFragment")
         for (device in adapter.getSelectedDevices()) {
             room?.let { bindDevice(it.zoneId, it.instructId, device.instructId.toString(), "add")  }
         }
-
 //        room?.let { bindDevice(it.zoneId, it.instructId, adapter.getSelectedDevices().map { it.instructId }.joinToString(","), "add")  }
     }
 
 
     private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructIds: String, act: String) {
         context?.getIMEI()?.let { it1 ->
+            showLoadingView()
             viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructIds, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 if (it?.status == Status.SUCCESS) {
                     count++
                     if (count == adapter.getSelectedDevices().size) {
-                        mDialog.dismiss()
+                        hideLoadingView()
                         count = 0
                         Navigation.findNavController(btn_save).popBackStack()
                     }

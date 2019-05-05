@@ -47,14 +47,18 @@ class CreateZoneFragment : BaseFragment() {
         btn_save.setOnClickListener {it0->
             context?.getIMEI()?.let { it1 -> createZoneViewModel.createZone(it1,et_zone_name.text.toString().trim()).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
                 if (it?.status == Status.SUCCESS) {
+                    hideLoadingView()
+                    homeActivityViewModel.setCurrentZoneId(it.data?.id)
                     if(isDefault){
-                        homeActivityViewModel.setCurrentZoneId(it.data?.id)
                         Navigation.findNavController(it0).navigate(R.id.action_createZoneFragment_to_homeFragment)
                     }else{
                         Navigation.findNavController(it0).popBackStack()
                     }
-                }else  if (it?.status == Status.ERROR) {
+                }else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
+                }else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                 }
             }) }
         }

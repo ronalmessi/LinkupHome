@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device.DeviceRemoveFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeleteDeviceListener
 import com.ihomey.linkuphome.listener.DeviceRemoveListener
@@ -40,7 +40,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     protected lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: DeviceListAdapter
     private lateinit var meshServiceStateListener: MeshServiceStateListener
-    private val deviceRemoveFragment = DeviceRemoveFragment()
     private var isUserTouch: Boolean=false
     private var deviceList:List<Device>?=null
 
@@ -98,15 +97,16 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-    override fun deleteDevice(id: Int, instructId: Int) {
+    override fun deleteDevice(id: Int, instructId: Int){
         context?.getIMEI()?.let { it1 ->
             mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                 if (it?.status == Status.SUCCESS) {
-                    deviceRemoveFragment.isCancelable = false
-                    deviceRemoveFragment.show(fragmentManager, "DeviceRemoveFragment")
                     mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, this))
                 } else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
+                }else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                 }
             })
         }
@@ -184,7 +184,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
     override fun onDeviceRemoved(deviceId: Int, uuidHash: Int, success: Boolean) {
-        deviceRemoveFragment.dismiss()
+        hideLoadingView()
         isUserTouch=false
         mViewModel.deleteDevice(deviceId)
     }

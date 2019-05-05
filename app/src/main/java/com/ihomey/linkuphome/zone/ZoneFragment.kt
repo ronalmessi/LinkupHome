@@ -143,9 +143,12 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
         context?.getIMEI()?.let { it1 ->
             mViewModel.deleteRoom(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                 if (it?.status == Status.SUCCESS) {
-
-                } else if (it?.status == Status.ERROR) {
+                     hideLoadingView()
+                }else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
+                }else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                 }
             })
         }

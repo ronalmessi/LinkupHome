@@ -43,7 +43,6 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
@@ -75,13 +74,17 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     }
 
 
-    override fun createSubZone(type: Int, name: String) {
+    override fun createSubZone(type: Int, name: String){
         context?.getIMEI()?.let { it1 -> mViewModel.saveRoom(it1, currentZone?.id!!,type+1,name).observe(viewLifecycleOwner, Observer<Resource<Room>> {
             if (it?.status == Status.SUCCESS) {
+                hideLoadingView()
                 mViewModel.setCurrentZoneId(it.data?.zoneId)
                 Navigation.findNavController(iv_back).popBackStack()
             }else  if (it?.status == Status.ERROR) {
+                hideLoadingView()
                 it.message?.let { it2 -> activity?.toast(it2) }
+            }else if (it?.status == Status.LOADING) {
+                showLoadingView()
             }
         })}
     }
