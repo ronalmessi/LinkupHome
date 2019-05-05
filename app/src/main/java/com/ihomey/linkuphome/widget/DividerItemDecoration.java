@@ -1,13 +1,10 @@
 package com.ihomey.linkuphome.widget;
 
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
-
-import com.ihomey.linkuphome.R;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

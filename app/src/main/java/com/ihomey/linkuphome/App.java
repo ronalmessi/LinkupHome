@@ -1,12 +1,8 @@
 package com.ihomey.linkuphome;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 
-import com.ihomey.linkuphome.base.LocaleHelper;
 import com.umeng.analytics.MobclickAgent;
-import java.util.Locale;
 
 
 public class App extends Application {
