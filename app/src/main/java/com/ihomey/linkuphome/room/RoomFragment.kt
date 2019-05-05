@@ -38,7 +38,7 @@ import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 import com.yanzhenjie.recyclerview.*
 
-import kotlinx.android.synthetic.main.sub_zone_fragment.*
+import kotlinx.android.synthetic.main.room_fragment.*
 
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
@@ -64,7 +64,7 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
     private val mDialog: GroupUpdateFragment = GroupUpdateFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.sub_zone_fragment, container, false)
+        return inflater.inflate(R.layout.room_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -105,7 +105,7 @@ class RoomFragment : Fragment(),FragmentBackHandler,  UpdateDeviceNameListener, 
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
             val width = context?.resources?.getDimension(R.dimen._72sdp)
             val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
+            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.action_delete).setTextColor(Color.WHITE).setTextSize(14)
             swipeRightMenu.addMenuItem(deleteItem)
         }
         rcv_device_list.setSwipeMenuCreator(swipeMenuCreator)

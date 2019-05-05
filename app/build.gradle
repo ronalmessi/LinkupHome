@@ -116,6 +116,9 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    implementation 'com.github.piasy:BigImageViewer:1.5.7'
+//    implementation 'com.github.piasy:GlideImageLoader:1.5.7'
+
     //encrypt
     def spongycastle_version = "1.51.0.0"
     implementation "com.madgag.spongycastle:core:$spongycastle_version"

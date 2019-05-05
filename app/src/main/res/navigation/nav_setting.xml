@@ -22,8 +22,13 @@
         <action
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
-            android:id="@+id/action_tab_setting_to_instructionsFragment"
-            app:destination="@id/instructionsFragment" />
+            android:id="@+id/action_tab_setting_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_tab_setting_to_instructionFragment"
+            app:destination="@id/instructionFragment" />
         <action
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
@@ -36,15 +41,10 @@
         tools:layout="@layout/more_fragment"
         android:label="MoreFragment" >
         <action
-            app:enterAnim="@anim/slide_in_bottom"
-            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
-            android:id="@+id/action_moreFragment_to_privacyAgreementFragment"
-            app:destination="@id/privacyAgreementFragment" />
-        <action
-            app:enterAnim="@anim/slide_in_bottom"
-            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
-            android:id="@+id/action_moreFragment_to_termsOfUseFragment"
-            app:destination="@id/termsOfUseFragment" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_moreFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
 
     <fragment
@@ -100,42 +100,27 @@
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_zoneSettingFragment_to_joinZoneFragment"
             app:destination="@id/joinZoneFragment" />
-        <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
-            android:id="@+id/action_zoneSettingFragment_to_connectedDevicesFragment"
-            app:destination="@id/connectedDevicesFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/instructionsFragment"
-        android:name="com.ihomey.linkuphome.setting.InstructionsFragment"
-        tools:layout="@layout/instructions_fragment"
-        android:label="InstructionsFragment" />
+        android:id="@+id/webViewFragment"
+        android:name="com.ihomey.linkuphome.setting.WebViewFragment"
+        tools:layout="@layout/webview_fragment"
+        android:label="WebViewFragment" />
 
     <fragment
-        android:id="@+id/privacyAgreementFragment"
-        android:name="com.ihomey.linkuphome.setting.PrivacyAgreementFragment"
-        tools:layout="@layout/privacy_agreement_fragment"
-        android:label="PrivacyAgreementFragment" />
-    <fragment
-        android:id="@+id/termsOfUseFragment"
-        android:name="com.ihomey.linkuphome.setting.TermsOfUseFragment"
-        tools:layout="@layout/terms_of_use_fragment"
-        android:label="TermsOfUseFragment" />
+        android:id="@+id/instructionFragment"
+        android:name="com.ihomey.linkuphome.setting.InstructionFragment"
+        tools:layout="@layout/instruction_fragment"
+        android:label="InstructionFragment" />
+
 
     <fragment
         android:id="@+id/languageSettingFragment"
         android:name="com.ihomey.linkuphome.setting.LanguageSettingFragment"
         android:label="language_settingg_fragment"
-        tools:layout="@layout/language_settingg_fragment" >
+        tools:layout="@layout/language_setting_fragment" >
     </fragment>
 
 
-    <fragment
-        android:id="@+id/connectedDevicesFragment"
-        android:name="com.ihomey.linkuphome.device1.ConnectedDevicesFragment"
-        android:label="connectedDevicesFragment"
-        tools:layout="@layout/connected_devices_fragment" >
-    </fragment>
 </navigation>

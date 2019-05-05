@@ -5,18 +5,18 @@
         android:id="@+id/tab_device"
         android:orderInCategory="0"
         android:icon="@mipmap/ic_tab_device"
-        android:title="@string/devices_title"
+        android:title="@string/title_device"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_zone"
         android:orderInCategory="1"
         android:icon="@mipmap/ic_tab_zone"
-        android:title="@string/zones_title"
+        android:title="@string/home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_setting"
         android:orderInCategory="2"
         android:icon="@mipmap/ic_tab_setting"
-        android:title="@string/setting_title"
+        android:title="@string/title_setting"
         app:showAsAction="ifRoom" />
 </menu>

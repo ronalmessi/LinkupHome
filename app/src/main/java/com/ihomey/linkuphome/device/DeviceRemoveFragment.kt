@@ -19,7 +19,7 @@ class DeviceRemoveFragment : DialogFragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.setDimAmount(0f)
-        return inflater.inflate(R.layout.fragment_dialog_device_remove, container, false)
+        return inflater.inflate(R.layout.dialog_delete_device, container, false)
     }
 
 }

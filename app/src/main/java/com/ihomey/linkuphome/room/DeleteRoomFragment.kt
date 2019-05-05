@@ -24,7 +24,7 @@ class DeleteRoomFragment : DialogFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.delete_sub_zone_fragment, container, false)
+        val view = inflater.inflate(R.layout.dialog_delete_room, container, false)
         val btn_cancel = view.findViewById<TextView>(R.id.btn_cancel)
         btn_cancel.setOnClickListener { dismiss() }
         val btn_confirm = view.findViewById<TextView>(R.id.btn_confirm)

@@ -40,7 +40,7 @@
         android:drawableEnd="@mipmap/ic_device_unconnected"
         android:ellipsize="end"
         android:gravity="center"
-        android:text="@string/state_disconnected"
+        android:text="@string/action_connect_device"
         android:scaleX="0.9"
         android:scaleY="0.9"
         android:textColor="#807F85"

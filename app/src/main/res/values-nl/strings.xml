@@ -1,131 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LinkupHome</string>
-
-    <string name="welcome_language">Taal</string>
-    <string name="welcome_beauty">Geniet van het licht</string>
-    <string name="welcome_occurrence">From this moment</string>
-    <string name="welcome_language_select">Taal selectie</string>
-
-
-    <string name="product_manual">Product instructies</string>
-    <string name="center_title">Informatie Centrum</string>
-
-
-    <string name="mesh_tab_control">Bediening</string>
-    <string name="mesh_tab_device_select">Selecteer groep of lamp</string>
-    <string name="mesh_tab_group_setting">Groepen aanmaken</string>
-    <string name="mesh_tab_device_connect">Apparaatverbinding</string>
-
-
-    <string name="menu_rename">Naam Wijzigen</string>
-    <string name="menu_timer">Tijdschakelaar</string>
-    <string name="menu_control_share">Controle delen</string>
-    <string name="menu_scan">Scan</string>
-
-
-    <string name="scan_get_data">Besturingsgegevens worden verkregen ...</string>
-    <string name="scan_qrCode">Mijn QR code</string>
-    <string name="scan_auto">Scan de QR code</string>
-
-
-    <string name="scene_mode">Landschap modus</string>
-    <string name="scene_read">Lees modus</string>
-    <string name="scene_sunset">Zonsondergang modus</string>
-    <string name="scene_rest">Rust modus</string>
-    <string name="scene_spring">Lente Bloesem Mode</string>
-    <string name="scene_rainforest">Selva</string>
-    <string name="scene_lighting">Verlichtingsmodus</string>
-
-
-    <string name="speed_slow">Laag tempo</string>
-    <string name="speed_normal">Normaal tempo</string>
-    <string name="speed_fast">hoog tempo</string>
-
-    <string name="timer_open_time">Licht schakelaar aan</string>
-    <string name="timer_close_time">Licht schakelaar uit</string>
-    <string name="timer_loop">重复</string>
-
-    <string name="share_tips">Deel je controle met famlie of vrienden，en deel de vreugde van intelligent licht.</string>
-    <string name="share_tip_download_app">Download de APP</string>
-    <string name="share_tip_open_app">Open de APP en scan de QR Code</string>
-    <string name="share_tip_success">Delen gelukt</string>
-    <string name="share_qrCode">QR Code</string>
-    <string name="share_qrCode_generating">Genereer of maak een gedeelde QR code...</string>
-    <string name="share_qrCode_generate_success">Data delen door Gegenereerde QR code, Scannen AUB.</string>
-    <string name="share_qrCode_generate_fail">Maken van een QR code  mislukt.</string>
-    <string name="share_qrCode_regenerate">maak nieuwe QR code</string>
-    <string name="share_img_save">QR code opslaan</string>
-    <string name="share_img_save_success">Foto is opgeslagen</string>
-    <string name="share_img_save_fail">Fout bij opslaan</string>
-
-    <string name="state_disconnected">Click voor connectie</string>
-    <string name="state_connected">Verbonden</string>
-
-
-    <string name="group_setting_drag">Kies lamp om toe te voegen</string>
-    <string name="group_setting_exceed_number">Het aantal groepen is overschreden</string>
-
-
-    <string name="device_search">Zoek lamp of apparaat</string>
-    <string name="device_associating">Verbinden...</string>
-    <string name="device_clear">Wis opmaak voorgeprogrammeerde lampen</string>
-    <string name="device_associate_fail">De connectie werkt niet, start het apparaat opnieuw op.</string>
-
-    <string name="device_connect_step1_title">Installeer je toestel</string>
-    <string name="device_connect_step1_hint">1. Controleer of het lamp stroom heeft.\n2. Als de lamp al eerder is geinstalleerd, graag resetten volgens procedure.</string>
-
-    <string name="device_connect_step2_title">Tips</string>
-    <string name="device_connect_step2_hint">Als het lamp niet binnen 10 seconden gevonden is, reset de app om de lampen te vinden.</string>
-
-    <string name="device_reset_hint2">1. Schakel de lamp uit\n2. Schakel de lamp 1 a 2 seconden aan\n3. Schakel de lamp 1 a 2 seconden uit\n4. Schakel de lamp 1 a 2 seconden aan\n5. Schakel de lamp 1 a 2 seconden uit\n6. Schakel voor de derde keer de lamp aan. Wanneer de lamp 3 keer achter elkaar flikkert, dan heeft de lamp zich gereset naar de oorspronkelijke setting.\n\n (In het geval dat de lamp niet 3 keer flikkert, probeer de voorgaande procedure nogmaals.)</string>
-    <string name="device_reset_hint1">Verwijder de oude connectie in "aansluitingen" Daarna krijgt u automatisch de reset functie te zien.</string>
-
-    <string name="device_reset_tip">Probeer eerst de volgende twee shortcuts</string>
-    <string name="device_reset_hint0">1. Herstart Bluetooth\n2. Stop de LinkedupHome APP via de instellingen van je telefoon. Stop de app via Apps; Apps info; alles stoppen. Herstart hierna de app op de normale manier.</string>
-    <string name="device_reset_hint3">Als de twee hiervoor genoemde shortcuts niet werken reset de lampen via de volgende stappen</string>
-    <string name="next_step">Volgende stap</string>
-    <string name="searching">Zoeken</string>
-
-    <string name="how_to_reset_device">Reset informatie</string>
-    <string name="how_to_reset_device_step1">Stap 1</string>
-    <string name="how_to_reset_device_step2">Stap 2</string>
-    <string name="how_to_reset_step">Reset stappen</string>
-    <string name="how_to_reset_process">Reset stappen</string>
-    <string name="bridge_disconnected">De lamp maakt geen verbinding, probeert automatisch te verbinden</string>
-
-    <string name="save">Opslaan</string>
-
-    <string name="import_error">QR code komt niet overeen</string>
-    <string name="network_error">Geen connectie met het netwerk，Netwerk connectie werkt niet, Check de netwerk instellingen.</string>
-    <string name="edit">Opmaken</string>
-    <string name="group">Groep</string>
-    <string name="initialize">Wis opmaak voorgeprogrammeerde lampen</string>
-    <string name="cancel">Annuleren</string>
-    <string name="confirm">Ja</string>
-    <string name="delete">Verwijderen</string>
-    <string name="removing">Verwijderen...</string>
-    <string name="add_product">Product toevoegen</string>
-    <string name="added">Toegevoegd</string>
-    <string name="add">Toevoegen</string>
-    <string name="adding">Toevoegen...</string>
-
-    <string name="lamp_bed">智能床头灯</string>
-    <string name="lamp_rgb">RGB lichtbron</string>
-    <string name="lamp_outdoor">Buitenlamp</string>
-    <string name="lamp_mini_outdoor">迷你花园灯</string>
-    <string name="lamp_cct">CCT lichtbron</string>
-    <string name="lamp_led_strip">LED strip</string>
+<string name="splash_tip_agreement">Lees zorgvuldig en bevestig de volgende overeenkomst</string>
+<string name="splash_user_license_agreement">Licentieovereenkomst voor eindgebruikers</string>
+<string name="splash_corporate_privacy_statement">Privacyverklaring</string>
+<string name="splash_action_start">Beginnen</string>
+<string name="error_network">Het huidige netwerk is niet beschikbaar. Controleer uw netwerkinstellingen</string>
+<string name="title_create_zone">Maak een nieuwe ruimte</string>
+<string name="action_save">Opslaan</string>
+<string name="msg_default_zone">Dit is een nieuwe ruimte gemaakt voor uw LinkupHome-apparaat.\nGeef een naam aan de nieuwe ruimte.</string>
+<string name="home">Huis</string>
+<string name="title_device">Apparaat</string>
+<string name="msg_no_device">Geen apparaten, voeg toe</string>
+<string name="msg_add_device">Apparat toevoegen</string>
+<string name="title_zone">Ruimte</string>
+<string name="title_setting">Instellingen</string>
+<string name="action_delete">Verwijder</string>
+<string name="action_remove_device">Wilt u het apparat ontkoppelen en verwijderen?</string>
+<string name="action_cancel">Annuleren</string>
+<string name="action_confirm">Ja</string>
+<string name="title_choose_device_type">Selecteer een categorie</string>
+<string name="title_lamp_m1">Bedlampje</string>
+<string name="title_lamp_n1">RGB strook licht</string>
+<string name="title_lamp_a2">CCT lamp</string>
+<string name="title_lamp_r2">RGB lamp</string>
+<string name="title_lamp_c3">Buitenlicht</string>
+<string name="title_lamp_v1">Mini tuinlampje</string>
+<string name="title_lamp_s2">CCT schijnwerper</string>
+<string name="title_lamp_s1">RGB schijnwerper</string>
+<string name="title_lamp_t1">RGB downlight</string>
+<string name="msg_device_ready">Is de apparatuur klaar voor gebruik？</string>
+<string name="msg_device_search_hint">1. Controleer of het apparaat correct is geïnstalleerd en ingeschakeld.\n2. Als het apparaat niet voor de eerste keer wordt gebruikt, controleer het apparaat met succes opnieuw is gereset</string>
+<string name="action_next">Volgende</string>
+<string name="title_reset_device">Hoe te resetten</string>
+<string name="title_search_device">Zoek apparaat</string>
+<string name="msg_device_reset_hint1">Probeer eerst de volgende twee snelkoppelingen</string>
+<string name="msg_device_reset_hint2">Manier 1: Schakel Bluetooth uit en zet Bluetooth weer aan.\nManier 2: Sluit de aap volledig af van het achtergrondsysteem, open u de app opnieuw.</string>
+<string name="msg_device_reset_hint3">Als u nog steeds geen apparaat kunt vinden nadat u beide snelkoppelingen hebt geprobeerd,volg u de onderstaande stappen om uw apparaat opnieuw in te stellen.</string>
+<string name="title_step1">Stap 1</string>
+<string name="msg_device_reset_hint4">Als u eerder dit apparaat hebt aangesloten en het nu niet meer kunt bedienen, verwijdert u eerst de ongeldige productverbinding in de lijst “Apparaat”\n\nAls u voor de eerste keer verbinding maakt met dit apparaat, kunt u stap 1 overslaan en doorgaan met stap 2.</string>
+<string name="title_step2">Stap 2</string>
+<string name="msg_device_reset_hint5">Gebruik de schakelaar om het apparaat te resetten:\n1. Schakel het licht uit\n2. Schakel het licht in en schakel het licht uit na 1-2 seconden.\n3. Schakel het licht opnieuw in en schakel het licht uit na 1-2 seconden.\n4. Schakel de derde keer in, wanneer het lampje 3 keer knippert om aan te geven dat de reset is geslaagd en de lamp is teruggekeerd naar de fabriksinstelling.\n\n* Als u het lampje 3 keer niet ziet knipperen, volgt u de bovenstaande stappen om opnieuw te resetten.\n* Schakel de verlichting niet te snel aan en uit, meestal elke 1-2 seconden.</string>
+<string name="msg_device_searching">Zoeken</string>
+<string name="msg_notes">Tips</string>
+<string name="msg_search_device_fail">Als het apparat na 10 seconden niet wordt gevonden, controleer dan of het apparaat correct is gereset.</string>
+<string name="title_connect_device">Verbinding apparaat</string>
+<string name="action_connect_device">Klik om verbinding te maken</string>
+<string name="action_rename_device">Klik om te hernoemen</string>
+<string name="title_rgb">RGB</string>
+<string name="title_cct">CCT</string>
+<string name="action_slow_speed">Vertragen</string>
+<string name="action_normal_speed">Normale snelheid</string>
+<string name="action_fast_speed">Versnellen</string>
+<string name="msg_create_room">Maak een kamer, eenvoudig apparaten beheren</string>
+<string name="title_choose_room_type">Kamertype</string>
+<string name="title_rename_room">Kamernamen toevoegen</string>
+<string name="title_light_change_speed">Lichtsnelheid veranderen</string>
+<string name="title_delete_room">Kamer verwijderen</string>
+<string name="msg_delete_room">Wilt u de huidige kamer verwijderen?</string>
+<string name="action_add_device">Voeg apparaat toe</string>
+<string name="title_available_devices">Apparaat toevoegen</string>
+<string name="title_save_modifications">Gewijzigd niet opgeslagen</string>
+<string name="msg_save_modifications">De gewijzigde gegevens zijn niet opgeslagen, wilt u afsluiten?</string>
+<string name="msg_add_device_for_room">Klik hier om apparaten toe te voegen aan uw kamer</string>
+<string name="title_current_zone">Huidige ruimte</string>
+<string name="title_language">Taal</string>
+<string name="title_user_manual">Gebruiksaanwijzing</string>
+<string name="title_faqs">Veelgestelde vragen</string>
+<string name="title_more">Meer</string>
+<string name="title_user_agreement">Gebuiksvoorwaarden</string>
+<string name="title_private_statement">Privacy verklaring</string>
+<string name="title_share_zone">Deel een ruimte</string>
+<string name="title_join_zone">Sluit je aan bij een ruimte</string>
+<string name="title_rename">hernoemen</string>
+<string name="title_invitation_code">Mijn uitnodigingscode</string>
+<string name="msg_share_zone_hint1">De functie voor delen kan alleen beschikbaar zijn wanneer u verbinding maakt met het netwerk. Zorg ervoor dat het wifi- of mobiele netwerk van uw telefoon is ingeschakeld.</string>
+<string name="msg_share_zone_hint2">Deel de automatisch gegenereerde uitnodigingscode met uw familie en vrienden.</string>
+<string name="msg_share_zone_hint3">Genodigden moeten ook verbinding maken met het netwerk “deelnemen aan een ruimte” en de uitnodigingscode invoeren om de lichten samen te besturen.</string>
+<string name="msg_join_zone_hint1">Vraag de eigenaar van de ruimte om een uitnodigingscode te maken en deze met u te delen. (instellingen -> deel een ruimte -> selecteer een ruimte -> genereer uitnodigingscode -> deel uitnodigingscode)</string>
+<string name="msg_join_zone_hint2">Over de uitnodigingscode in het onderstaande vak in:</string>
+<string name="msg_share_zone_hint4">N.B.: als meedere mensen tegelijk moeten bedienen, zorg dan dat het aantal lampjes (in de geopende stand) niet minder is dan het aantal mobiele apparaten (mobile telefoons/iPad), anders kunnen sommige mobiele apparaten geen verbinding maken en de verlichting besturen.
+Hoeveel mensen doen het licht aan, hoeveel mensen kunnen tegelijkertijd besturen.</string>
+<string name="title_error_invitation_code">Verkeerde uitnodigingscode</string>
+<string name="msg_error_invitation_code">Sorry, de uitnodigingscode is fout of bestaat niet.</string>
+<string name="msg_delete_zone_hint">Als het apparaat nog steeds in de huidige ruimte is verbonden, ga dan naar de apparatenlijst om apparaten een voor een te verwijderen, waarna u het huidige ruimte kunt verwijderen.</string>
+<string name="action_go_to_devices">Ga naar de apparatenlijst</string>
+<string name="msg_minimum_zone">Houd ten minste een ruimte vrij voor het toevoegen van apparaten</string>
+<string name="action_join">Toetreden</string>
+<string name="title_quit_zone">Stop met thuis</string>
+<string name="msg_quit_shared_zone">Wil je stoppen met delen thuis?</string>
+<string name="title_scene_mode">Scene modus</string>
+<string name="title_scene_mode_read">Leesmodus</string>
+<string name="title_scene_mode_sunset">Zonsondergangmodus</string>
+<string name="title_scene_mode_rest">Rustmodus</string>
+<string name="title_scene_mode_spring">Lentebloesems</string>
+<string name="title_scene_mode_rainforest">Tropisch regenwoud</string>
+<string name="title_open_time">Schakeltijd</string>
+<string name="title_close_time">Uitschakeltijd</string>
+<string name="action_edit">Bewerken</string>
+<string name="action_repeat">Herhaling</string>
+<string name="title_scene_mode_flow">Stroom modus</string>
+<string name="title_scene_mode_seek">Chase modus</string>
+<string name="title_scene_mode_surf">golfpatroon</string>
+<string name="title_scene_mode_rainbow">Rainbow modus</string>
+<string name="title_scene_mode_star">Sterrenhemel</string>
+<string name="msg_device_disconnected">Verbinding verbroken</string>
+<string name="title_language_setting">Selecteer de taal</string>
+<string name="msg_device_connected">Verbonden</string>
+<string name="msg_device_connect_failed">Verbinding mislukt. Start het apparaat opnieuw om verbinding te maken.</string>
+<string name="title_scene_mode_lighting">Verlichtingsmodus</string>
+<string name="msg_device_connecting">Aansluiten</string>
+<string name="title_lamp_v2">Solar mini-tuinlamp</string>
+<string name="msg_join_zone_success">Geregistreerd</string>
 
 
-
-    <string name="privacy_tip">Bevestig dat je hebt gelezen en ga akkoord</string>
-    <string name="license_agreement">De eindgebruikerslicentieovereenkomst</string>
-    <string name="privacy_statement">De privacyverklaring</string>
-    <string name="privacy_start">Begin</string>
-
-
-    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 </resources>
-
-

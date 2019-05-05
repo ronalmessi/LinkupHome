@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_24sdp"
-        android:text="@string/zones_empty_hint"
+        android:text="@string/msg_create_room"
         android:textColor="#807F85"
         android:textSize="@dimen/_16ssp"
         app:layout_constraintLeft_toLeftOf="parent"

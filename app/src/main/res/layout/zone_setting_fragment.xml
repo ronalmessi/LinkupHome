@@ -28,7 +28,7 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="@string/zones_title"
+            android:text="@string/home"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />
@@ -66,7 +66,7 @@
         android:textColor="@color/text_color_zone_action"
         android:textSize="@dimen/_16ssp"
         android:background="@drawable/bg_btn_zone_setting"
-        android:text="@string/zone_create_title"/>
+        android:text="@string/title_create_zone"/>
 
     <TextView
         android:id="@+id/btn_share_zone"
@@ -81,7 +81,7 @@
         android:textColor="@color/text_color_zone_action"
         android:textSize="@dimen/_16ssp"
         android:background="@drawable/bg_btn_zone_setting"
-        android:text="@string/zone_share_title"/>
+        android:text="@string/title_share_zone"/>
 
     <TextView
         android:id="@+id/btn_join_zone"
@@ -96,5 +96,5 @@
         android:textColor="@color/text_color_zone_action"
         android:textSize="@dimen/_16ssp"
         android:background="@drawable/bg_btn_zone_setting"
-        android:text="@string/zone_join_title"/>
+        android:text="@string/title_join_zone"/>
 </LinearLayout>

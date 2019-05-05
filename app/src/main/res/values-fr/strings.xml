@@ -1,129 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LinkupHome</string>
-
-    <string name="welcome_language">Langue</string>
-    <string name="welcome_beauty">Merveilleux</string>
-    <string name="welcome_occurrence">à partir du moment où c\'est arrivé</string>
-    <string name="welcome_language_select">Langue Bien Choisie</string>
-
-    <string name="product_manual">Instructions de produit</string>
-    <string name="center_title">Centre</string>
-
-
-    <string name="mesh_tab_control">Commander</string>
-    <string name="mesh_tab_device_select">Option De Contrôle</string>
-    <string name="mesh_tab_group_setting">Installation D’équipe</string>
-    <string name="mesh_tab_device_connect">Connexion de l\'appareil</string>
-
-
-    <string name="menu_rename">Renomer</string>
-    <string name="menu_timer">Interrupteur à retardement</string>
-    <string name="menu_control_share">La Manipulation De L´action</string>
-    <string name="menu_scan">Balayer Le</string>
-
-
-    <string name="scan_get_data">Obtenir La Manipulation Des Données...</string>
-    <string name="scan_qrCode">Mon Code À Deux Dimensions</string>
-    <string name="scan_auto">Dans La Boîte,Le Balayage Automatique</string>
-
-
-    <string name="scene_mode">Mode De Scénario</string>
-    <string name="scene_read">Mode De Lecture</string>
-    <string name="scene_sunset">Mode De Soleil Couchant</string>
-    <string name="scene_rest">Mode De Favoriser Le Sommeil</string>
-    <string name="scene_spring">Les Fleurs S\'épanouissent Au Printemps</string>
-    <string name="scene_rainforest">Forêts Tropicales</string>
-    <string name="scene_lighting">Mode D’éclairage</string>
-
-
-    <string name="speed_slow">Diminuer</string>
-    <string name="speed_normal">Normal</string>
-    <string name="speed_fast">Accélérer</string>
-
-
-    <string name="timer_open_time">Allumer La Lumière À L’heure Régulière</string>
-    <string name="timer_close_time">Fermer La Lumière À L’heure Régulière</string>
-    <string name="timer_loop">Répéter</string>
-
-
-    <string name="share_tips">Il Permet De Partager La Joie De Manipulation Avec Votre Famille \nOu Vos Amis Pour Partager La Joie De L’éclairage Intelligent.</string>
-    <string name="share_tip_download_app">Téléchargez L’application</string>
-    <string name="share_tip_open_app">Ouvrez L’application Et Scannez Le Code 2D</string>
-    <string name="share_tip_success">Partagez Avec Succès</string>
-    <string name="share_qrCode">Code À Deux Dimensions</string>
-    <string name="share_qrCode_generating">Générer Un Code À Deux Dimensions De Manipulation D\'action...</string>
-    <string name="share_qrCode_generate_success">Partage De Données Générées Code À Deux Dimensions, Balayage.</string>
-    <string name="share_qrCode_generate_fail">Échec Pour Générer Le Code À Deux Dimensions</string>
-    <string name="share_qrCode_regenerate">Reconstruire</string>
-    <string name="share_img_save">Enredistrer L´image</string>
-    <string name="share_img_save_success">Images Enregistrées Dans Un Dossier</string>
-    <string name="share_img_save_fail">Erreur D\'enregistrement</string>
-
-    <string name="state_disconnected">Cliquer Pour Connectez</string>
-    <string name="state_connected">Déjà Connecté</string>
-
-
-    <string name="group_setting_drag">Cliquez pour ajouter</string>
-    <string name="group_setting_exceed_number">Dépasser Le Nombre De Paquets</string>
-
-
-    <string name="device_search">Rechercher Des Dispositifs</string>
-    <string name="device_associating">Connexion En Cours...</string>
-    <string name="device_clear">Voulez-vous supprimer tous les groupes?</string>
-    <string name="device_associate_fail">Connection Échouée, Veuillez Démarrer L\'installation Pour Reconnecter.</string>
-
-
-    <string name="device_connect_step1_title">L\'équipement est-il prêt?</string>
-    <string name="device_connect_step1_hint">1. Veuillez vous assurer que l\'alimentation de l\'appareil est correctement connectée.\n2. Si l\'appareil n\'est pas utilisé pour la première fois, assurez-vous que l\'appareil a été reset correctement.</string>
-
-    <string name="device_connect_step2_title">Conseils</string>
-    <string name="device_connect_step2_hint">Si l\'appareil n\'est pas trouvé pendant environ 10 secondes, veuillez confirmer que l\'appareil est correctement reset.</string>
-
-    <string name="device_reset_hint2">1. Éteignez d\'abord la lumière avec l\'interrupteur.\n2. Allumez la lumière et attendez 1-2 secondes.\n3. Éteignez la lumière et attendez 1-2 secondes.\n4. Allumez la lumière et attendez 1-2 secondes.\n5. Éteignez la lumière et attendez 1-2 secondes.\n6. Lorsque vous allumez la lampe pour la troisième fois, attendez environ 2 secondes. Si la lumière clignote 3 fois, cela signifie que le reset a réussi et que la lampe est revenue au réglage d\'usine.\n\n (Si la lumière ne clignote pas trois fois, veuillez suivre à nouveau le processus ci-dessus, jusqu\'au succès.)</string>
-    <string name="device_reset_hint1">Dans l\'interface Connection de Device, après avoir retiré la trace de connection précédent en la faisant glisser vers la gauche, le périphérique bien reset sera affiché.</string>
-
-    <string name="device_reset_tip">Veuillez d\'abord essayer les deux mesures rapides ci-dessous.</string>
-    <string name="device_reset_hint0">1. Éteignez Bluetooth, puis démarrez-le.\n2. Après avoir fermé LinkupHomeAPP en arrière-plan, ouvrez-le à nouveau.</string>
-    <string name="device_reset_hint3">Après avoir essayé les deux mesures ci-dessus, si vous ne trouvez toujours pas l\'appareil, veuillez suivre les étapes ci-dessous pour reset l\'appareil.</string>
-    <string name="next_step">Étape</string>
-    <string name="searching">En cours de chercher</string>
-
-    <string name="how_to_reset_device">Comment reset</string>
-    <string name="how_to_reset_device_step1">Étape 1</string>
-    <string name="how_to_reset_device_step2">Étape 2</string>
-    <string name="how_to_reset_step">Reset étape</string>
-    <string name="how_to_reset_process">Reset les processus</string>
-    <string name="bridge_disconnected">L\'appareil est déconnecté et essaie de se connecter automatiquement.</string>
-
-    <string name="save">Stockage</string>
-
-    <string name="import_error">Code À Deux Dimensions Ne Correspond Pas Au Contenu</string>
-    <string name="network_error">Connexion échoue réseau, vérifiez les paramètres réseau</string>
-    <string name="edit">Redaction</string>
-    <string name="group">Équipe</string>
-    <string name="initialize">Supprimer le groupe</string>
-    <string name="cancel">Annuler</string>
-    <string name="confirm">Oui</string>
-    <string name="delete">Supprimer</string>
-    <string name="removing">En Attente De Suppression...</string>
-    <string name="add_product">Ajouter Votre Produits</string>
-    <string name="added">Déjà Ajouté</string>
-    <string name="add">Ajouter</string>
-    <string name="adding">Ajouter...</string>
-
-    <string name="lamp_bed">智能床头灯</string>
-    <string name="lamp_rgb">Ampoule RGB</string>
-    <string name="lamp_outdoor">Lumière extérieure</string>
-    <string name="lamp_mini_outdoor">Mini lumière de jardin</string>
-    <string name="lamp_cct">Lampe connue de froid et de chaleur</string>
-    <string name="lamp_led_strip">Bande de lumière à LED</string>
+<string name="splash_tip_agreement">Veuillez confirmer que vous avez lu et accepté</string>
+<string name="splash_user_license_agreement">Le contrat de licence de l’utilisateur final</string>
+<string name="splash_corporate_privacy_statement">La déclaration de confidentialité</string>
+<string name="splash_action_start">Début</string>
+<string name="error_network">Le réseau n\'est pas disponible. Veuillez vérifier vos paramètres réseau</string>
+<string name="title_create_zone">Créer un nouveau foyer</string>
+<string name="action_save">Sauvegarder</string>
+<string name="msg_default_zone">Une nouvelle maison pour vos appareils LinkupHome.\nVeuillez lui donner un nom.</string>
+<string name="home">Foyer</string>
+<string name="title_device">Appareil</string>
+<string name="msg_no_device">Aucun appareil, veuillez en ajouter</string>
+<string name="msg_add_device">Ajouter un appareil</string>
+<string name="title_zone">Foyer</string>
+<string name="title_setting">Paramètres</string>
+<string name="action_delete">Effacer</string>
+<string name="action_remove_device">Voulez-vous déconnecter et supprimer l’appareil?</string>
+<string name="action_cancel">Annuler</string>
+<string name="action_confirm">Oui</string>
+<string name="title_choose_device_type">Type d\'appareil</string>
+<string name="title_lamp_m1">Lampe de chevet</string>
+<string name="title_lamp_n1">Lumière de bande RVB</string>
+<string name="title_lamp_a2">Ampoule CCT</string>
+<string name="title_lamp_r2">Ampoule RVB</string>
+<string name="title_lamp_c3">Lumière extérieure</string>
+<string name="title_lamp_v1">Mini-lumière de jardin</string>
+<string name="title_lamp_s2">Projecteur CCT</string>
+<string name="title_lamp_s1">Projecteur RVB</string>
+<string name="title_lamp_t1">Downlight RGB</string>
+<string name="msg_device_ready">Es-tu prêt?</string>
+<string name="msg_device_search_hint">1.Veuillez vous assurer que l’appareil a été correctement installé et allumé.\n2. Si l\'appareil a été utilisé par d\'autres personnes, assurez-vous qu\'il a été réinitialisé avec succès.</string>
+<string name="action_next">Suivant</string>
+<string name="title_reset_device">Comment réinitialiser</string>
+<string name="title_search_device">Rechercher des appareils</string>
+<string name="msg_device_reset_hint1">Veuillez d\'abord essayer de suivre deux raccourcis:</string>
+<string name="msg_device_reset_hint2">Méthode 1: désactivez le bluetooth de votre téléphone, puis activez-le à nouveau.\nMéthode 2: quittez complètement l\'application à partir du système d\'arrière-plan, puis redémarrez-la.</string>
+<string name="msg_device_reset_hint3">Si vous ne parvenez toujours pas à trouver des appareils après avoir essayé deux raccourcis, suivez les étapes ci-dessous pour réinitialiser votre appareil.</string>
+<string name="title_step1">Étape 1</string>
+<string name="msg_device_reset_hint4">Si vous avez connecté cet appareil mais qu’il a perdu maintenant le contrôle, supprimez les informations inutilisables de l’appareil dans la liste «Appareil».\n\nSi vous connectez cet appareil pour la première fois, veuillez ignorer l’étape 1 et passer à l’étape 2.</string>
+<string name="title_step2">Étape 2</string>
+<string name="msg_device_reset_hint5">Veuillez utiliser le commutateur pour réinitialiser l\'appareil:\n1. Eteignez la lumière\n2. Allumez la lumière, puis éteignez-la après 1-2 secondes.\n3. Rallumez la lumière, puis éteignez-la après 1-2 secondes.\n4. Allumez la lumière pour la troisième fois. Quand la lumière clignote 3 fois, cela signifie que l\'appareil est réinitialisé avec les valeurs par défaut.\n\n* Si aucun voyant ne clignote 3 fois, veuillez répéter les étapes ci-dessus jusqu\'à ce que la réinitialisation soit réussie.\n* Ne pas allumer et éteindre les lumières trop rapidement, habituellement toutes les 1-2 secondes.</string>
+<string name="msg_device_searching">Recherche en cours</string>
+<string name="msg_notes">Remarques:</string>
+<string name="msg_search_device_fail">Si vous ne trouvez pas l’appareil dans les 10 secondes, essayez de le réinitialiser.</string>
+<string name="title_connect_device">Connexion des appareils</string>
+<string name="action_connect_device">Tapez dessus pour vous connecter</string>
+<string name="action_rename_device">Tapez dessus pour renommer</string>
+<string name="title_rgb">RVB</string>\
+<string name="title_cct">CCT</string>
+<string name="action_slow_speed">Ralentissez</string>
+<string name="action_normal_speed">Vitesse normale</string>
+<string name="action_fast_speed">Accélérez</string>
+<string name="msg_create_room">Créer une salle, gérer facilement les appareils</string>
+<string name="title_choose_room_type">Type de salle</string>
+<string name="title_rename_room">Nommez une nouvelle salle</string>
+<string name="title_light_change_speed">Vitesse de changement de la lumière</string>
+<string name="title_delete_room">Supprimer la salle</string>
+<string name="msg_delete_room">Voulez-vous supprimer la salle en cours?</string>
+<string name="action_add_device">Ajouter un appareil</string>
+<string name="title_available_devices">Appareils disponibles</string>
+<string name="title_save_modifications">Modifié non enregistré</string>
+<string name="msg_save_modifications">Les données modifiées n\'ont pas été enregistrées, êtes-vous sûr de quitter?</string>
+<string name="msg_add_device_for_room">Tapez ici, ajoutez les appareils disponibles à la pièce</string>
+<string name="title_current_zone">Foyer actuel</string>
+<string name="title_language">Langue</string>
+<string name="title_user_manual">Manuel de l’utilisateur</string>
+<string name="title_faqs">FAQ</string>
+<string name="title_more">Plus</string>
+<string name="title_user_agreement">Accord de l\'utilisateur</string>
+<string name="title_private_statement">Déclaration de confidentialité</string>
+<string name="title_share_zone">Partager un foyer</string>
+<string name="title_join_zone">Rejoindre un foyer</string>
+<string name="title_rename">Renommer</string>
+<string name="title_invitation_code">Mon code d\'invitation</string>
+<string name="msg_share_zone_hint1">La fonction de partage ne peut être disponible que lors de la connexion au réseau. Veuillez vous assurer que le WiFi ou le réseau est activé sur le téléphone portable.</string>
+<string name="msg_share_zone_hint2">Partagez le code d\'invitation généré automatiquement avec votre famille et vos amis.</string>
+<string name="msg_share_zone_hint3">L’invité doit également se connecter au réseau, entrer dans «rejoindre un foyer» et entrer le code d’invitation pour contrôler les voyants ensemble.</string>
+<string name="msg_join_zone_hint1">Demandez à l\'hôte de la maison de créer un code d\'invitation et de le partager avec vous.
+(paramètres → partager une maison → sélectionner une maison → générer un code d\'invitation → partager un code d\'invitation)</string>
+<string name="msg_join_zone_hint2">Entrez le code d\'invitation ci-dessous:</string>
+<string name="msg_share_zone_hint4">Remarques: si plusieurs personnes souhaitent contrôler les lumières ensemble, veuillez vous assurer que les lumières (doivent être allumées) tout comme les appareils mobiles (téléphones portables / IPAD). Sinon, certains appareils mobiles ne peuvent pas se connecter et contrôler les lumières. Cela signifie combien de lumières allumées, combien de personnes peuvent les contrôler ensemble.</string>
+<string name="title_error_invitation_code">Mauvais code d\'invitation</string>
+<string name="msg_error_invitation_code">Désolé, le code d\'invitation est incorrect ou n\'existe pas.</string>
+<string name="msg_delete_zone_hint">Les appareils de la maison actuelle sont toujours connectés. Veuillez vous reporter à la liste des appareils pour supprimer les appareils un par un, ensuite vous pourrez  supprimer la maison actuelle.</string>
+<string name="action_go_to_devices">Aller à la liste des appareils</string>
+<string name="msg_minimum_zone">Veuillez réserver au moins une maison pour l\'ajout d’appareils.</string>
+<string name="action_join">Joindre</string>
+<string name="title_quit_zone">Quitter la maison</string>
+<string name="msg_quit_shared_zone">Voulez-vous quitter la maison de partage?</string>
+<string name="title_scene_mode">Mode scène</string>
+<string name="title_scene_mode_read">Lecture en cours</string>
+<string name="title_scene_mode_sunset">Coucher du soleil</string>
+<string name="title_scene_mode_rest">Repos</string>
+<string name="title_scene_mode_spring">Fleurs de printemps</string>
+<string name="title_scene_mode_rainforest">Forêt tropicale</string>
+<string name="title_open_time">Heure d\'allumage de la lumière</string>
+<string name="title_close_time">Heure d\'extinction de la lumière</string>
+<string name="action_edit">Modifier</string>
+<string name="action_repeat">Répéter</string>
+<string name="title_scene_mode_flow">Écoulement</string>
+<string name="title_scene_mode_seek">Chassant</string>
+<string name="title_scene_mode_surf">Ondulant</string>
+<string name="title_scene_mode_rainbow">Arc en ciel</string>
+<string name="title_scene_mode_star">Étoilé</string>
+<string name="msg_device_disconnected">Débranché</string>
+<string name="title_language_setting">Sélectionnez la langue</string>
+<string name="msg_device_connected">Connecté</string>
+<string name="msg_device_connect_failed">La connexion échoue. Veuillez redémarrer l\'appareil pour vous connecter.</string>
+<string name="title_scene_mode_lighting">Mode d\'éclairage</string>
+<string name="msg_device_connecting">De liaison</string>
+<string name="title_lamp_v2">Mini lampe solaire de jardin</string>
+<string name="msg_join_zone_success">Rejoint</string>
 
 
-    <string name="privacy_tip">Veuillez confirmer que vous avez lu et accepté</string>
-    <string name="license_agreement">Le contrat de licence de l\'utilisateur final</string>
-    <string name="privacy_statement">La déclaration de confidentialité</string>
-    <string name="privacy_start">Début</string>
-
-    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 </resources>

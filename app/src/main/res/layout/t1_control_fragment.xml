@@ -67,7 +67,7 @@
                 android:drawableStart="@drawable/ic_arrow_left"
                 android:drawablePadding="@dimen/_8sdp"
                 android:drawableTint="@color/radio_text_color_t1_control"
-                android:text="@string/lamp_t1_rgb"
+                android:text="@string/title_rgb"
                 android:textColor="@color/radio_text_color_t1_control"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
@@ -81,7 +81,7 @@
                 android:drawableEnd="@drawable/ic_arrow_right"
                 android:drawablePadding="@dimen/_8sdp"
                 android:drawableTint="@color/radio_text_color_t1_control"
-                android:text="@string/lamp_t1_cct"
+                android:text="@string/title_cct"
                 android:textColor="@color/radio_text_color_t1_control"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import java.util.Locale;
 
@@ -57,7 +58,14 @@ public class LocaleHelper {
 
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
+        Locale locale ;
+        if(TextUtils.equals("zh-rCN",language)){
+            locale=Locale.SIMPLIFIED_CHINESE;
+        }else  if(TextUtils.equals("zh-rTW",language)){
+            locale=Locale.TRADITIONAL_CHINESE;
+        }else{
+            locale = new Locale(language);
+        }
         Locale.setDefault(locale);
 
         Configuration configuration = context.getResources().getConfiguration();
@@ -69,7 +77,14 @@ public class LocaleHelper {
 
     @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
-        Locale locale = new Locale(language);
+        Locale locale ;
+        if(TextUtils.equals("zh-rCN",language)){
+            locale=Locale.SIMPLIFIED_CHINESE;
+        }else  if(TextUtils.equals("zh-rTW",language)){
+            locale=Locale.TRADITIONAL_CHINESE;
+        }else{
+            locale = new Locale(language);
+        }
         Locale.setDefault(locale);
 
         Resources resources = context.getResources();

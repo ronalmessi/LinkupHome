@@ -24,7 +24,7 @@ class DeviceAssociateFragment : DialogFragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.setDimAmount(0f)
-        val view = inflater.inflate(R.layout.fragment_dialog_device_associate, container, false)
+        val view = inflater.inflate(R.layout.dialog_associate_device, container, false)
         mProgressView = view.findViewById(R.id.device_associate_progress)
         mTextView = view.findViewById(R.id.device_associate_tv_text)
         return view

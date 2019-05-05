@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_15sdp"
-        android:text="@string/bind_device_tip"
+        android:text="@string/msg_add_device_for_room"
         android:textColor="@android:color/white"
         android:textSize="@dimen/_16ssp"
         />

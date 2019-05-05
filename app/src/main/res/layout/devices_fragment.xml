@@ -19,7 +19,7 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="@string/devices_title"
+            android:text="@string/title_device"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp" />
 

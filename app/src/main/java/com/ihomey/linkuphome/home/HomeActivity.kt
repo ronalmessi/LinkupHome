@@ -262,7 +262,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         when (expectedMessage) {
             MeshService.MESSAGE_DEVICE_ASSOCIATED, MeshService.MESSAGE_CONFIG_MODELS -> {
                 if (meshAssListener != null) {
-                    meshAssListener?.deviceAssociated(-1, getString(R.string.device_associate_fail))
+                    meshAssListener?.deviceAssociated(-1, getString(R.string.msg_device_connect_failed))
                 }
             }
         }
@@ -276,7 +276,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         textView.gravity = Gravity.CENTER
         textView.setTextColor(resources.getColor(android.R.color.white))
         textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
-        textView.text = '"' + name + '"' + " " + getString(R.string.state_connected)
+        textView.text = '"' + name + '"' + " " + getString(R.string.msg_device_connected)
         Crouton.make(this, textView).show()
         mMeshHandler.postDelayed({ mViewModel.setBridgeState(mConnected) }, 550)
     }
@@ -290,7 +290,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         textView.gravity = Gravity.CENTER
         textView.setTextColor(resources.getColor(android.R.color.white))
         textView.setBackgroundResource(R.color.colorPrimaryDark)
-        textView.text = '"' + name + '"' + " " + getString(R.string.bridge_disconnected)
+        textView.text = '"' + name + '"' + " " + getString(R.string.msg_device_disconnected)
         Crouton.make(this, textView).show()
     }
 

@@ -1,209 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LinkupHome</string>
+<string name="splash_tip_agreement">Please confirm that you have read and agreed to</string>
+<string name="splash_user_license_agreement">The End User License Agreement</string>
+<string name="splash_corporate_privacy_statement">The Privacy Statement</string>
+<string name="splash_action_start">Start</string>
+<string name="error_network">The network is not available. Please check your network settings</string>
+<string name="title_create_zone">Create a new home</string>
+<string name="action_save">Save</string>
+<string name="msg_default_zone">A new home for your LinkupHome devices.\nPlease name it.</string>
+<string name="home">Home</string>
+<string name="title_device">Device</string>
+<string name="msg_no_device">No devices, please add</string>
+<string name="msg_add_device">Add device</string>
+<string name="title_zone">Home</string>
+<string name="title_setting">Settings</string>
+<string name="action_delete">Delete</string>
+<string name="action_remove_device">Do you want to disconnect and delete device?</string>
+<string name="action_cancel">Cancel</string>
+<string name="action_confirm">Yes</string>
+<string name="title_choose_device_type">Device type</string>
+<string name="title_lamp_m1">Bedside Lamp</string>
+<string name="title_lamp_n1">RGB Strip Light</string>
+<string name="title_lamp_a2">CCT Bulb</string>
+<string name="title_lamp_r2">RGB Bulb</string>
+<string name="title_lamp_c3">Outdoor Light</string>
+<string name="title_lamp_v1">Mini Garden light</string>
+<string name="title_lamp_s2">CCT Spotlight</string>
+<string name="title_lamp_s1">RGB Spotlight</string>
+<string name="title_lamp_t1">RGB Downlight</string>
+<string name="msg_device_ready">Are you ready?</string>
+<string name="msg_device_search_hint">1.Please ensure the device has been properly installed and turned on.\n2. If the device has been used by others, please make sure it was successfully reset.</string>
+<string name="action_next">Next</string>
+<string name="title_reset_device">How to reset</string>
+<string name="title_search_device">Search devices</string>
+<string name="msg_device_reset_hint1">Please firstly try following two shortcuts:</string>
+<string name="msg_device_reset_hint2">Way 1: Turn off bluetooth on your phone, then turn on it again.\nWay 2: Exit the App completely from the background system, then restart the App.</string>
+<string name="msg_device_reset_hint3">If you\'re still unable to find devices after trying two shortcuts, follow the steps below to reset your device.</string>
+<string name="title_step1">Step 1</string>
+<string name="msg_device_reset_hint4">If you have connected this device, but now it is lose control, please delete this unworkable device info in the “Device” list.\n\nIf this is your first time to connect this device, please ignore Step 1 and move on Step 2.</string>
+<string name="title_step2">Step 2</string>
+<string name="msg_device_reset_hint5">Please use the switch to reset device:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n* If no light flashes 3 times, please repeat above steps until reset successfully.\n* Do not turn on and off lights too fast, usually every 1-2 seconds.</string>
+<string name="msg_device_searching">Searching</string>
+<string name="msg_notes">Notes:</string>
+<string name="msg_search_device_fail">If the device is not found within 10 seconds, please try to reset the device.</string>
+<string name="title_connect_device">Connecting devices</string>
+<string name="action_connect_device">Tap to connect</string>
+<string name="action_rename_device">Tap to rename</string>
+<string name="title_rgb">RGB</string>
+<string name="title_cct">CCT</string>
+<string name="action_slow_speed">Slow down</string>
+<string name="action_normal_speed">Normal speed</string>
+<string name="action_fast_speed">Speed up</string>
+<string name="msg_create_room">Create a room, easy manage devices</string>
+<string name="title_choose_room_type">Room type</string>
+<string name="title_rename_room">Name a new room</string>
+<string name="title_light_change_speed">Light change speed</string>
+<string name="title_delete_room">Delete room</string>
+<string name="msg_delete_room">Do you want to delete current room?</string>
+<string name="action_add_device">Add device</string>
+<string name="title_available_devices">Available devices</string>
+<string name="title_save_modifications">Modified not saved</string>
+<string name="msg_save_modifications">The modified data has not been saved, are you sure to exit?</string>
+<string name="msg_add_device_for_room">Tap here , add available devices to the room</string>
+<string name="title_current_zone">Current home</string>
+<string name="title_language">Language</string>
+<string name="title_user_manual">User manual</string>
+<string name="title_faqs">FAQs</string>
+<string name="title_more">More</string>
+<string name="title_user_agreement">User agreement</string>
+<string name="title_private_statement">Privacy statement</string>
+<string name="title_share_zone">Share a home</string>
+<string name="title_join_zone">Join a home</string>
+<string name="title_rename">Rename</string>
+<string name="title_invitation_code">My Invitation Code</string>
+<string name="msg_share_zone_hint1">The sharing function only can be available when connect to the network. Please make sure the WiFi or network is turned on in mobile phone.</string>
+<string name="msg_share_zone_hint2">Share the automatically generated invitation code with your family and friends.</string>
+<string name="msg_share_zone_hint3">The invitee also needs to connect to the network,  enter into "join a home" and input the invitation code to control the lights together.</string>
+<string name="msg_join_zone_hint1">Request home host to create invitation code and share it with you.
+(settings → share a home→  select a home → generate invitation code→  share invitation code)</string>
+<string name="msg_join_zone_hint2">Input the invitation code below:</string>
+<string name="msg_share_zone_hint4">Notes: if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.                                      It means how many lights on, how many persons can control toghter.</string>
+<string name="title_error_invitation_code">Wrong invitation code</string>
+<string name="msg_error_invitation_code">Sorry, the invitation code is wrong or not exist.</string>
+<string name="msg_delete_zone_hint">Devices in the current home are still connected, please go to the device list to delete devices one by one, then you can delete the current home.</string>
+<string name="action_go_to_devices">Go to device list</string>
+<string name="msg_minimum_zone">Please reserve at least one home for adding devices</string>
+<string name="action_join">Join</string>
+<string name="title_quit_zone">Quit home</string>
+<string name="msg_quit_shared_zone">Do you want to quit the sharing home?</string>
+<string name="title_scene_mode">Scene mode</string>
+<string name="title_scene_mode_read">Reading</string>
+<string name="title_scene_mode_sunset">Sunset</string>
+<string name="title_scene_mode_rest">Rest</string>
+<string name="title_scene_mode_spring">Spring blossoms</string>
+<string name="title_scene_mode_rainforest">Rainforest</string>
+<string name="title_open_time">Light turn on time</string>
+<string name="title_close_time">Light turn off time</string>
+<string name="action_edit">Edit</string>
+<string name="action_repeat">Repeat</string>
+<string name="title_scene_mode_flow">Flowing</string>
+<string name="title_scene_mode_seek">Chasing</string>
+<string name="title_scene_mode_surf">Waving</string>
+<string name="title_scene_mode_rainbow">Rainbow</string>
+<string name="title_scene_mode_star">Starry</string>
+<string name="msg_device_disconnected">Disconnected</string>
+<string name="title_language_setting">Select the language</string>
+<string name="msg_device_connected">Connected</string>
+<string name="msg_device_connect_failed">Connection fails. Please restart the device to connect.</string>
+<string name="title_scene_mode_lighting">Lighting mode</string>
+<string name="msg_device_connecting">Connecting</string>
+<string name="title_lamp_v2">Solar mini garden light</string>
+<string name="msg_join_zone_success">Joined</string>
 
-    <string name="welcome_language">Language</string>
-    <string name="welcome_beauty">Enjoy</string>
-    <string name="welcome_occurrence">From this moment</string>
-    <string name="welcome_language_select">Select Language</string>
-
-    <string name="product_manual">Product Manual</string>
-    <string name="center_title">Information Centre</string>
-
-
-    <string name="mesh_tab_control">Control</string>
-    <string name="mesh_tab_device_select">Select Group</string>
-    <string name="mesh_tab_group_setting">Create Groups</string>
-    <string name="mesh_tab_device_connect">Device Connect</string>
-
-
-    <string name="menu_rename">Rename</string>
-    <string name="menu_timer">Timer</string>
-    <string name="menu_control_share">Share Control</string>
-    <string name="menu_scan">Scan</string>
-
-
-    <string name="scan_get_data">Waiting for scan QR Code...</string>
-    <string name="scan_qrCode">My QR Code</string>
-    <string name="scan_auto">Auto-scan by putting the QR Code in frame</string>
-
-
-    <string name="scene_mode">Scene Mode</string>
-    <string name="scene_read">Read Mode</string>
-    <string name="scene_sunset">Sunset Mode</string>
-    <string name="scene_rest">Rest Mode</string>
-    <string name="scene_spring">Spring Blossoms Mode</string>
-    <string name="scene_rainforest">Selva Mode</string>
-    <string name="scene_lighting">Lighting Mode</string>
-    <string name="scene_flow">Flowing</string>
-    <string name="scene_seek">Chasing</string>
-    <string name="scene_surf">Waving</string>
-    <string name="scene_rainbow">Rainbow</string>
-    <string name="scene_star">Starry</string>
-
-
-    <string name="speed_slow">Slow Speed</string>
-    <string name="speed_normal">Normal Speed</string>
-    <string name="speed_fast">Fast Speed</string>
-
-
-    <string name="timer_open_time">Light Turn On Time</string>
-    <string name="timer_close_time">Light Turn Off Time</string>
-    <string name="timer_loop">Repeat</string>
-
-
-    <string name="share_tips">Share the control with your family or friends</string>
-    <string name="share_tip_download_app">Download the APP</string>
-    <string name="share_tip_open_app">Open the APP and scan QR Code</string>
-    <string name="share_tip_success">Successfully Shared</string>
-    <string name="share_qrCode">QR Code</string>
-    <string name="share_qrCode_generating">Generating control-sharing QR Code...</string>
-    <string name="share_qrCode_generate_success">Control-sharing QR Code is generated, pls scan</string>
-    <string name="share_qrCode_generate_fail">Generate QR Code failed</string>
-    <string name="share_qrCode_regenerate">Regenerate QR Code</string>
-    <string name="share_img_save">Save the Picture</string>
-    <string name="share_img_save_success">Picture Saved</string>
-    <string name="share_img_save_fail">Saving Error</string>
-
-
-
-    <string name="group_setting_drag">Press \"Add\" Button to Add</string>
-    <string name="group_setting_exceed_number">The number of packets exceeded</string>
-
-
-    <string name="device_search">Search Device</string>
-    <string name="device_associating">Connecting...</string>
-    <string name="device_clear">Reset all groups?</string>
-    <string name="device_associate_fail">The connection fails. Please restart the device to connect.</string>
-
-
-
-    <string name="device_connect_step2_title">Tips</string>
-    <string name="device_connect_step2_hint">If the device is not found within 10 seconds, please try to reset the device</string>
-
-
-    <string name="device_reset_hint2">f you have connected this device, but now it is lose control, please delete this unworkable device info in the “Device” list.\n\nf this is your first time to connect this device, please ignore Step 1 and move on Step 2.</string>
-    <string name="device_reset_hint1">Please use the switch to operate:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n*If no light flash 3 times, please repeat above steps until reset successfully.\n*Turning on and off the light can\'t be too fast, it takes 1-2 seconds. </string>
-
-    <string name="device_reset_tip">Please try following two shortcuts firstly:</string>
-    <string name="device_reset_hint0">Way 1: Turn off bluetooth, then turn on it again. \nWay 2: Exit the app completely from the background system, then restart the app.</string>
-    <string name="device_reset_hint3">If you\'re still unable to find devices after trying two shortcuts, follow the steps below to reset your device.</string>
-
-
-
-
-
-
-    <string name="import_error">QR code does not match</string>
-    <string name="network_error">Network connection failed,please check the network settings.</string>
-    <string name="edit">Edit</string>
-    <string name="group">Group</string>
-    <string name="initialize">Reset Groups</string>
-    <string name="removing">Removing...</string>
-    <string name="add_product">Add Product</string>
-    <string name="added">Added</string>
-    <string name="add">Add</string>
-    <string name="adding">Adding...</string>
-
-    <string name="lamp_bed">智能床头灯</string>
-    <string name="lamp_rgb">RGB Bulb</string>
-    <string name="lamp_outdoor">Outdoor Lamp</string>
-    <string name="lamp_mini_outdoor">Mini Outdoor Lamp</string>
-    <string name="lamp_cct">CCT Bulb</string>
-    <string name="lamp_led_strip">Strip Light</string>
-
-
-
-    <string name="privacy_tip">Please confirm that you have read and agreed to</string>
-    <string name="license_agreement">The End user License Agreement</string>
-    <string name="privacy_statement">The Privacy Statement</string>
-    <string name="privacy_start">start</string>
-
-
-
-    <string name="lamp_c3">Outdoor Light</string>
-    <string name="lamp_r2">RGB Bulb</string>
-    <string name="lamp_a2">CCT Bulb</string>
-    <string name="lamp_n1">RGB Strip Light</string>
-    <string name="lamp_m1">Bedside Lamp</string>
-    <string name="lamp_v1">Mini Garden light</string>
-    <string name="lamp_v2">Solar mini garden light</string>
-    <string name="lamp_s1">RGB Spotlight</string>
-    <string name="lamp_s2">CCT Spotlight</string>
-    <string name="lamp_t1">RGB Downlight</string>
-    <string name="lamp_t1_rgb">RGB</string>
-    <string name="lamp_t1_cct">CCT</string>
-
-
-    <string name="zones_title">Home</string>
-    <string name="zone_create_title">Create new home</string>
-    <string name="zone_create_hint">A new home for your LinkupHome devices.\nPlease name it.</string>
-    <string name="zone_name_default">Home</string>
-    <string name="zones_empty_hint">Create a room, easy manage devices</string>
-    <string name="save">Save</string>
-    <string name="tips">Tips</string>
-
-    <string name="rename_tip">Tap to rename</string>
-    <string name="bind_device_tip">Tap here , add available devices to the room</string>
-    <string name="devices_title">Device</string>
-    <string name="devices_empty_hint">No devices, please add</string>
-    <string name="action_add_device">Add device</string>
-    <string name="choose_device_type_title">Device type</string>
-    <string name="search_device_title">Search devices</string>
-    <string name="device_connect_step1_title">Are you ready?</string>
-    <string name="device_connect_step1_hint">1.Please ensure the device has been properly installed and turned on.\n2.If it was not the initial installation, please reset your device.</string>
-    <string name="next_step">Next Step</string>
-    <string name="searching">Searching</string>
-    <string name="how_to_reset_device">How to reset</string>
-    <string name="how_to_reset_device_step1">Step 1</string>
-    <string name="how_to_reset_device_step2">Step 2</string>
-    <string name="how_to_reset_step">Reset Steps</string>
-    <string name="how_to_reset_process">Reset Steps</string>
-    <string name="bridge_disconnected">The device is disconnected , trying to connect automatically</string>
-    <string name="connect_device_title">Connecting devices</string>
-    <string name="state_disconnected">Tap to connect</string>
-    <string name="state_connected">Connected</string>
-    <string name="delete">Delete</string>
-    <string name="delete_device_hint">Do you want to disconnect and delete device?</string>
-    <string name="cancel">Cancel</string>
-    <string name="confirm">Yes</string>
-    <string name="join">Join</string>
-
-    <string name="choose_room_type_title">Room type</string>
-    <string name="create_room_title">Name a new room</string>
-    <string name="delete_room_title">Delete room</string>
-    <string name="delete_room_hint">Do you want to delete current room?</string>
-    <string name="light_cycling_spped">Light change speed</string>
-    <string name="available_devices_title"> Available devices</string>
-    <string name="bind_device_change_title">Modified not saved</string>
-    <string name="bind_device_change_hint">The modified data has not been saved, are you sure to exit?</string>
-
-
-    <string name="setting_title">Settings</string>
-    <string name="setting_current_home">Current home</string>
-    <string name="setting_language">Language</string>
-    <string name="setting_user_manual">User manual</string>
-    <string name="setting_faqs">FAQs</string>
-    <string name="setting_more">More</string>
-    <string name="setting_action_delete_devices">Go to device list</string>
-
-    <string name="zone_delete_hint1">Please reserve at least one home for adding devices</string>
-    <string name="zone_delete_hint2">Devices in the current home are still connected, please go to the device list to delete devices one by one, then you can delete the current home.</string>
-    <string name="zone_share_title">Share a home</string>
-    <string name="zone_share_invitation_code">My Invitation Code</string>
-    <string name="zone_join_title">Join a home</string>
-    <string name="zone_share_tip1">1.The sharing function only can be available when connect to the network. Please make sure the WiFi or network is turned on in mobile phone.</string>
-    <string name="zone_share_tip2">2.Share the automatically generated invitation code with your family and friends.</string>
-    <string name="zone_share_tip3">3.The invitee also needs to connect to the network,  enter into "join a home" and input the invitation code to control the lights together.</string>
-    <string name="zone_share_notes">Notes:  </string>
-    <string name="zone_share_warning">if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.It means how many lights on, how many persons can control toghter.</string>
-    <string name="zone_join_tip1">Request home host to create invitation code and share it with you.  (settings → share a home→  select a home → generate invitation code→  share invitation code)</string>
-    <string name="zone_join_tip2">Input the invitation code below:</string>
-
-    <string name="language_setting_title">Language Settings</string>
-
-    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 
 </resources>
-
-

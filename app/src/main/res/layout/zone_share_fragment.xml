@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="@string/zone_share_title"
+            android:text="@string/title_share_zone"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />
@@ -65,7 +65,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:gravity="center"
-                android:text="@string/zone_share_invitation_code"
+                android:text="@string/title_invitation_code"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
 
@@ -100,7 +100,7 @@
                 android:layout_marginTop="@dimen/_27sdp"
                 android:layout_marginRight="@dimen/_30sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="@string/zone_share_tip1"
+                android:text="@string/msg_share_zone_hint1"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_15ssp" />
 
@@ -112,7 +112,7 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginRight="@dimen/_30sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="@string/zone_share_tip2"
+                android:text="@string/msg_share_zone_hint2"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_15ssp" />
 
@@ -124,38 +124,21 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginRight="@dimen/_30sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="@string/zone_share_tip3"
+                android:text="@string/msg_share_zone_hint3"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_15ssp" />
-            
-            
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/_18sdp"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/_30sdp"
-                android:layout_marginBottom="@dimen/_40sdp"
-                android:layout_height="wrap_content">
-
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:layout_marginRight="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_40sdp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/zone_share_notes"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_12ssp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zone_share_warning"
+                    android:text="@string/msg_share_zone_hint4"
                     android:lineSpacingMultiplier="1.2"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/_12ssp" />
-
-            </LinearLayout>
 
         </LinearLayout>
 

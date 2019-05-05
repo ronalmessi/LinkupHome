@@ -16,7 +16,7 @@ import com.ihomey.linkuphome.R
 class DeleteZoneFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.delete_zone_fragment, container, false)
+        val view = inflater.inflate(R.layout.dialog_delete_zone, container, false)
         val tv_dialog_delete_zone_tip = view.findViewById<TextView>(R.id.tv_dialog_delete_zone_tip)
         tv_dialog_delete_zone_tip.text = arguments?.getString("hintText")
         view.findViewById<ImageButton>(R.id.btn_close).setOnClickListener { dismiss() }

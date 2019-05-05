@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_item_sub_zone_list_delete"
             android:gravity="center"
-            android:text="@string/delete"
+            android:text="@string/action_delete"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_16ssp" />
 

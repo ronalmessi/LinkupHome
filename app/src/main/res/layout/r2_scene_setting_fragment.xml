@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/scene_mode"
+                android:text="@string/title_scene_mode"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
@@ -73,7 +73,7 @@
                         android:layout_alignEnd="@+id/rb_scene_read_rgb"
                         android:layout_below="@+id/rb_scene_read_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:text="@string/scene_read"
+                        android:text="@string/title_scene_mode_read"
                         android:textColor="@color/radio_text_color_read" />
                 </RelativeLayout>
 
@@ -99,7 +99,7 @@
                         android:layout_alignEnd="@+id/rb_scene_sunset_rgb"
                         android:layout_below="@+id/rb_scene_sunset_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:text="@string/scene_sunset"
+                        android:text="@string/title_scene_mode_sunset"
                         android:textColor="@color/radio_text_color_sunset" />
                 </RelativeLayout>
 
@@ -126,7 +126,7 @@
                         android:layout_alignEnd="@+id/rb_scene_rest_rgb"
                         android:layout_below="@+id/rb_scene_rest_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:text="@string/scene_rest"
+                        android:text="@string/title_scene_mode_rest"
                         android:textColor="@color/radio_text_color_rest" />
                 </RelativeLayout>
 
@@ -153,7 +153,7 @@
                         android:layout_alignEnd="@+id/rb_scene_spring_rgb"
                         android:layout_below="@+id/rb_scene_spring_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:text="@string/scene_spring"
+                        android:text="@string/title_scene_mode_spring"
                         android:textColor="@color/radio_text_color_spring" />
                 </RelativeLayout>
 
@@ -181,7 +181,7 @@
                         android:layout_alignEnd="@+id/rb_scene_rainforest_rgb"
                         android:layout_below="@+id/rb_scene_rainforest_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:text="@string/scene_rainforest"
+                        android:text="@string/title_scene_mode_rainforest"
                         android:textColor="@color/radio_text_color_rainforest" />
                 </RelativeLayout>
 

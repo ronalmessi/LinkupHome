@@ -1,123 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LinkupHome</string>
+<string name="splash_tip_agreement">Bitte bestätigen Sie, dass Sie</string>
+<string name="splash_user_license_agreement">die Endbenutzerlizenzvereinbarung gelesen haben und sich mit dieser einverstanden erklären.</string>
+<string name="splash_corporate_privacy_statement">Die Datenschutzerklärung</string>
+<string name="splash_action_start">Beginn</string>
+<string name="error_network">Das Netzwerk ist nicht verfügbar. Bitte überprüfen Sie Ihre Netzwerkeinstellungen</string>
+<string name="title_create_zone">Neues Zuhause anlegen</string>
+<string name="action_save">Speichern</string>
+<string name="msg_default_zone">Neues Zuhause für Ihre LinkupHome-Geräte.\nBitte benennen.</string>
+<string name="home">Zuhause</string>
+<string name="title_device">Geräte</string>
+<string name="msg_no_device">Keine Geräte, bitte hinzufügen</string>
+<string name="msg_add_device">Gerät hinzufügen</string>
+<string name="title_zone">Zuhause</string>
+<string name="title_setting">Einstellungen</string>
+<string name="action_delete">Löschen</string>
+<string name="action_remove_device">Möchten Sie das Gerät trennen und löschen?</string>
+<string name="action_cancel">Abbrechen</string>
+<string name="action_confirm">Ja</string>
+<string name="title_choose_device_type">Gerätetyp</string>
+<string name="title_lamp_m1">Nachttischlampe</string>
+<string name="title_lamp_n1">LED Stripe</string>
+<string name="title_lamp_a2">CCT-Lampe</string>
+<string name="title_lamp_r2">RGBW-Lampe</string>
+<string name="title_lamp_c3">Außenleuchte</string>
+<string name="title_lamp_v1">Mini-Gartenleuchte</string>
+<string name="title_lamp_s2">CCT-Spotlight</string>
+<string name="title_lamp_s1">RGB-Spotlight</string>
+<string name="title_lamp_t1">RGB-Downlight</string>
+<string name="msg_device_ready">Sind Sie bereit?</string>
+<string name="msg_device_search_hint">1. Bitte vergewissern Sie sich, dass das Gerät richtig installiert und eingeschaltet ist.\n2. Wenn das Gerät von anderen benutzt wurde, stellen Sie bitte sicher, dass es erfolgreich zurückgesetzt wurde.</string>
+<string name="action_next">Weiter</string>
+<string name="title_reset_device">Zurücksetzen</string>
+<string name="title_search_device">Geräte suchen</string>
+<string name="msg_device_reset_hint1">Bitte versuchen Sie zunächst die folgenden zwei Möglichkeiten:</string>
+<string name="msg_device_reset_hint2">Möglichkeit 1: Schalten Sie das Bluetooth auf Ihrem Handy aus und schalten Sie es dann wieder ein.\nMöglichkeit 2: Schließen Sie die App vollständig (auch im Hintergrund) und starten Sie sie neu.</string>
+<string name="msg_device_reset_hint3">Wenn Sie nach dem Ausprobieren der zwei Möglichkeiten immer noch keine Geräte finden können, führen Sie die folgenden Schritte durch, um Ihr Gerät zurückzusetzen:</string>
+<string name="title_step1">Schritt 1</string>
+<string name="msg_device_reset_hint4">Wenn Sie das Gerät verbunden haben, sich dieses aber nicht (mehr) steuern lässt, löschen Sie bitte das nicht funk- tionierende Gerät in der “Geräteliste”.\n\nWenn Sie das Gerät zum ersten Mal verbinden, ignorieren Sie bitte Schritt 1 und fahren Sie direkt mit Schritt 2 fort.</string>
+<string name="title_step2">Schritt 2</string>
+<string name="msg_device_reset_hint5">Bitte verwenden Sie die An/Aus-Taste, um das Gerät zurückzusetzen:\n1.Schalten Sie das Licht aus.\n2.Schalten Sie das Licht ein und schalten Sie es nach 1-2 Sekunden aus.\n3.Schalten Sie das Licht wieder ein und schalten Sie es nach 1-2 Sekunden aus.\n4.Schalten Sie das Licht zum dritten Mal ein. Wenn das Licht dreimal blinkt, bedeutet dies, dass  das  Gerät auf die Standardeinstellungen zurückgesetzt wurde.\n\n*Wenn das Licht nicht dreimal blinkt, wiederholen Sie bitte die obigen Schritte, bis das Zurücksetzen erfolgreich war.\n*Schalten Sie das Licht nicht zu schnell ein und aus. 1-2 Sekunden Intervalle.</string>
+<string name="msg_device_searching">Wird gesucht</string>
+<string name="msg_notes">Hinweise:</string>
+<string name="msg_search_device_fail">Wenn das Gerät innerhalb von 10 Sekunden nicht gefunden wird, versuchen Sie bitte, das Gerät zurückzusetzen.</string>
+<string name="title_connect_device">Geräte werden verbunden</string>
+<string name="action_connect_device">Zum Verbinden tippen</string>
+<string name="action_rename_device">Zum Umbenennen tippen</string>
+<string name="title_rgb">RGB</string>
+<string name="title_cct">CCT</string>
+<string name="action_slow_speed">Verlangsamen</string>
+<string name="action_normal_speed">Normale Geschwindigkeit</string>
+<string name="action_fast_speed">Beschleunigen</string>
+<string name="msg_create_room">Raum erstellen, Geräte leicht verwalten</string>
+<string name="title_choose_room_type">Raumtyp</string>
+<string name="title_rename_room">Einen neuen Raum benennen</string>
+<string name="title_light_change_speed">Lichtwechselgeschwindigkeit</string>
+<string name="title_delete_room">Raum löschen</string>
+<string name="msg_delete_room">Möchten Sie den aktuellen Raum löschen?</string>
+<string name="action_add_device">Gerät hinzufügen</string>
+<string name="title_available_devices">Verfügbare Geräte</string>
+<string name="title_save_modifications">Geändert, nicht gespeichert</string>
+<string name="msg_save_modifications">Die geänderten Daten wurden nicht gespeichert, sind Sie sicher, dass Sie verlassen möchten?</string>
+<string name="msg_add_device_for_room">Hier tippen, fügen Sie verfügbare Geräte zum Raum</string>
+<string name="title_current_zone">Aktuelles Zuhause</string>
+<string name="title_language">Sprache</string>
+<string name="title_user_manual">Bedienungsanleitung</string>
+<string name="title_faqs">FAQ (Häufig gestellte Fragen)</string>
+<string name="title_more">Mehr</string>
+<string name="title_user_agreement">Benutzervereinbarung</string>
+<string name="title_private_statement">Datenschutzerklärung</string>
+<string name="title_share_zone">Zuhause teilen</string>
+<string name="title_join_zone">Zuhause beitreten</string>
+<string name="title_rename">Umbenennen</string>
+<string name="title_invitation_code">Mein Einladungscode</string>
+<string name="msg_share_zone_hint1">Die “Zuhause teilen”- Funktion ist nur bei einer bestehenden Internetverbindung verfügbar.
+Bitte stellen Sie sicher, dass Ihr Mobiltelefon mit dem WLAN verbunden ist oder über mobiles Internet verfügt.</string>
+<string name="msg_share_zone_hint2">Teilen Sie den automatisch generierten Einladungscode mit Ihrer Familie und/oder Ihren Freunden.</string>
+<string name="msg_share_zone_hint3">Der Eingeladene muss sein Mobiltelefon ebenfalls mit dem Internet verbunden haben, anschließend “Zuhause beitreten” aufrufen und Ihren Einladungscode eingeben, damit auch er die entsprechenden Lichter steuern kann.</string>
+<string name="msg_join_zone_hint1">Fordern Sie den “Zuhause”-Gastgeber auf, einen Einladungscode zu erstellen und Ihnen diesen mitzuteilen.
+(Einstellungen → Aktuelles Zuhause → Zuhause teilen → Zu- hause auswählen → Einladungscode generieren → Einla- dungscode mitteilen → Einladungscode freigeben)</string>
+<string name="msg_join_zone_hint2">Einladungscode unten eingeben:</string>
+<string name="msg_share_zone_hint4">Hinweis: Wenn mehrere Personen die Beleuchtung zusammen steuern wollen, stellen Sie bitte sicher, dass genauso viele Lichter (müssen eingeschaltet sein), wie Mobilgeräte (Smartphones/iPads) vorhanden sind.
+Eine Leuchte kann nicht von zwei Personen gleichzeitig gesteuert werden. Das heißt, es können nur so viele Personen ein Licht steuern, wie Lampen vorhanden sind.</string>
+<string name="title_error_invitation_code">Falscher Einladungscode</string>
+<string name="msg_error_invitation_code">Es tut uns leid, der Einladungscode ist falsch oder existiert nicht.</string>
+<string name="msg_delete_zone_hint">Geräte im aktuellen Zuhause sind noch verbunden, bitte gehen Sie zur Geräteliste, um Geräte einzeln zu löschen, dann können Sie das aktuelle Zuhause löschen.</string>
+<string name="action_go_to_devices">Zur Geräteliste gehen</string>
+<string name="msg_minimum_zone">Bitte reservieren Sie mindestens ein Zuhause für das Hinzufügen von Geräten</string>
+<string name="action_join">Beitreten</string>
+<string name="title_quit_zone">Nach Hause gehen</string>
+<string name="msg_quit_shared_zone">Möchten Sie das Teilen nach Hause beenden?</string>
+<string name="title_scene_mode">Szenenmodus</string>
+<string name="title_scene_mode_read">Wird gelesen</string>
+<string name="title_scene_mode_sunset">Sonnenuntergang</string>
+<string name="title_scene_mode_rest">Ruhe</string>
+<string name="title_scene_mode_spring">Frühjahrsblüten</string>
+<string name="title_scene_mode_rainforest">Regenwald</string>
+<string name="title_open_time">Einschaltzeit des Lichts</string>
+<string name="title_close_time">Ausschaltzeit des Lichts</string>
+<string name="action_edit">Bearbeiten</string>
+<string name="action_repeat">Wiederholen</string>
+<string name="title_scene_mode_flow">Fließend</string>
+<string name="title_scene_mode_seek">Verfolgend</string>
+<string name="title_scene_mode_surf">Wehend</string>
+<string name="title_scene_mode_rainbow">Regenbogen</string>
+<string name="title_scene_mode_star">Sternenbedeckt</string>
+<string name="msg_device_disconnected">Getrennt</string>
+<string name="title_language_setting">Wählen Sie die Sprache aus</string>
+<string name="msg_device_connected">In Verbindung gebracht</string>
+<string name="msg_device_connect_failed">Verbindung schlägt fehl Bitte starten Sie das Gerät neu, um eine Verbindung herzustellen.</string>
+<string name="title_scene_mode_lighting">Beleuchtungsmodus</string>
+<string name="msg_device_connecting">Anschließen</string>
+<string name="title_lamp_v2">Solar Mini Gartenlicht</string>
+<string name="msg_join_zone_success">Beigetreten</string>
 
 
-
-    <string name="welcome_language">Sprache</string>
-    <string name="welcome_beauty">Wunderbar</string>
-    <string name="welcome_occurrence">Treten vom diesem Zeitpunkt</string>
-    <string name="welcome_language_select">Auserlesene Sprache</string>
-
-    <string name="product_manual">Produktanweisungen</string>
-    <string name="center_title">Zentrum</string>
-
-    <string name="mesh_tab_control">Bedienung</string>
-    <string name="mesh_tab_device_select">Die Steuerung Zu Wählen</string>
-    <string name="mesh_tab_group_setting">Gruppeneinstellungen</string>
-    <string name="mesh_tab_device_connect">Geräteverbindung</string>
-
-    <string name="menu_rename">Umbenennen</string>
-    <string name="menu_timer">Zeitschalter</string>
-    <string name="menu_control_share">Teilen Manipulation</string>
-    <string name="menu_scan">Fegen Die</string>
-
-    <string name="scan_get_data">Abrufen Der Datenmanipulation...</string>
-    <string name="scan_qrCode">Mein Zweidimensionaler Code</string>
-    <string name="scan_auto">In Der Box, Auto-Scan</string>
-
-    <string name="scene_mode">Szenario-Modus</string>
-    <string name="scene_read">Lesen-Modus</string>
-    <string name="scene_sunset">Abendsonne Modell</string>
-    <string name="scene_rest">Ruhe Modell</string>
-    <string name="scene_spring">Frühling Modell</string>
-    <string name="scene_rainforest">Regenwald Modell</string>
-    <string name="scene_lighting">Beleuchtungsmodus</string>
-
-    <string name="speed_slow">Verlangsamen</string>
-    <string name="speed_normal">Normal</string>
-    <string name="speed_fast">Beschleunigen</string>
-
-    <string name="timer_open_time">Licht Einschalten Timing</string>
-    <string name="timer_close_time">Licht Abschalten Timing</string>
-    <string name="timer_loop">wiederholen</string>
-
-    <string name="share_tips">Sie Können Die Manipulation An Ihre Familie Oder Enge Freunde Teilen Und Alle Können Die Freude Zsusammen Teilen\nDie Aus Intelligente Beleuchtung Bringt.</string>
-    <string name="share_tip_download_app">Laden Sie APP Herunter</string>
-    <string name="share_tip_open_app">Öffnen Sie APP Und Scannen Zweidimensionalen Code</string>
-    <string name="share_tip_success">Erfolg Zu Teilen</string>
-    <string name="share_qrCode">Zweidimensionale Codes</string>
-    <string name="share_qrCode_generating">Entwickelt Es Hier Den Teilenbarezweidimensionalen Code...</string>
-    <string name="share_qrCode_generate_success">Gemeinsame Nutzung Von Daten Erzeugt Eigen Zweidimensionalen Code,Scan</string>
-    <string name="share_qrCode_generate_fail">Fehlgeschlagen Zweidimensionalen Code Zu Erzeugen</string>
-    <string name="share_qrCode_regenerate">Wieder Aufbauen</string>
-    <string name="share_img_save">Bild Speichern</string>
-    <string name="share_img_save_success">Das Bild Wurde Im Aktendeckel Gespeichert</string>
-    <string name="share_img_save_fail">Falsche Speichern</string>
-
-    <string name="state_disconnected">Klicken Sie Auf Verbindung</string>
-    <string name="state_connected">Hat Verbunden</string>
-
-    <string name="group_setting_drag">Klicken zum Hinzufügen</string>
-    <string name="group_setting_exceed_number">Exceed Die Anzahl Der Pakete</string>
-
-    <string name="device_search">Suchen Sie Nach Geräten</string>
-    <string name="device_associating">Im Anschluss...</string>
-    <string name="device_clear">Alle Gruppen löschen?</string>
-    <string name="device_associate_fail">Die Verbindung Ist Fehlgeschlagen. Bitte Neustarten Sie Das Gerät Zum Anschließen.</string>
-
-
-    <string name="device_connect_step1_title">Ist das Gerät bereit?</string>
-    <string name="device_connect_step1_hint">1, Bitte stellen Sie sicher, dass die Stromversorgung des Geräts ordnungsgemäß angeschlossen ist; \n2, Wenn das Gerät nicht zum ersten Mal verwendet wird, stellen Sie sicher, dass das Gerät ordnungsgemäß zurückgesetzt wurde.</string>
-
-    <string name="device_connect_step2_title">Tipps</string>
-    <string name="device_connect_step2_hint">Wenn das Gerät etwa 10 Sekunden lang nicht gefunden wird, überprüfen Sie, ob das Gerät ordnungsgemäß zurückgesetzt wurde.</string>
-
-    <string name="device_reset_hint2">1, Schalten Sie die Lampe zuerst aus.\n 2, Schalten Sie die Lampe ein und warten Sie 1-2 Sekunden.\n 3, Schalten Sie die Lampe aus und warten Sie 1-2 Sekunden.\n 4, Schalten Sie die Lampe ein und warten Sie 1-2 Sekunden.\n 5, Schalten Sie die Lampe aus und warten Sie 1-2 Sekunden.\n 6, Wenn die Lampe zum dritten Mal eingeschaltet wird, warten Sie bitte ca. 2 Sekunden. Wenn das Licht 3 Mal blinkt, bedeutet dies, dass die Zurücksetzung erfolgreich war. Die Lampe wurde auf die Werkseinstellungen zurückgesetzt.\n\n (Wenn das Licht nicht dreimal blinkt, wiederholenden Sie bitte den obigen Vorgang erneut, bis das Licht dreimal blinkt, was darauf hinweist, dass das Zurücksetzen erfolgreich war)</string>
-    <string name="device_reset_hint1">Nachdem der zuvor verbundene Datensatz in der Schnittstelle "Geräteverbindung" indem Schieben nach links gelöscht wurde, wird das  zurückgesetzte Gerät angezeigt.</string>
-
-    <string name="device_reset_tip">Bitte versuchen Sie es zuerst mit den folgenden zwei schnellen Verarbeitungsmethoden.</string>
-    <string name="device_reset_hint0">1, Bitte deaktivieren Sie zuerst Bluetooth, und aktivieren Sie dann Bluetooth.\n2, Nachdem Sie LinkupHomeAPP im Hintergrund geschlossen haben, öffnen Sie die App erneut.</string>
-    <string name="device_reset_hint3">Wenn Sie das Gerät immer noch nicht finden, nachdem Sie die beiden obigen Verarbeitungsmethoden versucht haben, führen Sie die folgenden Schritte aus, um das Gerät zurückzusetzen.</string>
-    <string name="next_step">Weiter</string>
-    <string name="searching">suchen</string>
-
-    <string name="how_to_reset_device">Wie setzt man das Gerät zurück</string>
-    <string name="how_to_reset_device_step1">Schritt 1</string>
-    <string name="how_to_reset_device_step2">Schritt 2</string>
-    <string name="how_to_reset_step">Schritt des Zurücksetzens</string>
-    <string name="how_to_reset_process">Prozess des Zurücksetzens</string>
-    <string name="bridge_disconnected">Das Gerät ist abgetrennt und versucht automatisch, eine Verbindung herzustellen</string>
-
-    <string name="save">Speichern</string>
-
-    <string name="import_error">Zweidimensionale Codes Entspricht Nicht Den Lnhalt</string>
-    <string name="network_error">Netzwerkverbindung fehlschlägt , überprüfen Sie die Netzwerkeinstellungen</string>
-    <string name="edit">Bearbeitungs</string>
-    <string name="group">Gruppe</string>
-    <string name="initialize">Gruppe löschen</string>
-    <string name="cancel">Stornieren</string>
-    <string name="confirm">Ja</string>
-    <string name="delete">Löschen</string>
-    <string name="removing">Warten Auf Löschung...</string>
-    <string name="add_product">Die Produkte Zusetzen</string>
-    <string name="added">Hat Hinzugefügt</string>
-    <string name="add">Hinzufügen</string>
-    <string name="adding">Hinzufügen...</string>
-
-    <string name="lamp_bed">智能床头灯</string>
-    <string name="lamp_rgb">RGB Birne</string>
-    <string name="lamp_outdoor">Außenleuchter</string>
-    <string name="lamp_mini_outdoor">Mini-Gartenleuchte</string>
-    <string name="lamp_cct">Temperaturschwankungsglühbirne</string>
-    <string name="lamp_led_strip">LED Leuchterband</string>
-
-
-    <string name="privacy_tip">Bitte bestätigen Sie, dass Sie gelesen haben und zustimmen</string>
-    <string name="license_agreement">Die Endbenutzer-Lizenzvereinbarung</string>
-    <string name="privacy_statement">Die Datenschutzerklärung</string>
-    <string name="privacy_start">Anfang</string>
-
-
-    <string name="tip_network_error">The network is not available. Please check your network settings.</string>
 </resources>

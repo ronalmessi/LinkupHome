@@ -17,7 +17,7 @@ import com.ihomey.linkuphome.adapter.LanguageListAdapter
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.widget.DividerItemDecoration
-import kotlinx.android.synthetic.main.language_settingg_fragment.*
+import kotlinx.android.synthetic.main.language_setting_fragment.*
 
 
 class LanguageSettingFragment : Fragment(), BaseQuickAdapter.OnItemClickListener {
@@ -30,7 +30,7 @@ class LanguageSettingFragment : Fragment(), BaseQuickAdapter.OnItemClickListener
     private lateinit var onLanguageListener: OnLanguageListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.language_settingg_fragment, container, false)
+        return inflater.inflate(R.layout.language_setting_fragment, container, false)
     }
 
     override fun onAttach(context: Context?) {

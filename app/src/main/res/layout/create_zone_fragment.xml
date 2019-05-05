@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:onClick="@{handlers::onClick}"
-            android:text="@string/save"
+            android:text="@string/action_save"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/_16ssp" />
 
@@ -38,7 +38,7 @@
             android:maxEms="9"
             android:textStyle="bold"
             android:singleLine="true"
-            android:text="@string/zone_create_title"
+            android:text="@string/title_create_zone"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp" />
     </com.ihomey.linkuphome.widget.CompatToolbar>
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
-        android:text="@string/zone_create_hint"
+        android:text="@string/msg_default_zone"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_15ssp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -89,7 +89,7 @@
         android:paddingBottom="@dimen/_8sdp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:text="@string/zone_name_default"
+        android:text="@string/home"
         android:textSize="@dimen/_18ssp"
         app:layout_constraintLeft_toLeftOf="@+id/guideline4"
         app:layout_constraintRight_toRightOf="@+id/guideline5"

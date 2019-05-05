@@ -25,7 +25,7 @@ class CreateRoomFragment : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.create_sub_zone_fragment, container, false)
+        val view = inflater.inflate(R.layout.dialog_create_room, container, false)
         val et_zone_name = view.findViewById<EditText>(R.id.et_zone_name)
         val btn_cancel = view.findViewById<TextView>(R.id.btn_cancel)
         btn_cancel.setOnClickListener { dismiss() }

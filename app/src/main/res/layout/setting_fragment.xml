@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/setting_title"
+                android:text="@string/title_setting"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
@@ -42,7 +42,7 @@
                 app:horizontalMargin="@dimen/_20sdp"
                 app:isShowDivider="false"
                 app:leftIcon="@mipmap/ic_setting_zone"
-                app:leftText="@string/setting_current_home"
+                app:leftText="@string/title_current_zone"
                 app:leftTextColor="@android:color/black"
                 app:leftTextSize="@dimen/_16ssp"
                 app:rightIcon="@drawable/ic_arrow_setting"
@@ -68,7 +68,7 @@
                     app:horizontalMargin="@dimen/_20sdp"
                     app:isShowDivider="false"
                     app:leftIcon="@mipmap/ic_setting_language"
-                    app:leftText="@string/setting_language"
+                    app:leftText="@string/title_language"
                     app:leftTextColor="@android:color/black"
                     app:leftTextSize="@dimen/_16ssp"
                     app:rightIcon="@drawable/ic_arrow_setting"
@@ -84,24 +84,25 @@
                     app:horizontalMargin="@dimen/_20sdp"
                     app:isShowDivider="false"
                     app:leftIcon="@mipmap/ic_setting_instructions"
-                    app:leftText="@string/setting_user_manual"
+                    app:leftText="@string/title_user_manual"
                     app:leftTextColor="@android:color/black"
                     app:leftTextSize="@dimen/_16ssp"
                     app:rightIcon="@drawable/ic_arrow_setting"
                     app:rightTextColor="#807F85"
                     app:rightTextSize="@dimen/_16ssp"
-                    app:verticalMargin="@dimen/_18sdp" />
+                    app:verticalMargin="@dimen/_18sdp"
+                    tools:ignore="RtlSymmetry" />
 
 
                 <com.ihomey.linkuphome.widget.InfoTextLayout
-                    android:id="@+id/infoTextLayout_setting_intro"
+                    android:id="@+id/infoTextLayout_setting_faqs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/_16sdp"
                     app:horizontalMargin="@dimen/_20sdp"
                     app:isShowDivider="false"
                     app:leftIcon="@mipmap/ic_setting_qa"
-                    app:leftText="@string/setting_faqs"
+                    app:leftText="@string/title_faqs"
                     app:leftTextColor="@android:color/black"
                     app:leftTextSize="@dimen/_16ssp"
                     app:rightIcon="@drawable/ic_arrow_setting"
@@ -119,13 +120,14 @@
                     app:horizontalMargin="@dimen/_20sdp"
                     app:isShowDivider="false"
                     app:leftIcon="@mipmap/ic_setting_more"
-                    app:leftText="@string/setting_more"
+                    app:leftText="@string/title_more"
                     app:leftTextColor="@android:color/black"
                     app:leftTextSize="@dimen/_16ssp"
                     app:rightIcon="@drawable/ic_arrow_setting"
                     app:rightTextColor="#807F85"
                     app:rightTextSize="@dimen/_16ssp"
-                    app:verticalMargin="@dimen/_18sdp" />
+                    app:verticalMargin="@dimen/_18sdp"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 

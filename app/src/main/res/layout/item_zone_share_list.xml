@@ -26,19 +26,12 @@
         android:singleLine="true"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         android:layout_marginRight="@dimen/_56sdp"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_toEndOf="@+id/iv_zone_current_flag"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_16ssp" />
-    <!---->
-    <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/iv_zone_share_flag"-->
-        <!--android:layout_toRightOf="@+id/tv_zone_name"-->
-        <!--android:src="@drawable/ic_zone_share_flag"/>-->
+
 
     <ImageView
         android:id="@+id/iv_zone_share"

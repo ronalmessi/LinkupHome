@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="@string/zone_join_title"
+            android:text="@string/title_join_zone"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_30sdp"
                 android:lineSpacingMultiplier="1.2"
-                android:text="@string/zone_join_tip1"
+                android:text="@string/msg_join_zone_hint1"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_15ssp" />
 
@@ -69,7 +69,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_21sdp"
                 android:gravity="center"
-                android:text="@string/zone_join_tip2"
+                android:text="@string/msg_join_zone_hint2"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
 
@@ -100,37 +100,22 @@
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingRight="@dimen/_24sdp"
                 android:paddingBottom="@dimen/_8sdp"
-                android:text="@string/join"
+                android:text="@string/action_join"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_42sdp"
-                android:layout_marginRight="@dimen/_30sdp"
-                android:layout_marginBottom="@dimen/_40sdp"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zone_share_notes"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lineSpacingMultiplier="1.2"
-                    android:text="@string/zone_share_warning"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_42sdp"
+                    android:layout_marginRight="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_40sdp"
+                    android:text="@string/msg_share_zone_hint4"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/_12ssp" />
-
-            </LinearLayout>
 
         </LinearLayout>
 

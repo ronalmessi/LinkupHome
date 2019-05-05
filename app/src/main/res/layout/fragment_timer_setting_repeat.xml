@@ -96,7 +96,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             android:layout_marginStart="@dimen/_16sdp"
             android:background="@null"
             android:gravity="start|center_vertical"
-            android:text="@string/edit"
+            android:text="@string/action_edit"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_18ssp" />
 
@@ -154,7 +154,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:paddingBottom="@dimen/_12sdp"
                     android:paddingTop="@dimen/_12sdp"
                     android:textSize="@dimen/_16ssp"
-                    android:text="@string/timer_open_time"
+                    android:text="@string/title_open_time"
                     android:textColor="@android:color/white"
                     android:button="@null" />
             </RelativeLayout>
@@ -181,7 +181,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:paddingBottom="@dimen/_12sdp"
                     android:paddingTop="@dimen/_12sdp"
                     android:textSize="@dimen/_16ssp"
-                    android:text="@string/timer_close_time"
+                    android:text="@string/title_close_time"
                     android:textColor="@android:color/white"
                     android:button="@null" />
             </RelativeLayout>
@@ -208,7 +208,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:gravity="center"
         android:paddingBottom="@dimen/_12sdp"
         android:paddingTop="@dimen/_12sdp"
-        android:text="@string/timer_loop"
+        android:text="@string/action_repeat"
         android:textColor="@android:color/white"
         android:textSize="@dimen/_16ssp"
         android:visibility="gone" />

@@ -170,7 +170,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
             if(isFragmentVisible()){
                 val controller = ControllerFactory().createController(it.type)
                 if (meshServiceStateListener.isMeshServiceConnected()) {
-                    controller?.setLightBright(it.instructId, progress.plus(15))
+                    controller?.setLightBright(it.instructId, if(it.type==5||it.type==9) progress.plus(5) else progress.plus(15))
                 }
                 changeDeviceState(it, "brightness", progress.toString())
             }

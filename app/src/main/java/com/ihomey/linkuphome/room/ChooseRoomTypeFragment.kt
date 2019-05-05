@@ -24,7 +24,7 @@ import com.ihomey.linkuphome.listener.CreateSubZoneListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.ihomey.linkuphome.zone.ZoneNavHostFragment
-import kotlinx.android.synthetic.main.choose_zone_type_fragment.*
+import kotlinx.android.synthetic.main.choose_room_type_fragment.*
 
 class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, CreateSubZoneListener {
 
@@ -37,7 +37,7 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     private var currentZone: Zone? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.choose_zone_type_fragment, container, false)
+        return inflater.inflate(R.layout.choose_room_type_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

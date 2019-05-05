@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/light_cycling_spped"
+            android:text="@string/title_light_change_speed"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
             app:layout_constraintLeft_toLeftOf="parent"

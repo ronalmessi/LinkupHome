@@ -20,13 +20,13 @@ class GroupUpdateFragment : DialogFragment(){
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.setDimAmount(0f)
-        val view = inflater.inflate(R.layout.fragment_dialog_group_update, container, false)
+        val view = inflater.inflate(R.layout.dialog_group_update, container, false)
         val tipText = view.findViewById<TextView>(R.id.group_update_tv_text)
-        if (arguments?.getInt("updateType", -1) == 0) {
-            tipText.setText(R.string.adding)
-        } else {
-            tipText.setText(R.string.removing)
-        }
+//        if (arguments?.getInt("updateType", -1) == 0) {
+//            tipText.setText(R.string.adding)
+//        } else {
+//            tipText.setText(R.string.removing)
+//        }
         return view
     }
 

@@ -11,34 +11,26 @@
         android:name="com.ihomey.linkuphome.inform.InformFragment"
         tools:layout="@layout/inform_fragment"
         android:label="InformFragment" >
-        <action
-            app:enterAnim="@anim/slide_in_bottom"
-            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
-            android:id="@+id/action_informFragment_to_privacyAgreementFragment"
-            app:destination="@id/privacyAgreementFragment" />
-        <action
-            app:enterAnim="@anim/slide_in_bottom"
-            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
-            android:id="@+id/action_informFragment_to_termsOfUseFragment"
-            app:destination="@id/termsOfUseFragment" />
+
         <action
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_informFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_informFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.ihomey.linkuphome.setting.WebViewFragment"
+        tools:layout="@layout/webview_fragment"
+        android:label="WebViewFragment" />
 
-    <fragment
-        android:id="@+id/privacyAgreementFragment"
-        android:name="com.ihomey.linkuphome.setting.PrivacyAgreementFragment"
-        tools:layout="@layout/privacy_agreement_fragment"
-        android:label="PrivacyAgreementFragment" />
-    <fragment
-        android:id="@+id/termsOfUseFragment"
-        android:name="com.ihomey.linkuphome.setting.TermsOfUseFragment"
-        tools:layout="@layout/terms_of_use_fragment"
-        android:label="TermsOfUseFragment" />
 
     <activity  android:id="@+id/homeActivity"
         android:name="com.ihomey.linkuphome.home.HomeActivity"

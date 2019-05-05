@@ -15,7 +15,7 @@ import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.suke.widget.SwitchButton
 
 
-class RoomViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_sub_zone_list, parent, false)) {
+class RoomViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_room_list, parent, false)) {
 
     val swipeLayout = itemView.findViewById<SwipeLayout>(R.id.swipeLayout)
     val nameView = itemView.findViewById<TextView>(R.id.tv_sub_zone_name)

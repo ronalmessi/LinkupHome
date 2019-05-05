@@ -31,7 +31,7 @@
                 android:ellipsize="end"
                 android:maxEms="9"
                 android:singleLine="true"
-                android:text="@string/how_to_reset_device"
+                android:text="@string/title_reset_device"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="@string/device_reset_tip"
+                android:text="@string/msg_device_reset_hint1"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold" />
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:lineSpacingMultiplier="1.3"
-                android:text="@string/device_reset_hint0"
+                android:text="@string/msg_device_reset_hint2"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_14ssp" />
 
@@ -74,7 +74,7 @@
                 android:layout_marginTop="@dimen/_36sdp"
                 android:layout_marginBottom="@dimen/_24sdp"
                 android:lineSpacingMultiplier="1.2"
-                android:text="@string/device_reset_hint3"
+                android:text="@string/msg_device_reset_hint3"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:textSize="@dimen/_15ssp" />
@@ -87,7 +87,7 @@
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingRight="@dimen/_36sdp"
                 android:paddingBottom="@dimen/_8sdp"
-                android:text="@string/how_to_reset_device_step1"
+                android:text="@string/title_step1"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
 
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_18sdp"
                 android:lineSpacingMultiplier="1.4"
-                android:text="@string/device_reset_hint2"
+                android:text="@string/msg_device_reset_hint4"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_15ssp" />
 
@@ -119,7 +119,7 @@
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingRight="@dimen/_36sdp"
                 android:paddingBottom="@dimen/_8sdp"
-                android:text="@string/how_to_reset_device_step2"
+                android:text="@string/title_step2"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp" />
 
@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:text="@string/device_reset_hint1"
+                android:text="@string/msg_device_reset_hint5"
                 android:lineSpacingMultiplier="1.4"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_15ssp" />

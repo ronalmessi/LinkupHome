@@ -73,7 +73,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
         val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
             val width = context?.resources?.getDimension(R.dimen._72sdp)
             val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.delete).setTextColor(Color.WHITE).setTextSize(14)
+            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.action_delete).setTextColor(Color.WHITE).setTextSize(14)
             swipeRightMenu.addMenuItem(deleteItem)
         }
         rcv_zone_list.setSwipeMenuCreator(swipeMenuCreator)
@@ -117,7 +117,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
                     if (it?.status == Status.SUCCESS) {
                         mViewModel.setCurrentZoneId(it.data?.id)
                         bridgeListener.reConnectBridge()
-                        Navigation.findNavController(view).popBackStack()
+                        Navigation.findNavController(iv_back).popBackStack()
                     } else if (it?.status == Status.ERROR) {
                         it.message?.let { it2 -> activity?.toast(it2) }
                     }
@@ -131,7 +131,7 @@ class ZoneSettingFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListene
             val deleteZoneFragment = DeleteZoneFragment()
             deleteZoneFragment.isCancelable = false
             val bundle = Bundle()
-            bundle.putString("hintText", getString(R.string.zone_delete_hint1))
+            bundle.putString("hintText", getString(R.string.msg_delete_zone_hint))
             deleteZoneFragment.arguments = bundle
             deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
         } else {

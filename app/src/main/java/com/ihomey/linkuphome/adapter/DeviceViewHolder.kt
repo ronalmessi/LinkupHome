@@ -42,26 +42,34 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
         iconView.setImageResource(AppConfig.DEVICE_ICON[type])
         val layoutParams = nameView.layoutParams as ViewGroup.MarginLayoutParams
         if (type == 0) {
+            brightnessView.max=85
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._15sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._3sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }else if (type == 1||type==2) {
+            if(type == 1) brightnessView.max=85 else brightnessView.max=240
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._30sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._16sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }else if (type==6||type==7) {
+            if(type == 6) brightnessView.max=85 else brightnessView.max=240
+            brightnessView.max=85
             iconView.scaleX=0.8f
             iconView.scaleY=0.8f
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._30sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._14sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._4sdp).toInt())
         } else if (type == 3) {
+            brightnessView.max=85
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._2sdp).toInt()
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._10sdp).toInt(),parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._10sdp).toInt())
         }else if (type == 4) {
+            brightnessView.max=85
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._33sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._18sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }else if (type == 5||type == 9) {
+            brightnessView.max=27
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._21sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._4sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }else if (type == 8) {
+            brightnessView.max=85
             iconView.scaleX=0.8f
             iconView.scaleY=0.8f
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._10sdp).toInt()

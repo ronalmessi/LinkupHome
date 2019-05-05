@@ -81,14 +81,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             R.id.btn_timer_setting_edit -> {
                 if (v.tag != null && v.tag as Boolean) {
                     v.tag = null
-                    (v as Button).setText(R.string.save)
+                    (v as Button).setText(R.string.action_save)
                     enableEditTimer(true)
                     if ((mControlDevice.type == 6||mControlDevice.type == 10) && listener.isMeshServiceConnected()) {
                         syncTime(mControlDevice.instructId)
                     }
                 } else {
                     v.tag = true
-                    (v as Button).setText(R.string.edit)
+                    (v as Button).setText(R.string.action_edit)
                     enableEditTimer(false)
                     saveTime()
                 }

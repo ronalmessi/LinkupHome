@@ -25,7 +25,7 @@ class ReNameDeviceFragment : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.rename_device_fragment, container, false)
+        val view = inflater.inflate(R.layout.dialog_rename_device, container, false)
         val et_device_name = view.findViewById<EditText>(R.id.et_device_name)
         et_device_name.setText(arguments?.getString("deviceName"))
         arguments?.getString("deviceName")?.length?.let { et_device_name.setSelection(it) }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <com.ihomey.linkuphome.widget.DonutProgress
+        android:id="@+id/device_associate_progress"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        custom:donut_finished_color="@color/control_tab_item_selected_color"
+        custom:donut_finished_stroke_width="5dp"
+        custom:donut_progress="4"
+        custom:donut_text_color="@color/control_tab_item_selected_color"
+        custom:donut_text_size="20sp"
+        custom:donut_unfinished_color="#959595"
+        custom:donut_unfinished_stroke_width="5dp" />
+
+    <TextView
+        android:id="@+id/device_associate_tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_device_connecting"
+        app:layout_constraintTop_toBottomOf="@+id/device_associate_progress"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,17 +18,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
-import com.ihomey.linkuphome.PreferenceHelper
-import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.databinding.InformFragmentBinding
-import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.splash.SplashViewModel
-import com.ihomey.linkuphome.toast
 
 
 /**
@@ -63,7 +60,15 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
         val spannableString = SpannableString(textView.text.toString())
         spannableString.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                NavHostFragment.findNavController(this@InformFragment).navigate(if (textView.id != R.id.privacy_tv_license) R.id.action_informFragment_to_privacyAgreementFragment else R.id.action_informFragment_to_termsOfUseFragment)
+                val bundle=Bundle()
+                if (textView.id != R.id.privacy_tv_license){
+                    bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_URL)
+                    bundle.putString("title",getString(R.string.title_user_agreement))
+                }else{
+                    bundle.putString("sourceUrl",AppConfig.PRIVACY_STATEMENt_URL)
+                    bundle.putString("title",getString(R.string.title_private_statement))
+                }
+                NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_webViewFragment,bundle)
             }
 
             override fun updateDrawState(textPaint: TextPaint) {

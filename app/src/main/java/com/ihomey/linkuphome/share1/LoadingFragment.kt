@@ -19,7 +19,7 @@ class LoadingFragment : DialogFragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.setDimAmount(0f)
-        return inflater.inflate(R.layout.fragment_dialog_share_code_generate, container, false)
+        return inflater.inflate(R.layout.dialog_share_code_generate, container, false)
     }
 
 }

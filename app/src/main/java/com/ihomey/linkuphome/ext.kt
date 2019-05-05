@@ -102,7 +102,7 @@ fun Context.toast(errorCode: String) {
         "0030"->message="未知分组ID"
         "0031"->message="分组名称不能大于225个字符"
         "0032"->message="分组类型不能大于64个字符"
-        "10000"->message=this.getString(R.string.tip_network_error)
+        "10000"->message=this.getString(R.string.error_network)
         "10001"->message="未知错误"
     }
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -126,38 +126,6 @@ fun Context.isNetworkAvailable(): Boolean {
     return activeNetworkInfo != null && activeNetworkInfo.isConnected
 }
 
-fun Context.saveImageToGallery(bmp: Bitmap?, dir: String) {
-    if (bmp == null) return
-    val appDir = File(Environment.getExternalStorageDirectory(), dir)
-    if (!appDir.exists()) {
-        appDir.mkdirs()
-    }
-    val fileName = System.currentTimeMillis().toString() + ".jpg"
-    val file = File(appDir, fileName)
-    try {
-        val fos = FileOutputStream(file)
-        bmp.compress(CompressFormat.JPEG, 100, fos)
-        fos.flush()
-        fos.close()
-        toast(this.resources.getString(R.string.share_img_save_success))
-    } catch (e: FileNotFoundException) {
-        e.printStackTrace()
-        toast(this.resources.getString(R.string.share_img_save_fail))
-    } catch (e: IOException) {
-        e.printStackTrace()
-        toast(this.resources.getString(R.string.share_img_save_fail))
-    }
-
-    // 其次把文件插入到系统图库
-    try {
-        MediaStore.Images.Media.insertImage(this.contentResolver, file.absolutePath, fileName, null)
-    } catch (e: FileNotFoundException) {
-        e.printStackTrace()
-    }
-
-    // 最后通知图库更新
-    this.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)))
-}
 
 /**
  * 从控件所在位置移动到控件的底部
