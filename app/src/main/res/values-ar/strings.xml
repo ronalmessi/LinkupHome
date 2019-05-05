@@ -11,9 +11,7 @@
 <string name="home">منزل</string>
 <string name="title_device">جهاز</string>
 <string name="msg_no_device">لا أجهزة ، الرجاء الإضافة</string>
-<string name="msg_add_device">إضافة أجهزة</string>
-<string name="title_zone">مساحة</string>
-<string name="title_setting">إعدادات</string>
+    <string name="title_setting">إعدادات</string>
 <string name="action_delete">حذف</string>
 <string name="action_remove_device">هل تريد قطع الاتصال وحذف الجهاز؟</string>
 <string name="action_cancel">إلغاء</string>
@@ -80,8 +78,7 @@
 (الإعدادات → مشاركة المنزل → إختيار المنزل → إنشاء رمز دعوة → مشاركة رمز الدعوة)</string>
 <string name="msg_join_zone_hint2">أدخل رمز الدعوة من التالي:</string>
 <string name="msg_share_zone_hint4">ملاحظات: إذا كان هناك عدة أشخاص يريدون التحكم في إضاءة المصابيح بشكل جماعي ، يرجى التأكد من أن الأضواء (تحتاج إلى أن تكون قيد التشغيل) وأن لا تقل عن الأجهزة المحمولة (الهواتف المحمولة / IPADs).  وألا لا يمكن لبعض الأجهزة المحمولة الاتصال والتحكم في الأضواء. وهذا يعني عدد الأضواء  التي يمكن تشغيلها ، وعدد الأشخاص الذين يمكنهم التحكم في ذالك.</string>
-<string name="title_error_invitation_code">كود الدعوة خاطئ</string>
-<string name="msg_error_invitation_code">عفواً، رمز الدعوة خاطئ أو غير موجود.</string>
+    <string name="msg_error_invitation_code">عفواً، رمز الدعوة خاطئ أو غير موجود.</string>
 <string name="msg_delete_zone_hint">لا تزال الأجهزة الموجودة في المنزل الحالي متصلة ، يرجى الانتقال إلى قائمة الأجهزة لحذف الأجهزة واحدة  بعد الأخر ، ثم يمكنك حذف المنزل الحالي</string>
 <string name="action_go_to_devices">الذهاب الى قائمة الأجهزة</string>
 <string name="msg_minimum_zone">يرجى حجز منزل واحد على الأقل لإضافة الأجهزة</string>

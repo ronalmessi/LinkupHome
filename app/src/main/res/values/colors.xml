@@ -10,18 +10,11 @@
 
     <color name="bridge_connected_msg_bg_color">#FF6666</color>
 
-    <color name="center_instruction_bgColor">#B4E3EC</color>
-
     <color name="control_tab_item_normal_color">#959595</color>
     <color name="control_tab_item_selected_color">#FC5951</color>
 
-    <color name="lamp_group_tint_color">#494949</color>
-
-    <color name="device_rename_divider">#ffdadada</color>
     <!--文本-->
     <color name="text_colorPrimary">#555555</color>
-    <color name="text_colorPrimaryDark">#999999</color>
-    <color name="text_colorAccent">#bdbdbd</color>
 
 
     <color name="wheel_selected_text_color">#FEFFFFFF</color>

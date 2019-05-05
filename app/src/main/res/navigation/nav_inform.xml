@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_zone_init"
     app:startDestination="@id/informFragment">
 
 
@@ -11,12 +10,6 @@
         android:name="com.ihomey.linkuphome.inform.InformFragment"
         tools:layout="@layout/inform_fragment"
         android:label="InformFragment" >
-
-        <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
-            android:id="@+id/action_informFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
 
         <action
             app:enterAnim="@anim/slide_in_right"
@@ -31,10 +24,5 @@
         tools:layout="@layout/webview_fragment"
         android:label="WebViewFragment" />
 
-
-    <activity  android:id="@+id/homeActivity"
-        android:name="com.ihomey.linkuphome.home.HomeActivity"
-        tools:layout="@layout/activity_home"
-        android:label="HomeActivity"/>
 
 </navigation>

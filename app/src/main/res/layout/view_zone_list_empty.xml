@@ -23,9 +23,12 @@
 
     <TextView
         android:id="@+id/tv_lamp_empty_hint"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:gravity="center"
         android:text="@string/msg_create_room"
         android:textColor="#807F85"
         android:textSize="@dimen/_16ssp"

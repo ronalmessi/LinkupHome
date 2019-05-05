@@ -147,11 +147,6 @@
         <action
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
-            android:id="@+id/action_n1ControlFragment_to_v1ControlFragment"
-            app:destination="@id/v1ControlFragment" />
-        <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_n1ControlFragment_to_timerSettingFragment"
             app:destination="@id/timerSettingFragment" />
     </fragment>
@@ -200,11 +195,6 @@
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_v2ControlFragment_to_v2SceneSettingFragment"
             app:destination="@id/v2SceneSettingFragment" />
-        <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
-            android:id="@+id/action_v2ControlFragment_to_repeatTimerSettingFragment"
-            app:destination="@id/repeatTimerSettingFragment" />
     </fragment>
 
     <fragment

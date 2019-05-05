@@ -30,7 +30,6 @@
         android:textSize="@dimen/_18ssp" />
 
     <TextView
-        android:id="@+id/tv_device_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

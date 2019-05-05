@@ -11,9 +11,7 @@
 <string name="home">Zuhause</string>
 <string name="title_device">Geräte</string>
 <string name="msg_no_device">Keine Geräte, bitte hinzufügen</string>
-<string name="msg_add_device">Gerät hinzufügen</string>
-<string name="title_zone">Zuhause</string>
-<string name="title_setting">Einstellungen</string>
+    <string name="title_setting">Einstellungen</string>
 <string name="action_delete">Löschen</string>
 <string name="action_remove_device">Möchten Sie das Gerät trennen und löschen?</string>
 <string name="action_cancel">Abbrechen</string>
@@ -82,8 +80,7 @@ Bitte stellen Sie sicher, dass Ihr Mobiltelefon mit dem WLAN verbunden ist oder 
 <string name="msg_join_zone_hint2">Einladungscode unten eingeben:</string>
 <string name="msg_share_zone_hint4">Hinweis: Wenn mehrere Personen die Beleuchtung zusammen steuern wollen, stellen Sie bitte sicher, dass genauso viele Lichter (müssen eingeschaltet sein), wie Mobilgeräte (Smartphones/iPads) vorhanden sind.
 Eine Leuchte kann nicht von zwei Personen gleichzeitig gesteuert werden. Das heißt, es können nur so viele Personen ein Licht steuern, wie Lampen vorhanden sind.</string>
-<string name="title_error_invitation_code">Falscher Einladungscode</string>
-<string name="msg_error_invitation_code">Es tut uns leid, der Einladungscode ist falsch oder existiert nicht.</string>
+    <string name="msg_error_invitation_code">Es tut uns leid, der Einladungscode ist falsch oder existiert nicht.</string>
 <string name="msg_delete_zone_hint">Geräte im aktuellen Zuhause sind noch verbunden, bitte gehen Sie zur Geräteliste, um Geräte einzeln zu löschen, dann können Sie das aktuelle Zuhause löschen.</string>
 <string name="action_go_to_devices">Zur Geräteliste gehen</string>
 <string name="msg_minimum_zone">Bitte reservieren Sie mindestens ein Zuhause für das Hinzufügen von Geräten</string>

@@ -11,9 +11,7 @@
 <string name="home">Dom</string>
 <string name="title_device">Urządzenie</string>
 <string name="msg_no_device">Brak urządzeń, dodaj</string>
-<string name="msg_add_device">Dodaj urządzenie</string>
-<string name="title_zone">Dom</string>
-<string name="title_setting">Ustawienia</string>
+    <string name="title_setting">Ustawienia</string>
 <string name="action_delete">Usuń</string>
 <string name="action_remove_device">Czy chcesz odłączyć i usunąć urządzenie?</string>
 <string name="action_cancel">Anuluj</string>
@@ -80,8 +78,7 @@
 (ustawienia → udostępnij dom→  wybierz dom → utwórz kod zaproszenia→  udostępnij kod zaproszenia)</string>
 <string name="msg_join_zone_hint2">Wpisz poniżej kod zaproszenia:</string>
 <string name="msg_share_zone_hint4">Ważne: jeśli kilka osób chce razem sterować światłami, to świateł (mają być włączone) nie może być mniej niż urządzeń (telefonów/IPADów). Inaczej niektóre urządzenia nie będą mogły się połączyć i sterować.                                      Znaczy to, że ile jest włączonych świateł, tyle osób do wspólnego sterowania.</string>
-<string name="title_error_invitation_code">Błędny kod zaproszenia</string>
-<string name="msg_error_invitation_code">Ten kod jest niepoprawny lub nie istnieje.</string>
+    <string name="msg_error_invitation_code">Ten kod jest niepoprawny lub nie istnieje.</string>
 <string name="msg_delete_zone_hint">W aktualnym domu wciąż są podłączone urządzenia, przejdź do listy urządzeń i usuń je po kolei, a wtedy będzie można usunąć aktualny dom.</string>
 <string name="action_go_to_devices">Przejdź do listy urządzeń</string>
 <string name="msg_minimum_zone">Zarezerwuj co najmniej jeden dom do dodania urządzeń</string>

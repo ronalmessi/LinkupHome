@@ -11,9 +11,7 @@
 <string name="home">Hem</string>
 <string name="title_device">Enhet</string>
 <string name="msg_no_device">Inga enheter, lägg till</string>
-<string name="msg_add_device">Lägg till enhet</string>
-<string name="title_zone">Hem</string>
-<string name="title_setting">Inställningar</string>
+    <string name="title_setting">Inställningar</string>
 <string name="action_delete">Ta bort</string>
 <string name="action_remove_device">Vill du koppla bort och ta bort enheten?</string>
 <string name="action_cancel">Avbryt</string>
@@ -80,8 +78,7 @@
 (inställningar → dela ett hem → välj ett hem → skapa inbjudningskod → dela inbjudningskod)</string>
 <string name="msg_join_zone_hint2">Ange inbjudningskoden nedan:</string>
 <string name="msg_share_zone_hint4">Obs! Om flera personer vill kontrollera lamporna, lamporna (måste vara på), och mobila enheter (mobiltelefoner/IPAD). Annars kan vissa mobila enheter inte anslutas och kontollera lamporna. Det betyder hur många lampor som är på, hur många personer som kan kontollera dem tillsammans.</string>
-<string name="title_error_invitation_code">Fel inbjudningskod</string>
-<string name="msg_error_invitation_code">Tyvärr, inbjudningskoden är fel eller finns inte.</string>
+    <string name="msg_error_invitation_code">Tyvärr, inbjudningskoden är fel eller finns inte.</string>
 <string name="msg_delete_zone_hint">Enheter i det aktuella hemmet är fortfarande anslutna. Gå till enhetslistan för att ta bort enheter en efter en, så kan du ta bort det nuvarande hemmet.</string>
 <string name="action_go_to_devices">Gå till enhetslistan</string>
 <string name="msg_minimum_zone">Reservera minst en hem för att lägga till enheter</string>

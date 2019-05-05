@@ -11,9 +11,7 @@
 <string name="home">Дом</string>
 <string name="title_device">Устройство</string>
 <string name="msg_no_device">Нет устройств, добавьте</string>
-<string name="msg_add_device">Добавить устройство</string>
-<string name="title_zone">Дом</string>
-<string name="title_setting">Настройки</string>
+    <string name="title_setting">Настройки</string>
 <string name="action_delete">Удалить</string>
 <string name="action_remove_device">Хотите отключиться и удалить устройство?</string>
 <string name="action_cancel">Отмена</string>
@@ -80,8 +78,7 @@
 (настройки → поделиться домом→  выбрать дом → сгенерировать код приглашения→  поделиться кодом приглашения)</string>
 <string name="msg_join_zone_hint2">Введите код приглашения ниже:</string>
 <string name="msg_share_zone_hint4">Примечания: если несколько человек хотят управлять освещением, убедитесь, что количество светильников (необходимо включить) не меньше количества мобильных устройств (мобильные телефоны/ планшеты IPAD). В противном случае некоторые мобильные устройства не смогут подключиться и управлять освещением. Это означает, что от количества включенных светильников зависит количество людей, которые смогут управлять освещением.</string>
-<string name="title_error_invitation_code">Неверный код приглашения</string>
-<string name="msg_error_invitation_code">Извините, код приглашения ошибочен или отсутствует.</string>
+    <string name="msg_error_invitation_code">Извините, код приглашения ошибочен или отсутствует.</string>
 <string name="msg_delete_zone_hint">Устройства в текущем доме все еще подключены, перейдите в список устройств, чтобы удалить устройства одно за другим, затем вы можете удалить текущий дом.</string>
 <string name="action_go_to_devices">Перейти в список устройств</string>
 <string name="msg_minimum_zone">Пожалуйста, сохраните по меньшей мере один дом для добавления устройств</string>

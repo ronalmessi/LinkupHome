@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.zone
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,10 +72,10 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         adapter.onItemClickListener = this
         rcv_zone_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(LinearLayoutManager.HORIZONTAL, context?.resources?.getDimension(R.dimen._63sdp)?.toInt()!!,it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_zone_list.addItemDecoration(it) }
-        val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
-            val width = context?.resources?.getDimension(R.dimen._72sdp)
+        val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, position ->
             val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.action_delete).setTextColor(Color.WHITE).setTextSize(14)
+            val viewType=adapter.getItemViewType(position)
+            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(if(viewType==0) context?.resources?.getDimension(R.dimen._72sdp)?.toInt()!! else context?.resources?.getDimension(R.dimen._108sdp)?.toInt()!!).setHeight(height).setText(if(viewType==0) R.string.action_delete else  R.string.title_quit_zone).setTextColor(Color.WHITE).setTextSize(14)
             swipeRightMenu.addMenuItem(deleteItem)
         }
         rcv_zone_list.setSwipeMenuCreator(swipeMenuCreator)
@@ -141,7 +142,20 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
             deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
         } else {
             adapter.getItem(position)?.let {it0->
-                context?.getIMEI()?.let { it1 ->
+                if(it0.type==1){
+                    val quitZoneFragment = QuitZoneFragment()
+                    quitZoneFragment.isCancelable = false
+                    quitZoneFragment.setConfirmButtonClickListener(object :QuitZoneFragment.ConfirmButtonClickListener{
+                        override fun confirm(id: Int) {
+                            deleteZone(id)
+                        }
+                    })
+                    val bundle = Bundle()
+                    bundle.putInt("zoneId", it0.id)
+                    quitZoneFragment.arguments = bundle
+                    quitZoneFragment.show(fragmentManager, "QuitZoneFragment")
+                }else{
+                    context?.getIMEI()?.let { it1 ->
                     viewModel.getZone(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                         if (it?.status == Status.SUCCESS) {
                             if(it.data?.devices.isNullOrEmpty()){
@@ -159,6 +173,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
                             it.message?.let { it2 -> activity?.toast(it2) }
                         }
                     })
+                }
                 }
             }
         }
@@ -184,7 +199,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         }
     }
 
-     fun deleteZone(zoneId: Int) {
+     private fun deleteZone(zoneId: Int) {
          context?.getIMEI()?.let { it1 ->
              viewModel.deleteZone(it1, zoneId).observe(viewLifecycleOwner, Observer<Resource<Int>> {
                  if (it?.status == Status.SUCCESS) {

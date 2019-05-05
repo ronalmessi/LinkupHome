@@ -27,4 +27,13 @@ class ZoneListAdapter(layoutId: Int) : BaseQuickAdapter<Zone, BaseViewHolder>(la
             nameTextView.setCompoundDrawables(null,null,shareFlagDrawable,null)
         }
     }
+
+
+    override fun getItemViewType(position: Int): Int {
+        val zone=getItem(position)
+        zone?.let {
+           return it.type
+        }
+        return 0
+    }
 }

@@ -294,7 +294,7 @@ fun String.md5(): String {
 fun <T> beanToJson(t:T):String{
     val mapper = ObjectMapper()
     mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-    return AppConfig.APP_SECRET+mapper.writeValueAsString(t).replace(":","").replace("{","").replace("}","").replace(",","").replace("" + "\"","")
+    return AppConfig.APP_SECRET+mapper.writeValueAsString(t).replace(":","").replace("{","").replace("}","").replace(",\"","").replace("\"","")
 }
 
 fun String.ToDeviceState():DeviceState{

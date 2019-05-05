@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@mipmap/lamp_state_icon_cycling_on" android:state_checked="true" />
-    <item android:drawable="@mipmap/lamp_state_icon_cycling_on" android:state_pressed="true"></item>
-    <item android:drawable="@mipmap/lamp_state_icon_cycling_off" android:state_checked="false" />
-</selector>
-

@@ -11,9 +11,7 @@
 <string name="home">Home</string>
 <string name="title_device">Device</string>
 <string name="msg_no_device">No devices, please add</string>
-<string name="msg_add_device">Add device</string>
-<string name="title_zone">Home</string>
-<string name="title_setting">Settings</string>
+    <string name="title_setting">Settings</string>
 <string name="action_delete">Delete</string>
 <string name="action_remove_device">Do you want to disconnect and delete device?</string>
 <string name="action_cancel">Cancel</string>
@@ -80,8 +78,7 @@
 (settings → share a home→  select a home → generate invitation code→  share invitation code)</string>
 <string name="msg_join_zone_hint2">Input the invitation code below:</string>
 <string name="msg_share_zone_hint4">Notes: if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.                                      It means how many lights on, how many persons can control toghter.</string>
-<string name="title_error_invitation_code">Wrong invitation code</string>
-<string name="msg_error_invitation_code">Sorry, the invitation code is wrong or not exist.</string>
+    <string name="msg_error_invitation_code">Sorry, the invitation code is wrong or not exist.</string>
 <string name="msg_delete_zone_hint">Devices in the current home are still connected, please go to the device list to delete devices one by one, then you can delete the current home.</string>
 <string name="action_go_to_devices">Go to device list</string>
 <string name="msg_minimum_zone">Please reserve at least one home for adding devices</string>

@@ -11,9 +11,7 @@
 <string name="home">Hogar</string>
 <string name="title_device">Dispositivo</string>
 <string name="msg_no_device">No hay dispositivos, por favor añada</string>
-<string name="msg_add_device">Añadir dispositivo</string>
-<string name="title_zone">Casa</string>
-<string name="title_setting">Ajustes</string>
+    <string name="title_setting">Ajustes</string>
 <string name="action_delete">Eliminar</string>
 <string name="action_remove_device">¿Desea desconectar y borrar dispositivo?</string>
 <string name="action_cancel">Cancelar</string>
@@ -80,8 +78,7 @@
 (Ajustes → Compartir Una Casa → Seleccionar una casa → Generar código de invitación → Compartir código de invitación)</string>
 <string name="msg_join_zone_hint2">Introduzca el código de invitación a continuación:</string>
 <string name="msg_share_zone_hint4">Notas: si varias personas desean controlar las luces juntas, asegúrese de que las luces (deben estar encendidas) no sea inferior al número de dispositivos móviles (teléfonos móviles / iPads).  De lo contrario, algunos dispositivos móviles no podrán conectarse y controlar las luces juntos  Significa que cuántas luces encendidas, cuántas personas pueden controlarlas  juntos</string>
-<string name="title_error_invitation_code">Código de invitación incorrecto</string>
-<string name="msg_error_invitation_code">Lo sentimos, el código de invitación es incorrecto o no existe.</string>
+    <string name="msg_error_invitation_code">Lo sentimos, el código de invitación es incorrecto o no existe.</string>
 <string name="msg_delete_zone_hint">Los dispositivos en la casa actual todavía están conectados, vaya a la lista de dispositivos para eliminar los dispositivos uno por uno, luego puede eliminar la casa actual.</string>
 <string name="action_go_to_devices">Ir a la lista de dispositivos</string>
 <string name="msg_minimum_zone">Por favor mantenga al menos una casa para agregar dispositivos</string>

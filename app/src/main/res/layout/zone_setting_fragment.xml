@@ -35,7 +35,6 @@
     </com.ihomey.linkuphome.widget.CompatToolbar>
 
     <View
-        android:id="@+id/divider1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_12sdp"
         android:background="#F2F2F2"/>
@@ -48,7 +47,6 @@
         android:layout_height="wrap_content" />
 
     <View
-        android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_8sdp"
         android:background="#F2F2F2"/>

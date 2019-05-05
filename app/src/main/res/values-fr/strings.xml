@@ -11,9 +11,7 @@
 <string name="home">Foyer</string>
 <string name="title_device">Appareil</string>
 <string name="msg_no_device">Aucun appareil, veuillez en ajouter</string>
-<string name="msg_add_device">Ajouter un appareil</string>
-<string name="title_zone">Foyer</string>
-<string name="title_setting">Paramètres</string>
+    <string name="title_setting">Paramètres</string>
 <string name="action_delete">Effacer</string>
 <string name="action_remove_device">Voulez-vous déconnecter et supprimer l’appareil?</string>
 <string name="action_cancel">Annuler</string>
@@ -80,8 +78,7 @@
 (paramètres → partager une maison → sélectionner une maison → générer un code d\'invitation → partager un code d\'invitation)</string>
 <string name="msg_join_zone_hint2">Entrez le code d\'invitation ci-dessous:</string>
 <string name="msg_share_zone_hint4">Remarques: si plusieurs personnes souhaitent contrôler les lumières ensemble, veuillez vous assurer que les lumières (doivent être allumées) tout comme les appareils mobiles (téléphones portables / IPAD). Sinon, certains appareils mobiles ne peuvent pas se connecter et contrôler les lumières. Cela signifie combien de lumières allumées, combien de personnes peuvent les contrôler ensemble.</string>
-<string name="title_error_invitation_code">Mauvais code d\'invitation</string>
-<string name="msg_error_invitation_code">Désolé, le code d\'invitation est incorrect ou n\'existe pas.</string>
+    <string name="msg_error_invitation_code">Désolé, le code d\'invitation est incorrect ou n\'existe pas.</string>
 <string name="msg_delete_zone_hint">Les appareils de la maison actuelle sont toujours connectés. Veuillez vous reporter à la liste des appareils pour supprimer les appareils un par un, ensuite vous pourrez  supprimer la maison actuelle.</string>
 <string name="action_go_to_devices">Aller à la liste des appareils</string>
 <string name="msg_minimum_zone">Veuillez réserver au moins une maison pour l\'ajout d’appareils.</string>

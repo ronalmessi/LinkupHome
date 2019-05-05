@@ -16,10 +16,6 @@
     </style>
 
 
-    <style name="TRM_ANIM_STYLE">
-        <item name="android:windowEnterAnimation">@anim/trm_popup_enter</item>
-    </style>
-
     <style name="Widget.SeekBar.Normal" parent="@android:style/Widget.SeekBar">
         <item name="android:maxHeight">3.0dip</item>
         <item name="android:indeterminateOnly">false</item>

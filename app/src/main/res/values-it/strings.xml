@@ -11,9 +11,7 @@
 <string name="home">Home</string>
 <string name="title_device">Dispositivo</string>
 <string name="msg_no_device">Nessun dispositivo; aggiungerlo</string>
-<string name="msg_add_device">Aggiungere dispositivo</string>
-<string name="title_zone">Home</string>
-<string name="title_setting">Impostazioni</string>
+    <string name="title_setting">Impostazioni</string>
 <string name="action_delete">Cancella</string>
 <string name="action_remove_device">Vuoi disconnettere e cancellare il dispositivo?</string>
 <string name="action_cancel">Annulla</string>
@@ -80,8 +78,7 @@
 (impostazioni → condividere una Home → selezionare una Home → generare il codice di invito → condividere il codice di invito)</string>
 <string name="msg_join_zone_hint2">Inserire il codice di invito qui sotto:</string>
 <string name="msg_share_zone_hint4">Note: Se più persone desiderano controllare le luci, assicurarsi che le luci (che devono essere accese) non siano meno dei dispositivi mobili (telefoni cellulari/iPad). In caso contrario, alcuni dispositivi mobili non possono connettersi e controllare le luci. Significa quante sono luci accese, tante sono le persone che possono condividerne il controllo.</string>
-<string name="title_error_invitation_code">Codice di invito errato</string>
-<string name="msg_error_invitation_code">Spiacenti, il codice di invito è errato o inesistente.</string>
+    <string name="msg_error_invitation_code">Spiacenti, il codice di invito è errato o inesistente.</string>
 <string name="msg_delete_zone_hint">I dispositivi nella Home attuale sono ancora collegati, vai alla lista dei dispositivi per cancellare i dispositivi uno per uno, quindi puoi cancellare la Home attuale.</string>
 <string name="action_go_to_devices">Vai all\'elenco dei dispositivi</string>
 <string name="msg_minimum_zone">Si prega di selezionare almeno una Home per l\'aggiunta di dispositivi</string>

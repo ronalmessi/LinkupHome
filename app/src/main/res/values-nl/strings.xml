@@ -11,9 +11,7 @@
 <string name="home">Huis</string>
 <string name="title_device">Apparaat</string>
 <string name="msg_no_device">Geen apparaten, voeg toe</string>
-<string name="msg_add_device">Apparat toevoegen</string>
-<string name="title_zone">Ruimte</string>
-<string name="title_setting">Instellingen</string>
+    <string name="title_setting">Instellingen</string>
 <string name="action_delete">Verwijder</string>
 <string name="action_remove_device">Wilt u het apparat ontkoppelen en verwijderen?</string>
 <string name="action_cancel">Annuleren</string>
@@ -80,8 +78,7 @@
 <string name="msg_join_zone_hint2">Over de uitnodigingscode in het onderstaande vak in:</string>
 <string name="msg_share_zone_hint4">N.B.: als meedere mensen tegelijk moeten bedienen, zorg dan dat het aantal lampjes (in de geopende stand) niet minder is dan het aantal mobiele apparaten (mobile telefoons/iPad), anders kunnen sommige mobiele apparaten geen verbinding maken en de verlichting besturen.
 Hoeveel mensen doen het licht aan, hoeveel mensen kunnen tegelijkertijd besturen.</string>
-<string name="title_error_invitation_code">Verkeerde uitnodigingscode</string>
-<string name="msg_error_invitation_code">Sorry, de uitnodigingscode is fout of bestaat niet.</string>
+    <string name="msg_error_invitation_code">Sorry, de uitnodigingscode is fout of bestaat niet.</string>
 <string name="msg_delete_zone_hint">Als het apparaat nog steeds in de huidige ruimte is verbonden, ga dan naar de apparatenlijst om apparaten een voor een te verwijderen, waarna u het huidige ruimte kunt verwijderen.</string>
 <string name="action_go_to_devices">Ga naar de apparatenlijst</string>
 <string name="msg_minimum_zone">Houd ten minste een ruimte vrij voor het toevoegen van apparaten</string>

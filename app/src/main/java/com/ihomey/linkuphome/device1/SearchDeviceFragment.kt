@@ -44,7 +44,6 @@ class SearchDeviceFragment : BaseFragment(){
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         btn_device_reset.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_searchDeviceFragment_to_resetDeviceFragment2) }
         iv_device_connect_lamp_icon.setImageResource(AppConfig.DEVICE_ICON[arguments?.getInt("deviceType", 1)!!])
-
     }
 
 }

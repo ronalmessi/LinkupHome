@@ -11,9 +11,7 @@
 <string name="home">スペース</string>
 <string name="title_device">デバイス</string>
 <string name="msg_no_device">デバイスがありません。追加して下さい。</string>
-<string name="msg_add_device">デバイスの追加</string>
-<string name="title_zone">スペース</string>
-<string name="title_setting">設定</string>
+    <string name="title_setting">設定</string>
 <string name="action_delete">削除</string>
 <string name="action_remove_device">デバイスの接続を切って削除しますか？</string>
 <string name="action_cancel">キャンセル</string>
@@ -82,8 +80,7 @@
 <string name="msg_share_zone_hint4">注意：もしも複数の人で一緒にライトの操作をしたいのであれば（電源の入っている）ライトは携帯デバイス（携帯電話/iPadなど）よりも多くしなければなりません。
 そうでないと、いくつかの携帯デバイスで接続できずライトを操作できません。
 言い換えれば、ライトがいくつ有るかによって一緒に何人が操作できるかになります。</string>
-<string name="title_error_invitation_code">招待コードが間違っています。</string>
-<string name="msg_error_invitation_code">すいません、この招待コードは間違っているか存在しません。</string>
+    <string name="msg_error_invitation_code">すいません、この招待コードは間違っているか存在しません。</string>
 <string name="msg_delete_zone_hint">現在のスペースのデバイスはまだ接続されています。デバイスリストをみて一つ一つ削除してから、現在のスペースを削除できます。</string>
 <string name="action_go_to_devices">デバイスリストを見る</string>
 <string name="msg_minimum_zone">少なくとも一つはデバイスを追加するスペースを保留して下さい。</string>

@@ -32,10 +32,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var mViewModel: UnBondDevicesViewModel
     private lateinit var adapter: UnBondedDeviceListAdapter1
-
     private  var room: Room?=null
-
-    private var count: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.unbonded_devices_fragment, container, false)
@@ -86,26 +83,19 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     }
 
     private fun bindDevice() {
-        for (device in adapter.getSelectedDevices()) {
-            room?.let { bindDevice(it.zoneId, it.instructId, device.instructId.toString(), "add")  }
-        }
-//        room?.let { bindDevice(it.zoneId, it.instructId, adapter.getSelectedDevices().map { it.instructId }.joinToString(","), "add")  }
+        showLoadingView()
+        room?.let { bindDevice(it.zoneId, it.instructId, adapter.getSelectedDevices().map { it.instructId }.joinToString(","), "add")  }
     }
 
 
     private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructIds: String, act: String) {
         context?.getIMEI()?.let { it1 ->
-            showLoadingView()
             viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructIds, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 if (it?.status == Status.SUCCESS) {
-                    count++
-                    if (count == adapter.getSelectedDevices().size) {
-                        hideLoadingView()
-                        count = 0
-                        Navigation.findNavController(btn_save).popBackStack()
-                    }
+                    hideLoadingView()
+                    Navigation.findNavController(btn_save).popBackStack()
                 } else if (it?.status == Status.ERROR) {
-                    count++
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
                 }
             })

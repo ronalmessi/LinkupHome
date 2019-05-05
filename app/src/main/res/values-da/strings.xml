@@ -11,9 +11,7 @@
 <string name="home">Hjem</string>
 <string name="title_device">Enhed</string>
 <string name="msg_no_device">Ingen enhed,tilføj venligst</string>
-<string name="msg_add_device">Tilføj enhed</string>
-<string name="title_zone">Hjem</string>
-<string name="title_setting">Indstillinger</string>
+    <string name="title_setting">Indstillinger</string>
 <string name="action_delete">Slet</string>
 <string name="action_remove_device">Vil du gerne afbryde og slette enhed?</string>
 <string name="action_cancel">Annuller</string>
@@ -80,8 +78,7 @@
 (Indstillinger → Del hjemmmet→ Vælg et hjem → Generer invitationskode → Del invitationskode)</string>
 <string name="msg_join_zone_hint2">Indtast invitationskoden nedenfor:</string>
 <string name="msg_share_zone_hint4">Bemærkninger: Hvis flere personer vil kontrollere lysene sammen, skal du sørge for, at antal af lysene (skal tændes) ikke mindre end mobile enheder (mobiltelefoner / IPAD\'er). Ellers kan nogle mobile enheder ikke finde og kontrollere lysene. Det betyder, hvor mange lysene bliver tændt, hvor mange personer der kan kontrollere sammen.</string>
-<string name="title_error_invitation_code">Forkert invitationskode</string>
-<string name="msg_error_invitation_code">Undskyld, invitationskoden er forkert eller kan ikke findes.</string>
+    <string name="msg_error_invitation_code">Undskyld, invitationskoden er forkert eller kan ikke findes.</string>
 <string name="msg_delete_zone_hint">Enheder i det nuværende hjem er stadig forbundet. Gå til enhedslisten for at slette enheder en efter en, sådan kan du slette det nuværende hjem.</string>
 <string name="action_go_to_devices">Gå til enhedslisten</string>
 <string name="msg_minimum_zone">Reserver venligst mindst ét hjem for at tilføje enheder</string>

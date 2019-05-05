@@ -11,9 +11,7 @@
 <string name="home">家</string>
 <string name="title_device">設備</string>
 <string name="msg_no_device">暫無設備，請添加</string>
-<string name="msg_add_device">添加設備</string>
-<string name="title_zone">空間</string>
-<string name="title_setting">設置</string>
+    <string name="title_setting">設置</string>
 <string name="action_delete">刪除</string>
 <string name="action_remove_device">是否斷開連接，並刪除設備？</string>
 <string name="action_cancel">取消</string>
@@ -80,8 +78,7 @@
 （設置→ 分享空間→ 選擇空間→ 生成邀請碼→ 分享邀請碼）</string>
 <string name="msg_join_zone_hint2">在下列方框中輸入邀請碼：</string>
 <string name="msg_share_zone_hint4">注意：如需多人同時操控，請確保(開啟狀態下）的燈的數量不少於移動設備（手機/IPAD)）的數量，否則會出現部分移動設備搜索不到燈和控制不了燈的情況。有多少個開啟的燈，就有多少人可以同時控制。</string>
-<string name="title_error_invitation_code">邀請碼錯誤</string>
-<string name="msg_error_invitation_code">對不起，邀請碼錯誤或不存在。</string>
+    <string name="msg_error_invitation_code">對不起，邀請碼錯誤或不存在。</string>
 <string name="msg_delete_zone_hint">當前空間下仍有設備處於連接狀態，請先返回設備列表依次刪除設備，再刪除當前空間</string>
 <string name="action_go_to_devices">前往設備列表</string>
 <string name="msg_minimum_zone">請至少保留一個空間用於添加設備</string>
