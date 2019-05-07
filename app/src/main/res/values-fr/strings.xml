@@ -39,7 +39,7 @@
 <string name="title_step2">Étape 2</string>
 <string name="msg_device_reset_hint5">Veuillez utiliser le commutateur pour réinitialiser l\'appareil:\n1. Eteignez la lumière\n2. Allumez la lumière, puis éteignez-la après 1-2 secondes.\n3. Rallumez la lumière, puis éteignez-la après 1-2 secondes.\n4. Allumez la lumière pour la troisième fois. Quand la lumière clignote 3 fois, cela signifie que l\'appareil est réinitialisé avec les valeurs par défaut.\n\n* Si aucun voyant ne clignote 3 fois, veuillez répéter les étapes ci-dessus jusqu\'à ce que la réinitialisation soit réussie.\n* Ne pas allumer et éteindre les lumières trop rapidement, habituellement toutes les 1-2 secondes.</string>
 <string name="msg_device_searching">Recherche en cours</string>
-<string name="msg_notes">Remarques:</string>
+<string name="msg_notes">Remarques</string>
 <string name="msg_search_device_fail">Si vous ne trouvez pas l’appareil dans les 10 secondes, essayez de le réinitialiser.</string>
 <string name="title_connect_device">Connexion des appareils</string>
 <string name="action_connect_device">Tapez dessus pour vous connecter</string>

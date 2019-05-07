@@ -158,6 +158,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
                     context?.getIMEI()?.let { it1 ->
                     viewModel.getZone(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                         if (it?.status == Status.SUCCESS) {
+                            hideLoadingView()
                             if(it.data?.devices.isNullOrEmpty()){
                                 deleteZone(it0.id)
                             }else{
@@ -170,7 +171,10 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
                                 deleteDevicesFragment.show(fragmentManager, "DeleteZoneFragment")
                             }
                         } else if (it?.status == Status.ERROR) {
+                            hideLoadingView()
                             it.message?.let { it2 -> activity?.toast(it2) }
+                        }else if (it?.status == Status.LOADING) {
+                           showLoadingView()
                         }
                     })
                 }

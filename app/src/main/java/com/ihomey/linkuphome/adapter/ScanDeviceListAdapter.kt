@@ -70,7 +70,7 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                 }else if (type == 4) {
                     seek_bar_brightness.max=85
                 }else if (type == 5||type == 9) {
-                    seek_bar_brightness.max=27
+                    seek_bar_brightness.max=22
                 }else if (type == 8) {
                     seek_bar_brightness.max=85
                 }

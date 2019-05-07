@@ -120,13 +120,6 @@ fun Context.getIMEI(): String {
 
 }
 
-fun Context.isNetworkAvailable(): Boolean {
-    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val activeNetworkInfo = connectivityManager.activeNetworkInfo
-    return activeNetworkInfo != null && activeNetworkInfo.isConnected
-}
-
-
 /**
  * 从控件所在位置移动到控件的底部
  *

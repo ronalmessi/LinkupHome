@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/tv_device_name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/_36sdp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/iv_device_icon"
@@ -35,13 +35,16 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/_4sdp"
-        android:drawablePadding="@dimen/_16sdp"
+        android:drawablePadding="@dimen/_12sdp"
         android:drawableEnd="@mipmap/ic_device_unconnected"
         android:ellipsize="end"
-        android:gravity="center"
-        android:text="@string/action_connect_device"
+        android:layout_marginStart="@dimen/_64sdp"
+        android:singleLine="true"
+        android:maxLines="1"
         android:scaleX="0.9"
         android:scaleY="0.9"
+        android:gravity="center"
+        android:text="@string/action_connect_device"
         android:textColor="#807F85"
         android:textSize="@dimen/_16ssp" />
 

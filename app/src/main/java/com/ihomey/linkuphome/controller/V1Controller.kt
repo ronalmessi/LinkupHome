@@ -27,7 +27,7 @@ class V1Controller : Controller() {
     }
 
     override fun setLightBright(deviceId: Int, brightValue: Int) {
-        val code_lawn_bright_prefix = CODE_LIGHT_BRIGHT_BASE + if (brightValue/3 >= 16) Integer.toHexString(brightValue/3) else "0" + Integer.toHexString(brightValue/3)
+        val code_lawn_bright_prefix = CODE_LIGHT_BRIGHT_BASE + if (brightValue>= 16) Integer.toHexString(brightValue) else "0" + Integer.toHexString(brightValue)
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_bright_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(10, 12), 16))
         val code_lawn_bright = code_lawn_bright_prefix + "00" + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         DataModelApi.sendData(deviceId, decodeHex(code_lawn_bright.toCharArray()), false)

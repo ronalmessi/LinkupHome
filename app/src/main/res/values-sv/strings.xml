@@ -39,7 +39,7 @@
 <string name="title_step2">Steg 2</string>
 <string name="msg_device_reset_hint5">Använd strömbrytaren för att återställa enheten:\n1. Slå av lampan\n2. Slå på lampan och stäng sedan av lampan efter 1-2 sekunder.\n3. Slå på lampan igen och stäng sedan av lampan igen efter 1-2 sekunder.\n4. Tänd lampan för tredje gången, när lampan blinkar 3 gånger betyder det att enheten återställs till standardinställningarna.\n\n* Om lampan inte blinkar 3 gånger, upprepa ovanstående steg tills återställningen lyckas.\n* Slå inte på och stäng av lampan för fort, inte fortare än 1-2 sekund.</string>
 <string name="msg_device_searching">Söker</string>
-<string name="msg_notes">Notera:</string>
+<string name="msg_notes">Notera</string>
 <string name="msg_search_device_fail">Om enheten inte hittas inom 10 sekunder, försök att återställa enheten.</string>
 <string name="title_connect_device">Ansluta enheter</string>
 <string name="action_connect_device">Peka för att ansluta</string>

@@ -39,7 +39,7 @@
 <string name="title_step2">Krok 2</string>
 <string name="msg_device_reset_hint5">Użyj przełącznika do zresetowania urządzenia:\n1. Wyłącz światło\n2. Włącz światło, po czym wyłącz je po 1-2 sekundach.\n3. Znowu włącz światło, po czym wyłącz je po 1-2 sekundach.\n4. Włącz światło po raz trzeci, a kiedy światło 3 razy mignie, to znaczy, że urządzenie zresetowano do stanu domyślnego.\n\n* Kiedy światło nie mignie 3 razy, to powtarzaj powyższe kroki do skutku.\n* Nie włączaj ani wyłączaj światła zbyt szybko, ale co 1-2 sekundy.</string>
 <string name="msg_device_searching">Szukanie</string>
-<string name="msg_notes">Uwagi:</string>
+<string name="msg_notes">Uwagi</string>
 <string name="msg_search_device_fail">Jeśli urządzenie nie znajdzie się w ciągu 10 sekund, to zresetuj urządzenie.</string>
 <string name="title_connect_device">Podłączanie urządzeń</string>
 <string name="action_connect_device">Stuknij by podłączyć</string>

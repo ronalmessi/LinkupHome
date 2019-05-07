@@ -39,7 +39,7 @@
 <string name="title_step2">ステップ2</string>
 <string name="msg_device_reset_hint5">デバイスのリセットボタンを使って下さい。\n1.　ライトを切ります。\n2.　ライトを付け、それから1～2秒後にライトを切ります。\n3.　ライトを再び付けます。それから1～2秒後にライトを切ります。\n4.　これを3回繰り返し、ライトが3回点滅した時、デバイスは工場出荷状態に戻っています。\n\nもしも3回点滅しない場合、上記の方法を成功するまで繰り返して下さい。\nライトのオン/オフは早すぎてはいけません。通常1～2秒の間隔で行って下さい。</string>
 <string name="msg_device_searching">検索中</string>
-<string name="msg_notes">注意:</string>
+<string name="msg_notes">注意</string>
 <string name="msg_search_device_fail">10秒経ってもデバイスが見つからない場合、デバイスをリセットしてみて下さい。</string>
 <string name="title_connect_device">デバイスと接続中</string>
 <string name="action_connect_device">タップして接続します</string>

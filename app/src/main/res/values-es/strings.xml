@@ -39,7 +39,7 @@
 <string name="title_step2">Paso 2</string>
 <string name="msg_device_reset_hint5">Por favor use el interruptor para reiniciar el dispositivo:\n1. Apagar la luz\n2. Encienda la luz, luego apague la luz después de 1-2 segundos.\n3. Vuelva a encender la luz, luego apague la luz después de 1-2 segundos.\n4. Encienda la luz por tercera vez. Cuando la luz parpadee 3 veces, significa que el dispositivo se a reiniciado a los valores predeterminados\n\n* Si la luz no parpadea 3 veces, repita los pasos anteriores hasta que se reinicie correctamente.\n* No encienda ni apague las luces demasiado rápido, generalmente cada 1-2 segundos.</string>
 <string name="msg_device_searching">Buscando</string>
-<string name="msg_notes">Notas:</string>
+<string name="msg_notes">Notas</string>
 <string name="msg_search_device_fail">Si no se encuentra el dispositivo en 10 segundos, confirme que el dispositivo se haya reiniciado correctamente.</string>
 <string name="title_connect_device">Conectando dispositivos</string>
 <string name="action_connect_device">Pulse para conectar</string>

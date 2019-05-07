@@ -358,6 +358,7 @@ public class RadioGroupPlus extends LinearLayout {
                     setPressedStateForLayout(relativeLayout1,false);
                     if(textView!=null) setPressedStateForTextView(textView, false);
                 } else {
+                    relativeLayout1.performClick();
                     setPressedStateForLayout(relativeLayout1,true);
                     if(textView!=null) setPressedStateForTextView(textView, true);
                 }
@@ -396,8 +397,7 @@ public class RadioGroupPlus extends LinearLayout {
                     id = View.generateViewId();
                     view.setId(id);
                 }
-                ((RadioButton) view).setOnCheckedChangeListener(
-                        mChildOnCheckedChangeListener);
+                ((RadioButton) view).setOnCheckedChangeListener(mChildOnCheckedChangeListener);
             } else if (view instanceof TextView) {
                 int id = view.getId();
                 // generates an id if it's missing

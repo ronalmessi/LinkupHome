@@ -39,7 +39,7 @@
 <string name="title_step2">Etapa 2</string>
 <string name="msg_device_reset_hint5">Por favor, use o interruptor para redefinir o dispositivo:\n1. Desligue a luz\n2. Ligue a luz, depois apague a luz após 1 a 2 segundos.\n3. Ligue a luz novamente, depois apague a luz após 1 a 2 segundos.\n4. Ligue a luz pela terceira vez, quando a luz piscar 3 vezes, significa que o dispositivo está redefinido para os padrões.\n\n*  Se nenhuma luz piscar 3 vezes, repita os passos acima até reiniciar com sucesso.\n*  Não ligue e desligue as luzes muito rápido, geralmente num intervalo de 1 a 2 segundos.</string>
 <string name="msg_device_searching">Procurando</string>
-<string name="msg_notes">Notas:</string>
+<string name="msg_notes">Notas</string>
 <string name="msg_search_device_fail">Se o dispositivo não for encontrado em 10 segundos, tente redefinir o dispositivo.</string>
 <string name="title_connect_device">Conectando dispositivos</string>
 <string name="action_connect_device">Toque para conectar</string>

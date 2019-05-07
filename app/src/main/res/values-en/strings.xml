@@ -39,7 +39,7 @@
 <string name="title_step2">Step 2</string>
 <string name="msg_device_reset_hint5">Please use the switch to reset device:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n* If no light flashes 3 times, please repeat above steps until reset successfully.\n* Do not turn on and off lights too fast, usually every 1-2 seconds.</string>
 <string name="msg_device_searching">Searching</string>
-<string name="msg_notes">Notes:</string>
+<string name="msg_notes">Notes</string>
 <string name="msg_search_device_fail">If the device is not found within 10 seconds, please try to reset the device.</string>
 <string name="title_connect_device">Connecting devices</string>
 <string name="action_connect_device">Tap to connect</string>

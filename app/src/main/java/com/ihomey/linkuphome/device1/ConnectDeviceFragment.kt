@@ -175,7 +175,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
     override fun onProgressChanged(position: Int, progress: Int) {
         adapter.getItem(position)?.let {
             val controller = ControllerFactory().createController(it.type)
-            if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(it.instructId, if(it.type==5||it.type==9) progress.plus(5) else progress.plus(15))
+            if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(it.instructId, if(it.type==6||it.type==10) progress.plus(10) else progress.plus(15))
             changeDeviceState(it,"brightness", progress.toString())
         }
     }

@@ -39,7 +39,7 @@
 <string name="title_step2">Trin 2</string>
 <string name="msg_device_reset_hint5">Brug venligst skift for at nulstille enhed:\n1. Sluk for lyset\n2. Tænd for lyset, og derefter sluk for lyset efter 1-2 sekunder.\n3. Tænd for lyset igen, og derefter sluke for lyset efter 1-2 sekunder.\n4. Tænd for lyset tredje gang, når lyset blinker 3 gange, betyder det, at enheden er nulstillet til defaluts.\n\n* Hvis intet lys blinker 3 gange, skal du gentage ovenstående trin, indtil du nulstiller enheden.\n* Må ikke tænde og slukke for lyset for hurtigt, normalt hvert 1-2 sekund(er).</string>
 <string name="msg_device_searching">Søger</string>
-<string name="msg_notes">Bemærkninger:</string>
+<string name="msg_notes">Bemærkninger</string>
 <string name="msg_search_device_fail">Hvis enheden kan ikke findes inden for 10 sekunder, prøv at nulstille enheden.</string>
 <string name="title_connect_device">Forbinder enheder</string>
 <string name="action_connect_device">Tryk på for at forbinde</string>

@@ -39,7 +39,7 @@
 <string name="title_step2">Fase 2</string>
 <string name="msg_device_reset_hint5">Utilizzare l\'interruttore per resettare il dispositivo:\n1. Spegnere la luce\n2. Accendere la luce, quindi spegnere la luce dopo 1-2 secondi.\n3. Riaccendere la luce, quindi spegnere la luce dopo 1-2 secondi.\n4. Accendere la luce per la terza volta, quando la luce lampeggia 3 volte, significa che il dispositivo è stato resettato ai valori di default.\n\n* Se nessuna luce lampeggia 3 volte, ripetere i passi sopra riportati fino al ripristino corretto.\n* Non accendere e spegnere le luci troppo velocemente, di solito ogni 1-2 secondi.</string>
 <string name="msg_device_searching">Ricerca in corso</string>
-<string name="msg_notes">Note:</string>
+<string name="msg_notes">Note</string>
 <string name="msg_search_device_fail">Se il dispositivo non viene rilevato entro 10 secondi, provare a resettare il dispositivo.</string>
 <string name="title_connect_device">Collegamento di dispositivi</string>
 <string name="action_connect_device">Toccare per connetterti</string>

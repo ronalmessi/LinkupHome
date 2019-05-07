@@ -206,7 +206,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
                    val device = it.devices[index]
                    val controller = ControllerFactory().createController(device.type)
                    if (meshServiceStateListener.isMeshServiceConnected()) {
-                       Handler().postDelayed({ controller?.setLightBright(device.instructId, progress.plus(15)) }, 100L * index)
+                       Handler().postDelayed({ controller?.setLightBright(device.instructId, if(device.type==6||device.type==10) progress.plus(10) else progress.plus(15)) }, 100L * index)
                    }
                }
                changeRoomState(it, "brightness", progress.toString())

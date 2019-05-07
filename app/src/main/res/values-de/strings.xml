@@ -39,7 +39,7 @@
 <string name="title_step2">Schritt 2</string>
 <string name="msg_device_reset_hint5">Bitte verwenden Sie die An/Aus-Taste, um das Gerät zurückzusetzen:\n1.Schalten Sie das Licht aus.\n2.Schalten Sie das Licht ein und schalten Sie es nach 1-2 Sekunden aus.\n3.Schalten Sie das Licht wieder ein und schalten Sie es nach 1-2 Sekunden aus.\n4.Schalten Sie das Licht zum dritten Mal ein. Wenn das Licht dreimal blinkt, bedeutet dies, dass  das  Gerät auf die Standardeinstellungen zurückgesetzt wurde.\n\n*Wenn das Licht nicht dreimal blinkt, wiederholen Sie bitte die obigen Schritte, bis das Zurücksetzen erfolgreich war.\n*Schalten Sie das Licht nicht zu schnell ein und aus. 1-2 Sekunden Intervalle.</string>
 <string name="msg_device_searching">Wird gesucht</string>
-<string name="msg_notes">Hinweise:</string>
+<string name="msg_notes">Hinweise</string>
 <string name="msg_search_device_fail">Wenn das Gerät innerhalb von 10 Sekunden nicht gefunden wird, versuchen Sie bitte, das Gerät zurückzusetzen.</string>
 <string name="title_connect_device">Geräte werden verbunden</string>
 <string name="action_connect_device">Zum Verbinden tippen</string>
