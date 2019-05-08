@@ -19,11 +19,9 @@ class ResetDeviceFragment : BaseFragment() {
         fun newInstance() = ResetDeviceFragment()
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.reset_device_fragment, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,6 +32,6 @@ class ResetDeviceFragment : BaseFragment() {
             TextUtils.equals("zh-rTW",currentLanguage) -> currentLanguage="zh-Hant"
             TextUtils.equals("pt",currentLanguage) -> currentLanguage="pt-PT"
         }
-        context?.let { Glide.with(it).load(AppConfig.RESET_DEVICE_BASE_URL+currentLanguage+".png").into(iv_device_reset_guide2) }
+        context?.let { Glide.with(it).load(AppConfig.RESET_DEVICE_BASE_URL+currentLanguage+".jpg").into(iv_device_reset_guide2) }
     }
 }

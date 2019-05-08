@@ -11,10 +11,11 @@ class AppConfig {
 
         val API_SERVER = "http://api.linkuphome.net/"
         val INSTRUCTIONS_BASE_URL = "http://app-manual.linkuphome.net/"
-        val RESET_DEVICE_BASE_URL = "http://img.ihomey.cc/resetsoft_"
-        val FAQ_BASE_URL = "http://img.ihomey.cc/docs/index.html#/FAQ/"
-        val USER_AGGREEMENT_URL = "http://img.ihomey.cc/docs/index.html#/UserAgreement/en"
-        val PRIVACY_STATEMENt_URL = "http://img.ihomey.cc/docs/index.html#/PrivacyStatement/en"
+        val RESET_DEVICE_BASE_URL = "http://app-manual.linkuphome.net/resetsoft/resetsoft_"
+        val FAQ_BASE_URL = "http://app-docs.linkuphome.net/#/FAQ/"
+        val USER_AGGREEMENT_URL = "http://app-docs.linkuphome.net/#/UserAgreement/en"
+        val PRIVACY_STATEMENt_URL = "http://app-docs.linkuphome.net/#/PrivacyStatement/en"
+
         val APP_SECRET = "f374cfda69e064322a2be320da6caf96"
     }
 
