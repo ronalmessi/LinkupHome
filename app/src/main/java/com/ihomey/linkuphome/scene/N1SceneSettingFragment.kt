@@ -22,7 +22,6 @@ class N1SceneSettingFragment : BaseSceneSettingFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.n1_scene_setting_fragment, container, false)
-        initController(3)
         mViewDataBinding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }

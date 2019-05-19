@@ -12,12 +12,12 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Gravity
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
-import com.csr.mesh.GroupModelApi
 import com.csr.mesh.MeshService
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseActivity
@@ -27,23 +27,25 @@ import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
+import com.ihomey.linkuphome.device1.ConnectM1DeviceFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
-import com.ihomey.linkuphome.room.UnBondDevicesFragment
+import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.spp.BluetoothSPPState
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener {
-
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, ConnectM1DeviceFragment.DevicesStateListener {
 
     private val REMOVE_ACK_WAIT_TIME_MS =4 * 1000L
 
     private lateinit var mViewModel: HomeActivityViewModel
     private var mService: MeshService? = null
+//    private var bt : BluetoothSPP? = null
 
     private var mConnected = false
     private val mDeviceIdToUuidHash = SparseIntArray()
@@ -51,16 +53,20 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val addressToNameMap = ArrayMap<String, String>()
 
     private var meshAssListener: DeviceAssociateListener? = null
+    private var sppStateListener: SppStateListener? = null
     private var mBatteryListener: BatteryValueListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTranslucentStatus()
         setContentView(R.layout.home_activity)
         initNavController()
+        initSppService()
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
         initViewModel()
     }
+
 
     private fun initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
@@ -147,6 +153,27 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         mService?.autoConnect(1, 10000, 100, 0)
     }
 
+    private fun initSppService() {
+        BluetoothSPP.getInstance().initialize(applicationContext)
+        BluetoothSPP.getInstance()?.setupService()
+        BluetoothSPP.getInstance()?.startService(BluetoothSPPState.DEVICE_OTHER)
+        BluetoothSPP.getInstance()?.setBluetoothConnectionListener(object : BluetoothSPP.BluetoothConnectionListener {
+            override fun onDeviceDisconnected() {
+                toast("M1 断开连接了！", Toast.LENGTH_SHORT)
+            }
+
+            override fun onDeviceConnected(name: String, address: String) {
+                sppStateListener?.deviceAssociated(true,name,address)
+            }
+
+            override fun onDeviceConnectionFailed() {
+                sppStateListener?.deviceAssociated(false,"","")
+            }
+        })
+        BluetoothSPP.getInstance()?.setOnDataReceivedListener { data, message -> Log.d("aa","setOnDataReceivedListener---"+data+"---"+message)}
+        BluetoothSPP.getInstance()?.autoConnect("Linkuphome M1")
+    }
+
 
     override fun reConnectBridge() {
             releaseResource()
@@ -157,7 +184,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
         mService?.processMeshAdvert(device, scanRecord, rssi)
         if (!TextUtils.isEmpty(device.name) && !addressToNameMap.containsKey(device.address)) {
-            addressToNameMap[device.address] = device.name
+            if(TextUtils.equals("Linkuphome M1",device.name)){
+                sppStateListener?.newAppearance(device.name,device.address)
+            }else{
+                addressToNameMap[device.address] = device.name
+            }
         }
     }
 
@@ -303,10 +334,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
+    override fun discoverDevices(enabled: Boolean, listener: SppStateListener?) {
+       if(enabled) this.sppStateListener=listener else null
+    }
+
     override fun associateDevice(uuidHash: Int, shortCode: String?) {
         if (shortCode == null) {
             mService?.associateDevice(uuidHash, 0, false)
         }
+    }
+
+    override fun associateDevice(macAddress: String) {
+        BluetoothSPP.getInstance()?.connect(macAddress)
     }
 
 

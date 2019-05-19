@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/tab_device"
+        android:orderInCategory="0"
+        android:icon="@mipmap/ic_tab_control"
+        android:title="灯光控制"
+        app:showAsAction="ifRoom" />
+    <item
+        android:orderInCategory="1"
+        android:icon="@mipmap/ic_tab_emt"
+        android:title="环境监测"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/tab_setting"
+        android:orderInCategory="2"
+        android:icon="@mipmap/ic_tab_alarm"
+        android:title="闹钟设置"
+        app:showAsAction="ifRoom" />
+</menu>

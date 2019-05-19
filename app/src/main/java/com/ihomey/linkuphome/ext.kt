@@ -301,7 +301,6 @@ fun DeviceState.ToJson():String{
     return mapper.writeValueAsString(this)
 }
 
-
 fun syncTime(deviceId: Int) {
     val calendar = Calendar.getInstance()
     calendar.time = Date()
@@ -313,6 +312,8 @@ fun syncTime(deviceId: Int) {
     val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
     DataModelApi.sendData(deviceId, decodeHex(code_lawn_time.toCharArray()), false)
 }
+
+
 
 fun getShortName(type: DeviceType) =
         when (type) {
@@ -327,7 +328,6 @@ fun getShortName(type: DeviceType) =
             DeviceType.T1 -> "iHomey T1"
         }
 
-var DOMAIN = "http://img.ihomey.cc/"
 
 val REQUEST_BT_RESULT_CODE = 102
 

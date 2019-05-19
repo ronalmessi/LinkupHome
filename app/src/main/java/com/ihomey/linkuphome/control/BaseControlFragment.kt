@@ -63,6 +63,15 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.getCurrentControlDevice().observe(this, Observer<Device> {
+            this.type = it.type
+            controller = ControllerFactory().createController( it.type)
+            if(type!=9&&type!=5){
+                parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
+            } else{
+                if(parentFragment?.parentFragment is DeviceNavHostFragment){
+                    parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
+                }
+            }
             updateViewData(it)
             getTitleView()?.viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
@@ -73,20 +82,11 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         })
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if(type!=8){
-            parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
-        } else{
-            if(parentFragment?.parentFragment is DeviceNavHostFragment){
-                parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
-            }
-        }
-    }
+
 
     fun initController(type: Int) {
-        this.type = type
-        controller = ControllerFactory().createController(type+1)
+//        this.type = type
+//        controller = ControllerFactory().createController(type+1)
     }
 
     override fun onBackPressed(): Boolean {
@@ -107,31 +107,56 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     }
 
     override fun onColorValueChanged(time: Int) {
-        if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+        if(type==5){
+            controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+        }else{
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+        }
     }
 
     override fun onColorValueChange(time: Int) {
-        if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+        if(type==5){
+            controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+        }else{
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+        }
     }
 
     override fun onColorTemperatureValueChanged(temperature: Int) {
-        if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
+        if(type==5){
+             controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
+        }else{
+            if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
+        }
+
     }
 
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
-        if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
+        if(type==5){
+            controller?.setLightSpeed(mControlDevice.instructId, position)
+        }else{
+            if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
+        }
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if(type==5||type==9) seekBar.progress.plus(10) else seekBar.progress.plus(15))
-        changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
+        if(type==5){
+            controller?.setLightBright(0,seekBar.progress.plus(15))
+        }else{
+            if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if(type==6||type==10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
+            changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
+        }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
             R.id.device_state_cb_power -> {
-                if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
-                changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
+                if(type==5){
+                    controller?.setLightPowerState(0, if (isChecked) 1 else 0)
+                }else{
+                    if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
+                    changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
+                }
             }
         }
     }
@@ -152,27 +177,34 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         fun onClick(view: View) {
             when (view.id) {
                 R.id.iv_back -> Navigation.findNavController(view).popBackStack()
-                R.id.btn_device_lighting -> if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
+                R.id.btn_device_lighting ->{
+                    if(type==5){
+                        controller?.setLightingMode(mControlDevice.instructId)
+                    }else{
+                        if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
+                    }
+                }
                 R.id.btn_device_scene_setting -> {
                     when (type) {
-                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment)
-                        3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_n1SceneSettingFragment)
-                        5 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_v1SceneSettingFragment)
-                        6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_r2SceneSettingFragment)
-                        8 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_t1SceneSettingFragment)
-                        9 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2SceneSettingFragment)
+                        2 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment)
+                        4 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_n1SceneSettingFragment)
+                        5 -> Navigation.findNavController(view).navigate(R.id.action_m1ControlFragment_to_r2SceneSettingFragment)
+                        6 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_v1SceneSettingFragment)
+                        7 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_r2SceneSettingFragment)
+                        9 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_t1SceneSettingFragment)
+                        10 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2SceneSettingFragment)
                     }
                 }
                 R.id.btn_device_alarm_setting -> {
                     when (type) {
-                        1 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment)
-                        2 -> Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
-                        3 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_timerSettingFragment)
-                        5 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_repeatTimerSettingFragment)
-                        6 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
-                        7 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)
-                        8 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_timerSettingFragment)
-                        9 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2SceneSettingFragment)
+                        2 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment)
+                        3 -> Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
+                        4 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_timerSettingFragment)
+                        6 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_repeatTimerSettingFragment)
+                        7 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
+                        8 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)
+                        9 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_timerSettingFragment)
+                        10 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2SceneSettingFragment)
                     }
                 }
                 R.id.tv_title -> {

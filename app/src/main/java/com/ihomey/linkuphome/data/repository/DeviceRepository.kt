@@ -51,6 +51,32 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     }
 
 
+    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,macAddress: String): LiveData<Resource<Device>> {
+        return object : NetworkBoundResource<Device>(appExecutors) {
+            override fun saveCallResult(item: Device?) {
+                item?.let {
+                    it.macAddress=macAddress
+                    deviceDao.insert(it)
+                }
+            }
+
+            override fun shouldFetch(data: Device?): Boolean {
+                return true
+            }
+
+            override fun loadFromDb(): LiveData<Device> {
+                return AbsentLiveData.create()
+            }
+
+            override fun createCall(): LiveData<ApiResult<Device>> {
+                val saveDeviceVO = SaveDeviceVO(guid.md5(), name,  zoneId,  System.currentTimeMillis(), type)
+                saveDeviceVO.signature = beanToJson(saveDeviceVO).sha256()
+                return apiService.saveDevice(saveDeviceVO)
+            }
+        }.asLiveData()
+    }
+
+
     fun deleteDevice(guid:String,deviceId:Int): LiveData<Resource<Boolean>> {
         return object : NetworkBoundResource<Boolean>(appExecutors) {
             override fun saveCallResult(item: Boolean?) {
@@ -187,6 +213,8 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         appExecutors.diskIO().execute {
             deviceDao.delete(deviceId)
             localStateDao.delete(deviceId)
+            var currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
+            currentDeviceAddress=""
         }
     }
 }

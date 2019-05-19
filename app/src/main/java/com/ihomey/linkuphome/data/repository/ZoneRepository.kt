@@ -205,6 +205,8 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
                     roomDao.deleteAll(it.id)
                     it.devices?.let {it2 -> deviceDao.insertAll(it2)}
                     it.groups?.let { it1 -> roomDao.insertAll(it1)}
+                    val currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
+                    deviceDao.updateDeviceAddress(currentDeviceAddress)
                 }
             }
 

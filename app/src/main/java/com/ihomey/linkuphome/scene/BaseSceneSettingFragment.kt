@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.scene
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
@@ -38,6 +39,7 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             mControlDevice = it
+            controller = ControllerFactory().createController(mControlDevice.type)
             mViewModel.setCurrentDeviceId(it.id)
         })
         mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
@@ -46,10 +48,6 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
                 updateViewData(it.data)
             }
         })
-    }
-
-    fun initController(deviceType: Int) {
-        controller = ControllerFactory().createController(deviceType + 1)
     }
 
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
@@ -61,7 +59,11 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             R.id.rb_scene_spring_rgb, R.id.rb_scene_lighting_n1, R.id.rb_scene_surf -> sceneModeValue = 3
             R.id.rb_scene_rainforest_rgb, R.id.rb_scene_seek -> sceneModeValue = 4
         }
-        if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
+        if(mControlDevice.type==5){
+            controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
+        }else{
+            if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
+        }
         mControlDevice.let {
             if (mLocalState == null) mLocalState = LocalState(it.id)
             mLocalState?.let { it.sceneMode = sceneModeValue

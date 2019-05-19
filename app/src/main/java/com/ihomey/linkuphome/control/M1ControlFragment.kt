@@ -7,22 +7,23 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.MixControlViewAdapter
 import com.ihomey.linkuphome.data.entity.Device
-import com.ihomey.linkuphome.databinding.T1ControlFragmentBinding
+import com.ihomey.linkuphome.databinding.M1ControlFragmentBinding
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
 
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListener , View.OnClickListener{
+class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListener , View.OnClickListener{
 
-    private lateinit var mViewDataBinding: T1ControlFragmentBinding
+    private lateinit var mViewDataBinding: M1ControlFragmentBinding
 
-    fun newInstance(): T1ControlFragment {
-        return T1ControlFragment()
+    fun newInstance(): M1ControlFragment {
+        return M1ControlFragment()
     }
 
 
@@ -31,17 +32,18 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.t1_control_fragment, container, false)
+        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.m1_control_fragment, container, false)
         mViewDataBinding.bleControlVp.offscreenPageLimit = 2
         mViewDataBinding.bleControlVp.adapter = MixControlViewAdapter(childFragmentManager)
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
-        initController(8)
+        initController(4)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.deviceSeekBarBrightness.max=85
         mViewDataBinding.root.setOnClickListener {
             mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
         }
+        mViewDataBinding.ivSetting.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_m1ControlFragment_to_m1ControlSettingFragment) }
         return mViewDataBinding.root
     }
 

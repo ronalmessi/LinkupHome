@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.device1
 
+import android.net.MacAddress
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -32,10 +33,13 @@ class ConnectDeviceViewModel : ViewModel() {
         return mDeviceRepository.saveDevice(guid, zoneId, type, name)
     }
 
+    fun saveDevice(guid:String,zoneId:Int,type:Int,name:String,macAddress: String): LiveData<Resource<Device>> {
+        return mDeviceRepository.saveDevice(guid, zoneId, type, name,macAddress)
+    }
+
 
     fun setQuery(zoneId: Int,type:Int){
         mQuery.value=Query(zoneId,type)
     }
-
 
 }

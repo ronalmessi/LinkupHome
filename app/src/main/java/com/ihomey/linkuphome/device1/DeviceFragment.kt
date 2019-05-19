@@ -134,6 +134,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
                 1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
                 2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
                 3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+                4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
                 5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
                 6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
                 7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
@@ -156,10 +157,14 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         adapter.currentList?.get(position)?.let {
             if(isFragmentVisible()){
                 val controller = ControllerFactory().createController(it.type)
-                if (meshServiceStateListener.isMeshServiceConnected()) {
-                    controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
+                if(it.type==5){
+                   controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
+                }else{
+                    if (meshServiceStateListener.isMeshServiceConnected()) {
+                        controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
+                    }
+                    changeDeviceState(it, "on", if (isChecked) "1" else "0")
                 }
-                changeDeviceState(it, "on", if (isChecked) "1" else "0")
             }
         }
     }
@@ -169,10 +174,14 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         adapter.currentList?.get(position)?.let {
             if(isFragmentVisible()){
                 val controller = ControllerFactory().createController(it.type)
-                if (meshServiceStateListener.isMeshServiceConnected()){
-                    controller?.setLightBright(it.instructId, if(it.type==6||it.type==10) progress.plus(10) else progress.plus(15))
+                if(it.type==5){
+                   controller?.setLightBright(0,progress.plus(15))
+                }else{
+                    if (meshServiceStateListener.isMeshServiceConnected()){
+                        controller?.setLightBright(it.instructId, if(it.type==6||it.type==10) progress.plus(10) else progress.plus(15))
+                    }
+                    changeDeviceState(it, "brightness", progress.toString())
                 }
-                changeDeviceState(it, "brightness", progress.toString())
             }
         }
     }

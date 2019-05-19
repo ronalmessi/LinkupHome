@@ -68,6 +68,10 @@ abstract class DeviceDao {
     abstract fun updateState(deviceId: Int,deviceState:DeviceState)
 
 
+    @Query("UPDATE device1 set macAddress= :macAddress WHERE type =5")
+    abstract fun updateDeviceAddress(macAddress: String)
+
+
 
 
 }

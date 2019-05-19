@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F2F2F2">
+
+    <com.ihomey.linkuphome.widget.CompatToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/title_setting"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_18ssp" />
+    </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+    <ScrollView
+        android:id="@+id/rg_control_switch"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/bg_divider_m1_setting"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:paddingStart="@dimen/_16sdp"
+            android:showDividers="middle|end">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_12sdp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/ic_sleep_mode" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:text="睡眠模式" />
+
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/sb_sleep_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    app:sb_background="@color/transparent"
+                    app:sb_checked_color="@color/control_tab_item_selected_color"
+                    app:sb_show_indicator="false"
+                    app:sb_uncheckcircle_color="@color/transparent" />
+
+
+            </LinearLayout>
+
+            <com.ihomey.linkuphome.widget.InfoTextLayout
+                android:id="@+id/infoTextLayout_setting_timer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:horizontalMargin="@dimen/_20sdp"
+                app:isShowDivider="false"
+                app:leftIcon="@mipmap/ic_timer_setting"
+                app:leftText="灯光定时"
+                app:leftTextColor="@android:color/black"
+                app:leftTextSize="@dimen/_16ssp"
+                app:rightIcon="@drawable/ic_arrow_setting"
+                app:verticalMargin="@dimen/_18sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_12sdp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_gesture_control" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:text="手势控制" />
+
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/sb_gesture_control"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    app:sb_background="@color/transparent"
+                    app:sb_checked_color="@color/control_tab_item_selected_color"
+                    app:sb_show_indicator="false"
+                    app:sb_uncheckcircle_color="@color/transparent" />
+
+            </LinearLayout>
+
+            <com.ihomey.linkuphome.widget.InfoTextLayout
+                android:id="@+id/infoTextLayout_setting_syncTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:horizontalMargin="@dimen/_20sdp"
+                app:isShowDivider="false"
+                app:leftIcon="@mipmap/ic_sync_time"
+                app:leftText="时间同步"
+                app:leftTextColor="@android:color/black"
+                app:leftTextSize="@dimen/_16ssp"
+                app:rightIcon="@mipmap/ic_refresh_time"
+                app:verticalMargin="@dimen/_18sdp" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>
