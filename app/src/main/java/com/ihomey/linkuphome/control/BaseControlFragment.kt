@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.control
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
@@ -200,6 +201,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                         2 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment)
                         3 -> Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
                         4 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_timerSettingFragment)
+                        5 -> Navigation.findNavController(view).navigate(R.id.action_m1ControlFragment_to_alarmListFragment)
                         6 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_repeatTimerSettingFragment)
                         7 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
                         8 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)

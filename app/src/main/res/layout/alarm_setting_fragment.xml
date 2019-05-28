@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_alarm_list">
+
+    <com.ihomey.linkuphome.widget.CompatToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:src="@mipmap/ic_back_white"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text="添加闹钟"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_18ssp" />
+
+
+        <TextView
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:text="@string/action_save"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_16ssp" />
+
+
+    </com.ihomey.linkuphome.widget.CompatToolbar>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.176" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.125" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.875" />
+
+
+    <com.ihomey.linkuphome.widget.TimerSettingView
+        android:id="@+id/tsv_alarm_setting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:circle_gap="@dimen/_18sdp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline3"
+        app:layout_constraintRight_toRightOf="@+id/guideline4"
+        app:layout_constraintTop_toBottomOf="@+id/guideline1"
+        app:mTextSize="@dimen/_42ssp"
+        app:reached_color="@color/control_tab_item_selected_color"
+        app:slider_bg_color="#76FFFFFF"
+        app:unreached_color="@android:color/white" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.665" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/guideline2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/white"
+        android:divider="@drawable/bg_divider_setting"
+        android:showDividers="middle|end"
+        android:orientation="vertical">
+
+        <com.ihomey.linkuphome.widget.InfoTextLayout
+            android:id="@+id/infoTextLayout_alarm_setting_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_14sdp"
+            app:horizontalMargin="@dimen/_20sdp"
+            app:isShowDivider="false"
+            app:leftIcon="@mipmap/ic_alarm_setting_repeat"
+            app:leftText="@string/action_repeat"
+            app:leftTextColor="@android:color/black"
+            app:leftTextSize="@dimen/_16ssp"
+            app:rightIcon="@drawable/ic_arrow_setting"
+            app:rightTextColor="#807F85"
+            app:rightTextSize="@dimen/_16ssp"
+            app:verticalMargin="@dimen/_18sdp"
+             />
+
+        <com.ihomey.linkuphome.widget.InfoTextLayout
+            android:id="@+id/infoTextLayout_alarm_setting_ring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_14sdp"
+            app:horizontalMargin="@dimen/_20sdp"
+            app:isShowDivider="false"
+            app:leftIcon="@mipmap/ic_alarm_setting_ring"
+            app:leftText="铃声"
+            app:leftTextColor="@android:color/black"
+            app:leftTextSize="@dimen/_16ssp"
+            app:rightIcon="@drawable/ic_arrow_setting"
+            app:rightTextColor="#807F85"
+            app:rightTextSize="@dimen/_16ssp"
+            app:verticalMargin="@dimen/_18sdp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content" android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_33sdp"
+                android:src="@mipmap/ic_alarm_setting_lighting"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_16ssp"
+                android:text="灯光"/>
+
+
+            <com.suke.widget.SwitchButton
+                android:id="@+id/sb_light_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_16sdp"
+                app:sb_background="@color/transparent"
+                app:sb_checked_color="@color/control_tab_item_selected_color"
+                app:sb_show_indicator="false"
+                app:sb_uncheckcircle_color="@color/transparent" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

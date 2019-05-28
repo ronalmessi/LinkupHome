@@ -44,6 +44,9 @@ abstract class DeviceDao {
     @Query("DELETE FROM device1 WHERE id = :id")
     abstract fun delete(id: Int)
 
+    @Query("SELECT * FROM device1 WHERE id = :id")
+    abstract fun getDevice(id: Int):Device
+
     @Query("DELETE FROM device1 WHERE zoneId = :zoneId")
     abstract fun deleteAll(zoneId: Int)
 

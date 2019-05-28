@@ -17,6 +17,13 @@ class AppConfig {
         val PRIVACY_STATEMENt_URL = "http://app-docs.linkuphome.net/#/PrivacyStatement/en"
 
         val APP_SECRET = "f374cfda69e064322a2be320da6caf96"
+
+        val REQUEST_BT_CODE = 102
+
+
+        val RING_LIST=listOf("无", "海浪海鸥音效", "轻松欢快", "在云上")
+
+        val DAY_OF_WEEK= listOf("每周日", "每周一", "每周二", "每周三", "每周四", "每周五", "每周六")
     }
 
 }

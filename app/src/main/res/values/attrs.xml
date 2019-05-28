@@ -165,4 +165,20 @@
       <attr name="maxHeight" format="dimension" />
    </declare-styleable>
 
+   <declare-styleable name="TimerSettingView">
+      <attr name="mTextSize" format="dimension" />
+      <attr name="reached_color" format="color" />
+      <attr name="unreached_color" format="color" />
+      <attr name="hour_reached_width" format="dimension" />
+      <attr name="hour_unreached_width" format="dimension" />
+      <attr name="minute_line_width" format="dimension" />
+      <attr name="minute_line_length" format="dimension" />
+      <attr name="minute_long_line_length" format="dimension" />
+      <attr name="slider_radius" format="dimension" />
+      <attr name="slider_inner_radius" format="dimension" />
+      <attr name="slider_bg_color" format="color" />
+      <attr name="slider_inner_bg_color" format="color" />
+      <attr name="circle_gap" format="dimension" />
+   </declare-styleable>
+
 </resources>

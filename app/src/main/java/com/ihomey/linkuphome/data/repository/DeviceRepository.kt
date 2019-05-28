@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -211,10 +212,13 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
 
     fun deleteDevice(deviceId: Int) {
         appExecutors.diskIO().execute {
+            val device=deviceDao.getDevice(deviceId)
+            if(device.type==5){
+                var currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
+                currentDeviceAddress=""
+            }
             deviceDao.delete(deviceId)
             localStateDao.delete(deviceId)
-            var currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
-            currentDeviceAddress=""
         }
     }
 }

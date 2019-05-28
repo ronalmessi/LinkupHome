@@ -46,6 +46,7 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
             if(it==4){
                 Navigation.findNavController(view).navigate(R.id.action_chooseDeviceTypeFragment_to_connectM1DeviceFragment, bundle)
             }else{
+                bundle.putInt("deviceType", it)
                 Navigation.findNavController(view).navigate(R.id.action_chooseDeviceTypeFragment_to_searchDeviceHintFragment2, bundle)
             }
         }

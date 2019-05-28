@@ -20,6 +20,9 @@ class HomeActivityViewModel : ViewModel() {
     @Inject
     lateinit var roomRepository: RoomRepository
 
+    @Inject
+    lateinit var alarmRepository: AlarmRepository
+
     private val mCurrentZoneId = MutableLiveData<Int>()
     val mCurrentZone: LiveData<Resource<Zone>>
 
@@ -29,6 +32,8 @@ class HomeActivityViewModel : ViewModel() {
 
     val isDeviceListEmptyLiveData = MediatorLiveData<Boolean>()
     val isRoomListEmptyLiveData = MediatorLiveData<Boolean>()
+
+    private var currentControlDevice = MutableLiveData<Device>()
 
     init {
         DaggerAppComponent.builder().build().inject(this)
@@ -121,8 +126,6 @@ class HomeActivityViewModel : ViewModel() {
     }
 
 
-    //device
-    private var currentControlDevice = MutableLiveData<Device>()
 
     fun getCurrentControlDevice(): MutableLiveData<Device> {
         return currentControlDevice
@@ -166,6 +169,9 @@ class HomeActivityViewModel : ViewModel() {
     fun updateRoomAndDeviceState(device:Device, deviceState:DeviceState) {
         return mDeviceRepository.updateRoomAndDeviceState(device, deviceState)
     }
+
+
+    //alarm
 
 
 }

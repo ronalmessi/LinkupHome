@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/_32sdp"
+        android:layout_marginStart="@dimen/_48sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_toStartOf="@+id/iv_info_right"
         android:layout_toEndOf="@+id/tv_info_left">
@@ -27,10 +27,8 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:drawablePadding="@dimen/_8sdp"
-            android:ellipsize="end"
-            android:gravity="right"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:gravity="left"
+            />
 
     </RelativeLayout>
 

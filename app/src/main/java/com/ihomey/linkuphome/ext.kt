@@ -329,7 +329,7 @@ fun getShortName(type: DeviceType) =
         }
 
 
-val REQUEST_BT_RESULT_CODE = 102
+
 
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
 val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg)

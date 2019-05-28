@@ -36,7 +36,6 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         mViewDataBinding.bleControlVp.offscreenPageLimit = 2
         mViewDataBinding.bleControlVp.adapter = MixControlViewAdapter(childFragmentManager)
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
-        initController(4)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.deviceSeekBarBrightness.max=85
         mViewDataBinding.root.setOnClickListener {
@@ -54,6 +53,7 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)
+        mViewDataBinding.btnDeviceEnvironmentalIndicators.setOnClickListener(this)
         mViewDataBinding.btnDeviceLighting.setOnClickListener(this)
         mViewDataBinding.deviceStateCbPower.setOnCheckedChangeListener(this)
         mViewDataBinding.deviceCyclingSstgSpeed.setOnCheckedChangeListener(this)
@@ -64,6 +64,7 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(null)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(null)
         mViewDataBinding.btnDeviceLighting.setOnClickListener(null)
+        mViewDataBinding.btnDeviceEnvironmentalIndicators.setOnClickListener(null)
         mViewDataBinding.deviceStateCbPower.setOnCheckedChangeListener(null)
         mViewDataBinding.deviceCyclingSstgSpeed.setOnCheckedChangeListener(null)
     }
@@ -79,6 +80,8 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
                 mViewDataBinding.deviceCyclingSstgSpeed.animation =moveToViewBottomAnimation()
             }
             mViewDataBinding.handlers?.onClick(v)
+        } else if(v.id == R.id.btn_device_environmental_indicators){
+            Navigation.findNavController(v).navigate(R.id.action_m1ControlFragment_to_environmentalIndicatorsFragment)
         }
     }
 

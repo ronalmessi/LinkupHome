@@ -331,6 +331,18 @@
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_m1ControlFragment_to_m1ControlSettingFragment"
             app:destination="@id/m1ControlSettingFragment" />
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_m1ControlFragment_to_alarmListFragment"
+            app:destination="@id/alarmListFragment" />
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_m1ControlFragment_to_environmentalIndicatorsFragment"
+            app:destination="@id/environmentalIndicatorsFragment" />
     </fragment>
 
     <fragment
@@ -338,6 +350,77 @@
         android:name="com.ihomey.linkuphome.control.M1ControlSettingFragment"
         android:label="m1_control_setting_fragment"
         tools:layout="@layout/m1_control_setting_fragment" >
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_m1ControlSettingFragment_to_m1TimerSettingFragment"
+            app:destination="@id/m1TimerSettingFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/alarmListFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmListFragment"
+        android:label="alarm_list_fragment"
+        tools:layout="@layout/alarm_list_fragment" >
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_alarmListFragment_to_alarmSettingFragment"
+            app:destination="@id/alarmSettingFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/alarmSettingFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmSettingFragment"
+        android:label="alarm_setting_fragment"
+        tools:layout="@layout/alarm_setting_fragment" >
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_alarmSettingFragment_to_alarmDayListFragment"
+            app:destination="@id/alarmDayListFragment" />
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_alarmSettingFragment_to_alarmRingListFragment"
+            app:destination="@id/alarmRingListFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/alarmDayListFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmDayListFragment"
+        android:label="alarm_day_list_fragment"
+        tools:layout="@layout/alarm_day_list_fragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/alarmRingListFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmRingListFragment"
+        android:label="alarm_ring_list_fragment"
+        tools:layout="@layout/alarm_ring_list_fragment" >
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/m1TimerSettingFragment"
+        android:name="com.ihomey.linkuphome.time.M1TimerSettingFragment"
+        android:label="fragment_timer_setting_m1"
+        tools:layout="@layout/fragment_timer_setting_m1" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/environmentalIndicatorsFragment"
+        android:name="com.ihomey.linkuphome.alarm.EnvironmentalIndicatorsFragment"
+        android:label="environmentalIndicatorsFragment"
+        tools:layout="@layout/environmental_indicators_fragment" >
     </fragment>
 
 

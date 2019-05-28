@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F2F2F2">
+
+    <com.ihomey.linkuphome.widget.CompatToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:text="环境监测"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+
+        <FrameLayout
+            android:id="@+id/fl_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical">
+
+            <ImageView
+                android:id="@+id/btn_refresh"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/bg_btn_refresh" />
+
+            <ImageView
+                android:id="@+id/btn_home"
+                android:layout_width="@dimen/_8sdp"
+                android:layout_height="@dimen/_8sdp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_btn_home" />
+
+        </FrameLayout>
+
+    </com.ihomey.linkuphome.widget.CompatToolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/_32sdp"
+        android:paddingEnd="@dimen/_27sdp"
+        android:paddingTop="@dimen/_27sdp"
+        android:paddingBottom="@dimen/_15sdp"
+        android:background="@mipmap/bg_hcho">
+
+        <TextView
+            android:id="@+id/tv_hcho_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="甲醛含量"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14ssp"/>
+
+
+        <TextView
+            android:id="@+id/tv_hcho_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_hcho_title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_18ssp"/>
+
+
+        <TextView
+            android:id="@+id/tv_hcho_value_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14ssp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_hcho"/>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/_32sdp"
+        android:paddingEnd="@dimen/_27sdp"
+        android:paddingTop="@dimen/_27sdp"
+        android:paddingBottom="@dimen/_15sdp"
+        android:background="@mipmap/bg_pm25">
+
+        <TextView
+            android:id="@+id/tv_pm25_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="PM2.5"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14ssp"/>
+
+        <TextView
+            android:id="@+id/tv_pm25_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_pm25_title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_18ssp"/>
+
+        <TextView
+            android:id="@+id/tv_pm25_value_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14ssp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_pm25"/>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/_32sdp"
+        android:paddingEnd="@dimen/_27sdp"
+        android:paddingTop="@dimen/_27sdp"
+        android:paddingBottom="@dimen/_15sdp"
+        android:background="@mipmap/bg_voc">
+
+
+        <TextView
+            android:id="@+id/tv_voc_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="VOC空气质量"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14ssp"/>
+
+        <TextView
+            android:id="@+id/tv_voc_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="0"
+            android:layout_below="@+id/tv_voc_title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_36ssp"/>
+
+        <TextView
+            android:id="@+id/tv_voc_value_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14ssp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_voc"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+

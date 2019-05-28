@@ -88,4 +88,10 @@ class AppModule {
         return db.localStateDao()
     }
 
+    @Singleton
+    @Provides
+    fun provideAlarmDao(db: LinkupHomeDb): AlarmDao {
+        return db.alarmDao()
+    }
+
 }

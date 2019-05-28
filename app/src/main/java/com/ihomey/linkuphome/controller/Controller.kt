@@ -1,5 +1,7 @@
 package com.ihomey.linkuphome.controller
 
+import com.ihomey.linkuphome.data.entity.Alarm
+
 
 /**
  * Created by Administrator on 2017/6/16.
@@ -23,6 +25,8 @@ abstract class Controller {
     open fun setTimer(deviceId: Int, minuteValue: Int, isOn: Boolean){}
 
     open fun setRepeatTimer(deviceId: Int, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,isRepeat: Boolean){}
+
+    open fun setRepeatTimer(minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,dayOfWeek: Int){}
 
 
     open fun setSleepMode(state: Int) {}

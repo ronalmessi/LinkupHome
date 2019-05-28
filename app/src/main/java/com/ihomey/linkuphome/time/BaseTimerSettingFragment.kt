@@ -48,6 +48,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
 
     abstract fun isRepeat(): Boolean
 
+
     private var isUserTouch: Boolean=false
 
 

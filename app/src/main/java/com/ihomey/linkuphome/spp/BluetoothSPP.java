@@ -162,6 +162,19 @@ public class BluetoothSPP {
         BluetoothSPP.this.isAndroid = isAndroid;
     }
 
+    /**
+     * 截取byte数组   不改变原数组
+     * @param b 原数组
+     * @param off 偏差值（索引）
+     * @param length 长度
+     * @return 截取后的数组
+     */
+    public byte[] subByte(byte[] b,int off,int length) {
+        byte[] b1 = new byte[length];
+        System.arraycopy(b, off, b1, 0, length);
+        return b1;
+    }
+
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -169,9 +182,9 @@ public class BluetoothSPP {
                 case BluetoothSPPState.MESSAGE_WRITE:
                     break;
                 case BluetoothSPPState.MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
+                    byte[] readBuf = subByte((byte[]) msg.obj,0,msg.arg1);
                     String readMessage = new String(readBuf);
-                    if(readBuf != null && readBuf.length > 0) {
+                    if(readBuf.length > 0) {
                         if(mDataReceivedListener != null)
                             mDataReceivedListener.onDataReceived(readBuf, readMessage);
                     }

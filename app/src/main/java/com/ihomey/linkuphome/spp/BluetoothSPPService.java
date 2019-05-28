@@ -333,33 +333,55 @@ public class BluetoothSPPService {
         }
 
         public void run() {
-            byte[] buffer;
-            ArrayList<Integer> arr_byte = new ArrayList<Integer>();
+            byte[] buffer = new byte[1024];
+            int bytes;
 
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
-                    int data = mmInStream.read();
-                    if(data == 0x0A) {
-                    } else if(data == 0x0D) {
-                        buffer = new byte[arr_byte.size()];
-                        for(int i = 0 ; i < arr_byte.size() ; i++) {
-                            buffer[i] = arr_byte.get(i).byteValue();
-                        }
-                        // Send the obtained bytes to the UI Activity
-                        mHandler.obtainMessage(BluetoothSPPState.MESSAGE_READ
-                                , buffer.length, -1, buffer).sendToTarget();
-                        arr_byte = new ArrayList<Integer>();
-                    } else {
-                        arr_byte.add(data);
-                    }
+                    // Read from the InputStream
+                    bytes = mmInStream.read(buffer);
+                    // Send the obtained bytes to the UI Activity
+                    Log.d("aa","hahah---"+bytes);
+                    mHandler.obtainMessage(BluetoothSPPState.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                 } catch (IOException e) {
+                    Log.e(TAG, "disconnected", e);
                     connectionLost();
-                    // Start the service over to restart listening mode
-                    BluetoothSPPService.this.start(BluetoothSPPService.this.isAndroid);
                     break;
                 }
             }
+//            byte[] buffer;
+//            ArrayList<Integer> arr_byte = new ArrayList<Integer>();
+//
+//            // Keep listening to the InputStream while connected
+//            while (true) {
+//                try {
+//
+//                    int data = mmInStream.read();
+//                    Log.d("aa","tttttttttt--"+data);
+//                    if(data == 0x0A) {
+//
+//                    } else if(data == 0x0D) {
+//                        buffer = new byte[arr_byte.size()];
+//                        for(int i = 0 ; i < arr_byte.size() ; i++) {
+//                            buffer[i] = arr_byte.get(i).byteValue();
+//                        }
+//                        Log.d("aa","gggggggg");
+//                        // Send the obtained bytes to the UI Activity
+//                        mHandler.obtainMessage(BluetoothSPPState.MESSAGE_READ
+//                                , buffer.length, -1, buffer).sendToTarget();
+//                        arr_byte = new ArrayList<Integer>();
+//                    } else {
+//                        arr_byte.add(data);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    connectionLost();
+//                    // Start the service over to restart listening mode
+//                    BluetoothSPPService.this.start(BluetoothSPPService.this.isAndroid);
+//                    break;
+//                }
+//            }
         }
 
         // Write to the connected OutStream.
