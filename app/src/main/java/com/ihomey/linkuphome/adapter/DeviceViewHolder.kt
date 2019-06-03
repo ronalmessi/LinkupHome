@@ -46,9 +46,11 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._15sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._3sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }else if (type == 1||type==2) {
+            iconView.scaleX=0.7f
+            iconView.scaleY=0.7f
             if(type == 1) brightnessView.max=85 else brightnessView.max=240
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._30sdp).toInt()
-            containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._16sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
+            containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._16sdp).toInt(), parent.context.resources.getDimension(R.dimen._4sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._4sdp).toInt())
         }else if (type==6||type==7) {
             if(type == 6) brightnessView.max=85 else brightnessView.max=240
             iconView.scaleX=0.8f
@@ -61,7 +63,7 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._10sdp).toInt(),parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._10sdp).toInt())
         }else if (type == 4) {
             brightnessView.max=85
-            layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._33sdp).toInt()
+            layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._32sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._18sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
         }else if (type == 5||type == 9) {
             brightnessView.max=22

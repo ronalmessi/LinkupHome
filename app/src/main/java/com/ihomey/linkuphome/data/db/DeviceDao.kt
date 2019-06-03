@@ -17,7 +17,7 @@ abstract class DeviceDao {
     abstract fun getDevices(zoneId: Int): LiveData<List<Device>>
 
     @Transaction
-    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId order by type asc,id asc")
+    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId order by macAddress desc,type asc,id asc")
     abstract fun getPagingDevices(zoneId: Int):DataSource.Factory<Int, Device>
 
     @Transaction
@@ -47,7 +47,7 @@ abstract class DeviceDao {
     @Query("SELECT * FROM device1 WHERE id = :id")
     abstract fun getDevice(id: Int):Device
 
-    @Query("DELETE FROM device1 WHERE zoneId = :zoneId")
+    @Query("DELETE FROM device1 WHERE type!=5 and zoneId = :zoneId")
     abstract fun deleteAll(zoneId: Int)
 
     @Query("UPDATE device1 set roomId = 0 WHERE roomId = :roomId")

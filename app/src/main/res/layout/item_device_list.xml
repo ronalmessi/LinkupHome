@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:scaleX="0.65"
                 android:scaleY="0.65"
-                android:src="@mipmap/ic_lamp_r2_a2"
+                android:src="@mipmap/ic_lamp_m1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

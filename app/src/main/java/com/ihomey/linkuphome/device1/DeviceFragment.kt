@@ -158,10 +158,8 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
             if(isFragmentVisible()){
                 val controller = ControllerFactory().createController(it.type)
                 if(it.type==5){
-                    Log.d("aa","hahahha")
                    controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
                 }else{
-                    Log.d("aa","gggggg")
                     if (meshServiceStateListener.isMeshServiceConnected()) {
                         controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
                     }

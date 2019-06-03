@@ -236,12 +236,12 @@ public class BluetoothSPP {
     public void connect(Intent data) {
         String address = data.getExtras().getString(BluetoothSPPState.EXTRA_DEVICE_ADDRESS);
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-        mChatService.connect(device);
+        if(mChatService!=null) mChatService.connect(device);
     }
 
     public void connect(String address) {
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-        mChatService.connect(device);
+        if(mChatService!=null)mChatService.connect(device);
     }
 
     public void disconnect() {
@@ -276,7 +276,7 @@ public class BluetoothSPP {
     }
 
     public void send(byte[] data, boolean CRLF) {
-        if(mChatService.getState() == BluetoothSPPState.STATE_CONNECTED) {
+        if(mChatService!=null&&mChatService.getState() == BluetoothSPPState.STATE_CONNECTED) {
             if(CRLF) {
                 byte[] data2 = new byte[data.length + 2];
                 for(int i = 0 ; i < data.length ; i++)
@@ -291,7 +291,7 @@ public class BluetoothSPP {
     }
 
     public void send(String data, boolean CRLF) {
-        if(mChatService.getState() == BluetoothSPPState.STATE_CONNECTED) {
+        if(mChatService!=null&&mChatService.getState() == BluetoothSPPState.STATE_CONNECTED) {
             if(CRLF)
                 data += "\r\n";
             mChatService.write(data.getBytes());

@@ -188,8 +188,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     toast("已取消手势控制", Toast.LENGTH_SHORT)
                 }else if(TextUtils.equals("FE01D101DA000AC3012000000000000000EE16",receiveDataStr)){
                     toast("时间已同步", Toast.LENGTH_SHORT)
-                }else if(TextUtils.equals("FE01D101DA000AC3012000000000000000EE16",receiveDataStr)){
-                    toast("时间已同步", Toast.LENGTH_SHORT)
                 }else if(receiveDataStr.startsWith("FE01D101DA0004C20601")){
                     val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
                     toast("定时" + alarmId + "设置成功", Toast.LENGTH_SHORT)
@@ -214,12 +212,27 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             }
             BluetoothSPP.getInstance()?.setBluetoothStateListener { state ->
                 Log.d("aa","---"+state)
-//                BF01D101CD04C102F101B916
-// if(state==BluetoothSPPState.STATE_CONNECTED) BluetoothSPP.getInstance().send(decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()),false)
+                if(state==3) syncTime()
             }
             val currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
             if(!TextUtils.isEmpty(currentDeviceAddress))BluetoothSPP.getInstance()?.autoConnect("Linkuphome M1")
         }
+    }
+
+    fun syncTime() {
+        val calendar = Calendar.getInstance()
+        calendar.time = Date()
+        val year = calendar.get(Calendar.YEAR)%2000
+        val month = calendar.get(Calendar.MONTH)+1
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-1
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        val second = calendar.get(Calendar.SECOND)
+        val code_lawn_time_prefix = M1Controller.CODE_LIGHT_SYNC_TIME_BASE +(if (year>= 10) "" + year else "0$year")+(if (month>= 10) "" + month else "0$month")+(if (dayOfMonth>= 10) "" + dayOfMonth else "0$dayOfMonth")+(if (dayOfWeek>= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
+        val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+        BluetoothSPP.getInstance().send(decodeHex(code_lawn_time.toUpperCase().toCharArray()),false)
     }
 
     override fun reConnectBridge() {
