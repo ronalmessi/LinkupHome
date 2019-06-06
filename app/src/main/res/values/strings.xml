@@ -137,4 +137,9 @@
     <string name="title_lamp_v2">Solar mini garden light</string>
     <string name="msg_join_zone_success">Joined</string>
 
+
+
+    <string name="msg_sleep_mode_hint">此模式开启状态下，电源指示灯和时钟显示随床头灯灯光同步开启和关闭。\n\n为避免指示灯灯光影响您的休息，建议在睡眠过程中开启此功能。
+</string>
+
 </resources>

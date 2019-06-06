@@ -6,14 +6,18 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Color
 import android.os.*
 import android.text.TextUtils
 import android.util.ArrayMap
 import android.util.Log
 import android.util.SparseIntArray
+import android.util.TypedValue
 import android.view.Gravity
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
@@ -187,7 +191,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 }else if(TextUtils.equals("FE01D101DA0004C7010100CD16",receiveDataStr)){
                     toast("已取消手势控制", Toast.LENGTH_SHORT)
                 }else if(TextUtils.equals("FE01D101DA000AC3012000000000000000EE16",receiveDataStr)){
-                    toast("时间已同步", Toast.LENGTH_SHORT)
+//                    toast("时间已同步", Toast.LENGTH_SHORT)
+                    showCustomToast("时间已同步")
                 }else if(receiveDataStr.startsWith("FE01D101DA0004C20601")){
                     val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
                     toast("定时" + alarmId + "设置成功", Toast.LENGTH_SHORT)
@@ -196,10 +201,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     toast("定时" + alarmId + "已关闭", Toast.LENGTH_SHORT)
                 }else if(receiveDataStr.startsWith("FE01D101DA0003C401")){
                     val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-                    toast("闹钟" + alarmId + "设置成功", Toast.LENGTH_SHORT)
+//                    toast("闹钟" + alarmId + "设置成功", Toast.LENGTH_SHORT)
+                    showCustomToast("闹钟" + alarmId + "已开启")
                 }else if(receiveDataStr.startsWith("FE01D101DA0003C402")){
                     val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-                    toast("闹钟" + alarmId + "已关闭", Toast.LENGTH_SHORT)
+//                    toast("闹钟" + alarmId + "已关闭", Toast.LENGTH_SHORT)
+                    showCustomToast("闹钟" + alarmId + "已关闭")
                 }else if(receiveDataStr.startsWith("FE01D101DA0004C1F")){
                     val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
                     toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
@@ -390,6 +397,22 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         textView.setBackgroundResource(R.color.colorPrimaryDark)
         textView.text = '"' + name + '"' + " " + getString(R.string.msg_device_disconnected)
         Crouton.make(this, textView).show()
+    }
+
+
+    private fun showCustomToast(name: String) {
+        val toast = Toast(applicationContext)
+        toast.setGravity(Gravity.BOTTOM, 0, dip2px(64f))
+        toast.duration = Toast.LENGTH_LONG
+        val textView = TextView(this)
+        textView.gravity = Gravity.CENTER
+        textView.setPadding( dip2px(24f), dip2px(10f),  dip2px(24f), dip2px(10f))
+        textView.setTextColor(resources.getColor(android.R.color.black))
+        textView.setBackgroundResource(R.drawable.bg_custom_toast)
+        textView.text = name
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,resources.getDimension(R.dimen._18ssp))
+        toast.view = textView
+        toast.show()
     }
 
     override fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?) {

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.SleepModeDialogFragment
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
@@ -18,6 +19,7 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.zone.DeleteZoneFragment
 import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
 
 
@@ -49,6 +51,10 @@ class M1ControlSettingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tv_sleep_mode.setOnClickListener {
+            val dialogFragment = SleepModeDialogFragment()
+            dialogFragment.show(fragmentManager, null)
+        }
         sb_sleep_mode.setOnCheckedChangeListener { _, isChecked -> controller?.setSleepMode(if(isChecked) 1 else 0)}
         sb_gesture_control.setOnCheckedChangeListener { _, isChecked -> controller?.enableGestureControl(isChecked)}
         infoTextLayout_setting_syncTime.setOnClickListener { controller?.syncTime()}

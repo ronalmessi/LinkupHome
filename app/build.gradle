@@ -135,7 +135,6 @@ dependencies {
         exclude group: 'com.google.android', module: 'support-v4'
     }
 
-    
     //BaseRecyclerViewAdapterHelper
     def baseRecyclerViewAdapterHelper_version = "2.9.40"
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$baseRecyclerViewAdapterHelper_version"

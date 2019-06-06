@@ -3,6 +3,7 @@ package com.ihomey.linkuphome
 class AppConfig {
 
     companion object {
+
         val DEVICE_MODEL_NAME = arrayListOf("C3", "R2", "A2", "N1", "M1", "V1", "S1", "S2", "T1","V2")
         val DEVICE_NAME = arrayListOf(R.string.title_lamp_c3, R.string.title_lamp_r2, R.string.title_lamp_a2, R.string.title_lamp_n1, R.string.title_lamp_m1, R.string.title_lamp_v1, R.string.title_lamp_s1, R.string.title_lamp_s2, R.string.title_lamp_t1, R.string.title_lamp_v2)
         val DEVICE_ICON = arrayListOf(R.mipmap.ic_lamp_c3, R.mipmap.ic_lamp_r2_a2, R.mipmap.ic_lamp_r2_a2, R.mipmap.ic_lamp_n1, R.mipmap.ic_lamp_m1, R.mipmap.ic_lamp_v1, R.mipmap.ic_lamp_s1_s2, R.mipmap.ic_lamp_s1_s2,R.mipmap.ic_lamp_t1, R.mipmap.ic_lamp_v1)
@@ -19,7 +20,6 @@ class AppConfig {
         val APP_SECRET = "f374cfda69e064322a2be320da6caf96"
 
         val REQUEST_BT_CODE = 102
-
 
         val RING_LIST=listOf("无", "海浪海鸥音效", "轻松欢快", "在云上")
 
