@@ -33,6 +33,7 @@ class TimerSettingView : View {
 
     // Paint
     private val mTextPaint: Paint = Paint(ANTI_ALIAS_FLAG)
+    private val mAMPMPaint: Paint = Paint(ANTI_ALIAS_FLAG)
     private val mHourWheelUnReachedPaint: Paint = Paint(ANTI_ALIAS_FLAG)
     private val mHourWheelReachedPaint: Paint = Paint(ANTI_ALIAS_FLAG)
     private val mLinePaint: Paint = Paint(ANTI_ALIAS_FLAG)
@@ -115,20 +116,38 @@ class TimerSettingView : View {
 
     private fun drawTimerText(canvas: Canvas) {
         val rect = Rect()
+        mTextPaint.getTextBounds("24", 0, 2, rect)
 
-        val hour = getCurrentHour()
-        val hourStr = if (hour < 10) "0$hour" else hour.toString()
+        val mAMPMRect = Rect()
+        mAMPMPaint.getTextBounds("上午 ", 0, 2, mAMPMRect)
+
+        var hour = getCurrentHour()
+        val hourStr: String
+        if(hour<=12){
+            hourStr = if (hour < 10) "0$hour" else hour.toString()
+            mAMPMPaint.color=mReachedColor
+            canvas.drawText("上午", mCx- mAMPMPaint.measureText("上午") - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+            mAMPMPaint.color=mUnReachedColor
+            canvas.drawText("下午", mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+        }else{
+            hour -= 12
+            hourStr = if (hour < 10) "0$hour" else hour.toString()
+            mAMPMPaint.color=mUnReachedColor
+            canvas.drawText("上午", mCx- mAMPMPaint.measureText("上午") - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+            mAMPMPaint.color=mReachedColor
+            canvas.drawText("下午", mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+        }
+
         mTextPaint.getTextBounds(hourStr, 0, hourStr.length, rect)
-        canvas.drawText(hourStr, mCx - mTextPaint.measureText(hourStr) - context.dip2px(6f), mCy + rect.height() / 2, mTextPaint)
+        canvas.drawText(hourStr, mCx - mTextPaint.measureText(hourStr) - context.dip2px(6f), mCy+ rect.height()/4, mTextPaint)
 
         val minute = getCurrentMinute()
         val minuteStr = if (minute < 10) "0$minute" else minute.toString()
         mTextPaint.getTextBounds(minuteStr, 0, minuteStr.length, rect)
-        canvas.drawText(minuteStr, mCx + context.dip2px(6f), mCy + rect.height() / 2, mTextPaint)
+        canvas.drawText(minuteStr, mCx + context.dip2px(6f), mCy+ rect.height()/4 , mTextPaint)
 
         mTextPaint.getTextBounds(":", 0, 1, rect)
-        canvas.drawText(":", mCx - mTextPaint.measureText(":") / 2, mCy + rect.height() / 2, mTextPaint)
-
+        canvas.drawText(":", mCx - mTextPaint.measureText(":") / 2, mCy+ rect.height()/4 , mTextPaint)
     }
 
     private fun drawHourWheel(canvas: Canvas) {
@@ -250,6 +269,11 @@ class TimerSettingView : View {
         mTextPaint.isAntiAlias = true
         mTextPaint.typeface = Typeface.MONOSPACE
         mTextPaint.textSize = mTextSize
+
+        mAMPMPaint.color = mReachedColor
+        mAMPMPaint.isAntiAlias = true
+        mAMPMPaint.typeface = Typeface.MONOSPACE
+        mAMPMPaint.textSize = mTextSize*5/12
     }
 
     private fun setHourWheelUnReachedPaint() {

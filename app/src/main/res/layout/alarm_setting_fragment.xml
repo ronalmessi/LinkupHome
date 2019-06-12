@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.176" />
+        app:layout_constraintGuide_percent="0.15" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -61,14 +61,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.125" />
+        app:layout_constraintGuide_percent="0.08" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.875" />
+        app:layout_constraintGuide_percent="0.92" />
 
 
     <com.ihomey.linkuphome.widget.TimerSettingView
@@ -76,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:circle_gap="@dimen/_18sdp"
+        app:circle_gap="@dimen/_24sdp"
         app:layout_constraintLeft_toLeftOf="@+id/guideline3"
         app:layout_constraintRight_toRightOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/guideline1"

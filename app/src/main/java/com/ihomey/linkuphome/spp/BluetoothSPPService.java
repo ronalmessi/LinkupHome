@@ -208,7 +208,7 @@ public class BluetoothSPPService {
             BluetoothSocket socket = null;
 
             // Listen to the server socket if we're not connected
-            while (mState != BluetoothSPPState.STATE_CONNECTED && isRunning) {
+            while (mState != BluetoothSPPState.STATE_CONNECTED && isRunning&&mmServerSocket!=null) {
                 try {
                     // This is a blocking call and will only return on a
                     // successful connection or an exception
@@ -342,7 +342,6 @@ public class BluetoothSPPService {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
                     // Send the obtained bytes to the UI Activity
-                    Log.d("aa","hahah---"+bytes);
                     mHandler.obtainMessage(BluetoothSPPState.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);

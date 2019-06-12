@@ -1,7 +1,7 @@
 package com.ihomey.linkuphome.alarm
 
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,14 +20,10 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
-import com.yanzhenjie.recyclerview.OnItemMenuClickListener
-import com.yanzhenjie.recyclerview.SwipeMenuBridge
-import com.yanzhenjie.recyclerview.SwipeMenuCreator
-import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.alarm_list_fragment.*
 
 
-open class AlarmListFragment : BaseFragment(), OnItemMenuClickListener, BaseQuickAdapter.OnItemClickListener, AlarmListAdapter.AlarmStateListener {
+open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, AlarmListAdapter.AlarmStateListener, BaseQuickAdapter.OnItemChildClickListener {
 
     companion object {
         fun newInstance() = AlarmListFragment()
@@ -68,7 +64,7 @@ open class AlarmListFragment : BaseFragment(), OnItemMenuClickListener, BaseQuic
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         iv_add.setOnClickListener {
             if(adapter.itemCount==1){
                 adapter.getItem(0)?.let {
@@ -82,17 +78,10 @@ open class AlarmListFragment : BaseFragment(), OnItemMenuClickListener, BaseQuic
         adapter = AlarmListAdapter(R.layout.item_alarm_list)
         adapter.setAlarmStateListener(this)
         rcv_alarm_list.layoutManager = LinearLayoutManager(context)
-        context?.resources?.getDimension(R.dimen._15sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_alarm_list.addItemDecoration(it) }
-        val swipeMenuCreator = SwipeMenuCreator { _, swipeRightMenu, _ ->
-            val width = context?.resources?.getDimension(R.dimen._72sdp)
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val deleteItem = SwipeMenuItem(context).setBackground(R.drawable.selectable_lamp_category_delete_item_background).setWidth(width!!.toInt()).setHeight(height).setText(R.string.action_delete).setTextColor(Color.WHITE).setTextSize(14)
-            swipeRightMenu.addMenuItem(deleteItem)
-        }
-        rcv_alarm_list.setSwipeMenuCreator(swipeMenuCreator)
+        context?.resources?.getDimension(R.dimen._18sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_alarm_list.addItemDecoration(it) }
         adapter.setEmptyView(R.layout.view_alarm_list_empty,rcv_alarm_list)
         adapter.onItemClickListener = this
-        rcv_alarm_list.setOnItemMenuClickListener(this)
+        adapter.onItemChildClickListener = this
         adapter.bindToRecyclerView(rcv_alarm_list)
         adapter.emptyView.setOnClickListener {it1->
             mDevice?.let {
@@ -103,17 +92,16 @@ open class AlarmListFragment : BaseFragment(), OnItemMenuClickListener, BaseQuic
 
     }
 
-    override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
-        menuBridge?.closeMenu()
-        adapter.getItem(position)?.let {
-            viewModel.deleteAlarm(it)
-        }
-    }
-
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
             viewModel.setCurrentAlarm(it)
             Navigation.findNavController(iv_back).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
+        }
+    }
+
+    override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        adapter.getItem(position)?.let {
+            viewModel.deleteAlarm(it)
         }
     }
 

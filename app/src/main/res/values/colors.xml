@@ -23,6 +23,8 @@
 
     <color name="divider">#EFEFF0</color>
 
+    <color name="divider_item_alarm">#E9E5EC</color>
+
     <color name="c1">#E10012</color>
     <color name="c2">#E10032</color>
     <color name="c3">#E0004F</color>

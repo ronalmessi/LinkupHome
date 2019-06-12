@@ -191,8 +191,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 }else if(TextUtils.equals("FE01D101DA0004C7010100CD16",receiveDataStr)){
                     toast("已取消手势控制", Toast.LENGTH_SHORT)
                 }else if(TextUtils.equals("FE01D101DA000AC3012000000000000000EE16",receiveDataStr)){
-//                    toast("时间已同步", Toast.LENGTH_SHORT)
-                    showCustomToast("时间已同步")
+                    toast("时间已同步", Toast.LENGTH_SHORT)
                 }else if(receiveDataStr.startsWith("FE01D101DA0004C20601")){
                     val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
                     toast("定时" + alarmId + "设置成功", Toast.LENGTH_SHORT)
@@ -201,11 +200,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     toast("定时" + alarmId + "已关闭", Toast.LENGTH_SHORT)
                 }else if(receiveDataStr.startsWith("FE01D101DA0003C401")){
                     val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-//                    toast("闹钟" + alarmId + "设置成功", Toast.LENGTH_SHORT)
                     showCustomToast("闹钟" + alarmId + "已开启")
                 }else if(receiveDataStr.startsWith("FE01D101DA0003C402")){
                     val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-//                    toast("闹钟" + alarmId + "已关闭", Toast.LENGTH_SHORT)
                     showCustomToast("闹钟" + alarmId + "已关闭")
                 }else if(receiveDataStr.startsWith("FE01D101DA0004C1F")){
                     val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
@@ -250,8 +247,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==AppConfig.REQUEST_BT_CODE&&resultCode==Activity.RESULT_OK){
-            initSppService()
+        if(requestCode==AppConfig.REQUEST_BT_CODE){
+            if(resultCode==Activity.RESULT_OK){
+                initSppService()
+            }else if(resultCode==Activity.RESULT_CANCELED){
+
+            }
         }
     }
 
