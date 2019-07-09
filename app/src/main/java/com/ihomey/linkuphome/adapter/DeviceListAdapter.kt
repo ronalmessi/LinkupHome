@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -17,12 +18,11 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
 
     var isSwiping:Boolean= false
 
-
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bindTo(it, mOnItemChildClickListener)
-            holder.itemView.setOnClickListener {
-                mOnItemClickListener?.onItemClick(position)
+            holder.itemView.setOnClickListener {it0->
+                mOnItemClickListener?.onItemClick(it)
             }
             holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener{
                 override fun onOpen(layout: SwipeLayout?) {
@@ -44,11 +44,11 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
                     holder.swipeLayout.postDelayed({ isSwiping=false},550)
                 }
             })
-            holder.swipeLayout.setOnClickListener {
-                if(!isSwiping) mOnItemClickListener?.onItemClick(position)
+            holder.swipeLayout.setOnClickListener {it0->
+                if(!isSwiping) mOnItemClickListener?.onItemClick(it)
             }
             holder.powerStateView.setOnCheckedChangeListener { _, isChecked ->
-                mOnCheckedChangeListener?.onCheckedChanged(position, isChecked)
+                mOnCheckedChangeListener?.onCheckedChanged(it, isChecked)
             }
             holder.brightnessView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -60,7 +60,7 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
                 }
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {
-                    mOnSeekBarChangeListener?.onProgressChanged(position, seekBar.progress)
+                    mOnSeekBarChangeListener?.onProgressChanged(it, seekBar.progress)
                 }
             })
         }
@@ -81,7 +81,7 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
          */
         private val diffCallback = object : DiffUtil.ItemCallback<Device>() {
             override fun areItemsTheSame(oldItem: Device, newItem: Device): Boolean {
-                return (oldItem.id == newItem.id&&oldItem.parameters?.on==newItem.parameters?.on&&oldItem.parameters?.brightness==newItem.parameters?.brightness)
+                return (oldItem.id == newItem.id&&TextUtils.equals(oldItem.macAddress,newItem.macAddress)&&oldItem.parameters?.on==newItem.parameters?.on&&oldItem.parameters?.brightness==newItem.parameters?.brightness)
             }
 
             /**
@@ -95,19 +95,19 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(singleDevice: Device)
     }
 
     interface OnItemChildClickListener {
-        fun onItemChildClick(device: Device, view: View)
+        fun onItemChildClick(singleDevice: Device, view: View)
     }
 
     interface OnCheckedChangeListener {
-        fun onCheckedChanged(position: Int, isChecked: Boolean)
+        fun onCheckedChanged(singleDevice: Device, isChecked: Boolean)
     }
 
     interface OnSeekBarChangeListener {
-        fun onProgressChanged(position: Int, progress: Int)
+        fun onProgressChanged(singleDevice: Device, progress: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {

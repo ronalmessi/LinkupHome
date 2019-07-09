@@ -427,6 +427,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     override fun discoverDevices(enabled: Boolean, listener: SppStateListener?) {
        if(enabled) this.sppStateListener=listener else null
+        try {
+            mService?.setDeviceDiscoveryFilterEnabled(enabled)
+        } catch (e: Exception) {
+            Log.d("LinkupHome", "you should firstly connect to bridge!")
+        }
     }
 
     override fun getEnvironmentalIndicators(listener: EmtValueListener?) {

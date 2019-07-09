@@ -76,7 +76,7 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                 }
                 val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
                 sb_power.isChecked = item.parameters?.on == 1
-                sb_power.setOnCheckedChangeListener { _, isChecked -> onCheckedChangeListener.onCheckedChanged(helper.adapterPosition, isChecked) }
+                sb_power.setOnCheckedChangeListener { _, isChecked -> onCheckedChangeListener.onCheckedChanged(item, isChecked) }
 
                 seek_bar_brightness.progress = item.parameters?.brightness ?: 20
                 seek_bar_brightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -89,7 +89,7 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                     }
 
                     override fun onStopTrackingTouch(seekBar: SeekBar) {
-                        onSeekBarChangeListener.onProgressChanged(helper.adapterPosition, seekBar.progress)
+                        onSeekBarChangeListener.onProgressChanged(item, seekBar.progress)
                     }
                 })
             }

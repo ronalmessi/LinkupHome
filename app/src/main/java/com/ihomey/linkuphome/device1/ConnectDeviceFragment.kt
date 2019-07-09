@@ -164,20 +164,16 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         }
     }
 
-    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
-        adapter.getItem(position)?.let {
-            val controller = ControllerFactory().createController(it.type)
-            if (meshServiceStateListener.isMeshServiceConnected()) { controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0) }
-            changeDeviceState(it,"on",if (isChecked) "1" else "0")
-        }
+    override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
+        val controller = ControllerFactory().createController(singleDevice.type)
+        if (meshServiceStateListener.isMeshServiceConnected()) { controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0) }
+        changeDeviceState(singleDevice,"on",if (isChecked) "1" else "0")
     }
 
-    override fun onProgressChanged(position: Int, progress: Int) {
-        adapter.getItem(position)?.let {
-            val controller = ControllerFactory().createController(it.type)
-            if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(it.instructId, if(it.type==6||it.type==10) progress.plus(10) else progress.plus(15))
-            changeDeviceState(it,"brightness", progress.toString())
-        }
+    override fun onProgressChanged(singleDevice: Device, progress: Int) {
+        val controller = ControllerFactory().createController(singleDevice.type)
+        if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(singleDevice.instructId, if(singleDevice.type==6||singleDevice.type==10) progress.plus(10) else progress.plus(15))
+        changeDeviceState(singleDevice,"brightness", progress.toString())
     }
 
 

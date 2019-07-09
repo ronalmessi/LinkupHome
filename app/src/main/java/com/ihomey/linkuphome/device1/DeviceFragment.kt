@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -112,12 +111,12 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         }
     }
 
-    override fun onItemChildClick(device: Device, view: View) {
+    override fun onItemChildClick(singleDevice: Device, view: View) {
         if (view.id == R.id.btn_delete) {
             val dialog = DeleteDeviceFragment()
             val bundle = Bundle()
-            bundle.putInt("deviceId", device.id)
-            bundle.putInt("deviceInstructId", device.instructId)
+            bundle.putInt("deviceId", singleDevice.id)
+            bundle.putInt("deviceInstructId", singleDevice.instructId)
             dialog.arguments = bundle
             dialog.setDeleteDeviceListener(this)
             dialog.show(fragmentManager, "DeleteDeviceFragment")
@@ -125,22 +124,19 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-    override fun onItemClick(position: Int) {
-        deviceList?.let {
-            val singleDevice=it[position]
-            mViewModel.setCurrentControlDevice(singleDevice)
-            when (singleDevice.type-1) {
-                0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
-                1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
-                2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
-                3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
-                4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
-                5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
-                6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
-                7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
-                8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
-                9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
-            }
+    override fun onItemClick(singleDevice: Device) {
+        mViewModel.setCurrentControlDevice(singleDevice)
+        when (singleDevice.type-1) {
+            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
+            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
+            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
+            5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
+            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
+            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
+            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
+            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
         }
     }
 
@@ -152,36 +148,32 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         return false
     }
 
-    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
+    override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
         isUserTouch=true
-        adapter.currentList?.get(position)?.let {
-            if(isFragmentVisible()){
-                val controller = ControllerFactory().createController(it.type)
-                if(it.type==5){
-                   controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
-                }else{
-                    if (meshServiceStateListener.isMeshServiceConnected()) {
-                        controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
-                    }
-                    changeDeviceState(it, "on", if (isChecked) "1" else "0")
+        if(isFragmentVisible()){
+            val controller = ControllerFactory().createController(singleDevice.type)
+            if(singleDevice.type==5){
+                controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
+            }else{
+                if (meshServiceStateListener.isMeshServiceConnected()) {
+                    controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
                 }
+                changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
             }
         }
     }
 
-    override fun onProgressChanged(position: Int, progress: Int) {
+    override fun onProgressChanged(singleDevice: Device, progress: Int) {
         isUserTouch=true
-        adapter.currentList?.get(position)?.let {
-            if(isFragmentVisible()){
-                val controller = ControllerFactory().createController(it.type)
-                if(it.type==5){
-                   controller?.setLightBright(0,progress.plus(15))
-                }else{
-                    if (meshServiceStateListener.isMeshServiceConnected()){
-                        controller?.setLightBright(it.instructId, if(it.type==6||it.type==10) progress.plus(10) else progress.plus(15))
-                    }
-                    changeDeviceState(it, "brightness", progress.toString())
+        if(isFragmentVisible()){
+            val controller = ControllerFactory().createController(singleDevice.type)
+            if(singleDevice.type==5){
+                controller?.setLightBright(0,progress.plus(15))
+            }else{
+                if (meshServiceStateListener.isMeshServiceConnected()){
+                    controller?.setLightBright(singleDevice.instructId, if(singleDevice.type==6||singleDevice.type==10) progress.plus(10) else progress.plus(15))
                 }
+                changeDeviceState(singleDevice, "brightness", progress.toString())
             }
         }
     }

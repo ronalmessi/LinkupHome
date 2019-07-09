@@ -76,7 +76,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
             if (it?.status == Status.SUCCESS&&(adapter.emptyViewCount==1&&adapter.itemCount==1)) {
                 adapter.setNewData(it.data)
-                listener.discoverDevices(true, this)
+
             }
         })
     }
@@ -100,10 +100,14 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         countDownTimer = AssociateDeviceCountDownTimer(20000, 1000)
     }
 
+    override fun onResume() {
+        super.onResume()
+        listener.discoverDevices(true, this)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        listener.discoverDevices(false, this)
+        listener.discoverDevices(false, null)
         countDownTimer.cancel()
     }
 
@@ -158,18 +162,14 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         }
     }
 
-    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
-        adapter.getItem(position)?.let {
-            val controller = ControllerFactory().createController(it.type)
-           controller?.setLightPowerState(0, if (isChecked) 1 else 0)
-        }
+    override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
+        val controller = ControllerFactory().createController(singleDevice.type)
+        controller?.setLightPowerState(0, if (isChecked) 1 else 0)
     }
 
-    override fun onProgressChanged(position: Int, progress: Int) {
-        adapter.getItem(position)?.let {
-            val controller = ControllerFactory().createController(it.type)
-            controller?.setLightBright(0,progress.plus(15))
-        }
+    override fun onProgressChanged(singleDevice: Device, progress: Int) {
+        val controller = ControllerFactory().createController(singleDevice.type)
+        controller?.setLightBright(0,progress.plus(15))
     }
 
     interface DevicesStateListener {

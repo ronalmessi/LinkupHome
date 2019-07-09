@@ -25,11 +25,11 @@ abstract class DeviceDao {
     abstract fun getDevicesByType(zoneId: Int,type:Int):LiveData<List<Device>>
 
     @Transaction
-    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId =0 order by type asc,id asc")
+    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId =0 and type!=5 order by type asc,id asc")
     abstract fun getPagingUnBondedDevices(zoneId: Int): DataSource.Factory<Int, Device>
 
     @Transaction
-    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId = :roomId order by type asc,id asc")
+    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId = :roomId and type!=5 order by type asc,id asc")
     abstract fun getPagingBondedDevices(zoneId: Int,roomId: Int): DataSource.Factory<Int, Device>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

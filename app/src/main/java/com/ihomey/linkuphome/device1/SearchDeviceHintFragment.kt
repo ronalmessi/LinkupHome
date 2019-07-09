@@ -79,5 +79,8 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
 
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        listener.discoverDevices(false, null)
+    }
 }
