@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.daimajia.swipe.SwipeLayout
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Alarm
@@ -46,6 +47,29 @@ class AlarmListAdapter(layoutId: Int) : BaseQuickAdapter<Alarm, BaseViewHolder>(
                 listener?.onStateChanged(isChecked,item)
             }
         }
+        val swipeLayout=helper.getView<SwipeLayout>(R.id.swipeLayout)
+        swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener{
+            override fun onOpen(layout: SwipeLayout?) {
+                swipeLayout.isClickable=false
+            }
+
+            override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
+            }
+
+            override fun onStartOpen(layout: SwipeLayout?) {
+                swipeLayout.isClickable=false
+            }
+
+            override fun onStartClose(layout: SwipeLayout?) {
+            }
+
+            override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {
+            }
+
+            override fun onClose(layout: SwipeLayout?) {
+                swipeLayout.postDelayed({swipeLayout.isClickable=true},250)
+            }
+        })
     }
 
 
