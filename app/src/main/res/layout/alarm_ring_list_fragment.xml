@@ -12,10 +12,12 @@
         android:layout_height="wrap_content">
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingEnd="@dimen/_18sdp"
             android:layout_gravity="start|center_vertical"
             android:src="@mipmap/ic_back_white" />
 

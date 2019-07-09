@@ -9,7 +9,7 @@
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:clickToClose="true">
+       >
 
         <TextView
             android:id="@+id/btn_delete"
@@ -41,7 +41,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="06:15"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_21ssp"
+                android:textSize="@dimen/_24ssp"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -94,10 +94,11 @@
             app:leftIcon="@mipmap/ic_alarm_setting_repeat"
             app:leftText="@string/action_repeat"
             app:leftTextColor="@android:color/black"
-            app:leftTextSize="@dimen/_14ssp"
+            app:leftTextSize="@dimen/_16ssp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:rightTextColor="#807F85"
             app:isShowRightIcon="false"
-            app:rightTextSize="@dimen/_12ssp"
+            app:rightTextSize="@dimen/_14ssp"
             app:verticalMargin="@dimen/_16sdp"
             />
 
@@ -111,10 +112,10 @@
             app:leftIcon="@mipmap/ic_alarm_setting_ring"
             app:leftText="铃声"
             app:leftTextColor="@android:color/black"
-            app:leftTextSize="@dimen/_14ssp"
+            app:leftTextSize="@dimen/_16ssp"
             app:rightTextColor="#807F85"
-            app:rightText="aaa"
-            app:rightTextSize="@dimen/_12ssp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:rightTextSize="@dimen/_14ssp"
             app:verticalMargin="@dimen/_16sdp"
             />
 
@@ -128,9 +129,10 @@
             app:leftIcon="@mipmap/ic_alarm_setting_lighting"
             app:leftText="灯光"
             app:leftTextColor="@android:color/black"
-            app:leftTextSize="@dimen/_14ssp"
+            app:leftTextSize="@dimen/_16ssp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:rightTextColor="#807F85"
-            app:rightTextSize="@dimen/_12ssp"
+            app:rightTextSize="@dimen/_14ssp"
             app:verticalMargin="@dimen/_16sdp"
             />
 

@@ -13,10 +13,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingEnd="@dimen/_18sdp"
             android:layout_gravity="start|center_vertical"
             android:src="@mipmap/ic_back_white"
             />
@@ -34,16 +36,6 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/_18ssp" />
 
-
-        <TextView
-            android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:text="@string/action_save"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/_16ssp" />
 
 
     </com.ihomey.linkuphome.widget.CompatToolbar>

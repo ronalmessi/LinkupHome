@@ -67,6 +67,11 @@ fun Activity.setTranslucentStatus() {
     }
 }
 
+fun View.dip2px(dpValue: Float): Int {
+    val scale = this.resources.displayMetrics.density
+    return (dpValue * scale + 0.5f).toInt()
+}
+
 fun Context.dip2px(dpValue: Float): Int {
     val scale = this.resources.displayMetrics.density
     return (dpValue * scale + 0.5f).toInt()
@@ -146,6 +151,8 @@ fun moveToViewLocationAnimation(): TranslateAnimation {
     return mShowAction
 }
 
+
+
 fun handleBackPress(fragmentActivity: FragmentActivity): Boolean {
     return handleBackPress(fragmentActivity.supportFragmentManager)
 }
@@ -174,10 +181,6 @@ fun isFragmentBackHandled(fragment: Fragment?): Boolean {
             && fragment is FragmentBackHandler && (fragment as FragmentBackHandler).onBackPressed())
 }
 
-@BindingAdapter("android:textSize")
-fun setTextSize(view: TextView, textSize: Float) {
-    view.textSize = textSize
-}
 
 fun decodeHex(data: CharArray): ByteArray {
 
@@ -332,7 +335,6 @@ fun getShortName(type: DeviceType) =
 
 
 val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
-val bgRes = arrayListOf(R.mipmap.fragment_lawn_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_led_bg, R.mipmap.fragment_rgb_bg, R.mipmap.fragment_warm_cold_bg)
 val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
 
 

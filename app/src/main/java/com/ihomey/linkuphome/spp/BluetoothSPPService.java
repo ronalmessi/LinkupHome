@@ -77,6 +77,7 @@ public class BluetoothSPPService {
 
         // Start the thread to listen on a BluetoothServerSocket
         if (mSecureAcceptThread == null) {
+            Log.d("aa","AcceptThread");
             mSecureAcceptThread = new AcceptThread(isAndroid);
             mSecureAcceptThread.start();
             BluetoothSPPService.this.isAndroid = isAndroid;
@@ -116,6 +117,7 @@ public class BluetoothSPPService {
 
         // Cancel the accept thread because we only want to connect to one device
         if (mSecureAcceptThread != null) {
+            Log.d("aa","kill AcceptThread");
             mSecureAcceptThread.cancel();
             mSecureAcceptThread = null;
         }

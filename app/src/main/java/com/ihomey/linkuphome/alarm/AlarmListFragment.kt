@@ -101,7 +101,13 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
-            viewModel.deleteAlarm(it)
+            when(view?.id){
+                R.id.btn_delete-> viewModel.deleteAlarm(it)
+                R.id.swipeLayout-> {
+                    viewModel.setCurrentAlarm(it)
+                    Navigation.findNavController(iv_back).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
+                }
+            }
         }
     }
 

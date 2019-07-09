@@ -18,11 +18,20 @@ import com.ihomey.linkuphome.data.entity.Alarm
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.alarm_ring_list_fragment.*
+import android.media.AudioManager
+import android.media.SoundPool
+import android.util.Log
+import android.util.SparseIntArray
+
 
 class AlarmRingListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
 
 
     private var ringListAdapter: RingListAdapter = RingListAdapter(false, R.layout.item_day_of_week_alarm)
+
+    private lateinit var soundPool:SoundPool
+
+    private val soundIdArray=SparseIntArray()
 
     private lateinit var mViewModel: AlarmViewModel
 
@@ -48,12 +57,20 @@ class AlarmRingListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initSoundPool()
         (rcv_rings.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         rcv_rings.layoutManager = LinearLayoutManager(context)
         rcv_rings.addItemDecoration(DividerItemDecoration(LinearLayoutManager.HORIZONTAL, 0, context?.dip2px(0.5f)!!, Color.WHITE, false))
         rcv_rings.adapter = ringListAdapter
         ringListAdapter.onItemClickListener = this
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
+    }
+
+    private fun initSoundPool() {
+        soundPool = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
+        soundIdArray.put(1,soundPool.load(context, R.raw.a0, 1))
+        soundIdArray.put(2,soundPool.load(context, R.raw.a1, 1))
+        soundIdArray.put(3,soundPool.load(context, R.raw.a2, 1))
     }
 
     private fun updateViews(alarm: Alarm?) {
@@ -64,8 +81,17 @@ class AlarmRingListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListen
 
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        if(position>0){
+            soundPool.play(soundIdArray.get(position), 1f, 1f, 0, -1, 1f)
+        }else{
+            soundPool.stop(soundIdArray.get(ringListAdapter.getSelectedPosition()))
+        }
         ringListAdapter.setItemSelected(position, !ringListAdapter.isItemSelected(position))
         mAlarm?.ringType=ringListAdapter.getSelectedPosition()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        soundPool.release()
+    }
 }

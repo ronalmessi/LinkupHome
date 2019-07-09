@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.adapter
 
 
 import android.text.TextUtils
+import android.util.Log
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.AppConfig
@@ -23,7 +24,6 @@ class AlarmListAdapter(layoutId: Int) : BaseQuickAdapter<Alarm, BaseViewHolder>(
     var listener:AlarmStateListener?=null
 
     override fun convert(helper: BaseViewHolder, item: Alarm) {
-
         val hour = if (item.hour > 11) item.hour - 12 else item.hour
         val hourStr = if (hour > 9) "" + hour else "0$hour"
         val minuteStr = if (item.minute > 9) "" + item.minute else "0" + item.minute
@@ -40,12 +40,14 @@ class AlarmListAdapter(layoutId: Int) : BaseQuickAdapter<Alarm, BaseViewHolder>(
         helper.getView<InfoTextLayout>(R.id.infoTextLayout_alarm_ring).setTextValue(AppConfig.RING_LIST[item.ringType])
         helper.getView<InfoTextLayout>(R.id.infoTextLayout_alarm_lighting).setTextValue(if(item.type==1)"开启" else "关闭")
         helper.addOnClickListener(R.id.btn_delete)
+        helper.addOnClickListener(R.id.swipeLayout)
         helper.getView<SwitchButton>(R.id.sb_alarm_state).setOnCheckedChangeListener { view, isChecked ->
             if(listener!=null){
                 listener?.onStateChanged(isChecked,item)
             }
         }
     }
+
 
     interface AlarmStateListener{
         fun onStateChanged(isOn:Boolean,item: Alarm)

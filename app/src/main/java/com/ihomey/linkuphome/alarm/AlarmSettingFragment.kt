@@ -61,16 +61,6 @@ open class AlarmSettingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn_save.setOnClickListener {
-            mAlarm?.let {
-                it.hour=tsv_alarm_setting.getCurrentHour()
-                it.minute=tsv_alarm_setting.getCurrentMinute()
-                it.isOn=1
-                controller.setAlarm(it)
-                mViewModel.saveAlarm(it)
-                Navigation.findNavController(iv_back).popBackStack()
-            }
-        }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
         infoTextLayout_alarm_setting_repeat.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_alarmSettingFragment_to_alarmDayListFragment) }
         infoTextLayout_alarm_setting_ring.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_alarmSettingFragment_to_alarmRingListFragment) }
@@ -85,6 +75,17 @@ open class AlarmSettingFragment : BaseFragment() {
         mAlarm?.let {
             it.hour=tsv_alarm_setting.getCurrentHour()
             it.minute=tsv_alarm_setting.getCurrentMinute()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mAlarm?.let {
+            it.hour=tsv_alarm_setting.getCurrentHour()
+            it.minute=tsv_alarm_setting.getCurrentMinute()
+            it.isOn=1
+            controller.setAlarm(it)
+            mViewModel.saveAlarm(it)
         }
     }
 }
