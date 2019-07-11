@@ -21,6 +21,7 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.alarm_list_fragment.*
+import java.util.*
 
 
 open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, AlarmListAdapter.AlarmStateListener, BaseQuickAdapter.OnItemChildClickListener {
@@ -69,7 +70,8 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
             if(adapter.itemCount==1){
                 adapter.getItem(0)?.let {
                     mDevice?.let {it1->
-                        viewModel.setCurrentAlarm(Alarm(if(it.id==1) 2 else 1,it1.id,0,0,0,0,0,0))
+                        val calendar = Calendar.getInstance()
+                        viewModel.setCurrentAlarm(Alarm(if(it.id==1) 2 else 1,it1.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),0,0,0))
                         Navigation.findNavController(iv_add).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
                     }
                 }
@@ -85,15 +87,20 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         adapter.bindToRecyclerView(rcv_alarm_list)
         adapter.emptyView.setOnClickListener {it1->
             mDevice?.let {
-                viewModel.setCurrentAlarm(Alarm(1,it.id,0,0,0,0,0,0))
+                val calendar = Calendar.getInstance()
+                viewModel.setCurrentAlarm(Alarm(1,it.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),0,0,0))
                 Navigation.findNavController(it1).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
             }
         }
+
+
+
 
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
+            it.editMode=1
             viewModel.setCurrentAlarm(it)
             Navigation.findNavController(iv_back).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
         }
@@ -104,6 +111,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
             when(view?.id){
                 R.id.btn_delete-> viewModel.deleteAlarm(it)
                 R.id.swipeLayout-> {
+                    it.editMode=1
                     viewModel.setCurrentAlarm(it)
                     Navigation.findNavController(iv_back).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
                 }

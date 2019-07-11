@@ -27,7 +27,8 @@ open class AlarmSettingFragment : BaseFragment() {
 
     private val controller: M1Controller = M1Controller()
 
-    private var mAlarm: Alarm? = null
+    private lateinit var mAlarm: Alarm
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.alarm_setting_fragment, container, false)
@@ -38,6 +39,7 @@ open class AlarmSettingFragment : BaseFragment() {
         mViewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
             mAlarm=it
+            tv_title.text=if(mAlarm.editMode!=0) "编辑闹钟" else "添加闹钟"
             updateViews(it)
         })
     }
@@ -64,28 +66,30 @@ open class AlarmSettingFragment : BaseFragment() {
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
         infoTextLayout_alarm_setting_repeat.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_alarmSettingFragment_to_alarmDayListFragment) }
         infoTextLayout_alarm_setting_ring.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_alarmSettingFragment_to_alarmRingListFragment) }
-        sb_light_mode.setOnCheckedChangeListener { _, isChecked -> mAlarm?.let {
+        sb_light_mode.setOnCheckedChangeListener { _, isChecked -> mAlarm.let {
             it.type=if(isChecked) 1 else 0
             controller.setAlarmType(it)}
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        mAlarm?.let {
-            it.hour=tsv_alarm_setting.getCurrentHour()
-            it.minute=tsv_alarm_setting.getCurrentMinute()
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mAlarm?.let {
-            it.hour=tsv_alarm_setting.getCurrentHour()
-            it.minute=tsv_alarm_setting.getCurrentMinute()
-            it.isOn=1
-            controller.setAlarm(it)
+        mAlarm.let {
+            if(it.editMode==0)it.isOn=1
+            val targetHour=tsv_alarm_setting.getCurrentHour()
+            val targetMinute=tsv_alarm_setting.getCurrentMinute()
+            if(it.hour!=targetHour||it.minute!=targetMinute) it.editMode=2
+            it.hour=targetHour
+            it.minute=targetMinute
             mViewModel.saveAlarm(it)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mAlarm.let {
+            if(it.editMode!=1&&it.isOn==1) controller.setAlarm(it)
         }
     }
 }

@@ -26,6 +26,7 @@ import com.ihomey.linkuphome.listener.DeleteDeviceListener
 import com.ihomey.linkuphome.listener.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
+import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*

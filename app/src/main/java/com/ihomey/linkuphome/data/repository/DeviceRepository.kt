@@ -17,6 +17,7 @@ import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.*
+import com.ihomey.linkuphome.spp.BluetoothSPP
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -216,6 +217,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             if(device.type==5){
                 var currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
                 currentDeviceAddress=""
+                BluetoothSPP.getInstance()?.disconnect()
             }
             deviceDao.delete(deviceId)
             localStateDao.delete(deviceId)

@@ -4,6 +4,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'
 
+def buildTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getDefault())
+}
+
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -56,6 +60,12 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${defaultConfig.applicationId}_v${variant.versionName}_${buildTime()}_${variant.name}.apk"
+        }
     }
 }
 

@@ -42,11 +42,6 @@ class AlarmListAdapter(layoutId: Int) : BaseQuickAdapter<Alarm, BaseViewHolder>(
         helper.getView<InfoTextLayout>(R.id.infoTextLayout_alarm_lighting).setTextValue(if(item.type==1)"开启" else "关闭")
         helper.addOnClickListener(R.id.btn_delete)
         helper.addOnClickListener(R.id.swipeLayout)
-        helper.getView<SwitchButton>(R.id.sb_alarm_state).setOnCheckedChangeListener { view, isChecked ->
-            if(listener!=null){
-                listener?.onStateChanged(isChecked,item)
-            }
-        }
         val swipeLayout=helper.getView<SwipeLayout>(R.id.swipeLayout)
         swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener{
             override fun onOpen(layout: SwipeLayout?) {
@@ -70,6 +65,14 @@ class AlarmListAdapter(layoutId: Int) : BaseQuickAdapter<Alarm, BaseViewHolder>(
                 swipeLayout.postDelayed({swipeLayout.isClickable=true},250)
             }
         })
+
+        val alarmStateBtn=helper.getView<SwitchButton>(R.id.sb_alarm_state)
+        alarmStateBtn.isChecked=item.isOn==1
+        alarmStateBtn.setOnCheckedChangeListener { _, isChecked ->
+            if(listener!=null){
+                listener?.onStateChanged(isChecked,item)
+            }
+        }
     }
 
 

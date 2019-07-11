@@ -28,7 +28,9 @@ class AlarmDayListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
 
     private lateinit var mViewModel: AlarmViewModel
 
-    private var mAlarm: Alarm? = null
+    private lateinit var mAlarm: Alarm
+
+    private var dayOfWeek: Int=0
 
     fun newInstance(): AlarmDayListFragment {
         return AlarmDayListFragment()
@@ -53,6 +55,7 @@ class AlarmDayListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         mViewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
             mAlarm=it
+            dayOfWeek= mAlarm.dayOfWeek
             updateViews(it)
         })
     }
@@ -70,7 +73,8 @@ class AlarmDayListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         dayOfWeekListAdapter.setItemSelected(position, !dayOfWeekListAdapter.isItemSelected(position))
-        mAlarm?.dayOfWeek=dayOfWeekListAdapter.getDayOfWeekValue()
+        mAlarm.dayOfWeek=dayOfWeekListAdapter.getDayOfWeekValue()
+        if(dayOfWeek!=dayOfWeekListAdapter.getDayOfWeekValue()) mAlarm.editMode=2
     }
 
 }

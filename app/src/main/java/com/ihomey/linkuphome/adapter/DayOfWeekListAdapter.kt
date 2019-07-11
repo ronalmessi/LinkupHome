@@ -28,9 +28,6 @@ class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) :
         return selectedItems[position]!=0
     }
 
-    fun clearSelectedItems() {
-        selectedItems.clear()
-    }
 
     fun setItemSelected(position: Int, selected: Boolean) {
         if (isSingleChoice) selectedItems.clear()

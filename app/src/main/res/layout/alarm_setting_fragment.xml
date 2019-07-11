@@ -24,6 +24,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -31,7 +32,6 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="添加闹钟"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_18ssp" />

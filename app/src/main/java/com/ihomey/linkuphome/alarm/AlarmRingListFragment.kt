@@ -35,7 +35,9 @@ class AlarmRingListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListen
 
     private lateinit var mViewModel: AlarmViewModel
 
-    private var mAlarm: Alarm? = null
+    private var ringType: Int=0
+
+    private lateinit var mAlarm: Alarm
 
     fun newInstance(): AlarmRingListFragment {
         return AlarmRingListFragment()
@@ -50,6 +52,7 @@ class AlarmRingListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListen
         mViewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
             mAlarm=it
+            ringType=mAlarm.ringType
             updateViews(it)
         })
     }
@@ -87,7 +90,8 @@ class AlarmRingListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListen
             soundPool.stop(soundIdArray.get(ringListAdapter.getSelectedPosition()))
         }
         ringListAdapter.setItemSelected(position, !ringListAdapter.isItemSelected(position))
-        mAlarm?.ringType=ringListAdapter.getSelectedPosition()
+        mAlarm.ringType=ringListAdapter.getSelectedPosition()
+        if(ringType!=ringListAdapter.getSelectedPosition()) mAlarm.editMode=2
     }
 
     override fun onDestroyView() {
