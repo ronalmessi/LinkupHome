@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.listener.SppStateListener
+import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.connect_device_fragment.*
@@ -74,9 +76,9 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
             }
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
-            if (it?.status == Status.SUCCESS&&(adapter.emptyViewCount==1&&adapter.itemCount==1)) {
+            if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data)
-
+                listener.discoverDevices(true, this)
             }
         })
     }
@@ -100,13 +102,10 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         countDownTimer = AssociateDeviceCountDownTimer(20000, 1000)
     }
 
-    override fun onResume() {
-        super.onResume()
-        listener.discoverDevices(true, this)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        adapter.setNewData(null)
         listener.discoverDevices(false, null)
         countDownTimer.cancel()
     }
@@ -152,11 +151,16 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
             if(it.id==0){
-                it.macAddress?.let {
-                    deviceAssociateFragment.isCancelable = false
-                    deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
-                    countDownTimer.start()
-                    listener.associateDevice(it)
+                it.macAddress?.let {it0->
+                    val pairedDeviceAddress=BluetoothSPP.getInstance()?.pairedDeviceAddress
+                    if(pairedDeviceAddress!=null&& pairedDeviceAddress.any {TextUtils.equals(it,it0)}){
+                        deviceAssociateFragment.isCancelable = false
+                        deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
+                        countDownTimer.start()
+                        listener.associateDevice(it0)
+                    }else{
+                        Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
+                    }
                 }
             }
         }

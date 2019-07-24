@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12"/>
+
+    <ImageView
+        android:id="@+id/iv_lamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guide0"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:translationY="@dimen/_10sdp"
+        android:src="@mipmap/ic_turn_on_power_lamp"/>
+
+    <ImageView
+        android:id="@+id/iv_turn_on_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_lamp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@mipmap/ic_turn_on_power"/>
+
+    <TextView
+        android:id="@+id/tv_turn_on_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_turn_on_power"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#000000"
+        android:layout_marginTop="@dimen/_27sdp"
+        android:textSize="@dimen/_24ssp"
+        android:text="打开电源"/>
+
+    <TextView
+        android:id="@+id/tv_turn_on_power_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_turn_on_power"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#000000"
+        android:lineSpacingMultiplier="1.06"
+        android:layout_marginTop="@dimen/_21sdp"
+        android:textSize="@dimen/_15ssp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

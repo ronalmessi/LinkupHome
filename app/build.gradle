@@ -133,6 +133,9 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    // InstaDotView
+    implementation 'com.github.hrskrs:InstaDotView:1.1'
+
     implementation 'com.github.piasy:BigImageViewer:1.5.7'
 
     //encrypt

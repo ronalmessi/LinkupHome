@@ -82,6 +82,7 @@
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_chooseDeviceTypeFragment_to_connectM1DeviceFragment"
             app:destination="@id/connectM1DeviceFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/searchDeviceHintFragment"
@@ -130,7 +131,15 @@
         android:id="@+id/connectM1DeviceFragment"
         android:name="com.ihomey.linkuphome.device1.ConnectM1DeviceFragment"
         tools:layout="@layout/connect_device_fragment"
-        android:label="ConnectM1DeviceFragment" />
+        android:label="ConnectM1DeviceFragment" >
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_connectM1DeviceFragment_to_m1InstructionFragment"
+            app:destination="@id/m1InstructionFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/c3ControlFragment"
@@ -430,6 +439,13 @@
         android:label="t1_scene_setting_fragment"
         tools:layout="@layout/r2_scene_setting_fragment" >
     </fragment>
+
+
+    <fragment
+        android:id="@+id/m1InstructionFragment"
+        android:name="com.ihomey.linkuphome.m1.InstructionFragment"
+        tools:layout="@layout/m1_instruction_fragment"
+        android:label="M1InstructionFragment" />
 
 
 </navigation>

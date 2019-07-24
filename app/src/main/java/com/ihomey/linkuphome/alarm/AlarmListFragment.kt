@@ -71,7 +71,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
                 adapter.getItem(0)?.let {
                     mDevice?.let {it1->
                         val calendar = Calendar.getInstance()
-                        viewModel.setCurrentAlarm(Alarm(if(it.id==1) 2 else 1,it1.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),0,0,0))
+                        viewModel.setCurrentAlarm(Alarm(if(it.id==1) 2 else 1,it1.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),1,0,0))
                         Navigation.findNavController(iv_add).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
                     }
                 }
@@ -88,14 +88,10 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         adapter.emptyView.setOnClickListener {it1->
             mDevice?.let {
                 val calendar = Calendar.getInstance()
-                viewModel.setCurrentAlarm(Alarm(1,it.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),0,0,0))
+                viewModel.setCurrentAlarm(Alarm(1,it.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),1,0,0))
                 Navigation.findNavController(it1).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
             }
         }
-
-
-
-
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -126,6 +122,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
             controller.setAlarm(item)
         } else {
             item.isOn = 0
+            controller.stopAlarmRing(item.id)
             controller.cancelAlarm(item.id)
         }
         viewModel.saveAlarm(item)

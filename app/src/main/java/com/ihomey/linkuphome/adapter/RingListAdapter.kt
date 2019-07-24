@@ -40,7 +40,7 @@ class RingListAdapter(private val isSingleChoice: Boolean, layoutId: Int) : Base
     }
 
     override fun convert(helper: BaseViewHolder, item: String) {
-        helper.setText(R.id.tv_name, item)
+        helper.setText(R.id.tv_name, if(helper.adapterPosition==1 ) "$item ( 默认 ) " else item)
         val titleTextView = helper.getView<TextView>(R.id.tv_name)
         val drawable = ContextCompat.getDrawable(mContext, if (!isItemSelected(helper.adapterPosition)) R.mipmap.ic_zone_flag else R.mipmap.ic_zone_flag_current)
         drawable?.setBounds(0, 0, titleTextView.lineHeight, titleTextView.lineHeight)

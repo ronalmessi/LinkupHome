@@ -37,6 +37,16 @@
             android:textSize="@dimen/_18ssp" />
 
 
+        <TextView
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:onClick="@{handlers::onClick}"
+            android:text="@string/action_save"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_16ssp" />
+
 
     </com.ihomey.linkuphome.widget.CompatToolbar>
 

@@ -22,15 +22,14 @@ class M1Controller : Controller() {
 
         val CODE_LIGHT_SYNC_TIME_BASE: String = "BF01D101CD09C301"
 
-
-
         val CODE_LIGHT_TIMER_BASE: String = "BF01D101CD08C20601"
         val CODE_LIGHT_TIMER_DISABLE_BASE: String = "BF01D101CD04C20602"
         val CODE_LIGHT_ALARM_BASE: String = "BF01D101CD07C401"
         val CODE_LIGHT_ALARM_DISABLE_BASE: String = "BF01D101CD03C402"
 
+        val CODE_LIGHT_ALARM_TYPE_BASE: String = "BF01D101CD05C40401"
 
-        val CODE_LIGHT_ALARM_TYPE_BASE: String = "BF01D101CD04C208"
+        val CODE_LIGHT_ALARM_STOP_RING_BASE: String = "BF01D101CD04C40301"
 
 
         val CODE_LIGHT_SLEEP_MODE_ON: String = "BF01D101CD04C2090101D116"
@@ -163,14 +162,13 @@ class M1Controller : Controller() {
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
-
     }
 
     fun setAlarmType(alarm: Alarm) {
         val alarmId = "0" + alarm.id
         val type = "0" + alarm.type
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_TYPE_BASE + alarmId + type
-        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
     }
@@ -178,6 +176,13 @@ class M1Controller : Controller() {
     fun cancelAlarm(alarmId: Int) {
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_DISABLE_BASE + "0" + alarmId
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16))
+        val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+        BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
+    }
+
+    fun stopAlarmRing(alarmId: Int) {
+        val code_lawn_timer_prefix = CODE_LIGHT_ALARM_STOP_RING_BASE + "0" + alarmId
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
     }

@@ -39,7 +39,7 @@ class AlarmListAdapter(layoutId: Int) : BaseQuickAdapter<Alarm, BaseViewHolder>(
         }
         helper.getView<InfoTextLayout>(R.id.infoTextLayout_alarm_repeat).setTextValue(dayOfWeeStringBuilder.toString().dropLast(2))
         helper.getView<InfoTextLayout>(R.id.infoTextLayout_alarm_ring).setTextValue(AppConfig.RING_LIST[item.ringType])
-        helper.getView<InfoTextLayout>(R.id.infoTextLayout_alarm_lighting).setTextValue(if(item.type==1)"开启" else "关闭")
+        helper.getView<InfoTextLayout>(R.id.infoTextLayout_alarm_lighting).setTextValue(if(item.type>1)"开启" else "关闭")
         helper.addOnClickListener(R.id.btn_delete)
         helper.addOnClickListener(R.id.swipeLayout)
         val swipeLayout=helper.getView<SwipeLayout>(R.id.swipeLayout)

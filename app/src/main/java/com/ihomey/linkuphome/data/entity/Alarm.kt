@@ -23,7 +23,7 @@ data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var devic
         if (other == null || other !is Alarm) {
             return false
         }
-        if (other.id == this.id) {
+        if (other.id == this.id&&other.deviceId== this.deviceId&&other.dayOfWeek== this.dayOfWeek&&other.hour== this.hour&&other.minute== this.minute&&other.ringType== this.ringType&&other.type== this.type&&other.isOn== this.isOn) {
             return true
         }
         return super.equals(other)
@@ -41,6 +41,4 @@ data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var devic
         result = 31 * result + editMode
         return result
     }
-
-
 }

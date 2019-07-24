@@ -201,7 +201,7 @@ class TimerSettingView : View {
 
 
     private fun updatePreParams(event: MotionEvent) {
-        if (isInMinuteSliderButton(event.x, event.y) && isEnabled && getCurrentHour().toInt() < 24) {
+        if (isInMinuteSliderButton(event.x, event.y) && isEnabled && getCurrentHour() < 24) {
             mInMinuteSliderButton = true
             mPreMinuteRadian = getRadian(event.x, event.y)
         } else if (isInHourSliderButton(event.x, event.y) && isEnabled) {
@@ -211,33 +211,35 @@ class TimerSettingView : View {
     }
 
     private fun updateView(event: MotionEvent) {
-        val currentRadian = getRadian(event.x, event.y)
-        var mPreRadian = if (mInMinuteSliderButton) mPreMinuteRadian else mPreHourRadian
-        var mCurrentRadian = if (mInMinuteSliderButton) mCurrentMinuteRadian else mCurrentHourRadian
-        if (mPreRadian > Math.toRadians(270.0) && currentRadian < Math.toRadians(90.0)) {
-            mPreRadian -= (2 * Math.PI).toFloat()
-        } else if (mPreRadian < Math.toRadians(90.0) && currentRadian > Math.toRadians(270.0)) {
-            mPreRadian = (currentRadian + (currentRadian - 2 * Math.PI) - mPreRadian).toFloat()
-        }
-        mCurrentRadian += currentRadian - mPreRadian
-        mPreRadian = currentRadian
-        if (mCurrentRadian > 2 * Math.PI) {
-            mCurrentRadian = (2 * Math.PI).toFloat()
-        } else if (mCurrentRadian < 0) {
-            mCurrentRadian = 0f
-        }
-        if (mInMinuteSliderButton) {
-            mPreMinuteRadian = mPreRadian
-            mCurrentMinuteRadian = mCurrentRadian
-        } else {
-            mPreHourRadian = mPreRadian
-            mCurrentHourRadian = mCurrentRadian
-            if (getCurrentHour() > 23) {
-                mPreMinuteRadian = 0f
-                mCurrentMinuteRadian = 0f
+        if(mInMinuteSliderButton||mInHourSliderButton){
+            val currentRadian = getRadian(event.x, event.y)
+            var mPreRadian = if (mInMinuteSliderButton) mPreMinuteRadian else mPreHourRadian
+            var mCurrentRadian = if (mInMinuteSliderButton) mCurrentMinuteRadian else mCurrentHourRadian
+            if (mPreRadian > Math.toRadians(270.0) && currentRadian < Math.toRadians(90.0)) {
+                mPreRadian -= (2 * Math.PI).toFloat()
+            } else if (mPreRadian < Math.toRadians(90.0) && currentRadian > Math.toRadians(270.0)) {
+                mPreRadian = (currentRadian + (currentRadian - 2 * Math.PI) - mPreRadian).toFloat()
             }
+            mCurrentRadian += currentRadian - mPreRadian
+            mPreRadian = currentRadian
+            if (mCurrentRadian > 2 * Math.PI) {
+                mCurrentRadian = (2 * Math.PI).toFloat()
+            } else if (mCurrentRadian < 0) {
+                mCurrentRadian = 0f
+            }
+            if (mInMinuteSliderButton) {
+                mPreMinuteRadian = mPreRadian
+                mCurrentMinuteRadian = mCurrentRadian
+            } else {
+                mPreHourRadian = mPreRadian
+                mCurrentHourRadian = mCurrentRadian
+                if (getCurrentHour() > 23) {
+                    mPreMinuteRadian = 0f
+                    mCurrentMinuteRadian = 0f
+                }
+            }
+            invalidate()
         }
-        invalidate()
     }
 
     fun getCurrentHour(): Int {
@@ -312,17 +314,15 @@ class TimerSettingView : View {
     }
 
     private fun isInMinuteSliderButton(x: Float, y: Float): Boolean {
-        val r = mMinuteCircleRadius - mMinuteLineLength / 2
-        val x2 = (mCx + r * Math.sin(mCurrentMinuteRadian.toDouble())).toFloat()
-        val y2 = (mCy - r * Math.cos(mCurrentMinuteRadian.toDouble())).toFloat()
-        return Math.sqrt(((x - x2) * (x - x2) + (y - y2) * (y - y2)).toDouble()) < mSliderRadius
+        val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
+        Log.d("aa","minute---"+(distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength))
+        return distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength
     }
 
     private fun isInHourSliderButton(x: Float, y: Float): Boolean {
-        val r = mHourCircleRadius - mMinuteLineLength / 2
-        val x2 = (mCx + r * Math.sin(mCurrentHourRadian.toDouble())).toFloat()
-        val y2 = (mCy - r * Math.cos(mCurrentHourRadian.toDouble())).toFloat()
-        return Math.sqrt(((x - x2) * (x - x2) + (y - y2) * (y - y2)).toDouble()) < mSliderRadius
+        val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
+        Log.d("aa","hour---"+(distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius))
+        return  distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius
     }
 
     private fun getRadian(x: Float, y: Float): Float {

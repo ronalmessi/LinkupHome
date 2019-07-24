@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </androidx.viewpager.widget.ViewPager>
+
+
+
+
+
+    <com.ihomey.linkuphome.widget.CompatToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:src="@mipmap/ic_close" />
+
+    </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+    <com.hrskrs.instadotlib.InstaDotView
+        android:id="@+id/dotsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_30sdp"
+        app:dot_activeColor="#757575"
+        app:dot_activeSize="@dimen/_8sdp"
+        app:dot_inactiveColor="#C0C0C0"
+        app:dot_inactiveSize="@dimen/_8sdp"
+        app:dot_margin="@dimen/_8sdp"
+        app:dot_mediumSize="@dimen/_8sdp"
+        app:dot_smallSize="@dimen/_8sdp" />
+
+
+</RelativeLayout>
