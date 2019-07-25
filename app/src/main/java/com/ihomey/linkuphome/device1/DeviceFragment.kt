@@ -127,18 +127,19 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun onItemClick(singleDevice: Device) {
         mViewModel.setCurrentControlDevice(singleDevice)
-        when (singleDevice.type-1) {
-            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
-            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
-            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
-            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
-            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
-            5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
-            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
-            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
-            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
-            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
-        }
+//        when (singleDevice.type-1) {
+//            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
+//            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+//            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
+//            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+//            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
+//            5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
+//            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
+//            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
+//            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
+//            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
+//        }
+        BluetoothSPP.getInstance()?.connect(singleDevice.macAddress)
     }
 
 

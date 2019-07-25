@@ -53,11 +53,18 @@ class M1Controller : Controller() {
     }
 
     override fun setLightPowerState(deviceId: Int, powerState: Int) {
-        if (powerState == 1) {
-            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_POWER_ON.toUpperCase().toCharArray()),false)
-        } else if (powerState == 0) {
-            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_POWER_OFF.toUpperCase().toCharArray()),false)
-        }
+//        if (powerState == 1) {
+//            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_POWER_ON.toUpperCase().toCharArray()),false)
+//        } else if (powerState == 0) {
+//            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_POWER_OFF.toUpperCase().toCharArray()),false)
+//        }
+
+//        val code_check = Integer.toHexString(Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(10, 12), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(12, 14), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(14, 16), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(16, 18), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(18, 20), 16))
+//        val code_lawn_time = CODE_LIGHT_NOTIFY_VERSION + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+//
+//        Log.d("aa",code_lawn_time)
+//        BluetoothSPP.getInstance().send(decodeHex("BF01D101CD04C102F101b916".toUpperCase().toCharArray()),false)
+        BluetoothSPP.getInstance().send(decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()),false)
     }
 
     override fun setLightingMode(deviceId: Int) {

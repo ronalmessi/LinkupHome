@@ -218,8 +218,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 Log.d("aa","---"+state)
                 if(state==3) syncTime()
             }
-            val currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
-            if(!TextUtils.isEmpty(currentDeviceAddress))BluetoothSPP.getInstance()?.autoConnect("Linkuphome M1")
+//            val currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
+//            if(!TextUtils.isEmpty(currentDeviceAddress))BluetoothSPP.getInstance()?.autoConnect("Linkuphome M1")
         }
     }
 
