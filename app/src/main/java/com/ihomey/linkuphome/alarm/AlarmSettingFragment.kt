@@ -13,6 +13,8 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Alarm
+import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.home.HomeActivityViewModel
 
 import kotlinx.android.synthetic.main.alarm_setting_fragment.*
 import java.lang.StringBuilder
@@ -25,7 +27,11 @@ open class AlarmSettingFragment : BaseFragment() {
 
     protected lateinit var mViewModel: AlarmViewModel
 
+    protected lateinit var viewModel: HomeActivityViewModel
+
     private val controller: M1Controller = M1Controller()
+
+    private var mDevice: Device?=null
 
     private lateinit var mAlarm: Alarm
 
@@ -37,6 +43,10 @@ open class AlarmSettingFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
+            mDevice=it
+        })
         mViewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
             if(mInitialAlarm==null)mInitialAlarm=Alarm(0,0,it.dayOfWeek,it.hour,it.minute,it.ringType,it.type,0)
@@ -71,7 +81,7 @@ open class AlarmSettingFragment : BaseFragment() {
         sb_light_mode.setOnCheckedChangeListener { _, isChecked ->
             mAlarm.let {
                 it.type = if (isChecked) (if(it.ringType>0) 3 else 2) else 1
-                controller.setAlarmType(it)
+                controller.setAlarmType(mDevice?.macAddress,it)
             }
         }
         btn_save.setOnClickListener {
@@ -84,7 +94,7 @@ open class AlarmSettingFragment : BaseFragment() {
                     Navigation.findNavController(btn_save).popBackStack()
                 }else{
                     it.isOn = 1
-                    controller.setAlarm(it)
+                    controller.setAlarm( mDevice?.macAddress,it)
                     mViewModel.saveAlarm(it)
                     Navigation.findNavController(btn_save).popBackStack()
                 }

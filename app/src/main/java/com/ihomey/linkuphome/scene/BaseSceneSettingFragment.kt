@@ -60,7 +60,7 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             R.id.rb_scene_rainforest_rgb, R.id.rb_scene_seek -> sceneModeValue = 4
         }
         if(mControlDevice.type==5){
-            controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
+            controller?.setLightScene(mControlDevice.macAddress, sceneModeValue)
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
         }

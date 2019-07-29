@@ -215,9 +215,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         appExecutors.diskIO().execute {
             val device=deviceDao.getDevice(deviceId)
             if(device.type==5){
-                var currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
-                currentDeviceAddress=""
-                BluetoothSPP.getInstance()?.disconnect()
+                BluetoothSPP.getInstance()?.disconnect(device.macAddress)
             }
             deviceDao.delete(deviceId)
             localStateDao.delete(deviceId)

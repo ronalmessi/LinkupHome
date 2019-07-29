@@ -109,7 +109,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onColorValueChanged(time: Int) {
         if(type==5){
-            controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+            controller?.setLightColor(mControlDevice.macAddress, CODE_LIGHT_COLORS[time])
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
         }
@@ -117,7 +117,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onColorValueChange(time: Int) {
         if(type==5){
-            controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+            controller?.setLightColor(mControlDevice.macAddress, CODE_LIGHT_COLORS[time])
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
         }
@@ -125,7 +125,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onColorTemperatureValueChanged(temperature: Int) {
         if(type==5){
-             controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
+             controller?.setLightColorTemperature(mControlDevice.macAddress, temperature)
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
         }
@@ -134,7 +134,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
         if(type==5){
-            controller?.setLightSpeed(mControlDevice.instructId, position)
+            controller?.setLightSpeed(mControlDevice.macAddress, position)
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
         }
@@ -142,7 +142,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
         if(type==5){
-            controller?.setLightBright(0,seekBar.progress.plus(15))
+            controller?.setLightBright(mControlDevice.macAddress,seekBar.progress.plus(15))
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if(type==6||type==10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
             changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
@@ -153,7 +153,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         when (buttonView?.id) {
             R.id.device_state_cb_power -> {
                 if(type==5){
-                    controller?.setLightPowerState(0, if (isChecked) 1 else 0)
+                    controller?.setLightPowerState(mControlDevice.macAddress, if (isChecked) 1 else 0)
                 }else{
                     if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
                     changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
@@ -180,7 +180,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                 R.id.iv_back -> Navigation.findNavController(view).popBackStack()
                 R.id.btn_device_lighting ->{
                     if(type==5){
-                        controller?.setLightingMode(mControlDevice.instructId)
+                        controller?.setLightingMode(mControlDevice.macAddress)
                     }else{
                         if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
                     }

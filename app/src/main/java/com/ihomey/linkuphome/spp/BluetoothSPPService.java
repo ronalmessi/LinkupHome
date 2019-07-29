@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -19,45 +19,35 @@ import android.util.Log;
 
 
 public class BluetoothSPPService {
+
+
     // Debugging
-    private static final String TAG = "Bluetooth Service";
+    private static final String TAG = "BluetoothSPPService";
 
     // Name for the SDP record when creating server socket
-    private static final String NAME_SECURE = "Bluetooth Secure";
+    private static final String NAME_SERVICE = "BluetoothSPPService";
 
-    // Unique UUID for this application
-    private static final UUID UUID_ANDROID_DEVICE =
-            UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
-    private static final UUID UUID_OTHER_DEVICE =
-            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     // Member fields
     private final BluetoothAdapter mAdapter;
     private final Handler mHandler;
-    private AcceptThread mSecureAcceptThread;
-    private ConnectThread mConnectThread;
-    private ConnectedThread mConnectedThread;
+    private AcceptThread mAcceptThread;
+
     private int mState;
-    private boolean isAndroid = BluetoothSPPState.DEVICE_ANDROID;
+
+    private ConnectThread mConnectThread;
+    private HashMap<String,ConnectedThread> mConnectedThreadMap;
+
 
     // Constructor. Prepares a new BluetoothChat session
     // context : The UI Activity Context
     // handler : A Handler to send messages back to the UI Activity
     public BluetoothSPPService(Context context, Handler handler) {
+        mConnectedThreadMap= new HashMap<>();
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = BluetoothSPPState.STATE_NONE;
         mHandler = handler;
-    }
-
-
-    // Set the current state of the chat connection
-    // state : An integer defining the current connection state
-    private synchronized void setState(int state) {
-        Log.d(TAG, "setState() " + mState + " -> " + state);
-        mState = state;
-
-        // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(BluetoothSPPState.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 
     // Return the current connection state.
@@ -65,41 +55,64 @@ public class BluetoothSPPService {
         return mState;
     }
 
+    // Set the current state of the chat connection
+    // state : An integer defining the current connection state
+    private synchronized void setState(int state) {
+        // Send the name of the connected device back to the UI Activity
+        Message msg = mHandler.obtainMessage(BluetoothSPPState.MESSAGE_STATE_CHANGE);
+        Bundle bundle = new Bundle();
+        bundle.putInt(BluetoothSPPState.DEVICE_STATE, state);
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+    }
+
+
+    // Set the current state of the chat connection
+    // state : An integer defining the current connection state
+    private synchronized void setDeviceState(BluetoothDevice device,int state) {
+        // Send the name of the connected device back to the UI Activity
+        Message msg = mHandler.obtainMessage(BluetoothSPPState.MESSAGE_STATE_CHANGE);
+        Bundle bundle = new Bundle();
+        bundle.putString(BluetoothSPPState.DEVICE_NAME, device.getName());
+        bundle.putString(BluetoothSPPState.DEVICE_ADDRESS, device.getAddress());
+        bundle.putInt(BluetoothSPPState.DEVICE_STATE, state);
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+    }
+
     // Start the chat service. Specifically start AcceptThread to begin a
     // session in listening (server) mode. Called by the Activity onResume()
-    public synchronized void start(boolean isAndroid) {
-        // Cancel any thread attempting to make a connection
-        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
-        // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
-
-        setState(BluetoothSPPState.STATE_LISTEN);
-
-        // Start the thread to listen on a BluetoothServerSocket
-        if (mSecureAcceptThread == null) {
-            Log.d("aa","AcceptThread");
-            mSecureAcceptThread = new AcceptThread(isAndroid);
-            mSecureAcceptThread.start();
-            BluetoothSPPService.this.isAndroid = isAndroid;
+    public synchronized void start() {
+        if (mConnectThread != null) { mConnectThread.cancel();mConnectThread = null;}
+        for(ConnectedThread mConnectedThread : mConnectedThreadMap.values()){
+            if (mConnectedThread != null) {
+                mConnectedThread.cancel();
+                mConnectedThread = null;}
         }
+        setState(BluetoothSPPState.STATE_LISTEN);
     }
 
     // Start the ConnectThread to initiate a connection to a remote device
     // device : The BluetoothDevice to connect
     // secure : Socket Security type - Secure (true) , Insecure (false)
     public synchronized void connect(BluetoothDevice device) {
-        // Cancel any thread attempting to make a connection
-        if (mState == BluetoothSPPState.STATE_CONNECTING) {
-            if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
+        if(!isDeviceConnected(device.getAddress())){
+            if (mAcceptThread == null) {
+                mAcceptThread = new AcceptThread();
+                mAcceptThread.start();
+            }
+            // Start the thread to connect with the given device
+            mConnectThread = new ConnectThread(device);
+            mConnectThread.start();
+            setDeviceState(device,BluetoothSPPState.STATE_CONNECTING);
         }
+    }
 
-        // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
+    private Boolean isDeviceConnected(String deviceAddress){
+        ConnectedThread mConnectedThread=mConnectedThreadMap.get(deviceAddress);
+        if(mConnectedThread!=null)  Log.d("aa",deviceAddress+"---"+mConnectedThread.mmSocket.isConnected());
 
-        // Start the thread to connect with the given device
-        mConnectThread = new ConnectThread(device);
-        mConnectThread.start();
-        setState(BluetoothSPPState.STATE_CONNECTING);
+        return mConnectedThread!=null&&mConnectedThread.mmSocket.isConnected();
     }
 
     /**
@@ -107,80 +120,92 @@ public class BluetoothSPPService {
      * @param socket  The BluetoothSocket on which the connection was made
      * @param device  The BluetoothDevice that has been connected
      */
-    public synchronized void connected(BluetoothSocket socket, BluetoothDevice
-            device, final String socketType) {
-        // Cancel the thread that completed the connection
-        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
+    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
 
-        // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
-
-        // Cancel the accept thread because we only want to connect to one device
-        if (mSecureAcceptThread != null) {
-            Log.d("aa","kill AcceptThread");
-            mSecureAcceptThread.cancel();
-            mSecureAcceptThread = null;
+        if (mAcceptThread != null) {
+            mAcceptThread.cancel();
+            mAcceptThread = null;
         }
 
         // Start the thread to manage the connection and perform transmissions
-        mConnectedThread = new ConnectedThread(socket, socketType);
-        mConnectedThread.start();
+        ConnectedThread  connectedThread = new ConnectedThread(socket);
+        connectedThread.start();
+        mConnectedThreadMap.put(device.getAddress(),connectedThread);
 
-        // Send the name of the connected device back to the UI Activity
-        Message msg = mHandler.obtainMessage(BluetoothSPPState.MESSAGE_DEVICE_NAME);
-        Bundle bundle = new Bundle();
-        bundle.putString(BluetoothSPPState.DEVICE_NAME, device.getName());
-        bundle.putString(BluetoothSPPState.DEVICE_ADDRESS, device.getAddress());
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
-
-        setState(BluetoothSPPState.STATE_CONNECTED);
+        setDeviceState(device,BluetoothSPPState.STATE_CONNECTED);
     }
 
     // Stop all threads
     public synchronized void stop() {
-        if (mConnectThread != null) {
-            mConnectThread.cancel();
-            mConnectThread = null;
+
+        if (mConnectThread != null) { mConnectThread.cancel();mConnectThread = null;}
+
+        // Cancel any thread currently running a connection
+        for(ConnectedThread mConnectedThread : mConnectedThreadMap.values()){
+            if (mConnectedThread != null) {
+                mConnectedThread.cancel();
+                mConnectedThread = null;}
         }
 
-        if (mConnectedThread != null) {
-            mConnectedThread.cancel();
-            mConnectedThread = null;
-        }
-
-        if (mSecureAcceptThread != null) {
-            mSecureAcceptThread.cancel();
-            mSecureAcceptThread.kill();
-            mSecureAcceptThread = null;
+        if (mAcceptThread != null) {
+            mAcceptThread.cancel();
+            mAcceptThread = null;
         }
         setState(BluetoothSPPState.STATE_NONE);
     }
 
     // Write to the ConnectedThread in an unsynchronized manner
     // out : The bytes to write
-    public void write(byte[] out) {
-        // Create temporary object
-        ConnectedThread r;
-        // Synchronize a copy of the ConnectedThread
-        synchronized (this) {
-            if (mState != BluetoothSPPState.STATE_CONNECTED) return;
-            r = mConnectedThread;
+    void write(String deviceAddress, byte[] out) {
+        ConnectedThread mConnectedThread=mConnectedThreadMap.get(deviceAddress);
+        if(mConnectedThread!=null&&mConnectedThread.mmSocket.isConnected()){
+            Log.d("aa","send---"+deviceAddress);
+            mConnectedThread.write(out);
         }
-        // Perform the write unsynchronized
-        r.write(out);
     }
 
+
     // Indicate that the connection attempt failed and notify the UI Activity
-    private void connectionFailed() {
+     void disconnect(String deviceAddress) {
         // Start the service over to restart listening mode
-        BluetoothSPPService.this.start(BluetoothSPPService.this.isAndroid);
+//        BluetoothSPPService.this.start();
+        // Cancel any thread currently running a connection
+        ConnectedThread mConnectedThread=mConnectedThreadMap.get(deviceAddress);
+        if(mConnectedThread!=null){
+            mConnectedThread.cancel();
+            mConnectedThread = null;
+            mConnectedThreadMap.remove(deviceAddress);
+        }
+    }
+
+
+    // Indicate that the connection attempt failed and notify the UI Activity
+    private void connectionFailed(BluetoothDevice device) {
+        // Start the service over to restart listening mode
+//        BluetoothSPPService.this.start();
+        // Cancel any thread currently running a connection
+        ConnectedThread mConnectedThread=mConnectedThreadMap.get(device.getAddress());
+        if(mConnectedThread!=null){
+            mConnectedThread.cancel();
+            mConnectedThread = null;
+            mConnectedThreadMap.remove(device.getAddress());
+        }
+
+        setDeviceState(device,BluetoothSPPState.STATE_CONNECT_FAILED);
     }
 
     // Indicate that the connection was lost and notify the UI Activity
-    private void connectionLost() {
+    private void connectionLost(BluetoothDevice device) {
         // Start the service over to restart listening mode
-        BluetoothSPPService.this.start(BluetoothSPPService.this.isAndroid);
+//        BluetoothSPPService.this.start();
+        // Cancel any thread currently running a connection
+        ConnectedThread mConnectedThread=mConnectedThreadMap.get(device.getAddress());
+        if(mConnectedThread!=null){
+            mConnectedThread.cancel();
+            mConnectedThread = null;
+            mConnectedThreadMap.remove(device.getAddress());
+        }
+        setDeviceState(device,BluetoothSPPState.STATE_CONNECTION_LOST);
     }
 
     // This thread runs while listening for incoming connections. It behaves
@@ -189,28 +214,23 @@ public class BluetoothSPPService {
     private class AcceptThread extends Thread {
         // The local server socket
         private BluetoothServerSocket mmServerSocket;
-        private String mSocketType;
-        boolean isRunning = true;
 
-        public AcceptThread(boolean isAndroid) {
+        public AcceptThread() {
             BluetoothServerSocket tmp = null;
-
             // Create a new listening server socket
             try {
-                if(isAndroid)
-                    tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_ANDROID_DEVICE);
-                else
-                    tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_OTHER_DEVICE);
-            } catch (IOException e) { }
+                tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SERVICE, MY_UUID);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             mmServerSocket = tmp;
         }
 
         public void run() {
-            setName("AcceptThread" + mSocketType);
             BluetoothSocket socket = null;
 
             // Listen to the server socket if we're not connected
-            while (mState != BluetoothSPPState.STATE_CONNECTED && isRunning&&mmServerSocket!=null) {
+            while (mState != BluetoothSPPState.STATE_CONNECTED&&mmServerSocket!=null) {
                 try {
                     // This is a blocking call and will only return on a
                     // successful connection or an exception
@@ -226,8 +246,7 @@ public class BluetoothSPPService {
                             case BluetoothSPPState.STATE_LISTEN:
                             case BluetoothSPPState.STATE_CONNECTING:
                                 // Situation normal. Start the connected thread.
-                                connected(socket, socket.getRemoteDevice(),
-                                        mSocketType);
+                                connected(socket, socket.getRemoteDevice());
                                 break;
                             case BluetoothSPPState.STATE_NONE:
                             case BluetoothSPPState.STATE_CONNECTED:
@@ -249,9 +268,6 @@ public class BluetoothSPPService {
             } catch (IOException e) { }
         }
 
-        public void kill() {
-            isRunning = false;
-        }
     }
 
 
@@ -261,20 +277,17 @@ public class BluetoothSPPService {
     private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
-        private String mSocketType;
 
         public ConnectThread(BluetoothDevice device) {
             mmDevice = device;
             BluetoothSocket tmp = null;
 
-            // Get a BluetoothSocket for a connection with the
-            // given BluetoothDevice
+            // Get a BluetoothSocket for a connection with the given BluetoothDevice
             try {
-                if(BluetoothSPPService.this.isAndroid)
-                    tmp = device.createRfcommSocketToServiceRecord(UUID_ANDROID_DEVICE);
-                else
-                    tmp = device.createRfcommSocketToServiceRecord(UUID_OTHER_DEVICE);
-            } catch (IOException e) { }
+                tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             mmSocket = tmp;
         }
 
@@ -286,13 +299,16 @@ public class BluetoothSPPService {
             try {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
+                if(mmSocket==null) return;
                 mmSocket.connect();
             } catch (IOException e) {
                 // Close the socket
                 try {
                     mmSocket.close();
-                } catch (IOException e2) { }
-                connectionFailed();
+                } catch (IOException e2) {
+
+                }
+                connectionFailed(mmDevice);
                 return;
             }
 
@@ -302,7 +318,7 @@ public class BluetoothSPPService {
             }
 
             // Start the connected thread
-            connected(mmSocket, mmDevice, mSocketType);
+            connected(mmSocket, mmDevice);
         }
 
         public void cancel() {
@@ -319,7 +335,7 @@ public class BluetoothSPPService {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
 
-        public ConnectedThread(BluetoothSocket socket, String socketType) {
+        public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
@@ -328,8 +344,9 @@ public class BluetoothSPPService {
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (IOException e) { }
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
@@ -344,10 +361,9 @@ public class BluetoothSPPService {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(BluetoothSPPState.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                    mHandler.obtainMessage(BluetoothSPPState.MESSAGE_RECEIVE_DATA, bytes, -1, buffer).sendToTarget();
                 } catch (IOException e) {
-                    Log.e(TAG, "disconnected", e);
-                    connectionLost();
+                    connectionLost(mmSocket.getRemoteDevice());
                     break;
                 }
             }

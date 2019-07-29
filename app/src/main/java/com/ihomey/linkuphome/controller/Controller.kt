@@ -29,10 +29,26 @@ abstract class Controller {
     open fun setRepeatTimer(minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,dayOfWeek: Int){}
 
 
-    open fun setSleepMode(state: Int) {}
 
-    open fun enableGestureControl(isEnable: Boolean) {}
 
-    open fun syncTime() {}
+    open fun setLightPowerState(deviceAddress:String?, powerState: Int){}
+
+    open fun setLightBright(deviceAddress:String?, brightValue: Int){}
+
+    open fun setSleepMode(deviceAddress:String?,state: Int) {}
+
+    open fun enableGestureControl(deviceAddress:String?,isEnable: Boolean) {}
+
+    open fun syncTime(deviceAddress:String?) {}
+
+    open fun setLightColor(deviceAddress:String?, colorValue: String){}
+
+    open fun setLightSpeed(deviceAddress:String?, speedValue: Int){}
+
+    open fun setLightColorTemperature(deviceAddress:String?, colorTemperature: Int){}
+
+    open fun setLightingMode(deviceAddress:String?){}
+
+    open fun setLightScene(deviceAddress:String?, sceneValue: Int){}
 
 }

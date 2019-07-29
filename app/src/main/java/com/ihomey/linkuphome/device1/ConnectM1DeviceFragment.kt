@@ -166,6 +166,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         }
     }
 
+
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
         val controller = ControllerFactory().createController(singleDevice.type)
         controller?.setLightPowerState(0, if (isChecked) 1 else 0)

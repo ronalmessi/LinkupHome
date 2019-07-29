@@ -118,7 +118,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         val homeFragment = nav_host_home.childFragmentManager.fragments[0]
         if (!handleBackPress(homeFragment)) {
             finish()
-            android.os.Process.killProcess(android.os.Process.myPid())
+            Process.killProcess(Process.myPid())
             System.exit(0)
         }
     }
@@ -165,18 +165,20 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private fun initSppService() {
         if(BluetoothSPP.getInstance().isBluetoothEnabled){
             BluetoothSPP.getInstance()?.setupService()
-            BluetoothSPP.getInstance()?.startService(BluetoothSPPState.DEVICE_OTHER)
+            BluetoothSPP.getInstance()?.startService()
             BluetoothSPP.getInstance()?.setBluetoothConnectionListener(object : BluetoothSPP.BluetoothConnectionListener {
-                override fun onDeviceDisconnected() {
-                    toast("M1 断开连接了！", Toast.LENGTH_SHORT)
+                override fun onDeviceConnecting(name: String?, address: String?) {
+                    Log.d("aa", "--$name---$address---onDeviceConnecting")
+                }
+
+                override fun onDeviceConnectFailed(name: String?, address: String?) {
+                    Log.d("aa", "--$name---$address---onDeviceConnectFailed")
+                    sppStateListener?.deviceAssociated(false,"","")
                 }
 
                 override fun onDeviceConnected(name: String, address: String) {
+                    Log.d("aa", "--$name---$address---onDeviceConnected")
                     sppStateListener?.deviceAssociated(true,name,address)
-                }
-
-                override fun onDeviceConnectionFailed() {
-                    sppStateListener?.deviceAssociated(false,"","")
                 }
             })
             BluetoothSPP.getInstance()?.setOnDataReceivedListener { data, message ->
@@ -214,29 +216,16 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     emtValueListener?.onEmtValueChanged(pm25Value,hchoValue,vocValue)
                 }
             }
-            BluetoothSPP.getInstance()?.setBluetoothStateListener { state ->
-                Log.d("aa","---"+state)
-                if(state==3) syncTime()
-            }
-//            val currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
-//            if(!TextUtils.isEmpty(currentDeviceAddress))BluetoothSPP.getInstance()?.autoConnect("Linkuphome M1")
-        }
-    }
+            BluetoothSPP.getInstance()?.setBluetoothStateListener(object :BluetoothSPP.BluetoothStateListener{
+                override fun onServerStartListen() {
+                    Log.d("aa", "onServerStartListen")
+                }
 
-    fun syncTime() {
-        val calendar = Calendar.getInstance()
-        calendar.time = Date()
-        val year = calendar.get(Calendar.YEAR)%2000
-        val month = calendar.get(Calendar.MONTH)+1
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-1
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-        val second = calendar.get(Calendar.SECOND)
-        val code_lawn_time_prefix = M1Controller.CODE_LIGHT_SYNC_TIME_BASE +(if (year>= 10) "" + year else "0$year")+(if (month>= 10) "" + month else "0$month")+(if (dayOfMonth>= 10) "" + dayOfMonth else "0$dayOfMonth")+(if (dayOfWeek>= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
-        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
-        val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_time.toUpperCase().toCharArray()),false)
+                override fun onDeviceDisConnected(name: String?, address: String?) {
+                    Log.d("aa", "--$name---$address---onDeviceDisConnected")
+                }
+            })
+        }
     }
 
     override fun reConnectBridge() {
@@ -251,7 +240,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             if(resultCode==Activity.RESULT_OK){
                 initSppService()
             }else if(resultCode==Activity.RESULT_CANCELED){
-
+                  Log.d("aa","---RESULT_CANCELED")
             }
         }
     }
@@ -275,6 +264,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             val parentActivity = mActivity.get()
             when (msg.what) {
                 MeshService.MESSAGE_REQUEST_BT -> {
+                    Log.d("aa","----"+MeshService.MESSAGE_REQUEST_BT)
                     val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                     parentActivity?.startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
                 }
@@ -434,9 +424,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    override fun getEnvironmentalIndicators(listener: EmtValueListener?) {
+    override fun getEnvironmentalIndicators(deviceAddress:String?,listener: EmtValueListener?) {
         this.emtValueListener=listener
-        BluetoothSPP.getInstance().send(decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()),false)
+        deviceAddress?.let { BluetoothSPP.getInstance().send(it,decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()),false) }
     }
 
     override fun associateDevice(uuidHash: Int, shortCode: String?) {

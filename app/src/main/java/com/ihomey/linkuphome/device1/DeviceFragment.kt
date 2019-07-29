@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +54,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList=it.snapshot()
             if(!isUserTouch) adapter.submitList(it)
+            deviceList?.forEach {if(it.type==5)BluetoothSPP.getInstance()?.autoConnect(it.macAddress) }
         })
         mViewModel.isDeviceListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
             if(it){
@@ -127,19 +129,18 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun onItemClick(singleDevice: Device) {
         mViewModel.setCurrentControlDevice(singleDevice)
-//        when (singleDevice.type-1) {
-//            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
-//            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
-//            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
-//            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
-//            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
-//            5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
-//            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
-//            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
-//            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
-//            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
-//        }
-        BluetoothSPP.getInstance()?.connect(singleDevice.macAddress)
+        when (singleDevice.type-1) {
+            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
+            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
+            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
+            5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
+            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
+            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
+            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
+            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
+        }
     }
 
 
@@ -155,7 +156,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         if(isFragmentVisible()){
             val controller = ControllerFactory().createController(singleDevice.type)
             if(singleDevice.type==5){
-                controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
+                controller?.setLightPowerState(singleDevice.macAddress, if (isChecked) 1 else 0)
             }else{
                 if (meshServiceStateListener.isMeshServiceConnected()) {
                     controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
@@ -170,7 +171,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         if(isFragmentVisible()){
             val controller = ControllerFactory().createController(singleDevice.type)
             if(singleDevice.type==5){
-                controller?.setLightBright(0,progress.plus(15))
+                controller?.setLightBright(singleDevice.macAddress,progress.plus(15))
             }else{
                 if (meshServiceStateListener.isMeshServiceConnected()){
                     controller?.setLightBright(singleDevice.instructId, if(singleDevice.type==6||singleDevice.type==10) progress.plus(10) else progress.plus(15))

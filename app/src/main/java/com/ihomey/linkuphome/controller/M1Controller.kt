@@ -45,78 +45,101 @@ class M1Controller : Controller() {
 
     }
 
-    override fun setLightBright(deviceId: Int, brightValue: Int) {
+    override fun setLightBright(deviceAddress: String?, brightValue: Int) {
         val code_lawn_bright_prefix = CODE_LIGHT_BRIGHT_BASE + if (brightValue >= 16) Integer.toHexString(brightValue) else "0" + Integer.toHexString(brightValue)
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_bright_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_bright_prefix.substring(16, 18), 16))
         val code_lawn_bright = code_lawn_bright_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_bright.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_bright.toUpperCase().toCharArray()), false)
+        }
     }
 
-    override fun setLightPowerState(deviceId: Int, powerState: Int) {
-//        if (powerState == 1) {
-//            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_POWER_ON.toUpperCase().toCharArray()),false)
-//        } else if (powerState == 0) {
-//            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_POWER_OFF.toUpperCase().toCharArray()),false)
-//        }
-
-//        val code_check = Integer.toHexString(Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(10, 12), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(12, 14), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(14, 16), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(16, 18), 16) + Integer.parseInt(CODE_LIGHT_NOTIFY_VERSION.substring(18, 20), 16))
-//        val code_lawn_time = CODE_LIGHT_NOTIFY_VERSION + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-//
-//        Log.d("aa",code_lawn_time)
-//        BluetoothSPP.getInstance().send(decodeHex("BF01D101CD04C102F101b916".toUpperCase().toCharArray()),false)
-        BluetoothSPP.getInstance().send(decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()),false)
+    override fun setLightPowerState(deviceAddress: String?, powerState: Int) {
+        deviceAddress?.let {
+            //BluetoothSPP.getInstance().send(it,decodeHex("BF01D101CD04C102F101b916".toUpperCase().toCharArray()),false)
+            if (powerState == 1) {
+                BluetoothSPP.getInstance().send(it, decodeHex(CODE_LIGHT_POWER_ON.toUpperCase().toCharArray()), false)
+            } else if (powerState == 0) {
+                BluetoothSPP.getInstance().send(it, decodeHex(CODE_LIGHT_POWER_OFF.toUpperCase().toCharArray()), false)
+            }
+        }
     }
 
-    override fun setLightingMode(deviceId: Int) {
+    override fun setLightingMode(deviceAddress: String?) {
         val code_lawn_color_prefix = CODE_LIGHT_COLOR_TEMPERATURE_BASE + "F2"
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_color_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_color_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_color_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_color_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_color_prefix.substring(18, 20), 16))
         val code_lawn_color = code_lawn_color_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_color.toUpperCase().toCharArray()),false)
-    }
-
-    override fun setSleepMode(state: Int) {
-        if (state == 1) {
-            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_SLEEP_MODE_ON.toUpperCase().toCharArray()),false)
-        } else if (state == 0) {
-            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_SLEEP_MODE_OFF.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_color.toUpperCase().toCharArray()), false)
         }
     }
 
-    override fun enableGestureControl(isEnable: Boolean) {
-        super.enableGestureControl(isEnable)
-        if (isEnable) {
-            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_GESTURE_CONTROL_MODE_ON.toUpperCase().toCharArray()),false)
-        } else {
-            BluetoothSPP.getInstance().send(decodeHex(CODE_LIGHT_GESTURE_CONTROL_MODE_OFF.toUpperCase().toCharArray()),false)
+    override fun setSleepMode(deviceAddress: String?, state: Int) {
+        deviceAddress?.let {
+            if (state == 1) {
+                BluetoothSPP.getInstance().send(it, decodeHex(CODE_LIGHT_SLEEP_MODE_ON.toUpperCase().toCharArray()), false)
+            } else if (state == 0) {
+                BluetoothSPP.getInstance().send(it, decodeHex(CODE_LIGHT_SLEEP_MODE_OFF.toUpperCase().toCharArray()), false)
+            }
         }
     }
 
-    override fun syncTime() {
-        super.syncTime()
+    override fun enableGestureControl(deviceAddress: String?, isEnable: Boolean) {
+        deviceAddress?.let {
+            if (isEnable) {
+                BluetoothSPP.getInstance().send(it, decodeHex(CODE_LIGHT_GESTURE_CONTROL_MODE_ON.toUpperCase().toCharArray()), false)
+            } else {
+                BluetoothSPP.getInstance().send(it, decodeHex(CODE_LIGHT_GESTURE_CONTROL_MODE_OFF.toUpperCase().toCharArray()), false)
+            }
+        }
+    }
+
+    override fun syncTime(deviceAddress: String?) {
         val calendar = Calendar.getInstance()
         calendar.time = Date()
-        val year = calendar.get(Calendar.YEAR)%2000
-        val month = calendar.get(Calendar.MONTH)+1
+        val year = calendar.get(Calendar.YEAR) % 2000
+        val month = calendar.get(Calendar.MONTH) + 1
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-1
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
         val second = calendar.get(Calendar.SECOND)
-        val code_lawn_time_prefix =CODE_LIGHT_SYNC_TIME_BASE+(if (year>= 10) "" + year else "0$year")+(if (month>= 10) "" + month else "0$month")+(if (dayOfMonth>= 10) "" + dayOfMonth else "0$dayOfMonth")+(if (dayOfWeek>= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
-        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
+        val code_lawn_time_prefix = CODE_LIGHT_SYNC_TIME_BASE + (if (year >= 10) "" + year else "0$year") + (if (month >= 10) "" + month else "0$month") + (if (dayOfMonth >= 10) "" + dayOfMonth else "0$dayOfMonth") + (if (dayOfWeek >= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16) + Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16) + Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
         val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_time.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_time.toUpperCase().toCharArray()), false)
+        }
+
+
+        //    fun syncTime() {
+//        val calendar = Calendar.getInstance()
+//        calendar.time = Date()
+//        val year = calendar.get(Calendar.YEAR)%2000
+//        val month = calendar.get(Calendar.MONTH)+1
+//        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+//        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-1
+//        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+//        val minute = calendar.get(Calendar.MINUTE)
+//        val second = calendar.get(Calendar.SECOND)
+//        val code_lawn_time_prefix = M1Controller.CODE_LIGHT_SYNC_TIME_BASE +(if (year>= 10) "" + year else "0$year")+(if (month>= 10) "" + month else "0$month")+(if (dayOfMonth>= 10) "" + dayOfMonth else "0$dayOfMonth")+(if (dayOfWeek>= 10) "" + dayOfWeek else "0$dayOfWeek") + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
+//        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_time_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_time_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_time_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_time_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_time_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(20, 22), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(22, 24), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(24, 26), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(26, 28), 16)+ Integer.parseInt(code_lawn_time_prefix.substring(28, 30), 16))
+//        val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
+//        BluetoothSPP.getInstance().send(decodeHex(code_lawn_time.toUpperCase().toCharArray()),false)
+//    }
     }
 
 
-    override fun setLightColor(deviceId: Int, colorValue: String) {
+    override fun setLightColor(deviceAddress: String?, colorValue: String) {
         val code_lawn_color_prefix = CODE_LIGHT_COLOR_BASE + colorValue
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_color_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_color_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_color_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_color_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_color_prefix.substring(18, 20), 16))
         val code_lawn_color = code_lawn_color_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_color.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_color.toUpperCase().toCharArray()), false)
+        }
     }
 
-    override fun setLightSpeed(deviceId: Int, speedValue: Int) {
+    override fun setLightSpeed(deviceAddress: String?, speedValue: Int) {
         var speed = "02"
         when (speedValue) {
             2 -> speed = "02"
@@ -126,18 +149,22 @@ class M1Controller : Controller() {
         val code_lawn_speed_prefix = CODE_LIGHT_SPEED_BASE + speed
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_speed_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(16, 18), 16))
         val code_lawn_speed = code_lawn_speed_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_speed.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_speed.toUpperCase().toCharArray()), false)
+        }
     }
 
-    override fun setLightScene(deviceId: Int, sceneValue: Int) {
+    override fun setLightScene(deviceAddress: String?, sceneValue: Int) {
         val speed = 29 + sceneValue
         val code_lawn_scene_prefix = CODE_LIGHT_COLOR_BASE + Integer.toHexString(speed).toUpperCase()
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_scene_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_scene_prefix.substring(18, 20), 16))
         val code_lawn_scene = code_lawn_scene_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_scene.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_scene.toUpperCase().toCharArray()), false)
+        }
     }
 
-    override fun setLightColorTemperature(deviceId: Int, colorTemperatureValue: Int) {
+    override fun setLightColorTemperature(deviceAddress: String?, colorTemperatureValue: Int) {
         var colorTemperature = "F1"
         when (colorTemperatureValue) {
             3000 -> colorTemperature = "F1"
@@ -147,61 +174,75 @@ class M1Controller : Controller() {
         val code_lawn_color_prefix = CODE_LIGHT_COLOR_TEMPERATURE_BASE + colorTemperature
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_color_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_color_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_color_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_color_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_color_prefix.substring(18, 20), 16))
         val code_lawn_color = code_lawn_color_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_color.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_color.toUpperCase().toCharArray()), false)
+        }
     }
 
 
-    override fun setRepeatTimer(minuteValue: Int, hourValue: Int, isOpenTimer: Boolean, isOn: Boolean, dayOfWeek: Int) {
+    fun setRepeatTimer(deviceAddress: String?, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean, isOn: Boolean, dayOfWeek: Int) {
         val timerId = if (isOpenTimer) "02" else "01"
         if (isOn) {
             val isRepeat = if (dayOfWeek > 0) Integer.toHexString(dayOfWeek + 128) else "00"
             val code_lawn_timer_prefix = CODE_LIGHT_TIMER_BASE + timerId + isRepeat + (if (hourValue >= 10) "" + hourValue else "0$hourValue") + (if (minuteValue >= 10) "" + minuteValue else "0$minuteValue") + if (isOpenTimer) "64" else "00"
             val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(24, 26), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(26, 28), 16))
             val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-            BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
+            deviceAddress?.let {
+                BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
+            }
         } else {
-            cancleTimer(timerId)
+            cancleTimer(deviceAddress, timerId)
         }
     }
 
-    private fun cancleTimer(timerId: String) {
+    private fun cancleTimer(deviceAddress: String?, timerId: String) {
         val code_lawn_timer_prefix = CODE_LIGHT_TIMER_DISABLE_BASE + timerId
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
+        }
     }
 
-    fun setAlarmType(alarm: Alarm) {
+    fun setAlarmType(deviceAddress: String?, alarm: Alarm) {
         val alarmId = "0" + alarm.id
         val type = "0" + alarm.type
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_TYPE_BASE + alarmId + type
-        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16))
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
+        }
     }
 
-    fun cancelAlarm(alarmId: Int) {
+    fun cancelAlarm(deviceAddress: String?, alarmId: Int) {
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_DISABLE_BASE + "0" + alarmId
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
+        }
     }
 
-    fun stopAlarmRing(alarmId: Int) {
+    fun stopAlarmRing(deviceAddress: String?, alarmId: Int) {
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_STOP_RING_BASE + "0" + alarmId
-        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
+        }
     }
 
-    fun setAlarm(alarm: Alarm) {
+    fun setAlarm(deviceAddress: String?, alarm: Alarm) {
         val alarmId = "0" + alarm.id
         val hour = alarm.hour
         val minute = alarm.minute
         val isRepeat = if (alarm.dayOfWeek > 0) Integer.toHexString(alarm.dayOfWeek + 128) else "00"
         val code_lawn_timer_prefix = CODE_LIGHT_ALARM_BASE + alarmId + isRepeat + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + "0" + alarm.ringType
-        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(22, 24), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(24, 26), 16))
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(24, 26), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        BluetoothSPP.getInstance().send(decodeHex(code_lawn_timer.toUpperCase().toCharArray()),false)
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
+        }
     }
 }

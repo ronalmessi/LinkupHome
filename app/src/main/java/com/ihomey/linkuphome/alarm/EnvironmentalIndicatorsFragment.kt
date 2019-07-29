@@ -16,6 +16,14 @@ import kotlinx.android.synthetic.main.environmental_indicators_fragment.*
 import android.text.style.RelativeSizeSpan
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.ihomey.linkuphome.data.entity.Alarm
+import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.Status
+import kotlinx.android.synthetic.main.alarm_list_fragment.*
+import kotlinx.android.synthetic.main.environmental_indicators_fragment.iv_back
 
 
 open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
@@ -25,6 +33,8 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
     }
 
     protected lateinit var mViewModel: HomeActivityViewModel
+
+    private var mDevice: Device? = null
 
     private lateinit var listener: EnvironmentalIndicatorsListener
 
@@ -39,19 +49,27 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         fl_refresh.setOnClickListener {
             startAnimation()
         }
-        startAnimation()
     }
 
-    override fun onEmtValueChanged(pm25Value:Int,hchoValue: Int,vocValue: Int) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        mViewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
+            mDevice = it
+            listener.getEnvironmentalIndicators(mDevice?.macAddress, this)
+        })
+    }
+
+    override fun onEmtValueChanged(pm25Value: Int, hchoValue: Int, vocValue: Int) {
         stopAnimation()
         val relativeSizeSpan = RelativeSizeSpan(2.2f)
         val hchoSpannableString = SpannableString("$hchoValue ug/m³")
-        hchoSpannableString.setSpan(relativeSizeSpan, 0, hchoSpannableString.length-6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        tv_hcho_value.text=hchoSpannableString
+        hchoSpannableString.setSpan(relativeSizeSpan, 0, hchoSpannableString.length - 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_hcho_value.text = hchoSpannableString
         when (hchoValue) {
             in 0..1000 -> {
                 tv_hcho_value_level.text = "正常"
@@ -68,8 +86,8 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
         }
 
         val pm25SpannableString = SpannableString("$pm25Value ug/m³")
-        pm25SpannableString.setSpan(relativeSizeSpan, 0, hchoSpannableString.length-6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        tv_pm25_value.text=pm25SpannableString
+        pm25SpannableString.setSpan(relativeSizeSpan, 0, hchoSpannableString.length - 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_pm25_value.text = pm25SpannableString
         when (pm25Value) {
             in 0..50 -> {
                 tv_pm25_value_level.text = "优"
@@ -90,7 +108,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
                 tv_pm25_value_level.text = "严重污染"
             }
         }
-        tv_voc_value.text=""+vocValue
+        tv_voc_value.text = "" + vocValue
         if (vocValue == 0) {
             tv_voc_value_level.text = "洁净空气"
         } else if (vocValue == 1) {
@@ -104,7 +122,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
 
 
     private fun startAnimation() {
-        listener.getEnvironmentalIndicators(this)
+        listener.getEnvironmentalIndicators(mDevice?.macAddress, this)
         btn_refresh.isActivated = true
         btn_home.isActivated = true
         val rotate = AnimationUtils.loadAnimation(context, R.anim.rotate)
@@ -119,7 +137,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
     }
 
     interface EnvironmentalIndicatorsListener {
-        fun getEnvironmentalIndicators(listener: EmtValueListener?)
+        fun getEnvironmentalIndicators(deviceAddress: String?, listener: EmtValueListener?)
     }
 
 }
