@@ -20,8 +20,6 @@ class HomeActivityViewModel : ViewModel() {
     @Inject
     lateinit var roomRepository: RoomRepository
 
-    @Inject
-    lateinit var alarmRepository: AlarmRepository
 
     private val mCurrentZoneId = MutableLiveData<Int>()
     val mCurrentZone: LiveData<Resource<Zone>>
@@ -135,20 +133,24 @@ class HomeActivityViewModel : ViewModel() {
         currentControlDevice.value = device
     }
 
-    fun deleteDevice(deviceId: Int) {
+    fun deleteDevice(deviceId: String) {
         mRemoveDeviceVo.value=null
         return mDeviceRepository.deleteDevice(deviceId)
     }
 
-    fun deleteDevice(guid:String,deviceId: Int): LiveData<Resource<Boolean>> {
+    fun deleteM1Device(deviceId: String) {
+        return mDeviceRepository.deleteDevice(deviceId)
+    }
+
+    fun deleteDevice(guid:String,deviceId: String): LiveData<Resource<Boolean>> {
         return mDeviceRepository.deleteDevice(guid, deviceId)
     }
 
-    fun changeDeviceName(guid:String,spaceId:Int,id:Int,type:Int,newName:String): LiveData<Resource<Device>> {
+    fun changeDeviceName(guid:String,spaceId:Int,id:String,type:Int,newName:String): LiveData<Resource<Device>> {
         return mDeviceRepository.changeDeviceName(guid,spaceId,id,type,newName)
     }
 
-    fun changeDeviceState(guid:String,id:Int,name:String,value:String): LiveData<Resource<Device>> {
+    fun changeDeviceState(guid:String,id:String,name:String,value:String): LiveData<Resource<Device>> {
         return mDeviceRepository.changeDeviceState(guid,id,name,value)
     }
 

@@ -12,7 +12,7 @@ import javax.inject.Inject
 class AlarmViewModel : ViewModel() {
 
 
-    private val mDeviceId = MutableLiveData<Int>()
+    private val mDeviceId = MutableLiveData<String>()
 
      val mAlarm = MutableLiveData<Alarm>()
 
@@ -28,7 +28,7 @@ class AlarmViewModel : ViewModel() {
         }
     }
 
-    fun setDeviceId(deviceId: Int) {
+    fun setDeviceId(deviceId: String) {
         mDeviceId.value = deviceId
     }
 

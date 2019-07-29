@@ -35,7 +35,6 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         mViewDataBinding.bleControlVp.offscreenPageLimit = 2
         mViewDataBinding.bleControlVp.adapter = MixControlViewAdapter(childFragmentManager)
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
-        initController(8)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.deviceSeekBarBrightness.max=85
         mViewDataBinding.root.setOnClickListener {

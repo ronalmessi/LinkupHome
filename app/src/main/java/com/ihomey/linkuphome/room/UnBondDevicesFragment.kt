@@ -10,7 +10,7 @@ import androidx.navigation.Navigation
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter1
+import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
@@ -31,7 +31,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
 
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var mViewModel: UnBondDevicesViewModel
-    private lateinit var adapter: UnBondedDeviceListAdapter1
+    private lateinit var adapter: UnBondedDeviceListAdapter
     private  var room: Room?=null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -57,7 +57,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = UnBondedDeviceListAdapter1()
+        adapter = UnBondedDeviceListAdapter()
         rcv_device_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter

@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.data.entity
 
+import android.text.TextUtils
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -11,7 +12,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
  * Created by dongcaizheng on 2018/4/9.
  */
 @Entity(tableName = "alarm")
-data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var deviceId: Int, var dayOfWeek: Int, var hour: Int, var minute: Int, var ringType: Int=1, var type: Int=1, var isOn:Int) : MultiItemEntity {
+data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var deviceId: String, var dayOfWeek: Int, var hour: Int, var minute: Int, var ringType: Int=1, var type: Int=1, var isOn:Int) : MultiItemEntity {
 
     @Ignore var editMode:Int=0
 
@@ -23,7 +24,7 @@ data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var devic
         if (other == null || other !is Alarm) {
             return false
         }
-        if (other.id == this.id&&other.deviceId== this.deviceId&&other.dayOfWeek== this.dayOfWeek&&other.hour== this.hour&&other.minute== this.minute&&other.ringType== this.ringType&&other.type== this.type&&other.isOn== this.isOn) {
+        if (other.id == this.id&& TextUtils.equals(this.deviceId, other.deviceId)&&other.dayOfWeek== this.dayOfWeek&&other.hour== this.hour&&other.minute== this.minute&&other.ringType== this.ringType&&other.type== this.type&&other.isOn== this.isOn) {
             return true
         }
         return super.equals(other)
@@ -31,7 +32,7 @@ data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var devic
 
     override fun hashCode(): Int {
         var result = id
-        result = 31 * result + deviceId
+        result = 31 * result + deviceId.hashCode()
         result = 31 * result + dayOfWeek
         result = 31 * result + hour
         result = 31 * result + minute
@@ -41,4 +42,6 @@ data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var devic
         result = 31 * result + editMode
         return result
     }
+
+
 }

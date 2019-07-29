@@ -41,7 +41,7 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
     private var dayOfWeekListAdapter: DayOfWeekListAdapter = DayOfWeekListAdapter(false, R.layout.item_day_of_week_timer)
 
     protected lateinit var mControlDevice: Device
-    private var mLocalState: LocalState= LocalState(0)
+    private var mLocalState: LocalState= LocalState("0")
     private var controller: Controller? = null
 
 

@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.room.PrimaryKey
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.vo.Query
 import com.ihomey.linkuphome.data.vo.Resource
@@ -33,10 +35,9 @@ class ConnectDeviceViewModel : ViewModel() {
         return mDeviceRepository.saveDevice(guid, zoneId, type, name)
     }
 
-    fun saveDevice(guid:String,zoneId:Int,type:Int,name:String,macAddress: String): LiveData<Resource<Device>> {
-        return mDeviceRepository.saveDevice(guid, zoneId, type, name,macAddress)
+    fun saveDevice(type:Int,zoneId:Int,name:String,macAddress: String){
+        return mDeviceRepository.saveDevice(Device(macAddress,zoneId,0,name,type,0,DeviceState()))
     }
-
 
     fun setQuery(zoneId: Int,type:Int){
         mQuery.value=Query(zoneId,type)

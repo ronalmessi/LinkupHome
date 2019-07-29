@@ -22,7 +22,7 @@ class DeviceTypeListAdapter(layoutId: Int) : BaseQuickAdapter<Int, BaseViewHolde
         spannableString.setSpan(StyleSpan(Typeface.BOLD), 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         helper?.setText(R.id.tv_device_type_name, spannableString)
         val iconView=helper?.getView<ImageView>(R.id.iv_device_type)
-        if(item==8) {
+        if(item==9) {
             iconView?.scaleY=1.2f
             iconView?.scaleX=1.2f
         }

@@ -46,7 +46,6 @@ class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) :
             val key = selectedItems.keyAt(i)
             dayOfWeekHBinaryStr.replace(key, key + 1,"1")
         }
-        Log.d("aa",dayOfWeekHBinaryStr.toString())
         return Integer.parseInt(dayOfWeekHBinaryStr.toString(), 2)
     }
 

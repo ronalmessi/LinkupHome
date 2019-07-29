@@ -66,7 +66,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Boolean>> {
-                val deleteZoneVO = DeleteVO(guid.md5(), roomId, System.currentTimeMillis())
+                val deleteZoneVO = DeleteVO(guid.md5(), ""+roomId, System.currentTimeMillis())
                 deleteZoneVO.signature = beanToJson(deleteZoneVO).sha256()
                 return apiService.deleteRoom(deleteZoneVO)
             }
@@ -88,7 +88,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Room>> {
-                val changeZoneNameVO = ChangeDeviceNameVO(guid.md5(), id, newName, spaceId, System.currentTimeMillis(), type)
+                val changeZoneNameVO = ChangeDeviceNameVO(guid.md5(), ""+id, newName, spaceId, System.currentTimeMillis(), type)
                 changeZoneNameVO.signature = beanToJson(changeZoneNameVO).sha256()
                 return apiService.changeRoomName(changeZoneNameVO)
             }
@@ -141,7 +141,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Room>> {
-                val changeDeviceStateVO = ChangeDeviceStateVO(guid.md5(), id, name, value, System.currentTimeMillis())
+                val changeDeviceStateVO = ChangeDeviceStateVO(guid.md5(), ""+id, name, value, System.currentTimeMillis())
                 changeDeviceStateVO.signature = beanToJson(changeDeviceStateVO).sha256()
                 return apiService.changeRoomState(changeDeviceStateVO)
             }

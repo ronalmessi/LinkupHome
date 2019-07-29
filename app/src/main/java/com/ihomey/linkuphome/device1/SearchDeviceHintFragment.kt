@@ -61,7 +61,7 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
         if (TextUtils.equals(deviceShortName, shortName)) {
-            val singleDevice1=Device(type+1,deviceType.name)
+            val singleDevice1=Device(type,deviceType.name)
             singleDevice1.hash=uuidHash
             viewModel.setScanDevice(singleDevice1)
         }

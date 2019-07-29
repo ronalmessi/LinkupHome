@@ -58,9 +58,9 @@ class M1ControlSettingFragment : BaseFragment() {
             val dialogFragment = SleepModeDialogFragment()
             dialogFragment.show(fragmentManager, null)
         }
-        sb_sleep_mode.setOnCheckedChangeListener { _, isChecked -> controller?.setSleepMode(mDevice?.macAddress,if(isChecked) 1 else 0)}
-        sb_gesture_control.setOnCheckedChangeListener { _, isChecked -> controller?.enableGestureControl(mDevice?.macAddress,isChecked)}
-        infoTextLayout_setting_syncTime.setOnClickListener { controller?.syncTime(mDevice?.macAddress)}
+        sb_sleep_mode.setOnCheckedChangeListener { _, isChecked -> controller?.setSleepMode(mDevice?.id,if(isChecked) 1 else 0)}
+        sb_gesture_control.setOnCheckedChangeListener { _, isChecked -> controller?.enableGestureControl(mDevice?.id,isChecked)}
+        infoTextLayout_setting_syncTime.setOnClickListener { controller?.syncTime(mDevice?.id)}
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
         infoTextLayout_setting_timer.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_m1ControlSettingFragment_to_m1TimerSettingFragment) }
     }

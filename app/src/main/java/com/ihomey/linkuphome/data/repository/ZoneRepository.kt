@@ -85,7 +85,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Int>> {
-                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
+                val deleteZoneVO=DeleteVO(guid.md5(),""+zoneId,System.currentTimeMillis())
                 deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
                 return apiService.deleteZone(deleteZoneVO)
             }
@@ -114,7 +114,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<ZoneDetail>> {
-                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
+                val deleteZoneVO=DeleteVO(guid.md5(),""+zoneId,System.currentTimeMillis())
                 deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
                 return apiService.switchZone(deleteZoneVO)
             }
@@ -136,7 +136,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<ZoneDetail>> {
-                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
+                val deleteZoneVO=DeleteVO(guid.md5(),""+zoneId,System.currentTimeMillis())
                 deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
                 return apiService.getZone(deleteZoneVO)
             }
@@ -158,7 +158,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<String>> {
-                val deleteZoneVO=DeleteVO(guid.md5(),zoneId,System.currentTimeMillis())
+                val deleteZoneVO=DeleteVO(guid.md5(),""+zoneId,System.currentTimeMillis())
                 deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
                 return apiService.shareZone(deleteZoneVO)
             }
@@ -203,7 +203,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
                     zoneDao.insert(Zone(it.id,it.name,it.netWorkKey,it.nextDeviceIndex,it.nextGroupIndex,it.active,it.type))
                     deviceDao.deleteAll(it.id)
                     roomDao.deleteAll(it.id)
-                    it.devices?.filter {it.type!=5}?.let {it2 -> deviceDao.insertAll(it2)}
+                    it.devices?.let {it2 -> deviceDao.insertAll(it2)}
                     it.groups?.let { it1 -> roomDao.insertAll(it1)}
                 }
             }

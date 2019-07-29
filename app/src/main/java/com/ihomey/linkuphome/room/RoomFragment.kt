@@ -250,10 +250,10 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
         }
     }
 
-    override fun updateDeviceName(id: Int, newName: String) {
+    override fun updateDeviceName(id: String, newName: String) {
         context?.getIMEI()?.let { it1 ->
             room?.let {
-                viewModel.changeRoomName(it1, it.zoneId, id, it.type, newName).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                viewModel.changeRoomName(it1, it.zoneId, id.toInt(), it.type, newName).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                     if (it?.status == Status.SUCCESS) {
                         tv_title.text = newName
                     } else if (it?.status == Status.ERROR) {

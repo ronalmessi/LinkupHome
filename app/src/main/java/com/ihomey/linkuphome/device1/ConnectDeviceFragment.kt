@@ -59,7 +59,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
-                currentZone?.id?.let { viewModel.setQuery(it,arguments?.getInt("deviceType")!!+1) }
+                currentZone?.id?.let { viewModel.setQuery(it,arguments?.getInt("deviceType")!!) }
             }
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
@@ -113,7 +113,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
         if (TextUtils.equals(deviceShortName, shortName)) {
-            val singleDevice1 = Device(type+1,deviceType.name)
+            val singleDevice1 = Device(type,deviceType.name)
             singleDevice1.hash = uuidHash
             if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
         }
@@ -129,7 +129,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         context?.getIMEI()?.let { it1 ->
-            viewModel.saveDevice(it1, currentZone?.id!!, type + 1, deviceType.name).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+            viewModel.saveDevice(it1, currentZone?.id!!, type , deviceType.name).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                 if (it?.status == Status.SUCCESS&&it.data!=null) {
                     it.data.hash=uuidHash
                     val position = adapter.data.indexOf(it.data) ?: -1
@@ -140,7 +140,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
                     }
                     mViewModel.setCurrentZoneId(currentZone?.id!!)
                     deviceAssociateFragment.dismiss()
-                    if (adapter.data.none { it.id == 0 }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+                    if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                 } else if (it?.status == Status.ERROR) {
                     deviceAssociateFragment.dismiss()
                     it.message?.let { it2 -> activity?.toast(it2) }
@@ -156,11 +156,12 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        val singleDevice = adapter.getItem(position)
-        if (singleDevice?.id == 0) {
-            deviceAssociateFragment.isCancelable = false
-            deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
-            listener.associateDevice(singleDevice.hash, null)
+        adapter.getItem(position)?.let {
+            if(TextUtils.equals("0",it.id)){
+                deviceAssociateFragment.isCancelable = false
+                deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
+                listener.associateDevice(it.hash, null)
+            }
         }
     }
 

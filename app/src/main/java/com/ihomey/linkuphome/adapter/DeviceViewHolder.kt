@@ -38,38 +38,38 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
            mOnItemChildClickListener?.onItemChildClick(device,it)
         }
         nameView.text = device.name
-        val type= device.type.minus(1)
+        val type= device.type
         iconView.setImageResource(AppConfig.DEVICE_ICON[type])
         val layoutParams = nameView.layoutParams as ViewGroup.MarginLayoutParams
-        if (type == 0) {
+        if (type == 1) {
             brightnessView.max=85
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._15sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._3sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-        }else if (type == 1||type==2) {
+        }else if (type == 2||type==3) {
             iconView.scaleX=0.7f
             iconView.scaleY=0.7f
-            if(type == 1) brightnessView.max=85 else brightnessView.max=240
+            if(type == 2) brightnessView.max=85 else brightnessView.max=240
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._30sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._16sdp).toInt(), parent.context.resources.getDimension(R.dimen._4sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._4sdp).toInt())
-        }else if (type==6||type==7) {
-            if(type == 6) brightnessView.max=85 else brightnessView.max=240
+        }else if (type==7||type==8) {
+            if(type == 7) brightnessView.max=85 else brightnessView.max=240
             iconView.scaleX=0.8f
             iconView.scaleY=0.8f
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._30sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._14sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._4sdp).toInt())
-        } else if (type == 3) {
+        } else if (type == 4) {
             brightnessView.max=85
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._2sdp).toInt()
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._10sdp).toInt(),parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._10sdp).toInt())
-        }else if (type == 4) {
+        }else if (type == 0) {
             brightnessView.max=85
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._32sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._18sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-        }else if (type == 5||type == 9) {
+        }else if (type == 6||type == 10) {
             brightnessView.max=22
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._21sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._4sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-        }else if (type == 8) {
+        }else if (type == 9) {
             brightnessView.max=85
             iconView.scaleX=0.8f
             iconView.scaleY=0.8f

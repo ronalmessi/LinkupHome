@@ -49,7 +49,7 @@ open class AlarmSettingFragment : BaseFragment() {
         })
         mViewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
-            if(mInitialAlarm==null)mInitialAlarm=Alarm(0,0,it.dayOfWeek,it.hour,it.minute,it.ringType,it.type,0)
+            if(mInitialAlarm==null)mInitialAlarm=Alarm(0,"",it.dayOfWeek,it.hour,it.minute,it.ringType,it.type,0)
             mAlarm = it
             tv_title.text = if (mAlarm.editMode != 0) "编辑闹钟" else "添加闹钟"
             updateViews(it)
@@ -81,7 +81,7 @@ open class AlarmSettingFragment : BaseFragment() {
         sb_light_mode.setOnCheckedChangeListener { _, isChecked ->
             mAlarm.let {
                 it.type = if (isChecked) (if(it.ringType>0) 3 else 2) else 1
-                controller.setAlarmType(mDevice?.macAddress,it)
+                controller.setAlarmType(mDevice?.id,it)
             }
         }
         btn_save.setOnClickListener {
@@ -94,7 +94,7 @@ open class AlarmSettingFragment : BaseFragment() {
                     Navigation.findNavController(btn_save).popBackStack()
                 }else{
                     it.isOn = 1
-                    controller.setAlarm( mDevice?.macAddress,it)
+                    controller.setAlarm( mDevice?.id,it)
                     mViewModel.saveAlarm(it)
                     Navigation.findNavController(btn_save).popBackStack()
                 }

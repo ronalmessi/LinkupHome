@@ -14,10 +14,10 @@ abstract class LocalStateDao {
 
 
     @Query("SELECT * FROM local_state WHERE id = :id")
-    abstract fun getLocalState(id: Int): LiveData<LocalState>
+    abstract fun getLocalState(id: String): LiveData<LocalState>
 
     @Query("DELETE FROM local_state WHERE id = :id")
-    abstract fun delete(id: Int)
+    abstract fun delete(id: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(localState: LocalState)

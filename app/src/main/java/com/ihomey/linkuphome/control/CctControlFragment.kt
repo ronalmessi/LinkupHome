@@ -28,7 +28,6 @@ class CctControlFragment : BaseControlFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.t1_control_cct_fragment, container, false)
-        initController(8)
         mViewDataBinding.handlers = ToolBarEventHandler()
         return mViewDataBinding.root
     }

@@ -25,29 +25,29 @@ class BondedDeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(La
      */
     fun bindTo(device: Device) {
         this.device = device
-        val type=device.type-1
+        val type=device.type
         val layoutParams = nameView.layoutParams as ViewGroup.MarginLayoutParams
-        if (type == 0) {
+        if (type == 1) {
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._20sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._4sdp).toInt(), parent.context.resources.getDimension(R.dimen._2sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._2sdp).toInt())
-        }else if (type == 1||type==2) {
+        }else if (type == 2||type==3) {
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._18sdp).toInt(), parent.context.resources.getDimension(R.dimen._2sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._2sdp).toInt())
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._35sdp).toInt()
-        }else if (type==6||type==7) {
+        }else if (type==7||type==8) {
             iconView.scaleX=0.8f
             iconView.scaleY=0.8f
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._15sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt())
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._33sdp).toInt()
-        }else if (type == 4) {
+        }else if (type == 0) {
             containerLayout.setPadding( parent.context.resources.getDimension(R.dimen._21sdp).toInt(), 0,parent.context.resources.getDimension(R.dimen._12sdp).toInt(), 0)
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._38sdp).toInt()
-        }else if (type == 5||type == 9) {
+        }else if (type == 6||type == 10) {
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._24sdp).toInt()
             containerLayout.setPadding(parent.context.resources.getDimension(R.dimen._8sdp).toInt(), 0, parent.context.resources.getDimension(R.dimen._12sdp).toInt(), 0)
-        }else if (type == 3) {
+        }else if (type == 4) {
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._8sdp).toInt()
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._13sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._13sdp).toInt())
-        }else if (type == 8) {
+        }else if (type == 9) {
             iconView.scaleX=0.8f
             iconView.scaleY=0.8f
             layoutParams.marginStart = parent.context.resources.getDimension(R.dimen._14sdp).toInt()

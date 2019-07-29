@@ -25,7 +25,7 @@ import java.util.*
 abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheckedChangeListener, View.OnClickListener, SwitchButton.OnCheckedChangeListener {
 
     protected lateinit var mControlDevice: Device
-    private var mLocalState: LocalState= LocalState(0)
+    private var mLocalState: LocalState= LocalState("")
     private var controller: Controller? = null
 
     protected lateinit var viewModel: HomeActivityViewModel

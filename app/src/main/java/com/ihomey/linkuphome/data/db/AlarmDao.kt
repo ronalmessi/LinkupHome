@@ -13,7 +13,7 @@ import com.ihomey.linkuphome.data.entity.Alarm
 interface AlarmDao {
 
     @Query("SELECT * FROM alarm WHERE deviceId = :deviceId order by id asc")
-    fun getAlarms(deviceId: Int): LiveData<List<Alarm>>
+    fun getAlarms(deviceId: String): LiveData<List<Alarm>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(alarm: Alarm)

@@ -81,7 +81,7 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
          */
         private val diffCallback = object : DiffUtil.ItemCallback<Device>() {
             override fun areItemsTheSame(oldItem: Device, newItem: Device): Boolean {
-                return (oldItem.id == newItem.id&&TextUtils.equals(oldItem.macAddress,newItem.macAddress)&&oldItem.parameters?.on==newItem.parameters?.on&&oldItem.parameters?.brightness==newItem.parameters?.brightness)
+                return (TextUtils.equals(oldItem.id,newItem.id)&&oldItem.parameters?.on==newItem.parameters?.on&&oldItem.parameters?.brightness==newItem.parameters?.brightness)
             }
 
             /**

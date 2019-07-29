@@ -38,7 +38,7 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
 
     override fun convert(helper: BaseViewHolder, item: Device) {
         helper.setText(R.id.tv_device_name, item.name)
-        val type=item.type-1
+        val type=item.type
         helper.setImageResource(R.id.iv_device_icon, AppConfig.DEVICE_ICON[type])
         when (helper.itemViewType) {
             1 -> {
@@ -47,31 +47,31 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                 swipeLayout.isRightSwipeEnabled = false
                 val seek_bar_brightness = helper.getView<SeekBar>(R.id.device_seek_bar_brightness)
                 val cl_devices_item = swipeLayout.findViewById<ConstraintLayout>(R.id.cl_devices_item)
-                if (type == 0) {
+                if (type == 1) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                } else if (type == 1||type==2||type==6||type==7) {
+                } else if (type == 2||type==3||type==7||type==8) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (type == 4) {
+                }else if (type == 0) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (type == 5) {
+                }else if (type == 6||type == 10) {
                     cl_devices_item.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (type == 8) {
+                }else if (type == 9) {
                     cl_devices_item.setPadding(0, mContext.resources.getDimension(R.dimen._12sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._12sdp).toInt())
                 }
 
-                if (type == 0) {
+                if (type == 1) {
                     seek_bar_brightness.max=85
-                }else if (type == 1||type==2) {
-                    if(type == 1) seek_bar_brightness.max=85 else seek_bar_brightness.max=240
-                }else if (type==6||type==7) {
-                    if(type == 6) seek_bar_brightness.max=85 else seek_bar_brightness.max=240
-                } else if (type == 3) {
+                }else if (type == 2||type==3) {
+                    if(type == 2) seek_bar_brightness.max=85 else seek_bar_brightness.max=240
+                }else if (type==7||type==8) {
+                    if(type == 7) seek_bar_brightness.max=85 else seek_bar_brightness.max=240
+                } else if (type == 4) {
                     seek_bar_brightness.max=85
-                }else if (type == 4) {
+                }else if (type == 0) {
                     seek_bar_brightness.max=85
-                }else if (type == 5||type == 9) {
+                }else if (type == 6||type == 10) {
                     seek_bar_brightness.max=22
-                }else if (type == 8) {
+                }else if (type == 9) {
                     seek_bar_brightness.max=85
                 }
                 val sb_power = helper.getView<SwitchButton>(R.id.sb_power)
@@ -94,15 +94,15 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                 })
             }
             -1 -> {
-                if (type == 0) {
+                if (type == 1) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                } else if (type == 1||type==2||type==6||type==7) {
+                } else if (type == 2||type==3||type==7||type==8) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (type == 4) {
+                }else if (type == 0) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (type == 5) {
+                }else if (type == 6||type == 10) {
                     helper.itemView.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
-                }else if (type == 8) {
+                }else if (type == 9) {
                     helper.itemView.setPadding(0, mContext.resources.getDimension(R.dimen._11sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._11sdp).toInt())
                 }
             }

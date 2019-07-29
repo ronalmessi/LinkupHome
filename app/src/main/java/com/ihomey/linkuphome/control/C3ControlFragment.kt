@@ -32,7 +32,6 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.c3_control_fragment, container, false)
-        initController(0)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.root.setOnClickListener {
             mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE

@@ -15,13 +15,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -72,7 +72,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
-                currentZone?.id?.let { viewModel.setQuery(it,5) }
+                currentZone?.id?.let { viewModel.setQuery(it,0) }
             }
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
@@ -111,56 +111,43 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
     }
 
     override fun newAppearance(shortName: String, macAddress: String) {
-        val singleDevice1 = Device(5,DeviceType.values()[4].name,macAddress)
+        val singleDevice1 = Device(0,DeviceType.values()[0].name,macAddress)
         if(adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
     }
 
     override fun deviceAssociated(isSuccess: Boolean, shortName: String, macAddress: String) {
         if(isSuccess){
-            context?.getIMEI()?.let { it1 ->
-                viewModel.saveDevice(it1, currentZone?.id!!, 5, DeviceType.values()[4].name,macAddress).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-                    if (it?.status == Status.SUCCESS&&it.data!=null) {
-                        it.data.macAddress=macAddress
-                        val position = adapter.data.indexOf(it.data) ?: -1
-                        if (position != -1) {
-                            adapter.getItem(position)?.id=it.data.id
-                            adapter.getItem(position)?.macAddress=macAddress
-                            adapter.notifyItemChanged(position)
-                        }
-                        var currentDeviceAddress by PreferenceHelper("currentDeviceAddress", "")
-                        currentDeviceAddress=macAddress
-                        mViewModel.setCurrentZoneId(currentZone?.id!!)
-                        countDownTimer.cancel()
-                        deviceAssociateFragment.onAssociateProgressChanged(0)
-                        deviceAssociateFragment.dismiss()
-                        if (adapter.data.none { it.id == 0 }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
-                    } else if (it?.status == Status.ERROR) {
-                        deviceAssociateFragment.dismiss()
-                        it.message?.let { it2 -> activity?.toast(it2) }
-                    }
-                })
+            val device = Device(0,DeviceType.values()[0].name,macAddress)
+            val position = adapter.data.indexOf(device) ?: -1
+            if (position != -1) {
+                adapter.getItem(position)?.id=macAddress
+                adapter.notifyItemChanged(position)
             }
+            viewModel.saveDevice(0,currentZone?.id!!,DeviceType.values()[0].name,macAddress)
+            mViewModel.setCurrentZoneId(currentZone?.id!!)
+            countDownTimer.cancel()
+            deviceAssociateFragment.onAssociateProgressChanged(0)
+            deviceAssociateFragment.dismiss()
+            if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
         }else{
             countDownTimer.cancel()
             deviceAssociateFragment.onAssociateProgressChanged(0)
             deviceAssociateFragment.dismiss()
-            activity?.toast("M1 连接失败！", Toast.LENGTH_SHORT)
+            activity?.toast("未检测到床头灯信号，请确保床头灯已开启，并且处于可控制范围内。", Toast.LENGTH_SHORT)
        }
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        adapter.getItem(position)?.let {
-            if(it.id==0){
-                it.macAddress?.let {it0->
-                    val pairedDeviceAddress=BluetoothSPP.getInstance()?.pairedDeviceAddress
-                    if(pairedDeviceAddress!=null&& pairedDeviceAddress.any {TextUtils.equals(it,it0)}){
-                        deviceAssociateFragment.isCancelable = false
-                        deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
-                        countDownTimer.start()
-                        listener.associateDevice(it0)
-                    }else{
-                        Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
-                    }
+        adapter.getItem(position)?.let {it0->
+            if(TextUtils.equals("0",it0.id)){
+                val pairedDeviceAddress=BluetoothSPP.getInstance()?.pairedDeviceAddress
+                if(pairedDeviceAddress!=null&& pairedDeviceAddress.any {TextUtils.equals(it,it0.macAddress)}){
+                    deviceAssociateFragment.isCancelable = false
+                    deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
+                    countDownTimer.start()
+                    listener.associateDevice(it0.macAddress)
+                }else{
+                    Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
                 }
             }
         }

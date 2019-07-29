@@ -35,6 +35,8 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.device1.ConnectM1DeviceFragment
+import com.ihomey.linkuphome.device1.DeleteDeviceFragment
+import com.ihomey.linkuphome.device1.EnableBluetoothDialogFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
@@ -240,7 +242,14 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             if(resultCode==Activity.RESULT_OK){
                 initSppService()
             }else if(resultCode==Activity.RESULT_CANCELED){
-                  Log.d("aa","---RESULT_CANCELED")
+                val dialog = EnableBluetoothDialogFragment()
+                dialog.setConfirmButtonClickListener(object :EnableBluetoothDialogFragment.ConfirmButtonClickListener{
+                    override fun onConfirm() {
+                        val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                        startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
+                    }
+                })
+                dialog.show(supportFragmentManager, "EnableBluetoothDialogFragment")
             }
         }
     }
@@ -264,7 +273,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             val parentActivity = mActivity.get()
             when (msg.what) {
                 MeshService.MESSAGE_REQUEST_BT -> {
-                    Log.d("aa","----"+MeshService.MESSAGE_REQUEST_BT)
                     val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                     parentActivity?.startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
                 }

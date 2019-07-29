@@ -52,34 +52,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }.asLiveData()
     }
 
-
-    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,macAddress: String): LiveData<Resource<Device>> {
-        return object : NetworkBoundResource<Device>(appExecutors) {
-            override fun saveCallResult(item: Device?) {
-                item?.let {
-                    it.macAddress=macAddress
-                    deviceDao.insert(it)
-                }
-            }
-
-            override fun shouldFetch(data: Device?): Boolean {
-                return true
-            }
-
-            override fun loadFromDb(): LiveData<Device> {
-                return AbsentLiveData.create()
-            }
-
-            override fun createCall(): LiveData<ApiResult<Device>> {
-                val saveDeviceVO = SaveDeviceVO(guid.md5(), name,  zoneId,  System.currentTimeMillis(), type)
-                saveDeviceVO.signature = beanToJson(saveDeviceVO).sha256()
-                return apiService.saveDevice(saveDeviceVO)
-            }
-        }.asLiveData()
-    }
-
-
-    fun deleteDevice(guid:String,deviceId:Int): LiveData<Resource<Boolean>> {
+    fun deleteDevice(guid:String,deviceId:String): LiveData<Resource<Boolean>> {
         return object : NetworkBoundResource<Boolean>(appExecutors) {
             override fun saveCallResult(item: Boolean?) {
 
@@ -102,7 +75,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     }
 
 
-    fun changeDeviceName(guid:String,spaceId:Int,id:Int,type:Int,newName:String): LiveData<Resource<Device>> {
+    fun changeDeviceName(guid:String,spaceId:Int,id:String,type:Int,newName:String): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
                 item?.let {  deviceDao.insert(it) }
@@ -125,7 +98,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     }
 
 
-    fun changeDeviceState(guid:String,id:Int,name:String,value:String): LiveData<Resource<Device>> {
+    fun changeDeviceState(guid:String,id:String,name:String,value:String): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
 
@@ -177,12 +150,18 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         return LivePagedListBuilder(deviceDao.getPagingBondedDevices(zoneId,roomId), /* page size */6).build()
     }
 
-    fun getLocalState(id: Int): LiveData<Resource<LocalState>> {
+    fun getLocalState(id: String): LiveData<Resource<LocalState>> {
         return object : DbBoundResource<LocalState>(appExecutors) {
             override fun loadFromDb(): LiveData<LocalState> {
                 return localStateDao.getLocalState(id)
             }
         }.asLiveData()
+    }
+
+    fun saveDevice(device: Device) {
+        appExecutors.diskIO().execute {
+            deviceDao.insert(device)
+        }
     }
 
     fun updateLocalState(localState: LocalState) {
@@ -211,12 +190,8 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }
     }
 
-    fun deleteDevice(deviceId: Int) {
+    fun deleteDevice(deviceId: String) {
         appExecutors.diskIO().execute {
-            val device=deviceDao.getDevice(deviceId)
-            if(device.type==5){
-                BluetoothSPP.getInstance()?.disconnect(device.macAddress)
-            }
             deviceDao.delete(deviceId)
             localStateDao.delete(deviceId)
         }

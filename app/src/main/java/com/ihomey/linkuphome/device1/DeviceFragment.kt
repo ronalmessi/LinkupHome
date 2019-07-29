@@ -54,7 +54,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList=it.snapshot()
             if(!isUserTouch) adapter.submitList(it)
-            deviceList?.forEach {if(it.type==5)BluetoothSPP.getInstance()?.autoConnect(it.macAddress) }
+            deviceList?.forEach {if(it.type==0)BluetoothSPP.getInstance()?.autoConnect(it.id) }
         })
         mViewModel.isDeviceListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
             if(it){
@@ -99,18 +99,23 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-    override fun deleteDevice(id: Int, instructId: Int){
-        context?.getIMEI()?.let { it1 ->
-            mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
-                if (it?.status == Status.SUCCESS) {
-                    mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, this))
-                } else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                }else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            })
+    override fun deleteDevice(id: String, instructId: Int){
+        if(id.contains(":")){
+            BluetoothSPP.getInstance()?.disconnect(id)
+            mViewModel.deleteM1Device(id)
+        }else{
+            context?.getIMEI()?.let { it1 ->
+                mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
+                    if (it?.status == Status.SUCCESS) {
+                        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, this))
+                    } else if (it?.status == Status.ERROR) {
+                        hideLoadingView()
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    }else if (it?.status == Status.LOADING) {
+                        showLoadingView()
+                    }
+                })
+            }
         }
     }
 
@@ -118,7 +123,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         if (view.id == R.id.btn_delete) {
             val dialog = DeleteDeviceFragment()
             val bundle = Bundle()
-            bundle.putInt("deviceId", singleDevice.id)
+            bundle.putString("deviceId", singleDevice.id)
             bundle.putInt("deviceInstructId", singleDevice.instructId)
             dialog.arguments = bundle
             dialog.setDeleteDeviceListener(this)
@@ -129,17 +134,17 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun onItemClick(singleDevice: Device) {
         mViewModel.setCurrentControlDevice(singleDevice)
-        when (singleDevice.type-1) {
-            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
-            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
-            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
-            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
-            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
-            5 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
-            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
-            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
-            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
-            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
+        when (singleDevice.type) {
+            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
+            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
+            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
+            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
+            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
+            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
+            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
+            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
+            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
+            10 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
         }
     }
 
@@ -155,8 +160,8 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         isUserTouch=true
         if(isFragmentVisible()){
             val controller = ControllerFactory().createController(singleDevice.type)
-            if(singleDevice.type==5){
-                controller?.setLightPowerState(singleDevice.macAddress, if (isChecked) 1 else 0)
+            if(singleDevice.type==0){
+                controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
             }else{
                 if (meshServiceStateListener.isMeshServiceConnected()) {
                     controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
@@ -170,8 +175,8 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         isUserTouch=true
         if(isFragmentVisible()){
             val controller = ControllerFactory().createController(singleDevice.type)
-            if(singleDevice.type==5){
-                controller?.setLightBright(singleDevice.macAddress,progress.plus(15))
+            if(singleDevice.type==0){
+                controller?.setLightBright(singleDevice.id,progress.plus(15))
             }else{
                 if (meshServiceStateListener.isMeshServiceConnected()){
                     controller?.setLightBright(singleDevice.instructId, if(singleDevice.type==6||singleDevice.type==10) progress.plus(10) else progress.plus(15))
@@ -187,7 +192,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         isUserTouch=false
     }
 
-    override fun onDeviceRemoved(deviceId: Int, uuidHash: Int, success: Boolean) {
+    override fun onDeviceRemoved(deviceId: String, uuidHash: Int, success: Boolean) {
         hideLoadingView()
         isUserTouch=false
         mViewModel.deleteDevice(deviceId)

@@ -16,7 +16,7 @@ class SceneSettingViewModel : ViewModel() {
     @Inject
     lateinit var mDeviceRepository: DeviceRepository
 
-    private val mCurrentDeviceId = MutableLiveData<Int>()
+    private val mCurrentDeviceId = MutableLiveData<String>()
     val mCurrentLocalState: LiveData<Resource<LocalState>>
 
 
@@ -27,7 +27,7 @@ class SceneSettingViewModel : ViewModel() {
         }
     }
 
-    fun setCurrentDeviceId(deviceId: Int?) {
+    fun setCurrentDeviceId(deviceId: String?) {
         mCurrentDeviceId.value = deviceId
     }
 

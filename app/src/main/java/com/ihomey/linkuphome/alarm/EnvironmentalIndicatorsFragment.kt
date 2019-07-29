@@ -60,7 +60,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mDevice = it
-            listener.getEnvironmentalIndicators(mDevice?.macAddress, this)
+            listener.getEnvironmentalIndicators(mDevice?.id, this)
         })
     }
 
@@ -122,7 +122,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment(), EmtValueListener {
 
 
     private fun startAnimation() {
-        listener.getEnvironmentalIndicators(mDevice?.macAddress, this)
+        listener.getEnvironmentalIndicators(mDevice?.id, this)
         btn_refresh.isActivated = true
         btn_home.isActivated = true
         val rotate = AnimationUtils.loadAnimation(context, R.anim.rotate)

@@ -119,11 +119,11 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     override fun onStateChanged(isOn: Boolean, item: Alarm) {
         if (isOn) {
             item.isOn = 1
-            controller.setAlarm(mDevice?.macAddress,item)
+            controller.setAlarm(mDevice?.id,item)
         } else {
             item.isOn = 0
-            controller.stopAlarmRing(mDevice?.macAddress,item.id)
-            controller.cancelAlarm(mDevice?.macAddress,item.id)
+            controller.stopAlarmRing(mDevice?.id,item.id)
+            controller.cancelAlarm(mDevice?.id,item.id)
         }
         viewModel.saveAlarm(item)
     }

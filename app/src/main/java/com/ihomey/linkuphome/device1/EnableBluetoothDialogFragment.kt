@@ -3,39 +3,31 @@ package com.ihomey.linkuphome.device1
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
+import com.ihomey.linkuphome.listener.DeleteDeviceListener
+
+class EnableBluetoothDialogFragment : DialogFragment() {
 
 
-class ReNameDeviceFragment : DialogFragment() {
+    private var listener: ConfirmButtonClickListener? = null
 
-    private var updateZoneNameListener: UpdateDeviceNameListener? = null
-
-    fun setUpdateZoneNameListener(updateZoneNameListener: UpdateDeviceNameListener) {
-        this.updateZoneNameListener = updateZoneNameListener
+    fun setConfirmButtonClickListener(listener: ConfirmButtonClickListener) {
+        this.listener = listener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_rename_device, container, false)
-        val et_device_name = view.findViewById<EditText>(R.id.et_device_name)
-        et_device_name.setText(arguments?.getString("deviceName"))
-        arguments?.getString("deviceName")?.length?.let { et_device_name.setSelection(it) }
-        val btn_cancel = view.findViewById<TextView>(R.id.btn_cancel)
-        btn_cancel.setOnClickListener { dismiss() }
+        val view = inflater.inflate(R.layout.dialog_enable_bluetooth, container, false)
+        isCancelable=false
         val btn_confirm = view.findViewById<TextView>(R.id.btn_confirm)
         btn_confirm.setOnClickListener {
-            if (!TextUtils.isEmpty(et_device_name.text.toString().trim())) {
-                arguments?.getString("deviceId")?.let { it1 -> updateZoneNameListener?.updateDeviceName(it1, et_device_name.text.toString().trim()) }
-            }
+            listener?.onConfirm()
             dismiss()
         }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -49,4 +41,10 @@ class ReNameDeviceFragment : DialogFragment() {
         dialog?.window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         dialog?.window?.setLayout((displayMetrics.widthPixels - context?.resources?.getDimension(R.dimen._32sdp)!!).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
+
+    interface ConfirmButtonClickListener {
+        fun onConfirm()
+    }
+
+
 }

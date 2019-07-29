@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class AlarmRepository @Inject constructor(private val alarmDao: AlarmDao, private var appExecutors: AppExecutors) {
 
-    fun getAlarms(deviceId: Int): LiveData<Resource<List<Alarm>>> {
+    fun getAlarms(deviceId: String): LiveData<Resource<List<Alarm>>> {
         return object : DbBoundResource<List<Alarm>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<Alarm>> {
                 return alarmDao.getAlarms(deviceId)

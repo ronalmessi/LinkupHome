@@ -66,7 +66,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         mViewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             this.type = it.type
             controller = ControllerFactory().createController( it.type)
-            if(type!=9&&type!=5){
+            if(type!=9&&type!=0){
                 parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
             } else{
                 if(parentFragment?.parentFragment is DeviceNavHostFragment){
@@ -81,13 +81,6 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                 }
             })
         })
-    }
-
-
-
-    fun initController(type: Int) {
-//        this.type = type
-//        controller = ControllerFactory().createController(type+1)
     }
 
     override fun onBackPressed(): Boolean {
@@ -108,24 +101,24 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     }
 
     override fun onColorValueChanged(time: Int) {
-        if(type==5){
-            controller?.setLightColor(mControlDevice.macAddress, CODE_LIGHT_COLORS[time])
+        if(type==0){
+            controller?.setLightColor(mControlDevice.id, CODE_LIGHT_COLORS[time])
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
         }
     }
 
     override fun onColorValueChange(time: Int) {
-        if(type==5){
-            controller?.setLightColor(mControlDevice.macAddress, CODE_LIGHT_COLORS[time])
+        if(type==0){
+            controller?.setLightColor(mControlDevice.id, CODE_LIGHT_COLORS[time])
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
         }
     }
 
     override fun onColorTemperatureValueChanged(temperature: Int) {
-        if(type==5){
-             controller?.setLightColorTemperature(mControlDevice.macAddress, temperature)
+        if(type==0){
+             controller?.setLightColorTemperature(mControlDevice.id, temperature)
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
         }
@@ -133,16 +126,16 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     }
 
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
-        if(type==5){
-            controller?.setLightSpeed(mControlDevice.macAddress, position)
+        if(type==0){
+            controller?.setLightSpeed(mControlDevice.id, position)
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
         }
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if(type==5){
-            controller?.setLightBright(mControlDevice.macAddress,seekBar.progress.plus(15))
+        if(type==0){
+            controller?.setLightBright(mControlDevice.id,seekBar.progress.plus(15))
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if(type==6||type==10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
             changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
@@ -152,8 +145,8 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
             R.id.device_state_cb_power -> {
-                if(type==5){
-                    controller?.setLightPowerState(mControlDevice.macAddress, if (isChecked) 1 else 0)
+                if(type==0){
+                    controller?.setLightPowerState(mControlDevice.id, if (isChecked) 1 else 0)
                 }else{
                     if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
                     changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
@@ -164,7 +157,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
 
     inner class ToolBarEventHandler : UpdateDeviceNameListener {
-        override fun updateDeviceName(id: Int, newName: String) {
+        override fun updateDeviceName(id: String, newName: String) {
             context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceName(it1,mControlDevice.zoneId,id,mControlDevice.type,newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                 if (it?.status == Status.SUCCESS) {
                     mControlDevice.name = newName
@@ -179,8 +172,8 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
             when (view.id) {
                 R.id.iv_back -> Navigation.findNavController(view).popBackStack()
                 R.id.btn_device_lighting ->{
-                    if(type==5){
-                        controller?.setLightingMode(mControlDevice.macAddress)
+                    if(type==0){
+                        controller?.setLightingMode(mControlDevice.id)
                     }else{
                         if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
                     }
@@ -189,7 +182,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                     when (type) {
                         2 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_r2SceneSettingFragment)
                         4 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_n1SceneSettingFragment)
-                        5 -> Navigation.findNavController(view).navigate(R.id.action_m1ControlFragment_to_r2SceneSettingFragment)
+                        0 -> Navigation.findNavController(view).navigate(R.id.action_m1ControlFragment_to_r2SceneSettingFragment)
                         6 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_v1SceneSettingFragment)
                         7 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_r2SceneSettingFragment)
                         9 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_t1SceneSettingFragment)
@@ -201,7 +194,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                         2 -> Navigation.findNavController(view).navigate(R.id.action_r2ControlFragment_to_timerSettingFragment)
                         3 -> Navigation.findNavController(view).navigate(R.id.action_a2ControlFragment_to_timerSettingFragment)
                         4 -> Navigation.findNavController(view).navigate(R.id.action_n1ControlFragment_to_timerSettingFragment)
-                        5 -> Navigation.findNavController(view).navigate(R.id.action_m1ControlFragment_to_alarmListFragment)
+                        0 -> Navigation.findNavController(view).navigate(R.id.action_m1ControlFragment_to_alarmListFragment)
                         6 -> Navigation.findNavController(view).navigate(R.id.action_v1ControlFragment_to_repeatTimerSettingFragment)
                         7 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
                         8 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)
@@ -213,7 +206,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                     hideGuideView()
                     val dialog = ReNameDeviceFragment()
                     val bundle = Bundle()
-                    bundle.putInt("deviceId", mControlDevice.id)
+                    bundle.putString("deviceId", mControlDevice.id)
                     bundle.putString("deviceName", mControlDevice.name)
                     dialog.arguments = bundle
                     dialog.setUpdateZoneNameListener(this)

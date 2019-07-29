@@ -303,10 +303,11 @@ public class BluetoothSPPService {
                 mmSocket.connect();
             } catch (IOException e) {
                 // Close the socket
+                e.printStackTrace();
                 try {
                     mmSocket.close();
                 } catch (IOException e2) {
-
+                    e2.printStackTrace();
                 }
                 connectionFailed(mmDevice);
                 return;

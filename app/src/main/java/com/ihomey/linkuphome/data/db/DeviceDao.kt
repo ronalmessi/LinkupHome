@@ -17,7 +17,7 @@ abstract class DeviceDao {
     abstract fun getDevices(zoneId: Int): LiveData<List<Device>>
 
     @Transaction
-    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId order by macAddress desc,type asc,id asc")
+    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId order by type asc,id asc")
     abstract fun getPagingDevices(zoneId: Int):DataSource.Factory<Int, Device>
 
     @Transaction
@@ -25,11 +25,11 @@ abstract class DeviceDao {
     abstract fun getDevicesByType(zoneId: Int,type:Int):LiveData<List<Device>>
 
     @Transaction
-    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId =0 and type!=5 order by type asc,id asc")
+    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId =0 and type!=0 order by type asc,id asc")
     abstract fun getPagingUnBondedDevices(zoneId: Int): DataSource.Factory<Int, Device>
 
     @Transaction
-    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId = :roomId and type!=5 order by type asc,id asc")
+    @Query("SELECT * FROM device1 WHERE zoneId = :zoneId and roomId = :roomId and type!=0 order by type asc,id asc")
     abstract fun getPagingBondedDevices(zoneId: Int,roomId: Int): DataSource.Factory<Int, Device>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -42,12 +42,12 @@ abstract class DeviceDao {
     abstract fun delete(device: Device)
 
     @Query("DELETE FROM device1 WHERE id = :id")
-    abstract fun delete(id: Int)
+    abstract fun delete(id: String)
 
     @Query("SELECT * FROM device1 WHERE id = :id")
-    abstract fun getDevice(id: Int):Device
+    abstract fun getDevice(id: String):Device
 
-    @Query("DELETE FROM device1 WHERE type!=5 and zoneId = :zoneId")
+    @Query("DELETE FROM device1 WHERE type!=0 and zoneId = :zoneId")
     abstract fun deleteAll(zoneId: Int)
 
     @Query("UPDATE device1 set roomId = 0 WHERE roomId = :roomId")
@@ -66,15 +66,8 @@ abstract class DeviceDao {
     @Query("UPDATE device1 set parameters= :deviceState WHERE roomId = :roomId")
     abstract fun updateStateByRoomId(roomId: Int,deviceState:DeviceState)
 
-
     @Query("UPDATE device1 set parameters= :deviceState WHERE id = :deviceId")
-    abstract fun updateState(deviceId: Int,deviceState:DeviceState)
-
-
-    @Query("UPDATE device1 set macAddress= :macAddress WHERE type =5")
-    abstract fun updateDeviceAddress(macAddress: String)
-
-
+    abstract fun updateState(deviceId: String,deviceState:DeviceState)
 
 
 }
