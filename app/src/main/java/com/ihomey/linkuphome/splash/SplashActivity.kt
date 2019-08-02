@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.splash
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -17,6 +18,7 @@ import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
+import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.inform.InformActivity
@@ -33,25 +35,41 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun checkPermission() {
-        val permissionStatus = ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION)
-        when (permissionStatus) {
-            PackageManager.PERMISSION_GRANTED -> synchronizeData()
-            PackageManager.PERMISSION_DENIED -> ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE), 100)
+        val accessCoarseLocationPermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val accessFineLocationPermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val readPhonePermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.READ_PHONE_STATE)
+        if(accessCoarseLocationPermissionStatus==PackageManager.PERMISSION_GRANTED&&accessFineLocationPermissionStatus==PackageManager.PERMISSION_GRANTED&&readPhonePermissionStatus== PackageManager.PERMISSION_GRANTED){
+            synchronizeData()
+        }else{
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_PHONE_STATE), 100)
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
+            showPermissionPromptDialog()
+        } else {
+            synchronizeData()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==101) checkPermission()
+    }
+
+    private fun showPermissionPromptDialog(){
+        val dialog = PermissionPromptDialogFragment().newInstance("温馨提示","请允许获取手机权限，以确保应用能正常使用","确定")
+        dialog.setConfirmButtonClickListener(object : PermissionPromptDialogFragment.ConfirmButtonClickListener {
+            override fun onConfirm() {
                 val intent = Intent()
                 intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                 intent.data = Uri.fromParts("package", packageName, null)
                 startActivityForResult(intent, 101)
             }
-        } else {
-            synchronizeData()
-        }
+        })
+        dialog.show(supportFragmentManager, "PermissionPromptDialogFragment")
     }
 
     private fun synchronizeData() {

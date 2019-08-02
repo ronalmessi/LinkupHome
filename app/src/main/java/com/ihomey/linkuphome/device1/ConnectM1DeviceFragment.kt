@@ -77,7 +77,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
             if (it?.status == Status.SUCCESS) {
-                adapter.setNewData(it.data)
+                adapter.setNewData(it.data?.onEach { it.macAddress=it.id })
                 listener.discoverDevices(true, this)
             }
         })
@@ -156,12 +156,12 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
         val controller = ControllerFactory().createController(singleDevice.type)
-        controller?.setLightPowerState(0, if (isChecked) 1 else 0)
+        controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
         val controller = ControllerFactory().createController(singleDevice.type)
-        controller?.setLightBright(0,progress.plus(15))
+        controller?.setLightBright(singleDevice.id,progress.plus(15))
     }
 
     interface DevicesStateListener {

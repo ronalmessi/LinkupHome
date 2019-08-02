@@ -51,18 +51,22 @@ public class BluetoothSPP {
     }
 
     public interface BluetoothStateListener {
-        public void onServerStartListen();
-        public void onDeviceDisConnected(String name, String address);
+         void onServerStartListen();
+         void onDeviceDisConnected(String name, String address);
     }
 
     public interface OnDataReceivedListener {
-        public void onDataReceived(byte[] data, String message);
+         void onDataReceived(byte[] data, String message);
     }
 
     public interface BluetoothConnectionListener {
-        public void onDeviceConnecting(String name, String address);
-        public void onDeviceConnected(String name, String address);
-        public void onDeviceConnectFailed(String name, String address);
+         void onDeviceConnecting(String name, String address);
+         void onDeviceConnected(String name, String address);
+         void onDeviceConnectFailed(String name, String address);
+    }
+
+    public ArrayList<String> getAutoConnectDeviceAddressList() {
+        return mAutoConnectDeviceAddressList;
     }
 
     public boolean isBluetoothAvailable() {
@@ -79,35 +83,14 @@ public class BluetoothSPP {
         return mBluetoothAdapter.isEnabled();
     }
 
-    public boolean isServiceAvailable() {
-        return mChatService != null;
-    }
-
-    public boolean startDiscovery() {
-        return mBluetoothAdapter.startDiscovery();
-    }
-
-    public boolean isDiscovery() {
-        return mBluetoothAdapter.isDiscovering();
-    }
-
-    public boolean cancelDiscovery() {
-        return mBluetoothAdapter.cancelDiscovery();
-    }
-
-    public void setupService() {
-        mChatService = new BluetoothSPPService(mContext, mHandler);
-    }
-
-    public BluetoothAdapter getBluetoothAdapter() {
-        return mBluetoothAdapter;
-    }
-
-
     public void startService() {
-        if (mChatService != null) {
+        if(isBluetoothEnabled()){
+            mChatService = new BluetoothSPPService(mContext, mHandler);
             if (mChatService.getState() == BluetoothSPPState.STATE_NONE) {
                 mChatService.start();
+//                for(String address : mAutoConnectDeviceAddressList){
+//                    connect(address);
+//                }
             }
         }
     }
@@ -115,12 +98,8 @@ public class BluetoothSPP {
     public void stopService() {
         if (mChatService != null) {
             mChatService.stop();
+            mChatService=null;
         }
-        new Handler().postDelayed(() -> {
-            if (mChatService != null) {
-                mChatService.stop();
-            }
-        }, 500);
     }
 
 
@@ -185,9 +164,9 @@ public class BluetoothSPP {
 
     public void autoConnect(String address) {
         if(!TextUtils.isEmpty(address)){
+            mAutoConnectDeviceAddressList.add(address);
             BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
             if(mChatService!=null&&device!=null){
-                mAutoConnectDeviceAddressList.add(address);
                 mChatService.connect(device);
             }
         }

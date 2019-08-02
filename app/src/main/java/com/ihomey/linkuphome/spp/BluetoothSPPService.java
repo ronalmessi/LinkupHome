@@ -263,9 +263,13 @@ public class BluetoothSPPService {
 
         public void cancel() {
             try {
-                mmServerSocket.close();
-                mmServerSocket = null;
-            } catch (IOException e) { }
+                if(mmServerSocket!=null){
+                    mmServerSocket.close();
+                    mmServerSocket = null;
+                }
+            } catch (IOException e) {
+
+            }
         }
 
     }
@@ -324,8 +328,10 @@ public class BluetoothSPPService {
 
         public void cancel() {
             try {
-                mmSocket.close();
-            } catch (IOException e) { }
+                if(mmSocket!=null) mmSocket.close();
+            } catch (IOException e) {
+
+            }
         }
     }
 

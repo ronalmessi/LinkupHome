@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.Color
 import android.os.*
 import android.text.TextUtils
 import android.util.ArrayMap
@@ -14,10 +13,8 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
@@ -28,20 +25,17 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.alarm.EnvironmentalIndicatorsFragment
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
-import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.device1.ConnectM1DeviceFragment
-import com.ihomey.linkuphome.device1.DeleteDeviceFragment
-import com.ihomey.linkuphome.device1.EnableBluetoothDialogFragment
+import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
-import com.ihomey.linkuphome.spp.BluetoothSPPState
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import org.spongycastle.util.encoders.Hex
@@ -51,7 +45,7 @@ import java.util.*
 
 class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, ConnectM1DeviceFragment.DevicesStateListener, EnvironmentalIndicatorsFragment.EnvironmentalIndicatorsListener {
 
-    private val REMOVE_ACK_WAIT_TIME_MS =4 * 1000L
+    private val REMOVE_ACK_WAIT_TIME_MS = 4 * 1000L
 
     private lateinit var mViewModel: HomeActivityViewModel
     private var mService: MeshService? = null
@@ -88,7 +82,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             }
         })
         mViewModel.mRemoveDeviceVo.observe(this, Observer<RemoveDeviceVo> {
-            if(it!=null){
+            if (it != null) {
                 ConfigModelApi.resetDevice(it.deviceInstructId)
                 mMeshHandler.postDelayed({
                     it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
@@ -102,7 +96,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         val navHostFragment = nav_host_home as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_home)
-        graph.startDestination = if(intent?.extras?.getInt("currentZoneId")!=0) R.id.homeFragment else R.id.createZoneFragment
+        graph.startDestination = if (intent?.extras?.getInt("currentZoneId") != 0) R.id.homeFragment else R.id.createZoneFragment
         navHostFragment.navController.graph = graph
     }
 
@@ -165,91 +159,96 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private fun initSppService() {
-        if(BluetoothSPP.getInstance().isBluetoothEnabled){
-            BluetoothSPP.getInstance()?.setupService()
-            BluetoothSPP.getInstance()?.startService()
-            BluetoothSPP.getInstance()?.setBluetoothConnectionListener(object : BluetoothSPP.BluetoothConnectionListener {
-                override fun onDeviceConnecting(name: String?, address: String?) {
-                    Log.d("aa", "--$name---$address---onDeviceConnecting")
-                }
+        BluetoothSPP.getInstance()?.startService()
+        BluetoothSPP.getInstance()?.setBluetoothConnectionListener(object : BluetoothSPP.BluetoothConnectionListener {
+            override fun onDeviceConnecting(name: String?, address: String?) {
+                Log.d("aa", "--$name---$address---onDeviceConnecting")
+            }
 
-                override fun onDeviceConnectFailed(name: String?, address: String?) {
-                    Log.d("aa", "--$name---$address---onDeviceConnectFailed")
-                    sppStateListener?.deviceAssociated(false,"","")
-                }
-
-                override fun onDeviceConnected(name: String, address: String) {
-                    Log.d("aa", "--$name---$address---onDeviceConnected")
-                    sppStateListener?.deviceAssociated(true,name,address)
-                }
-            })
-            BluetoothSPP.getInstance()?.setOnDataReceivedListener { data, message ->
-                Log.d("aa","---"+ Hex.toHexString(data))
-                val receiveDataStr=Hex.toHexString(data).toUpperCase()
-                if(TextUtils.equals("FE01D101DA0004C2010301CB16",receiveDataStr)){
-                    toast("已开启睡眠模式", Toast.LENGTH_SHORT)
-                }else if(TextUtils.equals("FE01D101DA0004C2010300CA16",receiveDataStr)){
-                    toast("已取消睡眠模式", Toast.LENGTH_SHORT)
-                }else if(TextUtils.equals("FE01D101DA0004C7010101CE16",receiveDataStr)){
-                    toast("已开启手势控制", Toast.LENGTH_SHORT)
-                }else if(TextUtils.equals("FE01D101DA0004C7010100CD16",receiveDataStr)){
-                    toast("已取消手势控制", Toast.LENGTH_SHORT)
-                }else if(TextUtils.equals("FE01D101DA000AC3012000000000000000EE16",receiveDataStr)){
-                    toast("时间已同步", Toast.LENGTH_SHORT)
-                }else if(receiveDataStr.startsWith("FE01D101DA0004C20601")){
-                    val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
-                    toast("定时" + alarmId + "设置成功", Toast.LENGTH_SHORT)
-                }else if(receiveDataStr.startsWith("FE01D101DA0004C20602")){
-                    val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
-                    toast("定时" + alarmId + "已关闭", Toast.LENGTH_SHORT)
-                }else if(receiveDataStr.startsWith("FE01D101DA0003C401")){
-                    val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-                    showCustomToast("闹钟" + alarmId + "已开启")
-                }else if(receiveDataStr.startsWith("FE01D101DA0003C402")){
-                    val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-                    showCustomToast("闹钟" + alarmId + "已关闭")
-                }else if(receiveDataStr.startsWith("FE01D101DA0004C1F")){
-                    val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
-                    toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
-                }else if(receiveDataStr.startsWith("FE01D101DA000BC107")){
-                    val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
-                    val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
-                    val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
-                    emtValueListener?.onEmtValueChanged(pm25Value,hchoValue,vocValue)
+            override fun onDeviceConnectFailed(name: String, address: String) {
+                Log.d("aa", "--$name---$address---onDeviceConnectFailed")
+                BluetoothSPP.getInstance()?.autoConnectDeviceAddressList?.let {
+                    if(!it.contains(address)) sppStateListener?.deviceAssociated(false, name, address)
                 }
             }
-            BluetoothSPP.getInstance()?.setBluetoothStateListener(object :BluetoothSPP.BluetoothStateListener{
-                override fun onServerStartListen() {
-                    Log.d("aa", "onServerStartListen")
-                }
 
-                override fun onDeviceDisConnected(name: String?, address: String?) {
-                    Log.d("aa", "--$name---$address---onDeviceDisConnected")
+            override fun onDeviceConnected(name: String, address: String) {
+                Log.d("aa", "--$name---$address---onDeviceConnected")
+                BluetoothSPP.getInstance()?.autoConnectDeviceAddressList?.let {
+                    if(!it.contains(address)) sppStateListener?.deviceAssociated(true, name, address)
                 }
-            })
+            }
+        })
+        BluetoothSPP.getInstance()?.setOnDataReceivedListener { data, message ->
+            Log.d("aa", "---" + Hex.toHexString(data))
+            val receiveDataStr = Hex.toHexString(data).toUpperCase()
+            if (TextUtils.equals("FE01D101DA0004C2010301CB16", receiveDataStr)) {
+                toast("已开启睡眠模式", Toast.LENGTH_SHORT)
+            } else if (TextUtils.equals("FE01D101DA0004C2010300CA16", receiveDataStr)) {
+                toast("已取消睡眠模式", Toast.LENGTH_SHORT)
+            } else if (TextUtils.equals("FE01D101DA0004C7010101CE16", receiveDataStr)) {
+                toast("已开启手势控制", Toast.LENGTH_SHORT)
+            } else if (TextUtils.equals("FE01D101DA0004C7010100CD16", receiveDataStr)) {
+                toast("已取消手势控制", Toast.LENGTH_SHORT)
+            } else if (TextUtils.equals("FE01D101DA000AC3012000000000000000EE16", receiveDataStr)) {
+                toast("时间已同步", Toast.LENGTH_SHORT)
+            } else if (receiveDataStr.startsWith("FE01D101DA0004C20601")) {
+                val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
+                toast("定时" + alarmId + "设置成功", Toast.LENGTH_SHORT)
+            } else if (receiveDataStr.startsWith("FE01D101DA0004C20602")) {
+                val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
+                toast("定时" + alarmId + "已关闭", Toast.LENGTH_SHORT)
+            } else if (receiveDataStr.startsWith("FE01D101DA0003C401")) {
+                val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
+                showCustomToast("闹钟" + alarmId + "已开启")
+            } else if (receiveDataStr.startsWith("FE01D101DA0003C402")) {
+                val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
+                showCustomToast("闹钟" + alarmId + "已关闭")
+            } else if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
+                val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
+                toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
+            } else if (receiveDataStr.startsWith("FE01D101DA000BC107")) {
+                val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
+                val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
+                val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
+                emtValueListener?.onEmtValueChanged(pm25Value, hchoValue, vocValue)
+            }
         }
+        BluetoothSPP.getInstance()?.setBluetoothStateListener(object : BluetoothSPP.BluetoothStateListener {
+            override fun onServerStartListen() {
+                Log.d("aa", "onServerStartListen")
+            }
+
+            override fun onDeviceDisConnected(name: String?, address: String?) {
+                Log.d("aa", "--$name---$address---onDeviceDisConnected")
+                name?.let {
+                    toast('"' + it + '"' + " " + getString(R.string.msg_device_disconnected))
+                }
+            }
+        })
     }
 
+
     override fun reConnectBridge() {
-            releaseResource()
-            mConnected = false
-            mMeshHandler.postDelayed({ connectBridge() }, 250)
+        releaseResource()
+        mConnected = false
+        mMeshHandler.postDelayed({ connectBridge() }, 250)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==AppConfig.REQUEST_BT_CODE){
-            if(resultCode==Activity.RESULT_OK){
+        if (requestCode == AppConfig.REQUEST_BT_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 initSppService()
-            }else if(resultCode==Activity.RESULT_CANCELED){
-                val dialog = EnableBluetoothDialogFragment()
-                dialog.setConfirmButtonClickListener(object :EnableBluetoothDialogFragment.ConfirmButtonClickListener{
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                val dialog = PermissionPromptDialogFragment()
+                dialog.setConfirmButtonClickListener(object : PermissionPromptDialogFragment.ConfirmButtonClickListener {
                     override fun onConfirm() {
                         val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                         startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
                     }
                 })
-                dialog.show(supportFragmentManager, "EnableBluetoothDialogFragment")
+                dialog.show(supportFragmentManager, "PermissionPromptDialogFragment")
             }
         }
     }
@@ -257,9 +256,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
         mService?.processMeshAdvert(device, scanRecord, rssi)
         if (!TextUtils.isEmpty(device.name) && !addressToNameMap.containsKey(device.address)) {
-            if(TextUtils.equals("Linkuphome M1",device.name)){
-                sppStateListener?.newAppearance(device.name,device.address)
-            }else{
+            if (TextUtils.equals("Linkuphome M1", device.name)) {
+                sppStateListener?.newAppearance(device.name, device.address)
+            } else {
                 addressToNameMap[device.address] = device.name
             }
         }
@@ -293,7 +292,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 MeshService.MESSAGE_LE_DISCONNECTED -> {
                     val numConnections = msg.data.getInt(MeshService.EXTRA_NUM_CONNECTIONS)
                     val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
-                    if(numConnections==0){
+                    if (numConnections == 0) {
                         address?.let {
                             if (parentActivity != null) {
                                 parentActivity.mConnectedDevices.remove(it)
@@ -386,7 +385,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private fun onDisConnected(name: String) {
-        mConnected=false
+        mConnected = false
         mViewModel.setBridgeState(mConnected)
         val textView = TextView(this)
         textView.width = getScreenW()
@@ -405,11 +404,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         toast.duration = Toast.LENGTH_LONG
         val textView = TextView(this)
         textView.gravity = Gravity.CENTER
-        textView.setPadding( dip2px(24f), dip2px(10f),  dip2px(24f), dip2px(10f))
+        textView.setPadding(dip2px(24f), dip2px(10f), dip2px(24f), dip2px(10f))
         textView.setTextColor(resources.getColor(android.R.color.black))
         textView.setBackgroundResource(R.drawable.bg_custom_toast)
         textView.text = name
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,resources.getDimension(R.dimen._18ssp))
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen._18ssp))
         toast.view = textView
         toast.show()
     }
@@ -424,7 +423,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     override fun discoverDevices(enabled: Boolean, listener: SppStateListener?) {
-       if(enabled) this.sppStateListener=listener else null
+        sppStateListener = if (enabled) listener else null
         try {
             mService?.setDeviceDiscoveryFilterEnabled(enabled)
         } catch (e: Exception) {
@@ -432,9 +431,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    override fun getEnvironmentalIndicators(deviceAddress:String?,listener: EmtValueListener?) {
-        this.emtValueListener=listener
-        deviceAddress?.let { BluetoothSPP.getInstance().send(it,decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()),false) }
+    override fun getEnvironmentalIndicators(deviceAddress: String?, listener: EmtValueListener?) {
+        this.emtValueListener = listener
+        deviceAddress?.let { BluetoothSPP.getInstance().send(it, decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()), false) }
     }
 
     override fun associateDevice(uuidHash: Int, shortCode: String?) {

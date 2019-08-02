@@ -1,11 +1,9 @@
 package com.ihomey.linkuphome.device1
 
-import android.net.MacAddress
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.room.PrimaryKey
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.repository.DeviceRepository

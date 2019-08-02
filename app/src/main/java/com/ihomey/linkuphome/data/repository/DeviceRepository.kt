@@ -176,6 +176,12 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }
     }
 
+    fun changeDeviceName(id:String,newName:String){
+        appExecutors.diskIO().execute {
+            deviceDao.updateName(id,newName)
+        }
+    }
+
     fun updateRoomAndDeviceState(device: Device, deviceState:DeviceState) {
         appExecutors.diskIO().execute {
             deviceDao.updateState(device.id,deviceState)

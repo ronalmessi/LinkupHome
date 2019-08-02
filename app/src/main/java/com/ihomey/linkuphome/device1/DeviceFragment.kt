@@ -101,6 +101,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun deleteDevice(id: String, instructId: Int){
         if(id.contains(":")){
+            isUserTouch=false
             BluetoothSPP.getInstance()?.disconnect(id)
             mViewModel.deleteM1Device(id)
         }else{

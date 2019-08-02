@@ -70,4 +70,8 @@ abstract class DeviceDao {
     abstract fun updateState(deviceId: String,deviceState:DeviceState)
 
 
+    @Query("UPDATE device1 set name= :newName WHERE id = :deviceId")
+    abstract fun updateName(deviceId: String,newName:String)
+
+
 }

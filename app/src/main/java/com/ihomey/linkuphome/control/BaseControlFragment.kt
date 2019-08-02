@@ -158,14 +158,20 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     inner class ToolBarEventHandler : UpdateDeviceNameListener {
         override fun updateDeviceName(id: String, newName: String) {
-            context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceName(it1,mControlDevice.zoneId,id,mControlDevice.type,newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-                if (it?.status == Status.SUCCESS) {
-                    mControlDevice.name = newName
-                   updateViewData(mControlDevice)
-                }else if (it?.status == Status.ERROR) {
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                }
-            })}
+            if(mControlDevice.type==0){
+                mViewModel.changeDeviceName(id,newName)
+                mControlDevice.name = newName
+                updateViewData(mControlDevice)
+            }else{
+                context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceName(it1,mControlDevice.zoneId,id,mControlDevice.type,newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                    if (it?.status == Status.SUCCESS) {
+                        mControlDevice.name = newName
+                        updateViewData(mControlDevice)
+                    }else if (it?.status == Status.ERROR) {
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    }
+                })}
+            }
         }
 
         fun onClick(view: View) {

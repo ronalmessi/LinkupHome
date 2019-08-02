@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.data.entity
 
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.room.*
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.annotations.SerializedName
