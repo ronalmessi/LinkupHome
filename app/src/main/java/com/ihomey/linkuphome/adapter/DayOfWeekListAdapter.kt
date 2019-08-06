@@ -24,10 +24,14 @@ class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) :
 
     val selectedItems: SparseIntArray = SparseIntArray(7)
 
+    fun clearSelectedItems() {
+        selectedItems.clear()
+        notifyDataSetChanged()
+    }
+
     fun isItemSelected(position: Int): Boolean {
         return selectedItems[position]!=0
     }
-
 
     fun setItemSelected(position: Int, selected: Boolean) {
         if (isSingleChoice) selectedItems.clear()
@@ -38,6 +42,7 @@ class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) :
         }
         if (!isSingleChoice) notifyItemChanged(position) else notifyDataSetChanged()
     }
+
 
 
     fun getDayOfWeekValue():Int{

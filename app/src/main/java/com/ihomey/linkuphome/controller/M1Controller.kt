@@ -180,7 +180,7 @@ class M1Controller : Controller() {
     }
 
 
-    fun setRepeatTimer(deviceAddress: String?, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean, isOn: Boolean, dayOfWeek: Int) {
+    override fun setRepeatTimer(deviceAddress: String?, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean, isOn: Boolean, dayOfWeek: Int) {
         val timerId = if (isOpenTimer) "02" else "01"
         if (isOn) {
             val isRepeat = if (dayOfWeek > 0) Integer.toHexString(dayOfWeek + 128) else "00"
@@ -188,6 +188,7 @@ class M1Controller : Controller() {
             val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(20, 22), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(22, 24), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(24, 26), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(26, 28), 16))
             val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
             deviceAddress?.let {
+                Log.d("aa","1111----"+code_lawn_timer)
                 BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
             }
         } else {
@@ -200,6 +201,7 @@ class M1Controller : Controller() {
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         deviceAddress?.let {
+            Log.d("aa","2222----"+code_lawn_timer)
             BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
         }
     }

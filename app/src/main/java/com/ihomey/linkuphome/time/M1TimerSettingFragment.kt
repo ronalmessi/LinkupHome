@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.time
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +57,6 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
          toolbar_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
          rg_timer_setting.setOnCheckedChangeListener { _, checkedId ->
              viewPager.currentItem= if(checkedId==R.id.rb_timer_setting_on) 0 else 1
-             updateDayOfWeeks(viewPager.currentItem)
          }
         rg_timer_setting.check(R.id.rb_timer_setting_on)
         (rcv_daysOfWeek.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -100,12 +100,12 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
             mLocalState.openTimer = calendar.timeInMillis
             mLocalState.openTimerOn = 1
             mLocalState.openDayOfWeek=dayOfWeekValue
-            controller?.setRepeatTimer(minute,hour,true,true,dayOfWeekValue)
+            controller?.setRepeatTimer(mControlDevice.id,minute,hour,true,true,dayOfWeekValue)
         } else {
             mLocalState.closeTimerOn = 1
             mLocalState.closeTimer = calendar.timeInMillis
             mLocalState.closeDayOfWeek=dayOfWeekValue
-            controller?.setRepeatTimer(minute,hour,false,true,dayOfWeekValue)
+            controller?.setRepeatTimer(mControlDevice.id,minute,hour,false,true,dayOfWeekValue)
         }
         mControlDevice.let {
             mLocalState.id=it.id
@@ -119,12 +119,12 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
             mLocalState.openTimerOn = if(isChecked) 1 else 0
             val calendar = Calendar.getInstance()
             calendar.time = Date(mLocalState.openTimer)
-            controller?.setRepeatTimer(calendar.get(Calendar.MINUTE),calendar.get(Calendar.HOUR_OF_DAY),true,isChecked,mLocalState.openDayOfWeek)
+            controller?.setRepeatTimer(mControlDevice.id,calendar.get(Calendar.MINUTE),calendar.get(Calendar.HOUR_OF_DAY),true,isChecked,mLocalState.openDayOfWeek)
         } else {
             mLocalState.closeTimerOn =if(isChecked) 1 else 0
             val calendar = Calendar.getInstance()
             calendar.time = Date(mLocalState.closeTimer)
-            controller?.setRepeatTimer(calendar.get(Calendar.MINUTE),calendar.get(Calendar.HOUR_OF_DAY),false,isChecked,mLocalState.openDayOfWeek)
+            controller?.setRepeatTimer(mControlDevice.id,calendar.get(Calendar.MINUTE),calendar.get(Calendar.HOUR_OF_DAY),false,isChecked,mLocalState.openDayOfWeek)
         }
         mControlDevice.let {
             mLocalState.id=it.id
@@ -135,16 +135,16 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
     fun showDayOfWeeks(isVisible:Boolean){
         rg_timer_setting.visibility = if (isVisible) View.GONE else View.VISIBLE
         rcv_daysOfWeek.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    private fun updateDayOfWeeks(currentItem: Int) {
-//        dayOfWeekListAdapter.clearSelectedItems()
-//        val dayOfWeekHexStr = if (currentItem==0) Integer.toBinaryString(mLocalState.openDayOfWeek) else Integer.toBinaryString(mLocalState.closeDayOfWeek)
-//        for (i in 0 until dayOfWeekHexStr.length) {
-//            if (TextUtils.equals("1", dayOfWeekHexStr[i].toString())) {
-//                dayOfWeekListAdapter.setItemSelected(7-dayOfWeekHexStr.length+i,true)
-//            }
-//        }
+        if(isVisible){
+            val dayOfWeekHexStr = if (viewPager.currentItem==0) Integer.toBinaryString(mLocalState.openDayOfWeek) else Integer.toBinaryString(mLocalState.closeDayOfWeek)
+            for (i in 0 until dayOfWeekHexStr.length) {
+                if (TextUtils.equals("1", dayOfWeekHexStr[i].toString())) {
+                    dayOfWeekListAdapter.setItemSelected(7-dayOfWeekHexStr.length+i,true)
+                }
+            }
+        }else{
+            dayOfWeekListAdapter.clearSelectedItems()
+        }
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {

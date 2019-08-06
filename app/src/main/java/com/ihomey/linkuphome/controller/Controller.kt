@@ -26,10 +26,6 @@ abstract class Controller {
 
     open fun setRepeatTimer(deviceId: Int, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,isRepeat: Boolean){}
 
-    open fun setRepeatTimer(minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,dayOfWeek: Int){}
-
-
-
 
     open fun setLightPowerState(deviceAddress:String?, powerState: Int){}
 
@@ -50,5 +46,7 @@ abstract class Controller {
     open fun setLightingMode(deviceAddress:String?){}
 
     open fun setLightScene(deviceAddress:String?, sceneValue: Int){}
+
+    open fun setRepeatTimer(deviceAddress:String?,minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,dayOfWeek: Int){}
 
 }
