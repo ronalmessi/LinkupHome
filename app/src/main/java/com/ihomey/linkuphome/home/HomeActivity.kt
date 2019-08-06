@@ -25,6 +25,7 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.alarm.EnvironmentalIndicatorsFragment
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
+import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
@@ -174,6 +175,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
             override fun onDeviceConnected(name: String, address: String) {
                 Log.d("aa", "--$name---$address---onDeviceConnected")
+                M1Controller().syncTime(address)
                 BluetoothSPP.getInstance()?.autoConnectDeviceAddressList?.let {
                     if(!it.contains(address)) sppStateListener?.deviceAssociated(true, name, address)
                 }
@@ -190,7 +192,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 toast("已开启手势控制", Toast.LENGTH_SHORT)
             } else if (TextUtils.equals("FE01D101DA0004C7010100CD16", receiveDataStr)) {
                 toast("已取消手势控制", Toast.LENGTH_SHORT)
-            } else if (TextUtils.equals("FE01D101DA000AC3012000000000000000EE16", receiveDataStr)) {
+            } else if (receiveDataStr.startsWith("FE01D101DA000AC3012")) {
                 toast("时间已同步", Toast.LENGTH_SHORT)
             } else if (receiveDataStr.startsWith("FE01D101DA0004C20601")) {
                 val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)

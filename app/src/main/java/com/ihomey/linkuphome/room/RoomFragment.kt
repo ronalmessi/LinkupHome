@@ -124,7 +124,7 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
                 }
                 val dialog = ReNameDeviceFragment()
                 val bundle = Bundle()
-                bundle.putInt("deviceId", it.id)
+                bundle.putString("deviceId", ""+it.id)
                 bundle.putString("deviceName", it.name)
                 dialog.arguments = bundle
                 dialog.setUpdateZoneNameListener(this)
@@ -255,9 +255,13 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
             room?.let {
                 viewModel.changeRoomName(it1, it.zoneId, id.toInt(), it.type, newName).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                     if (it?.status == Status.SUCCESS) {
+                        hideLoadingView()
                         tv_title.text = newName
                     } else if (it?.status == Status.ERROR) {
+                        hideLoadingView()
                         it.message?.let { it2 -> activity?.toast(it2) }
+                    }else if (it?.status == Status.LOADING) {
+                       showLoadingView()
                     }
                 })
             }

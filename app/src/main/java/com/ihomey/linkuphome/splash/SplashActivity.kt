@@ -60,13 +60,10 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun showPermissionPromptDialog(){
-        val dialog = PermissionPromptDialogFragment().newInstance("温馨提示","请允许获取手机权限，以确保应用能正常使用","确定")
+        val dialog = PermissionPromptDialogFragment().newInstance("温馨提示","请在“设置-应用管理-选择此应用-权限管理-开启定位/设备信息权限”，以确保应用能正常使用。","确定")
         dialog.setConfirmButtonClickListener(object : PermissionPromptDialogFragment.ConfirmButtonClickListener {
             override fun onConfirm() {
-                val intent = Intent()
-                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                intent.data = Uri.fromParts("package", packageName, null)
-                startActivityForResult(intent, 101)
+                checkPermission()
             }
         })
         dialog.show(supportFragmentManager, "PermissionPromptDialogFragment")

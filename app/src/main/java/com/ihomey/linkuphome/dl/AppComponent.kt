@@ -8,8 +8,8 @@ import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.room.UnBondDevicesViewModel
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
-import com.ihomey.linkuphome.share1.JoinZoneViewModel
-import com.ihomey.linkuphome.share1.ShareZoneListViewModel
+import com.ihomey.linkuphome.share.JoinZoneViewModel
+import com.ihomey.linkuphome.share.ShareZoneListViewModel
 import com.ihomey.linkuphome.splash.SplashViewModel
 import com.ihomey.linkuphome.zone.CreateZoneViewModel
 import com.ihomey.linkuphome.zone.ZoneSettingViewModel

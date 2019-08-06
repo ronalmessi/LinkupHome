@@ -61,7 +61,7 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
         spannableString.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 val bundle=Bundle()
-                if (textView.id != R.id.privacy_tv_license){
+                if (textView.id == R.id.privacy_tv_license){
                     bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_URL)
                     bundle.putString("title",getString(R.string.title_user_agreement))
                 }else{

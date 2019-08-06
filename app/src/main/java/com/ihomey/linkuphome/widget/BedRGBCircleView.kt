@@ -164,14 +164,14 @@ class BedRGBCircleView : View {
                 if (endTime - startTime > 200 && (moveX > 20 || moveY > 20)) {
                     if (mCurrentValue != getCurrentValue()) {
                         if (mCircleValueListener != null) {
-                            mCircleValueListener?.onColorValueChanged(mCurrentValue)
+                            mCircleValueListener?.onColorValueChanged(getCurrentValue())
                         }
                     }
                 } else {
                     mCurrentRadian = getRadian(event.x, event.y)
                     if (mCurrentValue != getCurrentValue()) {
                         if (mCircleValueListener != null) {
-                            mCircleValueListener?.onColorValueChanged(mCurrentValue)
+                            mCircleValueListener?.onColorValueChanged(getCurrentValue())
                         }
                     }
                 }
