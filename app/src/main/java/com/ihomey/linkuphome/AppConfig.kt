@@ -14,8 +14,9 @@ class AppConfig {
         val INSTRUCTIONS_BASE_URL = "http://app-manual.linkuphome.net/"
         val RESET_DEVICE_BASE_URL = "http://app-manual.linkuphome.net/resetsoft/resetsoft_"
         val FAQ_BASE_URL = "http://app-docs.linkuphome.net/#/FAQ/"
-        val USER_AGGREEMENT_URL = "http://app-docs.linkuphome.net/#/UserAgreement/en"
-        val PRIVACY_STATEMENt_URL = "http://app-docs.linkuphome.net/#/PrivacyStatement/en"
+
+        val USER_AGGREEMENT_BASE_URL = "http://app-docs.linkuphome.net/#/UserAgreement/"
+        val PRIVACY_STATEMENt_BASE_URL = "http://app-docs.linkuphome.net/#/PrivacyStatement/"
 
         val APP_SECRET = "f374cfda69e064322a2be320da6caf96"
 

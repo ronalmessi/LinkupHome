@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextPaint
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
@@ -57,15 +59,21 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
     }
 
     private fun styleTextView(textView: TextView) {
+        var currentLanguage = LocaleHelper.getLanguage(context)
+        currentLanguage = when {
+            TextUtils.equals("zh-rCN",currentLanguage) -> "cn"
+            TextUtils.equals("zh-rTW",currentLanguage) -> "cn"
+            else -> "en"
+        }
         val spannableString = SpannableString(textView.text.toString())
         spannableString.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 val bundle=Bundle()
                 if (textView.id == R.id.privacy_tv_license){
-                    bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_URL)
+                    bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL+currentLanguage)
                     bundle.putString("title",getString(R.string.title_user_agreement))
                 }else{
-                    bundle.putString("sourceUrl",AppConfig.PRIVACY_STATEMENt_URL)
+                    bundle.putString("sourceUrl",AppConfig.PRIVACY_STATEMENt_BASE_URL+currentLanguage)
                     bundle.putString("title",getString(R.string.title_private_statement))
                 }
                 NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_webViewFragment,bundle)
