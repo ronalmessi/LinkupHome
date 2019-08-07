@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.control
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,5 +116,7 @@ class M1ControlSettingFragment : BaseFragment() {
         BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
         sb_sleep_mode.setOnCheckedChangeListener(null)
         sb_gesture_control.setOnCheckedChangeListener(null)
+        hasQuerySleepModeState=false
+        hasQueryGestureControlState=false
     }
 }
