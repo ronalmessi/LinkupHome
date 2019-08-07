@@ -61,7 +61,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private var emtValueListener: EmtValueListener? = null
     private var mBatteryListener: BatteryValueListener? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTranslucentStatus()
@@ -184,13 +183,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         BluetoothSPP.getInstance()?.addOnDataReceivedListener { data, message ->
             Log.d("aa", "---" + Hex.toHexString(data))
             val receiveDataStr = Hex.toHexString(data).toUpperCase()
-            if (receiveDataStr.startsWith("FE01D101DA0003C401")) {
-                val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-                showCustomToast("闹钟" + alarmId + "已开启")
-            } else if (receiveDataStr.startsWith("FE01D101DA0003C402")) {
-                val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-                showCustomToast("闹钟" + alarmId + "已关闭")
-            } else if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
+            if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
                 val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
                 toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
             }else if (TextUtils.equals("FE01D101DA0004C2050101CD16", receiveDataStr)) {
@@ -383,22 +376,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         textView.setBackgroundResource(R.color.colorPrimaryDark)
         textView.text = '"' + name + '"' + " " + getString(R.string.msg_device_disconnected)
         Crouton.make(this, textView).show()
-    }
-
-
-    private fun showCustomToast(name: String) {
-        val toast = Toast(applicationContext)
-        toast.setGravity(Gravity.BOTTOM, 0, dip2px(64f))
-        toast.duration = Toast.LENGTH_LONG
-        val textView = TextView(this)
-        textView.gravity = Gravity.CENTER
-        textView.setPadding(dip2px(24f), dip2px(10f), dip2px(24f), dip2px(10f))
-        textView.setTextColor(resources.getColor(android.R.color.black))
-        textView.setBackgroundResource(R.drawable.bg_custom_toast)
-        textView.text = name
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen._18ssp))
-        toast.view = textView
-        toast.show()
     }
 
     override fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?) {

@@ -1,10 +1,14 @@
 package com.ihomey.linkuphome.alarm
 
 import android.os.Bundle
-import android.util.Log
+import android.text.TextUtils
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -19,8 +23,11 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.alarm_list_fragment.*
+import kotlinx.android.synthetic.main.alarm_list_fragment.iv_back
+import org.spongycastle.util.encoders.Hex
 import java.util.*
 
 
@@ -39,6 +46,8 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     private var mDevice: Device?=null
 
     private val controller: M1Controller = M1Controller()
+
+    private var isDelete:Boolean=false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.alarm_list_fragment, container, false)
@@ -61,7 +70,6 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
             }
         })
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,6 +100,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
                 Navigation.findNavController(it1).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
             }
         }
+        BluetoothSPP.getInstance()?.addOnDataReceivedListener(mOnDataReceivedListener)
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -105,7 +114,12 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
             when(view?.id){
-                R.id.btn_delete-> viewModel.deleteAlarm(it)
+                R.id.btn_delete-> {
+                    isDelete=true
+                    controller.cancelAlarm(mDevice?.id,it.id)
+                    rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id,it.id)},150)
+                    viewModel.deleteAlarm(it)
+                }
                 R.id.swipeLayout-> {
                     it.editMode=1
                     viewModel.setCurrentAlarm(it)
@@ -115,16 +129,50 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         }
     }
 
-
     override fun onStateChanged(isOn: Boolean, item: Alarm) {
         if (isOn) {
             item.isOn = 1
             controller.setAlarm(mDevice?.id,item)
         } else {
             item.isOn = 0
-            controller.stopAlarmRing(mDevice?.id,item.id)
             controller.cancelAlarm(mDevice?.id,item.id)
+            rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id,item.id)},150)
         }
         viewModel.saveAlarm(item)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isDelete=false
+        BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
+    }
+
+    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, message ->
+        val receiveDataStr = Hex.toHexString(data).toUpperCase()
+        if(receiveDataStr.startsWith("FE01D101DA0003C4")&&!isDelete){
+            val isOn=TextUtils.equals("01",receiveDataStr.substring(16, 18))
+            val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
+            showCustomToast("闹钟" + alarmId + if(isOn) "已开启" else "已关闭")
+        }
+        isDelete=false
+    }
+
+
+    private fun showCustomToast(name: String) {
+        context?.let {
+            val toast = Toast(it)
+            toast.setGravity(Gravity.BOTTOM, 0,it.dip2px(64f))
+            toast.duration = Toast.LENGTH_SHORT
+            val textView = TextView(it)
+            textView.gravity = Gravity.CENTER
+            textView.setPadding(it.dip2px(24f), it.dip2px(10f), it.dip2px(24f), it.dip2px(10f))
+            textView.setTextColor(resources.getColor(android.R.color.black))
+            textView.setBackgroundResource(R.drawable.bg_custom_toast)
+            textView.text = name
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen._18ssp))
+            toast.view = textView
+            toast.show()
+        }
+    }
+
 }
