@@ -1,10 +1,13 @@
 package com.ihomey.linkuphome.control
 
 import android.os.Bundle
+import android.os.Handler
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -13,14 +16,13 @@ import com.ihomey.linkuphome.SleepModeDialogFragment
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.controller.M1Controller
-
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.spp.BluetoothSPP
-import com.ihomey.linkuphome.zone.DeleteZoneFragment
+import com.ihomey.linkuphome.toast
 import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
+import org.spongycastle.util.encoders.Hex
 
 
 /**
@@ -34,6 +36,35 @@ class M1ControlSettingFragment : BaseFragment() {
 
     private var mDevice: Device?=null
 
+    private var hasQuerySleepModeState: Boolean=false
+    private var hasQueryGestureControlState: Boolean=false
+
+
+    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, message ->
+        val receiveDataStr = Hex.toHexString(data).toUpperCase()
+        if(receiveDataStr.startsWith("FE01D101DA0004C20103")){
+            val isSleepModeOn=TextUtils.equals("01",receiveDataStr.substring(20,22))
+            if(!hasQuerySleepModeState){
+                hasQuerySleepModeState=true
+                sb_sleep_mode.isChecked=isSleepModeOn
+                sb_sleep_mode.postDelayed(sleepModeRunnable,500)
+            }else{
+                activity?.toast(if(isSleepModeOn)"已开启睡眠模式" else "已取消睡眠模式",Toast.LENGTH_SHORT)
+            }
+        }else if(receiveDataStr.startsWith("FE01D101DA0004C70101")){
+            val isGestureControlEnabled=TextUtils.equals("01",receiveDataStr.substring(20,22))
+            if(!hasQueryGestureControlState){
+                hasQueryGestureControlState=true
+                sb_gesture_control.isChecked=isGestureControlEnabled
+                sb_gesture_control.postDelayed(gestureControlRunnable,500)
+            }else{
+                activity?.toast(if(isGestureControlEnabled)"已开启手势控制" else "已取消手势控制",Toast.LENGTH_SHORT)
+            }
+        }else if(receiveDataStr.startsWith("FE01D101DA000AC3012")){
+            activity?.toast("时间已同步", Toast.LENGTH_SHORT)
+        }
+    }
+
     companion object {
         fun newInstance() = M1ControlSettingFragment()
     }
@@ -42,14 +73,27 @@ class M1ControlSettingFragment : BaseFragment() {
         return inflater.inflate(R.layout.m1_control_setting_fragment,container, false)
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             controller = ControllerFactory().createController(it.type)
             mDevice=it
+            queryDeviceState(it.id)
         })
+    }
+
+    private val sleepModeRunnable= Runnable {
+        sb_sleep_mode.setOnCheckedChangeListener { _, isChecked -> controller?.setSleepMode(mDevice?.id,if(isChecked) 1 else 0)}
+    }
+
+    private val gestureControlRunnable= Runnable {
+        sb_gesture_control.setOnCheckedChangeListener { _, isChecked -> controller?.enableGestureControl(mDevice?.id,isChecked)}
+    }
+
+    private fun queryDeviceState(deviceId:String?){
+        BluetoothSPP.getInstance().send(deviceId, decodeHex("BF01D101CD04C2090103D316".toUpperCase().toCharArray()), false)
+        Handler().postDelayed({BluetoothSPP.getInstance().send(deviceId, decodeHex("BF01D101CD04C2070103D116".toUpperCase().toCharArray()), false)},150)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,11 +102,20 @@ class M1ControlSettingFragment : BaseFragment() {
             val dialogFragment = SleepModeDialogFragment()
             dialogFragment.show(fragmentManager, null)
         }
-        sb_sleep_mode.setOnCheckedChangeListener { _, isChecked -> controller?.setSleepMode(mDevice?.id,if(isChecked) 1 else 0)}
-        sb_gesture_control.setOnCheckedChangeListener { _, isChecked -> controller?.enableGestureControl(mDevice?.id,isChecked)}
+
         infoTextLayout_setting_syncTime.setOnClickListener { controller?.syncTime(mDevice?.id)}
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
         infoTextLayout_setting_timer.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_m1ControlSettingFragment_to_m1TimerSettingFragment) }
+        BluetoothSPP.getInstance()?.addOnDataReceivedListener(mOnDataReceivedListener)
     }
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        sb_sleep_mode.removeCallbacks(sleepModeRunnable)
+        sb_gesture_control.removeCallbacks(gestureControlRunnable)
+        BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
+        sb_sleep_mode.setOnCheckedChangeListener(null)
+        sb_gesture_control.setOnCheckedChangeListener(null)
+    }
 }

@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.spp;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
@@ -19,7 +20,9 @@ public class BluetoothSPP {
     // Listener for Bluetooth Status & Connection
     private BluetoothStateListener mBluetoothStateListener = null;
 
-    private OnDataReceivedListener mDataReceivedListener = null;
+
+    private List<OnDataReceivedListener> mDataReceivedListenerList = new ArrayList<OnDataReceivedListener>();
+
     private BluetoothConnectionListener mBluetoothConnectionListener = null;
 
     final ArrayList<String> mAutoConnectDeviceAddressList = new ArrayList<String>();
@@ -124,8 +127,9 @@ public class BluetoothSPP {
                     byte[] readBuf = subByte((byte[]) msg.obj,0,msg.arg1);
                     String readMessage = new String(readBuf);
                     if(readBuf.length > 0) {
-                        if(mDataReceivedListener != null)
-                            mDataReceivedListener.onDataReceived(readBuf, readMessage);
+                        for(OnDataReceivedListener listener :mDataReceivedListenerList){
+                            listener.onDataReceived(readBuf, readMessage);
+                        }
                     }
                     break;
                 case BluetoothSPPState.MESSAGE_TOAST:
@@ -183,9 +187,15 @@ public class BluetoothSPP {
         mBluetoothStateListener = listener;
     }
 
-    public void setOnDataReceivedListener (OnDataReceivedListener listener) {
-        mDataReceivedListener = listener;
+    public void addOnDataReceivedListener (OnDataReceivedListener listener) {
+        mDataReceivedListenerList.add(listener);
     }
+
+
+    public void removeOnDataReceivedListener (OnDataReceivedListener listener) {
+        mDataReceivedListenerList.remove(listener);
+    }
+
 
     public void setBluetoothConnectionListener (BluetoothConnectionListener listener) {
         mBluetoothConnectionListener = listener;

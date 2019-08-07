@@ -181,20 +181,22 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 }
             }
         })
-        BluetoothSPP.getInstance()?.setOnDataReceivedListener { data, message ->
+        BluetoothSPP.getInstance()?.addOnDataReceivedListener { data, message ->
             Log.d("aa", "---" + Hex.toHexString(data))
             val receiveDataStr = Hex.toHexString(data).toUpperCase()
-            if (TextUtils.equals("FE01D101DA0004C2010301CB16", receiveDataStr)) {
-                toast("已开启睡眠模式", Toast.LENGTH_SHORT)
-            } else if (TextUtils.equals("FE01D101DA0004C2010300CA16", receiveDataStr)) {
-                toast("已取消睡眠模式", Toast.LENGTH_SHORT)
-            } else if (TextUtils.equals("FE01D101DA0004C7010101CE16", receiveDataStr)) {
-                toast("已开启手势控制", Toast.LENGTH_SHORT)
-            } else if (TextUtils.equals("FE01D101DA0004C7010100CD16", receiveDataStr)) {
-                toast("已取消手势控制", Toast.LENGTH_SHORT)
-            } else if (receiveDataStr.startsWith("FE01D101DA000AC3012")) {
-                toast("时间已同步", Toast.LENGTH_SHORT)
-            } else if (receiveDataStr.startsWith("FE01D101DA0004C20601")) {
+//            if (TextUtils.equals("FE01D101DA0004C2010301CB16", receiveDataStr)) {
+//                toast("已开启睡眠模式", Toast.LENGTH_SHORT)
+//            } else if (TextUtils.equals("FE01D101DA0004C2010300CA16", receiveDataStr)) {
+//                toast("已取消睡眠模式", Toast.LENGTH_SHORT)
+//            } else if (TextUtils.equals("FE01D101DA0004C7010101CE16", receiveDataStr)) {
+//                toast("已开启手势控制", Toast.LENGTH_SHORT)
+//            } else if (TextUtils.equals("FE01D101DA0004C7010100CD16", receiveDataStr)) {
+//                toast("已取消手势控制", Toast.LENGTH_SHORT)
+//            } else if (receiveDataStr.startsWith("FE01D101DA000AC3012")) {
+//                toast("时间已同步", Toast.LENGTH_SHORT)
+//            } else
+
+                if (receiveDataStr.startsWith("FE01D101DA0004C20601")) {
                 val alarmId = Integer.parseInt(receiveDataStr.substring(20, 22), 16)
                 toast("定时" + alarmId + "设置成功", Toast.LENGTH_SHORT)
             } else if (receiveDataStr.startsWith("FE01D101DA0004C20602")) {
