@@ -209,6 +209,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             } else if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
                 val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
                 toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
+            }else if (TextUtils.equals("FE01D101DA0004C2050101CD16", receiveDataStr)) {
+                toast("床头灯正在播放音乐", Toast.LENGTH_SHORT)
             } else if (receiveDataStr.startsWith("FE01D101DA000BC107")) {
                 val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
                 val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
