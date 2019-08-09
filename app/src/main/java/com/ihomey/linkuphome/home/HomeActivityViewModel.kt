@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.home
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.ihomey.linkuphome.data.entity.*
@@ -88,7 +89,7 @@ class HomeActivityViewModel : ViewModel() {
         return scanedDevice
     }
 
-    fun setScanDevice(device: Device) {
+    fun setScanDevice(device: Device?) {
         if (scanedDevice.value == null) scanedDevice.value = device
     }
 
@@ -97,6 +98,7 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     fun setCurrentZoneId(zoneId: Int?) {
+        Log.d("aa","setCurrentZoneId---")
         mCurrentZoneId.value = zoneId
     }
 
@@ -122,8 +124,6 @@ class HomeActivityViewModel : ViewModel() {
     fun setSelectedRoom(roomAndDevices: RoomAndDevices) {
         mSelectedRoom.value = roomAndDevices
     }
-
-
 
     fun getCurrentControlDevice(): MutableLiveData<Device> {
         return currentControlDevice
@@ -175,9 +175,4 @@ class HomeActivityViewModel : ViewModel() {
     fun updateRoomAndDeviceState(device:Device, deviceState:DeviceState) {
         return mDeviceRepository.updateRoomAndDeviceState(device, deviceState)
     }
-
-
-    //alarm
-
-
 }

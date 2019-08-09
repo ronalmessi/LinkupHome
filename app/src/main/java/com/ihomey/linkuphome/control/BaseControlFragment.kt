@@ -102,17 +102,17 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onColorValueChanged(time: Int) {
         if(type==0){
-            controller?.setLightColor(mControlDevice.id, CODE_LIGHT_COLORS[time])
+            controller?.setLightColor(mControlDevice.id, AppConfig.RGB_COLOR[time])
         }else{
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR[time])
         }
     }
 
     override fun onColorValueChange(time: Int) {
         if(type==0){
-            controller?.setLightColor(mControlDevice.id, CODE_LIGHT_COLORS[time])
+            controller?.setLightColor(mControlDevice.id,  AppConfig.RGB_COLOR[time])
         }else{
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, CODE_LIGHT_COLORS[time])
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR[time])
         }
     }
 

@@ -117,7 +117,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
                 R.id.btn_delete-> {
                     isDelete=true
                     controller.cancelAlarm(mDevice?.id,it.id)
-                    rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id,it.id)},150)
+                    rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id)},150)
                     viewModel.deleteAlarm(it)
                 }
                 R.id.swipeLayout-> {
@@ -136,7 +136,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         } else {
             item.isOn = 0
             controller.cancelAlarm(mDevice?.id,item.id)
-            rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id,item.id)},150)
+            rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id)},150)
         }
         viewModel.saveAlarm(item)
     }

@@ -3,7 +3,9 @@ package com.ihomey.linkuphome;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,6 +13,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+
+import com.ihomey.linkuphome.home.HomeActivity;
 
 public class NotifyManager {
 
@@ -53,18 +57,15 @@ public class NotifyManager {
         // 设置点击可消失
         builder.setAutoCancel(true);
         // 设置是否震动等
-        builder.setDefaults(Notification.DEFAULT_VIBRATE);
+        builder.setDefaults(Notification.DEFAULT_ALL);
         // 设置icon
         builder.setSmallIcon(R.mipmap.ic_launcher);
+//        builder.setColor(Color.parseColor("#880000FF"));
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher));
         // 设置点击意图
-//        Intent intent = new Intent(context, GongdenggeActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putBoolean(Contants.INTENT_GOTO_MYLMAP, true);
-//        intent.putExtras(bundle);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 230, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(pendingIntent);
+        Intent intent = new Intent(context, HomeActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
     }
 
     public void showNotify(String title,String content) {
@@ -91,7 +92,7 @@ public class NotifyManager {
             channel.enableLights(true);//是否显示通知闪灯
             channel.enableVibration(true);//收到小时时震动提示
             channel.setBypassDnd(true);//设置绕过免打扰
-            channel.setLockscreenVisibility(NotificationCompat.VISIBILITY_SECRET);
+            channel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PRIVATE);
             channel.setLightColor(Color.RED);//设置闪光灯颜色
             channel.getAudioAttributes();//获取设置铃声设置
             channel.setVibrationPattern(new long[]{100, 200, 100});//设置震动模式

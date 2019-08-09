@@ -11,6 +11,7 @@ import com.umeng.analytics.MobclickAgent
  */
 abstract class BaseActivity : AppCompatActivity() {
 
+    private var loadingFragment: LoadingFragment? = null
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase))
@@ -50,5 +51,19 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d("BaseActivity", javaClass.simpleName + "-----onDestroy")
+    }
+
+    fun showLoadingView() {
+        if (loadingFragment == null) {
+            loadingFragment = LoadingFragment()
+        }
+        loadingFragment?.isCancelable = false
+        if(!loadingFragment?.isAdded!!) loadingFragment?.show(supportFragmentManager, "LoadingFragment")
+    }
+
+    fun hideLoadingView() {
+        if (loadingFragment != null) {
+            loadingFragment?.dismiss()
+        }
     }
 }

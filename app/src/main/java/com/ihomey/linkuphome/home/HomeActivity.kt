@@ -39,18 +39,20 @@ import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
+import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
 import org.spongycastle.util.encoders.Hex
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, ConnectM1DeviceFragment.DevicesStateListener, EnvironmentalIndicatorsFragment.EnvironmentalIndicatorsListener {
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshServiceStateListener, ConnectDeviceFragment.DevicesStateListener, ConnectM1DeviceFragment.DevicesStateListener {
 
     private val REMOVE_ACK_WAIT_TIME_MS = 4 * 1000L
 
     private lateinit var mViewModel: HomeActivityViewModel
     private var mService: MeshService? = null
 
+    private var isBackground = false;
     private var mConnected = false
     private val mDeviceIdToUuidHash = SparseIntArray()
     private val mConnectedDevices = HashSet<String>()
@@ -58,7 +60,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     private var meshAssListener: DeviceAssociateListener? = null
     private var sppStateListener: SppStateListener? = null
-    private var emtValueListener: EmtValueListener? = null
     private var mBatteryListener: BatteryValueListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,6 +121,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     override fun onLanguageChange(languageIndex: Int) {
+        showLoadingView()
         mViewModel.setRemoveDeviceFlag(false)
         val desLanguage = AppConfig.LANGUAGE[languageIndex]
         val currentLanguage = LocaleHelper.getLanguage(this)
@@ -127,13 +129,26 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             mViewModel.setBridgeState(false)
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
-            recreate()
+            Handler().postDelayed({
+                recreate()
+                hideLoadingView()
+            }, 1500)
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        isBackground = true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isBackground = false
+    }
 
     private fun releaseResource() {
         Crouton.cancelAllCroutons()
+        BluetoothSPP.getInstance()?.release()
         mService?.setDeviceDiscoveryFilterEnabled(false)
         if (mConnected) mService?.disconnectBridge()
         mService?.setHandler(null)
@@ -160,51 +175,28 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     private fun initSppService() {
         BluetoothSPP.getInstance()?.startService()
-        BluetoothSPP.getInstance()?.setBluetoothConnectionListener(object : BluetoothSPP.BluetoothConnectionListener {
-            override fun onDeviceConnecting(name: String?, address: String?) {
-                Log.d("aa", "--$name---$address---onDeviceConnecting")
-            }
-
-            override fun onDeviceConnectFailed(name: String, address: String) {
-                Log.d("aa", "--$name---$address---onDeviceConnectFailed")
-                BluetoothSPP.getInstance()?.autoConnectDeviceAddressList?.let {
-                    if(!it.contains(address)) sppStateListener?.deviceAssociated(false, name, address)
-                }
-            }
-
-            override fun onDeviceConnected(name: String, address: String) {
-                Log.d("aa", "--$name---$address---onDeviceConnected")
-                M1Controller().syncTime(address)
-                BluetoothSPP.getInstance()?.autoConnectDeviceAddressList?.let {
-                    if(!it.contains(address)) sppStateListener?.deviceAssociated(true, name, address)
-                }
-            }
-        })
-        BluetoothSPP.getInstance()?.addOnDataReceivedListener { data, message ->
-            Log.d("aa", "---" + Hex.toHexString(data))
-            val receiveDataStr = Hex.toHexString(data).toUpperCase()
-            if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
-                val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
-                toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
-            }else if (TextUtils.equals("FE01D101DA0004C2050101CD16", receiveDataStr)) {
-                toast("床头灯正在播放音乐", Toast.LENGTH_SHORT)
-            } else if (receiveDataStr.startsWith("FE01D101DA000BC107")) {
-                val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
-                val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
-                val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
-                emtValueListener?.onEmtValueChanged(pm25Value, hchoValue, vocValue)
-            }
-        }
+        BluetoothSPP.getInstance()?.addOnDataReceivedListener(mOnDataReceivedListener)
         BluetoothSPP.getInstance()?.setBluetoothStateListener(object : BluetoothSPP.BluetoothStateListener {
+            override fun onDeviceConnected(name: String?, address: String?) {
+                val controller = M1Controller()
+                controller.syncTime(address)
+                if (isBackground) {
+                    val lastPushTime by PreferenceHelper("lastPushTime", 0L)
+                    val currentTimeMillis=System.currentTimeMillis()
+                    if(lastPushTime==0L||currentTimeMillis-lastPushTime>2*60*1000){
+                        Handler().postDelayed({controller.getEnvironmentalValue(address) }, 5000)
+                    }
+                } else {
+                    toast("床头灯已连接", Toast.LENGTH_SHORT)
+                }
+            }
+
             override fun onServerStartListen() {
                 Log.d("aa", "onServerStartListen")
             }
 
             override fun onDeviceDisConnected(name: String?, address: String?) {
-                Log.d("aa", "--$name---$address---onDeviceDisConnected")
-                name?.let {
-                    toast('"' + it + '"' + " " + getString(R.string.msg_device_disconnected))
-                }
+                if (!isBackground) toast("床头灯连接已断开", Toast.LENGTH_SHORT)
             }
         })
     }
@@ -234,6 +226,23 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
+
+    private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, message ->
+        Log.d("aa", "---" + Hex.toHexString(data))
+        val receiveDataStr = Hex.toHexString(data).toUpperCase()
+        if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
+            val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
+            toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
+        }else if (receiveDataStr.startsWith("FE01D101DA000BC107")&&isBackground) {
+            val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
+            val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
+            val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
+            NotifyManager.getInstance(applicationContext).showNotify("欢迎回家", "入肺颗粒物："+pm25Value+"，甲醛含量："+hchoValue+" μg/m³，空气质量："+ getVOCLevel(vocValue))
+            var lastPushTime by PreferenceHelper("lastPushTime", 0L)
+            lastPushTime=System.currentTimeMillis()
+        }
+    }
+
     private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
         mService?.processMeshAdvert(device, scanRecord, rssi)
         if (!TextUtils.isEmpty(device.name) && !addressToNameMap.containsKey(device.address)) {
@@ -253,6 +262,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             val parentActivity = mActivity.get()
             when (msg.what) {
                 MeshService.MESSAGE_REQUEST_BT -> {
+                    BluetoothSPP.getInstance()?.removeOnDataReceivedListener(parentActivity?.mOnDataReceivedListener)
+                    BluetoothSPP.getInstance()?.stopService()
                     val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                     parentActivity?.startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
                 }
@@ -396,19 +407,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    override fun getEnvironmentalIndicators(deviceAddress: String?, listener: EmtValueListener?) {
-        this.emtValueListener = listener
-        deviceAddress?.let { BluetoothSPP.getInstance().send(it, decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()), false) }
-    }
 
     override fun associateDevice(uuidHash: Int, shortCode: String?) {
         if (shortCode == null) {
             mService?.associateDevice(uuidHash, 0, false)
         }
-    }
-
-    override fun associateDevice(macAddress: String) {
-        BluetoothSPP.getInstance()?.connect(macAddress)
     }
 
 

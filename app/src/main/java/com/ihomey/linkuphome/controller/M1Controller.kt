@@ -29,7 +29,7 @@ class M1Controller : Controller() {
 
         val CODE_LIGHT_ALARM_TYPE_BASE: String = "BF01D101CD05C40401"
 
-        val CODE_LIGHT_ALARM_STOP_RING_BASE: String = "BF01D101CD04C40301"
+        val CODE_LIGHT_ALARM_STOP_RING_BASE: String = "BF01D101CD04C4030101"
 
 
         val CODE_LIGHT_SLEEP_MODE_ON: String = "BF01D101CD04C2090101D116"
@@ -207,8 +207,8 @@ class M1Controller : Controller() {
         }
     }
 
-    fun stopAlarmRing(deviceAddress: String?, alarmId: Int) {
-        val code_lawn_timer_prefix = CODE_LIGHT_ALARM_STOP_RING_BASE + "0" + alarmId
+    fun stopAlarmRing(deviceAddress: String?) {
+        val code_lawn_timer_prefix = CODE_LIGHT_ALARM_STOP_RING_BASE
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(18, 20), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         deviceAddress?.let {
@@ -226,6 +226,13 @@ class M1Controller : Controller() {
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
         deviceAddress?.let {
             BluetoothSPP.getInstance().send(it, decodeHex(code_lawn_timer.toUpperCase().toCharArray()), false)
+        }
+    }
+
+    fun getEnvironmentalValue(deviceAddress: String?) {
+        deviceAddress?.let {
+            Log.d("aa","getEnvironmentalValue-----BF01D101CD04C10207EFBD16")
+            BluetoothSPP.getInstance().send(deviceAddress, decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()), false)
         }
     }
 }

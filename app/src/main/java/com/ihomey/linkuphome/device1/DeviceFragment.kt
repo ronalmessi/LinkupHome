@@ -54,7 +54,13 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList=it.snapshot()
             if(!isUserTouch) adapter.submitList(it)
-            deviceList?.forEach {if(it.type==0)BluetoothSPP.getInstance()?.autoConnect(it.id) }
+            Log.d("aa","gggggg---"+it.size)
+            deviceList?.forEach {
+                if(it.type==0) {
+                    Log.d("aa","init connect---autoConnect")
+                    BluetoothSPP.getInstance()?.autoConnect(it.id)
+                }
+            }
         })
         mViewModel.isDeviceListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
             if(it){
@@ -67,9 +73,11 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         })
     }
 
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         meshServiceStateListener = context as MeshServiceStateListener
+
     }
 
 

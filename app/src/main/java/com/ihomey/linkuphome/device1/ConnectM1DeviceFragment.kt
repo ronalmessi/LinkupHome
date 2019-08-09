@@ -20,6 +20,7 @@ import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.Zone
@@ -38,6 +39,9 @@ import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.connect_device_fragment.*
+import kotlinx.android.synthetic.main.connect_device_fragment.iv_back
+import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
+import org.spongycastle.util.encoders.Hex
 
 
 class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, SppStateListener {
@@ -100,12 +104,14 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         adapter.setEmptyView(R.layout.view_scan_device_list_empty, rcv_device_list)
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack(R.id.tab_devices, false) }
         countDownTimer = AssociateDeviceCountDownTimer(20000, 1000)
+        BluetoothSPP.getInstance()?.setBluetoothConnectionListener(mBluetoothConnectionListener)
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
         adapter.setNewData(null)
+        BluetoothSPP.getInstance()?.setBluetoothConnectionListener(null)
         listener.discoverDevices(false, null)
         countDownTimer.cancel()
     }
@@ -113,28 +119,6 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
     override fun newAppearance(shortName: String, macAddress: String) {
         val singleDevice1 = Device(0,DeviceType.values()[0].name,macAddress)
         if(adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
-    }
-
-    override fun deviceAssociated(isSuccess: Boolean, shortName: String, macAddress: String) {
-        if(isSuccess){
-            val device = Device(0,DeviceType.values()[0].name,macAddress)
-            val position = adapter.data.indexOf(device) ?: -1
-            if (position != -1) {
-                adapter.getItem(position)?.id=macAddress
-                adapter.notifyItemChanged(position)
-            }
-            viewModel.saveDevice(0,currentZone?.id!!,DeviceType.values()[0].name,macAddress)
-            mViewModel.setCurrentZoneId(currentZone?.id!!)
-            countDownTimer.cancel()
-            deviceAssociateFragment.onAssociateProgressChanged(0)
-            deviceAssociateFragment.dismiss()
-            if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
-        }else{
-            countDownTimer.cancel()
-            deviceAssociateFragment.onAssociateProgressChanged(0)
-            deviceAssociateFragment.dismiss()
-            activity?.toast("未检测到床头灯信号，请确保床头灯已开启，并且处于可控制范围内。", Toast.LENGTH_SHORT)
-       }
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -145,7 +129,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
                     deviceAssociateFragment.isCancelable = false
                     deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
                     countDownTimer.start()
-                    listener.associateDevice(it0.macAddress)
+                    BluetoothSPP.getInstance()?.connect(it0.macAddress)
                 }else{
                     Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
                 }
@@ -166,7 +150,6 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
 
     interface DevicesStateListener {
         fun discoverDevices(enabled: Boolean, listener: SppStateListener?)
-        fun associateDevice(macAddress: String)
     }
 
     private inner class AssociateDeviceCountDownTimer(millisInFuture: Long, countDownInterval: Long) : CountDownTimer(millisInFuture, countDownInterval) {
@@ -177,6 +160,36 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
 
         override fun onTick(millisUntilFinished: Long) {
             deviceAssociateFragment.onAssociateProgressChanged((20-(millisUntilFinished / 1000).toInt())*5)
+        }
+    }
+
+
+    private val mBluetoothConnectionListener= object :BluetoothSPP.BluetoothConnectionListener{
+        override fun onDeviceConnecting(name: String?, address: String?) {
+
+        }
+
+        override fun onDeviceConnected(name: String?, address: String) {
+            M1Controller().syncTime(address)
+            val device = Device(0,DeviceType.values()[0].name,address)
+            val position = adapter.data.indexOf(device) ?: -1
+            if (position != -1) {
+                adapter.getItem(position)?.id=address
+                adapter.notifyItemChanged(position)
+            }
+            viewModel.saveDevice(0,currentZone?.id!!,DeviceType.values()[0].name,address)
+            mViewModel.setCurrentZoneId(currentZone?.id!!)
+            countDownTimer.cancel()
+            deviceAssociateFragment.onAssociateProgressChanged(0)
+            deviceAssociateFragment.dismiss()
+            if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+        }
+
+        override fun onDeviceConnectFailed(name: String?, address: String?) {
+            countDownTimer.cancel()
+            deviceAssociateFragment.onAssociateProgressChanged(0)
+            deviceAssociateFragment.dismiss()
+            activity?.toast("未检测到床头灯信号，请确保床头灯已开启，并且处于可控制范围内。", Toast.LENGTH_SHORT)
         }
     }
 }

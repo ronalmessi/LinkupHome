@@ -7,13 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.batteryIcons
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.C3ControlFragmentBinding
 import com.ihomey.linkuphome.listeners.BatteryValueListener
-import com.ihomey.linkuphome.moveToViewBottomAnimation
-import com.ihomey.linkuphome.moveToViewLocationAnimation
 
 /**
  * Created by dongcaizheng on 2018/4/10.
@@ -78,7 +75,7 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
     override fun onBatteryLevelReceived(deviceId: Int, batteryValue: Int) {
         if (deviceId > 32768) {
             mViewDataBinding.deviceIvBattery.visibility = View.VISIBLE
-            mViewDataBinding.deviceIvBattery.setImageResource(batteryIcons[Math.ceil(batteryValue / 20.0).toInt()])
+            mViewDataBinding.deviceIvBattery.setImageResource(AppConfig.BATTERY_LEVEL_ICON[Math.ceil(batteryValue / 20.0).toInt()])
         }
     }
 

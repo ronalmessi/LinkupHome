@@ -25,6 +25,9 @@ class AppConfig {
         val RING_LIST=listOf("无", "海浪海鸥", "轻松欢快", "在云上")
 
         val DAY_OF_WEEK= listOf("每周日", "每周一", "每周二", "每周三", "每周四", "每周五", "每周六")
+
+        val BATTERY_LEVEL_ICON = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
+        val RGB_COLOR = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
     }
 
 }

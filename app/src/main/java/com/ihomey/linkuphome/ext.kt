@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
+import kotlinx.android.synthetic.main.environmental_indicators_fragment.*
 import org.spongycastle.crypto.digests.SHA256Digest
 import org.spongycastle.util.encoders.Hex
 import java.io.File
@@ -91,24 +92,24 @@ fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
 }
 
 fun Context.toast(errorCode: String) {
-    var message=""
-    when(errorCode){
-        "0001"->message="无效请求，缺少填必参数"
-        "0002"->message="接口签名已过期"
-        "0003"->message="接口签名错误"
-        "0010"->message="未知客户端ID"
-        "0011"->message="客户端唯一编号不能大于225个字符"
-        "0012"->message="客户端类型错误"
-        "0020"->message="未知空间ID"
-        "0021"->message="空间名称不能大于225个字符"
-        "0022"->message="空间类型不能大于64个字符"
-        "0023"->message="空间邀请码已过期"
-        "0024"->message="空间已存在"
-        "0030"->message="未知分组ID"
-        "0031"->message="分组名称不能大于225个字符"
-        "0032"->message="分组类型不能大于64个字符"
-        "10000"->message=this.getString(R.string.error_network)
-        "10001"->message="未知错误"
+    var message = ""
+    when (errorCode) {
+        "0001" -> message = "无效请求，缺少填必参数"
+        "0002" -> message = "接口签名已过期"
+        "0003" -> message = "接口签名错误"
+        "0010" -> message = "未知客户端ID"
+        "0011" -> message = "客户端唯一编号不能大于225个字符"
+        "0012" -> message = "客户端类型错误"
+        "0020" -> message = "未知空间ID"
+        "0021" -> message = "空间名称不能大于225个字符"
+        "0022" -> message = "空间类型不能大于64个字符"
+        "0023" -> message = "空间邀请码已过期"
+        "0024" -> message = "空间已存在"
+        "0030" -> message = "未知分组ID"
+        "0031" -> message = "分组名称不能大于225个字符"
+        "0032" -> message = "分组类型不能大于64个字符"
+        "10000" -> message = this.getString(R.string.error_network)
+        "10001" -> message = "未知错误"
     }
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
@@ -151,11 +152,6 @@ fun moveToViewLocationAnimation(): TranslateAnimation {
     return mShowAction
 }
 
-
-
-fun handleBackPress(fragmentActivity: FragmentActivity): Boolean {
-    return handleBackPress(fragmentActivity.supportFragmentManager)
-}
 
 fun handleBackPress(fragment: Fragment): Boolean {
     return handleBackPress(fragment.childFragmentManager)
@@ -241,14 +237,6 @@ fun encodeHexStr(data: ByteArray, toDigits: CharArray): String {
     return String(encodeHex(data, toDigits))
 }
 
-fun encodeHex(data: ByteArray): CharArray {
-    return encodeHex(data, true)
-}
-
-fun encodeHex(data: ByteArray, toLowerCase: Boolean): CharArray {
-    return encodeHex(data, if (toLowerCase) DIGITS_LOWER else DIGITS_UPPER)
-}
-
 
 fun encodeHex(data: ByteArray, toDigits: CharArray): CharArray {
     val l = data.size
@@ -264,14 +252,6 @@ fun encodeHex(data: ByteArray, toDigits: CharArray): CharArray {
     return out
 }
 
-fun inStringArray(s: String, array: Array<String>): Boolean {
-    for (x in array) {
-        if (x == s) {
-            return true
-        }
-    }
-    return false
-}
 
 fun String.sha256(): String {
     val digest = SHA256Digest()
@@ -287,22 +267,12 @@ fun String.md5(): String {
     return Hex.toHexString(result)
 }
 
-fun <T> beanToJson(t:T):String{
+fun <T> beanToJson(t: T): String {
     val mapper = ObjectMapper()
     mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-    return AppConfig.APP_SECRET+mapper.writeValueAsString(t).replace(":","").replace("{","").replace("}","").replace(",\"","").replace("\"","")
+    return AppConfig.APP_SECRET + mapper.writeValueAsString(t).replace(":", "").replace("{", "").replace("}", "").replace(",\"", "").replace("\"", "")
 }
 
-fun String.ToDeviceState():DeviceState{
-    if(TextUtils.isEmpty(this)) return DeviceState()
-    return  ObjectMapper().readValue(this,DeviceState::class.java)
-}
-
-fun DeviceState.ToJson():String{
-    val mapper = ObjectMapper()
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-    return mapper.writeValueAsString(this)
-}
 
 fun syncTime(deviceId: Int) {
     val calendar = Calendar.getInstance()
@@ -315,7 +285,6 @@ fun syncTime(deviceId: Int) {
     val code_lawn_time = code_lawn_time_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
     DataModelApi.sendData(deviceId, decodeHex(code_lawn_time.toCharArray()), false)
 }
-
 
 
 fun getShortName(type: DeviceType) =
@@ -332,32 +301,36 @@ fun getShortName(type: DeviceType) =
             DeviceType.T1 -> "iHomey T1"
         }
 
-
-
-
-val batteryIcons = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
-val CODE_LIGHT_COLORS = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
-
-
-/**
- * LiveData that propagates only distinct emissions.
- */
-fun <T> LiveData<T>.getDistinct(): LiveData<T> {
-    val distinctLiveData = MediatorLiveData<T>()
-    distinctLiveData.addSource(this, object : Observer<T> {
-        private var initialized = false
-        private var lastObj: T? = null
-
-        override fun onChanged(obj: T?) {
-            if (!initialized) {
-                initialized = true
-                lastObj = obj
-                distinctLiveData.postValue(lastObj)
-            } else if ((obj == null && lastObj != null) || obj != lastObj) {
-                lastObj = obj
-                distinctLiveData.postValue(lastObj)
-            }
-        }
-    })
-    return distinctLiveData
+fun getHCHOLevel(hchoValue: Int): String {
+    return when {
+        hchoValue<1000 -> "正常"
+        hchoValue in 1000..1999 -> "正常"
+        hchoValue in 2000..4999 -> "正常"
+        else -> "严重污染"
+    }
 }
+
+
+fun getVOCLevel(vocValue: Int): String {
+    return when (vocValue) {
+        0 -> "洁净空气"
+        1 -> "轻微污染"
+        2 -> "中度污染"
+        3 -> "重度污染"
+        else -> "未知"
+    }
+}
+
+fun getPM25Level(pm25Value: Int): String {
+    return when {
+        pm25Value<50 -> "优"
+        pm25Value in 50..99 -> "良"
+        pm25Value in 100..149 -> "轻度污染"
+        pm25Value in 150..199 -> "中度污染"
+        pm25Value in 200..299 -> "重度污染"
+        else -> "严重污染"
+    }
+}
+
+
+

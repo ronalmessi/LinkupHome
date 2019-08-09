@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +54,7 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        viewModel.clearScanedDevice()
     }
 
 
