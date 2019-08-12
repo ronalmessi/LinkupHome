@@ -81,7 +81,7 @@ class BedRGBCircleView : View {
         mCirclePaint.strokeWidth = mCircleWidth
 
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
-        logoBitmap = scaleBitmap(bitmap, resources.getDimension(R.dimen._114sdp) / bitmap.width)
+        logoBitmap = scaleBitmap(bitmap, resources.getDimension(R.dimen._100sdp) / bitmap.width)
 
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
     }

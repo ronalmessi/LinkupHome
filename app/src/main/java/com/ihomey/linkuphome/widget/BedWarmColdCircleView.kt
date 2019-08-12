@@ -22,10 +22,9 @@ class BedWarmColdCircleView : View {
     // Color
     private var mTextColor: Int = 0
 
-    // Paint
+//    // Paint
     private var mCirclePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    // Paint
-    private var mTextPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     // Paint
     private var mValuePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -39,7 +38,6 @@ class BedWarmColdCircleView : View {
     private var mCurrentRadian: Float = 0f
     private var mPreRadian: Float = 0f
 
-    private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
 
     private var startTime: Long = 0
@@ -84,36 +82,14 @@ class BedWarmColdCircleView : View {
         mCirclePaint.style = Paint.Style.STROKE
         mCirclePaint.strokeWidth = mCircleWidth
 
-        mTextPaint.color = mTextColor
-        mTextPaint.isAntiAlias = true
-        mTextPaint.typeface = Typeface.MONOSPACE
-        mTextPaint.textSize = mTextSize
-
         mValuePaint.isAntiAlias = true
-        mValuePaint.textSize = mTextSize * 2
+        mValuePaint.textSize = mTextSize * 2.5f
         mValuePaint.color = Color.WHITE
         mValuePaint.style = Paint.Style.FILL_AND_STROKE//实心画笔
         mValuePaint.typeface = Typeface.createFromAsset(context.assets, "VARSITY_REGULAR.TTF")
         mValuePaint.isDither = true
 
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
-        logoBitmap = scaleBitmap(bitmap, resources.getDimension(R.dimen._114sdp) / bitmap.width)
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
-    }
-
-
-    //按比例缩放
-    fun scaleBitmap(origin: Bitmap, scale: Float): Bitmap {
-        val width = origin.width
-        val height = origin.height
-        val matrix = Matrix()
-        matrix.preScale(scale, scale)
-        val newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false)
-        if (newBM == origin) {
-            return newBM
-        }
-        origin.recycle()
-        return newBM
     }
 
 
@@ -125,36 +101,10 @@ class BedWarmColdCircleView : View {
         mRectF.top = mCircleWidth / 2
         mRectF.bottom = height - mCircleWidth / 2
 
-        var startAngle = -225f//经过试验，-90这个值就是12点方向的位置
-
-        val lifeSweepAngle = 89f//圆弧弧度
-        mCirclePaint.color = Color.parseColor("#FEC244")//设置画笔颜色
-        canvas.drawArc(mRectF, startAngle, lifeSweepAngle, false, mCirclePaint)//这里就是真正绘制圆弧的地方，从12点方向开始顺时针绘制150度弧度的圆弧
-
-        startAngle += lifeSweepAngle + 1.5f
-        val communicateSweep = 89f
-        mCirclePaint.color = Color.parseColor("#F6F190")
-        canvas.drawArc(mRectF, startAngle, communicateSweep, false, mCirclePaint)
-
-        startAngle += communicateSweep + 1.5f
-        val trafficSweep = 89f
-        mCirclePaint.color = Color.parseColor("#FFFFFF")
-        canvas.drawArc(mRectF, startAngle, trafficSweep, false, mCirclePaint)
-
-        mTextPaint.getTextBounds("3000K", 0, 4, mRect)
-        canvas.drawText("3000K", mCircleWidth / 2 - mTextPaint.measureText("3000K") / 2, mCy + mRect.height() / 2, mTextPaint)
-
-        mTextPaint.getTextBounds("4000K", 0, 4, mRect)
-        canvas.drawText("4000K", mCx - mTextPaint.measureText("4000K") / 2, mCircleWidth / 2 + mRect.height(), mTextPaint)
-
-        mTextPaint.getTextBounds("6500K", 0, 4, mRect)
-        canvas.drawText("6500K", width - mCircleWidth / 2 - mTextPaint.measureText("6500K") / 2, mCy + mRect.height() / 2, mTextPaint)
-
         val colorTemperatureStr = "" + getColorTemperature() + "K"
-        mTextPaint.getTextBounds(colorTemperatureStr, 0, 4, mRect)
-        canvas.drawText(colorTemperatureStr, mCx - mTextPaint.measureText(colorTemperatureStr), height.toFloat() - mCircleWidth / 2 + mRect.height() / 2, mValuePaint)
+        mValuePaint.getTextBounds(colorTemperatureStr, 0, 5, mRect)
+        canvas.drawText(colorTemperatureStr, mCx - mValuePaint.measureText(colorTemperatureStr)/2, height.toFloat() - mRect.height(), mValuePaint)
 
-        canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
         canvas.save()
         canvas.rotate(Math.toDegrees(mCurrentRadian.toDouble()).toFloat(), mCx, mCy)
         canvas.drawBitmap(arrowBitmap, (width / 2 - arrowBitmap.width / 2).toFloat(), mCircleWidth + mArrowGap, mCirclePaint)

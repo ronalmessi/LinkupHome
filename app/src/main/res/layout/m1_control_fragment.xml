@@ -40,6 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:singleLine="true"
+                android:layout_marginStart="@dimen/_32sdp"
+                android:layout_marginEnd="@dimen/_60sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:onClick="@{handlers::onClick}"
                 android:text="@{control.name}"
                 android:textColor="@android:color/black"
@@ -47,8 +52,8 @@
 
             <ImageView
                 android:id="@+id/iv_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_gravity="end|center_vertical"
                 android:src="@mipmap/ic_setting_red" />
