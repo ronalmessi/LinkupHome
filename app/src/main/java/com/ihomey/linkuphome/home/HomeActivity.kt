@@ -180,6 +180,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             override fun onDeviceConnected(name: String?, address: String?) {
                 val controller = M1Controller()
                 controller.syncTime(address)
+                controller.getFirmwareVersion(address)
                 if (isBackground) {
                     val lastPushTime by PreferenceHelper("lastPushTime", 0L)
                     val currentTimeMillis=System.currentTimeMillis()
@@ -227,12 +228,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
 
-    private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, message ->
+    private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, message,address ->
         Log.d("aa", "---" + Hex.toHexString(data))
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
         if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
             val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
-            toast("当前床头灯型号为：$sensorType", Toast.LENGTH_SHORT)
+            mViewModel.updateM1Version(address,sensorType)
         }else if (receiveDataStr.startsWith("FE01D101DA000BC107")&&isBackground) {
             val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
             val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)

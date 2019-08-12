@@ -182,6 +182,12 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }
     }
 
+    fun updateM1Version(id:String,version:Int){
+        appExecutors.diskIO().execute {
+            deviceDao.updateM1Version(id,version)
+        }
+    }
+
     fun updateRoomAndDeviceState(device: Device, deviceState:DeviceState) {
         appExecutors.diskIO().execute {
             deviceDao.updateState(device.id,deviceState)

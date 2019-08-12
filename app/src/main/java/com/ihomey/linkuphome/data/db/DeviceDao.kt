@@ -74,4 +74,8 @@ abstract class DeviceDao {
     abstract fun updateName(deviceId: String,newName:String)
 
 
+    @Query("UPDATE device1 set roomId= :roomId WHERE id = :id and type = 0")
+    abstract fun updateM1Version(id: String,roomId:Int)
+
+
 }

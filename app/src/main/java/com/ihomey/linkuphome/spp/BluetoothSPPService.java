@@ -367,8 +367,13 @@ public class BluetoothSPPService {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
-                    // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(BluetoothSPPState.MESSAGE_RECEIVE_DATA, bytes, -1, buffer).sendToTarget();
+                    Message msg = mHandler.obtainMessage(BluetoothSPPState.MESSAGE_RECEIVE_DATA);
+                    Bundle bundle = new Bundle();
+                    bundle.putByteArray("data",buffer);
+                    if(mmSocket!=null&&mmSocket.getRemoteDevice()!=null) bundle.putString(BluetoothSPPState.DEVICE_ADDRESS, mmSocket.getRemoteDevice().getAddress());
+                    bundle.putInt("length", bytes);
+                    msg.setData(bundle);
+                    mHandler.sendMessage(msg);
                 } catch (IOException e) {
                     connectionLost(mmSocket.getRemoteDevice());
                     break;

@@ -142,6 +142,10 @@ class HomeActivityViewModel : ViewModel() {
         return mDeviceRepository.deleteDevice(deviceId)
     }
 
+    fun updateM1Version(deviceId: String,version:Int) {
+        return mDeviceRepository.updateM1Version(deviceId,version)
+    }
+
     fun deleteDevice(guid:String,deviceId: String): LiveData<Resource<Boolean>> {
         return mDeviceRepository.deleteDevice(guid, deviceId)
     }

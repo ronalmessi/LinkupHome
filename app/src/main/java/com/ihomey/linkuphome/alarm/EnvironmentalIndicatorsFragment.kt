@@ -79,7 +79,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment() {
     }
 
 
-    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, message ->
+    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, _, _ ->
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
         if (receiveDataStr.startsWith("FE01D101DA000BC107")) {
             val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)

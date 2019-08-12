@@ -14,6 +14,7 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.M1ControlFragmentBinding
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
+import kotlinx.android.synthetic.main.m1_control_fragment.*
 
 /**
  * Created by dongcaizheng on 2018/4/10.
@@ -49,6 +50,7 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
     override fun updateViewData(device: Device) {
         mViewDataBinding.control = device
         mControlDevice = device
+        btn_device_environmental_indicators.visibility=if(device.roomId==1) View.VISIBLE else View.GONE
         mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
         device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)

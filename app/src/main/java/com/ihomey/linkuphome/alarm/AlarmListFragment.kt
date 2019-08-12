@@ -147,7 +147,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
     }
 
-    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, message ->
+    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, _, _ ->
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
         if(receiveDataStr.startsWith("FE01D101DA0003C4")&&!isDelete){
             val isOn=TextUtils.equals("01",receiveDataStr.substring(16, 18))

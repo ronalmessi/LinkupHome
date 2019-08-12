@@ -39,7 +39,7 @@ class M1ControlSettingFragment : BaseFragment() {
     private var hasQueryGestureControlState: Boolean=false
 
 
-    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, message ->
+    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, _, _ ->
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
         if(receiveDataStr.startsWith("FE01D101DA0004C20103")){
             val isSleepModeOn=TextUtils.equals("01",receiveDataStr.substring(20,22))

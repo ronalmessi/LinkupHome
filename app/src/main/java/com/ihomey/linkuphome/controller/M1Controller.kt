@@ -37,12 +37,6 @@ class M1Controller : Controller() {
 
         val CODE_LIGHT_GESTURE_CONTROL_MODE_ON: String = "BF01D101CD04C2070101CF16"
         val CODE_LIGHT_GESTURE_CONTROL_MODE_OFF: String = "BF01D101CD04C2070102D016"
-
-
-        val CODE_LIGHT_NOTIFY_VERSION: String = "BF01D101CD04C102F101"
-
-        val CODE_LIGHT_NOTIFY_ALL: String = "BF01D101CD04C10207EF"
-
     }
 
     override fun setLightBright(deviceAddress: String?, brightValue: Int) {
@@ -231,8 +225,13 @@ class M1Controller : Controller() {
 
     fun getEnvironmentalValue(deviceAddress: String?) {
         deviceAddress?.let {
-            Log.d("aa","getEnvironmentalValue-----BF01D101CD04C10207EFBD16")
             BluetoothSPP.getInstance().send(deviceAddress, decodeHex("BF01D101CD04C10207EFBD16".toUpperCase().toCharArray()), false)
+        }
+    }
+
+    fun getFirmwareVersion(deviceAddress: String?) {
+        deviceAddress?.let {
+            BluetoothSPP.getInstance().send(deviceAddress, decodeHex("BF01D101CD04C102F101B916".toUpperCase().toCharArray()), false)
         }
     }
 }
