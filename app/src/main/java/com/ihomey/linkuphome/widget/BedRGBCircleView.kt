@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import com.ihomey.linkuphome.R
+
+
 
 class BedRGBCircleView : View {
 
@@ -22,8 +25,6 @@ class BedRGBCircleView : View {
     private var mCircleWidth: Float = 0f
     private var mArrowGap: Float = 0f
 
-    // Color
-    private var mCircleColor: Int = 0
 
     // Paint
     private var mCirclePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -45,8 +46,6 @@ class BedRGBCircleView : View {
     private var mCircleValueListener: RGBCircleView.ColorValueListener? = null
 
 
-    private var startTime: Long = 0
-    private var endTime: Long = 0
 
     private var downX: Float = 0f
     private var downY: Float = 0f
@@ -84,6 +83,11 @@ class BedRGBCircleView : View {
         logoBitmap = scaleBitmap(bitmap, resources.getDimension(R.dimen._100sdp) / bitmap.width)
 
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        parent.requestDisallowInterceptTouchEvent(true)
+        return super.dispatchTouchEvent(ev)
     }
 
 
@@ -134,7 +138,7 @@ class BedRGBCircleView : View {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action and event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                startTime = System.currentTimeMillis()
+                Log.d("aa","ACTION_DOWN")
                 downX = event.x//float DownX
                 downY = event.y//float DownY
                 moveX = 0f
@@ -143,6 +147,7 @@ class BedRGBCircleView : View {
                 handler.postDelayed(runnable, 200)
             }
             MotionEvent.ACTION_MOVE -> {
+                Log.d("aa","ACTION_MOVE")
                 moveX += Math.abs(event.x - downX)//X轴距离
                 moveY += Math.abs(event.y - downY)//y轴距离
                 downX = event.x
@@ -159,20 +164,11 @@ class BedRGBCircleView : View {
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                endTime = System.currentTimeMillis()
                 handler.removeCallbacks(runnable)
-                if (endTime - startTime > 200 && (moveX > 20 || moveY > 20)) {
-                    if (mCurrentValue != getCurrentValue()) {
-                        if (mCircleValueListener != null) {
-                            mCircleValueListener?.onColorValueChanged(getCurrentValue())
-                        }
-                    }
-                } else {
-                    mCurrentRadian = getRadian(event.x, event.y)
-                    if (mCurrentValue != getCurrentValue()) {
-                        if (mCircleValueListener != null) {
-                            mCircleValueListener?.onColorValueChanged(getCurrentValue())
-                        }
+                mCurrentRadian = getRadian(event.x, event.y)
+                if (mCurrentValue != getCurrentValue()) {
+                    if (mCircleValueListener != null) {
+                        mCircleValueListener?.onColorValueChanged(getCurrentValue())
                     }
                 }
             }
@@ -236,13 +232,12 @@ class BedRGBCircleView : View {
 
 
     internal var handler = Handler()
-    internal var runnable: Runnable = object : Runnable {
+    private var runnable: Runnable = object : Runnable {
         override fun run() {
             if (mCircleValueListener != null) {
                 mCircleValueListener?.onColorValueChange(mCurrentValue)
             }
             handler.postDelayed(this, 200)
-
         }
     }
 
