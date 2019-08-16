@@ -83,10 +83,11 @@ class BedWarmColdCircleView : View {
         mCirclePaint.strokeWidth = mCircleWidth
 
         mValuePaint.isAntiAlias = true
-        mValuePaint.textSize = mTextSize * 2.5f
+        mValuePaint.textSize = mTextSize * 2.35f
         mValuePaint.color = Color.WHITE
-        mValuePaint.style = Paint.Style.FILL_AND_STROKE//实心画笔
-        mValuePaint.typeface = Typeface.createFromAsset(context.assets, "VARSITY_REGULAR.TTF")
+        mValuePaint.style = Paint.Style.FILL//实心画笔
+        mValuePaint.isFakeBoldText=true
+        mValuePaint.typeface = Typeface.createFromAsset(context.assets, "PingFang_Bold.ttf")
         mValuePaint.isDither = true
 
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)

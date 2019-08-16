@@ -151,11 +151,13 @@ public class BluetoothSPP {
                       if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnecting(mDeviceName,mDeviceAddress);
                     }else if(mDeviceState==BluetoothSPPState.STATE_CONNECTED){
                         Log.d("aa", "--$name---$address---onDeviceConnected");
-                        if(mAutoConnectDeviceAddressList.contains(mDeviceAddress)){
-                            if(mBluetoothStateListener!=null)mBluetoothStateListener.onDeviceConnected(mDeviceName,mDeviceAddress);
-                        }else{
-                            if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnected(mDeviceName,mDeviceAddress);
-                        }
+                        if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnected(mDeviceName,mDeviceAddress);
+                        if(mBluetoothStateListener!=null)mBluetoothStateListener.onDeviceConnected(mDeviceName,mDeviceAddress);
+//                        if(mAutoConnectDeviceAddressList.contains(mDeviceAddress)){
+//                            if(mBluetoothStateListener!=null)mBluetoothStateListener.onDeviceConnected(mDeviceName,mDeviceAddress);
+//                        }else{
+//                            if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnected(mDeviceName,mDeviceAddress);
+//                        }
                     }else if(mDeviceState==BluetoothSPPState.STATE_CONNECT_FAILED){
                         Log.d("aa", "--$name---$address---onDeviceConnectFailed");
                         if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnectFailed(mDeviceName,mDeviceAddress);

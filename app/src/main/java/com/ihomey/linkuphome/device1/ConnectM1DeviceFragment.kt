@@ -170,7 +170,6 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         }
 
         override fun onDeviceConnected(name: String?, address: String) {
-            M1Controller().syncTime(address)
             val device = Device(0,DeviceType.values()[0].name,address)
             val position = adapter.data.indexOf(device) ?: -1
             if (position != -1) {
@@ -178,11 +177,14 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
                 adapter.notifyItemChanged(position)
             }
             viewModel.saveDevice(0,currentZone?.id!!,DeviceType.values()[0].name,address)
-            mViewModel.setCurrentZoneId(currentZone?.id!!)
+            val controller = M1Controller()
+            controller.getFirmwareVersion(address)
             countDownTimer.cancel()
-            deviceAssociateFragment.onAssociateProgressChanged(0)
-            deviceAssociateFragment.dismiss()
-            if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+            if (adapter.data.none { TextUtils.equals("0",it.id) }){
+                deviceAssociateFragment.onAssociateProgressChanged(0)
+                deviceAssociateFragment.dismiss()
+                Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+            }
         }
 
         override fun onDeviceConnectFailed(name: String?, address: String?) {
