@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.control
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,13 +50,11 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
             }
 
         })
+
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.deviceSeekBarBrightness.max=85
-        mViewDataBinding.root.setOnClickListener {
-            mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
-            mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
-        }
+        mViewDataBinding.root.setOnClickListener { hideCyclingSstgSpeedView() }
         mViewDataBinding.ivSetting.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_m1ControlFragment_to_m1ControlSettingFragment) }
         return mViewDataBinding.root
     }
@@ -90,10 +89,7 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isVisible) View.GONE else View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = if (!isVisible) moveToViewLocationAnimation() else moveToViewBottomAnimation()
         }else if(v.id == R.id.btn_device_lighting){
-            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE){
-                mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
-                mViewDataBinding.deviceCyclingSstgSpeed.animation =moveToViewBottomAnimation()
-            }
+            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE)hideCyclingSstgSpeedView()
             mViewDataBinding.handlers?.onClick(v)
         } else if(v.id == R.id.btn_device_environmental_indicators){
             Navigation.findNavController(v).navigate(R.id.action_m1ControlFragment_to_environmentalIndicatorsFragment)
@@ -106,5 +102,10 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         }else if(checkedId==R.id.rb_control_warm_cold){
             mViewDataBinding.bleControlVp.currentItem=1
         }
+    }
+
+    fun hideCyclingSstgSpeedView(){
+        mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
+        mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
     }
 }

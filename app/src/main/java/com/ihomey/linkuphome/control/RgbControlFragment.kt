@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.control
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ class RgbControlFragment : BaseControlFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.t1_control_rgb_fragment, container, false)
         mViewDataBinding.handlers = ToolBarEventHandler()
+        mViewDataBinding.root.setOnClickListener {(parentFragment as M1ControlFragment).hideCyclingSstgSpeedView() }
         return mViewDataBinding.root
     }
 

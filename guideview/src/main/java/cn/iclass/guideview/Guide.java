@@ -3,6 +3,7 @@ package cn.iclass.guideview;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,7 +18,7 @@ import android.view.animation.AnimationUtils;
  *
  * Created by binIoter
  */
-public class Guide implements View.OnKeyListener,View.OnTouchListener {
+public class Guide {
   /**
    * Cannot initialize out of package <font
    * color=red>包内才可见，外部使用时必须调用GuideBuilder来创建.</font>
@@ -162,7 +163,7 @@ public class Guide implements View.OnKeyListener,View.OnTouchListener {
     maskView.setPaddingBottom(mConfiguration.mPaddingBottom);
     maskView.setHighTargetGraphStyle(mConfiguration.mGraphStyle);
     maskView.setOverlayTarget(mConfiguration.mOverlayTarget);
-    maskView.setOnKeyListener(this);
+
 
     // For removing the height of status bar we need the root content view's
     // location on screen
@@ -217,9 +218,14 @@ public class Guide implements View.OnKeyListener,View.OnTouchListener {
       }
     }
     if (mConfiguration.mOutsideTouchable) {
-      maskView.setClickable(false);
+      maskView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          dismiss();
+        }
+      });
     } else {
-      maskView.setOnTouchListener(this);
+      maskView.setClickable(false);
     }
 
     // Adds the components to the mask view.
@@ -236,24 +242,6 @@ public class Guide implements View.OnKeyListener,View.OnTouchListener {
     mOnVisibilityChangedListener = null;
     mMaskView.removeAllViews();
     mMaskView = null;
-  }
-
-  @Override public boolean onKey(View v, int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-      if (mConfiguration != null && mConfiguration.mAutoDismiss) {
-        dismiss();
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public boolean onTouch(View v, MotionEvent event) {
-    v.performClick();
-    return !mMaskView.getTargetRect().contains(event.getX(), event.getY());
   }
 
 }

@@ -87,7 +87,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment() {
             val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
             updateEnvironmentalIndicatorViews(pm25Value, hchoValue, vocValue)
         }else if (TextUtils.equals("FE01D101DA0004C2050101CD16", receiveDataStr)) {
-            activity?.toast("床头灯正在播放音乐", Toast.LENGTH_SHORT)
+            activity?.toast("音乐播放模式下，不支持环境检测", Toast.LENGTH_SHORT)
         }
     }
 

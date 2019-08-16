@@ -51,7 +51,6 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
 
     var hasShowRenameRoomGuide by PreferenceHelper("hasShowRenameRoomGuide", false)
 
-
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var mViewModel: RoomViewModel
     private lateinit var adapter: BondedDeviceListAdapter
@@ -167,9 +166,9 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
                 .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetMarginTop(getMarginTop(view)+context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
-                .setAutoDismiss(false)
+                .setAutoDismiss(true)
                 .setOverlayTarget(false)
-                .setOutsideTouchable(false)
+                .setOutsideTouchable(true)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
             override fun onShown() {
                 hasShowRenameRoomGuide = true
