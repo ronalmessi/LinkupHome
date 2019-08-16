@@ -8,6 +8,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.viewpager.widget.ViewPager
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.MixControlViewAdapter
 import com.ihomey.linkuphome.data.entity.Device
@@ -36,6 +37,18 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.m1_control_fragment, container, false)
         mViewDataBinding.bleControlVp.offscreenPageLimit = 2
         mViewDataBinding.bleControlVp.adapter = MixControlViewAdapter(childFragmentManager)
+        mViewDataBinding.bleControlVp.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                mViewDataBinding.rgControlSwitch.check(if(position==0)R.id.rb_control_rgb else R.id.rb_control_warm_cold)
+            }
+
+        })
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.deviceSeekBarBrightness.max=85

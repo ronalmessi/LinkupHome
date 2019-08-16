@@ -11,6 +11,9 @@ import android.view.View
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
 
+
+
+
 class BedWarmColdCircleView : View {
 
     // Dimension
@@ -22,9 +25,10 @@ class BedWarmColdCircleView : View {
     // Color
     private var mTextColor: Int = 0
 
-//    // Paint
+    // Paint
     private var mCirclePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
+    // Paint
+    private var mTextPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     // Paint
     private var mValuePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -32,12 +36,20 @@ class BedWarmColdCircleView : View {
 
     private val mRect: Rect = Rect()
 
+
+    private val mFirstPath: Path = Path()
+
+    private val mSecondPath: Path = Path()
+
+    private val mThirdPath: Path = Path()
+
     // Parameters
     private var mCx: Float = 0f
     private var mCy: Float = 0f
     private var mCurrentRadian: Float = 0f
     private var mPreRadian: Float = 0f
 
+    private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
 
     private var startTime: Long = 0
@@ -45,7 +57,6 @@ class BedWarmColdCircleView : View {
 
     private var downX: Float = 0f
     private var downY: Float = 0f
-
 
     private var moveX: Float = 0f
     private var moveY: Float = 0f
@@ -71,7 +82,7 @@ class BedWarmColdCircleView : View {
             val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BedWarmColdCircleView)
             mCircleWidth = typedArray.getDimension(R.styleable.BedWarmColdCircleView_circle_width, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, getContext().resources.displayMetrics))
             mArrowGap = typedArray.getDimension(R.styleable.BedWarmColdCircleView_arrow_gap, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, getContext().resources.displayMetrics))
-            mTextColor = typedArray.getColor(R.styleable.BedWarmColdCircleView_mTextColor, Color.parseColor("#959595"))
+            mTextColor = typedArray.getColor(R.styleable.BedWarmColdCircleView_mTextColor, Color.parseColor("#848484"))
             mTextSize = typedArray.getDimension(R.styleable.BedWarmColdCircleView_text_size, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 8.4f, getContext().resources.displayMetrics))
             typedArray.recycle()
         }
@@ -82,15 +93,38 @@ class BedWarmColdCircleView : View {
         mCirclePaint.style = Paint.Style.STROKE
         mCirclePaint.strokeWidth = mCircleWidth
 
+        mTextPaint.color = mTextColor
+        mTextPaint.isAntiAlias = true
+        mValuePaint.isDither = true
+        mValuePaint.style = Paint.Style.FILL
+        mTextPaint.typeface =Typeface.createFromAsset(context.assets, "PingFang_Bold.ttf")
+        mTextPaint.textSize =  mTextSize * 2.3f
+
         mValuePaint.isAntiAlias = true
-        mValuePaint.textSize = mTextSize * 2.35f
+        mValuePaint.textSize = mTextSize * 2.5f
         mValuePaint.color = Color.WHITE
         mValuePaint.style = Paint.Style.FILL//实心画笔
-        mValuePaint.isFakeBoldText=true
         mValuePaint.typeface = Typeface.createFromAsset(context.assets, "PingFang_Bold.ttf")
         mValuePaint.isDither = true
 
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
+        logoBitmap = scaleBitmap(bitmap, resources.getDimension(R.dimen._114sdp) / bitmap.width)
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
+    }
+
+
+    //按比例缩放
+    fun scaleBitmap(origin: Bitmap, scale: Float): Bitmap {
+        val width = origin.width
+        val height = origin.height
+        val matrix = Matrix()
+        matrix.preScale(scale, scale)
+        val newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false)
+        if (newBM == origin) {
+            return newBM
+        }
+        origin.recycle()
+        return newBM
     }
 
 
@@ -102,10 +136,35 @@ class BedWarmColdCircleView : View {
         mRectF.top = mCircleWidth / 2
         mRectF.bottom = height - mCircleWidth / 2
 
-        val colorTemperatureStr = "" + getColorTemperature() + "K"
-        mValuePaint.getTextBounds(colorTemperatureStr, 0, 5, mRect)
-        canvas.drawText(colorTemperatureStr, mCx - mValuePaint.measureText(colorTemperatureStr)/2, height.toFloat() - mRect.height(), mValuePaint)
+        var startAngle = -225f//经过试验，-90这个值就是12点方向的位置
 
+        val lifeSweepAngle = 89f//圆弧弧度
+        mCirclePaint.color = Color.parseColor("#FCC930")//设置画笔颜色
+        canvas.drawArc(mRectF, startAngle, lifeSweepAngle, false, mCirclePaint)//这里就是真正绘制圆弧的地方，从12点方向开始顺时针绘制150度弧度的圆弧
+        mFirstPath.addArc(mRectF,startAngle+27,lifeSweepAngle)
+        canvas.drawTextOnPath("3000K",mFirstPath, 0f, 18f, mTextPaint)
+
+        startAngle += lifeSweepAngle + 1.5f
+        val communicateSweep = 89f
+        mCirclePaint.color = Color.parseColor("#F8F28D")
+        canvas.drawArc(mRectF, startAngle, communicateSweep, false, mCirclePaint)
+        mSecondPath.addArc(mRectF,startAngle+27,lifeSweepAngle)
+        canvas.drawTextOnPath("4000K",mSecondPath, 0f, 18f, mTextPaint)
+
+
+        startAngle += communicateSweep + 1.5f
+        val trafficSweep = 89f
+        mCirclePaint.color = Color.parseColor("#FFFFFF")
+        canvas.drawArc(mRectF, startAngle, trafficSweep, false, mCirclePaint)
+        mThirdPath.addArc(mRectF,startAngle+27,lifeSweepAngle)
+        canvas.drawTextOnPath("6500K",mThirdPath, 0f, 18f, mTextPaint)
+
+
+        val colorTemperatureStr = "" + getColorTemperature() + "K"
+        mValuePaint.getTextBounds(colorTemperatureStr, 0, colorTemperatureStr.length, mRect)
+        canvas.drawText(colorTemperatureStr, mCx - mValuePaint.measureText(colorTemperatureStr)/2, height.toFloat() - mCircleWidth / 2 + mRect.height() / 2, mValuePaint)
+
+        canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
         canvas.save()
         canvas.rotate(Math.toDegrees(mCurrentRadian.toDouble()).toFloat(), mCx, mCy)
         canvas.drawBitmap(arrowBitmap, (width / 2 - arrowBitmap.width / 2).toFloat(), mCircleWidth + mArrowGap, mCirclePaint)

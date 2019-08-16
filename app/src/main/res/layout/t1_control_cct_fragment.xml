@@ -22,49 +22,30 @@
         android:background="@android:color/white">
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.15"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.035"/>
-
-
         <ImageView
             android:id="@+id/device_circle_iv_bg"
-            android:layout_width="@dimen/_340sdp"
-            android:layout_height="@dimen/_340sdp"
-            android:background="@drawable/t1_control_circle_bg"
+            android:layout_width="@dimen/_360sdp"
+            android:layout_height="@dimen/_360sdp"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:background="@mipmap/control_circle_bg"
+            android:layout_marginLeft="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guide0"
-            app:layout_constraintTop_toTopOf="@+id/guide1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlHardcoded" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.062"/>
 
 
         <com.ihomey.linkuphome.widget.BedWarmColdCircleView
             android:id="@+id/device_color_rgb_cv"
             android:layout_width="@dimen/_244sdp"
             android:layout_height="@dimen/_244sdp"
+            android:layout_marginStart="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/_4sdp"
-            app:arrow_gap="@dimen/_16sdp"
-            app:circle_width="@dimen/_38sdp"
+            app:arrow_gap="@dimen/_10sdp"
+            app:circle_width="@dimen/_39sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guide2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

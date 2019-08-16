@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:singleLine="true"
-                android:layout_marginStart="@dimen/_32sdp"
+                android:layout_marginStart="@dimen/_60sdp"
                 android:layout_marginEnd="@dimen/_60sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -91,7 +91,7 @@
                 android:id="@+id/rb_control_warm_cold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_42sdp"
+                android:layout_marginStart="@dimen/_114sdp"
                 android:button="@null"
                 android:background="@color/transparent"
                 android:drawableEnd="@mipmap/ic_arrow_right"
@@ -104,7 +104,7 @@
         </RadioGroup>
 
 
-        <com.ihomey.linkuphome.widget.NoScrollViewpager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/ble_control_vp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
