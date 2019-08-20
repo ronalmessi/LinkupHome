@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <com.ihomey.linkuphome.widget.CompatToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:background="@null"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text="灯光定时"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="end|center_vertical"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_8sdp"
+            android:text="@string/action_edit"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_16ssp" />
+    </com.ihomey.linkuphome.widget.CompatToolbar>
+
+
+    <ImageView
+        android:id="@+id/iv_open_time_setting"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1.5:1"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_21sdp"
+        android:text="开灯时间"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_open_time_setting" />
+
+    <LinearLayout
+        android:id="@+id/layout_open_time_setting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/iv_close_time_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_open_time_setting">
+
+        <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
+            android:id="@+id/wheel_timer_hour_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_27sdp"
+            android:paddingRight="@dimen/_27sdp"
+            app:wheel_atmospheric="true"
+            app:wheel_curved="true"
+            app:wheel_cyclic="true"
+            app:wheel_item_text_color="@color/wheel_text_color"
+            app:wheel_item_text_size="@dimen/_42ssp"
+            app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_12sdp"
+            android:text=":"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_42ssp"
+            android:textStyle="bold" />
+
+        <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
+            android:id="@+id/wheel_timer_minute_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_30sdp"
+            android:paddingRight="@dimen/_30sdp"
+            app:wheel_atmospheric="true"
+            app:wheel_curved="true"
+            app:wheel_cyclic="true"
+            app:wheel_item_text_color="@color/wheel_text_color"
+            app:wheel_item_text_size="@dimen/_42ssp"
+            app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_close_time_setting"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1.5:1"
+        app:layout_constraintTop_toBottomOf="@+id/iv_open_time_setting" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_21sdp"
+        android:text="关灯时间"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_close_time_setting" />
+
+
+    <LinearLayout
+        android:id="@+id/layout_close_time_setting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_close_time_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_close_time_setting">
+
+        <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
+            android:id="@+id/wheel_timer_hour_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_27sdp"
+            android:paddingRight="@dimen/_27sdp"
+            app:wheel_atmospheric="true"
+            app:wheel_curved="true"
+            app:wheel_cyclic="true"
+            app:wheel_item_text_color="@color/wheel_text_color"
+            app:wheel_item_text_size="@dimen/_42ssp"
+            app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_12sdp"
+            android:text=":"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_42ssp"
+            android:textStyle="bold" />
+
+        <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
+            android:id="@+id/wheel_timer_minute_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_27sdp"
+            android:paddingRight="@dimen/_27sdp"
+            app:wheel_atmospheric="true"
+            app:wheel_curved="true"
+            app:wheel_cyclic="true"
+            app:wheel_item_text_color="@color/wheel_text_color"
+            app:wheel_item_text_size="@dimen/_42ssp"
+            app:wheel_selected_item_text_color="@color/wheel_selected_text_color" />
+
+    </LinearLayout>
+
+
+    <com.ihomey.linkuphome.widget.UnderlineTextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:lineSpacingExtra="1dp"
+        android:text="定时循环"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/_18ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_close_time_setting" />
+
+    <ImageView
+        android:id="@+id/iv_question_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:scaleX="1.26"
+        android:scaleY="1.26"
+        android:src="@drawable/ic_question_mark"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_info"
+        app:layout_constraintStart_toEndOf="@+id/tv_info"
+        app:layout_constraintTop_toTopOf="@+id/tv_info" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

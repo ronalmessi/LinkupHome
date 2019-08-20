@@ -30,7 +30,6 @@ import java.util.*
 open class OpenTimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListener {
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
-        Log.d("aa", "OpenTimerSettingFragment---switch_button_timer")
         updateTimerOnState(isChecked)
         frameLayout_timer_setting.isActivated = isChecked
     }

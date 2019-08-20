@@ -21,7 +21,7 @@ class WebViewFragment : BaseFragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { if(it is SettingNavHostFragment) it .showBottomNavigationBar(false) }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         webView.settings.setSupportZoom(true)
         webView.settings.javaScriptEnabled=true

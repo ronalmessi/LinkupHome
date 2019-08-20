@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.databinding.FragmentTimerSettingRepeatBinding
+import com.ihomey.linkuphome.getHourList
+import com.ihomey.linkuphome.getMinuteList
 import java.util.*
 
 

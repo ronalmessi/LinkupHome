@@ -104,7 +104,7 @@
         </RadioGroup>
 
 
-        <androidx.viewpager.widget.ViewPager
+        <com.ihomey.linkuphome.widget.NoScrollViewpager
             android:id="@+id/ble_control_vp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

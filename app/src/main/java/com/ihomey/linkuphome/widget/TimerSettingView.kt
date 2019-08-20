@@ -315,13 +315,13 @@ class TimerSettingView : View {
 
     private fun isInMinuteSliderButton(x: Float, y: Float): Boolean {
         val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
-        Log.d("aa","minute---"+(distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength))
+        Log.d("bg_timer_setting_on_v2","minute---"+(distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength))
         return distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength
     }
 
     private fun isInHourSliderButton(x: Float, y: Float): Boolean {
         val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
-        Log.d("aa","hour---"+(distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius))
+        Log.d("bg_timer_setting_on_v2","hour---"+(distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius))
         return  distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius
     }
 

@@ -38,19 +38,6 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.m1_control_fragment, container, false)
         mViewDataBinding.bleControlVp.offscreenPageLimit = 2
         mViewDataBinding.bleControlVp.adapter = MixControlViewAdapter(childFragmentManager)
-        mViewDataBinding.bleControlVp.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                mViewDataBinding.rgControlSwitch.check(if(position==0)R.id.rb_control_rgb else R.id.rb_control_warm_cold)
-            }
-
-        })
-
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.deviceSeekBarBrightness.max=85
@@ -98,10 +85,11 @@ class M1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         if(checkedId==R.id.rb_control_rgb){
-            mViewDataBinding.bleControlVp.currentItem=0
+            mViewDataBinding.bleControlVp.setCurrentItem(0,true)
         }else if(checkedId==R.id.rb_control_warm_cold){
-            mViewDataBinding.bleControlVp.currentItem=1
+            mViewDataBinding.bleControlVp.setCurrentItem(1,true)
         }
+
     }
 
     fun hideCyclingSstgSpeedView(){

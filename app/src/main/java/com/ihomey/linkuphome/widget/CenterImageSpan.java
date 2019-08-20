@@ -28,7 +28,7 @@ public class CenterImageSpan extends ImageSpan {
             fm.top = -bottom;
             fm.bottom = top;
             fm.descent = top;
-            Log.d("aa","---"+fontHeight);
+            Log.d("bg_timer_setting_on_v2","---"+fontHeight);
         }
         return rect.right;
     }

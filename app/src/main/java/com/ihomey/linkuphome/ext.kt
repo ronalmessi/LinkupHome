@@ -333,5 +333,30 @@ fun getPM25Level(pm25Value: Int): String {
     }
 }
 
+fun getMinuteList(): ArrayList<String> {
+    val list = ArrayList<String>()
+    for (i in 0..59) {
+        if (i < 10) {
+            list.add("0$i")
+        } else {
+            list.add("" + i)
+        }
+    }
+    return list
+}
+
+ fun getHourList(): ArrayList<String> {
+    val list = ArrayList<String>()
+    for (i in 0..23) {
+        if (i < 10) {
+            list.add("0$i")
+        } else {
+            list.add("" + i)
+        }
+    }
+    return list
+}
+
+
 
 

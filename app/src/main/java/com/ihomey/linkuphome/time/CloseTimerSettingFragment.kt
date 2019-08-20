@@ -31,7 +31,6 @@ open class CloseTimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedCha
 
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
-        Log.d("aa","CloseTimerSettingFragment---switch_button_timer")
         updateTimerOnState(isChecked)
         frameLayout_timer_setting.isActivated=isChecked
     }

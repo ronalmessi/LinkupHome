@@ -114,7 +114,7 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
     }
 
      fun updateTimerOnState(isChecked: Boolean) {
-         Log.d("aa","updateTimerOnState")
+         Log.d("bg_timer_setting_on_v2","updateTimerOnState")
         if (viewPager.currentItem==0) {
             mLocalState.openTimerOn = if(isChecked) 1 else 0
             val calendar = Calendar.getInstance()

@@ -98,7 +98,7 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     fun setCurrentZoneId(zoneId: Int?) {
-        Log.d("aa","setCurrentZoneId---")
+        Log.d("bg_timer_setting_on_v2","setCurrentZoneId---")
         mCurrentZoneId.value = zoneId
     }
 

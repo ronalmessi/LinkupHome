@@ -221,6 +221,12 @@
             app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_v2ControlFragment_to_v2SceneSettingFragment"
             app:destination="@id/v2SceneSettingFragment" />
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_v2ControlFragment_to_v2TimerSettingFragment"
+            app:destination="@id/v2TimerSettingFragment" />
     </fragment>
 
     <fragment
@@ -426,6 +432,19 @@
     </fragment>
 
     <fragment
+        android:id="@+id/v2TimerSettingFragment"
+        android:name="com.ihomey.linkuphome.time.V2TimerSettingFragment"
+        android:label="fragment_timer_setting_v2"
+        tools:layout="@layout/fragment_timer_setting_v2" >
+
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_v2TimerSettingFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/environmentalIndicatorsFragment"
         android:name="com.ihomey.linkuphome.alarm.EnvironmentalIndicatorsFragment"
         android:label="environmentalIndicatorsFragment"
@@ -446,6 +465,13 @@
         android:name="com.ihomey.linkuphome.m1.InstructionFragment"
         tools:layout="@layout/m1_instruction_fragment"
         android:label="M1InstructionFragment" />
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.ihomey.linkuphome.setting.WebViewFragment"
+        tools:layout="@layout/webview_fragment"
+        android:label="WebViewFragment" />
+
 
 
 </navigation>

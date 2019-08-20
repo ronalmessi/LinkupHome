@@ -13,7 +13,6 @@ import android.view.View
 import com.ihomey.linkuphome.R
 
 
-
 class BedRGBCircleView : View {
 
     private val colors = intArrayOf(R.color.c2, R.color.c3, R.color.c4, R.color.c5, R.color.c6, R.color.c7, R.color.c8, R.color.c9, R.color.c10, R.color.c11, R.color.c12, R.color.c13, R.color.c14, R.color.c15, R.color.c16, R.color.c17, R.color.c18, R.color.c19, R.color.c20, R.color.c21, R.color.c22, R.color.c23, R.color.c24, R.color.c1)
@@ -31,6 +30,10 @@ class BedRGBCircleView : View {
 
     private val mRectF: RectF = RectF()
 
+    private var startTime: Long = 0
+    private var endTime: Long = 0
+
+
     // Parameters
     private var mCx: Float = 0f
     private var mCy: Float = 0f
@@ -44,7 +47,6 @@ class BedRGBCircleView : View {
 
     // Runt
     private var mCircleValueListener: RGBCircleView.ColorValueListener? = null
-
 
 
     private var downX: Float = 0f
@@ -84,12 +86,6 @@ class BedRGBCircleView : View {
 
         arrowBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_icon_arrow)
     }
-
-    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        parent.requestDisallowInterceptTouchEvent(true)
-        return super.dispatchTouchEvent(ev)
-    }
-
 
     override fun onDraw(canvas: Canvas) {
 
@@ -138,7 +134,7 @@ class BedRGBCircleView : View {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action and event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                Log.d("aa","ACTION_DOWN")
+                startTime = System.currentTimeMillis()
                 downX = event.x//float DownX
                 downY = event.y//float DownY
                 moveX = 0f
@@ -147,7 +143,6 @@ class BedRGBCircleView : View {
                 handler.postDelayed(runnable, 200)
             }
             MotionEvent.ACTION_MOVE -> {
-                Log.d("aa","ACTION_MOVE")
                 moveX += Math.abs(event.x - downX)//X轴距离
                 moveY += Math.abs(event.y - downY)//y轴距离
                 downX = event.x
@@ -164,11 +159,21 @@ class BedRGBCircleView : View {
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
+                endTime = System.currentTimeMillis()
                 handler.removeCallbacks(runnable)
-                mCurrentRadian = getRadian(event.x, event.y)
-                if (mCurrentValue != getCurrentValue()) {
-                    if (mCircleValueListener != null) {
-                        mCircleValueListener?.onColorValueChanged(getCurrentValue())
+                if (endTime - startTime > 200 && (moveX > 20 || moveY > 20)) {
+                    if (mCurrentValue != getCurrentValue()) {
+                        if (mCircleValueListener != null) {
+                            mCircleValueListener?.onColorValueChanged(getCurrentValue())
+                        }
+                    }
+                } else {
+                    mCurrentRadian = getRadian(event.x, event.y)
+                    if (mCurrentValue != getCurrentValue()) {
+                        if (mCircleValueListener != null) {
+                            mCircleValueListener?.onColorValueChanged(getCurrentValue())
+                        }
+
                     }
                 }
             }

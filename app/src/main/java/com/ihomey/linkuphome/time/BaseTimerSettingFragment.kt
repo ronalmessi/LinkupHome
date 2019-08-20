@@ -61,12 +61,12 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
-        viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
+        viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mControlDevice = it
             controller = ControllerFactory().createController(mControlDevice.type)
             mViewModel.setCurrentDeviceId(it.id)
         })
-        mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
+        mViewModel.mCurrentLocalState.observe(viewLifecycleOwner, Observer<Resource<LocalState>> {
             if (it.status == Status.SUCCESS) {
                 if(it.data!=null) mLocalState = it.data
                 if(!isUserTouch){
@@ -197,29 +197,6 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         updateDeviceLocalSate()
     }
 
-    protected fun getMinuteList(): ArrayList<String> {
-        val list = ArrayList<String>()
-        for (i in 0..59) {
-            if (i < 10) {
-                list.add("0$i")
-            } else {
-                list.add("" + i)
-            }
-        }
-        return list
-    }
-
-    protected fun getHourList(): ArrayList<String> {
-        val list = ArrayList<String>()
-        for (i in 0..23) {
-            if (i < 10) {
-                list.add("0$i")
-            } else {
-                list.add("" + i)
-            }
-        }
-        return list
-    }
 
     private fun getPeriodMinute(selectHour: Int, selectMinute: Int): Int {
         val calendar = Calendar.getInstance()
