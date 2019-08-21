@@ -27,6 +27,7 @@ import com.ihomey.linkuphome.getMinuteList
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
+import com.ihomey.linkuphome.syncTime
 import java.util.*
 
 
@@ -65,6 +66,7 @@ open class V2TimerSettingFragment : BaseFragment() {
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mControlDevice = it
+            if(listener.isMeshServiceConnected())syncTime(mControlDevice.instructId)
             mViewModel.setCurrentDeviceId(it.id)
         })
         mViewModel.mCurrentLocalState.observe(viewLifecycleOwner, Observer<Resource<LocalState>> {
@@ -74,7 +76,6 @@ open class V2TimerSettingFragment : BaseFragment() {
             }
         })
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -148,7 +149,8 @@ open class V2TimerSettingFragment : BaseFragment() {
         closeCalendar.set(Calendar.MINUTE, wheel_timer_minute_close.currentItemPosition)
         mLocalState.closeTimer = closeCalendar.timeInMillis
         mLocalState.closeTimerOn = 1
-        if (listener.isMeshServiceConnected()){ controller.setTimer(mControlDevice.instructId,wheel_timer_minute_open.currentItemPosition,wheel_timer_hour_open.currentItemPosition,wheel_timer_minute_close.currentItemPosition,wheel_timer_hour_close.currentItemPosition)}
+        if (listener.isMeshServiceConnected())controller.setTimer(mControlDevice.instructId,wheel_timer_minute_open.currentItemPosition,wheel_timer_hour_open.currentItemPosition,wheel_timer_minute_close.currentItemPosition,wheel_timer_hour_close.currentItemPosition)
+
         updateDeviceLocalSate()
     }
 
