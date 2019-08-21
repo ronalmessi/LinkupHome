@@ -147,10 +147,10 @@ public class BluetoothSPP {
                     if(mDeviceState==BluetoothSPPState.STATE_LISTEN){
                         if(mBluetoothStateListener!=null)mBluetoothStateListener.onServerStartListen();
                     }else if(mDeviceState==BluetoothSPPState.STATE_CONNECTING){
-                        Log.d("bg_timer_setting_on_v2", "--$name---$address---onDeviceConnecting");
+                        Log.d("bg_timer_setting_on_v2", "--"+mDeviceName+"---"+mDeviceAddress+"---onDeviceConnecting");
                       if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnecting(mDeviceName,mDeviceAddress);
                     }else if(mDeviceState==BluetoothSPPState.STATE_CONNECTED){
-                        Log.d("bg_timer_setting_on_v2", "--$name---$address---onDeviceConnected");
+                        Log.d("bg_timer_setting_on_v2", "--"+mDeviceName+"---"+mDeviceAddress+"---onDeviceConnected");
                         if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnected(mDeviceName,mDeviceAddress);
                         if(mBluetoothStateListener!=null)mBluetoothStateListener.onDeviceConnected(mDeviceName,mDeviceAddress);
 //                        if(mAutoConnectDeviceAddressList.contains(mDeviceAddress)){
@@ -159,11 +159,11 @@ public class BluetoothSPP {
 //                            if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnected(mDeviceName,mDeviceAddress);
 //                        }
                     }else if(mDeviceState==BluetoothSPPState.STATE_CONNECT_FAILED){
-                        Log.d("bg_timer_setting_on_v2", "--$name---$address---onDeviceConnectFailed");
+                        Log.d("bg_timer_setting_on_v2", "--"+mDeviceName+"---"+mDeviceAddress+"---onDeviceConnectFailed");
                         if(mBluetoothConnectionListener!=null)mBluetoothConnectionListener.onDeviceConnectFailed(mDeviceName,mDeviceAddress);
                         if(mAutoConnectDeviceAddressList.contains(mDeviceAddress)) connect(mDeviceAddress);
                     }else if(mDeviceState==BluetoothSPPState.STATE_CONNECTION_LOST){
-                        Log.d("bg_timer_setting_on_v2", "--$name---$address---onDeviceDisConnected");
+                        Log.d("bg_timer_setting_on_v2", "--"+mDeviceName+"---"+mDeviceAddress+"---onDeviceDisConnected");
                         if(mBluetoothStateListener!=null) mBluetoothStateListener.onDeviceDisConnected(mDeviceName,mDeviceAddress);
                         if(mAutoConnectDeviceAddressList.contains(mDeviceAddress)) connect(mDeviceAddress);
                     }

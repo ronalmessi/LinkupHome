@@ -56,6 +56,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
     private lateinit var adapter: ScanDeviceListAdapter
     private lateinit var countDownTimer: AssociateDeviceCountDownTimer
     private val deviceAssociateFragment = DeviceAssociateFragment()
+    private var connectingDeviceAddress:String?=null
 
     private var currentZone: Zone? = null
 
@@ -126,6 +127,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
             if(TextUtils.equals("0",it0.id)){
                 val pairedDeviceAddress=BluetoothSPP.getInstance()?.pairedDeviceAddress
                 if(pairedDeviceAddress!=null&& pairedDeviceAddress.any {TextUtils.equals(it,it0.macAddress)}){
+                    connectingDeviceAddress=it0.macAddress
                     deviceAssociateFragment.isCancelable = false
                     deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
                     countDownTimer.start()
@@ -170,28 +172,38 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         }
 
         override fun onDeviceConnected(name: String?, address: String) {
-            val device = Device(0,DeviceType.values()[0].name,address)
-            val position = adapter.data.indexOf(device) ?: -1
-            if (position != -1) {
-                adapter.getItem(position)?.id=address
-                adapter.notifyItemChanged(position)
-            }
-            viewModel.saveDevice(0,currentZone?.id!!,DeviceType.values()[0].name,address)
-            val controller = M1Controller()
-            controller.getFirmwareVersion(address)
-            countDownTimer.cancel()
-            if (adapter.data.none { TextUtils.equals("0",it.id) }){
-                deviceAssociateFragment.onAssociateProgressChanged(0)
-                deviceAssociateFragment.dismiss()
-                Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+            connectingDeviceAddress?.let {
+                if(TextUtils.equals(address,it)){
+                    val device = Device(0,DeviceType.values()[0].name,address)
+                    val position = adapter.data.indexOf(device) ?: -1
+                    if (position != -1) {
+                        adapter.getItem(position)?.id=address
+                        adapter.notifyItemChanged(position)
+                    }
+                    viewModel.saveDevice(0,currentZone?.id!!,DeviceType.values()[0].name,address)
+                    val controller = M1Controller()
+                    controller.getFirmwareVersion(address)
+                    countDownTimer.cancel()
+                    if (adapter.data.none { TextUtils.equals("0",it.id)}&&deviceAssociateFragment.isVisible&&deviceAssociateFragment.userVisibleHint){
+                        deviceAssociateFragment.onAssociateProgressChanged(0)
+                        deviceAssociateFragment.dismiss()
+                        Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+                    }
+                }
             }
         }
 
-        override fun onDeviceConnectFailed(name: String?, address: String?) {
-            countDownTimer.cancel()
-            deviceAssociateFragment.onAssociateProgressChanged(0)
-            deviceAssociateFragment.dismiss()
-            activity?.toast("未检测到床头灯信号，请确保床头灯已开启，并且处于可控制范围内。", Toast.LENGTH_SHORT)
+        override fun onDeviceConnectFailed(name: String?, address: String) {
+            connectingDeviceAddress?.let {
+                if(TextUtils.equals(address,it)){
+                    countDownTimer.cancel()
+                    if(deviceAssociateFragment.isVisible&&deviceAssociateFragment.userVisibleHint){
+                        deviceAssociateFragment.onAssociateProgressChanged(0)
+                        deviceAssociateFragment.dismiss()
+                        activity?.toast("未检测到床头灯信号，请确保床头灯已开启，并且处于可控制范围内。", Toast.LENGTH_SHORT)
+                    }
+                }
+            }
         }
     }
 }

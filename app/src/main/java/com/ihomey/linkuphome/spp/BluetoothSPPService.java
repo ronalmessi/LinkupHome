@@ -110,8 +110,6 @@ public class BluetoothSPPService {
 
     private Boolean isDeviceConnected(String deviceAddress){
         ConnectedThread mConnectedThread=mConnectedThreadMap.get(deviceAddress);
-        if(mConnectedThread!=null)  Log.d("bg_timer_setting_on_v2",deviceAddress+"---"+mConnectedThread.mmSocket.isConnected());
-
         return mConnectedThread!=null&&mConnectedThread.mmSocket.isConnected();
     }
 
