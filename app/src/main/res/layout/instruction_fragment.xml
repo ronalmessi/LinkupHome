@@ -28,10 +28,113 @@
     </com.ihomey.linkuphome.widget.CompatToolbar>
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_m1_instruction"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="0dp"
+        app:contentPaddingTop="@dimen/_8sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_m1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_lamp_m1_white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_m1"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_instruction_bottom"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_12sdp">
+
+                <ImageView
+                    android:id="@+id/iv_m1_manual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_manual" />
+
+                <TextView
+                    android:id="@+id/tv_instruction_m1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:text="智能床头灯操作指南"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_18ssp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_mesh_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="0dp"
+        app:contentPaddingTop="@dimen/_8sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_mesh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_mesh_instruction" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_mesh"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_instruction_bottom"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_12sdp">
+
+                <ImageView
+                    android:id="@+id/iv_mesh_manual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_manual" />
+                <TextView
+                    android:id="@+id/tv_instruction_mesh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:text="蓝牙MESH灯具操作指南"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_18ssp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>

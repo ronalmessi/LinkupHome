@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.instruction_fragment.*
 import com.ihomey.linkuphome.adapter.ImageViewAdapter
 import com.ihomey.linkuphome.adapter.M1InstructionsPageAdapter
 import com.ihomey.linkuphome.base.LocaleHelper
-import kotlinx.android.synthetic.main.instruction_fragment.viewPager
 import kotlinx.android.synthetic.main.m1_instruction_fragment.*
 
 

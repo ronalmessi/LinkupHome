@@ -109,10 +109,24 @@
         android:label="WebViewFragment" />
 
     <fragment
+        android:id="@+id/instructionDetailFragment"
+        android:name="com.ihomey.linkuphome.setting.InstructionDetailFragment"
+        tools:layout="@layout/instruction_detail_fragment"
+        android:label="InstructionDetailFragment" />
+
+    <fragment
         android:id="@+id/instructionFragment"
         android:name="com.ihomey.linkuphome.setting.InstructionFragment"
         tools:layout="@layout/instruction_fragment"
-        android:label="InstructionFragment" />
+        android:label="InstructionFragment" >
+
+    <action
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+        android:id="@+id/action_instructionFragment_to_instructionDetailFragment"
+        app:destination="@id/instructionDetailFragment" />
+
+    </fragment>
 
 
     <fragment
