@@ -132,12 +132,12 @@
 
 
     <string name="title_turn_on_power">打開電源</string>
-    <string name="hint_turn_on_power">按下背面&#160;&#160;&#160;開關開啟床頭燈，此時你將聽到歡迎語。</string>
+    <string name="hint_turn_on_power">按下背面&#160;&#160;&#160;開關開啟床頭燈，此時\n你將聽到歡迎語。</string>
     <string name="title_turn_on_bluetooth">按下藍牙</string>
     <string name="hint_turn_on_bluetooth">按下頂部&#160;&#160;&#160;藍牙鍵進入藍牙配對模式。</string>
     <string name="title_pain_bluetooth">配對藍牙</string>
-    <string name="hint_pain_bluetooth">打開藍牙設置，在可用設備列表中選擇\n帶有耳機&#160;&#160;&#160;圖標的M1床頭燈，成功\n連接後的M1床頭燈將顯示在已配對\n的設備列表中。</string>
-
+    <string name="hint_pair_bluetooth_1">打開藍牙設置，在可用設備列表中選擇\n帶有耳機&#160;&#160;&#160;圖標的M1床頭燈，成功\n連接後的M1床頭燈將顯示在已配對\n的設備列表中。</string>
+    <string name="hint_pair_bluetooth_2">注意:需要连接带有&#160;&#160;&#160;图标的M1，而非&#160;&#160;&#160;图标的M1</string>
 
     <string name="title_scene_mode_flow">流水模式</string>
     <string name="title_scene_mode_seek">追逐模式</string>
@@ -162,6 +162,10 @@
     <string name="action_edit">编辑</string>
     <string name="title_quit_zone">退出空間</string>
     <string name="msg_quit_shared_zone">是否退出共享空間？</string>
+
+    <string name="title_on">开启</string>
+    <string name="title_off">关闭</string>
+    <string name="title_welcom_home">欢迎回家</string>
 
 
 </resources>

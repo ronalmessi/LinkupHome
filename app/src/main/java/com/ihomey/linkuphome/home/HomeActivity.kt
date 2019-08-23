@@ -235,7 +235,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
             val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
             val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
-            NotifyManager.getInstance(applicationContext).showNotify("欢迎回家", getString(R.string.title_pm25)+"："+pm25Value+"，"+getString(R.string.title_hcho)+"："+hchoValue+" μg/m³，"+getString(R.string.title_voc)+"："+ getVOCLevel(vocValue))
+            NotifyManager.getInstance(applicationContext).showNotify(getString(R.string.title_welcom_home), getString(R.string.title_pm25)+"："+pm25Value+"，"+getString(R.string.title_hcho)+"："+hchoValue+" μg/m³，"+getString(R.string.title_voc)+"："+ getVOCLevel(vocValue))
             var lastPushTime by PreferenceHelper("lastPushTime", 0L)
             lastPushTime=System.currentTimeMillis()
         }

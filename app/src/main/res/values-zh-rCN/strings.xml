@@ -134,7 +134,8 @@
     <string name="title_turn_on_bluetooth">按下蓝牙</string>
     <string name="hint_turn_on_bluetooth">按下顶部&#160;&#160;&#160;蓝牙键进入蓝牙配对模式。</string>
     <string name="title_pain_bluetooth">配对蓝牙</string>
-    <string name="hint_pain_bluetooth">打开蓝牙设置，在可用设备列表中选择\n带有耳机&#160;&#160;&#160;图标的M1床头灯，成功\n连接后的M1床头灯将显示在已配对的\n设备列表中。</string>
+    <string name="hint_pair_bluetooth_1">打开蓝牙设置，在可用设备列表中选择\n带有耳机&#160;&#160;&#160;图标的M1床头灯，成功\n连接后的M1床头灯将显示在已配对的\n设备列表中。</string>
+    <string name="hint_pair_bluetooth_2">注意:需要连接带有&#160;&#160;&#160;图标的M1，而非&#160;&#160;&#160;图标的M1</string>
     <string name="title_scene_mode_flow">流水模式</string>
     <string name="title_scene_mode_seek">追逐模式</string>
     <string name="title_scene_mode_surf">海浪模式</string>
@@ -174,4 +175,7 @@
     <string name="msg_quit_shared_zone">是否退出共享空间？</string>
 
 
+    <string name="title_on">开启</string>
+    <string name="title_off">关闭</string>
+    <string name="title_welcom_home">欢迎回家</string>
 </resources>

@@ -135,7 +135,8 @@
     <string name="title_turn_on_bluetooth">Press Bluetooth</string>
     <string name="hint_turn_on_bluetooth">Press the top &#160;&#160;&#160;Bluetooth button\n to enter Bluetooth pairing mode.</string>
     <string name="title_pain_bluetooth">Pair Bluetooth</string>
-    <string name="hint_pain_bluetooth">Turn on the Bluetooth settings and select\n the M1 bedside lamp with the headset&#160;\n&#160;&#160; icon in the list of available devices. \nThe successfully connected M1 bedside  \nlamp will appear in the list of paired devices.</string>
+    <string name="hint_pair_bluetooth_1">Turn on the Bluetooth settings and select\n the M1 bedside lamp with the headset&#160;\n&#160;&#160; icon in the list of available devices. \nThe successfully connected M1 bedside  \nlamp will appear in the list of paired devices.</string>
+    <string name="hint_pair_bluetooth_2">Notes：need to connect the M1 with&#160;&#160;&#160;icon，not the M1 with&#160;&#160;&#160;icon.</string>
     <string name="title_scene_mode_flow">Flowing</string>
     <string name="title_scene_mode_seek">Chasing</string>
     <string name="title_scene_mode_surf">Waving</string>
@@ -174,5 +175,9 @@
 
     <string name="title_quit_zone">Quit home</string>
     <string name="msg_quit_shared_zone">Do you want to quit the sharing home?</string>
+
+    <string name="title_on">ON</string>
+    <string name="title_off">OFF</string>
+    <string name="title_welcom_home">Welcome Home</string>
 
 </resources>
