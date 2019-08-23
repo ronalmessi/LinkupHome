@@ -187,16 +187,16 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                         Handler().postDelayed({controller.getEnvironmentalValue(address) }, 5000)
                     }
                 } else {
-                    toast("床头灯已连接", Toast.LENGTH_SHORT)
+                    toast(R.string.msg_m1_connected, Toast.LENGTH_SHORT)
                 }
             }
 
             override fun onServerStartListen() {
-                Log.d("aa", "onServerStartListen")
+
             }
 
             override fun onDeviceDisConnected(name: String?, address: String?) {
-                if (!isBackground) toast("床头灯连接已断开", Toast.LENGTH_SHORT)
+                if (!isBackground) toast(R.string.msg_m1_disconnected, Toast.LENGTH_SHORT)
             }
         })
     }
@@ -227,18 +227,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, message,address ->
-        Log.d("aa", "---" + Hex.toHexString(data))
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
         if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
-//            toast("当前床头灯为"+receiveDataStr, Toast.LENGTH_SHORT)
             val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
-//            toast("当前床头灯为"+if(sensorType==0) "高配版本" else "低配版本", Toast.LENGTH_SHORT)
             mViewModel.updateM1Version(address,sensorType)
         }else if (receiveDataStr.startsWith("FE01D101DA000BC107")&&isBackground) {
             val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
             val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
             val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
-            NotifyManager.getInstance(applicationContext).showNotify("欢迎回家", "入肺颗粒物："+pm25Value+"，甲醛含量："+hchoValue+" μg/m³，空气质量："+ getVOCLevel(vocValue))
+            NotifyManager.getInstance(applicationContext).showNotify("欢迎回家", getString(R.string.title_pm25)+"："+pm25Value+"，"+getString(R.string.title_hcho)+"："+hchoValue+" μg/m³，"+getString(R.string.title_voc)+"："+ getVOCLevel(vocValue))
             var lastPushTime by PreferenceHelper("lastPushTime", 0L)
             lastPushTime=System.currentTimeMillis()
         }

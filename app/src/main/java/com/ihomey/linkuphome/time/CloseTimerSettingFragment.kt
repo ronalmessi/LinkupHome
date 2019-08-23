@@ -14,6 +14,8 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.getHourList
+import com.ihomey.linkuphome.getMinuteList
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.suke.widget.SwitchButton
 import kotlinx.android.synthetic.main.close_timer_setting_fragment.btn_timer_setting_edit
@@ -109,29 +111,6 @@ open class CloseTimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedCha
     }
 
 
-    private fun getMinuteList(): ArrayList<String> {
-        val list = ArrayList<String>()
-        for (i in 0..59) {
-            if (i < 10) {
-                list.add("0$i")
-            } else {
-                list.add("" + i)
-            }
-        }
-        return list
-    }
-
-    private fun getHourList(): ArrayList<String> {
-        val list = ArrayList<String>()
-        for (i in 0..23) {
-            if (i < 10) {
-                list.add("0$i")
-            } else {
-                list.add("" + i)
-            }
-        }
-        return list
-    }
 
     private fun saveTime(){
         parentFragment.let {

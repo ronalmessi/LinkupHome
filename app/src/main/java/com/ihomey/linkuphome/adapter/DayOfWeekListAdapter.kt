@@ -16,7 +16,7 @@ import java.lang.StringBuilder
  * Created by dongcaizheng on 2018/4/11.
  */
 
-class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) : BaseQuickAdapter<String, BaseViewHolder>(layoutId) {
+class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) : BaseQuickAdapter<Int, BaseViewHolder>(layoutId) {
 
     init {
         addData(AppConfig.DAY_OF_WEEK)
@@ -54,7 +54,7 @@ class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) :
         return Integer.parseInt(dayOfWeekHBinaryStr.toString(), 2)
     }
 
-    override fun convert(helper: BaseViewHolder, item: String) {
+    override fun convert(helper: BaseViewHolder, item: Int) {
         helper.setText(R.id.tv_name, item)
         val titleTextView = helper.getView<TextView>(R.id.tv_name)
         val drawable = ContextCompat.getDrawable(mContext, if (!isItemSelected(helper.adapterPosition)) R.mipmap.ic_zone_flag else R.mipmap.ic_zone_flag_current)

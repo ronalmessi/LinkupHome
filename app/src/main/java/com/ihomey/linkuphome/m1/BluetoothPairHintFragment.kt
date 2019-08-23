@@ -37,10 +37,8 @@ class BluetoothPairHintFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val spannableString1 = SpannableString("打开手机蓝牙设置，在可用设备列表中选择\n带有耳机   图标的M1床头灯， 成功\n连接后的M1床头灯将显示在已配对的\n设备列表中。")
+        val spannableString1 = SpannableString(tv_bluetooth_pair_hint.text)
         val image1 = CenterImageSpan(context, R.mipmap.ic_earphone)
-        spannableString1.setSpan(image1, 25, 26, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        tv_bluetooth_pair_hint.text = spannableString1
 
 
         val spannableString2 = SpannableString("注意:需要连接\n带有   图标的M1，而非 图标的M1")
@@ -50,6 +48,16 @@ class BluetoothPairHintFragment : BaseFragment() {
         val image3 = CenterImageSpan(context, R.mipmap.ic_bluetooth_button)
         spannableString2.setSpan(image3, 21, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_bluetooth_pair_warning.text = spannableString2
+
+
+        val currentLanguage = LocaleHelper.getLanguage(context)
+        if(TextUtils.equals("en",currentLanguage)){
+            spannableString1.setSpan(image1, 82, 83, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }else{
+            spannableString1.setSpan(image1, 23, 24, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        tv_bluetooth_pair_hint.text = spannableString1
     }
 
 }

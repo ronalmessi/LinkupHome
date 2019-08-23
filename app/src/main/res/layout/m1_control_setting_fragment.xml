@@ -73,7 +73,7 @@
                     android:drawablePadding="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:drawableEnd="@mipmap/ic_info"
-                    android:text="睡眠模式" />
+                    android:text="@string/title_sleep_mode" />
 
                 <Space
                     android:layout_width="0dp"
@@ -101,7 +101,7 @@
                 app:horizontalMargin="@dimen/_20sdp"
                 app:isShowDivider="false"
                 app:leftIcon="@mipmap/ic_timer_setting"
-                app:leftText="灯光定时"
+                app:leftText="@string/title_timer_setting"
                 app:leftTextColor="@android:color/black"
                 app:leftTextSize="@dimen/_16ssp"
                 app:rightIcon="@drawable/ic_arrow_setting"
@@ -128,7 +128,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/_16ssp"
                     android:layout_marginLeft="@dimen/_16sdp"
-                    android:text="手势控制" />
+                    android:text="@string/title_gesture_control" />
 
                 <com.suke.widget.SwitchButton
                     android:id="@+id/sb_gesture_control"
@@ -150,7 +150,7 @@
                 app:horizontalMargin="@dimen/_20sdp"
                 app:isShowDivider="false"
                 app:leftIcon="@mipmap/ic_sync_time"
-                app:leftText="时间同步"
+                app:leftText="@string/title_sync_time"
                 app:leftTextColor="@android:color/black"
                 app:leftTextSize="@dimen/_16ssp"
                 app:rightIcon="@mipmap/ic_refresh_time"

@@ -63,8 +63,9 @@ class V2Controller : Controller() {
     }
 
     fun setTimer(deviceId: Int, openMinuteValue: Int, openHourValue: Int,closeMinuteValue: Int,closeHourValue: Int) {
-        val code_lawn_timer = "C201F305C7" + (if (openHourValue >= 10) ""+openHourValue else "0$openHourValue")+ (if (openMinuteValue >= 10) ""+openMinuteValue else "0$openMinuteValue")+(if (closeHourValue >= 10) ""+closeHourValue else "0$closeHourValue")+ (if (closeMinuteValue >= 10) ""+closeMinuteValue else "0$closeMinuteValue")
-        Log.d("aa",code_lawn_timer)
+        val code_lawn_timer_prefix = "C201F305C7" + (if (openHourValue >= 10) ""+openHourValue else "0$openHourValue")+ (if (openMinuteValue >= 10) ""+openMinuteValue else "0$openMinuteValue")+(if (closeHourValue >= 10) ""+closeHourValue else "0$closeHourValue")+ (if (closeMinuteValue >= 10) ""+closeMinuteValue else "0$closeMinuteValue")
+        val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16)+ Integer.parseInt(code_lawn_timer_prefix.substring(16, 18), 16))
+        val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check)
         DataModelApi.sendData(deviceId, decodeHex(code_lawn_timer.toCharArray()), false)
     }
 }

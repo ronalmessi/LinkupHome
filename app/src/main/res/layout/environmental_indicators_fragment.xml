@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:maxEms="9"
-            android:text="环境检测"
+            android:text="@string/title_environment_monitor"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="甲醛含量"
+            android:text="@string/title_hcho"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_14ssp"/>
 
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="PM2.5"
+            android:text="@string/title_pm25"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_14ssp"/>
 
@@ -174,7 +174,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="VOC空气质量"
+            android:text="@string/title_voc"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_14ssp"/>
 

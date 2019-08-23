@@ -20,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_12sdp"
-        android:text="添加闹钟"
+        android:text="@string/title_add_alarm"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/_12ssp" />
+        android:textSize="@dimen/_14ssp" />
 
 </LinearLayout>

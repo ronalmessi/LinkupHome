@@ -91,6 +91,10 @@ fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, length).show()
 }
 
+fun Context.toast(message: Int, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, message, length).show()
+}
+
 fun Context.toast(errorCode: String) {
     var message = ""
     when (errorCode) {
@@ -302,34 +306,34 @@ fun getShortName(type: DeviceType) =
             DeviceType.T1 -> "iHomey T1"
         }
 
-fun getHCHOLevel(hchoValue: Int): String {
+fun getHCHOLevel(hchoValue: Int): Int {
     return when {
-        hchoValue<1000 -> "正常"
-        hchoValue in 1000..1999 -> "正常"
-        hchoValue in 2000..4999 -> "正常"
-        else -> "严重污染"
+        hchoValue<1000 -> R.string.title_level_normal
+        hchoValue in 1000..1999 -> R.string.title_level_normal
+        hchoValue in 2000..4999 -> R.string.title_level_normal
+        else -> R.string.title_level_pollution_severely
     }
 }
 
 
-fun getVOCLevel(vocValue: Int): String {
+fun getVOCLevel(vocValue: Int): Int {
     return when (vocValue) {
-        0 -> "洁净空气"
-        1 -> "轻微污染"
-        2 -> "中度污染"
-        3 -> "重度污染"
-        else -> "未知"
+        0 -> R.string.title_level_voc_good
+        1 -> R.string.title_level_pollution_lightly
+        2 -> R.string.title_level_pollution_moderately
+        3 -> R.string.title_level_pollution_heavily
+        else -> R.string.title_level_normal
     }
 }
 
-fun getPM25Level(pm25Value: Int): String {
+fun getPM25Level(pm25Value: Int): Int {
     return when {
-        pm25Value<50 -> "优"
-        pm25Value in 50..99 -> "良"
-        pm25Value in 100..149 -> "轻度污染"
-        pm25Value in 150..199 -> "中度污染"
-        pm25Value in 200..299 -> "重度污染"
-        else -> "严重污染"
+        pm25Value<50 ->  R.string.title_level_good
+        pm25Value in 50..99 -> R.string.title_level_moderate
+        pm25Value in 100..149 -> R.string.title_level_pollution_lightly
+        pm25Value in 150..199 -> R.string.title_level_pollution_moderately
+        pm25Value in 200..299 ->  R.string.title_level_pollution_heavily
+        else -> R.string.title_level_pollution_severely
     }
 }
 

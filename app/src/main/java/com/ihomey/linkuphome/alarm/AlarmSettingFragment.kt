@@ -51,21 +51,22 @@ open class AlarmSettingFragment : BaseFragment() {
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
             if(mInitialAlarm==null)mInitialAlarm=Alarm(0,"",it.dayOfWeek,it.hour,it.minute,it.ringType,it.type,0)
             mAlarm = it
-            tv_title.text = if (mAlarm.editMode != 0) "编辑闹钟" else "添加闹钟"
+            tv_title.setText(if (mAlarm.editMode != 0) R.string.title_edit_alarm else R.string.title_add_alarm)
             updateViews(it)
         })
     }
 
     private fun updateViews(alarm: Alarm?) {
-        alarm?.let {
-            tsv_alarm_setting.setTime(it.hour, it.minute)
-            infoTextLayout_alarm_setting_ring.setTextValue(AppConfig.RING_LIST[it.ringType])
-            sb_light_mode.isChecked = it.type > 1
+        alarm?.let {it0->
+            tsv_alarm_setting.setTime(it0.hour, it0.minute)
+            context?.resources?.let { infoTextLayout_alarm_setting_ring.setTextValue(it.getString(AppConfig.RING_LIST[it0.ringType])) }
+            sb_light_mode.isChecked = it0.type > 1
             val dayOfWeeStringBuilder = StringBuilder()
-            val dayOfWeekHexStr = Integer.toBinaryString(it.dayOfWeek)
+            val dayOfWeekHexStr = Integer.toBinaryString(it0.dayOfWeek)
             for (i in 0 until dayOfWeekHexStr.length) {
                 if (TextUtils.equals("1", dayOfWeekHexStr[i].toString())) {
-                    dayOfWeeStringBuilder.append(AppConfig.DAY_OF_WEEK[(7 - dayOfWeekHexStr.length + i)]).append("  ")
+                    context?.resources?.let { dayOfWeeStringBuilder.append(it.getString(AppConfig.DAY_OF_WEEK[(7 - dayOfWeekHexStr.length + i)])).append("  ") }
+
                 }
             }
             infoTextLayout_alarm_setting_repeat.setTextValue(dayOfWeeStringBuilder.toString().dropLast(2))

@@ -34,9 +34,14 @@ class TurnOnBluetoothHintFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val spannableString = SpannableString("按下顶部   蓝牙配对键进入蓝牙配对模式。")
+        val spannableString = SpannableString(tv_turn_on_bluetooth_hint.text)
         val image = CenterImageSpan(context, R.mipmap.ic_bluetooth_button)
-        spannableString.setSpan(image, 5, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val currentLanguage = LocaleHelper.getLanguage(context)
+        if(TextUtils.equals("en",currentLanguage)){
+            spannableString.setSpan(image, 15, 16, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }else{
+            spannableString.setSpan(image, 5, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
         tv_turn_on_bluetooth_hint.text = spannableString
     }
 

@@ -8,6 +8,8 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextUtils
+import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.widget.CenterImageSpan
 import kotlinx.android.synthetic.main.m1_turn_on_power_hint.*
 
@@ -24,9 +26,18 @@ class TurnOnPowerHintFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val spannableString = SpannableString("按下背部   开关键开启床头灯，此时\n你将听到欢迎语。")
+
+        val spannableString = SpannableString(tv_turn_on_power_hint.text)
         val image = CenterImageSpan(context, R.mipmap.ic_power_button)
-        spannableString.setSpan(image, 5, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val currentLanguage = LocaleHelper.getLanguage(context)
+        if(TextUtils.equals("en",currentLanguage)){
+            spannableString.setSpan(image, 16, 17, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }else{
+            spannableString.setSpan(image, 5, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+
         tv_turn_on_power_hint.text = spannableString
     }
 

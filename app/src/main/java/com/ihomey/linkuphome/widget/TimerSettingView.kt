@@ -119,23 +119,23 @@ class TimerSettingView : View {
         mTextPaint.getTextBounds("24", 0, 2, rect)
 
         val mAMPMRect = Rect()
-        mAMPMPaint.getTextBounds("上午 ", 0, 2, mAMPMRect)
+        mAMPMPaint.getTextBounds(context.getString(R.string.title_am), 0, 2, mAMPMRect)
 
         var hour = getCurrentHour()
         val hourStr: String
         if(hour<=12){
             hourStr = if (hour < 10) "0$hour" else hour.toString()
             mAMPMPaint.color=mReachedColor
-            canvas.drawText("上午", mCx- mAMPMPaint.measureText("上午") - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+            canvas.drawText(context.getString(R.string.title_am), mCx- mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
             mAMPMPaint.color=mUnReachedColor
-            canvas.drawText("下午", mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+            canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
         }else{
             hour -= 12
             hourStr = if (hour < 10) "0$hour" else hour.toString()
             mAMPMPaint.color=mUnReachedColor
-            canvas.drawText("上午", mCx- mAMPMPaint.measureText("上午") - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+            canvas.drawText(context.getString(R.string.title_am), mCx- mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
             mAMPMPaint.color=mReachedColor
-            canvas.drawText("下午", mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+            canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
         }
 
         mTextPaint.getTextBounds(hourStr, 0, hourStr.length, rect)
@@ -315,13 +315,11 @@ class TimerSettingView : View {
 
     private fun isInMinuteSliderButton(x: Float, y: Float): Boolean {
         val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
-        Log.d("bg_timer_setting_on_v2","minute---"+(distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength))
         return distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength
     }
 
     private fun isInHourSliderButton(x: Float, y: Float): Boolean {
         val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
-        Log.d("bg_timer_setting_on_v2","hour---"+(distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius))
         return  distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius
     }
 

@@ -43,7 +43,7 @@
             app:layout_constraintRight_toRightOf="@+id/guideline2"
             android:layout_marginTop="@dimen/_18sdp"
             android:padding="@dimen/_8sdp"
-            android:text="请打开手机蓝牙，以确保应用能正常使用"
+            android:text="@string/msg_turn_on_bluetooth"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/tv_dialog_title"
             android:textColor="#807F85"

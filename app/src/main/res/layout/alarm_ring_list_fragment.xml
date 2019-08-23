@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="铃声选择"
+            android:text="@string/title_choose_ring"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />

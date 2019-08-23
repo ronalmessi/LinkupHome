@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.csr.mesh.DataModelApi
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
@@ -188,7 +189,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

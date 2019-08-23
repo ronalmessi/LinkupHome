@@ -133,7 +133,7 @@ open class V2TimerSettingFragment : BaseFragment() {
             }
             val bundle=Bundle()
             bundle.putString("sourceUrl", "http://app-docs.linkuphome.net/#/V2AboutTimer/$currentLanguage")
-            bundle.putString("title","定时循环")
+            bundle.putString("title",context?.getString(R.string.title_timer_cycle))
             Navigation.findNavController(view).navigate(R.id.action_v2TimerSettingFragment_to_webViewFragment,bundle)
         }
     }

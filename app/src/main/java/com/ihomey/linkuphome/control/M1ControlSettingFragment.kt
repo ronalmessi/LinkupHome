@@ -48,7 +48,7 @@ class M1ControlSettingFragment : BaseFragment() {
                 sb_sleep_mode.isChecked=isSleepModeOn
                 sb_sleep_mode.postDelayed(sleepModeRunnable,500)
             }else{
-                activity?.toast(if(isSleepModeOn)"已开启睡眠模式" else "已取消睡眠模式",Toast.LENGTH_SHORT)
+                activity?.toast(if(isSleepModeOn) R.string.msg_sleep_mode_on else R.string.msg_sleep_mode_off,Toast.LENGTH_SHORT)
             }
         }else if(receiveDataStr.startsWith("FE01D101DA0004C70101")){
             val isGestureControlEnabled=TextUtils.equals("01",receiveDataStr.substring(20,22))
@@ -57,10 +57,10 @@ class M1ControlSettingFragment : BaseFragment() {
                 sb_gesture_control.isChecked=isGestureControlEnabled
                 sb_gesture_control.postDelayed(gestureControlRunnable,500)
             }else{
-                activity?.toast(if(isGestureControlEnabled)"已开启手势控制" else "已取消手势控制",Toast.LENGTH_SHORT)
+                activity?.toast(if(isGestureControlEnabled) R.string.msg_gesture_control_on else R.string.msg_gesture_control_off,Toast.LENGTH_SHORT)
             }
         }else if(receiveDataStr.startsWith("FE01D101DA000AC3012")){
-            activity?.toast("时间已同步", Toast.LENGTH_SHORT)
+            activity?.toast( R.string.msg_sync_time_success, Toast.LENGTH_SHORT)
         }
     }
 

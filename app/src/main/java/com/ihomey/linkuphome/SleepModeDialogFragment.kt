@@ -18,6 +18,8 @@ class SleepModeDialogFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_sleep_mode, container, false)
         view.findViewById<ImageButton>(R.id.btn_close).setOnClickListener { dismiss() }
+        view.findViewById<TextView>(R.id.tv_dialog_content).setText(context?.getString(R.string.msg_sleep_mode1)+"\n\n"+context?.getString(R.string.msg_sleep_mode2))
+
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         return view

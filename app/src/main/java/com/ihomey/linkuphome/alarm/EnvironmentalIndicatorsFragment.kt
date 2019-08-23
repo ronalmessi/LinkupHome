@@ -87,7 +87,7 @@ open class EnvironmentalIndicatorsFragment : BaseFragment() {
             val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
             updateEnvironmentalIndicatorViews(pm25Value, hchoValue, vocValue)
         }else if (TextUtils.equals("FE01D101DA0004C2050101CD16", receiveDataStr)) {
-            activity?.toast("音乐播放模式下，不支持环境检测", Toast.LENGTH_SHORT)
+            activity?.toast(R.string.msg_playing_music, Toast.LENGTH_SHORT)
         }
     }
 
@@ -97,12 +97,13 @@ open class EnvironmentalIndicatorsFragment : BaseFragment() {
         val hchoSpannableString = SpannableString("$hchoValue ug/m³")
         hchoSpannableString.setSpan(relativeSizeSpan, 0, hchoSpannableString.length - 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tv_hcho_value.text = hchoSpannableString
-        tv_hcho_value_level.text= getHCHOLevel(hchoValue)
+        tv_hcho_value_level.setText(getHCHOLevel(hchoValue))
         val pm25SpannableString = SpannableString("$pm25Value ug/m³")
         pm25SpannableString.setSpan(relativeSizeSpan, 0, hchoSpannableString.length - 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tv_pm25_value.text = pm25SpannableString
-        tv_pm25_value_level.text= getPM25Level(pm25Value)
+        tv_pm25_value_level.setText(getPM25Level(pm25Value))
+
         tv_voc_value.text = "" + vocValue
-        tv_voc_value_level.text= getVOCLevel(vocValue)
+        tv_voc_value_level.setText(getVOCLevel(vocValue))
     }
 }

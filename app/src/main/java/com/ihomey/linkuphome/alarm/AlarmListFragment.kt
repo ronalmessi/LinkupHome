@@ -152,13 +152,16 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         if(receiveDataStr.startsWith("FE01D101DA0003C4")&&!isDelete){
             val isOn=TextUtils.equals("01",receiveDataStr.substring(16, 18))
             val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-            showCustomToast("闹钟" + alarmId + if(isOn) "已开启" else "已关闭")
+            when(alarmId){
+                1->{if(isOn) showCustomToast(R.string.msg_first_clock_on) else showCustomToast(R.string.msg_first_clock_off)}
+                2->{if(isOn) showCustomToast(R.string.msg_second_clock_on) else showCustomToast(R.string.msg_second_clock_off)}
+            }
         }
         isDelete=false
     }
 
 
-    private fun showCustomToast(name: String) {
+    private fun showCustomToast(contentRes:Int) {
         context?.let {
             val toast = Toast(it)
             toast.setGravity(Gravity.BOTTOM, 0,it.dip2px(64f))
@@ -168,7 +171,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
             textView.setPadding(it.dip2px(24f), it.dip2px(10f), it.dip2px(24f), it.dip2px(10f))
             textView.setTextColor(resources.getColor(android.R.color.black))
             textView.setBackgroundResource(R.drawable.bg_custom_toast)
-            textView.text = name
+            textView.setText(contentRes)
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen._18ssp))
             toast.view = textView
             toast.show()

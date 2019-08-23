@@ -130,7 +130,7 @@
             app:horizontalMargin="@dimen/_20sdp"
             app:isShowDivider="false"
             app:leftIcon="@mipmap/ic_alarm_setting_ring"
-            app:leftText="铃声"
+            app:leftText="@string/title_ring"
             app:leftTextColor="@android:color/black"
             app:leftTextSize="@dimen/_16ssp"
             app:rightIcon="@drawable/ic_arrow_setting"
@@ -160,7 +160,7 @@
                 android:layout_marginEnd="@dimen/_18sdp"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_16ssp"
-                android:text="灯光"/>
+                android:text="@string/title_light"/>
 
 
             <com.suke.widget.SwitchButton

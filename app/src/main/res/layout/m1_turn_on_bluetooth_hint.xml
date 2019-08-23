@@ -42,7 +42,7 @@
         android:textColor="#000000"
         android:layout_marginTop="@dimen/_32sdp"
         android:textSize="@dimen/_24ssp"
-        android:text="按下蓝牙"/>
+        android:text="@string/title_turn_on_bluetooth"/>
 
     <TextView
         android:id="@+id/tv_turn_on_bluetooth_hint"
@@ -52,6 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_turn_on_bluetooth"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="#000000"
+        android:text="@string/hint_turn_on_bluetooth"
         android:layout_marginTop="@dimen/_16sdp"
         android:textSize="@dimen/_15ssp" />
 

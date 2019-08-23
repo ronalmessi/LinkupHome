@@ -39,6 +39,8 @@
     <string name="home">Home</string>
     <string name="title_device">Device</string>
     <string name="msg_no_device">No devices, please add</string>
+    <string name="msg_add_device">Add device</string>
+    <string name="title_zone">Home</string>
     <string name="title_setting">Settings</string>
     <string name="action_delete">Delete</string>
     <string name="action_remove_device">Do you want to disconnect and delete device?</string>
@@ -50,7 +52,7 @@
     <string name="title_lamp_a2">CCT Bulb</string>
     <string name="title_lamp_r2">RGB Bulb</string>
     <string name="title_lamp_c3">Outdoor Light</string>
-    <string name="title_lamp_v1">Mini Garden light</string>
+    <string name="title_lamp_v1">Mini Garden Light</string>
     <string name="title_lamp_s2">CCT Spotlight</string>
     <string name="title_lamp_s1">RGB Spotlight</string>
     <string name="title_lamp_t1">RGB Downlight</string>
@@ -67,7 +69,7 @@
     <string name="title_step2">Step 2</string>
     <string name="msg_device_reset_hint5">Please use the switch to reset device:\n1. Switch off the light\n2. Switch on the light, then switch off the light after 1-2 seconds.\n3. Switch on the light again, then switch off the light after 1-2 seconds.\n4. Switch light on the third time, when the light flash 3 times, it means the device is reset to defaults.\n\n* If no light flashes 3 times, please repeat above steps until reset successfully.\n* Do not turn on and off lights too fast, usually every 1-2 seconds.</string>
     <string name="msg_device_searching">Searching</string>
-    <string name="msg_notes">Notes</string>
+    <string name="msg_notes">Notes:</string>
     <string name="msg_search_device_fail">If the device is not found within 10 seconds, please try to reset the device.</string>
     <string name="title_connect_device">Connecting devices</string>
     <string name="action_connect_device">Tap to connect</string>
@@ -101,18 +103,24 @@
     <string name="title_invitation_code">My Invitation Code</string>
     <string name="msg_share_zone_hint1">The sharing function only can be available when connect to the network. Please make sure the WiFi or network is turned on in mobile phone.</string>
     <string name="msg_share_zone_hint2">Share the automatically generated invitation code with your family and friends.</string>
-    <string name="msg_share_zone_hint3">The invitee also needs to connect to the network,  enter into "join a home" and input the invitation code to control the lights together.</string>
+    <string name="msg_share_zone_hint3">The invitee also needs to connect to the network,  enter into "join a home" and input the invitation code to control the lights together.</string>
     <string name="msg_join_zone_hint1">Request home host to create invitation code and share it with you.
-(settings → share a home→  select a home → generate invitation code→  share invitation code)</string>
+(settings → share a home→  select a home → generate invitation code→  share invitation code)</string>
     <string name="msg_join_zone_hint2">Input the invitation code below:</string>
-    <string name="msg_share_zone_hint4">Notes: if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.                                      It means how many lights on, how many persons can control toghter.</string>
+    <string name="msg_share_zone_hint4">Notes: if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.                                      It means how many lights on, how many persons can control toghter.</string>
+    <string name="title_error_invitation_code">Wrong invitation code</string>
     <string name="msg_error_invitation_code">Sorry, the invitation code is wrong or not exist.</string>
     <string name="msg_delete_zone_hint">Devices in the current home are still connected, please go to the device list to delete devices one by one, then you can delete the current home.</string>
     <string name="action_go_to_devices">Go to device list</string>
     <string name="msg_minimum_zone">Please reserve at least one home for adding devices</string>
     <string name="action_join">Join</string>
-    <string name="title_quit_zone">Quit home</string>
-    <string name="msg_quit_shared_zone">Do you want to quit the sharing home?</string>
+    <string name="title_environment_monitor">Environmental monitoring</string>
+    <string name="title_sleep_mode">Sleep mode</string>
+    <string name="title_timer_setting">Light timer</string>
+    <string name="title_gesture_control">Gesture control</string>
+    <string name="title_sync_time">Time sync</string>
+    <string name="msg_sleep_mode1">When this mode is on, the power and clock indicator light will be accordingly turned on and off with the light of bedside lamp.</string>
+    <string name="msg_sleep_mode2">Recommend you to turn on this mode, in case of being bothered with the indicator light during sleep.</string>
     <string name="title_scene_mode">Scene mode</string>
     <string name="title_scene_mode_read">Reading</string>
     <string name="title_scene_mode_sunset">Sunset</string>
@@ -121,25 +129,81 @@
     <string name="title_scene_mode_rainforest">Rainforest</string>
     <string name="title_open_time">Light turn on time</string>
     <string name="title_close_time">Light turn off time</string>
-    <string name="action_edit">Edit</string>
+    <string name="title_every_sun">Every Sun.</string>
+    <string name="title_every_mon">Every Mon.</string>
+    <string name="title_every_tue">Every Tue.</string>
+    <string name="title_every_wed">Every Wed.</string>
+    <string name="title_every_thur">Every Thur.</string>
+    <string name="title_every_fri">Every Fri.</string>
+    <string name="title_every_sat">Every Sat.</string>
+    <string name="title_alarm">Alarm clock</string>
+    <string name="title_add_alarm">Add an alarm</string>
+    <string name="title_edit_alarm">Edit alarm clock</string>
     <string name="action_repeat">Repeat</string>
+    <string name="title_ring">Ring</string>
+    <string name="title_light">Light</string>
+    <string name="title_choose_ring">Choose ring</string>
+    <string name="title_ring_1">Sea waves and seagulls</string>
+    <string name="title_ring_2">Relaxed and happy</string>
+    <string name="title_ring_3">On the cloud</string>
+    <string name="title_pm25">PM2.5</string>
+    <string name="title_hcho">Formaldehyde Content</string>
+    <string name="title_level_good">Good</string>
+    <string name="title_level_moderate">Moderate</string>
+    <string name="title_level_normal">Normal</string>
+    <string name="title_level_pollution_severely">Severely Polluted</string>
+    <string name="title_level_pollution_lightly">Lightly polluted</string>
+    <string name="title_level_pollution_moderately">Moderately polluted</string>
+    <string name="title_level_pollution_heavily">Heavily Polluted</string>
+    <string name="title_voc">VOC Air Quality</string>
+    <string name="title_level_voc_good">Clean Air</string>
+    <string name="title_ring_0">none</string>
+    <string name="title_turn_on_power">Turn on the power</string>
+    <string name="hint_turn_on_power">Press the back &#160;&#160;&#160;&#160;switch to turn on\n the bedside lamp and you will hear the\n welcome message.</string>
+    <string name="title_turn_on_bluetooth">Press Bluetooth</string>
+    <string name="hint_turn_on_bluetooth">Press the top &#160;&#160;&#160;Bluetooth button\n to enter Bluetooth pairing mode.</string>
+    <string name="title_pain_bluetooth">Pair Bluetooth</string>
+    <string name="hint_pain_bluetooth">Turn on the Bluetooth settings and select\n the M1 bedside lamp with the headset&#160;\n&#160;&#160; icon in the list of available devices. \nThe successfully connected M1 bedside  \nlamp will appear in the list of paired devices.</string>
     <string name="title_scene_mode_flow">Flowing</string>
     <string name="title_scene_mode_seek">Chasing</string>
     <string name="title_scene_mode_surf">Waving</string>
     <string name="title_scene_mode_rainbow">Rainbow</string>
     <string name="title_scene_mode_star">Starry</string>
+    <string name="msg_sync_time_success">Time synced</string>
     <string name="msg_device_disconnected">Disconnected</string>
     <string name="title_language_setting">Select the language</string>
     <string name="msg_device_connected">Connected</string>
     <string name="msg_device_connect_failed">Connection fails. Please restart the device to connect.</string>
     <string name="title_scene_mode_lighting">Lighting mode</string>
+    <string name="title_timer_cycle">Timing cycle</string>
     <string name="msg_device_connecting">Connecting</string>
-    <string name="title_lamp_v2">Solar mini garden light</string>
+    <string name="title_lamp_v2">Solar Mini Garden Light</string>
+    <string name="title_am">AM</string>
+    <string name="title_pm">PM</string>
     <string name="msg_join_zone_success">Joined</string>
+    <string name="msg_sleep_mode_on">Sleep mode is on</string>
+    <string name="msg_sleep_mode_off">Sleep mode is off</string>
+    <string name="msg_gesture_control_on">Gesture control is on</string>
+    <string name="msg_gesture_control_off">Gesture control is off</string>
+    <string name="msg_first_clock_on">Clock 1 is on</string>
+    <string name="msg_first_clock_off">Clock 1 is off</string>
+    <string name="msg_second_clock_on">Clock 2 is on</string>
+    <string name="msg_second_clock_off">Clock 2 is off</string>
+    <string name="msg_m1_connected">Bedside lamp is connected</string>
+    <string name="msg_m1_disconnected">Bedside lamp is disconnected</string>
+    <string name="msg_turn_on_bluetooth">Please turn on your phone Bluetooth to make sure the app works properly.</string>
+    <string name="hint_request_location_permission">Please go to "Settings - Application Management - Select this application - Permission Management - Open Location / Device Information Permissions" to ensure that the app works properly.</string>
+    <string name="msg_m1_connect_failed">The signal of bedside lamp is not detected, please ensure that the bedside lamp is on and within the controlled distance.</string>
+    <string name="title_m1_instruction">Smart Bedside Lamp Manual</string>
+    <string name="title_mesh_instruction">Bluetooth Mesh Lighting Manual</string>
+    <string name="msg_playing_music">Environmental monitoring is not available when playing music.</string>
+
+
+    <string name="title_quit_zone">Quit home</string>
+    <string name="msg_quit_shared_zone">Do you want to quit the sharing home?</string>
 
 
 
-    <string name="msg_sleep_mode_hint">此模式开启状态下，电源指示灯和时钟显示随床头灯灯光同步开启和关闭。\n\n为避免指示灯灯光影响您的休息，建议在睡眠过程中开启此功能。
-</string>
+    <string name="action_edit">Edit</string>
 
 </resources>

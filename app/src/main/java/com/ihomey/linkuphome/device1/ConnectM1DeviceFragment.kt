@@ -64,7 +64,6 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         return inflater.inflate(R.layout.connect_device_fragment, container, false)
     }
 
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as DevicesStateListener
@@ -200,7 +199,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
                     if(deviceAssociateFragment.isVisible&&deviceAssociateFragment.userVisibleHint){
                         deviceAssociateFragment.onAssociateProgressChanged(0)
                         deviceAssociateFragment.dismiss()
-                        activity?.toast("未检测到床头灯信号，请确保床头灯已开启，并且处于可控制范围内。", Toast.LENGTH_SHORT)
+                        activity?.toast(R.string.msg_m1_connect_failed, Toast.LENGTH_LONG)
                     }
                 }
             }

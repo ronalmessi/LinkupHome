@@ -26,7 +26,7 @@ class InstructionDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_title.text=if(arguments?.getInt("type")==0)"智能床头灯操作指南" else "蓝牙MESH灯具操作指南"
+        tv_title.setText(if(arguments?.getInt("type")==0) R.string.title_m1_instruction else R.string.title_mesh_instruction)
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         var currentLanguage = LocaleHelper.getLanguage(context)
         currentLanguage = when {
@@ -37,8 +37,14 @@ class InstructionDetailFragment : BaseFragment() {
             else -> "en"
         }
         val imageUrlList= mutableListOf<String>()
-        for(i in 1..18){
-            imageUrlList.add(AppConfig.INSTRUCTIONS_BASE_URL+currentLanguage+"/"+(if(i<10) "0"+i else ""+i)+".jpg")
+        if(arguments?.getInt("type")==0){
+            for(i in 3..11){
+                imageUrlList.add(AppConfig.INSTRUCTIONS_BASE_URL+"m1_guide/"+currentLanguage+"/m1_"+i+".jpg")
+            }
+        } else{
+            for(i in 1..18){
+                imageUrlList.add(AppConfig.INSTRUCTIONS_BASE_URL+currentLanguage+"/"+(if(i<10) "0$i" else ""+i)+".jpg")
+            }
         }
         val adapter = ImageViewAdapter(imageUrlList, context)
         viewPager.adapter = adapter
