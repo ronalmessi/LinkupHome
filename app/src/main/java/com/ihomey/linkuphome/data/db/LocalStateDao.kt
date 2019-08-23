@@ -13,10 +13,10 @@ import com.ihomey.linkuphome.data.entity.LocalState
 abstract class LocalStateDao {
 
 
-    @Query("SELECT * FROM local_state WHERE id = :id")
+    @Query("SELECT * FROM local_state1 WHERE id = :id")
     abstract fun getLocalState(id: String): LiveData<LocalState>
 
-    @Query("DELETE FROM local_state WHERE id = :id")
+    @Query("DELETE FROM local_state1 WHERE id = :id")
     abstract fun delete(id: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

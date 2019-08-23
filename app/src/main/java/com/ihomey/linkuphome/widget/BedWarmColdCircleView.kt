@@ -98,10 +98,10 @@ class BedWarmColdCircleView : View {
         mValuePaint.isDither = true
         mValuePaint.style = Paint.Style.FILL
         mTextPaint.typeface =Typeface.createFromAsset(context.assets, "PingFang_Bold.ttf")
-        mTextPaint.textSize =  mTextSize * 2.3f
+        mTextPaint.textSize =  mTextSize * 2f
 
         mValuePaint.isAntiAlias = true
-        mValuePaint.textSize = mTextSize * 2.5f
+        mValuePaint.textSize = mTextSize * 2.2f
         mValuePaint.color = Color.WHITE
         mValuePaint.style = Paint.Style.FILL//实心画笔
         mValuePaint.typeface = Typeface.createFromAsset(context.assets, "PingFang_Bold.ttf")

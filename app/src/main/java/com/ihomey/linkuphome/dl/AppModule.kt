@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.dl
 
+import androidx.room.PrimaryKey
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -60,9 +61,23 @@ class AppModule {
                 database.execSQL("DROP TABLE model")
             }
 
-        }).build()
+        }).addMigrations(MIGRATION_2_3).build()
     }
 
+
+    /**
+     * 数据库版本 2->3
+     */
+    private val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("CREATE TABLE device2 (id TEXT not null,zoneId INTEGER not null,roomId INTEGER not null,name TEXT not null,type INTEGER not null,instructId INTEGER not null,parameters TEXT , PRIMARY KEY(id))")
+            database.execSQL("CREATE TABLE local_state1 (id TEXT not null,sceneMode INTEGER DEFAULT 0, openTimer INTEGER not null DEFAULT 0,closeTimer INTEGER not null DEFAULT 0,isOnOpenTimer INTEGER not null DEFAULT 0,isOnCloseTimer INTEGER not null DEFAULT 0,openDayOfWeek INTEGER not null DEFAULT 0,closeDayOfWeek INTEGER not null DEFAULT 0, PRIMARY KEY(id))")
+            database.execSQL("CREATE TABLE alarm (id INTEGER not null,deviceId TEXT not null,dayOfWeek INTEGER not null DEFAULT 0, hour INTEGER not null DEFAULT 0,minute INTEGER not null DEFAULT 0,ringType INTEGER not null DEFAULT 1,type INTEGER not null DEFAULT 1,isOn INTEGER not null DEFAULT 0, PRIMARY KEY(id))")
+
+            database.execSQL("DROP TABLE device1")
+            database.execSQL("DROP TABLE local_state")
+        }
+    }
 
     @Singleton
     @Provides
