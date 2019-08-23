@@ -135,6 +135,7 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
                     Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
                 }
             }
+
         }
     }
 

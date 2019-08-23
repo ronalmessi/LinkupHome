@@ -37,10 +37,10 @@ class TurnOnBluetoothHintFragment : BaseFragment() {
         val spannableString = SpannableString(tv_turn_on_bluetooth_hint.text)
         val image = CenterImageSpan(context, R.mipmap.ic_bluetooth_button)
         val currentLanguage = LocaleHelper.getLanguage(context)
-        if(TextUtils.equals("en",currentLanguage)){
-            spannableString.setSpan(image, 15, 16, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }else{
+        if(TextUtils.equals("zh-rCN",currentLanguage)||TextUtils.equals("zh-rTW",currentLanguage)){
             spannableString.setSpan(image, 5, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }else{
+            spannableString.setSpan(image, 15, 16, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         tv_turn_on_bluetooth_hint.text = spannableString
     }

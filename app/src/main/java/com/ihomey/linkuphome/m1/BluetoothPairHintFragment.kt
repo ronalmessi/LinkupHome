@@ -42,15 +42,8 @@ class BluetoothPairHintFragment : BaseFragment() {
         val spannableString2 = SpannableString(tv_bluetooth_pair_warning.text)
 
         val currentLanguage = LocaleHelper.getLanguage(context)
-        if(TextUtils.equals("en",currentLanguage)){
-            spannableString1.setSpan(image1, 82, 83, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            spannableString2.setSpan( StyleSpan(Typeface.BOLD), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            val image2 = CenterImageSpan(context, R.mipmap.ic_earphone)
-            spannableString2.setSpan(image2, 34, 35, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            val image3 = CenterImageSpan(context, R.mipmap.ic_bluetooth_button)
-            spannableString2.setSpan(image3, 58, 59, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        }else{
+        if(TextUtils.equals("zh-rCN",currentLanguage)||TextUtils.equals("zh-rTW",currentLanguage)){
+            iv_phone.setImageResource(R.mipmap.ic_phone_zh)
             spannableString1.setSpan(image1, 23, 24, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             spannableString2.setSpan( StyleSpan(Typeface.BOLD), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -58,8 +51,15 @@ class BluetoothPairHintFragment : BaseFragment() {
             spannableString2.setSpan(image2, 10, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             val image3 = CenterImageSpan(context, R.mipmap.ic_bluetooth_button)
             spannableString2.setSpan(image3, 21, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }else{
+            iv_phone.setImageResource(R.mipmap.ic_phone_en)
+            spannableString1.setSpan(image1, 82, 83, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannableString2.setSpan( StyleSpan(Typeface.BOLD), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            val image2 = CenterImageSpan(context, R.mipmap.ic_earphone)
+            spannableString2.setSpan(image2, 34, 35, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            val image3 = CenterImageSpan(context, R.mipmap.ic_bluetooth_button)
+            spannableString2.setSpan(image3, 57, 58, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-
         tv_bluetooth_pair_hint.text = spannableString1
         tv_bluetooth_pair_warning.text = spannableString2
     }

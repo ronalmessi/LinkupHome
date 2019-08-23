@@ -79,7 +79,7 @@
     <string name="msg_join_zone_hint1">Poproś gospodarza domu o utworzenie kodu zaproszenia i udostępnienia ci go.
 (ustawienia → udostępnij dom→  wybierz dom → utwórz kod zaproszenia→  udostępnij kod zaproszenia)</string>
     <string name="msg_join_zone_hint2">Wpisz poniżej kod zaproszenia:</string>
-    <string name="msg_share_zone_hint4">Ważne: jeśli kilka osób chce razem sterować światłami, to świateł (mają być włączone) nie może być mniej niż urządzeń (telefonów/IPADów). Inaczej niektóre urządzenia nie będą mogły się połączyć i sterować.                                      Znaczy to, że ile jest włączonych świateł, tyle osób do wspólnego sterowania.</string>
+    <string name="msg_share_zone_hint4">Ważne: jeśli kilka osób chce razem sterować światłami, to świateł (mają być włączone) nie może być mniej niż urządzeń (telefonów/IPADów). Inaczej niektóre urządzenia nie będą mogły się połączyć i sterować.Znaczy to, że ile jest włączonych świateł, tyle osób do wspólnego sterowania.</string>
     <string name="title_error_invitation_code">Błędny kod zaproszenia</string>
     <string name="msg_error_invitation_code">Ten kod jest niepoprawny lub nie istnieje.</string>
     <string name="msg_delete_zone_hint">W aktualnym domu wciąż są podłączone urządzenia, przejdź do listy urządzeń i usuń je po kolei, a wtedy będzie można usunąć aktualny dom.</string>

@@ -107,7 +107,7 @@
     <string name="msg_join_zone_hint1">Request home host to create invitation code and share it with you.
 (settings → share a home→  select a home → generate invitation code→  share invitation code)</string>
     <string name="msg_join_zone_hint2">Input the invitation code below:</string>
-    <string name="msg_share_zone_hint4">Notes: if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.                                      It means how many lights on, how many persons can control toghter.</string>
+    <string name="msg_share_zone_hint4">Notes: if several persons want to control lights toghter, please make sure the lights (need to be turned on) no less than mobile devices (mobile phones/IPADs). Otherwise, some mobile devices cannot connect and control the lights.It means how many lights on, how many persons can control toghter.</string>
     <string name="title_error_invitation_code">Wrong invitation code</string>
     <string name="msg_error_invitation_code">Sorry, the invitation code is wrong or not exist.</string>
     <string name="msg_delete_zone_hint">Devices in the current home are still connected, please go to the device list to delete devices one by one, then you can delete the current home.</string>
@@ -164,7 +164,7 @@
     <string name="hint_turn_on_bluetooth">Press the top &#160;&#160;&#160;Bluetooth button\n to enter Bluetooth pairing mode.</string>
     <string name="title_pain_bluetooth">Pair Bluetooth</string>
     <string name="hint_pair_bluetooth_1">Turn on the Bluetooth settings and select\n the M1 bedside lamp with the headset&#160;\n&#160;&#160; icon in the list of available devices. \nThe successfully connected M1 bedside  \nlamp will appear in the list of paired devices.</string>
-    <string name="hint_pair_bluetooth_2">Notes：need to connect the M1 with&#160;&#160;&#160;icon，not the M1 with&#160;&#160;&#160;icon.</string>
+    <string name="hint_pair_bluetooth_2">Notes：\nneed to connect the M1 with&#160;&#160;&#160;icon，not the M1 with&#160;&#160;&#160;icon.</string>
     <string name="title_scene_mode_flow">Flowing</string>
     <string name="title_scene_mode_seek">Chasing</string>
     <string name="title_scene_mode_surf">Waving</string>

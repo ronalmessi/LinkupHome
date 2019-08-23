@@ -78,7 +78,7 @@
     <string name="msg_share_zone_hint3">被邀请者需要在联网环境下，进入“加入空间”，输入邀请码，即可一起操控灯光。</string>
     <string name="msg_join_zone_hint1">请求空间主人创建邀请码，并分享给您。（设置→ 分享空间→ 选择空间→ 生成邀请码→ 分享邀请码）</string>
     <string name="msg_join_zone_hint2">在下列方框中输入邀请码：</string>
-    <string name="msg_share_zone_hint4">注意：如需多人同时操控，请确保(开启状态下）的灯的数量不少于移动设备（手机/IPAD)）的数量，否则会出现部分移动设备搜索不到灯和控制不了灯的情况。                                有多少个开启的灯，就有多少人可以同时控制。</string>
+    <string name="msg_share_zone_hint4">注意：如需多人同时操控，请确保(开启状态下）的灯的数量不少于移动设备（手机/IPAD)）的数量，否则会出现部分移动设备搜索不到灯和控制不了灯的情况。有多少个开启的灯，就有多少人可以同时控制。</string>
     <string name="title_error_invitation_code">邀请码错误</string>
     <string name="msg_error_invitation_code">对不起，邀请码错误或不存在。</string>
     <string name="msg_delete_zone_hint">当前空间下仍有设备处于连接状态，请先返回设备列表依次删除设备，再删除当前空间</string>

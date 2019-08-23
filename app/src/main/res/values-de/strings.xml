@@ -80,8 +80,7 @@ Bitte stellen Sie sicher, dass Ihr Mobiltelefon mit dem WLAN verbunden ist oder 
     <string name="msg_join_zone_hint1">Fordern Sie den “Zuhause”-Gastgeber auf, einen Einladungscode zu erstellen und Ihnen diesen mitzuteilen.
 (Einstellungen → Aktuelles Zuhause → Zuhause teilen → Zu- hause auswählen → Einladungscode generieren → Einla- dungscode mitteilen → Einladungscode freigeben)</string>
     <string name="msg_join_zone_hint2">Einladungscode unten eingeben:</string>
-    <string name="msg_share_zone_hint4">Hinweis: Wenn mehrere Personen die Beleuchtung zusammen steuern wollen, stellen Sie bitte sicher, dass genauso viele Lichter (müssen eingeschaltet sein), wie Mobilgeräte (Smartphones/iPads) vorhanden sind.
-Eine Leuchte kann nicht von zwei Personen gleichzeitig gesteuert werden. Das heißt, es können nur so viele Personen ein Licht steuern, wie Lampen vorhanden sind.</string>
+    <string name="msg_share_zone_hint4">Hinweis: Wenn mehrere Personen die Beleuchtung zusammen steuern wollen, stellen Sie bitte sicher, dass genauso viele Lichter (müssen eingeschaltet sein), wie Mobilgeräte (Smartphones/iPads) vorhanden sind.Eine Leuchte kann nicht von zwei Personen gleichzeitig gesteuert werden. Das heißt, es können nur so viele Personen ein Licht steuern, wie Lampen vorhanden sind.</string>
     <string name="title_error_invitation_code">Falscher Einladungscode</string>
     <string name="msg_error_invitation_code">Es tut uns leid, der Einladungscode ist falsch oder existiert nicht.</string>
     <string name="msg_delete_zone_hint">Geräte im aktuellen Zuhause sind noch verbunden, bitte gehen Sie zur Geräteliste, um Geräte einzeln zu löschen, dann können Sie das aktuelle Zuhause löschen.</string>
