@@ -183,7 +183,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 if (isBackground) {
                     val lastPushTime by PreferenceHelper("lastPushTime", 0L)
                     val currentTimeMillis=System.currentTimeMillis()
-                    if(lastPushTime==0L||currentTimeMillis-lastPushTime>2*60*1000){
+                    if(lastPushTime==0L||currentTimeMillis-lastPushTime>6*60*60*1000){
                         Handler().postDelayed({controller.getEnvironmentalValue(address) }, 5000)
                     }
                 } else {

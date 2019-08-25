@@ -157,7 +157,6 @@ public class BluetoothSPPService {
     void write(String deviceAddress, byte[] out) {
         ConnectedThread mConnectedThread=mConnectedThreadMap.get(deviceAddress);
         if(mConnectedThread!=null&&mConnectedThread.mmSocket.isConnected()){
-            Log.d("bg_timer_setting_on_v2","send---"+deviceAddress);
             mConnectedThread.write(out);
         }
     }
