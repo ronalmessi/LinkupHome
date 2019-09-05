@@ -45,6 +45,9 @@
             android:enabled="true"
             android:exported="false"></service>
 
+        <service android:name="com.pairlink.sigmesh.lib.PlSigMeshService">
+        </service>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="58acff2499f0c75eff0008fc" />

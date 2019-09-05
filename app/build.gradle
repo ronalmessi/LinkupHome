@@ -81,18 +81,17 @@ kapt {
 }
 
 dependencies {
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'com.facebook.stetho:stetho:1.5.0'
+    //    implementation 'com.facebook.stetho:stetho:1.5.0'
 
     // CSRmesh
     implementation(name: 'CSRmeshLibrary', ext: 'aar')
 
     // Kotlin
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11'
-
     implementation 'com.umeng.analytics:analytics:6.1.4'
+
     //swipe RecyclerView
     implementation 'com.yanzhenjie.recyclerview:support:1.3.1'
 
@@ -133,14 +132,12 @@ dependencies {
 
     // InstaDotView
     implementation 'com.github.hrskrs:InstaDotView:1.1'
-
     implementation 'com.github.piasy:BigImageViewer:1.5.7'
 
     //encrypt
     def spongycastle_version = "1.51.0.0"
     implementation "com.madgag.spongycastle:core:$spongycastle_version"
     implementation "com.madgag.spongycastle:pkix:$spongycastle_version"
-
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
     implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
@@ -149,7 +146,6 @@ dependencies {
     //BaseRecyclerViewAdapterHelper
     def baseRecyclerViewAdapterHelper_version = "2.9.40"
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$baseRecyclerViewAdapterHelper_version"
-
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
