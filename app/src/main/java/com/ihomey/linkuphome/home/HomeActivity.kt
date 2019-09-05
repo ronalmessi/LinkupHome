@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.home
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -37,6 +38,7 @@ import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.pairlink.sigmesh.lib.*
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
@@ -51,8 +53,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     private lateinit var mViewModel: HomeActivityViewModel
     private var mService: MeshService? = null
+    private var mPlSigMeshService: PlSigMeshService? = null
+    private var mPlSigMeshNet: MeshNetInfo? = null
 
-    private var isBackground = false;
+    private var isBackground = false
     private var mConnected = false
     private val mDeviceIdToUuidHash = SparseIntArray()
     private val mConnectedDevices = HashSet<String>()
@@ -69,6 +73,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         initNavController()
         BluetoothSPP.getInstance().initialize(applicationContext)
         initSppService()
+
+//        val intent = Intent(this, PlSigMeshService::class.java)
+        bindService(Intent(this, PlSigMeshService::class.java), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE)
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
         initViewModel()
     }
@@ -106,6 +113,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         try {
             releaseResource()
             unbindService(mServiceConnection)
+            unbindService(mPlSigMeshServiceConnection)
         } catch (e: Exception) {
             Log.d("LinkupHome", "oh,some error happen!")
         }
@@ -164,6 +172,64 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         override fun onServiceDisconnected(classname: ComponentName) {
             mService = null
         }
+    }
+
+
+    private val mPlSigMeshServiceConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, rawBinder: IBinder) {
+            mPlSigMeshService =  (rawBinder as PlSigMeshService.LocalBinder).service
+            mPlSigMeshService?.let {
+//                it.registerProxyCb(mSigMeshProxyCB)
+//                it.registerProvisionCb(mSigMeshProvisionCB)
+//                it.scanDevice(true, Util.SCAN_TYPE_PROVISION)
+                mPlSigMeshNet=it.chooseMeshNet(0)
+                if(mPlSigMeshNet==null){
+//                    createPlSigMeshNet()
+                }
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            mPlSigMeshService = null
+        }
+    }
+
+    fun gen(): Int {
+        val r = Random(System.currentTimeMillis())
+        return 10000000 + r.nextInt(20000000)
+    }
+
+    private fun createPlSigMeshNet(){
+        val homeId_tmp = ""+gen()
+        val homeId = homeId_tmp.toByteArray()
+        val netkey = ByteArray(16)
+        val appkey = ByteArray(16)
+        for (i in 0..15) {
+            netkey[i] = 0
+            appkey[i] = 0
+        }
+        System.arraycopy(homeId, 0, netkey, 0, 4)
+        System.arraycopy(homeId, 4, appkey, 0, 4)
+        val mesh_net = MeshNetInfo()
+        mesh_net.name = homeId_tmp
+        mesh_net.node_next_addr = 2
+        mesh_net.admin_next_addr = 0x7ffe
+        mesh_net.mesh_version = 0
+        mesh_net.gateway = false
+        mesh_net.netkey = Util.byte2HexStr(netkey)
+        mesh_net.appkey = Util.byte2HexStr(appkey)
+        mesh_net.iv_index = 0
+        mesh_net.seq = 1
+        mesh_net.nodes.clear()
+        mesh_net.current_admin = PlSigMeshService.getInstance().current_admin
+        mesh_net.admin_nodes.clear()
+
+        val admin_node = MeshNetInfo.AdminNodeInfo()
+        admin_node.uuid = mesh_net.current_admin
+        admin_node.name = "user"
+        admin_node.addr = 0x7fff
+        mesh_net.admin_nodes.add(admin_node)
+        PlSigMeshService.getInstance().addMeshNet(mesh_net)
     }
 
     override fun connectBridge() {
@@ -350,6 +416,95 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
+    private val mSigMeshProxyCB=object : PlSigMeshProxyCallback(){
+        override fun onCTLStatus(src: Short, lightness: Int, temperature: Int) {
+            super.onCTLStatus(src, lightness, temperature)
+        }
+
+        override fun onSceneStoreChanged(src: Short, status: Int, current: Short, scene_list: MutableList<Short>?) {
+            super.onSceneStoreChanged(src, status, current, scene_list)
+        }
+
+        override fun onMeshStatus(status: Int, addr: String?) {
+            super.onMeshStatus(status, addr)
+        }
+
+        override fun onVendorUartData(src: Short, data: ByteArray?) {
+            super.onVendorUartData(src, data)
+        }
+
+        override fun onConfigComplete(result: Int, config_node: MeshNetInfo.MeshNodeInfo?, mesh_net: MeshNetInfo?) {
+            super.onConfigComplete(result, config_node, mesh_net)
+        }
+
+        override fun onTestCounterGet(src: Short, coutner: Int) {
+            super.onTestCounterGet(src, coutner)
+        }
+
+        override fun onHSLStatus(src: Short, lightness: Int, hue: Int, saturation: Int) {
+            super.onHSLStatus(src, lightness, hue, saturation)
+        }
+
+        override fun onDeviceFoundProxy(device: BluetoothDevice?, rssi: Int, dev_list_size: Int) {
+            super.onDeviceFoundProxy(device, rssi, dev_list_size)
+        }
+
+        override fun onSubsChanged(src: Short, status: Int, ele_addr: Short, subs_addr: Short, vendor: Short, model: Short) {
+            super.onSubsChanged(src, status, ele_addr, subs_addr, vendor, model)
+        }
+
+        override fun onDataReceived(src: Short, op: Int, data: ByteArray?, len: Int) {
+            super.onDataReceived(src, op, data, len)
+        }
+
+        override fun onNodeResetStatus(src: Short) {
+            super.onNodeResetStatus(src)
+        }
+
+        override fun onOnOffChanged(src: Short, onoff: Boolean) {
+            super.onOnOffChanged(src, onoff)
+        }
+
+        override fun onPubsChanged(src: Short, status: Int, ele_addr: Short, pubs_addr: Short, vendor: Short, model: Short) {
+            super.onPubsChanged(src, status, ele_addr, pubs_addr, vendor, model)
+        }
+
+        override fun onVendorBtFuncStatus(src: Short, status: Int, data: ByteArray?) {
+            super.onVendorBtFuncStatus(src, status, data)
+        }
+
+        override fun onPowerLevelChanged(src: Short, level: Short) {
+            super.onPowerLevelChanged(src, level)
+        }
+
+        override fun onVersionGet(src: Short, ver: String?) {
+            super.onVersionGet(src, ver)
+        }
+
+        override fun onJiechangConfigStatus(src: Short, data: ByteArray?, len: Int) {
+            super.onJiechangConfigStatus(src, data, len)
+        }
+
+        override fun onReliablePacketTimeout(op: String?, dst: Short) {
+            super.onReliablePacketTimeout(op, dst)
+        }
+
+        override fun onLevelChanged(src: Short, level: Short) {
+            super.onLevelChanged(src, level)
+        }
+
+        override fun onSceneChanged(src: Short, status: Int, current: Short) {
+            super.onSceneChanged(src, status, current)
+        }
+    }
+
+    private val mSigMeshProvisionCB = object : PlSigMeshProvisionCallback() {
+        override fun onDeviceFoundUnprovisioned(device: BluetoothDevice?, rssi: Int, uuid: String) {
+//            meshAssListener?.newAppearance(uuid, null, device.name)
+            Log.d("aa", "onDeviceFoundUnprovisioned---"+device!!.address + ", " + device.name + ", uuid:" + uuid)
+        }
+    }
+
 
     private fun onMessageTimeout(expectedMessage: Int, id: Int, meshRequestId: Int) {
         when (expectedMessage) {
@@ -391,6 +546,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         meshAssListener = if (enabled && listener != null) listener else null
         try {
             mService?.setDeviceDiscoveryFilterEnabled(enabled)
+            if(enabled){
+                mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
+                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROVISION)
+            }
         } catch (e: Exception) {
             Log.d("LinkupHome", "you should firstly connect to bridge!")
         }
