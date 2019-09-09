@@ -73,8 +73,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         initNavController()
         BluetoothSPP.getInstance().initialize(applicationContext)
         initSppService()
-
-//        val intent = Intent(this, PlSigMeshService::class.java)
         bindService(Intent(this, PlSigMeshService::class.java), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE)
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
         initViewModel()
@@ -179,12 +177,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         override fun onServiceConnected(name: ComponentName, rawBinder: IBinder) {
             mPlSigMeshService =  (rawBinder as PlSigMeshService.LocalBinder).service
             mPlSigMeshService?.let {
-//                it.registerProxyCb(mSigMeshProxyCB)
-//                it.registerProvisionCb(mSigMeshProvisionCB)
-//                it.scanDevice(true, Util.SCAN_TYPE_PROVISION)
+                it.init(this@HomeActivity, true, Util.DBG_LEVEL_WARN)
                 mPlSigMeshNet=it.chooseMeshNet(0)
+                it.registerProxyCb(mSigMeshProxyCB)
                 if(mPlSigMeshNet==null){
-//                    createPlSigMeshNet()
+                    createPlSigMeshNet()
+                    it.chooseMeshNet(0)
                 }
             }
         }
@@ -363,10 +361,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     }
                 }
                 MeshService.MESSAGE_DEVICE_APPEARANCE -> {
-                    val appearance = msg.data.getByteArray(MeshService.EXTRA_APPEARANCE)
+                    val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
                     val shortName = msg.data.getString(MeshService.EXTRA_SHORTNAME)
                     val uuidHash = msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
-                    parentActivity?.meshAssListener?.newAppearance(uuidHash, appearance, shortName)
+                    parentActivity?.meshAssListener?.onDeviceFound(uuidHash.toString(), address, shortName)
                 }
                 MeshService.MESSAGE_ASSOCIATING_DEVICE -> {
                     val progress = msg.data.getInt(MeshService.EXTRA_PROGRESS_INFORMATION)
@@ -426,7 +424,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
 
         override fun onMeshStatus(status: Int, addr: String?) {
-            super.onMeshStatus(status, addr)
+            Log.d("aa", "onMeshStatus---"+status)
+            when(status){
+                Util.PL_MESH_READY->{
+
+                }
+                Util.PL_MESH_JOIN_FAIL->{
+
+                }
+                Util.PL_MESH_EXIT->{
+
+                }
+            }
         }
 
         override fun onVendorUartData(src: Short, data: ByteArray?) {
@@ -434,7 +443,13 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
 
         override fun onConfigComplete(result: Int, config_node: MeshNetInfo.MeshNodeInfo?, mesh_net: MeshNetInfo?) {
-            super.onConfigComplete(result, config_node, mesh_net)
+            Log.d("aa", "onConfigComplete $result---"+config_node+"----"+mesh_net)
+            mPlSigMeshNet = mesh_net
+            val addr = config_node?.uuid
+//            Handler().postDelayed({ Toast.makeText(this@HomeActivity, "Config Success $addr", Toast.LENGTH_SHORT).show() }, 0)
+            if (Util.CONFIG_MODE_PROVISION_CONFIG_ONE_BY_ONE.toInt() == mPlSigMeshService?.get_config_mode()) {
+                Log.d("aa", "hahahha---100")
+            }
         }
 
         override fun onTestCounterGet(src: Short, coutner: Int) {
@@ -499,9 +514,22 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private val mSigMeshProvisionCB = object : PlSigMeshProvisionCallback() {
-        override fun onDeviceFoundUnprovisioned(device: BluetoothDevice?, rssi: Int, uuid: String) {
-//            meshAssListener?.newAppearance(uuid, null, device.name)
-            Log.d("aa", "onDeviceFoundUnprovisioned---"+device!!.address + ", " + device.name + ", uuid:" + uuid)
+        override fun onDeviceFoundUnprovisioned(device: BluetoothDevice, rssi: Int, uuid: String) {
+            meshAssListener?.onDeviceFound(uuid, device.address, device.name)
+            Log.d("aa", "onDeviceFoundUnprovisioned---"+device.address + ", " + device.name + ", uuid:" + uuid)
+        }
+
+        override fun onProvisionComplete(result: Int, provision_node: MeshNetInfo.MeshNodeInfo?, mesh_net: MeshNetInfo?) {
+            Log.d("aa", "onProvisionComplete $result")
+            mPlSigMeshNet = mesh_net
+            Log.d("aa", "get_config_mode----" + mPlSigMeshService?.get_config_mode())
+            if (Util.CONFIG_MODE_PROVISION_CONFIG_ONE_BY_ONE.toInt() == mPlSigMeshService?.get_config_mode()) {
+                Log.d("aa", "hahahha---50")
+            }
+        }
+
+        override fun onAdvProvisionComplete(mesh_net: MeshNetInfo?) {
+            Log.d("aa", "onAdvProvisionComplete $mesh_net")
         }
     }
 
@@ -546,10 +574,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         meshAssListener = if (enabled && listener != null) listener else null
         try {
             mService?.setDeviceDiscoveryFilterEnabled(enabled)
-            if(enabled){
-                mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
-                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROVISION)
-            }
+            mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
+            mPlSigMeshService?.scanDevice(enabled, Util.SCAN_TYPE_PROVISION)
         } catch (e: Exception) {
             Log.d("LinkupHome", "you should firstly connect to bridge!")
         }
@@ -565,9 +591,17 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
 
-    override fun associateDevice(uuidHash: Int, shortCode: String?) {
-        if (shortCode == null) {
-            mService?.associateDevice(uuidHash, 0, false)
+    override fun associateDevice(uuidHash: String, macAddress: String?) {
+        if (TextUtils.isEmpty(macAddress)) {
+            mService?.associateDevice(uuidHash.toInt(), 0, false)
+        }else{
+            mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROVISION)
+            mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
+            val unProvisionedDev = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macAddress)
+            Log.d("aa", unProvisionedDev.name + "---" + unProvisionedDev.address)
+            val info = Util.hexStringToBytes(uuidHash)
+            val ele_num = info[15]
+            mPlSigMeshService?.startProvision(unProvisionedDev, ele_num)
         }
     }
 

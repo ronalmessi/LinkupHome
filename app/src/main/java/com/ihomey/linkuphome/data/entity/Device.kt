@@ -15,7 +15,7 @@ import com.ihomey.linkuphome.data.db.DeviceStateValueConverter
 @Entity(tableName = "device2")
 data class Device(@PrimaryKey var id: String, @SerializedName("spaceId")var zoneId: Int, @SerializedName("groupId")var roomId: Int, var name: String,var type: Int, var instructId:Int, @TypeConverters(DeviceStateValueConverter::class) var parameters: DeviceState?): MultiItemEntity {
 
-    @Ignore var hash: Int=0
+    @Ignore var hash: String=""
 
     @Ignore var macAddress: String=""
 
@@ -29,12 +29,12 @@ data class Device(@PrimaryKey var id: String, @SerializedName("spaceId")var zone
             return false
         }
         val singleDevice = other as Device?
-        return  if(singleDevice?.hash!=0){
-            singleDevice?.hash == this.hash
-        }else if(!TextUtils.equals("",singleDevice.macAddress)){
-            TextUtils.equals(this.macAddress, singleDevice.macAddress)
+        return  if(!TextUtils.isEmpty(singleDevice?.hash)){
+            TextUtils.equals(this.hash, singleDevice?.hash)
+        }else if(!TextUtils.equals("",singleDevice?.macAddress)){
+            TextUtils.equals(this.macAddress, singleDevice?.macAddress)
         } else{
-            TextUtils.equals(this.id, singleDevice.id)
+            TextUtils.equals(this.id, singleDevice?.id)
         }
     }
 
@@ -46,7 +46,7 @@ data class Device(@PrimaryKey var id: String, @SerializedName("spaceId")var zone
         result = 31 * result + type
         result = 31 * result + instructId
         result = 31 * result + (parameters?.hashCode() ?: 0)
-        result = 31 * result + hash
+        result = 31 * result + hash.hashCode()
         result = 31 * result + macAddress.hashCode()
         return result
     }

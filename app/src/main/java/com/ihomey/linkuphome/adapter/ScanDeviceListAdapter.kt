@@ -43,7 +43,7 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
         val type=item.type
         val nameView = helper.getView<TextView>(R.id.tv_device_name)
         val iconView = helper.getView<ImageView>(R.id.iv_device_icon)
-        nameView.text = item.name
+        nameView.text = if(type==6) "V1" else item.name
         iconView.setImageResource(AppConfig.DEVICE_ICON[type])
         when (helper.itemViewType) {
             1 -> {

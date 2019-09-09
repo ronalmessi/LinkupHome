@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,11 +109,12 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         listener.discoverDevices(false, this)
     }
 
-    override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
+
+    override fun onDeviceFound(uuidHash: String, macAddress: String, name: String) {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
-        if (TextUtils.equals(deviceShortName, shortName)) {
+        if (TextUtils.equals(deviceShortName, name)) {
             val singleDevice1 = Device(type,deviceType.name)
             singleDevice1.hash = uuidHash
             if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
@@ -131,7 +133,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         context?.getIMEI()?.let { it1 ->
             viewModel.saveDevice(it1, currentZone?.id!!, type , deviceType.name).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                 if (it?.status == Status.SUCCESS&&it.data!=null) {
-                    it.data.hash=uuidHash
+                    it.data.hash=""+uuidHash
                     val position = adapter.data.indexOf(it.data) ?: -1
                     if (position != -1) {
                         adapter.getItem(position)?.id=it.data.id
@@ -160,7 +162,12 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
             if(TextUtils.equals("0",it.id)){
                 deviceAssociateFragment.isCancelable = false
                 deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
-                listener.associateDevice(it.hash, null)
+                if(TextUtils.equals("LinkupHome V1",it.name)){
+                    Log.d("aa",it.hash)
+                    listener.associateDevice(it.hash, it.macAddress)
+                }else{
+                    listener.associateDevice(it.hash, null)
+                }
             }
         }
     }
@@ -180,7 +187,7 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
 
     interface DevicesStateListener {
         fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?)
-        fun associateDevice(uuidHash: Int, shortCode: String?)
+        fun associateDevice(uuidHash: String, macAddress: String?)
     }
 
     private fun changeDeviceState(device: Device, key:String, value:String){

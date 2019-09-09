@@ -58,13 +58,18 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
     }
 
 
-    override fun newAppearance(uuidHash: Int, appearance: ByteArray, shortName: String) {
+    override fun onDeviceFound(uuidHash: String, macAddress: String, name: String) {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
-        if (TextUtils.equals(deviceShortName, shortName)) {
+        if(type!=6&&TextUtils.equals(deviceShortName, name)){
             val singleDevice1=Device(type,deviceType.name)
             singleDevice1.hash=uuidHash
+            viewModel.setScanDevice(singleDevice1)
+        }else if(type==6&&name.contains("V1")){
+            val singleDevice1=Device(type,name)
+            singleDevice1.hash=uuidHash
+            singleDevice1.macAddress=macAddress
             viewModel.setScanDevice(singleDevice1)
         }
     }
