@@ -72,6 +72,14 @@ class HomeActivityViewModel : ViewModel() {
     }
 
 
+    //remove device
+    val mRemoveSigmeshDeviceVo = MutableLiveData<RemoveDeviceVo>()
+
+    fun setRemoveSigmeshDeviceVo(removeDeviceVo: RemoveDeviceVo?) {
+        mRemoveSigmeshDeviceVo.value = removeDeviceVo
+    }
+
+
     //removeDeviceFlag
     private val removeDeviceFlag = MutableLiveData<Boolean>()
 

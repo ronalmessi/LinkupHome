@@ -308,31 +308,32 @@ fun getShortName(type: DeviceType) =
 
 fun getHCHOLevel(hchoValue: Int): Int {
     return when {
-        hchoValue<1000 -> R.string.title_level_normal
-        hchoValue in 1000..1999 -> R.string.title_level_normal
-        hchoValue in 2000..4999 -> R.string.title_level_normal
-        else -> R.string.title_level_pollution_severely
+        hchoValue<=30 -> R.string.title_level_good
+        hchoValue in 31..80 -> R.string.title_level_normal
+        hchoValue in 81..160 -> R.string.title_level_pollution_lightly
+        hchoValue in 161..200 -> R.string.title_level_pollution_moderately
+        else -> R.string.title_level_pollution_heavily
     }
 }
 
 
 fun getVOCLevel(vocValue: Int): Int {
     return when (vocValue) {
-        0 -> R.string.title_level_voc_good
-        1 -> R.string.title_level_pollution_lightly
-        2 -> R.string.title_level_pollution_moderately
-        3 -> R.string.title_level_pollution_heavily
+        1 -> R.string.title_level_voc_good
+        2 -> R.string.title_level_pollution_lightly
+        3 -> R.string.title_level_pollution_moderately
+        4 -> R.string.title_level_pollution_heavily
         else -> R.string.title_level_normal
     }
 }
 
 fun getPM25Level(pm25Value: Int): Int {
     return when {
-        pm25Value<50 ->  R.string.title_level_good
-        pm25Value in 50..99 -> R.string.title_level_moderate
-        pm25Value in 100..149 -> R.string.title_level_pollution_lightly
-        pm25Value in 150..199 -> R.string.title_level_pollution_moderately
-        pm25Value in 200..299 ->  R.string.title_level_pollution_heavily
+        pm25Value<=35 ->  R.string.title_level_good
+        pm25Value in 36..75 -> R.string.title_level_moderate
+        pm25Value in 76..115 -> R.string.title_level_pollution_lightly
+        pm25Value in 116..150 -> R.string.title_level_pollution_moderately
+        pm25Value in 151..250 ->  R.string.title_level_pollution_heavily
         else -> R.string.title_level_pollution_severely
     }
 }
@@ -349,7 +350,7 @@ fun getMinuteList(): ArrayList<String> {
     return list
 }
 
- fun getHourList(): ArrayList<String> {
+fun getHourList(): ArrayList<String> {
     val list = ArrayList<String>()
     for (i in 0..23) {
         if (i < 10) {
@@ -360,6 +361,7 @@ fun getMinuteList(): ArrayList<String> {
     }
     return list
 }
+
 
 
 

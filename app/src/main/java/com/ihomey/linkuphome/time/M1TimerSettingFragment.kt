@@ -24,6 +24,7 @@ import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.TimerSettingListener
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_timer_setting_m1.*
@@ -34,7 +35,7 @@ import java.lang.StringBuilder
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
+open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, TimerSettingListener {
 
     protected lateinit var viewModel: HomeActivityViewModel
     protected lateinit var mViewModel: SceneSettingViewModel
@@ -53,7 +54,7 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
          viewPager.offscreenPageLimit = 2
-         viewPager.adapter = TimerSettingAdapter(childFragmentManager)
+         viewPager.adapter = TimerSettingAdapter(childFragmentManager,this)
          toolbar_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
          rg_timer_setting.setOnCheckedChangeListener { _, checkedId ->
              viewPager.currentItem= if(checkedId==R.id.rb_timer_setting_on) 0 else 1
@@ -72,7 +73,7 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             mControlDevice = it
-            controller = ControllerFactory().createController(it.type)
+            controller = ControllerFactory().createController(it.type,TextUtils.equals("LinkupHome V1",it.name))
             mViewModel.setCurrentDeviceId(it.id)
         })
         mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
@@ -84,7 +85,7 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
         })
     }
 
-    fun saveTime(hour:Int,minute:Int){
+    override  fun saveTime(hour:Int,minute:Int){
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)
@@ -113,7 +114,23 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
         }
     }
 
-     fun updateTimerOnState(isChecked: Boolean) {
+    override fun enableEditTimer(flag: Boolean) {
+        rg_timer_setting.visibility = if (flag) View.GONE else View.VISIBLE
+        rcv_daysOfWeek.visibility = if (flag) View.VISIBLE else View.GONE
+        if(flag){
+            val dayOfWeekHexStr = if (viewPager.currentItem==0) Integer.toBinaryString(mLocalState.openDayOfWeek) else Integer.toBinaryString(mLocalState.closeDayOfWeek)
+            for (i in 0 until dayOfWeekHexStr.length) {
+                if (TextUtils.equals("1", dayOfWeekHexStr[i].toString())) {
+                    dayOfWeekListAdapter.setItemSelected(7-dayOfWeekHexStr.length+i,true)
+                }
+            }
+        }else{
+            dayOfWeekListAdapter.clearSelectedItems()
+        }
+    }
+
+
+    override fun updateTimerOnState(isChecked: Boolean) {
         if (viewPager.currentItem==0) {
             mLocalState.openTimerOn = if(isChecked) 1 else 0
             val calendar = Calendar.getInstance()
@@ -128,21 +145,6 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
         mControlDevice.let {
             mLocalState.id=it.id
             mViewModel.updateLocalState(mLocalState)
-        }
-    }
-
-    fun showDayOfWeeks(isVisible:Boolean){
-        rg_timer_setting.visibility = if (isVisible) View.GONE else View.VISIBLE
-        rcv_daysOfWeek.visibility = if (isVisible) View.VISIBLE else View.GONE
-        if(isVisible){
-            val dayOfWeekHexStr = if (viewPager.currentItem==0) Integer.toBinaryString(mLocalState.openDayOfWeek) else Integer.toBinaryString(mLocalState.closeDayOfWeek)
-            for (i in 0 until dayOfWeekHexStr.length) {
-                if (TextUtils.equals("1", dayOfWeekHexStr[i].toString())) {
-                    dayOfWeekListAdapter.setItemSelected(7-dayOfWeekHexStr.length+i,true)
-                }
-            }
-        }else{
-            dayOfWeekListAdapter.clearSelectedItems()
         }
     }
 

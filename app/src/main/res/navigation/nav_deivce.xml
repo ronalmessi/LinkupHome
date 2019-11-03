@@ -302,7 +302,7 @@
         android:id="@+id/repeatTimerSettingFragment"
         android:name="com.ihomey.linkuphome.time.RepeatTimerSettingFragment"
         android:label="fragment_timer_setting_repeat"
-        tools:layout="@layout/fragment_timer_setting_repeat" >
+        tools:layout="@layout/timer_setting_repeat_fragment" >
     </fragment>
 
 

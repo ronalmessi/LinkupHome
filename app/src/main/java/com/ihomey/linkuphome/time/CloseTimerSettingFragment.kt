@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.time
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -14,8 +15,10 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.device1.ConnectDeviceFragment
 import com.ihomey.linkuphome.getHourList
 import com.ihomey.linkuphome.getMinuteList
+import com.ihomey.linkuphome.listener.TimerSettingListener
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.suke.widget.SwitchButton
 import kotlinx.android.synthetic.main.close_timer_setting_fragment.btn_timer_setting_edit
@@ -31,9 +34,14 @@ import java.util.*
  */
 open class CloseTimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListener {
 
+    private lateinit var listener: TimerSettingListener
+
+    fun setTimerSettingListener(listener:TimerSettingListener){
+        this.listener=listener
+    }
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
-        updateTimerOnState(isChecked)
+        listener.updateTimerOnState(isChecked)
         frameLayout_timer_setting.isActivated=isChecked
     }
 
@@ -56,7 +64,7 @@ open class CloseTimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedCha
         btn_timer_setting_edit.setOnClickListener {
             if (it.tag != null && it.tag as Boolean) {
                 it.tag = null
-                saveTime()
+                listener.saveTime(wheel_timer_hour.currentItemPosition,wheel_timer_minute.currentItemPosition)
                 enableEditTimer(false)
                 (it as Button).setText(R.string.action_edit)
             } else {
@@ -97,27 +105,25 @@ open class CloseTimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedCha
         wheel_timer_minute.setEditable(flag)
         switch_button_timer.visibility = if (flag) View.INVISIBLE else View.VISIBLE
         frameLayout_timer_setting.isActivated = !flag
-        parentFragment.let {
-            val timerSettingFragment=it as M1TimerSettingFragment
-            timerSettingFragment.showDayOfWeeks(flag)
-        }
+        listener.enableEditTimer(flag)
+//        parentFragment.let {
+//            val timerSettingFragment=it as M1TimerSettingFragment
+//            timerSettingFragment.showDayOfWeeks(flag)
+//        }
     }
 
-    private fun updateTimerOnState(isChecked: Boolean) {
-        parentFragment.let {
-            val timerSettingFragment=it as M1TimerSettingFragment
-            timerSettingFragment.updateTimerOnState(isChecked)
-        }
-    }
-
-
-
-    private fun saveTime(){
-        parentFragment.let {
-            val timerSettingFragment=it as M1TimerSettingFragment
-            timerSettingFragment.saveTime(wheel_timer_hour.currentItemPosition,wheel_timer_minute.currentItemPosition)
-        }
-    }
-
+//    private fun updateTimerOnState(isChecked: Boolean) {
+//        parentFragment.let {
+//            val timerSettingFragment=it as M1TimerSettingFragment
+//            timerSettingFragment.updateTimerOnState(isChecked)
+//        }
+//    }
+//
+//    private fun saveTime(){
+//        parentFragment.let {
+//            val timerSettingFragment=it as M1TimerSettingFragment
+//            timerSettingFragment.saveTime(wheel_timer_hour.currentItemPosition,wheel_timer_minute.currentItemPosition)
+//        }
+//    }
 }
 

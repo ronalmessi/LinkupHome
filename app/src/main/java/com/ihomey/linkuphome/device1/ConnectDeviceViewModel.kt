@@ -37,6 +37,10 @@ class ConnectDeviceViewModel : ViewModel() {
         return mDeviceRepository.saveDevice(Device(macAddress,zoneId,0,name,type,0,DeviceState()))
     }
 
+    fun saveDevice(type:Int,zoneId:Int,name:String,macAddress: String,instructId:Int){
+        return mDeviceRepository.saveDevice(Device(macAddress,zoneId,0,name,type,instructId,DeviceState()))
+    }
+
     fun setQuery(zoneId: Int,type:Int){
         mQuery.value=Query(zoneId,type)
     }

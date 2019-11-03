@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -60,7 +61,7 @@ class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnChecke
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
         for (index in devices.indices) {
             val device = devices[index]
-            val controller = ControllerFactory().createController(device.type)
+            val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1",device.name))
             if (meshServiceStateListener.isMeshServiceConnected()) {
                 Handler().postDelayed({ controller?.setLightSpeed(device.instructId, position)}, 100L * index)
             }

@@ -37,11 +37,13 @@ class SplashActivity : BaseActivity() {
     private fun checkPermission() {
         val accessCoarseLocationPermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION)
         val accessFineLocationPermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val accessWriteExternalStoragePermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val accessReadExternalStoragePermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE)
         val readPhonePermissionStatus=ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.READ_PHONE_STATE)
-        if(accessCoarseLocationPermissionStatus==PackageManager.PERMISSION_GRANTED&&accessFineLocationPermissionStatus==PackageManager.PERMISSION_GRANTED&&readPhonePermissionStatus== PackageManager.PERMISSION_GRANTED){
+        if(accessCoarseLocationPermissionStatus==PackageManager.PERMISSION_GRANTED&&accessFineLocationPermissionStatus==PackageManager.PERMISSION_GRANTED&&readPhonePermissionStatus== PackageManager.PERMISSION_GRANTED&&accessWriteExternalStoragePermissionStatus== PackageManager.PERMISSION_GRANTED&&accessReadExternalStoragePermissionStatus== PackageManager.PERMISSION_GRANTED){
             synchronizeData()
         }else{
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_PHONE_STATE), 100)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE), 100)
         }
     }
 

@@ -1,123 +1,127 @@
 package com.ihomey.linkuphome.time
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.adapter.TimerSettingAdapter
+import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.controller.Controller
+import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.LocalState
-import com.ihomey.linkuphome.databinding.FragmentTimerSettingRepeatBinding
-import com.ihomey.linkuphome.getHourList
-import com.ihomey.linkuphome.getMinuteList
+import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.TimerSettingListener
+import com.ihomey.linkuphome.scene.SceneSettingViewModel
+import kotlinx.android.synthetic.main.timer_setting_repeat_fragment.*
+import kotlinx.android.synthetic.main.timer_setting_repeat_fragment.rg_timer_setting
+import kotlinx.android.synthetic.main.timer_setting_repeat_fragment.toolbar_back
+import kotlinx.android.synthetic.main.timer_setting_repeat_fragment.viewPager
 import java.util.*
 
 
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-open class RepeatTimerSettingFragment : BaseTimerSettingFragment() {
+open class RepeatTimerSettingFragment : BaseFragment(),TimerSettingListener {
 
-    lateinit var mViewDataBinding: FragmentTimerSettingRepeatBinding
+    protected lateinit var viewModel: HomeActivityViewModel
+    protected lateinit var mViewModel: SceneSettingViewModel
 
-    fun newInstance(): RepeatTimerSettingFragment {
-        return RepeatTimerSettingFragment()
-    }
+    protected lateinit var mControlDevice: Device
+    private var mLocalState: LocalState= LocalState("0")
+    private var controller: Controller? = null
 
-    override fun getHour(): Int {
-        return mViewDataBinding.wheelTimerHour.currentItemPosition
-    }
 
-    override fun getMinute(): Int {
-        return mViewDataBinding.wheelTimerMinute.currentItemPosition
-    }
-
-    override fun isOpenTimer(): Boolean {
-        return mViewDataBinding.rgTimerSetting.checkedRadioButtonId == R.id.rb_timer_setting_on
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_timer_setting_repeat, container, false)
-        mViewDataBinding.wheelTimerHour.data = getHourList()
-        mViewDataBinding.wheelTimerMinute.data = getMinuteList()
-        mViewDataBinding.btnTimerSettingEdit.tag = true
-        return mViewDataBinding.root
+        return inflater.inflate(R.layout.timer_setting_repeat_fragment, container, false)
     }
 
-
-    override fun updateViewData(localState: LocalState?) {
-        localState?.let {
-            if (it.openTimerOn > 1 || it.closeTimerOn > 1) {
-                var alarmTime: Long? = null
-                if (it.openTimerOn > 1) {
-                    mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bbF48479"))
-                    mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bbF48479"))
-                    mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_on)
-                    mViewDataBinding.rbTimerSettingOn.isChecked = true
-                    alarmTime = it.openTimer
-
-                    mViewDataBinding.switchButtonTimer.isChecked = it.openTimerOn == 3
-                    mViewDataBinding.frameLayoutTimerSetting.isActivated =it.openTimerOn == 3
-
-                } else {
-                    mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bb949494"))
-                    mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bb949494"))
-                    mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_off)
-                    mViewDataBinding.rbTimerSettingOff.isChecked = true
-                    alarmTime = it.closeTimer
-
-                    mViewDataBinding.switchButtonTimer.isChecked =it.closeTimerOn == 3
-                    mViewDataBinding.frameLayoutTimerSetting.isActivated = it.closeTimerOn == 3
-                }
-                mViewDataBinding.btnTimerSettingEdit.visibility = View.VISIBLE
-                mViewDataBinding.switchButtonTimer.visibility = View.VISIBLE
-                if (alarmTime != 0L) {
-                    val calendar = Calendar.getInstance()
-                    calendar.time = Date(alarmTime)
-                    mViewDataBinding.cbTimerSettingRepeat.isChecked = calendar.get(Calendar.YEAR) == 1970
-                    mViewDataBinding.wheelTimerHour.selectedItemPosition = calendar.get(Calendar.HOUR_OF_DAY)
-                    mViewDataBinding.wheelTimerMinute.selectedItemPosition = calendar.get(Calendar.MINUTE)
-                } else {
-                    mViewDataBinding.wheelTimerHour.selectedItemPosition = 0
-                    mViewDataBinding.wheelTimerMinute.selectedItemPosition = 0
-                }
-            } else {
-                mViewDataBinding.wheelTimerHour.setCircleColor(Color.parseColor("#bbF48479"))
-                mViewDataBinding.wheelTimerMinute.setCircleColor(Color.parseColor("#bbF48479"))
-                mViewDataBinding.frameLayoutTimerSetting.setBackgroundResource(R.drawable.bg_timer_setting_on)
-                mViewDataBinding.btnTimerSettingEdit.visibility = View.INVISIBLE
-                mViewDataBinding.switchButtonTimer.visibility = View.INVISIBLE
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewPager.offscreenPageLimit = 2
+        viewPager.adapter = TimerSettingAdapter(childFragmentManager,this)
+        toolbar_back.setOnClickListener {Navigation.findNavController(it).popBackStack()}
+        rg_timer_setting.setOnCheckedChangeListener { _, checkedId ->
+            viewPager.currentItem= if(checkedId==R.id.rb_timer_setting_on) 0 else 1
         }
-        mViewDataBinding.rgTimerSetting.setOnCheckedChangeListener(this)
-        mViewDataBinding.switchButtonTimer.setOnCheckedChangeListener(this)
-        mViewDataBinding.btnTimerSettingEdit.setOnClickListener(this)
-        mViewDataBinding.toolbarBack.setOnClickListener(this)
+        rg_timer_setting.check(R.id.rb_timer_setting_on)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
+        viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
+            mControlDevice = it
+            controller = ControllerFactory().createController(it.type,TextUtils.equals("LinkupHome V1",it.name))
+            mViewModel.setCurrentDeviceId(it.id)
+            if(TextUtils.equals("LinkupHome V1",mControlDevice.name)) controller?.syncTime(it.instructId)
+        })
+        mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
+            if (it.status == Status.SUCCESS) {
+                it.data?.let {
+                    mLocalState=it
+                }
+            }
+        })
+    }
+
+    override fun saveTime(hour:Int,minute:Int) {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, 1970)
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+        if (viewPager.currentItem==0) {
+            mLocalState.openTimer = calendar.timeInMillis
+            mLocalState.openTimerOn = 1
+            controller?.setRepeatTimer(mControlDevice.instructId,minute,hour, isOpenTimer = true, isOn = true, isRepeat = cb_timer_setting_repeat.isChecked)
+        } else {
+            mLocalState.closeTimerOn = 1
+            mLocalState.closeTimer = calendar.timeInMillis
+            controller?.setRepeatTimer(mControlDevice.instructId,minute,hour, isOpenTimer = false, isOn = true, isRepeat = cb_timer_setting_repeat.isChecked)
+        }
+        mControlDevice.let {
+            mLocalState.id=it.id
+            mViewModel.updateLocalState(mLocalState)
+        }
+
     }
 
     override fun enableEditTimer(flag: Boolean) {
-        mViewDataBinding.wheelTimerHour.setEditable(flag)
-        mViewDataBinding.wheelTimerMinute.setEditable(flag)
-        mViewDataBinding.rgTimerSetting.visibility = if (flag) View.GONE else View.VISIBLE
-        mViewDataBinding.cbTimerSettingRepeat.visibility = if (flag) View.VISIBLE else View.GONE
-        mViewDataBinding.switchButtonTimer.visibility = if(flag) View.INVISIBLE else View.VISIBLE
-        mViewDataBinding.frameLayoutTimerSetting.isActivated = !flag
+        rg_timer_setting.visibility = if (flag) View.GONE else View.VISIBLE
+        cb_timer_setting_repeat.visibility = if (flag) View.VISIBLE else View.GONE
+        if(isVisible){
+            val calendar = Calendar.getInstance()
+            calendar.time= Date(if (viewPager.currentItem==0) mLocalState.openTimer else mLocalState.closeTimer)
+            cb_timer_setting_repeat.isChecked = calendar.get(Calendar.YEAR) == 1970
+        }
     }
 
-    override fun setTimerOn(flag: Boolean) {
-        mViewDataBinding.switchButtonTimer.isChecked = flag
-        mViewDataBinding.frameLayoutTimerSetting.isActivated = flag
-    }
 
-    override fun isTimerOn(): Boolean {
-        return mViewDataBinding.switchButtonTimer.isChecked
-    }
-
-    override fun isRepeat(): Boolean {
-        return mViewDataBinding.cbTimerSettingRepeat.isChecked
+    override fun updateTimerOnState(isChecked: Boolean) {
+        if (viewPager.currentItem==0) {
+            mLocalState.openTimerOn = if(isChecked) 1 else 0
+            val calendar = Calendar.getInstance()
+            calendar.time = Date(mLocalState.openTimer)
+            controller?.setRepeatTimer(mControlDevice.instructId,calendar.get(Calendar.MINUTE),calendar.get(Calendar.HOUR_OF_DAY),true,isChecked,cb_timer_setting_repeat.isChecked)
+        } else {
+            mLocalState.closeTimerOn =if(isChecked) 1 else 0
+            val calendar = Calendar.getInstance()
+            calendar.time = Date(mLocalState.closeTimer)
+            controller?.setRepeatTimer(mControlDevice.instructId,calendar.get(Calendar.MINUTE),calendar.get(Calendar.HOUR_OF_DAY),false,isChecked,cb_timer_setting_repeat.isChecked)
+        }
+        mControlDevice.let {
+            mLocalState.id=it.id
+            mViewModel.updateLocalState(mLocalState)
+        }
     }
 
 }

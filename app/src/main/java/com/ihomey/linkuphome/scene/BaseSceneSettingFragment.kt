@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.scene
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -37,12 +38,12 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
-        viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
+        viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mControlDevice = it
-            controller = ControllerFactory().createController(mControlDevice.type)
+            controller = ControllerFactory().createController(mControlDevice.type,TextUtils.equals("LinkupHome V1",mControlDevice.name))
             mViewModel.setCurrentDeviceId(it.id)
         })
-        mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
+        mViewModel.mCurrentLocalState.observe(viewLifecycleOwner, Observer<Resource<LocalState>> {
             if (it.status == Status.SUCCESS) {
                 mLocalState = it.data
                 updateViewData(it.data)

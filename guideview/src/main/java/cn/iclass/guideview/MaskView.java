@@ -13,6 +13,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,6 +38,7 @@ class MaskView extends ViewGroup {
   private int mPaddingRight = 0;
   private int mPaddingBottom = 0;
   private boolean mCustomFullingRect;
+  private boolean mOutsideTouchable;
   private boolean mOverlayTarget;
   private int mCorner = 0;
   private int mStyle = Component.ROUNDRECT;
@@ -270,6 +273,16 @@ class MaskView extends ViewGroup {
     }
   }
 
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    if(mOutsideTouchable){
+      return super.onTouchEvent(event);
+    }else{
+      return !(event.getX()>=mTargetRect.left&&event.getX()<=mTargetRect.right&&event.getY()>=mTargetRect.top&&event.getY()<=mTargetRect.bottom);
+    }
+  }
+
+
   public void setTargetRect(Rect rect) {
     mTargetRect.set(rect);
     resetOutPath();
@@ -299,6 +312,10 @@ class MaskView extends ViewGroup {
 
   public void setHighTargetCorner(int corner) {
     this.mCorner = corner;
+  }
+
+  public void setOutsideTouchable(boolean mOutsideTouchable) {
+    this.mOutsideTouchable = mOutsideTouchable;
   }
 
   public void setHighTargetGraphStyle(int style) {
@@ -362,4 +379,6 @@ class MaskView extends ViewGroup {
       super(source);
     }
   }
+
+
 }

@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.time
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.Observer
@@ -48,7 +49,6 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
 
     abstract fun isRepeat(): Boolean
 
-
     private var isUserTouch: Boolean=false
 
 
@@ -63,8 +63,9 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mControlDevice = it
-            controller = ControllerFactory().createController(mControlDevice.type)
+            controller = ControllerFactory().createController(mControlDevice.type, TextUtils.equals("LinkupHome V1",mControlDevice.name))
             mViewModel.setCurrentDeviceId(it.id)
+            if(TextUtils.equals("LinkupHome V1",mControlDevice.name)) controller?.syncTime(it.instructId)
         })
         mViewModel.mCurrentLocalState.observe(viewLifecycleOwner, Observer<Resource<LocalState>> {
             if (it.status == Status.SUCCESS) {

@@ -148,7 +148,7 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
 
     override fun onCheckedChanged(position: Int, isChecked: Boolean) {
         adapter.currentList?.get(position)?.let {
-            val controller = ControllerFactory().createController(it.type)
+            val controller = ControllerFactory().createController(it.type,TextUtils.equals("LinkupHome V1",it.name))
             if (listener.isMeshServiceConnected()) controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
             changeDeviceState(it, "on", if (isChecked) "1" else "0")
         }

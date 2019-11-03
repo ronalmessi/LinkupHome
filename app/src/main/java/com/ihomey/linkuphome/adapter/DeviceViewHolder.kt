@@ -37,8 +37,8 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             swipeLayout.close()
            mOnItemChildClickListener?.onItemChildClick(device,it)
         }
-        nameView.text = device.name
         val type= device.type
+        nameView.text = if(type==6) "V1" else device.name
         iconView.setImageResource(AppConfig.DEVICE_ICON[type])
         val layoutParams = nameView.layoutParams as ViewGroup.MarginLayoutParams
         if (type == 1) {

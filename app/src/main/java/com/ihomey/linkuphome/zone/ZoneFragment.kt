@@ -187,7 +187,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
                     if (isFragmentVisible) {
                         for (index in it.devices.indices) {
                             val device = it.devices[index]
-                            val controller = ControllerFactory().createController(device.type)
+                            val controller = ControllerFactory().createController(device.type,TextUtils.equals("LinkupHome V1",device.name))
                             if (meshServiceStateListener.isMeshServiceConnected()) {
                                 Handler().postDelayed({ controller?.setLightingMode(device.instructId) }, 100L * index)
                             }
@@ -204,7 +204,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
            roomList?.get(position)?.let {
                for (index in it.devices.indices) {
                    val device = it.devices[index]
-                   val controller = ControllerFactory().createController(device.type)
+                   val controller = ControllerFactory().createController(device.type,TextUtils.equals("LinkupHome V1",device.name))
                    if (meshServiceStateListener.isMeshServiceConnected()) {
                        Handler().postDelayed({ controller?.setLightBright(device.instructId, if(device.type==6||device.type==10) progress.plus(10) else progress.plus(15)) }, 100L * index)
                    }
@@ -220,7 +220,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
             roomList?.get(position)?.let {
                 for (index in it.devices.indices) {
                     val device = it.devices[index]
-                    val controller = ControllerFactory().createController(device.type)
+                    val controller = ControllerFactory().createController(device.type,TextUtils.equals("LinkupHome V1",device.name))
                     if (meshServiceStateListener.isMeshServiceConnected()) {
                         Handler().postDelayed({ controller?.setLightPowerState(device.instructId, if (isChecked) 1 else 0) }, 100L * index)
                     }
@@ -250,10 +250,12 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
                 .setOutsideTouchable(false)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
             override fun onShown() {
-                hasShowBindDeviceGuide = true
+
             }
 
-            override fun onDismiss() {}
+            override fun onDismiss() {
+                hasShowBindDeviceGuide = true
+            }
         })
         builder.addComponent(object : Component {
             override fun getView(inflater: LayoutInflater): View {

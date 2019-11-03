@@ -62,14 +62,14 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
-        if(type!=6&&TextUtils.equals(deviceShortName, name)){
-            val singleDevice1=Device(type,deviceType.name)
+        if(type==6&&TextUtils.equals("LinkupHome V1",name)){
+            val singleDevice1=Device(type,name)
+            singleDevice1.macAddress=macAddress
             singleDevice1.hash=uuidHash
             viewModel.setScanDevice(singleDevice1)
-        }else if(type==6&&name.contains("V1")){
-            val singleDevice1=Device(type,name)
+        }else if(type!=6&&TextUtils.equals(deviceShortName, name)){
+            val singleDevice1=Device(type,deviceType.name)
             singleDevice1.hash=uuidHash
-            singleDevice1.macAddress=macAddress
             viewModel.setScanDevice(singleDevice1)
         }
     }
@@ -78,7 +78,7 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
 
     }
 
-    override fun deviceAssociated(deviceId: Int, uuidHash: Int, bitmap: Long) {
+    override fun deviceAssociated(deviceId: Int, uuidHash: Int, macAddress:String) {
 
     }
 

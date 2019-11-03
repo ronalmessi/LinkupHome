@@ -217,22 +217,17 @@ public class Guide {
         maskView.setFullingRect(Common.getViewAbsRect(fulling, parentX, parentY));
       }
     }
-    if (mConfiguration.mOutsideTouchable) {
-      maskView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          dismiss();
-        }
-      });
-    } else {
-      maskView.setClickable(false);
-    }
-
+    maskView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        dismiss();
+      }
+    });
+    maskView.setOutsideTouchable(mConfiguration.mOutsideTouchable);
     // Adds the components to the mask view.
     for (Component c : mComponents) {
       maskView.addView(Common.componentToView(activity.getLayoutInflater(), c));
     }
-
     return maskView;
   }
 
@@ -244,4 +239,9 @@ public class Guide {
     mMaskView = null;
   }
 
+//  @Override
+//  public boolean onTouch(View v, MotionEvent event) {
+//    Log.d("aa","ggggg");
+//    return true;
+//  }
 }

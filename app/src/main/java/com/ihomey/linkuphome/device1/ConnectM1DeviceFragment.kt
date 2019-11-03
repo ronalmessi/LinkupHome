@@ -141,12 +141,12 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
 
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
-        val controller = ControllerFactory().createController(singleDevice.type)
+        val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
         controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-        val controller = ControllerFactory().createController(singleDevice.type)
+        val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
         controller?.setLightBright(singleDevice.id,progress.plus(15))
     }
 

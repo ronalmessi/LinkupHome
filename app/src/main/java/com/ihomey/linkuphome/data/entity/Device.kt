@@ -29,11 +29,11 @@ data class Device(@PrimaryKey var id: String, @SerializedName("spaceId")var zone
             return false
         }
         val singleDevice = other as Device?
-        return  if(!TextUtils.isEmpty(singleDevice?.hash)){
-            TextUtils.equals(this.hash, singleDevice?.hash)
-        }else if(!TextUtils.equals("",singleDevice?.macAddress)){
+        return  if(!TextUtils.equals("",singleDevice?.macAddress)){
             TextUtils.equals(this.macAddress, singleDevice?.macAddress)
-        } else{
+        } else if(!TextUtils.isEmpty(singleDevice?.hash)){
+            TextUtils.equals(this.hash, singleDevice?.hash)
+        }else {
             TextUtils.equals(this.id, singleDevice?.id)
         }
     }

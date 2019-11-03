@@ -65,7 +65,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             this.type = it.type
-            controller = ControllerFactory().createController( it.type)
+            controller = ControllerFactory().createController( it.type,TextUtils.equals("LinkupHome V1",it.name))
             if(type!=9&&type!=0){
                 parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
             } else{
@@ -102,17 +102,17 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     override fun onColorValueChanged(time: Int) {
         if(type==0){
-            controller?.setLightColor(mControlDevice.id, AppConfig.RGB_COLOR[time])
+            controller?.setLightColor(mControlDevice.id, AppConfig.RGB_COLOR_POSITION[time])
         }else{
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR[time])
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR_POSITION[time])
         }
     }
 
     override fun onColorValueChange(time: Int) {
         if(type==0){
-            controller?.setLightColor(mControlDevice.id,  AppConfig.RGB_COLOR[time])
+            controller?.setLightColor(mControlDevice.id,  AppConfig.RGB_COLOR_POSITION[time])
         }else{
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR[time])
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR_POSITION[time])
         }
     }
 
@@ -138,7 +138,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
             controller?.setLightBright(mControlDevice.id,seekBar.progress.plus(15))
         }else{
             if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if(type==6||type==10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
-            changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
+            if(!TextUtils.equals("LinkupHome V1",mControlDevice.name)) changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
         }
     }
 
@@ -149,7 +149,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                     controller?.setLightPowerState(mControlDevice.id, if (isChecked) 1 else 0)
                 }else{
                     if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
-                    changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
+                    if(!TextUtils.equals("LinkupHome V1",mControlDevice.name))   changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
                 }
             }
         }

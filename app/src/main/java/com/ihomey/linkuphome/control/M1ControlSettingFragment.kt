@@ -76,7 +76,7 @@ class M1ControlSettingFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
-            controller = ControllerFactory().createController(it.type)
+            controller = ControllerFactory().createController(it.type,TextUtils.equals("LinkupHome V1",it.name))
             mDevice=it
             queryDeviceState(it.id)
         })

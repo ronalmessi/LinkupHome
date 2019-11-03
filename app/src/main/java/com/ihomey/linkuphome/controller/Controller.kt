@@ -26,6 +26,8 @@ abstract class Controller {
 
     open fun setRepeatTimer(deviceId: Int, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean,isOn: Boolean,isRepeat: Boolean){}
 
+    open fun syncTime(deviceId: Int) {}
+
 
     open fun setLightPowerState(deviceAddress:String?, powerState: Int){}
 

@@ -17,6 +17,7 @@ import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
@@ -25,12 +26,14 @@ import com.ihomey.linkuphome.device.DeviceAssociateFragment
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.getShortName
+import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
+import com.pairlink.sigmesh.lib.Util
 import kotlinx.android.synthetic.main.connect_device_fragment.*
 
 
@@ -85,6 +88,11 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         listener = context as DevicesStateListener
     }
 
+    override fun onResume() {
+        super.onResume()
+        listener.discoverDevices(true, this)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = ScanDeviceListAdapter(arrayListOf())
@@ -98,25 +106,24 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack(R.id.tab_devices, false) }
     }
 
-    override fun onResume() {
-        super.onResume()
-        listener.discoverDevices(true, this)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         mViewModel.clearScanedDevice()
-        listener.discoverDevices(false, this)
+        listener.discoverDevices(false, null)
     }
-
 
     override fun onDeviceFound(uuidHash: String, macAddress: String, name: String) {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
-        if (TextUtils.equals(deviceShortName, name)) {
-            val singleDevice1 = Device(type,deviceType.name)
-            singleDevice1.hash = uuidHash
+        if(type==6&&TextUtils.equals("LinkupHome V1",name)){
+            val singleDevice1=Device(type,name)
+            singleDevice1.macAddress=macAddress
+            singleDevice1.hash=uuidHash
+            if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
+        }else if(type!=6&&TextUtils.equals(deviceShortName, name)){
+            val singleDevice1=Device(type,deviceType.name)
+            singleDevice1.hash=uuidHash
             if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
         }
     }
@@ -127,28 +134,42 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
         activity?.toast(message)
     }
 
-    override fun deviceAssociated(deviceId: Int, uuidHash: Int, bitmap: Long) {
+    override fun deviceAssociated(deviceId: Int, uuidHash: Int, macAddress:String) {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
-        context?.getIMEI()?.let { it1 ->
-            viewModel.saveDevice(it1, currentZone?.id!!, type , deviceType.name).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-                if (it?.status == Status.SUCCESS&&it.data!=null) {
-                    it.data.hash=""+uuidHash
-                    val position = adapter.data.indexOf(it.data) ?: -1
-                    if (position != -1) {
-                        adapter.getItem(position)?.id=it.data.id
-                        adapter.getItem(position)?.instructId=it.data.instructId
-                        adapter.notifyItemChanged(position)
+        if(TextUtils.isEmpty(macAddress)){
+            context?.getIMEI()?.let { it1 ->
+                viewModel.saveDevice(it1, currentZone?.id!!, type , deviceType.name).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                    if (it?.status == Status.SUCCESS&&it.data!=null) {
+                        it.data.hash=""+uuidHash
+                        val position = adapter.data.indexOf(it.data) ?: -1
+                        if (position != -1) {
+                            adapter.getItem(position)?.id=it.data.id
+                            adapter.getItem(position)?.instructId=it.data.instructId
+                            adapter.notifyItemChanged(position)
+                        }
+                        mViewModel.setCurrentZoneId(currentZone?.id!!)
+                        deviceAssociateFragment.dismiss()
+                        if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+                    } else if (it?.status == Status.ERROR) {
+                        deviceAssociateFragment.dismiss()
+                        it.message?.let { it2 -> activity?.toast(it2) }
                     }
-                    mViewModel.setCurrentZoneId(currentZone?.id!!)
-                    deviceAssociateFragment.dismiss()
-                    if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
-                } else if (it?.status == Status.ERROR) {
-                    deviceAssociateFragment.dismiss()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                }
-            })
+                })
+            }
+        }else{
+            val device = Device(0,"LinkupHome V1",macAddress)
+            val position = adapter.data.indexOf(device) ?: -1
+            if (position != -1) {
+                adapter.getItem(position)?.id=macAddress
+                adapter.notifyItemChanged(position)
+            }
+            viewModel.saveDevice(6,currentZone?.id!!,"LinkupHome V1",macAddress,deviceId)
+            mViewModel.setCurrentZoneId(currentZone?.id!!)
+            deviceAssociateFragment.dismiss()
+            if (adapter.data.none { TextUtils.equals("0",it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
         }
+
     }
 
     override fun associationProgress(progress: Int) {
@@ -163,7 +184,6 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
                 deviceAssociateFragment.isCancelable = false
                 deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
                 if(TextUtils.equals("LinkupHome V1",it.name)){
-                    Log.d("aa",it.hash)
                     listener.associateDevice(it.hash, it.macAddress)
                 }else{
                     listener.associateDevice(it.hash, null)
@@ -173,15 +193,19 @@ class ConnectDeviceFragment : BaseFragment(),FragmentBackHandler, DeviceAssociat
     }
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
-        val controller = ControllerFactory().createController(singleDevice.type)
-        if (meshServiceStateListener.isMeshServiceConnected()) { controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0) }
-        changeDeviceState(singleDevice,"on",if (isChecked) "1" else "0")
+        val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
+        if (meshServiceStateListener.isMeshServiceConnected()) {
+             controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
+            if(!TextUtils.equals("LinkupHome V1",singleDevice.name)) changeDeviceState(singleDevice,"on",if (isChecked) "1" else "0")
+         }
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-        val controller = ControllerFactory().createController(singleDevice.type)
-        if (meshServiceStateListener.isMeshServiceConnected()) controller?.setLightBright(singleDevice.instructId, if(singleDevice.type==6||singleDevice.type==10) progress.plus(10) else progress.plus(15))
-        changeDeviceState(singleDevice,"brightness", progress.toString())
+        val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
+         if (meshServiceStateListener.isMeshServiceConnected()){
+            controller?.setLightBright(singleDevice.instructId, if(singleDevice.type==6||singleDevice.type==10) progress.plus(10) else progress.plus(15))
+             if(!TextUtils.equals("LinkupHome V1",singleDevice.name)) changeDeviceState(singleDevice,"brightness", progress.toString())
+        }
     }
 
 

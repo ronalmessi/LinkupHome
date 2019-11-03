@@ -6,6 +6,6 @@ package com.ihomey.linkuphome.listener
 interface DeviceAssociateListener {
     fun onDeviceFound(uuidHash: String, macAddress: String, name: String)
     fun deviceAssociated(deviceId: Int,message: String)
-    fun deviceAssociated(deviceId: Int, uuidHash: Int, bitmap: Long)
+    fun deviceAssociated(deviceId: Int, uuidHash: Int, macAddress: String)
     fun associationProgress(progress: Int)
 }

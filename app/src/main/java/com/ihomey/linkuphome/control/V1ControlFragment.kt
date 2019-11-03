@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Device
-import com.ihomey.linkuphome.databinding.R2ControlFragmentBinding
+import com.ihomey.linkuphome.databinding.V1ControlFragmentBinding
 import com.ihomey.linkuphome.moveToViewBottomAnimation
 import com.ihomey.linkuphome.moveToViewLocationAnimation
 
@@ -17,7 +17,7 @@ import com.ihomey.linkuphome.moveToViewLocationAnimation
  */
 class V1ControlFragment : BaseControlFragment(), View.OnClickListener {
 
-    private lateinit var mViewDataBinding: R2ControlFragmentBinding
+    private lateinit var mViewDataBinding: V1ControlFragmentBinding
 
     fun newInstance(): V1ControlFragment {
         return V1ControlFragment()
@@ -29,7 +29,7 @@ class V1ControlFragment : BaseControlFragment(), View.OnClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.r2_control_fragment, container, false)
+        mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.v1_control_fragment, container, false)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.deviceSeekBarBrightness.max=22
         mViewDataBinding.root.setOnClickListener {

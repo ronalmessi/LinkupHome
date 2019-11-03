@@ -52,8 +52,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val REMOVE_ACK_WAIT_TIME_MS = 4 * 1000L
 
     private lateinit var mViewModel: HomeActivityViewModel
+
     private var mService: MeshService? = null
-    private var mPlSigMeshService: PlSigMeshService? = null
+    var mPlSigMeshService: PlSigMeshService? = null
     private var mPlSigMeshNet: MeshNetInfo? = null
 
     private var isBackground = false
@@ -73,8 +74,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         initNavController()
         BluetoothSPP.getInstance().initialize(applicationContext)
         initSppService()
-        bindService(Intent(this, PlSigMeshService::class.java), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE)
         bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
+        if (BluetoothAdapter.getDefaultAdapter().isEnabled) bindService(Intent(this, PlSigMeshService::class.java), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE)
         initViewModel()
     }
 
@@ -93,6 +94,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 mMeshHandler.postDelayed({
                     it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
                 }, REMOVE_ACK_WAIT_TIME_MS)
+            }
+        })
+        mViewModel.mRemoveSigmeshDeviceVo.observe(this, Observer<RemoveDeviceVo> {
+            if (it != null) {
+                mPlSigMeshService?.resetNode(it.deviceInstructId.toShort())
+                mMeshHandler.postDelayed({
+                    mPlSigMeshService?.delMeshNode(it.deviceInstructId.toShort())
+                    it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
+                }, 2000)
             }
         })
         mViewModel.setCurrentZoneId(intent?.extras?.getInt("currentZoneId"))
@@ -175,15 +185,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
     private val mPlSigMeshServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, rawBinder: IBinder) {
-            mPlSigMeshService =  (rawBinder as PlSigMeshService.LocalBinder).service
+            mPlSigMeshService = (rawBinder as PlSigMeshService.LocalBinder).service
             mPlSigMeshService?.let {
                 it.init(this@HomeActivity, true, Util.DBG_LEVEL_WARN)
-                mPlSigMeshNet=it.chooseMeshNet(0)
+                mPlSigMeshNet = it.chooseMeshNet(0)
+                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROXY)
                 it.registerProxyCb(mSigMeshProxyCB)
-                if(mPlSigMeshNet==null){
+                mPlSigMeshService?.proxyJoin()
+//                if (mPlSigMeshNet == null) {
+                    Log.d("aa", "create mesh net")
                     createPlSigMeshNet()
                     it.chooseMeshNet(0)
-                }
+//                }
             }
         }
 
@@ -197,8 +210,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         return 10000000 + r.nextInt(20000000)
     }
 
-    private fun createPlSigMeshNet(){
-        val homeId_tmp = ""+gen()
+    private fun createPlSigMeshNet() {
+        val homeId_tmp = "" + gen()
         val homeId = homeId_tmp.toByteArray()
         val netkey = ByteArray(16)
         val appkey = ByteArray(16)
@@ -243,12 +256,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         BluetoothSPP.getInstance()?.setBluetoothStateListener(object : BluetoothSPP.BluetoothStateListener {
             override fun onDeviceConnected(name: String?, address: String?) {
                 val controller = M1Controller()
-                Handler().postDelayed({controller.syncTime(address)}, 250)
+                Handler().postDelayed({ controller.syncTime(address) }, 250)
                 if (isBackground) {
                     val lastPushTime by PreferenceHelper("lastPushTime", 0L)
-                    val currentTimeMillis=System.currentTimeMillis()
-                    if(lastPushTime==0L||currentTimeMillis-lastPushTime>6*60*60*1000){
-                        Handler().postDelayed({controller.getEnvironmentalValue(address) }, 5000)
+                    val currentTimeMillis = System.currentTimeMillis()
+                    if (lastPushTime == 0L || currentTimeMillis - lastPushTime > 6 * 60 * 60 * 1000) {
+                        Handler().postDelayed({ controller.getEnvironmentalValue(address) }, 5000)
                     }
                 } else {
                     toast(R.string.msg_m1_connected, Toast.LENGTH_SHORT)
@@ -276,6 +289,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AppConfig.REQUEST_BT_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+                bindService(Intent(this, PlSigMeshService::class.java), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE)
                 initSppService()
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 val dialog = PermissionPromptDialogFragment()
@@ -290,18 +304,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, message,address ->
+    private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, message, address ->
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
         if (receiveDataStr.startsWith("FE01D101DA0004C1F")) {
             val sensorType = if (receiveDataStr.startsWith("FE01D101DA0004C1F2F2F2")) 1 else 0
-            mViewModel.updateM1Version(address,sensorType)
-        }else if (receiveDataStr.startsWith("FE01D101DA000BC107")&&isBackground) {
+            mViewModel.updateM1Version(address, sensorType)
+        } else if (receiveDataStr.startsWith("FE01D101DA000BC107") && isBackground) {
             val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
             val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
             val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
-            NotifyManager.getInstance(applicationContext).showNotify(getString(R.string.title_welcom_home), getString(R.string.title_pm25)+"："+pm25Value+"，"+getString(R.string.title_hcho)+"："+hchoValue+" μg/m³，"+getString(R.string.title_voc)+"："+ getVOCLevel(vocValue))
+            NotifyManager.getInstance(applicationContext).showNotify(getString(R.string.title_welcom_home), getString(R.string.title_pm25) + "：" + pm25Value + "，" + getString(R.string.title_hcho) + "：" + hchoValue + " μg/m³，" + getString(R.string.title_voc) + "：" + getVOCLevel(vocValue))
             var lastPushTime by PreferenceHelper("lastPushTime", 0L)
-            lastPushTime=System.currentTimeMillis()
+            lastPushTime = System.currentTimeMillis()
         }
     }
 
@@ -324,6 +338,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             val parentActivity = mActivity.get()
             when (msg.what) {
                 MeshService.MESSAGE_REQUEST_BT -> {
+                    if(parentActivity?.mPlSigMeshService!=null) parentActivity.unbindService(parentActivity.mPlSigMeshServiceConnection)
                     BluetoothSPP.getInstance()?.removeOnDataReceivedListener(parentActivity?.mOnDataReceivedListener)
                     BluetoothSPP.getInstance()?.stopService()
                     val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -381,10 +396,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     val uuidHash = parentActivity?.mDeviceIdToUuidHash?.get(deviceId)
                     val infoType = ConfigModelApi.DeviceInfo.values()[msg.data.getByte(MeshService.EXTRA_DEVICE_INFO_TYPE).toInt()]
                     if (infoType == ConfigModelApi.DeviceInfo.MODEL_LOW) {
-                        val bitmap = msg.data.getLong(MeshService.EXTRA_DEVICE_INFORMATION)
                         if (uuidHash != 0) {
                             parentActivity?.mDeviceIdToUuidHash?.removeAt(parentActivity.mDeviceIdToUuidHash.indexOfKey(deviceId))
-                            parentActivity?.meshAssListener?.deviceAssociated(deviceId, uuidHash!!, bitmap)
+                            parentActivity?.meshAssListener?.deviceAssociated(deviceId, uuidHash!!, "")
                         }
                     }
                 }
@@ -414,7 +428,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    private val mSigMeshProxyCB=object : PlSigMeshProxyCallback(){
+
+    private val mSigMeshProxyCB = object : PlSigMeshProxyCallback() {
         override fun onCTLStatus(src: Short, lightness: Int, temperature: Int) {
             super.onCTLStatus(src, lightness, temperature)
         }
@@ -424,15 +439,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
 
         override fun onMeshStatus(status: Int, addr: String?) {
-            Log.d("aa", "onMeshStatus---"+status)
-            when(status){
-                Util.PL_MESH_READY->{
+            Log.d("aa", "onMeshStatus---" + status)
+            when (status) {
+                Util.PL_MESH_READY -> {
 
                 }
-                Util.PL_MESH_JOIN_FAIL->{
+                Util.PL_MESH_JOIN_FAIL -> {
 
                 }
-                Util.PL_MESH_EXIT->{
+                Util.PL_MESH_EXIT -> {
 
                 }
             }
@@ -442,13 +457,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             super.onVendorUartData(src, data)
         }
 
-        override fun onConfigComplete(result: Int, config_node: MeshNetInfo.MeshNodeInfo?, mesh_net: MeshNetInfo?) {
-            Log.d("aa", "onConfigComplete $result---"+config_node+"----"+mesh_net)
+        override fun onConfigComplete(result: Int, config_node: MeshNetInfo.MeshNodeInfo, mesh_net: MeshNetInfo?) {
+            Log.d("aa", "onConfigComplete $result---" + config_node + "----" + mesh_net + "---" + config_node.primary_addr)
             mPlSigMeshNet = mesh_net
-            val addr = config_node?.uuid
-//            Handler().postDelayed({ Toast.makeText(this@HomeActivity, "Config Success $addr", Toast.LENGTH_SHORT).show() }, 0)
-            if (Util.CONFIG_MODE_PROVISION_CONFIG_ONE_BY_ONE.toInt() == mPlSigMeshService?.get_config_mode()) {
-                Log.d("aa", "hahahha---100")
+            runOnUiThread {
+                meshAssListener?.associationProgress(99)
+                meshAssListener?.deviceAssociated(config_node.primary_addr.toInt(), 0, config_node.uuid)
             }
         }
 
@@ -474,6 +488,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
         override fun onNodeResetStatus(src: Short) {
             super.onNodeResetStatus(src)
+            Log.d("aa", "onNodeResetStatus")
+//            mPlSigMeshService?.delMeshNode(src)
         }
 
         override fun onOnOffChanged(src: Short, onoff: Boolean) {
@@ -516,15 +532,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val mSigMeshProvisionCB = object : PlSigMeshProvisionCallback() {
         override fun onDeviceFoundUnprovisioned(device: BluetoothDevice, rssi: Int, uuid: String) {
             meshAssListener?.onDeviceFound(uuid, device.address, device.name)
-            Log.d("aa", "onDeviceFoundUnprovisioned---"+device.address + ", " + device.name + ", uuid:" + uuid)
+            Log.d("aa", "onDeviceFoundUnprovisioned---" + device.address + ", " + device.name + ", uuid:" + uuid)
         }
 
         override fun onProvisionComplete(result: Int, provision_node: MeshNetInfo.MeshNodeInfo?, mesh_net: MeshNetInfo?) {
-            Log.d("aa", "onProvisionComplete $result")
             mPlSigMeshNet = mesh_net
-            Log.d("aa", "get_config_mode----" + mPlSigMeshService?.get_config_mode())
-            if (Util.CONFIG_MODE_PROVISION_CONFIG_ONE_BY_ONE.toInt() == mPlSigMeshService?.get_config_mode()) {
-                Log.d("aa", "hahahha---50")
+            if (Util.CONFIG_MODE_PROVISION_CONFIG_ONE_BY_ONE.toInt() == mPlSigMeshService?._config_mode && result == 0) {
+                runOnUiThread {
+                    meshAssListener?.associationProgress(50)
+                }
             }
         }
 
@@ -574,7 +590,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         meshAssListener = if (enabled && listener != null) listener else null
         try {
             mService?.setDeviceDiscoveryFilterEnabled(enabled)
-            mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
+            if (enabled) {
+                mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROXY)
+                mPlSigMeshService?.proxyExit()
+                mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
+            }
             mPlSigMeshService?.scanDevice(enabled, Util.SCAN_TYPE_PROVISION)
         } catch (e: Exception) {
             Log.d("LinkupHome", "you should firstly connect to bridge!")
@@ -594,11 +614,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     override fun associateDevice(uuidHash: String, macAddress: String?) {
         if (TextUtils.isEmpty(macAddress)) {
             mService?.associateDevice(uuidHash.toInt(), 0, false)
-        }else{
+        } else {
             mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROVISION)
             mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
             val unProvisionedDev = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macAddress)
-            Log.d("aa", unProvisionedDev.name + "---" + unProvisionedDev.address)
             val info = Util.hexStringToBytes(uuidHash)
             val ele_num = info[15]
             mPlSigMeshService?.startProvision(unProvisionedDev, ele_num)
@@ -607,7 +626,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
 
     override fun isMeshServiceConnected(): Boolean {
-        return mConnected
+        return true
     }
 
     override fun getBatteryState(deviceId: Int, batteryValueListener: BatteryValueListener) {
