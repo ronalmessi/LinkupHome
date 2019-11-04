@@ -4,24 +4,22 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
+import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import com.ihomey.linkuphome.*
-import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.home.HomeActivityViewModel
-import kotlinx.android.synthetic.main.environmental_indicators_fragment.*
-import android.text.style.RelativeSizeSpan
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ihomey.linkuphome.controller.M1Controller
+import androidx.navigation.Navigation
+import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.spp.BluetoothSPP
-import kotlinx.android.synthetic.main.environmental_indicators_fragment.iv_back
+import kotlinx.android.synthetic.main.environmental_indicators_fragment.*
 import org.spongycastle.util.encoders.Hex
 
 
@@ -79,14 +77,14 @@ open class EnvironmentalIndicatorsFragment : BaseFragment() {
     }
 
 
-    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, _, _ ->
+    private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, _, _ ->
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
         if (receiveDataStr.startsWith("FE01D101DA000BC107")) {
             val pm25Value = Integer.parseInt(receiveDataStr.substring(18, 20), 16) * 256 + Integer.parseInt(receiveDataStr.substring(20, 22), 16)
             val hchoValue = Integer.parseInt(receiveDataStr.substring(22, 24), 16) * 256 + Integer.parseInt(receiveDataStr.substring(24, 26), 16)
             val vocValue = Integer.parseInt(receiveDataStr.substring(26, 28), 16)
             updateEnvironmentalIndicatorViews(pm25Value, hchoValue, vocValue)
-        }else if (TextUtils.equals("FE01D101DA0004C2050101CD16", receiveDataStr)) {
+        } else if (TextUtils.equals("FE01D101DA0004C2050101CD16", receiveDataStr)) {
             activity?.toast(R.string.msg_playing_music, Toast.LENGTH_SHORT)
         }
     }

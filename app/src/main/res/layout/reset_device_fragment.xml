@@ -75,8 +75,8 @@
                 android:lineSpacingMultiplier="1.2"
                 android:text="@string/msg_device_reset_hint3"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +91,6 @@
                 android:textSize="@dimen/_16ssp" />
 
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,8 +103,7 @@
             <ImageView
                 android:id="@+id/iv_device_reset_guide2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
 
             <TextView
@@ -131,8 +129,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:text="@string/msg_device_reset_hint5"
                 android:lineSpacingMultiplier="1.4"
+                android:text="@string/msg_device_reset_hint5"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_15ssp" />
 

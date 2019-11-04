@@ -16,18 +16,18 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     private int topSpace;
     private int bottomtSpace;
 
-    public SpaceItemDecoration(int leftSpace,int rightSpace,int topSpace,int bottomtSpace) {
-        this.leftSpace=leftSpace;
-        this.rightSpace=rightSpace;
-        this.topSpace=topSpace;
-        this.bottomtSpace=bottomtSpace;
+    public SpaceItemDecoration(int leftSpace, int rightSpace, int topSpace, int bottomtSpace) {
+        this.leftSpace = leftSpace;
+        this.rightSpace = rightSpace;
+        this.topSpace = topSpace;
+        this.bottomtSpace = bottomtSpace;
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        outRect.right=rightSpace;
-        outRect.bottom=bottomtSpace;
-        outRect.left=leftSpace;
-        outRect.top=topSpace;
+        outRect.right = rightSpace;
+        outRect.bottom = bottomtSpace;
+        outRect.left = leftSpace;
+        outRect.top = topSpace;
     }
 }

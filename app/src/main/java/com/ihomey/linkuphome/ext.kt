@@ -3,48 +3,28 @@ package com.ihomey.linkuphome
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
 import android.graphics.Color
-import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.telephony.TelephonyManager
 import android.text.TextUtils
-import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
 import com.csr.mesh.DataModelApi
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import kotlinx.android.synthetic.main.environmental_indicators_fragment.*
+import com.pairlink.sigmesh.lib.MeshNetInfo
+import com.pairlink.sigmesh.lib.PlSigMeshService
+import com.pairlink.sigmesh.lib.Util
 import org.spongycastle.crypto.digests.SHA256Digest
 import org.spongycastle.util.encoders.Hex
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 import java.security.MessageDigest
 import java.util.*
 
@@ -274,7 +254,7 @@ fun String.md5(): String {
 fun <T> beanToJson(t: T): String {
     val mapper = ObjectMapper()
     mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-    return AppConfig.APP_SECRET + mapper.writeValueAsString(t).replace(":", "").replace("{", "").replace("}", "").replace(",\"", "").replace("\"", "")
+    return AppConfig.APP_SECRET + mapper.writeValueAsString(t).replace(":", "").replace("{", "").replace("}", "").replace("[", "").replace("]", "").replace(",", "").replace("_", "").replace("\\", "").replace(",\"", "").replace("\"", "")
 }
 
 
@@ -308,7 +288,7 @@ fun getShortName(type: DeviceType) =
 
 fun getHCHOLevel(hchoValue: Int): Int {
     return when {
-        hchoValue<=30 -> R.string.title_level_good
+        hchoValue <= 30 -> R.string.title_level_good
         hchoValue in 31..80 -> R.string.title_level_normal
         hchoValue in 81..160 -> R.string.title_level_pollution_lightly
         hchoValue in 161..200 -> R.string.title_level_pollution_moderately
@@ -329,11 +309,11 @@ fun getVOCLevel(vocValue: Int): Int {
 
 fun getPM25Level(pm25Value: Int): Int {
     return when {
-        pm25Value<=35 ->  R.string.title_level_good
+        pm25Value <= 35 -> R.string.title_level_good
         pm25Value in 36..75 -> R.string.title_level_moderate
         pm25Value in 76..115 -> R.string.title_level_pollution_lightly
         pm25Value in 116..150 -> R.string.title_level_pollution_moderately
-        pm25Value in 151..250 ->  R.string.title_level_pollution_heavily
+        pm25Value in 151..250 -> R.string.title_level_pollution_heavily
         else -> R.string.title_level_pollution_severely
     }
 }
@@ -360,6 +340,40 @@ fun getHourList(): ArrayList<String> {
         }
     }
     return list
+}
+
+fun createPlSigMeshNet() {
+    PlSigMeshService.getInstance().meshList.clear()
+    val meshNetId = (10000000 + Random(System.currentTimeMillis()).nextInt(20000000)).toString()
+    val netKey = ByteArray(16)
+    val appKey = ByteArray(16)
+    for (i in 0..15) {
+        netKey[i] = 0
+        appKey[i] = 0
+    }
+    System.arraycopy(meshNetId.toByteArray(), 0, netKey, 0, 4)
+    System.arraycopy(meshNetId.toByteArray(), 4, appKey, 0, 4)
+    val mesh_net = MeshNetInfo()
+    mesh_net.name = meshNetId
+    mesh_net.admin_next_addr = 0x7ffe
+    mesh_net.mesh_version = 0
+    mesh_net.gateway = false
+    mesh_net.netkey = Util.byte2HexStr(netKey)
+    mesh_net.appkey = Util.byte2HexStr(appKey)
+    mesh_net.iv_index = 0
+    mesh_net.seq = 1
+    mesh_net.nodes.clear()
+    mesh_net.admin_nodes.clear()
+
+    val admin_node = MeshNetInfo.AdminNodeInfo()
+    admin_node.uuid = PlSigMeshService.getInstance().current_admin
+    admin_node.name = "user"
+    admin_node.addr = 0x7fff
+    admin_node.provision_start_addr = Util.PROVISION_DEFAULT_START_ADDR
+    admin_node.provision_end_addr = admin_node.provision_start_addr + Util.PROVISION_NUM_LIMIT_WITHOUT_QUERY_SERVER
+    admin_node.node_next_addr = admin_node.provision_start_addr.toShort()
+    mesh_net.admin_nodes.add(admin_node)
+    PlSigMeshService.getInstance().addMeshNet(mesh_net)
 }
 
 

@@ -3,10 +3,10 @@
     android:id="@+id/tv_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="@dimen/_18ssp"
+    android:ellipsize="end"
     android:paddingStart="@dimen/_30sdp"
     android:paddingTop="@dimen/_14sdp"
-    android:paddingBottom="@dimen/_14sdp"
     android:paddingEnd="@dimen/_18sdp"
+    android:paddingBottom="@dimen/_14sdp"
     android:textColor="@android:color/white"
-    android:ellipsize="end" />
+    android:textSize="@dimen/_18ssp" />

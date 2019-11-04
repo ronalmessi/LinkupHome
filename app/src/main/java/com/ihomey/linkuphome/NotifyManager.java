@@ -23,6 +23,10 @@ public class NotifyManager {
 
     // 单例开始
     private volatile static NotifyManager INSTANCE;
+    private NotificationManager manager;
+    // NotificationManagerCompat
+    private NotificationCompat.Builder builder;
+    // 单例结束
 
     private NotifyManager(Context context) {
         initNotifyManager(context);
@@ -38,11 +42,6 @@ public class NotifyManager {
         }
         return INSTANCE;
     }
-    // 单例结束
-
-    private NotificationManager manager;
-    // NotificationManagerCompat
-    private NotificationCompat.Builder builder;
 
     //初始化通知栏配置
     private void initNotifyManager(Context context) {
@@ -50,8 +49,8 @@ public class NotifyManager {
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         // 如果存在则清除上一个消息
 //        manager.cancel(news_flag);
-        builder = new NotificationCompat.Builder(context,CHANNEL_ID);
-        setONotifyChannel(manager,builder,CHANNEL_ID,CHANNEL_NAME);
+        builder = new NotificationCompat.Builder(context, CHANNEL_ID);
+        setONotifyChannel(manager, builder, CHANNEL_ID, CHANNEL_NAME);
         // 设置通知栏的优先级
         builder.setPriority(Notification.PRIORITY_HIGH);
         // 设置点击可消失
@@ -61,15 +60,15 @@ public class NotifyManager {
         // 设置icon
         builder.setSmallIcon(R.mipmap.ic_launcher);
 //        builder.setColor(Color.parseColor("#880000FF"));
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher));
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
         // 设置点击意图
         Intent intent = new Intent(context, HomeActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
     }
 
-    public void showNotify(String title,String content) {
-       NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
+    public void showNotify(String title, String content) {
+        NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
         style.bigText(content);
         style.setBigContentTitle(title);
         builder.setWhen(System.currentTimeMillis());
@@ -80,9 +79,9 @@ public class NotifyManager {
     }
 
 
-    private  void setONotifyChannel(NotificationManager manager, NotificationCompat.Builder builder, String channelId, String channelName) {
-        if (TextUtils.isEmpty(channelId)||TextUtils.isEmpty(channelName)){
-            Log.e("NotifyManager","Notify Warning:  ".concat("安卓8.0的通知兼容库中 channeId 与 channelName 不能为empty"));
+    private void setONotifyChannel(NotificationManager manager, NotificationCompat.Builder builder, String channelId, String channelName) {
+        if (TextUtils.isEmpty(channelId) || TextUtils.isEmpty(channelName)) {
+            Log.e("NotifyManager", "Notify Warning:  ".concat("安卓8.0的通知兼容库中 channeId 与 channelName 不能为empty"));
         }
         if (Build.VERSION.SDK_INT >= 26) {
             //第三个参数设置通知的优先级别

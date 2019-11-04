@@ -12,7 +12,10 @@ class AppConfig {
         val ROOM_ICON = arrayListOf(R.mipmap.ic_zone_bed_room, R.mipmap.ic_zone_living_room, R.mipmap.ic_zone_dining_room, R.mipmap.ic_zone_kitchen, R.mipmap.ic_zone_bathroom, R.mipmap.ic_zone_balcony, R.mipmap.ic_zone_corridor, R.mipmap.ic_zone_entrance, R.mipmap.ic_zone_garage, R.mipmap.ic_zone_garden, R.mipmap.ic_zone_office, R.mipmap.ic_zone_bar_counter, R.mipmap.ic_zone_deck, R.mipmap.ic_zone_tv_wall, R.mipmap.ic_zone_other)
         val LANGUAGE: Array<String> = arrayOf("en", "zh-rCN", "fr", "de", "es", "nl", "zh-rTW", "pt", "it", "ja", "ru", "ar", "da", "sv", "pl")
 
-        val API_SERVER = "http://api.linkuphome.net/"
+//        val API_SERVER = "http://api.linkuphome.net/"
+
+        val API_SERVER = "http://linkuphome.xsmart.top/api/"
+
         val INSTRUCTIONS_BASE_URL = "http://app-manual.linkuphome.net/"
         val RESET_DEVICE_BASE_URL = "http://app-manual.linkuphome.net/resetsoft/resetsoft_"
         val FAQ_BASE_URL = "http://app-docs.linkuphome.net/#/FAQ/"
@@ -35,28 +38,28 @@ class AppConfig {
 
         val RGB_COLOR = listOf(
                 RGB(29, 32, 131),
-                RGB(95,25,129),
-                RGB(0,70,151),
-                RGB(0,104,177),
-                RGB(0,155,228),
-                RGB(0,129,204),
-                RGB(0,153,145),
-                RGB(0,154,188),
-                RGB(0,150,106),
-                RGB(0,148,68),
-                RGB(137,190,31),
-                RGB(30,166,57),
-                RGB(255,236,0),
-                RGB(202,214,0),
-                RGB(247,194,0),
-                RGB(238,146,0),
-                RGB(255,0,18),
-                RGB(230,96,0),
-                RGB(224,0,79),
-                RGB(225,0,50),
-                RGB(224,0,105),
-                RGB(223,0,127),
-                RGB(141,7,128),
-                RGB(185,0,128))
+                RGB(95, 25, 129),
+                RGB(0, 70, 151),
+                RGB(0, 104, 177),
+                RGB(0, 155, 228),
+                RGB(0, 129, 204),
+                RGB(0, 153, 145),
+                RGB(0, 154, 188),
+                RGB(0, 150, 106),
+                RGB(0, 148, 68),
+                RGB(137, 190, 31),
+                RGB(30, 166, 57),
+                RGB(255, 236, 0),
+                RGB(202, 214, 0),
+                RGB(247, 194, 0),
+                RGB(238, 146, 0),
+                RGB(255, 0, 18),
+                RGB(230, 96, 0),
+                RGB(224, 0, 79),
+                RGB(225, 0, 50),
+                RGB(224, 0, 105),
+                RGB(223, 0, 127),
+                RGB(141, 7, 128),
+                RGB(185, 0, 128))
     }
 }

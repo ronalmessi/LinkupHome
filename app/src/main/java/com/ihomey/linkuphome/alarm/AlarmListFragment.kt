@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.AlarmListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.M1Controller
@@ -22,11 +22,11 @@ import com.ihomey.linkuphome.data.entity.Alarm
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.alarm_list_fragment.*
-import kotlinx.android.synthetic.main.alarm_list_fragment.iv_back
 import org.spongycastle.util.encoders.Hex
 import java.util.*
 
@@ -43,11 +43,11 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
 
     private lateinit var adapter: AlarmListAdapter
 
-    private var mDevice: Device?=null
+    private var mDevice: Device? = null
 
     private val controller: M1Controller = M1Controller()
 
-    private var isDelete:Boolean=false
+    private var isDelete: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.alarm_list_fragment, container, false)
@@ -58,14 +58,14 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
-            mDevice=it
+            mDevice = it
             viewModel.setDeviceId(it.id)
         })
         viewModel.mAlarmsResult.observe(viewLifecycleOwner, Observer<Resource<List<Alarm>>> {
             if (it.status == Status.SUCCESS) {
                 it.data?.let {
                     adapter.setNewData(it)
-                    if(it.isNotEmpty()&&it.size<2) iv_add.visibility=View.VISIBLE else iv_add.visibility=View.GONE
+                    if (it.isNotEmpty() && it.size < 2) iv_add.visibility = View.VISIBLE else iv_add.visibility = View.GONE
                 }
             }
         })
@@ -75,11 +75,11 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         super.onViewCreated(view, savedInstanceState)
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         iv_add.setOnClickListener {
-            if(adapter.itemCount==1){
+            if (adapter.itemCount == 1) {
                 adapter.getItem(0)?.let {
-                    mDevice?.let {it1->
+                    mDevice?.let { it1 ->
                         val calendar = Calendar.getInstance()
-                        viewModel.setCurrentAlarm(Alarm(if(it.id==1) 2 else 1,it1.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),1,0,0))
+                        viewModel.setCurrentAlarm(Alarm(if (it.id == 1) 2 else 1, it1.id, 0, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), 1, 0, 0))
                         Navigation.findNavController(iv_add).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
                     }
                 }
@@ -89,14 +89,14 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         adapter.setAlarmStateListener(this)
         rcv_alarm_list.layoutManager = LinearLayoutManager(context)
         context?.resources?.getDimension(R.dimen._18sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_alarm_list.addItemDecoration(it) }
-        adapter.setEmptyView(R.layout.view_alarm_list_empty,rcv_alarm_list)
+        adapter.setEmptyView(R.layout.view_alarm_list_empty, rcv_alarm_list)
         adapter.onItemClickListener = this
         adapter.onItemChildClickListener = this
         adapter.bindToRecyclerView(rcv_alarm_list)
-        adapter.emptyView.setOnClickListener {it1->
+        adapter.emptyView.setOnClickListener { it1 ->
             mDevice?.let {
                 val calendar = Calendar.getInstance()
-                viewModel.setCurrentAlarm(Alarm(1,it.id,0,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),1,0,0))
+                viewModel.setCurrentAlarm(Alarm(1, it.id, 0, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), 1, 0, 0))
                 Navigation.findNavController(it1).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
             }
         }
@@ -105,7 +105,7 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
-            it.editMode=1
+            it.editMode = 1
             viewModel.setCurrentAlarm(it)
             Navigation.findNavController(iv_back).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
         }
@@ -113,15 +113,15 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
-            when(view?.id){
-                R.id.btn_delete-> {
-                    isDelete=true
-                    controller.cancelAlarm(mDevice?.id,it.id)
-                    rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id)},150)
+            when (view?.id) {
+                R.id.btn_delete -> {
+                    isDelete = true
+                    controller.cancelAlarm(mDevice?.id, it.id)
+                    rcv_alarm_list.postDelayed({ controller.stopAlarmRing(mDevice?.id) }, 150)
                     viewModel.deleteAlarm(it)
                 }
-                R.id.swipeLayout-> {
-                    it.editMode=1
+                R.id.swipeLayout -> {
+                    it.editMode = 1
                     viewModel.setCurrentAlarm(it)
                     Navigation.findNavController(iv_back).navigate(R.id.action_alarmListFragment_to_alarmSettingFragment)
                 }
@@ -132,39 +132,43 @@ open class AlarmListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     override fun onStateChanged(isOn: Boolean, item: Alarm) {
         if (isOn) {
             item.isOn = 1
-            controller.setAlarm(mDevice?.id,item)
+            controller.setAlarm(mDevice?.id, item)
         } else {
             item.isOn = 0
-            controller.cancelAlarm(mDevice?.id,item.id)
-            rcv_alarm_list.postDelayed({controller.stopAlarmRing(mDevice?.id)},150)
+            controller.cancelAlarm(mDevice?.id, item.id)
+            rcv_alarm_list.postDelayed({ controller.stopAlarmRing(mDevice?.id) }, 150)
         }
         viewModel.saveAlarm(item)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        isDelete=false
+        isDelete = false
         BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
     }
 
-    private val mOnDataReceivedListener= BluetoothSPP.OnDataReceivedListener { data, _, _ ->
+    private val mOnDataReceivedListener = BluetoothSPP.OnDataReceivedListener { data, _, _ ->
         val receiveDataStr = Hex.toHexString(data).toUpperCase()
-        if(receiveDataStr.startsWith("FE01D101DA0003C4")&&!isDelete){
-            val isOn=TextUtils.equals("01",receiveDataStr.substring(16, 18))
+        if (receiveDataStr.startsWith("FE01D101DA0003C4") && !isDelete) {
+            val isOn = TextUtils.equals("01", receiveDataStr.substring(16, 18))
             val alarmId = Integer.parseInt(receiveDataStr.substring(18, 20), 16)
-            when(alarmId){
-                1->{if(isOn) showCustomToast(R.string.msg_first_clock_on) else showCustomToast(R.string.msg_first_clock_off)}
-                2->{if(isOn) showCustomToast(R.string.msg_second_clock_on) else showCustomToast(R.string.msg_second_clock_off)}
+            when (alarmId) {
+                1 -> {
+                    if (isOn) showCustomToast(R.string.msg_first_clock_on) else showCustomToast(R.string.msg_first_clock_off)
+                }
+                2 -> {
+                    if (isOn) showCustomToast(R.string.msg_second_clock_on) else showCustomToast(R.string.msg_second_clock_off)
+                }
             }
         }
-        isDelete=false
+        isDelete = false
     }
 
 
-    private fun showCustomToast(contentRes:Int) {
+    private fun showCustomToast(contentRes: Int) {
         context?.let {
             val toast = Toast(it)
-            toast.setGravity(Gravity.BOTTOM, 0,it.dip2px(64f))
+            toast.setGravity(Gravity.BOTTOM, 0, it.dip2px(64f))
             toast.duration = Toast.LENGTH_SHORT
             val textView = TextView(it)
             textView.gravity = Gravity.CENTER

@@ -15,7 +15,7 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
     private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
     private var mOnSeekBarChangeListener: OnSeekBarChangeListener? = null
 
-    var isSwiping:Boolean= false
+    var isSwiping: Boolean = false
 
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
@@ -24,12 +24,12 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
             holder.itemView.setOnClickListener {
                 mOnItemClickListener?.onItemClick(position)
             }
-            holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener{
+            holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener {
                 override fun onOpen(layout: SwipeLayout?) {
                 }
 
                 override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
-                    isSwiping=true
+                    isSwiping = true
                 }
 
                 override fun onStartOpen(layout: SwipeLayout?) {
@@ -41,11 +41,11 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
                 override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
 
                 override fun onClose(layout: SwipeLayout?) {
-                    holder.swipeLayout.postDelayed({ isSwiping=false},550)
+                    holder.swipeLayout.postDelayed({ isSwiping = false }, 550)
                 }
             })
             holder.swipeLayout.setOnClickListener {
-                if(!isSwiping) mOnItemClickListener?.onItemClick(position)
+                if (!isSwiping) mOnItemClickListener?.onItemClick(position)
             }
             holder.powerStateView.setOnCheckedChangeListener { _, isChecked ->
                 mOnCheckedChangeListener?.onCheckedChanged(position, isChecked)
@@ -91,7 +91,7 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
          */
         private val diffCallback = object : DiffUtil.ItemCallback<RoomAndDevices>() {
             override fun areItemsTheSame(oldItem: RoomAndDevices, newItem: RoomAndDevices): Boolean {
-                return oldItem.room?.id == newItem.room?.id&&oldItem.devices==newItem.devices&&oldItem.room?.parameters?.on==newItem.room?.parameters?.on&&oldItem.room?.parameters?.brightness==newItem.room?.parameters?.brightness
+                return oldItem.room?.id == newItem.room?.id && oldItem.devices == newItem.devices && oldItem.room?.parameters?.on == newItem.room?.parameters?.on && oldItem.room?.parameters?.brightness == newItem.room?.parameters?.brightness
             }
 
             /**
@@ -132,7 +132,7 @@ class RoomListAdapter : PagedListAdapter<RoomAndDevices, RoomViewHolder>(diffCal
         this.mOnCheckedChangeListener = listener
     }
 
-    fun setOnSeekBarChangeListener(listener:OnSeekBarChangeListener) {
+    fun setOnSeekBarChangeListener(listener: OnSeekBarChangeListener) {
         this.mOnSeekBarChangeListener = listener
     }
 }

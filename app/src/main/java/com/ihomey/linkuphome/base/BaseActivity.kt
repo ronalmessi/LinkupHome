@@ -58,7 +58,7 @@ abstract class BaseActivity : AppCompatActivity() {
             loadingFragment = LoadingFragment()
         }
         loadingFragment?.isCancelable = false
-        if(!loadingFragment?.isAdded!!) loadingFragment?.show(supportFragmentManager, "LoadingFragment")
+        if (!loadingFragment?.isAdded!!) loadingFragment?.show(supportFragmentManager, "LoadingFragment")
     }
 
     fun hideLoadingView() {

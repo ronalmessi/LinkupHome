@@ -12,7 +12,6 @@ import android.text.TextUtils
 import android.util.ArrayMap
 import android.util.Log
 import android.util.SparseIntArray
-import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
 import android.widget.Toast
@@ -23,7 +22,6 @@ import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.MeshService
 import com.ihomey.linkuphome.*
-import com.ihomey.linkuphome.alarm.EnvironmentalIndicatorsFragment
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.controller.M1Controller
@@ -36,12 +34,10 @@ import com.ihomey.linkuphome.device1.ConnectM1DeviceFragment
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.listeners.BatteryValueListener
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.pairlink.sigmesh.lib.*
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
-import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
 import org.spongycastle.util.encoders.Hex
 import java.lang.ref.WeakReference
 import java.util.*
@@ -86,6 +82,19 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             if (it?.status == Status.SUCCESS) {
                 it.data?.nextDeviceIndex?.let { it1 -> mService?.setNextDeviceId(it1) }
                 it.data?.netWorkKey?.let { it1 -> mService?.setNetworkPassPhrase(it1) }
+                if (TextUtils.isEmpty(it.data?.meshInfo)) {
+                    createPlSigMeshNet()
+                    if (!TextUtils.equals(it.data?.meshInfo, PlSigMeshService.getInstance().getJsonStrMeshNet(0))) {
+                        mViewModel.uploadMeshInfo(getIMEI(), it.data?.id, it.data?.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0)).observe(this, Observer<Resource<Zone>> {
+                            if (it?.status != Status.LOADING) initMeshNet()
+                        })
+                    }
+                } else {
+                    Log.d("aa", "aaaa---" + it)
+                    it.data?.meshInfo?.let { PlSigMeshService.getInstance().updateJsonStrMeshNet(it, ArrayList(0)) }
+                    initMeshNet()
+                    Log.d("aa", "bbbb---" + PlSigMeshService.getInstance().meshList.size + "---" + PlSigMeshService.getInstance().getJsonStrMeshNet(0))
+                }
             }
         })
         mViewModel.mRemoveDeviceVo.observe(this, Observer<RemoveDeviceVo> {
@@ -182,22 +191,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
+    private fun initMeshNet() {
+        Log.d("aa", "222222")
+        mPlSigMeshNet = PlSigMeshService.getInstance().chooseMeshNet(0)
+        mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROXY)
+        PlSigMeshService.getInstance().registerProxyCb(mSigMeshProxyCB)
+        mPlSigMeshService?.proxyJoin()
+    }
 
     private val mPlSigMeshServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, rawBinder: IBinder) {
             mPlSigMeshService = (rawBinder as PlSigMeshService.LocalBinder).service
-            mPlSigMeshService?.let {
-                it.init(this@HomeActivity, true, Util.DBG_LEVEL_WARN)
-                mPlSigMeshNet = it.chooseMeshNet(0)
-                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROXY)
-                it.registerProxyCb(mSigMeshProxyCB)
-                mPlSigMeshService?.proxyJoin()
-//                if (mPlSigMeshNet == null) {
-                    Log.d("aa", "create mesh net")
-                    createPlSigMeshNet()
-                    it.chooseMeshNet(0)
-//                }
-            }
+            mPlSigMeshService?.let { it.init(this@HomeActivity, Util.DBG_LEVEL_WARN, Util.DBG_LEVEL_WARN) }
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -205,43 +210,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
     }
 
-    fun gen(): Int {
-        val r = Random(System.currentTimeMillis())
-        return 10000000 + r.nextInt(20000000)
-    }
-
-    private fun createPlSigMeshNet() {
-        val homeId_tmp = "" + gen()
-        val homeId = homeId_tmp.toByteArray()
-        val netkey = ByteArray(16)
-        val appkey = ByteArray(16)
-        for (i in 0..15) {
-            netkey[i] = 0
-            appkey[i] = 0
-        }
-        System.arraycopy(homeId, 0, netkey, 0, 4)
-        System.arraycopy(homeId, 4, appkey, 0, 4)
-        val mesh_net = MeshNetInfo()
-        mesh_net.name = homeId_tmp
-        mesh_net.node_next_addr = 2
-        mesh_net.admin_next_addr = 0x7ffe
-        mesh_net.mesh_version = 0
-        mesh_net.gateway = false
-        mesh_net.netkey = Util.byte2HexStr(netkey)
-        mesh_net.appkey = Util.byte2HexStr(appkey)
-        mesh_net.iv_index = 0
-        mesh_net.seq = 1
-        mesh_net.nodes.clear()
-        mesh_net.current_admin = PlSigMeshService.getInstance().current_admin
-        mesh_net.admin_nodes.clear()
-
-        val admin_node = MeshNetInfo.AdminNodeInfo()
-        admin_node.uuid = mesh_net.current_admin
-        admin_node.name = "user"
-        admin_node.addr = 0x7fff
-        mesh_net.admin_nodes.add(admin_node)
-        PlSigMeshService.getInstance().addMeshNet(mesh_net)
-    }
 
     override fun connectBridge() {
         mService?.setHandler(mMeshHandler)
@@ -338,7 +306,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             val parentActivity = mActivity.get()
             when (msg.what) {
                 MeshService.MESSAGE_REQUEST_BT -> {
-                    if(parentActivity?.mPlSigMeshService!=null) parentActivity.unbindService(parentActivity.mPlSigMeshServiceConnection)
+                    if (parentActivity?.mPlSigMeshService != null) parentActivity.unbindService(parentActivity.mPlSigMeshServiceConnection)
                     BluetoothSPP.getInstance()?.removeOnDataReceivedListener(parentActivity?.mOnDataReceivedListener)
                     BluetoothSPP.getInstance()?.stopService()
                     val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -544,9 +512,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             }
         }
 
-        override fun onAdvProvisionComplete(mesh_net: MeshNetInfo?) {
-            Log.d("aa", "onAdvProvisionComplete $mesh_net")
-        }
+//        override fun onAdvProvisionComplete(mesh_net: MeshNetInfo?) {
+//            Log.d("aa", "onAdvProvisionComplete $mesh_net")
+//        }
     }
 
 

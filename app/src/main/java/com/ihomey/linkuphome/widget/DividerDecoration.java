@@ -16,16 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 
 public class DividerDecoration extends RecyclerView.ItemDecoration {
-    private boolean hideBottom = false;
-
+    public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
+    public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
     private static final int[] ATTRS = new int[]{
             android.R.attr.listDivider
     };
-
-    public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
-
-    public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
-
+    private boolean hideBottom = false;
     private Drawable mDivider;
 
     private int mOrientation;
@@ -74,7 +70,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
                     .getLayoutParams();
             final int top = child.getBottom() + params.bottomMargin;
             final int bottom = top + mDivider.getIntrinsicHeight();
-            mDivider.setBounds(left , top, right , bottom);
+            mDivider.setBounds(left, top, right, bottom);
             mDivider.draw(c);
         }
     }

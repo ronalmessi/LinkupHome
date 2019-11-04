@@ -36,18 +36,16 @@ public class RGBCircleView extends View {
     private static final float DEFAULT_CIRCLE_STROKE_WIDTH = 10;
     // Default color
     private static final int DEFAULT_HIGHLIGHT_LINE_COLOR = 0xFF891E89;
+    Handler handler = new Handler();
     // Paint
     private Paint mCirclePaint;
-
     // Dimension
     private float mGapBetweenCircleAndLine;
     private float mLineLength;
     private float mCircleButtonRadius;
     private float mCircleStrokeWidth;
-
     // Color
     private int mCircleColor;
-
     // Parameters
     private float mCx;
     private float mCy;
@@ -56,19 +54,26 @@ public class RGBCircleView extends View {
     private float mPreRadian;
     private int mCurrentTime; // seconds
     private int mCurrentIndex; // seconds
-
     private long startTime;
     private long endTime;
-
     private float downX;
     private float downY;
-
     private float moveX;
     private float moveY;
-
-
     // Runt
     private ColorValueListener mCircleTimerListener;
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mCurrentIndex == 0 || mCurrentIndex != getIndexColor(getCurrentTime())) {
+                if (mCircleTimerListener != null) {
+                    mCircleTimerListener.onColorValueChange(getIndex(getCurrentTime()));
+                    mCurrentIndex = getIndexColor(getCurrentTime());
+                }
+            }
+            handler.postDelayed(this, 200);
+        }
+    };
 
     public RGBCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -111,7 +116,6 @@ public class RGBCircleView extends View {
         canvas.drawBitmap(bitmap, getMeasuredWidth() / 2 - bitmap.getWidth() / 2, mCy - mRadius + dip2px(this.getContext(), 51), mCirclePaint);
         super.onDraw(canvas);
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -170,21 +174,6 @@ public class RGBCircleView extends View {
         return true;
     }
 
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (mCurrentIndex == 0 || mCurrentIndex != getIndexColor(getCurrentTime())) {
-                if (mCircleTimerListener != null) {
-                    mCircleTimerListener.onColorValueChange(getIndex(getCurrentTime()));
-                    mCurrentIndex = getIndexColor(getCurrentTime());
-                }
-            }
-            handler.postDelayed(this, 200);
-        }
-    };
-
-
     private int getIndexColor(int time) {
         int d1 = time / 151;
         return colors[d1];
@@ -193,13 +182,6 @@ public class RGBCircleView extends View {
     private int getIndex(int time) {
         int d1 = time / 151;
         return d1;
-    }
-
-    public void setCurrentRadian(float radian) {
-        mCurrentRadian = radian;
-        mCurrentTime = (int) (60 / (2 * Math.PI) * mCurrentRadian * 60);
-        int colorIndex = getIndexColor(getCurrentTime());
-        setCircleBgColor(colorIndex);
     }
 
     // Use tri to cal radian
@@ -264,7 +246,6 @@ public class RGBCircleView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
-
     /**
      * set the hint text, default is 时间设置
      *
@@ -295,9 +276,15 @@ public class RGBCircleView extends View {
         return mCurrentTime;
     }
 
-
     public float getCurrentRadian() {
         return mCurrentRadian;
+    }
+
+    public void setCurrentRadian(float radian) {
+        mCurrentRadian = radian;
+        mCurrentTime = (int) (60 / (2 * Math.PI) * mCurrentRadian * 60);
+        int colorIndex = getIndexColor(getCurrentTime());
+        setCircleBgColor(colorIndex);
     }
 
     public int getCurrentIndex() {

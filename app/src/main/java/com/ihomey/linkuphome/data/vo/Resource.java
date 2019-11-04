@@ -26,6 +26,7 @@ import static com.ihomey.linkuphome.data.vo.Status.SUCCESS;
 
 /**
  * A generic class that holds a value with its loading status.
+ *
  * @param <T>
  */
 public class Resource<T> {
@@ -49,7 +50,7 @@ public class Resource<T> {
         return new Resource<>(SUCCESS, data, null);
     }
 
-    public static <T> Resource<T> success(String msg,@Nullable T data) {
+    public static <T> Resource<T> success(String msg, @Nullable T data) {
         return new Resource<>(SUCCESS, data, msg);
     }
 

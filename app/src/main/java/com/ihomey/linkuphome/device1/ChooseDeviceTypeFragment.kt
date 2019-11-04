@@ -35,7 +35,7 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         rcv_device_type_list.layoutManager = GridLayoutManager(context, 2)
         context?.resources?.getDimensionPixelSize(R.dimen._10sdp)?.let { SpaceItemDecoration(it / 2, it / 2, it / 2, it / 2) }?.let { rcv_device_type_list.addItemDecoration(it) }
         rcv_device_type_list.adapter = adapter
-        adapter.setNewData(listOf(0,1,3,2,6,10,7,8,4,9))
+        adapter.setNewData(listOf(0, 1, 3, 2, 6, 10, 7, 8, 4, 9))
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 
@@ -43,9 +43,9 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
         adapter.getItem(position)?.let {
             val bundle = Bundle()
             arguments?.getInt("zoneId")?.let { bundle.putInt("zoneId", it) }
-            if(it==0){
+            if (it == 0) {
                 Navigation.findNavController(view).navigate(R.id.action_chooseDeviceTypeFragment_to_connectM1DeviceFragment, bundle)
-            }else{
+            } else {
                 bundle.putInt("deviceType", it)
                 Navigation.findNavController(view).navigate(R.id.action_chooseDeviceTypeFragment_to_searchDeviceHintFragment2, bundle)
             }

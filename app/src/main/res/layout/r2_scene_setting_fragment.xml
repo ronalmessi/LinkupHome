@@ -70,8 +70,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_read_rgb"
                         android:layout_below="@+id/rb_scene_read_rgb"
+                        android:layout_alignEnd="@+id/rb_scene_read_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_read"
                         android:textColor="@color/radio_text_color_read" />
@@ -96,8 +96,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_sunset_rgb"
                         android:layout_below="@+id/rb_scene_sunset_rgb"
+                        android:layout_alignEnd="@+id/rb_scene_sunset_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_sunset"
                         android:textColor="@color/radio_text_color_sunset" />
@@ -123,8 +123,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_rest_rgb"
                         android:layout_below="@+id/rb_scene_rest_rgb"
+                        android:layout_alignEnd="@+id/rb_scene_rest_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_rest"
                         android:textColor="@color/radio_text_color_rest" />
@@ -150,8 +150,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_spring_rgb"
                         android:layout_below="@+id/rb_scene_spring_rgb"
+                        android:layout_alignEnd="@+id/rb_scene_spring_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_spring"
                         android:textColor="@color/radio_text_color_spring" />
@@ -178,8 +178,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_rainforest_rgb"
                         android:layout_below="@+id/rb_scene_rainforest_rgb"
+                        android:layout_alignEnd="@+id/rb_scene_rainforest_rgb"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_rainforest"
                         android:textColor="@color/radio_text_color_rainforest" />

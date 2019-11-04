@@ -1,14 +1,12 @@
 package com.ihomey.linkuphome.adapter
 
 
-import android.util.SparseIntArray
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-
 
 
 /**
@@ -22,11 +20,11 @@ class RingListAdapter(private val isSingleChoice: Boolean, layoutId: Int) : Base
     }
 
 
-    private var selectedPosition=0
+    private var selectedPosition = 0
 
 
     fun isItemSelected(position: Int): Boolean {
-        return selectedPosition==position
+        return selectedPosition == position
     }
 
     fun getSelectedPosition(): Int {
@@ -35,7 +33,7 @@ class RingListAdapter(private val isSingleChoice: Boolean, layoutId: Int) : Base
 
 
     fun setItemSelected(position: Int, selected: Boolean) {
-        if (selected) selectedPosition=position
+        if (selected) selectedPosition = position
         notifyDataSetChanged()
     }
 

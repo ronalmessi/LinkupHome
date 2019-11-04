@@ -18,8 +18,8 @@ class JoinZoneViewModel : ViewModel() {
     }
 
 
-    fun joinZone(guid:String,invitationCode:String): LiveData<Resource<ZoneDetail>> {
-        return zoneRepository.joinZone(guid,invitationCode)
+    fun joinZone(guid: String, invitationCode: String): LiveData<Resource<ZoneDetail>> {
+        return zoneRepository.joinZone(guid, invitationCode)
     }
 
 }

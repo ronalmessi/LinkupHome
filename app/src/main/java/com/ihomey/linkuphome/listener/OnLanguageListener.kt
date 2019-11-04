@@ -1,5 +1,5 @@
 package com.ihomey.linkuphome.listener
 
 interface OnLanguageListener {
-    fun onLanguageChange(languageIndex:Int)
+    fun onLanguageChange(languageIndex: Int)
 }

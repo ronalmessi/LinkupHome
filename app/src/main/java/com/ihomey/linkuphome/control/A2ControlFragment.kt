@@ -23,21 +23,21 @@ class A2ControlFragment : BaseControlFragment() {
 
 
     override fun getTitleView(): TextView {
-        return  mViewDataBinding.tvTitle
+        return mViewDataBinding.tvTitle
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.a2_control_fragment, container, false)
         mViewDataBinding.handlers = ToolBarEventHandler()
-        mViewDataBinding.deviceSeekBarBrightness.max=240
+        mViewDataBinding.deviceSeekBarBrightness.max = 240
         return mViewDataBinding.root
     }
 
     override fun updateViewData(device: Device) {
         mViewDataBinding.control = device
         mControlDevice = device
-        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
-        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+        mViewDataBinding.deviceStateCbPower.isChecked = (device.parameters?.on == 1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress = it }
 //        mViewDataBinding.deviceDbvColorTemperature.currentColorTemperature = mControlDevice.state.colorTemperature
         mViewDataBinding.deviceDbvColorTemperature.setColorTemperatureListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)

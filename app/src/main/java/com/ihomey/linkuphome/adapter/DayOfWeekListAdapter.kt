@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
 
-import android.util.Log
 import android.util.SparseIntArray
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -9,7 +8,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-import java.lang.StringBuilder
 
 
 /**
@@ -30,13 +28,13 @@ class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) :
     }
 
     fun isItemSelected(position: Int): Boolean {
-        return selectedItems[position]!=0
+        return selectedItems[position] != 0
     }
 
     fun setItemSelected(position: Int, selected: Boolean) {
         if (isSingleChoice) selectedItems.clear()
         if (selected) {
-            selectedItems.put(position,position+1)
+            selectedItems.put(position, position + 1)
         } else {
             selectedItems.delete(position)
         }
@@ -44,12 +42,11 @@ class DayOfWeekListAdapter(private val isSingleChoice: Boolean, layoutId: Int) :
     }
 
 
-
-    fun getDayOfWeekValue():Int{
-        val dayOfWeekHBinaryStr= StringBuilder("0000000")
+    fun getDayOfWeekValue(): Int {
+        val dayOfWeekHBinaryStr = StringBuilder("0000000")
         for (i in 0 until selectedItems.size()) {
             val key = selectedItems.keyAt(i)
-            dayOfWeekHBinaryStr.replace(key, key + 1,"1")
+            dayOfWeekHBinaryStr.replace(key, key + 1, "1")
         }
         return Integer.parseInt(dayOfWeekHBinaryStr.toString(), 2)
     }

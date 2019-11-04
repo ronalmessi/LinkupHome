@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.data.repository
 
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -11,14 +10,14 @@ import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
 import com.ihomey.linkuphome.data.api.ApiService
 import com.ihomey.linkuphome.data.api.NetworkBoundResource
-import com.ihomey.linkuphome.data.db.RoomDao
 import com.ihomey.linkuphome.data.db.DeviceDao
-import com.ihomey.linkuphome.data.entity.*
+import com.ihomey.linkuphome.data.db.RoomDao
+import com.ihomey.linkuphome.data.entity.DeviceState
+import com.ihomey.linkuphome.data.entity.Room
+import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.vo.*
-
 import com.ihomey.linkuphome.md5
 import com.ihomey.linkuphome.sha256
-
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -66,7 +65,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Boolean>> {
-                val deleteZoneVO = DeleteVO(guid.md5(), ""+roomId, System.currentTimeMillis())
+                val deleteZoneVO = DeleteVO(guid.md5(), "" + roomId, System.currentTimeMillis())
                 deleteZoneVO.signature = beanToJson(deleteZoneVO).sha256()
                 return apiService.deleteRoom(deleteZoneVO)
             }
@@ -88,7 +87,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Room>> {
-                val changeZoneNameVO = ChangeDeviceNameVO(guid.md5(), ""+id, newName, spaceId, System.currentTimeMillis(), type)
+                val changeZoneNameVO = ChangeDeviceNameVO(guid.md5(), "" + id, newName, spaceId, System.currentTimeMillis(), type)
                 changeZoneNameVO.signature = beanToJson(changeZoneNameVO).sha256()
                 return apiService.changeRoomName(changeZoneNameVO)
             }
@@ -100,7 +99,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             override fun saveCallResult(item: Room?) {
                 item?.let {
                     roomDao.insert(item)
-                    for(deviceInstructId in deviceInstructIds.split(",")){
+                    for (deviceInstructId in deviceInstructIds.split(",")) {
                         if (TextUtils.equals("add", act)) {
                             deviceDao.bondToRoom(item.id, deviceInstructId.toInt(), spaceId)
                         } else {
@@ -141,7 +140,7 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Room>> {
-                val changeDeviceStateVO = ChangeDeviceStateVO(guid.md5(), ""+id, name, value, System.currentTimeMillis())
+                val changeDeviceStateVO = ChangeDeviceStateVO(guid.md5(), "" + id, name, value, System.currentTimeMillis())
                 changeDeviceStateVO.signature = beanToJson(changeDeviceStateVO).sha256()
                 return apiService.changeRoomState(changeDeviceStateVO)
             }
@@ -153,12 +152,12 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
         return LivePagedListBuilder(roomDao.getPagingRooms(zoneId), /* page size */6).build()
     }
 
-    fun updateState(roomAndDevices: RoomAndDevices,deviceState:DeviceState) {
+    fun updateState(roomAndDevices: RoomAndDevices, deviceState: DeviceState) {
         appExecutors.diskIO().execute {
             roomAndDevices.room?.let {
-                roomDao.updateState(it.id,deviceState)
-                for(device in roomAndDevices.devices){
-                    deviceDao.updateStateByRoomId(it.id,deviceState)
+                roomDao.updateState(it.id, deviceState)
+                for (device in roomAndDevices.devices) {
+                    deviceDao.updateStateByRoomId(it.id, deviceState)
                 }
             }
         }

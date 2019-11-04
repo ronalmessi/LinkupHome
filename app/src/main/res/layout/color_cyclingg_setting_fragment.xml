@@ -22,16 +22,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
         <com.ihomey.linkuphome.widget.SingleSelectToggleGroup
             android:id="@+id/device_cycling_sstg_speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/device_color_cycling_btn_unchecked_bg"
-            android:layout_marginTop="@dimen/_18sdp"
             android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_18sdp"
             android:layout_marginRight="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_12sdp"
+            android:background="@drawable/device_color_cycling_btn_unchecked_bg"
             android:saveEnabled="true"
             android:textSize="@dimen/_12ssp"
             app:buttonHeight="@dimen/_42sdp"

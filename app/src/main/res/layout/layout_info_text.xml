@@ -27,8 +27,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:drawablePadding="@dimen/_8sdp"
-            android:gravity="left"
-            />
+            android:gravity="left" />
 
     </RelativeLayout>
 

@@ -1,23 +1,24 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.AppExecutors
+import com.ihomey.linkuphome.beanToJson
 import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
 import com.ihomey.linkuphome.data.api.ApiService
 import com.ihomey.linkuphome.data.api.NetworkBoundResource
+import com.ihomey.linkuphome.data.db.DeviceDao
 import com.ihomey.linkuphome.data.db.LocalStateDao
 import com.ihomey.linkuphome.data.db.RoomDao
-import com.ihomey.linkuphome.data.db.DeviceDao
 import com.ihomey.linkuphome.data.db.ZoneDao
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.LocalState
-import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.md5
+import com.ihomey.linkuphome.sha256
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,7 +33,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             override fun saveCallResult(item: Device?) {
                 item?.let {
                     deviceDao.insert(it)
-                    zoneDao.updateNextDeviceIndex(it.instructId+1,zoneId)
+                    zoneDao.updateNextDeviceIndex(it.instructId + 1, zoneId)
                 }
             }
 
@@ -45,14 +46,14 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Device>> {
-                val saveDeviceVO = SaveDeviceVO(guid.md5(), name,  zoneId,  System.currentTimeMillis(), type)
+                val saveDeviceVO = SaveDeviceVO(guid.md5(), name, zoneId, System.currentTimeMillis(), type)
                 saveDeviceVO.signature = beanToJson(saveDeviceVO).sha256()
                 return apiService.saveDevice(saveDeviceVO)
             }
         }.asLiveData()
     }
 
-    fun deleteDevice(guid:String,deviceId:String): LiveData<Resource<Boolean>> {
+    fun deleteDevice(guid: String, deviceId: String): LiveData<Resource<Boolean>> {
         return object : NetworkBoundResource<Boolean>(appExecutors) {
             override fun saveCallResult(item: Boolean?) {
 
@@ -67,18 +68,18 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Boolean>> {
-                val deleteZoneVO=DeleteVO(guid.md5(),deviceId,System.currentTimeMillis())
-                deleteZoneVO.signature= beanToJson(deleteZoneVO).sha256()
+                val deleteZoneVO = DeleteVO(guid.md5(), deviceId, System.currentTimeMillis())
+                deleteZoneVO.signature = beanToJson(deleteZoneVO).sha256()
                 return apiService.deleteDevice(deleteZoneVO)
             }
         }.asLiveData()
     }
 
 
-    fun changeDeviceName(guid:String,spaceId:Int,id:String,type:Int,newName:String): LiveData<Resource<Device>> {
+    fun changeDeviceName(guid: String, spaceId: Int, id: String, type: Int, newName: String): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
-                item?.let {  deviceDao.insert(it) }
+                item?.let { deviceDao.insert(it) }
             }
 
             override fun shouldFetch(data: Device?): Boolean {
@@ -90,15 +91,15 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Device>> {
-                val changeZoneNameVO=ChangeDeviceNameVO(guid.md5(),id,newName,spaceId,System.currentTimeMillis(),type)
-                changeZoneNameVO.signature= beanToJson(changeZoneNameVO).sha256()
+                val changeZoneNameVO = ChangeDeviceNameVO(guid.md5(), id, newName, spaceId, System.currentTimeMillis(), type)
+                changeZoneNameVO.signature = beanToJson(changeZoneNameVO).sha256()
                 return apiService.changeDeviceName(changeZoneNameVO)
             }
         }.asLiveData()
     }
 
 
-    fun changeDeviceState(guid:String,id:String,name:String,value:String): LiveData<Resource<Device>> {
+    fun changeDeviceState(guid: String, id: String, name: String, value: String): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
 
@@ -113,8 +114,8 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Device>> {
-                val changeDeviceStateVO=ChangeDeviceStateVO(guid.md5(),id,name,value,System.currentTimeMillis())
-                changeDeviceStateVO.signature= beanToJson(changeDeviceStateVO).sha256()
+                val changeDeviceStateVO = ChangeDeviceStateVO(guid.md5(), id, name, value, System.currentTimeMillis())
+                changeDeviceStateVO.signature = beanToJson(changeDeviceStateVO).sha256()
                 return apiService.changeDeviceState(changeDeviceStateVO)
             }
         }.asLiveData()
@@ -129,10 +130,10 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }.asLiveData()
     }
 
-    fun getDevicesByType(zoneId: Int,type:Int): LiveData<Resource<List<Device>>> {
+    fun getDevicesByType(zoneId: Int, type: Int): LiveData<Resource<List<Device>>> {
         return object : DbBoundResource<List<Device>>(appExecutors) {
             override fun loadFromDb(): LiveData<List<Device>> {
-                return deviceDao.getDevicesByType(zoneId,type)
+                return deviceDao.getDevicesByType(zoneId, type)
             }
         }.asLiveData()
     }
@@ -146,8 +147,8 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         return LivePagedListBuilder(deviceDao.getPagingUnBondedDevices(zoneId), /* page size */6).build()
     }
 
-    fun getPagingBondedDevices(zoneId: Int,roomId:Int): LiveData<PagedList<Device>> {
-        return LivePagedListBuilder(deviceDao.getPagingBondedDevices(zoneId,roomId), /* page size */6).build()
+    fun getPagingBondedDevices(zoneId: Int, roomId: Int): LiveData<PagedList<Device>> {
+        return LivePagedListBuilder(deviceDao.getPagingBondedDevices(zoneId, roomId), /* page size */6).build()
     }
 
     fun getLocalState(id: String): LiveData<Resource<LocalState>> {
@@ -170,32 +171,32 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }
     }
 
-    fun updateState(device: Device, deviceState:DeviceState) {
+    fun updateState(device: Device, deviceState: DeviceState) {
         appExecutors.diskIO().execute {
-            deviceDao.updateState(device.id,deviceState)
+            deviceDao.updateState(device.id, deviceState)
         }
     }
 
-    fun changeDeviceName(id:String,newName:String){
+    fun changeDeviceName(id: String, newName: String) {
         appExecutors.diskIO().execute {
-            deviceDao.updateName(id,newName)
+            deviceDao.updateName(id, newName)
         }
     }
 
-    fun updateM1Version(id:String,version:Int){
+    fun updateM1Version(id: String, version: Int) {
         appExecutors.diskIO().execute {
-            deviceDao.updateM1Version(id,version)
+            deviceDao.updateM1Version(id, version)
         }
     }
 
-    fun updateRoomAndDeviceState(device: Device, deviceState:DeviceState) {
+    fun updateRoomAndDeviceState(device: Device, deviceState: DeviceState) {
         appExecutors.diskIO().execute {
-            deviceDao.updateState(device.id,deviceState)
-            val room=roomDao.getRoom(device.roomId)
-            if(room!=null){
-                val deviceList=deviceDao.getDevices(device.zoneId, device.roomId)
-                if(deviceList.filter { it.parameters?.on==1 }.size % deviceList.size==0){
-                    room.parameters?.on=if(deviceList.filter { it.parameters?.on == 1 }.isEmpty()) 0 else 1
+            deviceDao.updateState(device.id, deviceState)
+            val room = roomDao.getRoom(device.roomId)
+            if (room != null) {
+                val deviceList = deviceDao.getDevices(device.zoneId, device.roomId)
+                if (deviceList.filter { it.parameters?.on == 1 }.size % deviceList.size == 0) {
+                    room.parameters?.on = if (deviceList.filter { it.parameters?.on == 1 }.isEmpty()) 0 else 1
                     room.parameters?.let { it1 -> roomDao.updateState(device.roomId, it1) }
                 }
             }

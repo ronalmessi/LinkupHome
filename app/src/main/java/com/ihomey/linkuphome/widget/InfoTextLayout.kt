@@ -109,11 +109,11 @@ class InfoTextLayout : RelativeLayout {
     }
 
     fun setImageValue(imageDrawable: Drawable) {
-        imageDrawable.setBounds(0, 0, mRightTextView.lineHeight*2, mRightTextView.lineHeight*2)
+        imageDrawable.setBounds(0, 0, mRightTextView.lineHeight * 2, mRightTextView.lineHeight * 2)
         mRightTextView.setCompoundDrawables(null, null, imageDrawable, null)
     }
 
     fun setLeftImageValue(imageDrawable: Drawable) {
-        mRightTextView.setCompoundDrawablesWithIntrinsicBounds(imageDrawable, null,null , null)
+        mRightTextView.setCompoundDrawablesWithIntrinsicBounds(imageDrawable, null, null, null)
     }
 }

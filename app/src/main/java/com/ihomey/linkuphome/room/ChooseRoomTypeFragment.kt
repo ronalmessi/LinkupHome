@@ -57,8 +57,8 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         rcv_zone_type_list.layoutManager = GridLayoutManager(context, 3)
         val dm = DisplayMetrics()
         (context as Activity).windowManager.defaultDisplay.getRealMetrics(dm)
-        val verticalMargin=(dm.heightPixels- context?.resources?.getDimensionPixelSize(R.dimen._64sdp)!!*5)/8
-        rcv_zone_type_list.addItemDecoration( SpaceItemDecoration(0, 0, verticalMargin, 0))
+        val verticalMargin = (dm.heightPixels - context?.resources?.getDimensionPixelSize(R.dimen._64sdp)!! * 5) / 8
+        rcv_zone_type_list.addItemDecoration(SpaceItemDecoration(0, 0, verticalMargin, 0))
         rcv_zone_type_list.adapter = adapter
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
@@ -74,19 +74,21 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     }
 
 
-    override fun createSubZone(type: Int, name: String){
-        context?.getIMEI()?.let { it1 -> mViewModel.saveRoom(it1, currentZone?.id!!,type+1,name).observe(viewLifecycleOwner, Observer<Resource<Room>> {
-            if (it?.status == Status.SUCCESS) {
-                hideLoadingView()
-                mViewModel.setCurrentZoneId(it.data?.zoneId)
-                Navigation.findNavController(iv_back).popBackStack()
-            }else  if (it?.status == Status.ERROR) {
-                hideLoadingView()
-                it.message?.let { it2 -> activity?.toast(it2) }
-            }else if (it?.status == Status.LOADING) {
-                showLoadingView()
-            }
-        })}
+    override fun createSubZone(type: Int, name: String) {
+        context?.getIMEI()?.let { it1 ->
+            mViewModel.saveRoom(it1, currentZone?.id!!, type + 1, name).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                if (it?.status == Status.SUCCESS) {
+                    hideLoadingView()
+                    mViewModel.setCurrentZoneId(it.data?.zoneId)
+                    Navigation.findNavController(iv_back).popBackStack()
+                } else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                } else if (it?.status == Status.LOADING) {
+                    showLoadingView()
+                }
+            })
+        }
     }
 
 }

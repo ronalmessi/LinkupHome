@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -22,28 +21,29 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.ihomey.linkuphome.zone.ZoneNavHostFragment
-import com.yanzhenjie.recyclerview.*
-
+import com.yanzhenjie.recyclerview.OnItemMenuClickListener
+import com.yanzhenjie.recyclerview.SwipeMenuBridge
+import com.yanzhenjie.recyclerview.SwipeMenuCreator
+import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.room_fragment.*
-
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
 
-class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListener, OnItemMenuClickListener,  BondedDeviceListAdapter.OnCheckedChangeListener {
+class RoomFragment : BaseFragment(), FragmentBackHandler, UpdateDeviceNameListener, OnItemMenuClickListener, BondedDeviceListAdapter.OnCheckedChangeListener {
 
     companion object {
         fun newInstance() = RoomFragment()
@@ -56,7 +56,7 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
     private lateinit var adapter: BondedDeviceListAdapter
     private lateinit var listener: MeshServiceStateListener
 
-    private var room: Room?=null
+    private var room: Room? = null
 
     private var guide: Guide? = null
 
@@ -78,12 +78,12 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
             adapter.submitList(it)
         })
         mViewModel.isBondedDevicesListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
-            if(it){
-                emptyView.visibility=View.VISIBLE
-                btn_add.visibility=View.GONE
-            } else{
-                emptyView.visibility=View.GONE
-                btn_add.visibility=View.VISIBLE
+            if (it) {
+                emptyView.visibility = View.VISIBLE
+                btn_add.visibility = View.GONE
+            } else {
+                emptyView.visibility = View.GONE
+                btn_add.visibility = View.VISIBLE
             }
         })
     }
@@ -123,7 +123,7 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
                 }
                 val dialog = ReNameDeviceFragment()
                 val bundle = Bundle()
-                bundle.putString("deviceId", ""+it.id)
+                bundle.putString("deviceId", "" + it.id)
                 bundle.putString("deviceName", it.name)
                 dialog.arguments = bundle
                 dialog.setUpdateZoneNameListener(this)
@@ -139,8 +139,8 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
     }
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
-        adapter.currentList?.get(position)?.let {it1->
-          room?.let { bindDevice(it.zoneId, it.instructId,it1.instructId.toString(), "remove")  }
+        adapter.currentList?.get(position)?.let { it1 ->
+            room?.let { bindDevice(it.zoneId, it.instructId, it1.instructId.toString(), "remove") }
         }
         menuBridge?.closeMenu()
     }
@@ -148,12 +148,11 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
 
     override fun onCheckedChanged(position: Int, isChecked: Boolean) {
         adapter.currentList?.get(position)?.let {
-            val controller = ControllerFactory().createController(it.type,TextUtils.equals("LinkupHome V1",it.name))
+            val controller = ControllerFactory().createController(it.type, TextUtils.equals("LinkupHome V1", it.name))
             if (listener.isMeshServiceConnected()) controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
             changeDeviceState(it, "on", if (isChecked) "1" else "0")
         }
     }
-
 
 
     private fun showGuideView(view: View) {
@@ -165,7 +164,7 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
                 .setHighTargetPaddingRight(context?.resources?.getDimension(R.dimen._24sdp)?.toInt()!!)
                 .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
-                .setHighTargetMarginTop(getMarginTop(view)+context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(view) + context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
                 .setAutoDismiss(true)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(true)
@@ -221,10 +220,10 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
                 if (it?.status == Status.SUCCESS) {
                     hideLoadingView()
                 } else if (it?.status == Status.ERROR) {
-                   hideLoadingView()
+                    hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
-                }else if (it?.status == Status.LOADING) {
-                   showLoadingView()
+                } else if (it?.status == Status.LOADING) {
+                    showLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
                 }
             })
@@ -244,7 +243,7 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
         return if (guide != null && guide?.isVisible!!) {
             hideGuideView()
             true
-        }else{
+        } else {
             false
         }
     }
@@ -259,8 +258,8 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
                     } else if (it?.status == Status.ERROR) {
                         hideLoadingView()
                         it.message?.let { it2 -> activity?.toast(it2) }
-                    }else if (it?.status == Status.LOADING) {
-                       showLoadingView()
+                    } else if (it?.status == Status.LOADING) {
+                        showLoadingView()
                     }
                 })
             }
@@ -268,17 +267,17 @@ class RoomFragment : BaseFragment(),FragmentBackHandler,  UpdateDeviceNameListen
     }
 
     private fun updateState(device: Device, key: String, value: String) {
-        if(TextUtils.equals("brightness", key)){
+        if (TextUtils.equals("brightness", key)) {
             val deviceState = device.parameters
             deviceState?.let {
-                it.brightness=value.toInt()
-                viewModel.updateDeviceState(device,it)
+                it.brightness = value.toInt()
+                viewModel.updateDeviceState(device, it)
             }
-        }else{
+        } else {
             val deviceState = device.parameters
             deviceState?.let {
-                it.on=value.toInt()
-                viewModel.updateRoomAndDeviceState(device,it)
+                it.on = value.toInt()
+                viewModel.updateRoomAndDeviceState(device, it)
             }
         }
     }

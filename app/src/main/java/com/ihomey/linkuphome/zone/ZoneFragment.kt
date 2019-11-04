@@ -41,7 +41,7 @@ import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.view_zone_list_empty.*
 import kotlinx.android.synthetic.main.zone_fragment.*
 
-class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener,   FragmentVisibleStateListener, RoomListAdapter.OnItemClickListener, RoomListAdapter.OnItemChildClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener {
+class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener, FragmentVisibleStateListener, RoomListAdapter.OnItemClickListener, RoomListAdapter.OnItemChildClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener {
 
     companion object {
         fun newInstance() = ZoneFragment()
@@ -53,8 +53,8 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
     private var guide: Guide? = null
     private var isFragmentVisible = false
 
-    private var isUserTouch: Boolean=false
-    private var roomList:List<RoomAndDevices>?=null
+    private var isUserTouch: Boolean = false
+    private var roomList: List<RoomAndDevices>? = null
 
     var hasShowBindDeviceGuide by PreferenceHelper("hasShowBindDeviceGuide", false)
 
@@ -76,16 +76,16 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
             }
         })
         mViewModel.roomsResult.observe(this, Observer<PagedList<RoomAndDevices>> {
-            roomList=it.snapshot()
-            if(!isUserTouch)adapter.submitList(it)
+            roomList = it.snapshot()
+            if (!isUserTouch) adapter.submitList(it)
         })
 
         mViewModel.isRoomListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
-            if(it){
-                emptyView.visibility=View.VISIBLE
+            if (it) {
+                emptyView.visibility = View.VISIBLE
                 iv_add.visibility = View.INVISIBLE
-            } else{
-                emptyView.visibility=View.GONE
+            } else {
+                emptyView.visibility = View.GONE
                 iv_add.visibility = View.VISIBLE
             }
         })
@@ -115,10 +115,10 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
 
     override fun onFragmentVisibleStateChanged(isVisible: Boolean) {
         isFragmentVisible = isVisible
-        if(!isVisible) isUserTouch=false
-        if (!hasShowBindDeviceGuide && isVisible&&adapter.itemCount > 0) {
-            adapter.currentList?.get(0)?.let {it1->
-                rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,it1.devices.size) } }
+        if (!isVisible) isUserTouch = false
+        if (!hasShowBindDeviceGuide && isVisible && adapter.itemCount > 0) {
+            adapter.currentList?.get(0)?.let { it1 ->
+                rcv_zone_list.post { rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it, it1.devices.size) } }
             }
         }
     }
@@ -126,9 +126,9 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
     override fun onResume() {
         super.onResume()
         rcv_zone_list.postDelayed({
-            if (!hasShowBindDeviceGuide&&isFragmentVisible&& adapter.itemCount > 0) {
-                adapter.currentList?.get(0)?.let {it1->
-                    rcv_zone_list.post{ rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it,it1.devices.size) } }
+            if (!hasShowBindDeviceGuide && isFragmentVisible && adapter.itemCount > 0) {
+                adapter.currentList?.get(0)?.let { it1 ->
+                    rcv_zone_list.post { rcv_zone_list.layoutManager?.findViewByPosition(0)?.let { showGuideView(it, it1.devices.size) } }
                 }
             }
         }, 250)
@@ -136,18 +136,18 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
 
     override fun onDestroyView() {
         super.onDestroyView()
-        isUserTouch=false
+        isUserTouch = false
     }
 
     override fun deleteSubZone(id: Int) {
         context?.getIMEI()?.let { it1 ->
             mViewModel.deleteRoom(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                 if (it?.status == Status.SUCCESS) {
-                     hideLoadingView()
-                }else if (it?.status == Status.ERROR) {
+                    hideLoadingView()
+                } else if (it?.status == Status.ERROR) {
                     hideLoadingView()
                     it.message?.let { it2 -> activity?.toast(it2) }
-                }else if (it?.status == Status.LOADING) {
+                } else if (it?.status == Status.LOADING) {
                     showLoadingView()
                 }
             })
@@ -156,18 +156,18 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
 
     override fun onItemClick(position: Int) {
         hideGuideView()
-       roomList?.get(position)?.let {
-           mViewModel.setSelectedRoom(it)
-           NavHostFragment.findNavController(this@ZoneFragment).navigate(R.id.action_tab_zones_to_subZoneFragment)
-       }
+        roomList?.get(position)?.let {
+            mViewModel.setSelectedRoom(it)
+            NavHostFragment.findNavController(this@ZoneFragment).navigate(R.id.action_tab_zones_to_subZoneFragment)
+        }
     }
 
     override fun onItemChildClick(position: Int, view: View) {
         roomList?.get(position)?.let {
             when (view.id) {
                 R.id.btn_delete -> {
-                    val room=it.room
-                    if(room!=null){
+                    val room = it.room
+                    if (room != null) {
                         val dialog = DeleteRoomFragment()
                         val bundle = Bundle()
                         bundle.putInt("zoneId", room.id)
@@ -187,7 +187,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
                     if (isFragmentVisible) {
                         for (index in it.devices.indices) {
                             val device = it.devices[index]
-                            val controller = ControllerFactory().createController(device.type,TextUtils.equals("LinkupHome V1",device.name))
+                            val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
                             if (meshServiceStateListener.isMeshServiceConnected()) {
                                 Handler().postDelayed({ controller?.setLightingMode(device.instructId) }, 100L * index)
                             }
@@ -199,28 +199,28 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
     }
 
     override fun onProgressChanged(position: Int, progress: Int) {
-       if(isFragmentVisible){
-           isUserTouch=true
-           roomList?.get(position)?.let {
-               for (index in it.devices.indices) {
-                   val device = it.devices[index]
-                   val controller = ControllerFactory().createController(device.type,TextUtils.equals("LinkupHome V1",device.name))
-                   if (meshServiceStateListener.isMeshServiceConnected()) {
-                       Handler().postDelayed({ controller?.setLightBright(device.instructId, if(device.type==6||device.type==10) progress.plus(10) else progress.plus(15)) }, 100L * index)
-                   }
-               }
-               changeRoomState(it, "brightness", progress.toString())
-           }
-       }
-    }
-
-    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
-        if(isFragmentVisible){
-            isUserTouch=true
+        if (isFragmentVisible) {
+            isUserTouch = true
             roomList?.get(position)?.let {
                 for (index in it.devices.indices) {
                     val device = it.devices[index]
-                    val controller = ControllerFactory().createController(device.type,TextUtils.equals("LinkupHome V1",device.name))
+                    val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
+                    if (meshServiceStateListener.isMeshServiceConnected()) {
+                        Handler().postDelayed({ controller?.setLightBright(device.instructId, if (device.type == 6 || device.type == 10) progress.plus(10) else progress.plus(15)) }, 100L * index)
+                    }
+                }
+                changeRoomState(it, "brightness", progress.toString())
+            }
+        }
+    }
+
+    override fun onCheckedChanged(position: Int, isChecked: Boolean) {
+        if (isFragmentVisible) {
+            isUserTouch = true
+            roomList?.get(position)?.let {
+                for (index in it.devices.indices) {
+                    val device = it.devices[index]
+                    val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
                     if (meshServiceStateListener.isMeshServiceConnected()) {
                         Handler().postDelayed({ controller?.setLightPowerState(device.instructId, if (isChecked) 1 else 0) }, 100L * index)
                     }
@@ -299,7 +299,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
     }
 
     private fun changeRoomState(roomAndDevices: RoomAndDevices, key: String, value: String) {
-        updateState(roomAndDevices,key,value)
+        updateState(roomAndDevices, key, value)
         context?.getIMEI()?.let { it1 ->
             roomAndDevices.room?.let {
                 mViewModel.changeRoomState(it1, it.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Room>> {
@@ -313,7 +313,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,  DeleteSubZoneListener
         roomAndDevices.room?.let {
             val deviceState = it.parameters
             if (TextUtils.equals("on", key)) deviceState?.on = value.toInt() else deviceState?.brightness = value.toInt()
-            deviceState?.let {it1-> mViewModel.updateState(roomAndDevices, it1)}
+            deviceState?.let { it1 -> mViewModel.updateState(roomAndDevices, it1) }
         }
     }
 

@@ -3,15 +3,14 @@ package com.ihomey.linkuphome.scene
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -40,7 +39,7 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mControlDevice = it
-            controller = ControllerFactory().createController(mControlDevice.type,TextUtils.equals("LinkupHome V1",mControlDevice.name))
+            controller = ControllerFactory().createController(mControlDevice.type, TextUtils.equals("LinkupHome V1", mControlDevice.name))
             mViewModel.setCurrentDeviceId(it.id)
         })
         mViewModel.mCurrentLocalState.observe(viewLifecycleOwner, Observer<Resource<LocalState>> {
@@ -60,14 +59,15 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             R.id.rb_scene_spring_rgb, R.id.rb_scene_lighting_n1, R.id.rb_scene_surf -> sceneModeValue = 3
             R.id.rb_scene_rainforest_rgb, R.id.rb_scene_seek -> sceneModeValue = 4
         }
-        if(mControlDevice.type==0){
+        if (mControlDevice.type == 0) {
             controller?.setLightScene(mControlDevice.id, sceneModeValue)
-        }else{
+        } else {
             if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
         }
         mControlDevice.let {
             if (mLocalState == null) mLocalState = LocalState(it.id)
-            mLocalState?.let { it.sceneMode = sceneModeValue
+            mLocalState?.let {
+                it.sceneMode = sceneModeValue
                 mViewModel.updateLocalState(it)
             }
         }

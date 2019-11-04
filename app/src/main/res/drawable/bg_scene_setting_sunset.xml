@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>   
-<selector xmlns:android="http://schemas.android.com/apk/res/android">   
-    <item   
-    android:state_selected="true"
-    android:drawable="@mipmap/scene_sunset_bg" />
-    <item
-    android:drawable="@mipmap/scene_sunset_normal_bg" />
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/scene_sunset_bg" android:state_selected="true" />
+    <item android:drawable="@mipmap/scene_sunset_normal_bg" />
 </selector>   

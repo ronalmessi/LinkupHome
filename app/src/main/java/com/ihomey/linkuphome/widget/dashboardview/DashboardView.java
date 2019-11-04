@@ -31,7 +31,8 @@ public class DashboardView extends View {
     // Status
     private static final String INSTANCE_STATUS = "instance_status";
     private static final String STATUS_NUMCOUNT = "status_numCount";
-
+    float percent;
+    float numCount;
     private DashboardViewAttr dashboardViewattr;
     private int progressStrokeWidth;//进度弧的宽度
     private String unit = "";//显示单位
@@ -39,23 +40,17 @@ public class DashboardView extends View {
     private int mTextSize;//文字的大小
     private int mTextColor;//设置文字颜色
     private int mTikeCount;//刻度的个数
-
     //画笔
     private Paint paintProgress;
     private Paint paintText;
     private Paint paintNum;
     private RectF rectF2;
-
     private Bitmap scaleBitmap;
-
     private int OFFSET = 0;
     private int START_ARC = 118;
     private int DURING_ARC = 304;
-
     private Context mContext;
     private int mWidth, mHight;
-    float percent;
-    float numCount;
     private ColorTemperatureListener mCircleTemperatureListener;
 
     private float downX;
@@ -85,6 +80,22 @@ public class DashboardView extends View {
         init(context);
     }
 
+    //按比例缩放
+    public static Bitmap scaleBitmap(Bitmap origin, float scale) {
+        if (origin == null) {
+            return null;
+        }
+        int width = origin.getWidth();
+        int height = origin.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.preScale(scale, scale);
+        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (newBM.equals(origin)) {
+            return newBM;
+        }
+        origin.recycle();
+        return newBM;
+    }
 
     private void init(Context context) {
         mContext = context;
@@ -120,7 +131,6 @@ public class DashboardView extends View {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.color_temperature_icon_cursor);
         scaleBitmap = scaleBitmap(bitmap, (getResources().getDimension(R.dimen._128sdp)) / bitmap.getWidth());
     }
-
 
     private void initShader() {
         updateOval();
@@ -161,7 +171,6 @@ public class DashboardView extends View {
         setMeasuredDimension(realWidth, realHeight);
     }
 
-
     private int startMeasure(int msSpec) {
         int result = 0;
         int mode = MeasureSpec.getMode(msSpec);
@@ -173,7 +182,6 @@ public class DashboardView extends View {
         }
         return result;
     }
-
 
     @Override
     protected Parcelable onSaveInstanceState() {
@@ -212,7 +220,6 @@ public class DashboardView extends View {
 
     }
 
-
     private void drawText(Canvas canvas) {
         if (TextUtils.isEmpty(unit)) return;
         float length;
@@ -243,35 +250,16 @@ public class DashboardView extends View {
         canvas.restore();
     }
 
-
-    //按比例缩放
-    public static Bitmap scaleBitmap(Bitmap origin, float scale) {
-        if (origin == null) {
-            return null;
-        }
-        int width = origin.getWidth();
-        int height = origin.getHeight();
-        Matrix matrix = new Matrix();
-        matrix.preScale(scale, scale);
-        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
-        if (newBM.equals(origin)) {
-            return newBM;
-        }
-        origin.recycle();
-        return newBM;
-    }
-
-
     private void drawerNum(Canvas canvas) {
         canvas.save(); //记录画布状态
         canvas.rotate(-(180 - START_ARC + 90f), 0, 0);
-        float numY = -mHight / 2+(getResources().getDimension(R.dimen.device_control_circle_disc_width) - getResources().getDimension(R.dimen.device_control_circle_temperature_width))/2;
+        float numY = -mHight / 2 + (getResources().getDimension(R.dimen.device_control_circle_disc_width) - getResources().getDimension(R.dimen.device_control_circle_temperature_width)) / 2;
         float rAngle = 280 / ((mTikeCount) * 1.0f); //n根线，只需要n-1个区间
         for (int i = 0; i < numCount / 4; i++) {
             canvas.save(); //记录画布状态
             canvas.rotate(rAngle * i, 0, 0);
 
-            canvas.drawLine(0, numY, 0, numY +progressStrokeWidth, paintNum);//画短刻度线
+            canvas.drawLine(0, numY, 0, numY + progressStrokeWidth, paintNum);//画短刻度线
             canvas.restore();
         }
         canvas.restore();

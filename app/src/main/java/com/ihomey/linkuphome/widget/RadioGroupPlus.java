@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -246,6 +245,21 @@ public class RadioGroupPlus extends LinearLayout {
     }
 
     /**
+     * <p>Interface definition for a callback to be invoked when the checked
+     * radio button changed in this group.</p>
+     */
+    public interface OnCheckedChangeListener {
+        /**
+         * <p>Called when the checked radio button has changed. When the
+         * selection is cleared, checkedId is -1.</p>
+         *
+         * @param group     the group in which the checked radio button has changed
+         * @param checkedId the unique identifier of the newly checked radio button
+         */
+        public void onCheckedChanged(RadioGroupPlus group, @IdRes int checkedId);
+    }
+
+    /**
      * <p>This set of layout parameters defaults the width and the height of
      * the children to {@link #WRAP_CONTENT} when they are not specified in the
      * XML file. Otherwise, this class ussed the value read from the XML file.</p>
@@ -318,21 +332,6 @@ public class RadioGroupPlus extends LinearLayout {
         }
     }
 
-    /**
-     * <p>Interface definition for a callback to be invoked when the checked
-     * radio button changed in this group.</p>
-     */
-    public interface OnCheckedChangeListener {
-        /**
-         * <p>Called when the checked radio button has changed. When the
-         * selection is cleared, checkedId is -1.</p>
-         *
-         * @param group     the group in which the checked radio button has changed
-         * @param checkedId the unique identifier of the newly checked radio button
-         */
-        public void onCheckedChanged(RadioGroupPlus group, @IdRes int checkedId);
-    }
-
     private class CheckedStateTracker implements CompoundButton.OnCheckedChangeListener {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             // prevents from infinite recursion
@@ -353,15 +352,15 @@ public class RadioGroupPlus extends LinearLayout {
             LinearLayout layout = (LinearLayout) buttonView.getParent().getParent();
             for (int i = 0; i < layout.getChildCount(); i++) {
                 RelativeLayout relativeLayout1 = (RelativeLayout) layout.getChildAt(i);
-                TextView textView=(TextView) relativeLayout1.getChildAt(1);
+                TextView textView = (TextView) relativeLayout1.getChildAt(1);
                 CompoundButton compoundButton = (CompoundButton) relativeLayout1.getChildAt(0);
                 if (compoundButton.getId() != id) {
-                    setPressedStateForLayout(relativeLayout1,false);
-                    if(textView!=null) setPressedStateForTextView(textView, false);
+                    setPressedStateForLayout(relativeLayout1, false);
+                    if (textView != null) setPressedStateForTextView(textView, false);
                 } else {
                     relativeLayout1.performClick();
-                    setPressedStateForLayout(relativeLayout1,true);
-                    if(textView!=null) setPressedStateForTextView(textView, true);
+                    setPressedStateForLayout(relativeLayout1, true);
+                    if (textView != null) setPressedStateForTextView(textView, true);
                 }
             }
         }

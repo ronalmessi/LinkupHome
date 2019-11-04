@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,10 +25,10 @@ class RoomViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInfl
     val brightnessView = itemView.findViewById<SeekBar>(R.id.device_seek_bar_brightness)
     val powerStateView = itemView.findViewById<SwitchButton>(R.id.sb_power)
 
-     val deleteBtn = itemView.findViewById<TextView>(R.id.btn_delete)
-     val addBtn = itemView.findViewById<TextView>(R.id.btn_add)
-     val lightingBtn = itemView.findViewById<ImageView>(R.id.iv_lighting)
-     val colorCyclingBtn = itemView.findViewById<ImageView>(R.id.iv_color_cycling)
+    val deleteBtn = itemView.findViewById<TextView>(R.id.btn_delete)
+    val addBtn = itemView.findViewById<TextView>(R.id.btn_add)
+    val lightingBtn = itemView.findViewById<ImageView>(R.id.iv_lighting)
+    val colorCyclingBtn = itemView.findViewById<ImageView>(R.id.iv_color_cycling)
 
     var roomAndDevices: RoomAndDevices? = null
 
@@ -48,7 +47,7 @@ class RoomViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInfl
             iconView.setImageResource(AppConfig.ROOM_ICON[type])
             powerStateView.isChecked = it.parameters?.on == 1
             brightnessView.progress = it.parameters?.brightness ?: 20
-            if (it.deviceTypes.length == 1&&!TextUtils.equals("3",it.deviceTypes)&&!TextUtils.equals("8",it.deviceTypes)) colorCyclingBtn.visibility = View.VISIBLE else colorCyclingBtn.visibility = View.GONE
+            if (it.deviceTypes.length == 1 && !TextUtils.equals("3", it.deviceTypes) && !TextUtils.equals("8", it.deviceTypes)) colorCyclingBtn.visibility = View.VISIBLE else colorCyclingBtn.visibility = View.GONE
         }
 
         if (roomAndDevices.devices.isNullOrEmpty()) {

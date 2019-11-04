@@ -2,22 +2,20 @@ package com.ihomey.linkuphome.alarm
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.AppConfig
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Alarm
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-
 import kotlinx.android.synthetic.main.alarm_setting_fragment.*
-import java.lang.StringBuilder
 
 open class AlarmSettingFragment : BaseFragment() {
 
@@ -31,11 +29,11 @@ open class AlarmSettingFragment : BaseFragment() {
 
     private val controller: M1Controller = M1Controller()
 
-    private var mDevice: Device?=null
+    private var mDevice: Device? = null
 
     private lateinit var mAlarm: Alarm
 
-    private  var mInitialAlarm: Alarm?=null
+    private var mInitialAlarm: Alarm? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.alarm_setting_fragment, container, false)
@@ -45,11 +43,11 @@ open class AlarmSettingFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
-            mDevice=it
+            mDevice = it
         })
         mViewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
-            if(mInitialAlarm==null)mInitialAlarm=Alarm(0,"",it.dayOfWeek,it.hour,it.minute,it.ringType,it.type,0)
+            if (mInitialAlarm == null) mInitialAlarm = Alarm(0, "", it.dayOfWeek, it.hour, it.minute, it.ringType, it.type, 0)
             mAlarm = it
             tv_title.setText(if (mAlarm.editMode != 0) R.string.title_edit_alarm else R.string.title_add_alarm)
             updateViews(it)
@@ -57,7 +55,7 @@ open class AlarmSettingFragment : BaseFragment() {
     }
 
     private fun updateViews(alarm: Alarm?) {
-        alarm?.let {it0->
+        alarm?.let { it0 ->
             tsv_alarm_setting.setTime(it0.hour, it0.minute)
             context?.resources?.let { infoTextLayout_alarm_setting_ring.setTextValue(it.getString(AppConfig.RING_LIST[it0.ringType])) }
             sb_light_mode.isChecked = it0.type > 1
@@ -81,8 +79,8 @@ open class AlarmSettingFragment : BaseFragment() {
         infoTextLayout_alarm_setting_ring.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_alarmSettingFragment_to_alarmRingListFragment) }
         sb_light_mode.setOnCheckedChangeListener { _, isChecked ->
             mAlarm.let {
-                it.type = if (isChecked) (if(it.ringType>0) 3 else 2) else 1
-                controller.setAlarmType(mDevice?.id,it)
+                it.type = if (isChecked) (if (it.ringType > 0) 3 else 2) else 1
+                controller.setAlarmType(mDevice?.id, it)
             }
         }
         btn_save.setOnClickListener {
@@ -91,11 +89,11 @@ open class AlarmSettingFragment : BaseFragment() {
                 val targetMinute = tsv_alarm_setting.getCurrentMinute()
                 it.hour = targetHour
                 it.minute = targetMinute
-                if(mAlarm.editMode != 0&&mInitialAlarm?.dayOfWeek==it.dayOfWeek&&mInitialAlarm?.hour==it.hour&&mInitialAlarm?.minute==it.minute&&mInitialAlarm?.ringType==it.ringType&&mInitialAlarm?.type==it.type){
+                if (mAlarm.editMode != 0 && mInitialAlarm?.dayOfWeek == it.dayOfWeek && mInitialAlarm?.hour == it.hour && mInitialAlarm?.minute == it.minute && mInitialAlarm?.ringType == it.ringType && mInitialAlarm?.type == it.type) {
                     Navigation.findNavController(btn_save).popBackStack()
-                }else{
+                } else {
                     it.isOn = 1
-                    controller.setAlarm( mDevice?.id,it)
+                    controller.setAlarm(mDevice?.id, it)
                     mViewModel.saveAlarm(it)
                     Navigation.findNavController(btn_save).popBackStack()
                 }

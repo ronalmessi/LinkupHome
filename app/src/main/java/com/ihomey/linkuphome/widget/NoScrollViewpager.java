@@ -33,6 +33,7 @@ public class NoScrollViewpager extends ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent event) {
         return this.isScrollable && super.onInterceptTouchEvent(event);
     }
+
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
         super.setCurrentItem(item, smoothScroll);

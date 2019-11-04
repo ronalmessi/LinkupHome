@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.device1
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import kotlinx.android.synthetic.main.search_device_fragment.*
 
-class SearchDeviceFragment : BaseFragment(){
+class SearchDeviceFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = SearchDeviceFragment()
@@ -32,7 +31,7 @@ class SearchDeviceFragment : BaseFragment(){
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.getScanDevice().observe(this, Observer<Device> {
-            if (it != null&&it.type==arguments?.getInt("deviceType")!!) {
+            if (it != null && it.type == arguments?.getInt("deviceType")!!) {
                 val bundle = Bundle()
                 bundle.putInt("deviceType", arguments?.getInt("deviceType")!!)
                 Navigation.findNavController(iv_back).navigate(R.id.action_searchDeviceFragment_to_connectDeviceFragment2, bundle)

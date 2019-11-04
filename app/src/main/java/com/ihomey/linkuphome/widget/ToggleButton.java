@@ -18,45 +18,38 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.IntDef;
+import androidx.core.content.ContextCompat;
+
 import com.ihomey.linkuphome.R;
 
 import java.lang.annotation.Retention;
 
-import androidx.annotation.IntDef;
-import androidx.core.content.ContextCompat;
-
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public class ToggleButton extends FrameLayout {
-    private static final String LOG_TAG = ToggleButton.class.getSimpleName();
-
-    @Retention(SOURCE)
-    @IntDef({ANIMATION_SCALE, ANIMATION_ALPHA, ANIMATION_NONE})
-    public @interface AnimationType {}
     public static final int ANIMATION_NONE = 0;
     public static final int ANIMATION_SCALE = 1;
     public static final int ANIMATION_ALPHA = 2;
-
+    private static final String LOG_TAG = ToggleButton.class.getSimpleName();
     private static final float DEFAULT_TEXT_SIZE = 16;
     private static final int DEFAULT_ANIMATION_DURATION = 150;
     private static final int DEFAULT_CHECKED_TEXT_COLOR = Color.BLACK;
     private static final int DEFAULT_UNCHECKED_TEXT_COLOR = Color.BLACK;
-
     private boolean mIsChecked;
     private int mCheckedTextColor = DEFAULT_CHECKED_TEXT_COLOR;
     private int mUncheckedTextColor = DEFAULT_UNCHECKED_TEXT_COLOR;
-    @AnimationType private int mAnimationType = ANIMATION_NONE;
+    @AnimationType
+    private int mAnimationType = ANIMATION_NONE;
     private long mAnimationDuration = DEFAULT_ANIMATION_DURATION;
     private Animation mCheckAnimation;
     private Animation mUncheckAnimation;
     private ValueAnimator mTextColorAnimator;
     private Drawable mCheckedBackground;
     private Drawable mButtonBackground;
-
     private FrameLayout mContainer;
     private ImageView mIvBg;
     private TextView mTvText;
-
     public ToggleButton(Context context) {
         this(context, null);
     }
@@ -104,7 +97,7 @@ public class ToggleButton extends FrameLayout {
         mTextColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                mTvText.setTextColor((Integer)valueAnimator.getAnimatedValue());
+                mTvText.setTextColor((Integer) valueAnimator.getAnimatedValue());
             }
         });
         mTextColorAnimator.setDuration(mAnimationDuration);
@@ -138,16 +131,16 @@ public class ToggleButton extends FrameLayout {
         }
     }
 
-    public void setTextSize(float px) {
-        mTvText.setTextSize(TypedValue.COMPLEX_UNIT_PX, px);
-    }
-
     public void setText(CharSequence text) {
         mTvText.setText(text);
     }
 
     public float getTextSize() {
         return mTvText.getTextSize();
+    }
+
+    public void setTextSize(float px) {
+        mTvText.setTextSize(TypedValue.COMPLEX_UNIT_PX, px);
     }
 
     public void setTextColor(int color) {
@@ -166,13 +159,17 @@ public class ToggleButton extends FrameLayout {
         updateTextColor();
     }
 
+    public Drawable getCheckedBackground() {
+        return mCheckedBackground;
+    }
+
     public void setCheckedBackground(Drawable drawable) {
         mCheckedBackground = drawable;
         mIvBg.setImageDrawable(drawable);
     }
 
-    public Drawable getCheckedBackground() {
-        return mCheckedBackground;
+    public Drawable getButtonBackground() {
+        return mButtonBackground;
     }
 
     @SuppressWarnings("deprecation")
@@ -185,13 +182,13 @@ public class ToggleButton extends FrameLayout {
         }
     }
 
-    public Drawable getButtonBackground() {
-        return mButtonBackground;
-    }
-
     public void setAnimationType(@AnimationType int animationType) {
         mAnimationType = animationType;
         updateAnimationType(mAnimationType);
+    }
+
+    public long getAnimationDuration() {
+        return mAnimationDuration;
     }
 
     public void setAnimationDuration(long duration) {
@@ -202,10 +199,6 @@ public class ToggleButton extends FrameLayout {
         } else {
             Log.e(LOG_TAG, "setAnimationDuration(): Animation is disabled, cannot apply animation duration.");
         }
-    }
-
-    public long getAnimationDuration() {
-        return mAnimationDuration;
     }
 
     public void setButtonSize(int width, int height) {
@@ -228,7 +221,7 @@ public class ToggleButton extends FrameLayout {
         if (animationType == ANIMATION_ALPHA) {
             mCheckAnimation = new AlphaAnimation(0, 1);
             mUncheckAnimation = new AlphaAnimation(1, 0);
-        } else if (animationType == ANIMATION_SCALE){
+        } else if (animationType == ANIMATION_SCALE) {
             mCheckAnimation = new ScaleAnimation(0, 1, 0, 1,
                     Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             mUncheckAnimation = new ScaleAnimation(1, 0, 1, 0,
@@ -240,7 +233,8 @@ public class ToggleButton extends FrameLayout {
         mCheckAnimation.setDuration(mAnimationDuration);
         mCheckAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -248,13 +242,15 @@ public class ToggleButton extends FrameLayout {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
         mUncheckAnimation.setDuration(mAnimationDuration);
         mUncheckAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -263,13 +259,19 @@ public class ToggleButton extends FrameLayout {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
     }
 
-    private float dpToPx(float dp){
+    private float dpToPx(float dp) {
         return TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    }
+
+    @Retention(SOURCE)
+    @IntDef({ANIMATION_SCALE, ANIMATION_ALPHA, ANIMATION_NONE})
+    public @interface AnimationType {
     }
 
 }

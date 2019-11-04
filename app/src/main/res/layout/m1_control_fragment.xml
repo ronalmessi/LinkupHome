@@ -40,12 +40,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:singleLine="true"
                 android:layout_marginStart="@dimen/_60sdp"
                 android:layout_marginEnd="@dimen/_60sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:onClick="@{handlers::onClick}"
+                android:singleLine="true"
                 android:text="@{control.name}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
@@ -54,8 +54,8 @@
                 android:id="@+id/iv_setting"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:src="@mipmap/ic_setting_red" />
 
         </com.ihomey.linkuphome.widget.CompatToolbar>
@@ -76,8 +76,8 @@
                 android:id="@+id/rb_control_rgb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
                 android:background="@color/transparent"
+                android:button="@null"
                 android:checked="true"
                 android:drawableStart="@mipmap/ic_arrow_left"
                 android:drawablePadding="@dimen/_8sdp"
@@ -92,8 +92,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_114sdp"
-                android:button="@null"
                 android:background="@color/transparent"
+                android:button="@null"
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="@dimen/_8sdp"
                 android:drawableTint="@color/radio_text_color_t1_control"
@@ -111,11 +111,11 @@
             app:layout_constraintTop_toBottomOf="@+id/rg_control_switch" />
 
         <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.65"
-            android:id="@+id/guideLine"/>
+            app:layout_constraintGuide_percent="0.65" />
 
         <CheckBox
             android:id="@+id/device_state_cb_power"
@@ -206,24 +206,24 @@
             android:id="@+id/btn_device_cycling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_color_cycling"
-            android:button="@null"
             android:layout_marginStart="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_36sdp"
+            android:background="@mipmap/ic_color_cycling"
+            android:button="@null"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/btn_device_scene_setting"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btn_device_scene_setting" />
 
 
         <ImageButton
             android:id="@+id/btn_device_scene_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_36sdp"
             android:background="@mipmap/ic_scene"
             android:button="@null"
             android:checked="false"
             android:onClick="@{handlers::onClick}"
-            android:layout_marginBottom="@dimen/_36sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/btn_device_cycling"
             app:layout_constraintRight_toLeftOf="@+id/btn_device_environmental_indicators" />
@@ -233,10 +233,10 @@
             android:id="@+id/btn_device_environmental_indicators"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_36sdp"
             android:background="@mipmap/ic_environmental_indicators"
             android:button="@null"
             android:checked="false"
-            android:layout_marginBottom="@dimen/_36sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/btn_device_scene_setting"
             app:layout_constraintRight_toLeftOf="@+id/btn_device_alarm_setting" />
@@ -246,12 +246,12 @@
             android:id="@+id/btn_device_alarm_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_36sdp"
+            android:layout_marginBottom="@dimen/_36sdp"
             android:background="@mipmap/ic_alarm_setting"
             android:button="@null"
             android:checked="false"
             android:onClick="@{handlers::onClick}"
-            android:layout_marginEnd="@dimen/_36sdp"
-            android:layout_marginBottom="@dimen/_36sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/btn_device_environmental_indicators"
             app:layout_constraintRight_toRightOf="parent" />

@@ -25,13 +25,13 @@ class ResetDeviceFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         var currentLanguage = LocaleHelper.getLanguage(context)
         when {
-            TextUtils.equals("zh-rCN",currentLanguage) -> currentLanguage="zh-Hans"
-            TextUtils.equals("zh-rTW",currentLanguage) -> currentLanguage="zh-Hant"
-            TextUtils.equals("pt",currentLanguage) -> currentLanguage="pt-PT"
+            TextUtils.equals("zh-rCN", currentLanguage) -> currentLanguage = "zh-Hans"
+            TextUtils.equals("zh-rTW", currentLanguage) -> currentLanguage = "zh-Hant"
+            TextUtils.equals("pt", currentLanguage) -> currentLanguage = "pt-PT"
         }
-        context?.let { Glide.with(it).load(AppConfig.RESET_DEVICE_BASE_URL+currentLanguage+".jpg").into(iv_device_reset_guide2) }
+        context?.let { Glide.with(it).load(AppConfig.RESET_DEVICE_BASE_URL + currentLanguage + ".jpg").into(iv_device_reset_guide2) }
     }
 }

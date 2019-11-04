@@ -21,16 +21,16 @@ class WebViewFragment : BaseFragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { if(it is SettingNavHostFragment) it .showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { if (it is SettingNavHostFragment) it.showBottomNavigationBar(false) }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         webView.settings.setSupportZoom(true)
-        webView.settings.javaScriptEnabled=true
+        webView.settings.javaScriptEnabled = true
         webView.settings.builtInZoomControls = true
         webView.settings.displayZoomControls = false
         webView.webChromeClient = WebChromeClient(webView_pb)
 
-        arguments?.getString("sourceUrl").let {webView.loadUrl(it) }
-        arguments?.getString("title").let {tv_title.text=it}
+        arguments?.getString("sourceUrl").let { webView.loadUrl(it) }
+        arguments?.getString("title").let { tv_title.text = it }
 
     }
 

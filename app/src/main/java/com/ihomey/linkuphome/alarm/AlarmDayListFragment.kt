@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.alarm
 import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DayOfWeekListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Alarm
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.widget.DividerItemDecoration
@@ -46,24 +45,24 @@ class AlarmDayListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
         rcv_daysOfWeek.addItemDecoration(DividerItemDecoration(LinearLayoutManager.HORIZONTAL, 0, context?.dip2px(0.5f)!!, Color.WHITE, false))
         rcv_daysOfWeek.adapter = dayOfWeekListAdapter
         dayOfWeekListAdapter.onItemClickListener = this
-        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(AlarmViewModel::class.java)
         mViewModel.mAlarm.observe(viewLifecycleOwner, Observer<Alarm> {
-            mAlarm=it
+            mAlarm = it
             updateViews(it)
         })
     }
 
     private fun updateViews(alarm: Alarm?) {
         alarm?.let {
-            val dayOfWeekHexStr=Integer.toBinaryString(it.dayOfWeek)
+            val dayOfWeekHexStr = Integer.toBinaryString(it.dayOfWeek)
             for (i in 0 until dayOfWeekHexStr.length) {
                 if (TextUtils.equals("1", dayOfWeekHexStr[i].toString())) {
-                    dayOfWeekListAdapter.setItemSelected(7-dayOfWeekHexStr.length+i,true)
+                    dayOfWeekListAdapter.setItemSelected(7 - dayOfWeekHexStr.length + i, true)
                 }
             }
         }
@@ -71,7 +70,7 @@ class AlarmDayListFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListene
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         dayOfWeekListAdapter.setItemSelected(position, !dayOfWeekListAdapter.isItemSelected(position))
-        mAlarm.dayOfWeek=dayOfWeekListAdapter.getDayOfWeekValue()
+        mAlarm.dayOfWeek = dayOfWeekListAdapter.getDayOfWeekValue()
     }
 
 }

@@ -85,7 +85,7 @@ abstract class BaseFragment : Fragment() {
             loadingFragment = LoadingFragment()
         }
         loadingFragment?.isCancelable = false
-        if(!loadingFragment?.isAdded!!) loadingFragment?.show(childFragmentManager, "LoadingFragment")
+        if (!loadingFragment?.isAdded!!) loadingFragment?.show(childFragmentManager, "LoadingFragment")
     }
 
     fun hideLoadingView() {

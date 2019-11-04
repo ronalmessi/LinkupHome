@@ -8,10 +8,10 @@
 
     <com.ihomey.linkuphome.widget.CompatToolbar
         android:id="@+id/toolBar"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F7F7F7">
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -32,10 +32,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_m1_instruction"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar"
-        app:layout_constraintBottom_toTopOf="@+id/cardView_mesh_instruction"
         android:layout_width="match_parent"
-        app:layout_constraintVertical_chainStyle="packed"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp"
@@ -43,7 +40,10 @@
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="@dimen/_12sdp"
         app:cardElevation="@dimen/_6sdp"
-        app:contentPaddingTop="@dimen/_8sdp">
+        app:contentPaddingTop="@dimen/_8sdp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView_mesh_instruction"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -89,8 +89,6 @@
 
 
     <androidx.cardview.widget.CardView
-        app:layout_constraintTop_toBottomOf="@+id/cardView_m1_instruction"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/cardView_mesh_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,7 +99,9 @@
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="@dimen/_12sdp"
         app:cardElevation="@dimen/_6sdp"
-        app:contentPaddingTop="@dimen/_8sdp">
+        app:contentPaddingTop="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_m1_instruction">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -128,6 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_manual" />
+
                 <TextView
                     android:id="@+id/tv_instruction_mesh"
                     android:layout_width="wrap_content"

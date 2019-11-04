@@ -3,18 +3,14 @@ package com.ihomey.linkuphome.zone
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.device1.DeleteDevicesFragment
-import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 
 
 class QuitZoneFragment : DialogFragment() {

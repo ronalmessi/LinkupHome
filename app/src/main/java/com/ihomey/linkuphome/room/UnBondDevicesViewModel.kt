@@ -29,6 +29,6 @@ class UnBondDevicesViewModel : ViewModel() {
     }
 
     fun setZoneId(id: Int?) {
-        mZoneId.value=id
+        mZoneId.value = id
     }
 }

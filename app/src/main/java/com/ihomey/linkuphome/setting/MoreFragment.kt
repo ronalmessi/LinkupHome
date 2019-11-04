@@ -29,22 +29,22 @@ class MoreFragment : BaseFragment() {
 
         var currentLanguage = LocaleHelper.getLanguage(context)
         currentLanguage = when {
-            TextUtils.equals("zh-rCN",currentLanguage) -> "cn"
-            TextUtils.equals("zh-rTW",currentLanguage) -> "cn"
+            TextUtils.equals("zh-rCN", currentLanguage) -> "cn"
+            TextUtils.equals("zh-rTW", currentLanguage) -> "cn"
             else -> "en"
         }
 
         infoTextLayout_setting_name.setOnClickListener {
-            val bundle=Bundle()
-            bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL+currentLanguage)
-            bundle.putString("title",getString(R.string.title_user_agreement))
-            Navigation.findNavController(it).navigate(R.id.action_moreFragment_to_webViewFragment,bundle)
+            val bundle = Bundle()
+            bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL + currentLanguage)
+            bundle.putString("title", getString(R.string.title_user_agreement))
+            Navigation.findNavController(it).navigate(R.id.action_moreFragment_to_webViewFragment, bundle)
         }
         infoTextLayout_setting_avatar.setOnClickListener {
-            val bundle=Bundle()
-            bundle.putString("sourceUrl",AppConfig.PRIVACY_STATEMENt_BASE_URL+currentLanguage)
-            bundle.putString("title",getString(R.string.title_private_statement))
-            Navigation.findNavController(it).navigate(R.id.action_moreFragment_to_webViewFragment,bundle)
+            val bundle = Bundle()
+            bundle.putString("sourceUrl", AppConfig.PRIVACY_STATEMENt_BASE_URL + currentLanguage)
+            bundle.putString("title", getString(R.string.title_private_statement))
+            Navigation.findNavController(it).navigate(R.id.action_moreFragment_to_webViewFragment, bundle)
         }
     }
 }

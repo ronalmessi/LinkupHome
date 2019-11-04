@@ -3,12 +3,9 @@ package com.ihomey.linkuphome.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.m1.BluetoothPairHintFragment
 import com.ihomey.linkuphome.m1.TurnOnBluetoothHintFragment
 import com.ihomey.linkuphome.m1.TurnOnPowerHintFragment
-import com.ihomey.linkuphome.setting.SettingNavHostFragment
-import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 
 
 class M1InstructionsPageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {

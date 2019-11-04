@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.csr.mesh.DataModelApi
-import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
@@ -23,16 +21,15 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.home.HomeActivity
+import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeleteDeviceListener
 import com.ihomey.linkuphome.listener.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
-import com.pairlink.sigmesh.lib.PlSigMeshService
-import com.pairlink.sigmesh.lib.Util
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
@@ -45,8 +42,8 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     protected lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: DeviceListAdapter
     private lateinit var meshServiceStateListener: MeshServiceStateListener
-    private var isUserTouch: Boolean=false
-    private var deviceList:List<Device>?=null
+    private var isUserTouch: Boolean = false
+    private var deviceList: List<Device>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.devices_fragment, container, false)
@@ -56,16 +53,20 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
-            deviceList=it.snapshot()
-            if(!isUserTouch) adapter.submitList(it)
-            deviceList?.forEach { if(it.type==0) { BluetoothSPP.getInstance()?.autoConnect(it.id)} }
+            deviceList = it.snapshot()
+            if (!isUserTouch) adapter.submitList(it)
+            deviceList?.forEach {
+                if (it.type == 0) {
+                    BluetoothSPP.getInstance()?.autoConnect(it.id)
+                }
+            }
         })
         mViewModel.isDeviceListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
-            if(it){
-                emptyView.visibility=View.VISIBLE
+            if (it) {
+                emptyView.visibility = View.VISIBLE
                 iv_add.visibility = View.INVISIBLE
-            } else{
-                emptyView.visibility=View.GONE
+            } else {
+                emptyView.visibility = View.GONE
                 iv_add.visibility = View.VISIBLE
             }
         })
@@ -82,7 +83,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         parentFragment?.parentFragment?.let {
-            val baseNavHostFragment =(it as DeviceNavHostFragment)
+            val baseNavHostFragment = (it as DeviceNavHostFragment)
             baseNavHostFragment.setFragmentVisibleStateListener(this)
             baseNavHostFragment.showBottomNavigationBar(true)
         }
@@ -101,21 +102,21 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
     override fun onFragmentVisibleStateChanged(isVisible: Boolean) {
-        if(!isVisible) isUserTouch=false
+        if (!isVisible) isUserTouch = false
     }
 
 
-    override fun deleteDevice(id: String, instructId: Int){
-        if(id.contains(":")){
-            isUserTouch=false
-            if(instructId==0){
+    override fun deleteDevice(id: String, instructId: Int) {
+        if (id.contains(":")) {
+            isUserTouch = false
+            if (instructId == 0) {
                 BluetoothSPP.getInstance()?.disconnect(id)
                 mViewModel.deleteM1Device(id)
-            }else{
+            } else {
                 showLoadingView()
                 mViewModel.setRemoveSigmeshDeviceVo(RemoveDeviceVo(id, instructId, this))
             }
-        }else{
+        } else {
             context?.getIMEI()?.let { it1 ->
                 mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                     if (it?.status == Status.SUCCESS) {
@@ -123,7 +124,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
                     } else if (it?.status == Status.ERROR) {
                         hideLoadingView()
                         it.message?.let { it2 -> activity?.toast(it2) }
-                    }else if (it?.status == Status.LOADING) {
+                    } else if (it?.status == Status.LOADING) {
                         showLoadingView()
                     }
                 })
@@ -161,51 +162,51 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-    private fun isFragmentVisible():Boolean{
+    private fun isFragmentVisible(): Boolean {
         parentFragment?.parentFragment?.let {
-            return (it as DeviceNavHostFragment).getPagePosition()==0
+            return (it as DeviceNavHostFragment).getPagePosition() == 0
         }
         return false
     }
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
-        isUserTouch=true
-        if(isFragmentVisible()){
-            val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
-            if(singleDevice.type==0){
+        isUserTouch = true
+        if (isFragmentVisible()) {
+            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
+            if (singleDevice.type == 0) {
                 controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
-            }else{
+            } else {
                 if (meshServiceStateListener.isMeshServiceConnected()) {
                     controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
                 }
-                if(!TextUtils.equals("LinkupHome V1",singleDevice.name)) changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
+                if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
             }
         }
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-        isUserTouch=true
-        if(isFragmentVisible()){
-            val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
-            if(singleDevice.type==0){
-                controller?.setLightBright(singleDevice.id,progress.plus(15))
-            }else{
-                if (meshServiceStateListener.isMeshServiceConnected()){
-                    controller?.setLightBright(singleDevice.instructId, if(singleDevice.type==6||singleDevice.type==10) progress.plus(10) else progress.plus(15))
+        isUserTouch = true
+        if (isFragmentVisible()) {
+            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
+            if (singleDevice.type == 0) {
+                controller?.setLightBright(singleDevice.id, progress.plus(15))
+            } else {
+                if (meshServiceStateListener.isMeshServiceConnected()) {
+                    controller?.setLightBright(singleDevice.instructId, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
                 }
-                if(!TextUtils.equals("LinkupHome V1",singleDevice.name)) changeDeviceState(singleDevice, "brightness", progress.toString())
+                if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "brightness", progress.toString())
             }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        isUserTouch=false
+        isUserTouch = false
     }
 
     override fun onDeviceRemoved(deviceId: String, uuidHash: Int, success: Boolean) {
         hideLoadingView()
-        isUserTouch=false
+        isUserTouch = false
         mViewModel.deleteDevice(deviceId)
     }
 
@@ -219,17 +220,17 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
     private fun updateState(device: Device, key: String, value: String) {
-        if(TextUtils.equals("brightness", key)){
+        if (TextUtils.equals("brightness", key)) {
             val deviceState = device.parameters
             deviceState?.let {
-                it.brightness=value.toInt()
-                mViewModel.updateDeviceState(device,it)
+                it.brightness = value.toInt()
+                mViewModel.updateDeviceState(device, it)
             }
-        }else{
+        } else {
             val deviceState = device.parameters
             deviceState?.let {
-                it.on=value.toInt()
-                mViewModel.updateRoomAndDeviceState(device,it)
+                it.on = value.toInt()
+                mViewModel.updateRoomAndDeviceState(device, it)
             }
         }
     }

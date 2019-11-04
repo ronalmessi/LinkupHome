@@ -96,9 +96,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_30sdp"
-                android:lineSpacingMultiplier="1.2"
                 android:layout_marginTop="@dimen/_27sdp"
                 android:layout_marginRight="@dimen/_30sdp"
+                android:lineSpacingMultiplier="1.2"
                 android:paddingBottom="@dimen/_10sdp"
                 android:text="@string/msg_share_zone_hint1"
                 android:textColor="@android:color/black"
@@ -108,9 +108,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_30sdp"
-                android:lineSpacingMultiplier="1.2"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginRight="@dimen/_30sdp"
+                android:lineSpacingMultiplier="1.2"
                 android:paddingBottom="@dimen/_10sdp"
                 android:text="@string/msg_share_zone_hint2"
                 android:textColor="@android:color/black"
@@ -120,25 +120,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_30sdp"
-                android:lineSpacingMultiplier="1.2"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginRight="@dimen/_30sdp"
+                android:lineSpacingMultiplier="1.2"
                 android:paddingBottom="@dimen/_10sdp"
                 android:text="@string/msg_share_zone_hint3"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_15ssp" />
 
-                <TextView
-                    android:layout_marginTop="@dimen/_18sdp"
-                    android:layout_marginLeft="@dimen/_30sdp"
-                    android:layout_marginRight="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_40sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/msg_share_zone_hint4"
-                    android:lineSpacingMultiplier="1.2"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_12ssp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_40sdp"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/msg_share_zone_hint4"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12ssp" />
 
         </LinearLayout>
 

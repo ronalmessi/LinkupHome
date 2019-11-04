@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F2F2F2">
+    android:background="#F2F2F2"
+    android:orientation="vertical">
 
     <com.ihomey.linkuphome.widget.CompatToolbar
         android:id="@+id/toolBar"
@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/title_setting"
-            android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_18ssp" />
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
     </com.ihomey.linkuphome.widget.CompatToolbar>
 
 
@@ -41,10 +41,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@android:color/white"
             android:divider="@drawable/bg_divider_m1_setting"
             android:orientation="vertical"
-            android:background="@android:color/white"
-            android:layout_marginTop="@dimen/_16sdp"
             android:paddingStart="@dimen/_16sdp"
             android:showDividers="middle|end">
 
@@ -52,9 +52,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginStart="@dimen/_18sdp"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingTop="@dimen/_12sdp"
                 android:paddingBottom="@dimen/_12sdp">
 
@@ -67,18 +67,18 @@
                     android:id="@+id/tv_sleep_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:gravity="center"
-                    android:drawablePadding="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:drawableEnd="@mipmap/ic_info"
-                    android:text="@string/title_sleep_mode" />
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="@string/title_sleep_mode"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_16ssp" />
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <com.suke.widget.SwitchButton
                     android:id="@+id/sb_sleep_mode"
@@ -110,9 +110,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginStart="@dimen/_18sdp"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingTop="@dimen/_12sdp"
                 android:paddingBottom="@dimen/_12sdp">
 
@@ -124,11 +124,11 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/_16ssp"
                     android:layout_marginLeft="@dimen/_16sdp"
-                    android:text="@string/title_gesture_control" />
+                    android:layout_weight="1"
+                    android:text="@string/title_gesture_control"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_16ssp" />
 
                 <com.suke.widget.SwitchButton
                     android:id="@+id/sb_gesture_control"

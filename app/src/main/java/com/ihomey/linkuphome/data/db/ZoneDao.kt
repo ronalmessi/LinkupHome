@@ -16,7 +16,7 @@ abstract class ZoneDao {
     abstract fun getZones(): LiveData<List<Zone>>
 
     @Query("SELECT * FROM zone WHERE id =:id")
-    abstract fun getZone(id:Int): LiveData<Zone>
+    abstract fun getZone(id: Int): LiveData<Zone>
 
     @Query("SELECT distinct id FROM zone WHERE active=1")
     abstract fun getCurrentZoneId(): LiveData<Int>
@@ -31,7 +31,7 @@ abstract class ZoneDao {
     abstract fun delete(id: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(zone: Zone):Long
+    abstract fun insert(zone: Zone): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertAll(zones: List<Zone>)

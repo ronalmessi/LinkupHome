@@ -65,15 +65,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/_24sdp"
+                        android:button="@drawable/scene_setting_btn_flow_bg"
                         android:scaleX="0.95"
-                        android:scaleY="0.95"
-                        android:button="@drawable/scene_setting_btn_flow_bg" />
+                        android:scaleY="0.95" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_flow"
                         android:layout_below="@+id/rb_scene_flow"
+                        android:layout_alignEnd="@+id/rb_scene_flow"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_flow"
                         android:textColor="@color/radio_text_color_flow" />
@@ -93,15 +93,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/_24sdp"
+                        android:button="@drawable/scene_setting_btn_seek_bg"
                         android:scaleX="0.95"
-                        android:scaleY="0.95"
-                        android:button="@drawable/scene_setting_btn_seek_bg" />
+                        android:scaleY="0.95" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_seek"
                         android:layout_below="@+id/rb_scene_seek"
+                        android:layout_alignEnd="@+id/rb_scene_seek"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_seek"
                         android:textColor="@color/radio_text_color_seek" />
@@ -122,15 +122,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/_24sdp"
+                        android:button="@drawable/scene_setting_btn_surf_bg"
                         android:scaleX="0.95"
-                        android:scaleY="0.95"
-                        android:button="@drawable/scene_setting_btn_surf_bg" />
+                        android:scaleY="0.95" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_surf"
                         android:layout_below="@+id/rb_scene_surf"
+                        android:layout_alignEnd="@+id/rb_scene_surf"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_surf"
                         android:textColor="@color/radio_text_color_surf" />
@@ -151,15 +151,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/_24sdp"
+                        android:button="@drawable/scene_setting_btn_rainbow_bg"
                         android:scaleX="0.95"
-                        android:scaleY="0.95"
-                        android:button="@drawable/scene_setting_btn_rainbow_bg" />
+                        android:scaleY="0.95" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_rainbow"
                         android:layout_below="@+id/rb_scene_rainbow"
+                        android:layout_alignEnd="@+id/rb_scene_rainbow"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_rainbow"
                         android:textColor="@color/radio_text_color_rainbow" />
@@ -180,16 +180,16 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/_24sdp"
+                        android:button="@drawable/scene_setting_btn_star_bg"
                         android:scaleX="0.95"
                         android:scaleY="0.95"
-                        android:button="@drawable/scene_setting_btn_star_bg"
                         android:textAlignment="viewEnd" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/rb_scene_star"
                         android:layout_below="@+id/rb_scene_star"
+                        android:layout_alignEnd="@+id/rb_scene_star"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/title_scene_mode_star"
                         android:textColor="@color/radio_text_color_star" />

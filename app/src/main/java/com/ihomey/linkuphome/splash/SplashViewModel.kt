@@ -17,11 +17,12 @@ class SplashViewModel : ViewModel() {
         DaggerAppComponent.builder().build().inject(this)
     }
 
-    fun getRemoteCurrentZone(imei:String): LiveData<Resource<ZoneDetail>> {
+    fun getRemoteCurrentZone(imei: String): LiveData<Resource<ZoneDetail>> {
         return zoneRepository.getCurrentZone(imei)
     }
 
-    fun getCurrentZoneId():LiveData<Resource<Int>> {
+    fun getCurrentZoneId(): LiveData<Resource<Int>> {
         return zoneRepository.getCurrentZoneId()
     }
+
 }

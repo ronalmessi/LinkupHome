@@ -1,8 +1,8 @@
 package com.ihomey.linkuphome.data.api
 
 import androidx.lifecycle.LiveData
-import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
 import retrofit2.http.Body
@@ -14,6 +14,10 @@ interface ApiService {
     //创建空间
     @POST("/api/space/save")
     fun createZone(@Body createZoneVO: CreateZoneVO): LiveData<ApiResult<Zone>>
+
+    //更新meshInfo
+    @POST("/api/space/save")
+    fun uploadMeshInfo(@Body uploadMeshInfoVO: UploadMeshInfoVO): LiveData<ApiResult<Zone>>
 
     //修改空间名称
     @POST("/api/space/save")
@@ -63,7 +67,6 @@ interface ApiService {
     //修改设备状态
     @POST("/api/device/handling")
     fun changeDeviceState(@Body changeDeviceStateVO: ChangeDeviceStateVO): LiveData<ApiResult<Device>>
-
 
 
     //添加房间

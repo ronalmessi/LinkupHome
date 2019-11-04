@@ -9,25 +9,21 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
-import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.AppConfig
+import com.ihomey.linkuphome.PreferenceHelper
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.base.LocaleHelper
-import com.ihomey.linkuphome.data.vo.Resource
-import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.databinding.InformFragmentBinding
 import com.ihomey.linkuphome.home.HomeActivity
-import com.ihomey.linkuphome.splash.SplashViewModel
 
 
 /**
@@ -55,28 +51,28 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel= ViewModelProviders.of(activity!!).get(InformViewModel::class.java)
+        mViewModel = ViewModelProviders.of(activity!!).get(InformViewModel::class.java)
     }
 
     private fun styleTextView(textView: TextView) {
         var currentLanguage = LocaleHelper.getLanguage(context)
         currentLanguage = when {
-            TextUtils.equals("zh-rCN",currentLanguage) -> "cn"
-            TextUtils.equals("zh-rTW",currentLanguage) -> "cn"
+            TextUtils.equals("zh-rCN", currentLanguage) -> "cn"
+            TextUtils.equals("zh-rTW", currentLanguage) -> "cn"
             else -> "en"
         }
         val spannableString = SpannableString(textView.text.toString())
         spannableString.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                val bundle=Bundle()
-                if (textView.id == R.id.privacy_tv_license){
-                    bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL+currentLanguage)
-                    bundle.putString("title",getString(R.string.title_user_agreement))
-                }else{
-                    bundle.putString("sourceUrl",AppConfig.PRIVACY_STATEMENt_BASE_URL+currentLanguage)
-                    bundle.putString("title",getString(R.string.title_private_statement))
+                val bundle = Bundle()
+                if (textView.id == R.id.privacy_tv_license) {
+                    bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL + currentLanguage)
+                    bundle.putString("title", getString(R.string.title_user_agreement))
+                } else {
+                    bundle.putString("sourceUrl", AppConfig.PRIVACY_STATEMENt_BASE_URL + currentLanguage)
+                    bundle.putString("title", getString(R.string.title_private_statement))
                 }
-                NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_webViewFragment,bundle)
+                NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_webViewFragment, bundle)
             }
 
             override fun updateDrawState(textPaint: TextPaint) {
@@ -105,8 +101,8 @@ class InformFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
                 R.id.privacy_btn_start -> {
                     var hasAgreed by PreferenceHelper("hasAgreed", false)
                     hasAgreed = true
-                    val intent=Intent(activity, HomeActivity::class.java)
-                    intent.putExtra("currentZoneId",mViewModel.mCurrentZoneId.value)
+                    val intent = Intent(activity, HomeActivity::class.java)
+                    intent.putExtra("currentZoneId", mViewModel.mCurrentZoneId.value)
                     startActivity(intent)
                     activity?.overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
                     activity?.finish()

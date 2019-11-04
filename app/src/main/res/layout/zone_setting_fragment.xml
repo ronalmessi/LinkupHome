@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <com.ihomey.linkuphome.widget.CompatToolbar
         android:id="@+id/toolBar"
@@ -37,62 +37,62 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_12sdp"
-        android:background="#F2F2F2"/>
+        android:background="#F2F2F2" />
 
     <com.ihomey.linkuphome.widget.MaxHeightRecyclerView
         android:id="@+id/rcv_zone_list"
         android:layout_width="match_parent"
-        app:maxHeight="@dimen/_320sdp"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:layout_height="wrap_content" />
+        app:maxHeight="@dimen/_320sdp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_8sdp"
-        android:background="#F2F2F2"/>
+        android:background="#F2F2F2" />
 
     <TextView
         android:id="@+id/btn_create_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_42sdp"
         android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_42sdp"
         android:layout_marginRight="@dimen/_30sdp"
+        android:background="@drawable/bg_btn_zone_setting"
+        android:gravity="center"
         android:paddingTop="@dimen/_10sdp"
         android:paddingBottom="@dimen/_10sdp"
+        android:text="@string/title_create_zone"
         android:textColor="@color/text_color_zone_action"
-        android:textSize="@dimen/_16ssp"
-        android:background="@drawable/bg_btn_zone_setting"
-        android:text="@string/title_create_zone"/>
+        android:textSize="@dimen/_16ssp" />
 
     <TextView
         android:id="@+id/btn_share_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_21sdp"
         android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_21sdp"
         android:layout_marginRight="@dimen/_30sdp"
+        android:background="@drawable/bg_btn_zone_setting"
+        android:gravity="center"
         android:paddingTop="@dimen/_10sdp"
         android:paddingBottom="@dimen/_10sdp"
+        android:text="@string/title_share_zone"
         android:textColor="@color/text_color_zone_action"
-        android:textSize="@dimen/_16ssp"
-        android:background="@drawable/bg_btn_zone_setting"
-        android:text="@string/title_share_zone"/>
+        android:textSize="@dimen/_16ssp" />
 
     <TextView
         android:id="@+id/btn_join_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_21sdp"
         android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_21sdp"
         android:layout_marginRight="@dimen/_30sdp"
+        android:background="@drawable/bg_btn_zone_setting"
+        android:gravity="center"
         android:paddingTop="@dimen/_10sdp"
         android:paddingBottom="@dimen/_10sdp"
+        android:text="@string/title_join_zone"
         android:textColor="@color/text_color_zone_action"
-        android:textSize="@dimen/_16ssp"
-        android:background="@drawable/bg_btn_zone_setting"
-        android:text="@string/title_join_zone"/>
+        android:textSize="@dimen/_16ssp" />
 </LinearLayout>

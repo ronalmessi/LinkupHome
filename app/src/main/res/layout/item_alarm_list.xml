@@ -9,8 +9,7 @@
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:clickToClose="true"
-       >
+        app:clickToClose="true">
 
         <TextView
             android:id="@+id/btn_delete"
@@ -26,11 +25,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_item_alarm_top"
             android:paddingStart="@dimen/_18sdp"
             android:paddingTop="@dimen/_18sdp"
-            android:paddingBottom="@dimen/_18sdp"
-            android:background="@drawable/bg_item_alarm_top"
-            android:paddingEnd="@dimen/_8sdp">
+            android:paddingEnd="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_18sdp">
 
             <TextView
                 android:id="@+id/tv_alarm_time"
@@ -38,26 +37,25 @@
                 android:layout_height="0dp"
                 android:ellipsize="end"
                 android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:text="06:15"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_24ssp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_alarm_am_pm"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:ellipsize="end"
-                android:text="AM"
-                android:gravity="center"
                 android:layout_marginStart="@dimen/_10sdp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_alarm_time"
-                app:layout_constraintLeft_toRightOf="@+id/tv_alarm_time"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="AM"
                 android:textColor="#807F85"
                 android:textSize="@dimen/_16ssp"
-                />
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_alarm_time"
+                app:layout_constraintLeft_toRightOf="@+id/tv_alarm_time" />
 
             <com.suke.widget.SwitchButton
                 android:id="@+id/sb_alarm_state"
@@ -80,34 +78,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@drawable/bg_item_alarm_bottom"
         android:divider="@drawable/bg_divider_item_alarm"
-        android:showDividers="middle"
-       >
+        android:orientation="vertical"
+        android:showDividers="middle">
 
         <com.ihomey.linkuphome.widget.InfoTextLayout
             android:id="@+id/infoTextLayout_alarm_repeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:isShowDivider="false"
+            app:isShowRightIcon="false"
             app:leftIcon="@mipmap/ic_alarm_setting_repeat"
             app:leftText="@string/action_repeat"
             app:leftTextColor="@android:color/black"
             app:leftTextSize="@dimen/_16ssp"
-            android:layout_marginEnd="@dimen/_10sdp"
             app:rightTextColor="#807F85"
-            app:isShowRightIcon="false"
             app:rightTextSize="@dimen/_14ssp"
-            app:verticalMargin="@dimen/_16sdp"
-            />
+            app:verticalMargin="@dimen/_16sdp" />
 
         <com.ihomey.linkuphome.widget.InfoTextLayout
             android:id="@+id/infoTextLayout_alarm_ring"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:isShowDivider="false"
             app:isShowRightIcon="false"
             app:leftIcon="@mipmap/ic_alarm_setting_ring"
@@ -115,27 +112,24 @@
             app:leftTextColor="@android:color/black"
             app:leftTextSize="@dimen/_16ssp"
             app:rightTextColor="#807F85"
-            android:layout_marginEnd="@dimen/_10sdp"
             app:rightTextSize="@dimen/_14ssp"
-            app:verticalMargin="@dimen/_16sdp"
-            />
+            app:verticalMargin="@dimen/_16sdp" />
 
         <com.ihomey.linkuphome.widget.InfoTextLayout
             android:id="@+id/infoTextLayout_alarm_lighting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:isShowDivider="false"
             app:isShowRightIcon="false"
             app:leftIcon="@mipmap/ic_alarm_setting_lighting"
             app:leftText="@string/title_light"
             app:leftTextColor="@android:color/black"
             app:leftTextSize="@dimen/_16ssp"
-            android:layout_marginEnd="@dimen/_10sdp"
             app:rightTextColor="#807F85"
             app:rightTextSize="@dimen/_14ssp"
-            app:verticalMargin="@dimen/_16sdp"
-            />
+            app:verticalMargin="@dimen/_16sdp" />
 
     </LinearLayout>
 

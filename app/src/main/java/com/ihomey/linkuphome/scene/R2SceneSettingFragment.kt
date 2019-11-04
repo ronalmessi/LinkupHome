@@ -29,7 +29,7 @@ class R2SceneSettingFragment : BaseSceneSettingFragment() {
     }
 
     override fun updateViewData(localState: LocalState?) {
-        when(localState?.sceneMode) {
+        when (localState?.sceneMode) {
             0 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_read_rgb)
             1 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_sunset_rgb)
             2 -> mViewDataBinding.deviceRgpScene.check(R.id.rb_scene_rest_rgb)

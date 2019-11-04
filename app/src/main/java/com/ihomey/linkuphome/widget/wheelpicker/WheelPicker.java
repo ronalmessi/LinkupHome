@@ -850,12 +850,12 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 //                mScroller.abortAnimation();
 //            position = Math.min(position, mData.size() - 1);
 //            position = Math.max(position, 0);
-            mSelectedItemPosition = position;
-            mCurrentItemPosition = position;
-            mScrollOffsetY = 0;
+        mSelectedItemPosition = position;
+        mCurrentItemPosition = position;
+        mScrollOffsetY = 0;
 //            computeFlingLimitY();
 //            requestLayout();
-            invalidate();
+        invalidate();
 //        }
     }
 

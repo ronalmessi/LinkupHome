@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:height="@dimen/_1sdp"
         android:drawable="@color/divider_item_alarm"
-        android:left="@dimen/_54sdp"
-        android:height="@dimen/_1sdp" />
+        android:left="@dimen/_54sdp" />
 </layer-list>
 
 

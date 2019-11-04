@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F2F2F2">
+    android:background="#F2F2F2"
+    android:orientation="vertical">
 
     <com.ihomey.linkuphome.widget.CompatToolbar
         android:id="@+id/toolBar"
@@ -28,8 +28,8 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:maxEms="9"
-            android:text="@string/title_environment_monitor"
             android:singleLine="true"
+            android:text="@string/title_environment_monitor"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />
@@ -62,30 +62,30 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@mipmap/bg_hcho"
         android:paddingStart="@dimen/_32sdp"
-        android:paddingEnd="@dimen/_27sdp"
         android:paddingTop="@dimen/_27sdp"
-        android:paddingBottom="@dimen/_15sdp"
-        android:background="@mipmap/bg_hcho">
+        android:paddingEnd="@dimen/_27sdp"
+        android:paddingBottom="@dimen/_15sdp">
 
         <TextView
             android:id="@+id/tv_hcho_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:text="@string/title_hcho"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_14ssp"/>
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
 
 
         <TextView
             android:id="@+id/tv_hcho_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_hcho_title"
+            android:layout_alignParentStart="true"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_18ssp"/>
+            android:textSize="@dimen/_18ssp" />
 
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_14ssp"/>
+            android:textSize="@dimen/_14ssp" />
 
 
         <ImageView
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:src="@mipmap/ic_hcho"/>
+            android:src="@mipmap/ic_hcho" />
 
 
     </RelativeLayout>
@@ -113,29 +113,29 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@mipmap/bg_pm25"
         android:paddingStart="@dimen/_32sdp"
-        android:paddingEnd="@dimen/_27sdp"
         android:paddingTop="@dimen/_27sdp"
-        android:paddingBottom="@dimen/_15sdp"
-        android:background="@mipmap/bg_pm25">
+        android:paddingEnd="@dimen/_27sdp"
+        android:paddingBottom="@dimen/_15sdp">
 
         <TextView
             android:id="@+id/tv_pm25_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:text="@string/title_pm25"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_14ssp"/>
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_pm25_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_pm25_title"
+            android:layout_alignParentStart="true"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_18ssp"/>
+            android:textSize="@dimen/_18ssp" />
 
         <TextView
             android:id="@+id/tv_pm25_value_level"
@@ -144,7 +144,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_14ssp"/>
+            android:textSize="@dimen/_14ssp" />
 
 
         <ImageView
@@ -152,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:src="@mipmap/ic_pm25"/>
+            android:src="@mipmap/ic_pm25" />
 
 
     </RelativeLayout>
@@ -162,30 +162,30 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@mipmap/bg_voc"
         android:paddingStart="@dimen/_32sdp"
-        android:paddingEnd="@dimen/_27sdp"
         android:paddingTop="@dimen/_27sdp"
-        android:paddingBottom="@dimen/_15sdp"
-        android:background="@mipmap/bg_voc">
+        android:paddingEnd="@dimen/_27sdp"
+        android:paddingBottom="@dimen/_15sdp">
 
 
         <TextView
             android:id="@+id/tv_voc_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:text="@string/title_voc"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_14ssp"/>
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_voc_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_voc_title"
+            android:layout_alignParentStart="true"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_36ssp"/>
+            android:textSize="@dimen/_36ssp" />
 
         <TextView
             android:id="@+id/tv_voc_value_level"
@@ -194,7 +194,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_14ssp"/>
+            android:textSize="@dimen/_14ssp" />
 
 
         <ImageView
@@ -202,7 +202,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:src="@mipmap/ic_voc"/>
+            android:src="@mipmap/ic_voc" />
 
     </RelativeLayout>
 

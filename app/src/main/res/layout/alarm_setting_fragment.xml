@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_alarm">
@@ -17,11 +16,10 @@
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:background="@null"
             android:paddingEnd="@dimen/_18sdp"
-            android:layout_gravity="start|center_vertical"
-            android:src="@mipmap/ic_back_white"
-            />
+            android:src="@mipmap/ic_back_white" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -32,9 +30,9 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_18ssp" />
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
 
 
         <TextView
@@ -98,12 +96,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/guideline2"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@android:color/white"
         android:divider="@drawable/bg_divider_setting"
+        android:orientation="vertical"
         android:showDividers="middle|end"
-        android:orientation="vertical">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline2">
 
         <com.ihomey.linkuphome.widget.InfoTextLayout
             android:id="@+id/infoTextLayout_alarm_setting_repeat"
@@ -119,8 +117,7 @@
             app:rightIcon="@drawable/ic_arrow_setting"
             app:rightTextColor="#807F85"
             app:rightTextSize="@dimen/_16ssp"
-            app:verticalMargin="@dimen/_18sdp"
-             />
+            app:verticalMargin="@dimen/_18sdp" />
 
         <com.ihomey.linkuphome.widget.InfoTextLayout
             android:id="@+id/infoTextLayout_alarm_setting_ring"
@@ -136,31 +133,31 @@
             app:rightIcon="@drawable/ic_arrow_setting"
             app:rightTextColor="#807F85"
             app:rightTextSize="@dimen/_16ssp"
-            app:verticalMargin="@dimen/_18sdp"
-            />
+            app:verticalMargin="@dimen/_18sdp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:paddingTop="@dimen/_8sdp"
-            android:paddingBottom="@dimen/_8sdp"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:layout_height="wrap_content" android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_33sdp"
-                android:src="@mipmap/ic_alarm_setting_lighting"/>
+                android:src="@mipmap/ic_alarm_setting_lighting" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_weight="1"
+                android:text="@string/title_light"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_16ssp"
-                android:text="@string/title_light"/>
+                android:textSize="@dimen/_16ssp" />
 
 
             <com.suke.widget.SwitchButton
@@ -178,9 +175,6 @@
 
 
     </LinearLayout>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,8 +11,8 @@ import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.ihomey.linkuphome.App
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.adapter.ImageViewAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.base.LocaleHelper
 import kotlinx.android.synthetic.main.instruction_detail_fragment.*
 
@@ -26,24 +26,24 @@ class InstructionDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_title.setText(if(arguments?.getInt("type")==0) R.string.title_m1_instruction else R.string.title_mesh_instruction)
+        tv_title.setText(if (arguments?.getInt("type") == 0) R.string.title_m1_instruction else R.string.title_mesh_instruction)
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         var currentLanguage = LocaleHelper.getLanguage(context)
         currentLanguage = when {
-            TextUtils.equals("zh-rCN",currentLanguage) -> "zh"
-            TextUtils.equals("zh-rTW",currentLanguage) -> "zh-Hant"
-            TextUtils.equals("de",currentLanguage) -> "de"
-            TextUtils.equals("fr",currentLanguage) -> "fr"
+            TextUtils.equals("zh-rCN", currentLanguage) -> "zh"
+            TextUtils.equals("zh-rTW", currentLanguage) -> "zh-Hant"
+            TextUtils.equals("de", currentLanguage) -> "de"
+            TextUtils.equals("fr", currentLanguage) -> "fr"
             else -> "en"
         }
-        val imageUrlList= mutableListOf<String>()
-        if(arguments?.getInt("type")==0){
-            for(i in 3..11){
-                imageUrlList.add(AppConfig.INSTRUCTIONS_BASE_URL+"m1_guide/"+currentLanguage+"/m1_"+i+".jpg")
+        val imageUrlList = mutableListOf<String>()
+        if (arguments?.getInt("type") == 0) {
+            for (i in 3..11) {
+                imageUrlList.add(AppConfig.INSTRUCTIONS_BASE_URL + "m1_guide/" + currentLanguage + "/m1_" + i + ".jpg")
             }
-        } else{
-            for(i in 1..18){
-                imageUrlList.add(AppConfig.INSTRUCTIONS_BASE_URL+currentLanguage+"/"+(if(i<10) "0$i" else ""+i)+".jpg")
+        } else {
+            for (i in 1..18) {
+                imageUrlList.add(AppConfig.INSTRUCTIONS_BASE_URL + currentLanguage + "/" + (if (i < 10) "0$i" else "" + i) + ".jpg")
             }
         }
         val adapter = ImageViewAdapter(imageUrlList, context)

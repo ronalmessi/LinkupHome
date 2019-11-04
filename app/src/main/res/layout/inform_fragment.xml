@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="handlers"
             type="com.ihomey.linkuphome.inform.InformFragment.EventHandler" />
@@ -19,9 +20,9 @@
             android:id="@+id/privacy_tv_tip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_40sdp"
             android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginRight="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
             android:gravity="center"
             android:lineSpacingMultiplier="1.2"
             android:text="@string/splash_tip_agreement"
@@ -32,17 +33,16 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-
         <CheckBox
             android:id="@+id/privacy_cb_license"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/PrivacyCheckBox"
+            android:gravity="center"
             android:scaleX="1.2"
             android:scaleY="1.2"
-            android:gravity="center"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            android:theme="@style/PrivacyCheckBox"
             app:layout_constraintEnd_toStartOf="@+id/privacy_tv_license"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_h" />
 
@@ -56,8 +56,8 @@
             android:text="@string/splash_user_license_agreement"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/privacy_cb_license"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/privacy_cb_license"
             app:layout_constraintTop_toBottomOf="@+id/guideline_h" />
 
@@ -65,10 +65,10 @@
             android:id="@+id/privacy_cb_statement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/PrivacyCheckBox"
+            android:gravity="center"
             android:scaleX="1.2"
             android:scaleY="1.2"
-            android:gravity="center"
+            android:theme="@style/PrivacyCheckBox"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/privacy_cb_license"
             app:layout_constraintTop_toBottomOf="@+id/privacy_cb_license" />
@@ -92,15 +92,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_45sdp"
+            android:alpha="0.5"
             android:background="@drawable/selectable_privacy_btn_start_background"
+            android:enabled="false"
             android:gravity="center"
             android:onClick="@{handlers::onClick}"
-            android:paddingBottom="@dimen/_4sdp"
             android:paddingLeft="@dimen/_42sdp"
-            android:paddingRight="@dimen/_42sdp"
             android:paddingTop="@dimen/_4sdp"
-            android:enabled="false"
-            android:alpha="0.5"
+            android:paddingRight="@dimen/_42sdp"
+            android:paddingBottom="@dimen/_4sdp"
             android:text="@string/splash_action_start"
             android:textAllCaps="false"
             android:textColor="@android:color/white"

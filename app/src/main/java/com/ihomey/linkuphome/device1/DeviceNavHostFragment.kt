@@ -12,7 +12,7 @@ import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 
 
-class DeviceNavHostFragment : BaseFragment(),FragmentBackHandler {
+class DeviceNavHostFragment : BaseFragment(), FragmentBackHandler {
 
     private var listener: FragmentVisibleStateListener? = null
 
@@ -27,7 +27,7 @@ class DeviceNavHostFragment : BaseFragment(),FragmentBackHandler {
     }
 
     fun showBottomNavigationBar(isVisible: Boolean) {
-        if(parentFragment!=null&&parentFragment is HomeFragment){
+        if (parentFragment != null && parentFragment is HomeFragment) {
             (parentFragment as HomeFragment).showBottomNavigationBar(isVisible)
         }
     }
@@ -36,7 +36,7 @@ class DeviceNavHostFragment : BaseFragment(),FragmentBackHandler {
         return handleBackPress(childFragmentManager.fragments[0])
     }
 
-    fun getPagePosition():Int{
+    fun getPagePosition(): Int {
         return (parentFragment as HomeFragment).getPagePosition()
     }
 

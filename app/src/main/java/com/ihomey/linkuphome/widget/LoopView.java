@@ -29,16 +29,13 @@ import java.util.concurrent.TimeUnit;
 
 public class LoopView extends View {
 
-    private static final String TAG = LoopView.class.getSimpleName();
-
     public static final int MSG_INVALIDATE = 1000;
     public static final int MSG_SCROLL_LOOP = 2000;
     public static final int MSG_SELECTED_ITEM = 3000;
-
-    private String label;//附加单位
-
+    private static final String TAG = LoopView.class.getSimpleName();
     int circleColor = 1;
-
+    boolean canEdit = false;
+    private String label;//附加单位
     private ScheduledExecutorService mExecutor = Executors.newSingleThreadScheduledExecutor();
     private ScheduledFuture<?> mScheduledFuture;
     private int mTotalScrollY;
@@ -49,7 +46,7 @@ public class LoopView extends View {
     private Context mContext;
     private Paint mTopBottomTextPaint;  //paint that draw top and bottom text
     private Paint mCenterTextPaint;  // paint that draw center text
-//    private Paint mCenterLinePaint;  // paint that draw line besides center text
+    //    private Paint mCenterLinePaint;  // paint that draw line besides center text
     //    private Paint paintLabelText;
     private ArrayList mDataList;
     private int mTextSize;
@@ -57,7 +54,7 @@ public class LoopView extends View {
     private int mMaxTextHeight;
     private int mTopBottomTextColor;
     private int mCenterTextColor;
-//    private int mCenterLineColor;
+    //    private int mCenterLineColor;
     private float lineSpacingMultiplier;
     private boolean mCanLoop;
     private int mTopLineY;
@@ -67,15 +64,6 @@ public class LoopView extends View {
     private int mPaddingLeftRight;
     private int mPaddingTopBottom;
     private float mItemHeight;
-    private int mDrawItemsCount;
-    private int mCircularDiameter;
-    private int mWidgetHeight;
-    private int mCircularRadius;
-    private int mWidgetWidth;
-
-    boolean canEdit = false;
-
-
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -88,6 +76,11 @@ public class LoopView extends View {
             return false;
         }
     });
+    private int mDrawItemsCount;
+    private int mCircularDiameter;
+    private int mWidgetHeight;
+    private int mCircularRadius;
+    private int mWidgetWidth;
 
     public LoopView(Context context) {
         this(context, null);
@@ -232,7 +225,7 @@ public class LoopView extends View {
 
         mItemHeight = lineSpacingMultiplier * mMaxTextHeight;
         //auto calculate the text's left/right value when draw
-        mPaddingLeftRight = (mWidgetWidth - mMaxTextWidth-dp2px(mContext,4)) / 2;
+        mPaddingLeftRight = (mWidgetWidth - mMaxTextWidth - dp2px(mContext, 4)) / 2;
 
 
 //        Log.d("bg_splash",mMaxTextWidth+"===mMaxTextWidth==="+mPaddingLeftRight);
@@ -346,7 +339,7 @@ public class LoopView extends View {
                     canvas.save();
                     canvas.clipRect(0, 0, mWidgetWidth, mTopLineY - translateY);
                     if (canEdit) {
-                        canvas.drawText(itemCount[count], mPaddingLeftRight + dp2px(mContext,4), mMaxTextHeight, mTopBottomTextPaint);
+                        canvas.drawText(itemCount[count], mPaddingLeftRight + dp2px(mContext, 4), mMaxTextHeight, mTopBottomTextPaint);
                     }
                     canvas.restore();
                     canvas.save();
@@ -366,7 +359,7 @@ public class LoopView extends View {
                     canvas.save();
                     canvas.clipRect(0, mBottomLineY - translateY, mWidgetWidth, (int) (itemHeight));
                     if (canEdit) {
-                        canvas.drawText(itemCount[count], mPaddingLeftRight + dp2px(mContext,6f), mMaxTextHeight, mTopBottomTextPaint);
+                        canvas.drawText(itemCount[count], mPaddingLeftRight + dp2px(mContext, 6f), mMaxTextHeight, mTopBottomTextPaint);
                     }
                     canvas.restore();
                 } else if (translateY >= mTopLineY && mMaxTextHeight + translateY <= mBottomLineY) {
@@ -463,6 +456,20 @@ public class LoopView extends View {
         mScheduledFuture = mExecutor.scheduleWithFixedDelay(new FlingRunnable(velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
     }
 
+    public int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    public int dp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().density;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    interface LoopScrollListener {
+        void onItemSelect(int item);
+    }
+
     class LoopViewGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -499,16 +506,6 @@ public class LoopView extends View {
             invalidate();
             return true;
         }
-    }
-
-    public int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
-
-    public int dp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().density;
-        return (int) (spValue * fontScale + 0.5f);
     }
 
     class SelectedRunnable implements Runnable {
@@ -579,8 +576,8 @@ public class LoopView extends View {
      */
     class FlingRunnable implements Runnable {
 
-        float velocity;
         final float velocityY;
+        float velocity;
 
         FlingRunnable(float velocityY) {
             this.velocityY = velocityY;
@@ -625,9 +622,5 @@ public class LoopView extends View {
             }
             mHandler.sendEmptyMessage(MSG_INVALIDATE);
         }
-    }
-
-    interface LoopScrollListener {
-        void onItemSelect(int item);
     }
 }

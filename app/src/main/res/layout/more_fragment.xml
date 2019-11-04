@@ -36,11 +36,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
             android:background="@android:color/white"
             android:divider="@drawable/bg_divider_setting"
-            android:layout_marginTop="@dimen/_14sdp"
-            android:showDividers="middle"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:showDividers="middle">
 
             <com.ihomey.linkuphome.widget.InfoTextLayout
                 android:id="@+id/infoTextLayout_setting_name"
@@ -75,21 +75,21 @@
                 app:verticalMargin="@dimen/_18sdp" />
 
             <!--<com.ihomey.linkuphome.widget.InfoTextLayout-->
-                <!--android:id="@+id/infoTextLayout_setting_sex"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@android:color/white"-->
-                <!--android:paddingStart="@dimen/_16sdp"-->
-                <!--app:horizontalMargin="@dimen/_20sdp"-->
-                <!--app:isShowDivider="false"-->
-                <!--app:leftIcon="@mipmap/ic_share_account"-->
-                <!--app:leftText="分享账号"-->
-                <!--app:leftTextColor="@android:color/black"-->
-                <!--app:leftTextSize="@dimen/_16ssp"-->
-                <!--app:rightIcon="@drawable/ic_arrow_setting"-->
-                <!--app:rightTextColor="#807F85"-->
-                <!--app:rightTextSize="@dimen/_16ssp"-->
-                <!--app:verticalMargin="@dimen/_18sdp" />-->
+            <!--android:id="@+id/infoTextLayout_setting_sex"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:paddingStart="@dimen/_16sdp"-->
+            <!--app:horizontalMargin="@dimen/_20sdp"-->
+            <!--app:isShowDivider="false"-->
+            <!--app:leftIcon="@mipmap/ic_share_account"-->
+            <!--app:leftText="分享账号"-->
+            <!--app:leftTextColor="@android:color/black"-->
+            <!--app:leftTextSize="@dimen/_16ssp"-->
+            <!--app:rightIcon="@drawable/ic_arrow_setting"-->
+            <!--app:rightTextColor="#807F85"-->
+            <!--app:rightTextSize="@dimen/_16ssp"-->
+            <!--app:verticalMargin="@dimen/_18sdp" />-->
 
 
         </LinearLayout>

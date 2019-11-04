@@ -40,24 +40,24 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#F2F2F2"
-        android:paddingTop="@dimen/_12sdp"
         android:paddingLeft="@dimen/_12sdp"
+        android:paddingTop="@dimen/_12sdp"
         android:paddingRight="@dimen/_12sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
-    <include android:id="@+id/emptyView"
+    <include
+        android:id="@+id/emptyView"
+        layout="@layout/view_zone_list_empty"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        layout="@layout/view_zone_list_empty"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="visible"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

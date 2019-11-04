@@ -2,8 +2,10 @@ package com.ihomey.linkuphome.data.entity
 
 
 import android.text.TextUtils
-import android.util.Log
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.annotations.SerializedName
 import com.ihomey.linkuphome.data.db.DeviceStateValueConverter
@@ -13,15 +15,17 @@ import com.ihomey.linkuphome.data.db.DeviceStateValueConverter
  * Created by dongcaizheng on 2018/4/9.
  */
 @Entity(tableName = "device2")
-data class Device(@PrimaryKey var id: String, @SerializedName("spaceId")var zoneId: Int, @SerializedName("groupId")var roomId: Int, var name: String,var type: Int, var instructId:Int, @TypeConverters(DeviceStateValueConverter::class) var parameters: DeviceState?): MultiItemEntity {
+data class Device(@PrimaryKey var id: String, @SerializedName("spaceId") var zoneId: Int, @SerializedName("groupId") var roomId: Int, var name: String, var type: Int, var instructId: Int, @TypeConverters(DeviceStateValueConverter::class) var parameters: DeviceState?) : MultiItemEntity {
 
-    @Ignore var hash: String=""
+    @Ignore
+    var hash: String = ""
 
-    @Ignore var macAddress: String=""
+    @Ignore
+    var macAddress: String = ""
 
 
     override fun getItemType(): Int {
-        return if(!TextUtils.equals("0",id)) 1 else -1
+        return if (!TextUtils.equals("0", id)) 1 else -1
     }
 
     override fun equals(other: Any?): Boolean {
@@ -29,11 +33,11 @@ data class Device(@PrimaryKey var id: String, @SerializedName("spaceId")var zone
             return false
         }
         val singleDevice = other as Device?
-        return  if(!TextUtils.equals("",singleDevice?.macAddress)){
+        return if (!TextUtils.equals("", singleDevice?.macAddress)) {
             TextUtils.equals(this.macAddress, singleDevice?.macAddress)
-        } else if(!TextUtils.isEmpty(singleDevice?.hash)){
+        } else if (!TextUtils.isEmpty(singleDevice?.hash)) {
             TextUtils.equals(this.hash, singleDevice?.hash)
-        }else {
+        } else {
             TextUtils.equals(this.id, singleDevice?.id)
         }
     }
@@ -51,8 +55,10 @@ data class Device(@PrimaryKey var id: String, @SerializedName("spaceId")var zone
         return result
     }
 
-    constructor(type: Int,name:String):this("0",0,0,name,type,0,DeviceState())
+    constructor(type: Int, name: String) : this("0", 0, 0, name, type, 0, DeviceState())
 
-    constructor(type: Int,name:String,macAddress:String):this("0",0,0,name,type,0,DeviceState()){ this.macAddress=macAddress }
+    constructor(type: Int, name: String, macAddress: String) : this("0", 0, 0, name, type, 0, DeviceState()) {
+        this.macAddress = macAddress
+    }
 }
 

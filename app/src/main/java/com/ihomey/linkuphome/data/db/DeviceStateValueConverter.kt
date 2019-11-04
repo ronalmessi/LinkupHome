@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ihomey.linkuphome.data.entity.DeviceState
 
 
-
 public class DeviceStateValueConverter {
 
     @TypeConverter

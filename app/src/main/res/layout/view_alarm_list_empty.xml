@@ -9,8 +9,8 @@
     <ImageView
         android:layout_width="@dimen/_42sdp"
         android:layout_height="@dimen/_42sdp"
-        android:src="@mipmap/ic_add"
         android:layout_marginTop="@dimen/_64sdp"
+        android:src="@mipmap/ic_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

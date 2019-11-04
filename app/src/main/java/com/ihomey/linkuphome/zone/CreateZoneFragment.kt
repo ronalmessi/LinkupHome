@@ -1,11 +1,9 @@
 package com.ihomey.linkuphome.zone
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -44,23 +42,25 @@ class CreateZoneFragment : BaseFragment() {
         et_zone_name.setSelection(et_zone_name.text.toString().trim().length)
         val isDefault = arguments?.getBoolean("isDefault") ?: true
         if (!isDefault) iv_back.visibility = View.VISIBLE
-        btn_save.setOnClickListener {it0->
-            context?.getIMEI()?.let { it1 -> createZoneViewModel.createZone(it1,et_zone_name.text.toString().trim()).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
-                if (it?.status == Status.SUCCESS) {
-                    hideLoadingView()
-                    homeActivityViewModel.setCurrentZoneId(it.data?.id)
-                    if(isDefault){
-                        Navigation.findNavController(it0).navigate(R.id.action_createZoneFragment_to_homeFragment)
-                    }else{
-                        Navigation.findNavController(it0).popBackStack()
+        btn_save.setOnClickListener { it0 ->
+            context?.getIMEI()?.let { it1 ->
+                createZoneViewModel.createZone(it1, et_zone_name.text.toString().trim()).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
+                    if (it?.status == Status.SUCCESS) {
+                        hideLoadingView()
+                        homeActivityViewModel.setCurrentZoneId(it.data?.id)
+                        if (isDefault) {
+                            Navigation.findNavController(it0).navigate(R.id.action_createZoneFragment_to_homeFragment)
+                        } else {
+                            Navigation.findNavController(it0).popBackStack()
+                        }
+                    } else if (it?.status == Status.ERROR) {
+                        hideLoadingView()
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    } else if (it?.status == Status.LOADING) {
+                        showLoadingView()
                     }
-                }else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                }else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            }) }
+                })
+            }
         }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }

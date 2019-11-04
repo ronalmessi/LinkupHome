@@ -43,32 +43,34 @@ class JoinZoneFragment : BaseFragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        bridgeListener= context as BridgeListener
+        bridgeListener = context as BridgeListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack()}
+        iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         btn_join_zone.setOnClickListener { joinZone() }
     }
 
     private fun joinZone() {
-        val invitationCode=et_invitation_code.text.toString().trim()
-        if(!TextUtils.isEmpty(invitationCode)){
-            context?.getIMEI()?.let { it1 ->  mViewModel.joinZone(it1,invitationCode).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
-                if (it?.status == Status.SUCCESS) {
-                    hideLoadingView()
-                    activity?.toast(getString(R.string.msg_join_zone_success), Toast.LENGTH_SHORT)
-                    viewModel.setCurrentZoneId(it.data?.id)
-                    bridgeListener.reConnectBridge()
-                    Navigation.findNavController(et_invitation_code).popBackStack()
-                }else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    activity?.toast(getString(R.string.msg_error_invitation_code), Toast.LENGTH_SHORT)
-                }else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            })}
+        val invitationCode = et_invitation_code.text.toString().trim()
+        if (!TextUtils.isEmpty(invitationCode)) {
+            context?.getIMEI()?.let { it1 ->
+                mViewModel.joinZone(it1, invitationCode).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
+                    if (it?.status == Status.SUCCESS) {
+                        hideLoadingView()
+                        activity?.toast(getString(R.string.msg_join_zone_success), Toast.LENGTH_SHORT)
+                        viewModel.setCurrentZoneId(it.data?.id)
+                        bridgeListener.reConnectBridge()
+                        Navigation.findNavController(et_invitation_code).popBackStack()
+                    } else if (it?.status == Status.ERROR) {
+                        hideLoadingView()
+                        activity?.toast(getString(R.string.msg_error_invitation_code), Toast.LENGTH_SHORT)
+                    } else if (it?.status == Status.LOADING) {
+                        showLoadingView()
+                    }
+                })
+            }
         }
     }
 }

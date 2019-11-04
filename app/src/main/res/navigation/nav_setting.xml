@@ -10,121 +10,129 @@
         android:name="com.ihomey.linkuphome.setting.SettingFragment"
         tools:layout="@layout/setting_fragment">
         <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_tab_setting_to_moreFragment"
-            app:destination="@id/moreFragment" />
-        <action
+            app:destination="@id/moreFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_tab_setting_to_zoneSettingFragment"
-            app:destination="@id/zoneSettingFragment" />
-        <action
+            app:destination="@id/zoneSettingFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_tab_setting_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
-        <action
+            app:destination="@id/webViewFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_tab_setting_to_instructionFragment"
-            app:destination="@id/instructionFragment" />
-        <action
+            app:destination="@id/instructionFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_tab_setting_to_languageSettingFragment"
-            app:destination="@id/languageSettingFragment" />
+            app:destination="@id/languageSettingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/moreFragment"
         android:name="com.ihomey.linkuphome.setting.MoreFragment"
-        tools:layout="@layout/more_fragment"
-        android:label="MoreFragment" >
+        android:label="MoreFragment"
+        tools:layout="@layout/more_fragment">
         <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_moreFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/createZoneFragment"
         android:name="com.ihomey.linkuphome.zone.CreateZoneFragment"
         android:label="create_zone_fragment"
-        tools:layout="@layout/create_zone_fragment" >
-    </fragment>
+        tools:layout="@layout/create_zone_fragment"></fragment>
 
     <fragment
         android:id="@+id/shareZoneListFragment"
         android:name="com.ihomey.linkuphome.share.ShareZoneListFragment"
         android:label="zone_share_list_fragment"
-        tools:layout="@layout/zone_share_list_fragment" >
+        tools:layout="@layout/zone_share_list_fragment">
         <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_shareZoneListFragment_to_shareZoneFragment"
-            app:destination="@id/shareZoneFragment" />
+            app:destination="@id/shareZoneFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/shareZoneFragment"
         android:name="com.ihomey.linkuphome.share.ShareZoneFragment"
         android:label="zone_share_fragment"
-        tools:layout="@layout/zone_share_fragment" >
-    </fragment>
+        tools:layout="@layout/zone_share_fragment"></fragment>
 
     <fragment
         android:id="@+id/joinZoneFragment"
         android:name="com.ihomey.linkuphome.share.JoinZoneFragment"
         android:label="zone_join_fragment"
-        tools:layout="@layout/zone_join_fragment" >
-    </fragment>
+        tools:layout="@layout/zone_join_fragment"></fragment>
 
     <fragment
         android:id="@+id/zoneSettingFragment"
         android:name="com.ihomey.linkuphome.zone.ZoneSettingFragment"
-        tools:layout="@layout/zone_setting_fragment"
-        android:label="ZoneSettingFragment" >
+        android:label="ZoneSettingFragment"
+        tools:layout="@layout/zone_setting_fragment">
         <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_zoneSettingFragment_to_createZoneFragment2"
-            app:destination="@id/createZoneFragment" />
-        <action
+            app:destination="@id/createZoneFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_zoneSettingFragment_to_shareZoneListFragment"
-            app:destination="@id/shareZoneListFragment" />
-        <action
+            app:destination="@id/shareZoneListFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_zoneSettingFragment_to_joinZoneFragment"
-            app:destination="@id/joinZoneFragment" />
+            app:destination="@id/joinZoneFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.ihomey.linkuphome.setting.WebViewFragment"
-        tools:layout="@layout/webview_fragment"
-        android:label="WebViewFragment" />
+        android:label="WebViewFragment"
+        tools:layout="@layout/webview_fragment" />
 
     <fragment
         android:id="@+id/instructionDetailFragment"
         android:name="com.ihomey.linkuphome.setting.InstructionDetailFragment"
-        tools:layout="@layout/instruction_detail_fragment"
-        android:label="InstructionDetailFragment" />
+        android:label="InstructionDetailFragment"
+        tools:layout="@layout/instruction_detail_fragment" />
 
     <fragment
         android:id="@+id/instructionFragment"
         android:name="com.ihomey.linkuphome.setting.InstructionFragment"
-        tools:layout="@layout/instruction_fragment"
-        android:label="InstructionFragment" >
+        android:label="InstructionFragment"
+        tools:layout="@layout/instruction_fragment">
 
-    <action
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
-        android:id="@+id/action_instructionFragment_to_instructionDetailFragment"
-        app:destination="@id/instructionDetailFragment" />
+        <action
+            android:id="@+id/action_instructionFragment_to_instructionDetailFragment"
+            app:destination="@id/instructionDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
@@ -133,8 +141,7 @@
         android:id="@+id/languageSettingFragment"
         android:name="com.ihomey.linkuphome.setting.LanguageSettingFragment"
         android:label="language_settingg_fragment"
-        tools:layout="@layout/language_setting_fragment" >
-    </fragment>
+        tools:layout="@layout/language_setting_fragment"></fragment>
 
 
 </navigation>

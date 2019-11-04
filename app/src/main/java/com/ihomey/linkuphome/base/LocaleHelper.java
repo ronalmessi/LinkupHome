@@ -20,16 +20,16 @@ public class LocaleHelper {
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
 
     public static Context onAttach(Context context) {
-        String language=Locale.getDefault().getLanguage();
-        String country=Locale.getDefault().getCountry();
-        if(TextUtils.equals("zh",language)){
-            if(TextUtils.equals("TW",country)){
-                language="zh-rTW";
-            } else{
-                language="zh-rCN";
+        String language = Locale.getDefault().getLanguage();
+        String country = Locale.getDefault().getCountry();
+        if (TextUtils.equals("zh", language)) {
+            if (TextUtils.equals("TW", country)) {
+                language = "zh-rTW";
+            } else {
+                language = "zh-rCN";
             }
         }
-        String lang = getPersistedData(context,language);
+        String lang = getPersistedData(context, language);
         return setLocale(context, lang);
     }
 
@@ -66,12 +66,12 @@ public class LocaleHelper {
 
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context, String language) {
-        Locale locale ;
-        if(TextUtils.equals("zh-rCN",language)){
-            locale=Locale.SIMPLIFIED_CHINESE;
-        }else  if(TextUtils.equals("zh-rTW",language)){
-            locale=Locale.TRADITIONAL_CHINESE;
-        }else{
+        Locale locale;
+        if (TextUtils.equals("zh-rCN", language)) {
+            locale = Locale.SIMPLIFIED_CHINESE;
+        } else if (TextUtils.equals("zh-rTW", language)) {
+            locale = Locale.TRADITIONAL_CHINESE;
+        } else {
             locale = new Locale(language);
         }
         Locale.setDefault(locale);
@@ -85,12 +85,12 @@ public class LocaleHelper {
 
     @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
-        Locale locale ;
-        if(TextUtils.equals("zh-rCN",language)){
-            locale=Locale.SIMPLIFIED_CHINESE;
-        }else  if(TextUtils.equals("zh-rTW",language)){
-            locale=Locale.TRADITIONAL_CHINESE;
-        }else{
+        Locale locale;
+        if (TextUtils.equals("zh-rCN", language)) {
+            locale = Locale.SIMPLIFIED_CHINESE;
+        } else if (TextUtils.equals("zh-rTW", language)) {
+            locale = Locale.TRADITIONAL_CHINESE;
+        } else {
             locale = new Locale(language);
         }
         Locale.setDefault(locale);

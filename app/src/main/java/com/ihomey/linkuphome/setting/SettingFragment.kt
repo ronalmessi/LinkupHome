@@ -36,7 +36,7 @@ class SettingFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
-                infoTextLayout_setting_current_zone.setTextValue(it.data?.name?:"")
+                infoTextLayout_setting_current_zone.setTextValue(it.data?.name ?: "")
             }
         })
     }
@@ -54,14 +54,14 @@ class SettingFragment : BaseFragment() {
         infoTextLayout_setting_faqs.setOnClickListener {
             var currentLanguage = LocaleHelper.getLanguage(context)
             when {
-                TextUtils.equals("zh-rCN",currentLanguage) -> currentLanguage="zh"
-                TextUtils.equals("zh-rTW",currentLanguage) -> currentLanguage="zh-Hant"
-                TextUtils.equals("pt",currentLanguage) -> currentLanguage="pt-PT"
+                TextUtils.equals("zh-rCN", currentLanguage) -> currentLanguage = "zh"
+                TextUtils.equals("zh-rTW", currentLanguage) -> currentLanguage = "zh-Hant"
+                TextUtils.equals("pt", currentLanguage) -> currentLanguage = "pt-PT"
             }
-            val bundle=Bundle()
-            bundle.putString("sourceUrl",AppConfig.FAQ_BASE_URL+currentLanguage)
-            bundle.putString("title",getString(R.string.title_faqs))
-            Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_webViewFragment,bundle)
+            val bundle = Bundle()
+            bundle.putString("sourceUrl", AppConfig.FAQ_BASE_URL + currentLanguage)
+            bundle.putString("title", getString(R.string.title_faqs))
+            Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_webViewFragment, bundle)
         }
         infoTextLayout_setting_instructions.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_instructionFragment)

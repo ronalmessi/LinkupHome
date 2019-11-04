@@ -2,7 +2,6 @@ package com.ihomey.linkuphome.controller
 
 import android.util.Log
 import com.ihomey.linkuphome.AppConfig
-import com.ihomey.linkuphome.data.vo.RGB
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import com.pairlink.sigmesh.lib.Util
 import java.util.*
@@ -72,7 +71,7 @@ class SigMeshController : Controller() {
         PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes(code_lawn_timer), Util.PL_DEFAULT_APP_KEY_INDEX)
     }
 
-   private fun setLightRGB(dst: Short, r1: Float, g1: Float, b1: Float) {
+    private fun setLightRGB(dst: Short, r1: Float, g1: Float, b1: Float) {
         var h = 0.0
         var s = 0.0
         var l = 0.0

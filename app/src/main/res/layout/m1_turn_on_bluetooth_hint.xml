@@ -10,50 +10,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.12"/>
+        app:layout_constraintGuide_percent="0.12" />
 
 
     <ImageView
         android:id="@+id/iv_turn_on_bluetooth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:src="@mipmap/ic_turn_on_bluetooth"
         android:translationY="@dimen/_10sdp"
-        app:layout_constraintTop_toBottomOf="@+id/guide0"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@mipmap/ic_turn_on_bluetooth"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guide0" />
 
     <ImageView
         android:id="@+id/iv_lamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_turn_on_bluetooth"
+        android:src="@mipmap/ic_turn_on_bluetooth_lamp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@mipmap/ic_turn_on_bluetooth_lamp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_turn_on_bluetooth" />
 
     <TextView
         android:id="@+id/tv_turn_on_bluetooth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_lamp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="#000000"
         android:layout_marginTop="@dimen/_32sdp"
+        android:text="@string/title_turn_on_bluetooth"
+        android:textColor="#000000"
         android:textSize="@dimen/_24ssp"
-        android:text="@string/title_turn_on_bluetooth"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_lamp" />
 
     <TextView
         android:id="@+id/tv_turn_on_bluetooth_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_turn_on_bluetooth"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="#000000"
-        android:text="@string/hint_turn_on_bluetooth"
         android:layout_marginTop="@dimen/_16sdp"
-        android:textSize="@dimen/_15ssp" />
+        android:text="@string/hint_turn_on_bluetooth"
+        android:textColor="#000000"
+        android:textSize="@dimen/_15ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_turn_on_bluetooth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

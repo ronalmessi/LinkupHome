@@ -4,11 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,41 +20,33 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Device
-import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device.DeviceAssociateFragment
 import com.ihomey.linkuphome.device.DeviceType
-import com.ihomey.linkuphome.getIMEI
-import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.listener.SppStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.connect_device_fragment.*
-import kotlinx.android.synthetic.main.connect_device_fragment.iv_back
-import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
-import org.spongycastle.util.encoders.Hex
 
 
-class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, SppStateListener {
+class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, SppStateListener {
 
     companion object {
         fun newInstance() = ConnectM1DeviceFragment()
     }
 
-    private lateinit var listener:DevicesStateListener
+    private lateinit var listener: DevicesStateListener
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var viewModel: ConnectDeviceViewModel
     private lateinit var adapter: ScanDeviceListAdapter
     private lateinit var countDownTimer: AssociateDeviceCountDownTimer
     private val deviceAssociateFragment = DeviceAssociateFragment()
-    private var connectingDeviceAddress:String?=null
+    private var connectingDeviceAddress: String? = null
 
     private var currentZone: Zone? = null
 
@@ -76,12 +66,12 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
-                currentZone?.id?.let { viewModel.setQuery(it,0) }
+                currentZone?.id?.let { viewModel.setQuery(it, 0) }
             }
         })
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
             if (it?.status == Status.SUCCESS) {
-                adapter.setNewData(it.data?.onEach { it.macAddress=it.id })
+                adapter.setNewData(it.data?.onEach { it.macAddress = it.id })
                 listener.discoverDevices(true, this)
             }
         })
@@ -117,21 +107,21 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
     }
 
     override fun newAppearance(shortName: String, macAddress: String) {
-        val singleDevice1 = Device(0,DeviceType.values()[0].name,macAddress)
-        if(adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
+        val singleDevice1 = Device(0, DeviceType.values()[0].name, macAddress)
+        if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        adapter.getItem(position)?.let {it0->
-            if(TextUtils.equals("0",it0.id)){
-                val pairedDeviceAddress=BluetoothSPP.getInstance()?.pairedDeviceAddress
-                if(pairedDeviceAddress!=null&& pairedDeviceAddress.any {TextUtils.equals(it,it0.macAddress)}){
-                    connectingDeviceAddress=it0.macAddress
+        adapter.getItem(position)?.let { it0 ->
+            if (TextUtils.equals("0", it0.id)) {
+                val pairedDeviceAddress = BluetoothSPP.getInstance()?.pairedDeviceAddress
+                if (pairedDeviceAddress != null && pairedDeviceAddress.any { TextUtils.equals(it, it0.macAddress) }) {
+                    connectingDeviceAddress = it0.macAddress
                     deviceAssociateFragment.isCancelable = false
                     deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
                     countDownTimer.start()
                     BluetoothSPP.getInstance()?.connect(it0.macAddress)
-                }else{
+                } else {
                     Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
                 }
             }
@@ -141,13 +131,13 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
 
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
-        val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
+        val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
         controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-        val controller = ControllerFactory().createController(singleDevice.type,TextUtils.equals("LinkupHome V1",singleDevice.name))
-        controller?.setLightBright(singleDevice.id,progress.plus(15))
+        val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
+        controller?.setLightBright(singleDevice.id, progress.plus(15))
     }
 
     interface DevicesStateListener {
@@ -161,30 +151,30 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
         }
 
         override fun onTick(millisUntilFinished: Long) {
-            deviceAssociateFragment.onAssociateProgressChanged((20-(millisUntilFinished / 1000).toInt())*5)
+            deviceAssociateFragment.onAssociateProgressChanged((20 - (millisUntilFinished / 1000).toInt()) * 5)
         }
     }
 
 
-    private val mBluetoothConnectionListener= object :BluetoothSPP.BluetoothConnectionListener{
+    private val mBluetoothConnectionListener = object : BluetoothSPP.BluetoothConnectionListener {
         override fun onDeviceConnecting(name: String?, address: String?) {
 
         }
 
         override fun onDeviceConnected(name: String?, address: String) {
             connectingDeviceAddress?.let {
-                if(TextUtils.equals(address,it)){
-                    val device = Device(0,DeviceType.values()[0].name,address)
+                if (TextUtils.equals(address, it)) {
+                    val device = Device(0, DeviceType.values()[0].name, address)
                     val position = adapter.data.indexOf(device) ?: -1
                     if (position != -1) {
-                        adapter.getItem(position)?.id=address
+                        adapter.getItem(position)?.id = address
                         adapter.notifyItemChanged(position)
                     }
-                    viewModel.saveDevice(0,currentZone?.id!!,DeviceType.values()[0].name,address)
+                    viewModel.saveDevice(0, currentZone?.id!!, DeviceType.values()[0].name, address)
                     val controller = M1Controller()
                     controller.getFirmwareVersion(address)
                     countDownTimer.cancel()
-                    if (adapter.data.none { TextUtils.equals("0",it.id)}&&deviceAssociateFragment.isVisible&&deviceAssociateFragment.userVisibleHint){
+                    if (adapter.data.none { TextUtils.equals("0", it.id) } && deviceAssociateFragment.isVisible && deviceAssociateFragment.userVisibleHint) {
                         deviceAssociateFragment.onAssociateProgressChanged(0)
                         deviceAssociateFragment.dismiss()
                         Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
@@ -195,9 +185,9 @@ class ConnectM1DeviceFragment : BaseFragment(),FragmentBackHandler, DeviceListAd
 
         override fun onDeviceConnectFailed(name: String?, address: String) {
             connectingDeviceAddress?.let {
-                if(TextUtils.equals(address,it)){
+                if (TextUtils.equals(address, it)) {
                     countDownTimer.cancel()
-                    if(deviceAssociateFragment.isVisible&&deviceAssociateFragment.userVisibleHint){
+                    if (deviceAssociateFragment.isVisible && deviceAssociateFragment.userVisibleHint) {
                         deviceAssociateFragment.onAssociateProgressChanged(0)
                         deviceAssociateFragment.dismiss()
                         activity?.toast(R.string.msg_m1_connect_failed, Toast.LENGTH_LONG)

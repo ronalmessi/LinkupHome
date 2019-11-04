@@ -8,21 +8,22 @@
     <fragment
         android:id="@+id/informFragment"
         android:name="com.ihomey.linkuphome.inform.InformFragment"
-        tools:layout="@layout/inform_fragment"
-        android:label="InformFragment" >
+        android:label="InformFragment"
+        tools:layout="@layout/inform_fragment">
 
         <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_informFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.ihomey.linkuphome.setting.WebViewFragment"
-        tools:layout="@layout/webview_fragment"
-        android:label="WebViewFragment" />
+        android:label="WebViewFragment"
+        tools:layout="@layout/webview_fragment" />
 
 
 </navigation>

@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.control
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
@@ -27,9 +26,8 @@ import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-
-import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
@@ -38,7 +36,7 @@ import com.ihomey.linkuphome.widget.dashboardview.DashboardView
 /**
  * Created by dongcaizheng on 2018/4/15.
  */
-abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener {
+abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, ToggleButtonGroup.OnCheckedChangeListener, RGBCircleView.ColorValueListener, DashboardView.ColorTemperatureListener {
 
 
     private var controller: Controller? = null
@@ -65,11 +63,11 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             this.type = it.type
-            controller = ControllerFactory().createController( it.type,TextUtils.equals("LinkupHome V1",it.name))
-            if(type!=9&&type!=0){
+            controller = ControllerFactory().createController(it.type, TextUtils.equals("LinkupHome V1", it.name))
+            if (type != 9 && type != 0) {
                 parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
-            } else{
-                if(parentFragment?.parentFragment is DeviceNavHostFragment){
+            } else {
+                if (parentFragment?.parentFragment is DeviceNavHostFragment) {
                     parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
                 }
             }
@@ -87,7 +85,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         return if (guide != null && guide?.isVisible!!) {
             hideGuideView()
             true
-        }else{
+        } else {
             false
         }
     }
@@ -101,55 +99,55 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
     }
 
     override fun onColorValueChanged(time: Int) {
-        if(type==0){
+        if (type == 0) {
             controller?.setLightColor(mControlDevice.id, AppConfig.RGB_COLOR_POSITION[time])
-        }else{
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR_POSITION[time])
+        } else {
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, AppConfig.RGB_COLOR_POSITION[time])
         }
     }
 
     override fun onColorValueChange(time: Int) {
-        if(type==0){
-            controller?.setLightColor(mControlDevice.id,  AppConfig.RGB_COLOR_POSITION[time])
-        }else{
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId,  AppConfig.RGB_COLOR_POSITION[time])
+        if (type == 0) {
+            controller?.setLightColor(mControlDevice.id, AppConfig.RGB_COLOR_POSITION[time])
+        } else {
+            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, AppConfig.RGB_COLOR_POSITION[time])
         }
     }
 
     override fun onColorTemperatureValueChanged(temperature: Int) {
-        if(type==0){
-             controller?.setLightColorTemperature(mControlDevice.id, temperature)
-        }else{
+        if (type == 0) {
+            controller?.setLightColorTemperature(mControlDevice.id, temperature)
+        } else {
             if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
         }
 
     }
 
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
-        if(type==0){
+        if (type == 0) {
             controller?.setLightSpeed(mControlDevice.id, position)
-        }else{
+        } else {
             if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
         }
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if(type==0){
-            controller?.setLightBright(mControlDevice.id,seekBar.progress.plus(15))
-        }else{
-            if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if(type==6||type==10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
-            if(!TextUtils.equals("LinkupHome V1",mControlDevice.name)) changeDeviceState(mControlDevice,"brightness", seekBar.progress.toString())
+        if (type == 0) {
+            controller?.setLightBright(mControlDevice.id, seekBar.progress.plus(15))
+        } else {
+            if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if (type == 6 || type == 10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
+            if (!TextUtils.equals("LinkupHome V1", mControlDevice.name)) changeDeviceState(mControlDevice, "brightness", seekBar.progress.toString())
         }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
             R.id.device_state_cb_power -> {
-                if(type==0){
+                if (type == 0) {
                     controller?.setLightPowerState(mControlDevice.id, if (isChecked) 1 else 0)
-                }else{
+                } else {
                     if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
-                    if(!TextUtils.equals("LinkupHome V1",mControlDevice.name))   changeDeviceState(mControlDevice,"on",if (isChecked) "1" else "0")
+                    if (!TextUtils.equals("LinkupHome V1", mControlDevice.name)) changeDeviceState(mControlDevice, "on", if (isChecked) "1" else "0")
                 }
             }
         }
@@ -158,29 +156,31 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
 
     inner class ToolBarEventHandler : UpdateDeviceNameListener {
         override fun updateDeviceName(id: String, newName: String) {
-            if(mControlDevice.type==0){
-                mViewModel.changeDeviceName(id,newName)
+            if (mControlDevice.type == 0) {
+                mViewModel.changeDeviceName(id, newName)
                 mControlDevice.name = newName
                 updateViewData(mControlDevice)
-            }else{
-                context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceName(it1,mControlDevice.zoneId,id,mControlDevice.type,newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-                    if (it?.status == Status.SUCCESS) {
-                        mControlDevice.name = newName
-                        updateViewData(mControlDevice)
-                    }else if (it?.status == Status.ERROR) {
-                        it.message?.let { it2 -> activity?.toast(it2) }
-                    }
-                })}
+            } else {
+                context?.getIMEI()?.let { it1 ->
+                    mViewModel.changeDeviceName(it1, mControlDevice.zoneId, id, mControlDevice.type, newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                        if (it?.status == Status.SUCCESS) {
+                            mControlDevice.name = newName
+                            updateViewData(mControlDevice)
+                        } else if (it?.status == Status.ERROR) {
+                            it.message?.let { it2 -> activity?.toast(it2) }
+                        }
+                    })
+                }
             }
         }
 
         fun onClick(view: View) {
             when (view.id) {
                 R.id.iv_back -> Navigation.findNavController(view).popBackStack()
-                R.id.btn_device_lighting ->{
-                    if(type==0){
+                R.id.btn_device_lighting -> {
+                    if (type == 0) {
                         controller?.setLightingMode(mControlDevice.id)
-                    }else{
+                    } else {
                         if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
                     }
                 }
@@ -231,7 +231,7 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
                 .setHighTargetPaddingRight(context?.resources?.getDimension(R.dimen._27sdp)?.toInt()!!)
                 .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
-                .setHighTargetMarginTop(getMarginTop(view)+context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
+                .setHighTargetMarginTop(getMarginTop(view) + context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
                 .setAutoDismiss(false)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false)
@@ -281,29 +281,31 @@ abstract class BaseControlFragment : BaseFragment(),FragmentBackHandler, SeekBar
         }
     }
 
-    private fun changeDeviceState(device: Device, key:String, value:String){
+    private fun changeDeviceState(device: Device, key: String, value: String) {
         updateState(device, key, value)
-        context?.getIMEI()?.let { it1 ->  mViewModel.changeDeviceState(it1,device.id,key,value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-            if (it?.status == Status.SUCCESS) {
+        context?.getIMEI()?.let { it1 ->
+            mViewModel.changeDeviceState(it1, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                if (it?.status == Status.SUCCESS) {
 
-            }else if (it?.status == Status.ERROR) {
-                it.message?.let { it2 -> activity?.toast(it2) }
-            }
-        })}
+                } else if (it?.status == Status.ERROR) {
+                    it.message?.let { it2 -> activity?.toast(it2) }
+                }
+            })
+        }
     }
 
     private fun updateState(device: Device, key: String, value: String) {
-        if(TextUtils.equals("brightness", key)){
+        if (TextUtils.equals("brightness", key)) {
             val deviceState = device.parameters
             deviceState?.let {
-                it.brightness=value.toInt()
-                mViewModel.updateDeviceState(device,it)
+                it.brightness = value.toInt()
+                mViewModel.updateDeviceState(device, it)
             }
-        }else{
+        } else {
             val deviceState = device.parameters
             deviceState?.let {
-                it.on=value.toInt()
-                mViewModel.updateRoomAndDeviceState(device,it)
+                it.on = value.toInt()
+                mViewModel.updateRoomAndDeviceState(device, it)
             }
         }
     }

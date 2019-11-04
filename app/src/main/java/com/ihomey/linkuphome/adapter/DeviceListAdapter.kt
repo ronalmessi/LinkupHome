@@ -16,20 +16,20 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
     private var mOnCheckedChangeListener: OnCheckedChangeListener? = null
     private var mOnSeekBarChangeListener: OnSeekBarChangeListener? = null
 
-    var isSwiping:Boolean= false
+    var isSwiping: Boolean = false
 
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bindTo(it, mOnItemChildClickListener)
-            holder.itemView.setOnClickListener {it0->
+            holder.itemView.setOnClickListener { it0 ->
                 mOnItemClickListener?.onItemClick(it)
             }
-            holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener{
+            holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener {
                 override fun onOpen(layout: SwipeLayout?) {
                 }
 
                 override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
-                    isSwiping=true
+                    isSwiping = true
                 }
 
                 override fun onStartOpen(layout: SwipeLayout?) {
@@ -41,11 +41,11 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
                 override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
 
                 override fun onClose(layout: SwipeLayout?) {
-                    holder.swipeLayout.postDelayed({ isSwiping=false},550)
+                    holder.swipeLayout.postDelayed({ isSwiping = false }, 550)
                 }
             })
-            holder.swipeLayout.setOnClickListener {it0->
-                if(!isSwiping) mOnItemClickListener?.onItemClick(it)
+            holder.swipeLayout.setOnClickListener { it0 ->
+                if (!isSwiping) mOnItemClickListener?.onItemClick(it)
             }
             holder.powerStateView.setOnCheckedChangeListener { _, isChecked ->
                 mOnCheckedChangeListener?.onCheckedChanged(it, isChecked)
@@ -81,7 +81,7 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
          */
         private val diffCallback = object : DiffUtil.ItemCallback<Device>() {
             override fun areItemsTheSame(oldItem: Device, newItem: Device): Boolean {
-                return (TextUtils.equals(oldItem.id,newItem.id)&&oldItem.parameters?.on==newItem.parameters?.on&&oldItem.parameters?.brightness==newItem.parameters?.brightness)
+                return (TextUtils.equals(oldItem.id, newItem.id) && oldItem.parameters?.on == newItem.parameters?.on && oldItem.parameters?.brightness == newItem.parameters?.brightness)
             }
 
             /**
@@ -122,7 +122,7 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
         this.mOnCheckedChangeListener = listener
     }
 
-    fun setOnSeekBarChangeListener(listener:OnSeekBarChangeListener) {
+    fun setOnSeekBarChangeListener(listener: OnSeekBarChangeListener) {
         this.mOnSeekBarChangeListener = listener
     }
 }

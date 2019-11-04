@@ -11,8 +11,8 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -26,7 +26,7 @@ import java.util.*
 abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheckedChangeListener, View.OnClickListener, SwitchButton.OnCheckedChangeListener {
 
     protected lateinit var mControlDevice: Device
-    private var mLocalState: LocalState= LocalState("")
+    private var mLocalState: LocalState = LocalState("")
     private var controller: Controller? = null
 
     protected lateinit var viewModel: HomeActivityViewModel
@@ -49,7 +49,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
 
     abstract fun isRepeat(): Boolean
 
-    private var isUserTouch: Boolean=false
+    private var isUserTouch: Boolean = false
 
 
     override fun onAttach(context: Context?) {
@@ -63,14 +63,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mControlDevice = it
-            controller = ControllerFactory().createController(mControlDevice.type, TextUtils.equals("LinkupHome V1",mControlDevice.name))
+            controller = ControllerFactory().createController(mControlDevice.type, TextUtils.equals("LinkupHome V1", mControlDevice.name))
             mViewModel.setCurrentDeviceId(it.id)
-            if(TextUtils.equals("LinkupHome V1",mControlDevice.name)) controller?.syncTime(it.instructId)
+            if (TextUtils.equals("LinkupHome V1", mControlDevice.name)) controller?.syncTime(it.instructId)
         })
         mViewModel.mCurrentLocalState.observe(viewLifecycleOwner, Observer<Resource<LocalState>> {
             if (it.status == Status.SUCCESS) {
-                if(it.data!=null) mLocalState = it.data
-                if(!isUserTouch){
+                if (it.data != null) mLocalState = it.data
+                if (!isUserTouch) {
                     updateViewData(mLocalState)
                 }
             }
@@ -85,7 +85,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
                     v.tag = null
                     (v as Button).setText(R.string.action_save)
                     enableEditTimer(true)
-                    if ((mControlDevice.type == 6||mControlDevice.type == 10) && listener.isMeshServiceConnected()) {
+                    if ((mControlDevice.type == 6 || mControlDevice.type == 10) && listener.isMeshServiceConnected()) {
                         syncTime(mControlDevice.instructId)
                     }
                 } else {
@@ -102,7 +102,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, getHour())
         calendar.set(Calendar.MINUTE, getMinute())
-        if (mControlDevice.type == 6||mControlDevice.type == 10) {
+        if (mControlDevice.type == 6 || mControlDevice.type == 10) {
             if (isRepeat()) calendar.set(Calendar.YEAR, 1970)
             if (isOpenTimer()) {
                 mLocalState.openTimer = calendar.timeInMillis
@@ -127,34 +127,34 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
                 mLocalState.closeTimer = (if (isExpired) calendar.timeInMillis + 24 * 60 * 60 * 1000 else calendar.timeInMillis)
             }
         }
-        isUserTouch=true
+        isUserTouch = true
         setTimerOn(true)
         updateDeviceLocalSate()
     }
 
     private fun updateDeviceLocalSate() {
         mControlDevice.let {
-            mLocalState.id=it.id
+            mLocalState.id = it.id
             mViewModel.updateLocalState(mLocalState)
         }
     }
 
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
-        isUserTouch=true
+        isUserTouch = true
         setTimerOn(isChecked)
         if (isOpenTimer()) {
             mLocalState.openTimerOn = if (isChecked) 3 else 2
             if (isChecked) {
                 if (listener.isMeshServiceConnected()) {
-                    if (mControlDevice.type == 6||mControlDevice.type == 10) {
+                    if (mControlDevice.type == 6 || mControlDevice.type == 10) {
                         controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, true, isRepeat())
                     } else {
                         controller?.setTimer(mControlDevice.instructId, getPeriodMinute(getHour(), getMinute()), true)
                     }
                 }
             } else {
-                if (mControlDevice.type == 6||mControlDevice.type == 10) {
+                if (mControlDevice.type == 6 || mControlDevice.type == 10) {
                     if (listener.isMeshServiceConnected()) {
                         controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, false, isRepeat())
                     }
@@ -164,14 +164,14 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             mLocalState.closeTimerOn = if (isChecked) 3 else 2
             if (isChecked) {
                 if (listener.isMeshServiceConnected()) {
-                    if (mControlDevice.type == 6||mControlDevice.type == 10) {
+                    if (mControlDevice.type == 6 || mControlDevice.type == 10) {
                         controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, true, isRepeat())
                     } else {
                         controller?.setTimer(mControlDevice.instructId, getPeriodMinute(getHour(), getMinute()), false)
                     }
                 }
             } else {
-                if (mControlDevice.type == 6||mControlDevice.type == 10) {
+                if (mControlDevice.type == 6 || mControlDevice.type == 10) {
                     if (listener.isMeshServiceConnected()) {
                         controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, false, isRepeat())
                     }
@@ -182,7 +182,7 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
     }
 
     override fun onCheckedChanged(group: RadioGroupPlus?, checkedId: Int) {
-        isUserTouch=false
+        isUserTouch = false
         val radioButtonId = group?.checkedRadioButtonId
         if (radioButtonId == R.id.rb_timer_setting_on) {
             mLocalState.openTimerOn = mLocalState.openTimerOn + 2

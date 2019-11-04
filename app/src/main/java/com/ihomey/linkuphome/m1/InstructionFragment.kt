@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.viewpager.widget.ViewPager
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.adapter.M1InstructionsPageAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import kotlinx.android.synthetic.main.m1_instruction_fragment.*
 
 
@@ -20,10 +20,10 @@ class InstructionFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter =M1InstructionsPageAdapter(childFragmentManager)
+        val adapter = M1InstructionsPageAdapter(childFragmentManager)
         viewPager.adapter = adapter
         dotsView.noOfPages = 3
-        viewPager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -34,7 +34,7 @@ class InstructionFragment : BaseFragment() {
 
             override fun onPageSelected(position: Int) {
                 dotsView.onPageChange(position)
-                btn_close.visibility= if(position==2) View.VISIBLE else  View.GONE
+                btn_close.visibility = if (position == 2) View.VISIBLE else View.GONE
             }
         })
         btn_close.setOnClickListener { Navigation.findNavController(it).popBackStack() }

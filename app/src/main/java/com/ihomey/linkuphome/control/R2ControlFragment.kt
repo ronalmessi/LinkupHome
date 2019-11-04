@@ -25,15 +25,15 @@ class R2ControlFragment : BaseControlFragment(), View.OnClickListener {
 
 
     override fun getTitleView(): TextView {
-        return  mViewDataBinding.tvTitle
+        return mViewDataBinding.tvTitle
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.r2_control_fragment, container, false)
         mViewDataBinding.handlers = ToolBarEventHandler()
-        mViewDataBinding.deviceSeekBarBrightness.max=85
+        mViewDataBinding.deviceSeekBarBrightness.max = 85
         mViewDataBinding.root.setOnClickListener {
-            mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
+            mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
         }
         return mViewDataBinding.root
@@ -42,8 +42,8 @@ class R2ControlFragment : BaseControlFragment(), View.OnClickListener {
     override fun updateViewData(device: Device) {
         mViewDataBinding.control = device
         mControlDevice = device
-        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
-        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+        mViewDataBinding.deviceStateCbPower.isChecked = (device.parameters?.on == 1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress = it }
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)
@@ -67,10 +67,10 @@ class R2ControlFragment : BaseControlFragment(), View.OnClickListener {
             val isVisible = mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isVisible) View.GONE else View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = if (!isVisible) moveToViewLocationAnimation() else moveToViewBottomAnimation()
-        }else if(v.id == R.id.btn_device_lighting){
-            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE){
+        } else if (v.id == R.id.btn_device_lighting) {
+            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE) {
                 mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
-                mViewDataBinding.deviceCyclingSstgSpeed.animation =moveToViewBottomAnimation()
+                mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
             }
             mViewDataBinding.handlers?.onClick(v)
         }

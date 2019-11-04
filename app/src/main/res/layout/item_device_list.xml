@@ -8,9 +8,9 @@
 
     <com.daimajia.swipe.SwipeLayout
         android:id="@+id/swipeLayout"
-        app:clickToClose="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:clickToClose="true">
 
         <TextView
             android:id="@+id/btn_delete"
@@ -96,10 +96,10 @@
             android:layout_marginBottom="@dimen/_12sdp"
             android:layout_toStartOf="@+id/iv_brightness_high"
             android:layout_toEndOf="@+id/iv_brightness_low"
-            android:paddingStart="@dimen/_6sdp"
-            android:paddingEnd="@dimen/_6sdp"
             android:clickable="false"
             android:max="85"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
             android:progress="20" />
 
         <ImageView
@@ -107,8 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/_4sdp"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_4sdp"
             android:background="@mipmap/ic_brightness_high" />
 
     </RelativeLayout>

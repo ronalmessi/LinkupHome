@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +33,7 @@ class HomeFragment : BaseFragment() {
         }
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.getRemoveDeviceFlag().observe(this, Observer<Boolean> {
-            if(it)bottom_nav_view.selectedItemId=R.id.tab_device
+            if (it) bottom_nav_view.selectedItemId = R.id.tab_device
         })
     }
 
@@ -42,7 +41,7 @@ class HomeFragment : BaseFragment() {
         bottom_nav_view.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    fun getPagePosition():Int{
+    fun getPagePosition(): Int {
         return viewPager.currentItem
     }
 }

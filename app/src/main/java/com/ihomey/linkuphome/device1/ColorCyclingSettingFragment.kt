@@ -16,8 +16,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.SingleSelectToggleGroup
@@ -47,7 +47,7 @@ class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnChecke
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.mSelectedRoom.observe(this, Observer<RoomAndDevices> {
-            devices=it.devices
+            devices = it.devices
         })
     }
 
@@ -61,9 +61,9 @@ class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnChecke
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
         for (index in devices.indices) {
             val device = devices[index]
-            val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1",device.name))
+            val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
             if (meshServiceStateListener.isMeshServiceConnected()) {
-                Handler().postDelayed({ controller?.setLightSpeed(device.instructId, position)}, 100L * index)
+                Handler().postDelayed({ controller?.setLightSpeed(device.instructId, position) }, 100L * index)
             }
         }
     }

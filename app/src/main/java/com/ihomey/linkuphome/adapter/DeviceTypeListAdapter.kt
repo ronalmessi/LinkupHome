@@ -17,14 +17,14 @@ import com.ihomey.linkuphome.R
 class DeviceTypeListAdapter(layoutId: Int) : BaseQuickAdapter<Int, BaseViewHolder>(layoutId) {
 
     override fun convert(helper: BaseViewHolder?, item: Int) {
-        val deviceTypeName = AppConfig.DEVICE_MODEL_NAME[item] + "\n" + mContext.getString( AppConfig.DEVICE_NAME[item])
+        val deviceTypeName = AppConfig.DEVICE_MODEL_NAME[item] + "\n" + mContext.getString(AppConfig.DEVICE_NAME[item])
         val spannableString = SpannableString(deviceTypeName)
         spannableString.setSpan(StyleSpan(Typeface.BOLD), 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         helper?.setText(R.id.tv_device_type_name, spannableString)
-        val iconView=helper?.getView<ImageView>(R.id.iv_device_type)
-        if(item==9) {
-            iconView?.scaleY=1.2f
-            iconView?.scaleX=1.2f
+        val iconView = helper?.getView<ImageView>(R.id.iv_device_type)
+        if (item == 9) {
+            iconView?.scaleY = 1.2f
+            iconView?.scaleX = 1.2f
         }
         iconView?.setImageResource(AppConfig.DEVICE_ICON[item])
     }

@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.AppConfig
+import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.databinding.C3ControlFragmentBinding
 import com.ihomey.linkuphome.listeners.BatteryValueListener
+import com.ihomey.linkuphome.moveToViewBottomAnimation
+import com.ihomey.linkuphome.moveToViewLocationAnimation
 
 /**
  * Created by dongcaizheng on 2018/4/10.
@@ -19,8 +22,9 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
 
 
     override fun getTitleView(): TextView {
-        return  mViewDataBinding.tvTitle
+        return mViewDataBinding.tvTitle
     }
+
     private lateinit var mViewDataBinding: C3ControlFragmentBinding
 
     fun newInstance(): C3ControlFragment {
@@ -31,10 +35,10 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.c3_control_fragment, container, false)
         mViewDataBinding.handlers = ToolBarEventHandler()
         mViewDataBinding.root.setOnClickListener {
-            mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
+            mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
         }
-        mViewDataBinding.deviceSeekBarBrightness.max=85
+        mViewDataBinding.deviceSeekBarBrightness.max = 85
         return mViewDataBinding.root
     }
 
@@ -42,8 +46,8 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
     override fun updateViewData(device: Device) {
         mViewDataBinding.control = device
         mControlDevice = device
-        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
-        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+        mViewDataBinding.deviceStateCbPower.isChecked = (device.parameters?.on == 1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress = it }
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)
@@ -84,10 +88,10 @@ class C3ControlFragment : BaseControlFragment(), BatteryValueListener, View.OnCl
             val isVisible = mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isVisible) View.GONE else View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = if (!isVisible) moveToViewLocationAnimation() else moveToViewBottomAnimation()
-        }else if(v.id == R.id.btn_device_lighting){
-            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE){
+        } else if (v.id == R.id.btn_device_lighting) {
+            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE) {
                 mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
-                mViewDataBinding.deviceCyclingSstgSpeed.animation =moveToViewBottomAnimation()
+                mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
             }
             mViewDataBinding.handlers?.onClick(v)
         }

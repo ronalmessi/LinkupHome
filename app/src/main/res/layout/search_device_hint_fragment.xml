@@ -50,9 +50,9 @@
         android:textColor="#807F85"
         android:textSize="@dimen/_15ssp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/guideline6"
-        app:layout_constraintRight_toLeftOf="@+id/guideline7" />
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_next"

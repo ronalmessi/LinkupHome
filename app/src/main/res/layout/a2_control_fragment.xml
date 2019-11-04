@@ -41,12 +41,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:singleLine="true"
                 android:layout_marginStart="@dimen/_32sdp"
                 android:layout_marginEnd="@dimen/_32sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:onClick="@{handlers::onClick}"
+                android:singleLine="true"
                 android:text="@{control.name}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
@@ -79,9 +79,9 @@
             android:id="@+id/device_dbv_color_temperature"
             android:layout_width="@dimen/_231sdp"
             android:layout_height="@dimen/_231sdp"
+            android:layout_marginStart="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_60sdp"
             android:textSize="@dimen/_20ssp"
-            android:layout_marginStart="@dimen/_1sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolBar"
@@ -166,8 +166,7 @@
                 android:clickable="false"
                 android:max="85"
                 android:paddingStart="@dimen/_6sdp"
-                android:paddingEnd="@dimen/_6sdp"
-               />
+                android:paddingEnd="@dimen/_6sdp" />
 
             <ImageView
                 android:id="@+id/device_brightness_icon_high"

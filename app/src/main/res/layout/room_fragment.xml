@@ -44,16 +44,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
-    <include android:id="@+id/emptyView"
+    <include
+        android:id="@+id/emptyView"
+        layout="@layout/view_device_list_empty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        layout="@layout/view_device_list_empty"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btn_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.constraintlayout.widget.Guideline

@@ -21,8 +21,8 @@ class ShareZoneListViewModel : ViewModel() {
         return zoneRepository.getZones()
     }
 
-    fun shareZone(guid:String,zoneId:Int): LiveData<Resource<String>> {
-        return zoneRepository.shareZone(guid,zoneId)
+    fun shareZone(guid: String, zoneId: Int): LiveData<Resource<String>> {
+        return zoneRepository.shareZone(guid, zoneId)
     }
 
 }

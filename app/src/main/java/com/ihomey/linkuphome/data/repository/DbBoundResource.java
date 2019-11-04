@@ -1,12 +1,12 @@
 package com.ihomey.linkuphome.data.repository;
 
-import com.ihomey.linkuphome.AppExecutors;
-import com.ihomey.linkuphome.data.vo.Resource;
-
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+
+import com.ihomey.linkuphome.AppExecutors;
+import com.ihomey.linkuphome.data.vo.Resource;
 
 /**
  * Created by dongcaizheng on 2018/1/11.

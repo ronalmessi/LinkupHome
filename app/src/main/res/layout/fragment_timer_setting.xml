@@ -57,9 +57,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/_12sdp"
                     android:paddingLeft="@dimen/_15sdp"
                     android:paddingRight="@dimen/_15sdp"
+                    android:paddingBottom="@dimen/_12sdp"
                     android:text=":"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_36ssp" />
@@ -83,10 +83,10 @@
                 android:id="@+id/btn_timer_setting_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@null"
                 android:gravity="start|center_vertical"
                 android:text="@string/action_edit"
@@ -97,10 +97,10 @@
                 android:id="@+id/switch_button_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="@dimen/_16sdp"
+                android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
                 app:sb_background="@color/transparent"
                 app:sb_checked_color="@color/control_tab_item_selected_color"
                 app:sb_show_indicator="false"
@@ -119,67 +119,64 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frameLayout_timer_setting"
             app:layout_constraintVertical_weight="1">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:gravity="center"
-                >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/_320sdp"
-                    android:background="@drawable/selector_timer_setting">
+                    android:background="@drawable/selector_timer_setting"
+                    android:minWidth="@dimen/_320sdp">
 
                     <RadioButton
                         android:id="@+id/rb_timer_setting_on"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
                         android:layout_centerHorizontal="true"
+                        android:button="@null"
+                        android:clickable="false"
                         android:drawableStart="@mipmap/alarm_btn_icon_light_on"
                         android:drawablePadding="@dimen/_4sdp"
+                        android:focusable="false"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/_12sdp"
                         android:paddingTop="@dimen/_12sdp"
-                        android:textSize="@dimen/_16ssp"
+                        android:paddingBottom="@dimen/_12sdp"
                         android:text="@string/title_open_time"
                         android:textColor="@android:color/white"
-                        android:button="@null" />
+                        android:textSize="@dimen/_16ssp" />
                 </RelativeLayout>
-
 
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/_320sdp"
                     android:layout_marginTop="@dimen/_16sdp"
-                    android:background="@drawable/selector_timer_setting">
+                    android:background="@drawable/selector_timer_setting"
+                    android:minWidth="@dimen/_320sdp">
 
                     <RadioButton
                         android:id="@+id/rb_timer_setting_off"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
                         android:layout_centerHorizontal="true"
+                        android:button="@null"
+                        android:clickable="false"
                         android:drawableStart="@mipmap/alarm_btn_icon_light_off"
                         android:drawablePadding="@dimen/_4sdp"
+                        android:focusable="false"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/_12sdp"
                         android:paddingTop="@dimen/_12sdp"
-                        android:textSize="@dimen/_16ssp"
+                        android:paddingBottom="@dimen/_12sdp"
                         android:text="@string/title_close_time"
                         android:textColor="@android:color/white"
-                        android:button="@null" />
+                        android:textSize="@dimen/_16ssp" />
                 </RelativeLayout>
 
             </LinearLayout>
-
-
 
 
         </com.ihomey.linkuphome.widget.RadioGroupPlus>

@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.UnBondedDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
-import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.getIMEI
@@ -32,7 +32,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var mViewModel: UnBondDevicesViewModel
     private lateinit var adapter: UnBondedDeviceListAdapter
-    private  var room: Room?=null
+    private var room: Room? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.unbonded_devices_fragment, container, false)
@@ -51,7 +51,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
             adapter.submitList(it)
         })
         mViewModel.isUnBondedDevicesListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
-            if(it) emptyView.visibility=View.VISIBLE else emptyView.visibility=View.GONE
+            if (it) emptyView.visibility = View.VISIBLE else emptyView.visibility = View.GONE
         })
     }
 
@@ -69,7 +69,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
                 dialog.show(fragmentManager, "BondDeviceTipFragment")
             }
         }
-        btn_save.setOnClickListener {it1->
+        btn_save.setOnClickListener { it1 ->
             if (adapter.getSelectedDevices().isEmpty()) {
                 confirm()
             } else {
@@ -84,7 +84,7 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
 
     private fun bindDevice() {
         showLoadingView()
-        room?.let { bindDevice(it.zoneId, it.instructId, adapter.getSelectedDevices().map { it.instructId }.joinToString(","), "add")  }
+        room?.let { bindDevice(it.zoneId, it.instructId, adapter.getSelectedDevices().map { it.instructId }.joinToString(","), "add") }
     }
 
 

@@ -20,8 +20,10 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class ToggleButtonGroup extends ViewGroup implements View.OnClickListener {
+    public static final int SPACING_AUTO = -65536;
+    public static final int SPACING_ALIGN = -65537;
+    public static final int SPACING_UNDEFINED = -65538;
     private static final String LOG_TAG = ToggleButtonGroup.class.getSimpleName();
-
     private static final float DEFAULT_TEXT_SIZE = 16;
     private static final int DEFAULT_ANIMATION_DURATION = 150;
     private static final int DEFAULT_CHECKED_TEXT_COLOR = Color.BLACK;
@@ -35,11 +37,9 @@ public abstract class ToggleButtonGroup extends ViewGroup implements View.OnClic
     private static final int DEFAULT_DEFAULT_BUTTON_HEIGHT = LayoutParams.WRAP_CONTENT;
     private static final String KEY_SUPER_STATE = "super_state";
     private static final String KEY_CHECKED_POSITIONS = "checked_positions";
-
-    public static final int SPACING_AUTO = -65536;
-    public static final int SPACING_ALIGN = -65537;
-    public static final int SPACING_UNDEFINED = -65538;
-
+    protected List<ToggleButton> mButtons = new ArrayList<>();
+    protected OnCheckedChangeListener mOnCheckedChangeListener;
+    protected OnCheckedPositionChangeListener mOnCheckedPositionChangeListener;
     private float mTextSize = dpToPx(DEFAULT_TEXT_SIZE);
     private int mCheckedTextColor = DEFAULT_CHECKED_TEXT_COLOR;
     private int mUncheckedTextColor = DEFAULT_UNCHECKED_TEXT_COLOR;
@@ -56,15 +56,9 @@ public abstract class ToggleButtonGroup extends ViewGroup implements View.OnClic
     private boolean mSaveEnabled = DEFAULT_SAVE_ENABLED;
     private int mButtonWidth = DEFAULT_DEFAULT_BUTTON_WIDTH;
     private int mButtonHeight = DEFAULT_DEFAULT_BUTTON_HEIGHT;
-
-    protected List<ToggleButton> mButtons = new ArrayList<>();
     private List<Float> mButtonSpacingForRow = new ArrayList<>();
     private List<Integer> mHeightForRow = new ArrayList<>();
     private List<Integer> mButtonNumForRow = new ArrayList<>();
-    protected OnCheckedChangeListener mOnCheckedChangeListener;
-    protected OnCheckedPositionChangeListener mOnCheckedPositionChangeListener;
-
-    protected abstract void onButtonClick(int position);
 
     public ToggleButtonGroup(Context context) {
         this(context, null);
@@ -135,6 +129,8 @@ public abstract class ToggleButtonGroup extends ViewGroup implements View.OnClic
         }
 
     }
+
+    protected abstract void onButtonClick(int position);
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -326,15 +322,6 @@ public abstract class ToggleButtonGroup extends ViewGroup implements View.OnClic
     }
 
     /**
-     * Controls whether the saving of this view's state is enabled.
-     *
-     * @param enabled Set to true to allow state saving, or false (the default) to disable it
-     */
-    public void setSaveEnabled(boolean enabled) {
-        mSaveEnabled = enabled;
-    }
-
-    /**
      * Returns whether the saving of this view's state is enabled.
      *
      * @return Whether the saving of this view's state is enabled.
@@ -342,6 +329,15 @@ public abstract class ToggleButtonGroup extends ViewGroup implements View.OnClic
     @Override
     public boolean isSaveEnabled() {
         return mSaveEnabled;
+    }
+
+    /**
+     * Controls whether the saving of this view's state is enabled.
+     *
+     * @param enabled Set to true to allow state saving, or false (the default) to disable it
+     */
+    public void setSaveEnabled(boolean enabled) {
+        mSaveEnabled = enabled;
     }
 
     /**

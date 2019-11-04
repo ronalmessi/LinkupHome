@@ -17,7 +17,7 @@ import com.ihomey.linkuphome.moveToViewLocationAnimation
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListener , View.OnClickListener{
+class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private lateinit var mViewDataBinding: T1ControlFragmentBinding
 
@@ -27,7 +27,7 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
 
 
     override fun getTitleView(): TextView {
-        return  mViewDataBinding.tvTitle
+        return mViewDataBinding.tvTitle
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,9 +36,9 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
         mViewDataBinding.bleControlVp.adapter = MixControlViewAdapter(childFragmentManager)
         mViewDataBinding.rgControlSwitch.setOnCheckedChangeListener(this)
         mViewDataBinding.handlers = ToolBarEventHandler()
-        mViewDataBinding.deviceSeekBarBrightness.max=85
+        mViewDataBinding.deviceSeekBarBrightness.max = 85
         mViewDataBinding.root.setOnClickListener {
-            mViewDataBinding.deviceCyclingSstgSpeed.visibility =View.GONE
+            mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
         }
         return mViewDataBinding.root
@@ -47,8 +47,8 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
     override fun updateViewData(device: Device) {
         mViewDataBinding.control = device
         mControlDevice = device
-        mViewDataBinding.deviceStateCbPower.isChecked=(device.parameters?.on==1)
-        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress=it}
+        mViewDataBinding.deviceStateCbPower.isChecked = (device.parameters?.on == 1)
+        device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress = it }
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)
         mViewDataBinding.btnDeviceLighting.setOnClickListener(this)
@@ -70,20 +70,20 @@ class T1ControlFragment : BaseControlFragment(), RadioGroup.OnCheckedChangeListe
             val isVisible = mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = if (isVisible) View.GONE else View.VISIBLE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = if (!isVisible) moveToViewLocationAnimation() else moveToViewBottomAnimation()
-        }else if(v.id == R.id.btn_device_lighting){
-            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE){
+        } else if (v.id == R.id.btn_device_lighting) {
+            if (mViewDataBinding.deviceCyclingSstgSpeed.visibility == View.VISIBLE) {
                 mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
-                mViewDataBinding.deviceCyclingSstgSpeed.animation =moveToViewBottomAnimation()
+                mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
             }
             mViewDataBinding.handlers?.onClick(v)
         }
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        if(checkedId==R.id.rb_control_rgb){
-            mViewDataBinding.bleControlVp.currentItem=0
-        }else if(checkedId==R.id.rb_control_warm_cold){
-            mViewDataBinding.bleControlVp.currentItem=1
+        if (checkedId == R.id.rb_control_rgb) {
+            mViewDataBinding.bleControlVp.currentItem = 0
+        } else if (checkedId == R.id.rb_control_warm_cold) {
+            mViewDataBinding.bleControlVp.currentItem = 1
         }
     }
 }

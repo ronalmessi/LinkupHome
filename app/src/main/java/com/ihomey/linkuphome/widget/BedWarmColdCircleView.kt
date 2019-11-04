@@ -2,16 +2,12 @@ package com.ihomey.linkuphome.widget
 
 import android.content.Context
 import android.graphics.*
-import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
-
-
 
 
 class BedWarmColdCircleView : View {
@@ -97,8 +93,8 @@ class BedWarmColdCircleView : View {
         mTextPaint.isAntiAlias = true
         mValuePaint.isDither = true
         mValuePaint.style = Paint.Style.FILL
-        mTextPaint.typeface =Typeface.createFromAsset(context.assets, "PingFang_Bold.ttf")
-        mTextPaint.textSize =  mTextSize * 2f
+        mTextPaint.typeface = Typeface.createFromAsset(context.assets, "PingFang_Bold.ttf")
+        mTextPaint.textSize = mTextSize * 2f
 
         mValuePaint.isAntiAlias = true
         mValuePaint.textSize = mTextSize * 2.2f
@@ -141,28 +137,28 @@ class BedWarmColdCircleView : View {
         val lifeSweepAngle = 89f//圆弧弧度
         mCirclePaint.color = Color.parseColor("#FCC930")//设置画笔颜色
         canvas.drawArc(mRectF, startAngle, lifeSweepAngle, false, mCirclePaint)//这里就是真正绘制圆弧的地方，从12点方向开始顺时针绘制150度弧度的圆弧
-        mFirstPath.addArc(mRectF,startAngle+27,lifeSweepAngle)
-        canvas.drawTextOnPath("3000K",mFirstPath, 0f, 18f, mTextPaint)
+        mFirstPath.addArc(mRectF, startAngle + 27, lifeSweepAngle)
+        canvas.drawTextOnPath("3000K", mFirstPath, 0f, 18f, mTextPaint)
 
         startAngle += lifeSweepAngle + 1.5f
         val communicateSweep = 89f
         mCirclePaint.color = Color.parseColor("#F8F28D")
         canvas.drawArc(mRectF, startAngle, communicateSweep, false, mCirclePaint)
-        mSecondPath.addArc(mRectF,startAngle+27,lifeSweepAngle)
-        canvas.drawTextOnPath("4000K",mSecondPath, 0f, 18f, mTextPaint)
+        mSecondPath.addArc(mRectF, startAngle + 27, lifeSweepAngle)
+        canvas.drawTextOnPath("4000K", mSecondPath, 0f, 18f, mTextPaint)
 
 
         startAngle += communicateSweep + 1.5f
         val trafficSweep = 89f
         mCirclePaint.color = Color.parseColor("#FFFFFF")
         canvas.drawArc(mRectF, startAngle, trafficSweep, false, mCirclePaint)
-        mThirdPath.addArc(mRectF,startAngle+27,lifeSweepAngle)
-        canvas.drawTextOnPath("6500K",mThirdPath, 0f, 18f, mTextPaint)
+        mThirdPath.addArc(mRectF, startAngle + 27, lifeSweepAngle)
+        canvas.drawTextOnPath("6500K", mThirdPath, 0f, 18f, mTextPaint)
 
 
         val colorTemperatureStr = "" + getColorTemperature() + "K"
         mValuePaint.getTextBounds(colorTemperatureStr, 0, colorTemperatureStr.length, mRect)
-        canvas.drawText(colorTemperatureStr, mCx - mValuePaint.measureText(colorTemperatureStr)/2, height.toFloat() - mCircleWidth / 2 + mRect.height() / 2, mValuePaint)
+        canvas.drawText(colorTemperatureStr, mCx - mValuePaint.measureText(colorTemperatureStr) / 2, height.toFloat() - mCircleWidth / 2 + mRect.height() / 2, mValuePaint)
 
         canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
         canvas.save()

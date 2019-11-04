@@ -21,7 +21,7 @@ class ShareZoneFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_invitation_code.text=arguments?.getString("invitationCode")
+        tv_invitation_code.text = arguments?.getString("invitationCode")
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 

@@ -41,12 +41,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:singleLine="true"
                 android:layout_marginStart="@dimen/_32sdp"
                 android:layout_marginEnd="@dimen/_32sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:onClick="@{handlers::onClick}"
+                android:singleLine="true"
                 android:text="@{control.name}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
@@ -148,10 +148,9 @@
                 android:layout_toStartOf="@+id/device_brightness_icon_high"
                 android:layout_toEndOf="@+id/device_brightness_icon_low"
                 android:clickable="false"
-                android:paddingStart="@dimen/_6sdp"
-                android:paddingEnd="@dimen/_6sdp"
                 android:max="85"
-             />
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp" />
 
             <ImageView
                 android:id="@+id/device_brightness_icon_high"

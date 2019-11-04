@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.repository.*
+import com.ihomey.linkuphome.data.repository.DeviceRepository
+import com.ihomey.linkuphome.data.repository.ZoneRepository
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.dl.DaggerAppComponent
@@ -14,7 +15,6 @@ class ZoneSettingViewModel : ViewModel() {
 
     @Inject
     lateinit var zoneRepository: ZoneRepository
-
 
 
     @Inject
@@ -28,27 +28,27 @@ class ZoneSettingViewModel : ViewModel() {
         return zoneRepository.getZones()
     }
 
-    fun getRemoteZones(guid:String): LiveData<Resource<List<Zone>>> {
+    fun getRemoteZones(guid: String): LiveData<Resource<List<Zone>>> {
         return zoneRepository.getZones(guid)
     }
 
-    fun deleteZone(guid:String,zoneId:Int): LiveData<Resource<Int>> {
-        return zoneRepository.deleteZone(guid,zoneId)
+    fun deleteZone(guid: String, zoneId: Int): LiveData<Resource<Int>> {
+        return zoneRepository.deleteZone(guid, zoneId)
     }
 
-    fun switchZone(guid:String,zoneId:Int): LiveData<Resource<ZoneDetail>> {
-        return zoneRepository.switchZone(guid,zoneId)
+    fun switchZone(guid: String, zoneId: Int): LiveData<Resource<ZoneDetail>> {
+        return zoneRepository.switchZone(guid, zoneId)
     }
 
-    fun getZone(guid:String,zoneId:Int): LiveData<Resource<ZoneDetail>> {
-        return zoneRepository.getZone(guid,zoneId)
+    fun getZone(guid: String, zoneId: Int): LiveData<Resource<ZoneDetail>> {
+        return zoneRepository.getZone(guid, zoneId)
     }
 
-    fun changeZoneName(guid:String,zoneId:Int,newName:String): LiveData<Resource<Zone>> {
-        return zoneRepository.changeZoneName(guid,zoneId,newName)
+    fun changeZoneName(guid: String, zoneId: Int, newName: String): LiveData<Resource<Zone>> {
+        return zoneRepository.changeZoneName(guid, zoneId, newName)
     }
 
-    fun getDevices(zoneId:Int): LiveData<Resource<List<Device>>> {
+    fun getDevices(zoneId: Int): LiveData<Resource<List<Device>>> {
         return mDeviceRepository.getDevices(zoneId)
     }
 

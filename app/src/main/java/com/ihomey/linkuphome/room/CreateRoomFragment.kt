@@ -45,6 +45,6 @@ class CreateRoomFragment : DialogFragment() {
         super.onStart()
         val displayMetrics = DisplayMetrics()
         dialog?.window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-        dialog?.window?.setLayout((displayMetrics.widthPixels- context?.resources?.getDimension(R.dimen._32sdp)!!).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout((displayMetrics.widthPixels - context?.resources?.getDimension(R.dimen._32sdp)!!).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 }

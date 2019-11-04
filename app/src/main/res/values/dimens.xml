@@ -1,10 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen tools:override="true" name="design_bottom_navigation_active_text_size">@dimen/_12ssp</dimen>
-    <dimen tools:override="true" name="design_bottom_navigation_text_size">@dimen/_12ssp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">@dimen/_12ssp
+    </dimen>
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">@dimen/_12ssp</dimen>
 
-    <dimen tools:override="true" name="design_bottom_navigation_margin">@dimen/_4sdp</dimen>
+    <dimen name="design_bottom_navigation_margin" tools:override="true">@dimen/_4sdp</dimen>
 
     <!--<dimen name="design_bottom_navigation_height">82dp</dimen>-->
 

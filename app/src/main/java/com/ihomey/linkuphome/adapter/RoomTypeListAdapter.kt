@@ -11,7 +11,7 @@ import com.ihomey.linkuphome.R
 class RoomTypeListAdapter(layoutId: Int) : BaseQuickAdapter<Int, BaseViewHolder>(layoutId) {
 
     init {
-        addData(listOf(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14))
+        addData(listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
     }
 
     override fun convert(helper: BaseViewHolder?, item: Int) {

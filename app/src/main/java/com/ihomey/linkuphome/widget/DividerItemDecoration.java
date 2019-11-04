@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
  * 邮箱：791335000@qq.com
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+    private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private boolean mHideBottom = false;
     private Paint mPaint;
     private int mDividerHeight = 2;//分割线高度，默认为1px
     private int mDividerPadding = 0;//分割线高度，默认为1px
     private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
-    private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
     /**
      * 自定义分割线
@@ -28,10 +28,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      * @param dividerHeight 分割线高度
      * @param dividerColor  分割线颜色
      */
-    public DividerItemDecoration(int orientation, int dividerPadding,int dividerHeight, int dividerColor, boolean hideBottom) {
+    public DividerItemDecoration(int orientation, int dividerPadding, int dividerHeight, int dividerColor, boolean hideBottom) {
         mDividerHeight = dividerHeight;
-        mDividerPadding=dividerPadding;
-        mOrientation=orientation;
+        mDividerPadding = dividerPadding;
+        mOrientation = orientation;
         mHideBottom = hideBottom;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(dividerColor);

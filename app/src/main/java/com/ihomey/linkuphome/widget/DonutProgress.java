@@ -19,16 +19,42 @@ import android.view.View;
 import com.ihomey.linkuphome.R;
 
 public class DonutProgress extends View {
+    private static final String INSTANCE_STATE = "saved_instance";
+    private static final String INSTANCE_TEXT_COLOR = "text_color";
+    private static final String INSTANCE_TEXT_SIZE = "text_size";
+    private static final String INSTANCE_TEXT = "text";
+    private static final String INSTANCE_INNER_BOTTOM_TEXT_SIZE = "inner_bottom_text_size";
+    private static final String INSTANCE_INNER_BOTTOM_TEXT = "inner_bottom_text";
+    private static final String INSTANCE_INNER_BOTTOM_TEXT_COLOR = "inner_bottom_text_color";
+    private static final String INSTANCE_FINISHED_STROKE_COLOR = "finished_stroke_color";
+    private static final String INSTANCE_UNFINISHED_STROKE_COLOR = "unfinished_stroke_color";
+    private static final String INSTANCE_MAX = "max";
+    private static final String INSTANCE_PROGRESS = "progress";
+    private static final String INSTANCE_SUFFIX = "suffix";
+    private static final String INSTANCE_PREFIX = "prefix";
+    private static final String INSTANCE_FINISHED_STROKE_WIDTH = "finished_stroke_width";
+    private static final String INSTANCE_UNFINISHED_STROKE_WIDTH = "unfinished_stroke_width";
+    private static final String INSTANCE_BACKGROUND_COLOR = "inner_background_color";
+    private static final String INSTANCE_STARTING_DEGREE = "starting_degree";
+    private static final String INSTANCE_INNER_DRAWABLE = "inner_drawable";
+    private final float default_stroke_width;
+    private final int default_finished_color = Color.rgb(66, 145, 241);
+    private final int default_unfinished_color = Color.rgb(204, 204, 204);
+    private final int default_text_color = Color.rgb(66, 145, 241);
+    private final int default_inner_bottom_text_color = Color.rgb(66, 145, 241);
+    private final int default_inner_background_color = Color.TRANSPARENT;
+    private final int default_max = 100;
+    private final int default_startingDegree = 0;
+    private final float default_text_size;
+    private final float default_inner_bottom_text_size;
+    private final int min_size;
+    protected Paint textPaint;
+    protected Paint innerBottomTextPaint;
     private Paint finishedPaint;
     private Paint unfinishedPaint;
     private Paint innerCirclePaint;
-
-    protected Paint textPaint;
-    protected Paint innerBottomTextPaint;
-
     private RectF finishedOuterRect = new RectF();
     private RectF unfinishedOuterRect = new RectF();
-
     private int attributeResourceId = 0;
     private boolean showText;
     private float textSize;
@@ -48,38 +74,6 @@ public class DonutProgress extends View {
     private float innerBottomTextSize;
     private String innerBottomText;
     private float innerBottomTextHeight;
-
-    private final float default_stroke_width;
-    private final int default_finished_color = Color.rgb(66, 145, 241);
-    private final int default_unfinished_color = Color.rgb(204, 204, 204);
-    private final int default_text_color = Color.rgb(66, 145, 241);
-    private final int default_inner_bottom_text_color = Color.rgb(66, 145, 241);
-    private final int default_inner_background_color = Color.TRANSPARENT;
-    private final int default_max = 100;
-    private final int default_startingDegree = 0;
-    private final float default_text_size;
-    private final float default_inner_bottom_text_size;
-    private final int min_size;
-
-
-    private static final String INSTANCE_STATE = "saved_instance";
-    private static final String INSTANCE_TEXT_COLOR = "text_color";
-    private static final String INSTANCE_TEXT_SIZE = "text_size";
-    private static final String INSTANCE_TEXT = "text";
-    private static final String INSTANCE_INNER_BOTTOM_TEXT_SIZE = "inner_bottom_text_size";
-    private static final String INSTANCE_INNER_BOTTOM_TEXT = "inner_bottom_text";
-    private static final String INSTANCE_INNER_BOTTOM_TEXT_COLOR = "inner_bottom_text_color";
-    private static final String INSTANCE_FINISHED_STROKE_COLOR = "finished_stroke_color";
-    private static final String INSTANCE_UNFINISHED_STROKE_COLOR = "unfinished_stroke_color";
-    private static final String INSTANCE_MAX = "max";
-    private static final String INSTANCE_PROGRESS = "progress";
-    private static final String INSTANCE_SUFFIX = "suffix";
-    private static final String INSTANCE_PREFIX = "prefix";
-    private static final String INSTANCE_FINISHED_STROKE_WIDTH = "finished_stroke_width";
-    private static final String INSTANCE_UNFINISHED_STROKE_WIDTH = "unfinished_stroke_width";
-    private static final String INSTANCE_BACKGROUND_COLOR = "inner_background_color";
-    private static final String INSTANCE_STARTING_DEGREE = "starting_degree";
-    private static final String INSTANCE_INNER_DRAWABLE = "inner_drawable";
 
     public DonutProgress(Context context) {
         this(context, null);

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import com.ihomey.linkuphome.AppExecutors
 import com.ihomey.linkuphome.data.db.AlarmDao
 import com.ihomey.linkuphome.data.entity.Alarm
-import com.ihomey.linkuphome.data.vo.*
+import com.ihomey.linkuphome.data.vo.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
 

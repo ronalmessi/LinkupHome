@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.controller
 
-import android.util.Log
 import com.csr.mesh.DataModelApi
 import com.ihomey.linkuphome.decodeHex
 
@@ -37,7 +36,7 @@ class N1Controller : Controller() {
         val code_lawn_speed_prefix = CODE_LIGHT_SPEED_BASE + (3 - speedValue)
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_speed_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_speed_prefix.substring(12, 14), 16))
         val code_lawn_speed = code_lawn_speed_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"
-        DataModelApi.sendData(deviceId,decodeHex(code_lawn_speed.toCharArray()), false)
+        DataModelApi.sendData(deviceId, decodeHex(code_lawn_speed.toCharArray()), false)
     }
 
     override fun setLightingMode(deviceId: Int) {
@@ -47,7 +46,7 @@ class N1Controller : Controller() {
         DataModelApi.sendData(deviceId, decodeHex(code_lawn_color.toCharArray()), false)
     }
 
-    override fun setLightPowerState( deviceId: Int, powerState: Int) {
+    override fun setLightPowerState(deviceId: Int, powerState: Int) {
         if (powerState == 1) {
             DataModelApi.sendData(deviceId, decodeHex(CODE_LIGHT_POWER_ON.toCharArray()), false)
         } else if (powerState == 0) {
@@ -57,7 +56,7 @@ class N1Controller : Controller() {
 
     override fun setLightScene(deviceId: Int, sceneValue: Int) {
         if (sceneValue == 3) {
-            setLightingMode( deviceId)
+            setLightingMode(deviceId)
         } else {
             var scene = sceneValue
             if (sceneValue == 0) {
@@ -72,7 +71,7 @@ class N1Controller : Controller() {
         }
     }
 
-    override fun setTimer( deviceId: Int, minuteValue: Int, isOn: Boolean) {
+    override fun setTimer(deviceId: Int, minuteValue: Int, isOn: Boolean) {
         val code_lawn_timer_prefix = CODE_LIGHT_TIMER_BASE + (if (isOn) "64" else "00") + String.format("%04x", minuteValue)
         val code_check = Integer.toHexString(Integer.parseInt(code_lawn_timer_prefix.substring(6, 8), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(8, 10), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(10, 12), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(12, 14), 16) + Integer.parseInt(code_lawn_timer_prefix.substring(14, 16), 16))
         val code_lawn_timer = code_lawn_timer_prefix + (if (code_check.length > 2) code_check.substring(1, code_check.length) else code_check) + "16"

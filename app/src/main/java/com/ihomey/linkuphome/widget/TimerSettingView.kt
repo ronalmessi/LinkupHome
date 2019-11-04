@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
@@ -123,31 +122,31 @@ class TimerSettingView : View {
 
         var hour = getCurrentHour()
         val hourStr: String
-        if(hour<=12){
+        if (hour <= 12) {
             hourStr = if (hour < 10) "0$hour" else hour.toString()
-            mAMPMPaint.color=mReachedColor
-            canvas.drawText(context.getString(R.string.title_am), mCx- mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
-            mAMPMPaint.color=mUnReachedColor
-            canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
-        }else{
+            mAMPMPaint.color = mReachedColor
+            canvas.drawText(context.getString(R.string.title_am), mCx - mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
+            mAMPMPaint.color = mUnReachedColor
+            canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
+        } else {
             hour -= 12
             hourStr = if (hour < 10) "0$hour" else hour.toString()
-            mAMPMPaint.color=mUnReachedColor
-            canvas.drawText(context.getString(R.string.title_am), mCx- mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
-            mAMPMPaint.color=mReachedColor
-            canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height()+ mAMPMRect.height()*5/6, mAMPMPaint)
+            mAMPMPaint.color = mUnReachedColor
+            canvas.drawText(context.getString(R.string.title_am), mCx - mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
+            mAMPMPaint.color = mReachedColor
+            canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
         }
 
         mTextPaint.getTextBounds(hourStr, 0, hourStr.length, rect)
-        canvas.drawText(hourStr, mCx - mTextPaint.measureText(hourStr) - context.dip2px(6f), mCy+ rect.height()/4, mTextPaint)
+        canvas.drawText(hourStr, mCx - mTextPaint.measureText(hourStr) - context.dip2px(6f), mCy + rect.height() / 4, mTextPaint)
 
         val minute = getCurrentMinute()
         val minuteStr = if (minute < 10) "0$minute" else minute.toString()
         mTextPaint.getTextBounds(minuteStr, 0, minuteStr.length, rect)
-        canvas.drawText(minuteStr, mCx + context.dip2px(6f), mCy+ rect.height()/4 , mTextPaint)
+        canvas.drawText(minuteStr, mCx + context.dip2px(6f), mCy + rect.height() / 4, mTextPaint)
 
         mTextPaint.getTextBounds(":", 0, 1, rect)
-        canvas.drawText(":", mCx - mTextPaint.measureText(":") / 2, mCy+ rect.height()/4 , mTextPaint)
+        canvas.drawText(":", mCx - mTextPaint.measureText(":") / 2, mCy + rect.height() / 4, mTextPaint)
     }
 
     private fun drawHourWheel(canvas: Canvas) {
@@ -211,7 +210,7 @@ class TimerSettingView : View {
     }
 
     private fun updateView(event: MotionEvent) {
-        if(mInMinuteSliderButton||mInHourSliderButton){
+        if (mInMinuteSliderButton || mInHourSliderButton) {
             val currentRadian = getRadian(event.x, event.y)
             var mPreRadian = if (mInMinuteSliderButton) mPreMinuteRadian else mPreHourRadian
             var mCurrentRadian = if (mInMinuteSliderButton) mCurrentMinuteRadian else mCurrentHourRadian
@@ -275,7 +274,7 @@ class TimerSettingView : View {
         mAMPMPaint.color = mReachedColor
         mAMPMPaint.isAntiAlias = true
         mAMPMPaint.typeface = Typeface.MONOSPACE
-        mAMPMPaint.textSize = mTextSize*5/12
+        mAMPMPaint.textSize = mTextSize * 5 / 12
     }
 
     private fun setHourWheelUnReachedPaint() {
@@ -314,13 +313,13 @@ class TimerSettingView : View {
     }
 
     private fun isInMinuteSliderButton(x: Float, y: Float): Boolean {
-        val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
-        return distance<=mMinuteCircleRadius&& distance>= mMinuteCircleRadius - mMinuteLineLength
+        val distance = Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
+        return distance <= mMinuteCircleRadius && distance >= mMinuteCircleRadius - mMinuteLineLength
     }
 
     private fun isInHourSliderButton(x: Float, y: Float): Boolean {
-        val distance=Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
-        return  distance<= mSliderRadius+mHourCircleRadius&& distance>=mHourCircleRadius- mSliderRadius
+        val distance = Math.sqrt(((x - mCx) * (x - mCx) + (y - mCy) * (y - mCy)).toDouble())
+        return distance <= mSliderRadius + mHourCircleRadius && distance >= mHourCircleRadius - mSliderRadius
     }
 
     private fun getRadian(x: Float, y: Float): Float {

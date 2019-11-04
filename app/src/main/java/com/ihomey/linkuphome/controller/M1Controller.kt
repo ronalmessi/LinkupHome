@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.controller
 
-import android.util.Log
 import com.ihomey.linkuphome.data.entity.Alarm
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.spp.BluetoothSPP

@@ -8,15 +8,14 @@
     android:paddingBottom="@dimen/_16ssp">
 
 
-
     <TextView
         android:id="@+id/tv_language_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/_24sdp"
+        android:ellipsize="end"
+        android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_16ssp" />
 
@@ -24,10 +23,10 @@
         android:id="@+id/iv_current_language"
         android:layout_width="@dimen/_24sdp"
         android:layout_height="@dimen/_24sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:src="@mipmap/ic_zone_flag_current" />
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:src="@mipmap/ic_zone_flag_current"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -2,7 +2,10 @@ package com.ihomey.linkuphome.data.db
 
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.ihomey.linkuphome.data.entity.LocalState
 
 

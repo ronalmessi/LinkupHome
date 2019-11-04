@@ -12,9 +12,10 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
  * Created by dongcaizheng on 2018/4/9.
  */
 @Entity(tableName = "alarm")
-data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var deviceId: String, var dayOfWeek: Int, var hour: Int, var minute: Int, var ringType: Int=1, var type: Int=1, var isOn:Int) : MultiItemEntity {
+data class Alarm(@PrimaryKey var id: Int, @ColumnInfo(name = "deviceId") var deviceId: String, var dayOfWeek: Int, var hour: Int, var minute: Int, var ringType: Int = 1, var type: Int = 1, var isOn: Int) : MultiItemEntity {
 
-    @Ignore var editMode:Int=0
+    @Ignore
+    var editMode: Int = 0
 
     override fun getItemType(): Int {
         return if (id != -1) 1 else -1
@@ -24,7 +25,7 @@ data class Alarm(@PrimaryKey var id:Int, @ColumnInfo(name = "deviceId")var devic
         if (other == null || other !is Alarm) {
             return false
         }
-        if (other.id == this.id&& TextUtils.equals(this.deviceId, other.deviceId)&&other.dayOfWeek== this.dayOfWeek&&other.hour== this.hour&&other.minute== this.minute&&other.ringType== this.ringType&&other.type== this.type&&other.isOn== this.isOn) {
+        if (other.id == this.id && TextUtils.equals(this.deviceId, other.deviceId) && other.dayOfWeek == this.dayOfWeek && other.hour == this.hour && other.minute == this.minute && other.ringType == this.ringType && other.type == this.type && other.isOn == this.isOn) {
             return true
         }
         return super.equals(other)

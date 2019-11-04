@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.ihomey.linkuphome.data.entity.*
-import com.ihomey.linkuphome.data.repository.*
-import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
+import com.ihomey.linkuphome.data.entity.LocalState
+import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
@@ -31,7 +30,7 @@ class SceneSettingViewModel : ViewModel() {
         mCurrentDeviceId.value = deviceId
     }
 
-    fun updateLocalState(localState: LocalState){
+    fun updateLocalState(localState: LocalState) {
         mDeviceRepository.updateLocalState(localState)
     }
 }

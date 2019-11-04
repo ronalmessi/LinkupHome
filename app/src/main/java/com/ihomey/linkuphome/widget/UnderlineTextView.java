@@ -6,9 +6,7 @@ import android.graphics.Paint;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
-import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatTextView;
 
 public class UnderlineTextView extends AppCompatTextView {
@@ -44,7 +42,8 @@ public class UnderlineTextView extends AppCompatTextView {
                         - fontMetricsInt.descent);
     }
 
-    @Override protected void onDraw(Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         if (TextUtils.isEmpty(getText())) {

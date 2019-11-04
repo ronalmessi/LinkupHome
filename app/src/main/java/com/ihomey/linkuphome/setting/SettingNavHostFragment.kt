@@ -11,7 +11,7 @@ import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 
 
-class SettingNavHostFragment : BaseFragment(),FragmentBackHandler {
+class SettingNavHostFragment : BaseFragment(), FragmentBackHandler {
 
     fun newInstance(): SettingNavHostFragment {
         return SettingNavHostFragment()
@@ -22,7 +22,7 @@ class SettingNavHostFragment : BaseFragment(),FragmentBackHandler {
     }
 
     fun showBottomNavigationBar(isVisible: Boolean) {
-        if(parentFragment!=null&&parentFragment is HomeFragment){
+        if (parentFragment != null && parentFragment is HomeFragment) {
             (parentFragment as HomeFragment).showBottomNavigationBar(isVisible)
         }
     }

@@ -54,29 +54,31 @@ class ShareZoneListFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickL
         adapter = ShareZoneListAdapter(R.layout.item_zone_share_list)
         adapter.onItemChildClickListener = this
         rcv_zone_list.layoutManager = LinearLayoutManager(context)
-        context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(LinearLayoutManager.HORIZONTAL, context?.resources?.getDimension(R.dimen._63sdp)?.toInt()!!,it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_zone_list.addItemDecoration(it) }
+        context?.resources?.getDimension(R.dimen._1sdp)?.toInt()?.let { DividerItemDecoration(LinearLayoutManager.HORIZONTAL, context?.resources?.getDimension(R.dimen._63sdp)?.toInt()!!, it, Color.parseColor("#EFEFF0"), true) }?.let { rcv_zone_list.addItemDecoration(it) }
         rcv_zone_list.adapter = adapter
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-        val zone=adapter.getItem(position)
-        if(zone!=null){
-            context?.getIMEI()?.let { it1 ->  mViewModel.shareZone(it1,zone.id).observe(viewLifecycleOwner, Observer<Resource<String>> {
-                if (it?.status == Status.SUCCESS) {
-                    hideLoadingView()
-                    if(!TextUtils.isEmpty(it.data)){
-                        val bundle=Bundle()
-                        bundle.putString("invitationCode",it.data)
-                        Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment,bundle)
+        val zone = adapter.getItem(position)
+        if (zone != null) {
+            context?.getIMEI()?.let { it1 ->
+                mViewModel.shareZone(it1, zone.id).observe(viewLifecycleOwner, Observer<Resource<String>> {
+                    if (it?.status == Status.SUCCESS) {
+                        hideLoadingView()
+                        if (!TextUtils.isEmpty(it.data)) {
+                            val bundle = Bundle()
+                            bundle.putString("invitationCode", it.data)
+                            Navigation.findNavController(view).navigate(R.id.action_shareZoneListFragment_to_shareZoneFragment, bundle)
+                        }
+                    } else if (it?.status == Status.ERROR) {
+                        hideLoadingView()
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    } else if (it?.status == Status.LOADING) {
+                        showLoadingView()
                     }
-                }else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2)}
-                }else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            })}
+                })
+            }
         }
     }
 

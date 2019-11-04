@@ -25,24 +25,24 @@ class ConnectDeviceViewModel : ViewModel() {
     init {
         DaggerAppComponent.builder().build().inject(this)
         devicesResult = Transformations.switchMap(mQuery) { input ->
-            mDeviceRepository.getDevicesByType(input.zoneId,input.type)
+            mDeviceRepository.getDevicesByType(input.zoneId, input.type)
         }
     }
 
-    fun saveDevice(guid:String,zoneId:Int,type:Int,name:String): LiveData<Resource<Device>> {
+    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String): LiveData<Resource<Device>> {
         return mDeviceRepository.saveDevice(guid, zoneId, type, name)
     }
 
-    fun saveDevice(type:Int,zoneId:Int,name:String,macAddress: String){
-        return mDeviceRepository.saveDevice(Device(macAddress,zoneId,0,name,type,0,DeviceState()))
+    fun saveDevice(type: Int, zoneId: Int, name: String, macAddress: String) {
+        return mDeviceRepository.saveDevice(Device(macAddress, zoneId, 0, name, type, 0, DeviceState()))
     }
 
-    fun saveDevice(type:Int,zoneId:Int,name:String,macAddress: String,instructId:Int){
-        return mDeviceRepository.saveDevice(Device(macAddress,zoneId,0,name,type,instructId,DeviceState()))
+    fun saveDevice(type: Int, zoneId: Int, name: String, macAddress: String, instructId: Int) {
+        return mDeviceRepository.saveDevice(Device(macAddress, zoneId, 0, name, type, instructId, DeviceState()))
     }
 
-    fun setQuery(zoneId: Int,type:Int){
-        mQuery.value=Query(zoneId,type)
+    fun setQuery(zoneId: Int, type: Int) {
+        mQuery.value = Query(zoneId, type)
     }
 
 }

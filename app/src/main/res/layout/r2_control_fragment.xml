@@ -40,13 +40,13 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_32sdp"
                 android:layout_marginEnd="@dimen/_32sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:layout_gravity="center"
                 android:onClick="@{handlers::onClick}"
+                android:singleLine="true"
                 android:text="@{control.name}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
@@ -137,10 +137,9 @@
                 android:layout_toStartOf="@+id/device_brightness_icon_high"
                 android:layout_toEndOf="@+id/device_brightness_icon_low"
                 android:clickable="false"
-                android:paddingStart="@dimen/_6sdp"
-                android:paddingEnd="@dimen/_6sdp"
                 android:max="85"
-              />
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp" />
 
             <ImageView
                 android:id="@+id/device_brightness_icon_high"
@@ -180,8 +179,8 @@
             android:id="@+id/btn_device_cycling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_color_cycling"
             android:layout_marginStart="@dimen/_54sdp"
+            android:background="@mipmap/ic_color_cycling"
             android:button="@null"
             app:layout_constraintBottom_toTopOf="@+id/guideLine"
             app:layout_constraintStart_toStartOf="parent" />
@@ -203,9 +202,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/ic_scene"
-            android:onClick="@{handlers::onClick}"
             android:button="@null"
             android:checked="false"
+            android:onClick="@{handlers::onClick}"
             app:layout_constraintBottom_toTopOf="@+id/guideLine"
             app:layout_constraintLeft_toRightOf="@+id/btn_device_lighting"
             app:layout_constraintRight_toLeftOf="@+id/btn_device_alarm_setting" />
@@ -214,10 +213,10 @@
             android:id="@+id/btn_device_alarm_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{handlers::onClick}"
             android:layout_marginEnd="@dimen/_54sdp"
             android:background="@mipmap/ic_alarm"
             android:button="@null"
+            android:onClick="@{handlers::onClick}"
             app:layout_constraintBottom_toTopOf="@+id/guideLine"
             app:layout_constraintRight_toRightOf="parent" />
 

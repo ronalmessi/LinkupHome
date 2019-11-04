@@ -9,39 +9,41 @@
         android:name="com.ihomey.linkuphome.zone.ZoneFragment"
         tools:layout="@layout/zone_fragment">
         <action
-            app:enterAnim="@anim/slide_in_bottom"
-            app:exitAnim="@anim/slide_out_top" app:popExitAnim="@anim/slide_out_bottom"
             android:id="@+id/action_zoneFragment_to_chooseZoneTypeFragment"
-            app:destination="@id/chooseZoneTypeFragment" />
+            app:destination="@id/chooseZoneTypeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popExitAnim="@anim/slide_out_bottom" />
         <action
             android:id="@+id/action_tab_zones_to_subZoneFragment"
+            app:destination="@id/subZoneFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/subZoneFragment" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/chooseZoneTypeFragment"
         android:name="com.ihomey.linkuphome.room.ChooseRoomTypeFragment"
-        tools:layout="@layout/choose_room_type_fragment"
-        android:label="ChooseZoneTypeFragment" />
+        android:label="ChooseZoneTypeFragment"
+        tools:layout="@layout/choose_room_type_fragment" />
 
     <fragment
         android:id="@+id/subZoneFragment"
         android:name="com.ihomey.linkuphome.room.RoomFragment"
         android:label="sub_zone_fragment"
-        tools:layout="@layout/room_fragment" >
+        tools:layout="@layout/room_fragment">
         <action
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_subZoneFragment_to_unBondedDevicesFragment2"
-            app:destination="@id/unBondedDevicesFragment" />
+            app:destination="@id/unBondedDevicesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/unBondedDevicesFragment"
         android:name="com.ihomey.linkuphome.room.UnBondDevicesFragment"
         android:label="unbonded_devices_fragment"
-        tools:layout="@layout/unbonded_devices_fragment" >
-    </fragment>
+        tools:layout="@layout/unbonded_devices_fragment"></fragment>
 </navigation>

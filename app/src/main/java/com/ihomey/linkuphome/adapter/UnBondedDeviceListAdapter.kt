@@ -11,14 +11,14 @@ class UnBondedDeviceListAdapter : PagedListAdapter<Device, UnBondedDeviceViewHol
 
     private val selectedDevices = mutableListOf<Device>()
 
-    fun getSelectedDevices():List<Device> {
+    fun getSelectedDevices(): List<Device> {
         return selectedDevices
     }
 
     override fun onBindViewHolder(holder: UnBondedDeviceViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bindTo(it)
-            holder.stateView.setOnCheckedChangeListener { _, isChecked -> if(isChecked) selectedDevices.add(it) else selectedDevices.remove(it) }
+            holder.stateView.setOnCheckedChangeListener { _, isChecked -> if (isChecked) selectedDevices.add(it) else selectedDevices.remove(it) }
         }
     }
 

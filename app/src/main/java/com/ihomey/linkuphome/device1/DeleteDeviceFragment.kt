@@ -29,7 +29,7 @@ class DeleteDeviceFragment : DialogFragment() {
         btn_cancel.setOnClickListener { dismiss() }
         val btn_confirm = view.findViewById<TextView>(R.id.btn_confirm)
         btn_confirm.setOnClickListener {
-            arguments?.getString("deviceId")?.let {it1-> arguments?.getInt("deviceInstructId")?.let {it2-> deleteListener?.deleteDevice(it1, it2) } }
+            arguments?.getString("deviceId")?.let { it1 -> arguments?.getInt("deviceInstructId")?.let { it2 -> deleteListener?.deleteDevice(it1, it2) } }
             dismiss()
         }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

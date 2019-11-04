@@ -22,23 +22,23 @@ class PermissionPromptDialogFragment : DialogFragment() {
     }
 
 
-    fun newInstance(title:String,content:String,confirmText:String): PermissionPromptDialogFragment {
-        val dialogFragment= PermissionPromptDialogFragment()
-        val bundle=Bundle()
-        bundle.putString("title",title)
-        bundle.putString("content",content)
-        bundle.putString("confirmText",confirmText)
-        dialogFragment.arguments=bundle
+    fun newInstance(title: String, content: String, confirmText: String): PermissionPromptDialogFragment {
+        val dialogFragment = PermissionPromptDialogFragment()
+        val bundle = Bundle()
+        bundle.putString("title", title)
+        bundle.putString("content", content)
+        bundle.putString("confirmText", confirmText)
+        dialogFragment.arguments = bundle
         return dialogFragment
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        isCancelable=false
+        isCancelable = false
         val view = inflater.inflate(R.layout.dialog_permission_prompt, container, false)
-        arguments?.getString("title")?.let {view.findViewById<TextView>(R.id.tv_dialog_title).text=it}
-        arguments?.getString("content")?.let { view.findViewById<TextView>(R.id.tv_dialog_content).text=it}
+        arguments?.getString("title")?.let { view.findViewById<TextView>(R.id.tv_dialog_title).text = it }
+        arguments?.getString("content")?.let { view.findViewById<TextView>(R.id.tv_dialog_content).text = it }
         val btn_confirm = view.findViewById<TextView>(R.id.btn_confirm)
-        arguments?.getString("confirmText")?.let { btn_confirm.text=it}
+        arguments?.getString("confirmText")?.let { btn_confirm.text = it }
         btn_confirm.setOnClickListener {
             listener?.onConfirm()
             dismiss()

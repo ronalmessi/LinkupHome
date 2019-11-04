@@ -7,11 +7,11 @@ import androidx.room.Relation
 /**
  * Created by dongcaizheng on 2018/4/11.
  */
-class RoomAndDevices{
+class RoomAndDevices {
     @Embedded
     var room: Room? = null
 
-    @Relation(parentColumn ="id",entityColumn = "roomId")
+    @Relation(parentColumn = "id", entityColumn = "roomId")
     var devices: List<Device> = ArrayList()
 }
 

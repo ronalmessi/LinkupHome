@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.dl
 
-import androidx.room.PrimaryKey
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -30,13 +29,13 @@ class AppModule {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor)
-            .addNetworkInterceptor(object : Interceptor {
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    val request = chain.request().newBuilder()
-                            .header("clientType", "1").build()
-                    return chain.proceed(request)
-                }
-            }).build()
+                .addNetworkInterceptor(object : Interceptor {
+                    override fun intercept(chain: Interceptor.Chain): Response {
+                        val request = chain.request().newBuilder()
+                                .header("clientType", "1").build()
+                        return chain.proceed(request)
+                    }
+                }).build()
         return Retrofit.Builder()
                 .baseUrl(AppConfig.API_SERVER)
                 .client(client)
@@ -48,7 +47,7 @@ class AppModule {
     @Singleton
     @Provides
     fun provideDb(): LinkupHomeDb {
-        return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db").addMigrations(object :Migration(1,2){
+        return Room.databaseBuilder(App.instance, LinkupHomeDb::class.java, "LinkupHome.db").addMigrations(object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("CREATE TABLE device1 (id INTEGER not null,zoneId INTEGER not null,roomId INTEGER not null,name TEXT not null,type INTEGER not null,instructId INTEGER not null,parameters TEXT , PRIMARY KEY(id))")
                 database.execSQL("CREATE TABLE room (id INTEGER not null,zoneId INTEGER not null,name TEXT not null,deviceTypes TEXT not null,type INTEGER not null,instructId INTEGER not null,parameters TEXT , PRIMARY KEY(id))")
