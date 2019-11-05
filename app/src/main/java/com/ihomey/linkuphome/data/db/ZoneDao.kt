@@ -51,4 +51,7 @@ abstract class ZoneDao {
     @Query("UPDATE zone set nextDeviceIndex = :nextDeviceIndex WHERE id = :id ")
     abstract fun updateNextDeviceIndex(nextDeviceIndex: Int, id: Int)
 
+    @Query("UPDATE zone set meshInfo = :meshInfo WHERE id = :id ")
+    abstract fun updateMeshInfo(meshInfo: String, id: Int)
+
 }

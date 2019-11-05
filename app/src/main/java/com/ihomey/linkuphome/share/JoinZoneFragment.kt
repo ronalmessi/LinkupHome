@@ -19,6 +19,7 @@ import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.toast
+import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.zone_join_fragment.*
 
 class JoinZoneFragment : BaseFragment() {
@@ -58,6 +59,7 @@ class JoinZoneFragment : BaseFragment() {
             context?.getIMEI()?.let { it1 ->
                 mViewModel.joinZone(it1, invitationCode).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                     if (it?.status == Status.SUCCESS) {
+                        PlSigMeshService.getInstance().meshList.clear()
                         hideLoadingView()
                         activity?.toast(getString(R.string.msg_join_zone_success), Toast.LENGTH_SHORT)
                         viewModel.setCurrentZoneId(it.data?.id)

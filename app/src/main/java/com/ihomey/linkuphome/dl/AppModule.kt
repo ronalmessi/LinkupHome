@@ -16,6 +16,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -28,14 +29,14 @@ class AppModule {
     fun provideApiService(): ApiService {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(object : Interceptor {
-                    override fun intercept(chain: Interceptor.Chain): Response {
-                        val request = chain.request().newBuilder()
-                                .header("clientType", "1").build()
-                        return chain.proceed(request)
-                    }
-                }).build()
+        val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).connectTimeout(180, TimeUnit.SECONDS).
+                readTimeout(180, TimeUnit.SECONDS).
+                writeTimeout(180, TimeUnit.SECONDS)
+                .addNetworkInterceptor { chain ->
+                    val request = chain.request().newBuilder()
+                            .header("clientType", "1").build()
+                    chain.proceed(request)
+                }.build()
         return Retrofit.Builder()
                 .baseUrl(AppConfig.API_SERVER)
                 .client(client)

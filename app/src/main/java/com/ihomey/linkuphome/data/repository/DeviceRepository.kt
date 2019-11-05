@@ -1,10 +1,11 @@
 package com.ihomey.linkuphome.data.repository
 
+import android.text.TextUtils
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.ihomey.linkuphome.AppExecutors
-import com.ihomey.linkuphome.beanToJson
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
 import com.ihomey.linkuphome.data.api.ApiService
@@ -17,8 +18,6 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.DeviceState
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.md5
-import com.ihomey.linkuphome.sha256
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,12 +27,16 @@ import javax.inject.Singleton
 @Singleton
 class DeviceRepository @Inject constructor(private var apiService: ApiService, private val deviceDao: DeviceDao, private val localStateDao: LocalStateDao, private val roomDao: RoomDao, private val zoneDao: ZoneDao, private var appExecutors: AppExecutors) {
 
-    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String): LiveData<Resource<Device>> {
+    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,pid: Int?,meshInfo:String?): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
                 item?.let {
                     deviceDao.insert(it)
-                    zoneDao.updateNextDeviceIndex(it.instructId + 1, zoneId)
+                    if(pid!=null&&pid!=0&&!TextUtils.isEmpty(meshInfo)&&meshInfo!=null){
+                        zoneDao.updateMeshInfo(meshInfo, zoneId)
+                    }else{
+                        zoneDao.updateNextDeviceIndex(it.instructId + 1, zoneId)
+                    }
                 }
             }
 
@@ -46,14 +49,15 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Device>> {
-                val saveDeviceVO = SaveDeviceVO(guid.md5(), name, zoneId, System.currentTimeMillis(), type)
-                saveDeviceVO.signature = beanToJson(saveDeviceVO).sha256()
+                val saveDeviceVO = SaveDeviceVO(guid.md5(), name, zoneId, System.currentTimeMillis(), type,pid, meshInfo)
+                Log.d("aa",saveDeviceVO.toString())
+                saveDeviceVO.signature =(AppConfig.APP_SECRET+saveDeviceVO.toString()).sha256()
                 return apiService.saveDevice(saveDeviceVO)
             }
         }.asLiveData()
     }
 
-    fun deleteDevice(guid: String, deviceId: String): LiveData<Resource<Boolean>> {
+    fun deleteDevice(guid: String, deviceId: String,meshInfo:String?): LiveData<Resource<Boolean>> {
         return object : NetworkBoundResource<Boolean>(appExecutors) {
             override fun saveCallResult(item: Boolean?) {
 
@@ -68,8 +72,8 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Boolean>> {
-                val deleteZoneVO = DeleteVO(guid.md5(), deviceId, System.currentTimeMillis())
-                deleteZoneVO.signature = beanToJson(deleteZoneVO).sha256()
+                val deleteZoneVO = DeleteDeviceVO(guid.md5(), deviceId, System.currentTimeMillis(),meshInfo)
+                deleteZoneVO.signature =(AppConfig.APP_SECRET+deleteZoneVO.toString()).sha256()
                 return apiService.deleteDevice(deleteZoneVO)
             }
         }.asLiveData()

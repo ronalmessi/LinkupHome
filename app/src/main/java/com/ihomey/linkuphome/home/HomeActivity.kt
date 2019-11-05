@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import androidx.room.util.StringUtil
 import com.csr.mesh.ConfigModelApi
 import com.csr.mesh.DataModelApi
 import com.csr.mesh.MeshService
@@ -82,19 +83,26 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             if (it?.status == Status.SUCCESS) {
                 it.data?.nextDeviceIndex?.let { it1 -> mService?.setNextDeviceId(it1) }
                 it.data?.netWorkKey?.let { it1 -> mService?.setNetworkPassPhrase(it1) }
-                if (TextUtils.isEmpty(it.data?.meshInfo)) {
-                    createPlSigMeshNet()
-                    if (!TextUtils.equals(it.data?.meshInfo, PlSigMeshService.getInstance().getJsonStrMeshNet(0))) {
-                        mViewModel.uploadMeshInfo(getIMEI(), it.data?.id, it.data?.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0)).observe(this, Observer<Resource<Zone>> {
-                            if (it?.status != Status.LOADING) initMeshNet()
-                        })
+                mPlSigMeshService?.let {it0->
+                    if (TextUtils.isEmpty(it.data?.meshInfo)) {
+                        Log.d("aa", "ccccc---" + it)
+                        createPlSigMeshNet()
+                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0))) {
+                            mViewModel.uploadMeshInfo(getIMEI(), it.data?.id, it.data?.name, it0.getJsonStrMeshNet(0)).observe(this, Observer<Resource<Zone>> {
+                                if (it?.status != Status.LOADING) initMeshNet()
+                            })
+                        }
+                    } else {
+                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0))) {
+                            Log.d("aa", "aaaa11---" + it.data?.meshInfo)
+                            Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
+                            it.data?.meshInfo?.let { it0.updateJsonStrMeshNet(it, ArrayList(0)) }
+                            initMeshNet()
+                            Log.d("aa", "bbbb---" + it0.meshList.size + "---" + PlSigMeshService.getInstance().getJsonStrMeshNet(0))
+                        }
                     }
-                } else {
-                    Log.d("aa", "aaaa---" + it)
-                    it.data?.meshInfo?.let { PlSigMeshService.getInstance().updateJsonStrMeshNet(it, ArrayList(0)) }
-                    initMeshNet()
-                    Log.d("aa", "bbbb---" + PlSigMeshService.getInstance().meshList.size + "---" + PlSigMeshService.getInstance().getJsonStrMeshNet(0))
                 }
+
             }
         })
         mViewModel.mRemoveDeviceVo.observe(this, Observer<RemoveDeviceVo> {
@@ -107,11 +115,12 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         })
         mViewModel.mRemoveSigmeshDeviceVo.observe(this, Observer<RemoveDeviceVo> {
             if (it != null) {
-                mPlSigMeshService?.resetNode(it.deviceInstructId.toShort())
-                mMeshHandler.postDelayed({
-                    mPlSigMeshService?.delMeshNode(it.deviceInstructId.toShort())
-                    it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
-                }, 2000)
+                mPlSigMeshService?.resetNode(it.devicePId.toShort())
+//                mMeshHandler.postDelayed({
+//                    mPlSigMeshService?.delMeshNode(it.devicePId.toShort())
+//                    Log.d("aa","---"+mPlSigMeshService?.getJsonStrMeshNet(0))
+//                    it.deviceRemoveListener.onDeviceRemoved(it.deviceId, it.deviceInstructId, true)
+//                }, 2000)
             }
         })
         mViewModel.setCurrentZoneId(intent?.extras?.getInt("currentZoneId"))
@@ -202,7 +211,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private val mPlSigMeshServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, rawBinder: IBinder) {
             mPlSigMeshService = (rawBinder as PlSigMeshService.LocalBinder).service
-            mPlSigMeshService?.let { it.init(this@HomeActivity, Util.DBG_LEVEL_WARN, Util.DBG_LEVEL_WARN) }
+            mPlSigMeshService?.let {
+                Log.d("aa", "dddddd---" + it)
+                it.init(this@HomeActivity, Util.DBG_LEVEL_WARN, Util.DBG_LEVEL_WARN)
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -416,7 +428,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
                 }
                 Util.PL_MESH_EXIT -> {
-
+                    Log.d("aa", "PL_MESH_EXIT---" + status)
                 }
             }
         }
@@ -457,7 +469,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         override fun onNodeResetStatus(src: Short) {
             super.onNodeResetStatus(src)
             Log.d("aa", "onNodeResetStatus")
-//            mPlSigMeshService?.delMeshNode(src)
+            mPlSigMeshService?.delMeshNode(src)
+            runOnUiThread {
+                deleteSigMeshDevice()
+            }
         }
 
         override fun onOnOffChanged(src: Short, onoff: Boolean) {
@@ -495,6 +510,19 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         override fun onSceneChanged(src: Short, status: Int, current: Short) {
             super.onSceneChanged(src, status, current)
         }
+    }
+
+    private fun deleteSigMeshDevice() {
+        mViewModel.deleteSigMeshDevice(getIMEI(), PlSigMeshService.getInstance().getJsonStrMeshNet(0)).observe(this, Observer<Resource<Boolean>> {
+            if (it?.status == Status.SUCCESS) {
+                Log.d("aa","Status.SUCCESS")
+                mViewModel.deleteLocalSigMeshDevice()
+            } else if (it?.status == Status.ERROR) {
+                Log.d("aa","Status.ERROR")
+                mViewModel.deleteLocalSigMeshDevice()
+                it.message?.let { it2 -> toast(it2) }
+            }
+        })
     }
 
     private val mSigMeshProvisionCB = object : PlSigMeshProvisionCallback() {

@@ -11,6 +11,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.SigMeshController
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
@@ -63,9 +64,11 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(viewLifecycleOwner, Observer<Device> {
             mControlDevice = it
-            controller = ControllerFactory().createController(mControlDevice.type, TextUtils.equals("LinkupHome V1", mControlDevice.name))
+//            controller = ControllerFactory().createController(mControlDevice.type, TextUtils.equals("LinkupHome V1", mControlDevice.name))
             mViewModel.setCurrentDeviceId(it.id)
-            if (TextUtils.equals("LinkupHome V1", mControlDevice.name)) controller?.syncTime(it.instructId)
+             controller = SigMeshController()
+            controller?.syncTime(it.pid)
+//            if (TextUtils.equals("LinkupHome V1", mControlDevice.name)) controller?.syncTime(it.instructId)
         })
         mViewModel.mCurrentLocalState.observe(viewLifecycleOwner, Observer<Resource<LocalState>> {
             if (it.status == Status.SUCCESS) {
@@ -85,9 +88,9 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
                     v.tag = null
                     (v as Button).setText(R.string.action_save)
                     enableEditTimer(true)
-                    if ((mControlDevice.type == 6 || mControlDevice.type == 10) && listener.isMeshServiceConnected()) {
-                        syncTime(mControlDevice.instructId)
-                    }
+//                    if ((mControlDevice.type == 6 || mControlDevice.type == 10) && listener.isMeshServiceConnected()) {
+//                        syncTime(mControlDevice.instructId)
+//                    }
                 } else {
                     v.tag = true
                     (v as Button).setText(R.string.action_edit)
@@ -107,15 +110,15 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
             if (isOpenTimer()) {
                 mLocalState.openTimer = calendar.timeInMillis
                 mLocalState.openTimerOn = 3
-                if (listener.isMeshServiceConnected()) {
-                    controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, isTimerOn(), isRepeat())
-                }
+//                if (listener.isMeshServiceConnected()) {
+                    controller?.setRepeatTimer(mControlDevice.pid, getMinute(), getHour(), true, isTimerOn(), isRepeat())
+//                }
             } else {
                 mLocalState.closeTimer = calendar.timeInMillis
                 mLocalState.closeTimerOn = 3
-                if (listener.isMeshServiceConnected()) {
-                    controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, isTimerOn(), isRepeat())
-                }
+//                if (listener.isMeshServiceConnected()) {
+                    controller?.setRepeatTimer(mControlDevice.pid, getMinute(), getHour(), false, isTimerOn(), isRepeat())
+//                }
             }
         } else {
             val isExpired = calendar.timeInMillis - System.currentTimeMillis() < 0
@@ -146,35 +149,35 @@ abstract class BaseTimerSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         if (isOpenTimer()) {
             mLocalState.openTimerOn = if (isChecked) 3 else 2
             if (isChecked) {
-                if (listener.isMeshServiceConnected()) {
+//                if (listener.isMeshServiceConnected()) {
                     if (mControlDevice.type == 6 || mControlDevice.type == 10) {
-                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, true, isRepeat())
+                        controller?.setRepeatTimer(mControlDevice.pid, getMinute(), getHour(), true, true, isRepeat())
                     } else {
-                        controller?.setTimer(mControlDevice.instructId, getPeriodMinute(getHour(), getMinute()), true)
+                        controller?.setTimer(mControlDevice.pid, getPeriodMinute(getHour(), getMinute()), true)
                     }
-                }
+//                }
             } else {
                 if (mControlDevice.type == 6 || mControlDevice.type == 10) {
-                    if (listener.isMeshServiceConnected()) {
-                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), true, false, isRepeat())
-                    }
+//                    if (listener.isMeshServiceConnected()) {
+                        controller?.setRepeatTimer(mControlDevice.pid, getMinute(), getHour(), true, false, isRepeat())
+//                    }
                 }
             }
         } else {
             mLocalState.closeTimerOn = if (isChecked) 3 else 2
             if (isChecked) {
-                if (listener.isMeshServiceConnected()) {
+//                if (listener.isMeshServiceConnected()) {
                     if (mControlDevice.type == 6 || mControlDevice.type == 10) {
-                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, true, isRepeat())
+                        controller?.setRepeatTimer(mControlDevice.pid, getMinute(), getHour(), false, true, isRepeat())
                     } else {
-                        controller?.setTimer(mControlDevice.instructId, getPeriodMinute(getHour(), getMinute()), false)
+                        controller?.setTimer(mControlDevice.pid, getPeriodMinute(getHour(), getMinute()), false)
                     }
-                }
+//                }
             } else {
                 if (mControlDevice.type == 6 || mControlDevice.type == 10) {
-                    if (listener.isMeshServiceConnected()) {
-                        controller?.setRepeatTimer(mControlDevice.instructId, getMinute(), getHour(), false, false, isRepeat())
-                    }
+//                    if (listener.isMeshServiceConnected()) {
+                        controller?.setRepeatTimer(mControlDevice.pid, getMinute(), getHour(), false, false, isRepeat())
+//                    }
                 }
             }
         }

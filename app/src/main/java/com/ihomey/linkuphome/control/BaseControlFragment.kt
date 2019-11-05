@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.control
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
@@ -19,6 +20,7 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.SigMeshController
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -102,15 +104,20 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
         if (type == 0) {
             controller?.setLightColor(mControlDevice.id, AppConfig.RGB_COLOR_POSITION[time])
         } else {
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, AppConfig.RGB_COLOR_POSITION[time])
+            val controller = SigMeshController()
+            controller.setLightColor(mControlDevice.pid, AppConfig.RGB_COLOR_POSITION[time])
+//            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, AppConfig.RGB_COLOR_POSITION[time])
         }
     }
 
     override fun onColorValueChange(time: Int) {
+        Log.d("aa","time----"+time)
         if (type == 0) {
             controller?.setLightColor(mControlDevice.id, AppConfig.RGB_COLOR_POSITION[time])
         } else {
-            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, AppConfig.RGB_COLOR_POSITION[time])
+            val controller = SigMeshController()
+            controller.setLightColor(mControlDevice.pid, AppConfig.RGB_COLOR_POSITION[time])
+//            if (listener.isMeshServiceConnected()) controller?.setLightColor(mControlDevice.instructId, AppConfig.RGB_COLOR_POSITION[time])
         }
     }
 
@@ -120,14 +127,15 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
         } else {
             if (listener.isMeshServiceConnected()) controller?.setLightColorTemperature(mControlDevice.instructId, temperature)
         }
-
     }
 
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
         if (type == 0) {
             controller?.setLightSpeed(mControlDevice.id, position)
         } else {
-            if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
+            val controller = SigMeshController()
+            controller.setLightSpeed(mControlDevice.pid, position)
+//            if (listener.isMeshServiceConnected()) controller?.setLightSpeed(mControlDevice.instructId, position)
         }
     }
 
@@ -135,8 +143,11 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
         if (type == 0) {
             controller?.setLightBright(mControlDevice.id, seekBar.progress.plus(15))
         } else {
-            if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if (type == 6 || type == 10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
-            if (!TextUtils.equals("LinkupHome V1", mControlDevice.name)) changeDeviceState(mControlDevice, "brightness", seekBar.progress.toString())
+            val controller = SigMeshController()
+            controller.setLightBright(mControlDevice.pid, if (type == 6 || type == 10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
+
+//            if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if (type == 6 || type == 10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
+//            if (!TextUtils.equals("LinkupHome V1", mControlDevice.name)) changeDeviceState(mControlDevice, "brightness", seekBar.progress.toString())
         }
     }
 
@@ -146,8 +157,10 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
                 if (type == 0) {
                     controller?.setLightPowerState(mControlDevice.id, if (isChecked) 1 else 0)
                 } else {
-                    if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
-                    if (!TextUtils.equals("LinkupHome V1", mControlDevice.name)) changeDeviceState(mControlDevice, "on", if (isChecked) "1" else "0")
+                    val controller = SigMeshController()
+                    controller.setLightPowerState(mControlDevice.pid, if (isChecked) 1 else 0)
+//                    if (listener.isMeshServiceConnected()) controller?.setLightPowerState(mControlDevice.instructId, if (isChecked) 1 else 0)
+//                    if (!TextUtils.equals("LinkupHome V1", mControlDevice.name)) changeDeviceState(mControlDevice, "on", if (isChecked) "1" else "0")
                 }
             }
         }
@@ -181,7 +194,9 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
                     if (type == 0) {
                         controller?.setLightingMode(mControlDevice.id)
                     } else {
-                        if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
+                        val controller = SigMeshController()
+                        controller.setLightingMode(mControlDevice.pid)
+//                        if (listener.isMeshServiceConnected()) controller?.setLightingMode(mControlDevice.instructId)
                     }
                 }
                 R.id.btn_device_scene_setting -> {

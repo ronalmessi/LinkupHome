@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
+import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.connect_device_fragment.*
 
 
@@ -135,7 +137,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         val deviceType = DeviceType.values()[type]
         if (TextUtils.isEmpty(macAddress)) {
             context?.getIMEI()?.let { it1 ->
-                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, null, null).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     if (it?.status == Status.SUCCESS && it.data != null) {
                         it.data.hash = "" + uuidHash
                         val position = adapter.data.indexOf(it.data) ?: -1
@@ -154,18 +156,25 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
                 })
             }
         } else {
-            val device = Device(0, "LinkupHome V1", macAddress)
-            val position = adapter.data.indexOf(device) ?: -1
-            if (position != -1) {
-                adapter.getItem(position)?.id = macAddress
-                adapter.notifyItemChanged(position)
+            context?.getIMEI()?.let { it1 ->
+                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(0)).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                    if (it?.status == Status.SUCCESS && it.data != null) {
+                        val device = Device(0, "LinkupHome V1", macAddress)
+                        val position = adapter.data.indexOf(device) ?: -1
+                        if (position != -1) {
+                            adapter.getItem(position)?.id = macAddress
+                            adapter.notifyItemChanged(position)
+                        }
+                        mViewModel.setCurrentZoneId(currentZone?.id!!)
+                        deviceAssociateFragment.dismiss()
+                        if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+                    } else if (it?.status == Status.ERROR) {
+                        deviceAssociateFragment.dismiss()
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    }
+                })
             }
-            viewModel.saveDevice(6, currentZone?.id!!, "LinkupHome V1", macAddress, deviceId)
-            mViewModel.setCurrentZoneId(currentZone?.id!!)
-            deviceAssociateFragment.dismiss()
-            if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
         }
-
     }
 
     override fun associationProgress(progress: Int) {

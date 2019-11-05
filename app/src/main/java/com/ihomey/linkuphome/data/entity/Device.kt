@@ -15,7 +15,7 @@ import com.ihomey.linkuphome.data.db.DeviceStateValueConverter
  * Created by dongcaizheng on 2018/4/9.
  */
 @Entity(tableName = "device2")
-data class Device(@PrimaryKey var id: String, @SerializedName("spaceId") var zoneId: Int, @SerializedName("groupId") var roomId: Int, var name: String, var type: Int, var instructId: Int, @TypeConverters(DeviceStateValueConverter::class) var parameters: DeviceState?) : MultiItemEntity {
+data class Device(@PrimaryKey var id: String, @SerializedName("spaceId") var zoneId: Int, @SerializedName("groupId") var roomId: Int, var name: String, var type: Int, var instructId: Int,var pid: Int, @TypeConverters(DeviceStateValueConverter::class) var parameters: DeviceState?) : MultiItemEntity {
 
     @Ignore
     var hash: String = ""
@@ -49,15 +49,16 @@ data class Device(@PrimaryKey var id: String, @SerializedName("spaceId") var zon
         result = 31 * result + name.hashCode()
         result = 31 * result + type
         result = 31 * result + instructId
+        result = 31 * result + pid
         result = 31 * result + (parameters?.hashCode() ?: 0)
         result = 31 * result + hash.hashCode()
         result = 31 * result + macAddress.hashCode()
         return result
     }
 
-    constructor(type: Int, name: String) : this("0", 0, 0, name, type, 0, DeviceState())
+    constructor(type: Int, name: String) : this("0", 0, 0, name, type, 0,0,DeviceState())
 
-    constructor(type: Int, name: String, macAddress: String) : this("0", 0, 0, name, type, 0, DeviceState()) {
+    constructor(type: Int, name: String, macAddress: String) : this("0", 0, 0, name, type, 0,0, DeviceState()) {
         this.macAddress = macAddress
     }
 }

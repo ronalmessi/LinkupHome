@@ -13,6 +13,7 @@ import com.ihomey.linkuphome.adapter.TimerSettingAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.SigMeshController
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
@@ -58,9 +59,11 @@ open class RepeatTimerSettingFragment : BaseFragment(), TimerSettingListener {
         mViewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
             mControlDevice = it
-            controller = ControllerFactory().createController(it.type, TextUtils.equals("LinkupHome V1", it.name))
+            controller=SigMeshController()
+//            controller = ControllerFactory().createController(it.type, TextUtils.equals("LinkupHome V1", it.name))
             mViewModel.setCurrentDeviceId(it.id)
-            if (TextUtils.equals("LinkupHome V1", mControlDevice.name)) controller?.syncTime(it.instructId)
+            controller?.syncTime(it.pid)
+//            if (TextUtils.equals("LinkupHome V1", mControlDevice.name)) controller?.syncTime(it.instructId)
         })
         mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
             if (it.status == Status.SUCCESS) {
@@ -79,11 +82,11 @@ open class RepeatTimerSettingFragment : BaseFragment(), TimerSettingListener {
         if (viewPager.currentItem == 0) {
             mLocalState.openTimer = calendar.timeInMillis
             mLocalState.openTimerOn = 1
-            controller?.setRepeatTimer(mControlDevice.instructId, minute, hour, isOpenTimer = true, isOn = true, isRepeat = cb_timer_setting_repeat.isChecked)
+            controller?.setRepeatTimer(mControlDevice.pid, minute, hour, isOpenTimer = true, isOn = true, isRepeat = cb_timer_setting_repeat.isChecked)
         } else {
             mLocalState.closeTimerOn = 1
             mLocalState.closeTimer = calendar.timeInMillis
-            controller?.setRepeatTimer(mControlDevice.instructId, minute, hour, isOpenTimer = false, isOn = true, isRepeat = cb_timer_setting_repeat.isChecked)
+            controller?.setRepeatTimer(mControlDevice.pid, minute, hour, isOpenTimer = false, isOn = true, isRepeat = cb_timer_setting_repeat.isChecked)
         }
         mControlDevice.let {
             mLocalState.id = it.id
@@ -108,12 +111,12 @@ open class RepeatTimerSettingFragment : BaseFragment(), TimerSettingListener {
             mLocalState.openTimerOn = if (isChecked) 1 else 0
             val calendar = Calendar.getInstance()
             calendar.time = Date(mLocalState.openTimer)
-            controller?.setRepeatTimer(mControlDevice.instructId, calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), true, isChecked, cb_timer_setting_repeat.isChecked)
+            controller?.setRepeatTimer(mControlDevice.pid, calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), true, isChecked, cb_timer_setting_repeat.isChecked)
         } else {
             mLocalState.closeTimerOn = if (isChecked) 1 else 0
             val calendar = Calendar.getInstance()
             calendar.time = Date(mLocalState.closeTimer)
-            controller?.setRepeatTimer(mControlDevice.instructId, calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), false, isChecked, cb_timer_setting_repeat.isChecked)
+            controller?.setRepeatTimer(mControlDevice.pid, calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), false, isChecked, cb_timer_setting_repeat.isChecked)
         }
         mControlDevice.let {
             mLocalState.id = it.id

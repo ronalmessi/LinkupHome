@@ -58,7 +58,7 @@ interface ApiService {
 
     //删除设备
     @POST("/api/device/delete")
-    fun deleteDevice(@Body deleteVO: DeleteVO): LiveData<ApiResult<Boolean>>
+    fun deleteDevice(@Body deleteVO: DeleteDeviceVO): LiveData<ApiResult<Boolean>>
 
     //修改设备名称
     @POST("/api/device/save")

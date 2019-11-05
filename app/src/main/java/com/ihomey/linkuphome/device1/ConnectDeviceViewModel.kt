@@ -29,16 +29,18 @@ class ConnectDeviceViewModel : ViewModel() {
         }
     }
 
-    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String): LiveData<Resource<Device>> {
-        return mDeviceRepository.saveDevice(guid, zoneId, type, name)
+    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,pid: Int?,meshInfo:String?): LiveData<Resource<Device>> {
+        return mDeviceRepository.saveDevice(guid, zoneId, type,name,pid,meshInfo)
     }
 
     fun saveDevice(type: Int, zoneId: Int, name: String, macAddress: String) {
-        return mDeviceRepository.saveDevice(Device(macAddress, zoneId, 0, name, type, 0, DeviceState()))
+        return mDeviceRepository.saveDevice(Device(macAddress, zoneId, 0, name, type, 0,0, DeviceState()))
     }
 
+
+
     fun saveDevice(type: Int, zoneId: Int, name: String, macAddress: String, instructId: Int) {
-        return mDeviceRepository.saveDevice(Device(macAddress, zoneId, 0, name, type, instructId, DeviceState()))
+        return mDeviceRepository.saveDevice(Device(macAddress, zoneId, 0, name, type, instructId, 0,DeviceState()))
     }
 
     fun setQuery(zoneId: Int, type: Int) {

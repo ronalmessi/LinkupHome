@@ -26,6 +26,7 @@ import com.ihomey.linkuphome.listener.UpdateZoneNameListener
 import com.ihomey.linkuphome.setting.SettingNavHostFragment
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
+import com.pairlink.sigmesh.lib.PlSigMeshService
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener
 import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
@@ -115,6 +116,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
             context?.getIMEI()?.let { it1 ->
                 viewModel.switchZone(it1, zone.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                     if (it?.status == Status.SUCCESS) {
+                        PlSigMeshService.getInstance().meshList.clear()
                         hideLoadingView()
                         mViewModel.setCurrentZoneId(it.data?.id)
                         bridgeListener.reConnectBridge()
@@ -187,6 +189,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         context?.getIMEI()?.let { it1 ->
             viewModel.switchZone(it1, id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                 if (it?.status == Status.SUCCESS) {
+                    PlSigMeshService.getInstance().meshList.clear()
                     hideLoadingView()
                     mViewModel.setCurrentZoneId(it.data?.id)
                     bridgeListener.reConnectBridge()

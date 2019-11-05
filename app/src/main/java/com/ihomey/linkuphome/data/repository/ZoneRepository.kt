@@ -1,8 +1,7 @@
 package com.ihomey.linkuphome.data.repository
 
 import androidx.lifecycle.LiveData
-import com.ihomey.linkuphome.AppExecutors
-import com.ihomey.linkuphome.beanToJson
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
 import com.ihomey.linkuphome.data.api.ApiService
@@ -12,8 +11,6 @@ import com.ihomey.linkuphome.data.db.RoomDao
 import com.ihomey.linkuphome.data.db.ZoneDao
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
-import com.ihomey.linkuphome.md5
-import com.ihomey.linkuphome.sha256
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,8 +38,8 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Zone>> {
-                val zoneVo = CreateZoneVO(guid.md5(), name, null, System.currentTimeMillis())
-                zoneVo.signature = beanToJson(zoneVo).sha256()
+                val zoneVo = CreateZoneVO(guid.md5(), name,  System.currentTimeMillis())
+                zoneVo.signature =(AppConfig.APP_SECRET+zoneVo.toString()).sha256()
                 return apiService.createZone(zoneVo)
             }
         }.asLiveData()
@@ -86,7 +83,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
 
             override fun createCall(): LiveData<ApiResult<Zone>> {
                 val uploadMeshInfoVO = UploadMeshInfoVO(guid.md5(), zoneId, name, meshInfo, System.currentTimeMillis())
-                uploadMeshInfoVO.signature = beanToJson(uploadMeshInfoVO).sha256()
+                uploadMeshInfoVO.signature =(AppConfig.APP_SECRET+uploadMeshInfoVO.toString()).sha256()
                 return apiService.uploadMeshInfo(uploadMeshInfoVO)
             }
         }.asLiveData()
@@ -243,7 +240,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
 
             override fun createCall(): LiveData<ApiResult<ZoneDetail>> {
                 val baseVo = BaseVO(guid.md5(), System.currentTimeMillis())
-                baseVo.signature = beanToJson(baseVo).sha256()
+                baseVo.signature = (AppConfig.APP_SECRET +baseVo.toString()).sha256()
                 return apiService.getCurrentZone(baseVo)
             }
         }.asLiveData()

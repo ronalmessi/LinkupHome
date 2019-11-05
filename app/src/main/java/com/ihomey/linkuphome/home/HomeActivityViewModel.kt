@@ -160,8 +160,20 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     fun deleteDevice(guid: String, deviceId: String): LiveData<Resource<Boolean>> {
-        return mDeviceRepository.deleteDevice(guid, deviceId)
+        return mDeviceRepository.deleteDevice(guid, deviceId,null)
     }
+
+
+    fun  deleteSigMeshDevice(guid: String,meshInfo:String?): LiveData<Resource<Boolean>> {
+        return mDeviceRepository.deleteDevice(guid, mRemoveSigmeshDeviceVo.value?.deviceId!!,meshInfo)
+    }
+
+    fun  deleteLocalSigMeshDevice(){
+        mRemoveSigmeshDeviceVo.value?.deviceRemoveListener?.onDeviceRemoved( mRemoveSigmeshDeviceVo.value?.deviceId!!, mRemoveSigmeshDeviceVo.value?.devicePId!!, true)
+    }
+
+
+
 
     fun changeDeviceName(guid: String, spaceId: Int, id: String, type: Int, newName: String): LiveData<Resource<Device>> {
         return mDeviceRepository.changeDeviceName(guid, spaceId, id, type, newName)

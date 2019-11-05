@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.SigMeshController
+import com.ihomey.linkuphome.controller.V1Controller
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
@@ -30,6 +33,7 @@ import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
+import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
@@ -106,21 +110,19 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-    override fun deleteDevice(id: String, instructId: Int) {
+    override fun deleteDevice(id: String, instructId: Int,pid:Int) {
+        Log.d("aa",id+"---"+instructId+"---"+pid)
         if (id.contains(":")) {
             isUserTouch = false
             if (instructId == 0) {
                 BluetoothSPP.getInstance()?.disconnect(id)
                 mViewModel.deleteM1Device(id)
-            } else {
-                showLoadingView()
-                mViewModel.setRemoveSigmeshDeviceVo(RemoveDeviceVo(id, instructId, this))
             }
-        } else {
+        } else if(instructId!=0&&pid==0){
             context?.getIMEI()?.let { it1 ->
                 mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                     if (it?.status == Status.SUCCESS) {
-                        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, this))
+                        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, 0,this))
                     } else if (it?.status == Status.ERROR) {
                         hideLoadingView()
                         it.message?.let { it2 -> activity?.toast(it2) }
@@ -129,6 +131,9 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
                     }
                 })
             }
+        }else if(instructId==0&&pid!=0){
+            showLoadingView()
+            mViewModel.setRemoveSigmeshDeviceVo(RemoveDeviceVo(id, instructId, pid,this))
         }
     }
 
@@ -138,6 +143,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
             val bundle = Bundle()
             bundle.putString("deviceId", singleDevice.id)
             bundle.putInt("deviceInstructId", singleDevice.instructId)
+            bundle.putInt("devicePId", singleDevice.pid)
             dialog.arguments = bundle
             dialog.setDeleteDeviceListener(this)
             dialog.show(fragmentManager, "DeleteDeviceFragment")
@@ -172,30 +178,34 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
         isUserTouch = true
         if (isFragmentVisible()) {
-            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
-            if (singleDevice.type == 0) {
-                controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
-            } else {
-                if (meshServiceStateListener.isMeshServiceConnected()) {
-                    controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
-                }
-                if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
-            }
+            val controller =SigMeshController()
+            controller.setLightPowerState(singleDevice.pid, if (isChecked) 1 else 0)
+//            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
+//            if (singleDevice.type == 0) {
+//                controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
+//            } else {
+//                if (meshServiceStateListener.isMeshServiceConnected()) {
+//                    controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
+//                }
+//                if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
+//            }
         }
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
         isUserTouch = true
         if (isFragmentVisible()) {
-            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
-            if (singleDevice.type == 0) {
-                controller?.setLightBright(singleDevice.id, progress.plus(15))
-            } else {
-                if (meshServiceStateListener.isMeshServiceConnected()) {
-                    controller?.setLightBright(singleDevice.instructId, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
-                }
-                if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "brightness", progress.toString())
-            }
+            val controller =SigMeshController()
+            controller.setLightBright(singleDevice.pid, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
+//            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
+//            if (singleDevice.type == 0) {
+//                controller?.setLightBright(singleDevice.id, progress.plus(15))
+//            } else {
+//                if (meshServiceStateListener.isMeshServiceConnected()) {
+//                    controller?.setLightBright(singleDevice.instructId, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
+//                }
+//                if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "brightness", progress.toString())
+//            }
         }
     }
 

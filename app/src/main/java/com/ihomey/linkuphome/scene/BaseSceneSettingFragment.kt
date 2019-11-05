@@ -9,6 +9,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.SigMeshController
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
@@ -62,7 +63,9 @@ abstract class BaseSceneSettingFragment : BaseFragment(), RadioGroupPlus.OnCheck
         if (mControlDevice.type == 0) {
             controller?.setLightScene(mControlDevice.id, sceneModeValue)
         } else {
-            if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
+            val controller = SigMeshController()
+            controller.setLightScene(mControlDevice.pid, sceneModeValue)
+//            if (listener.isMeshServiceConnected()) controller?.setLightScene(mControlDevice.instructId, sceneModeValue)
         }
         mControlDevice.let {
             if (mLocalState == null) mLocalState = LocalState(it.id)

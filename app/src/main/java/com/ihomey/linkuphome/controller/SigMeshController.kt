@@ -18,31 +18,44 @@ class SigMeshController : Controller() {
 
     override fun setLightColor(deviceId: Int, colorValue: String) {
         val rgb = AppConfig.RGB_COLOR[Integer.parseInt(colorValue, 16)]
-        setLightRGB(deviceId.toShort(), (rgb.r * 255).toFloat(), (rgb.g * 255).toFloat(), (rgb.b * 255).toFloat())
+        val r=if (rgb.r >= 16) Integer.toHexString(rgb.r) else "0" + Integer.toHexString(rgb.r)
+        val g=if (rgb.g >= 16) Integer.toHexString(rgb.g) else "0" + Integer.toHexString(rgb.g)
+        val b=if (rgb.b >= 16) Integer.toHexString(rgb.b) else "0" + Integer.toHexString(rgb.b)
+        if(PlSigMeshService.getInstance().isMeshReady) PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB302$r$g$b"), Util.PL_DEFAULT_APP_KEY_INDEX)
+//        setLightRGB(deviceId.toShort(), (rgb.r * 255).toFloat(), (rgb.g * 255).toFloat(), (rgb.b * 255).toFloat())
     }
 
     override fun setLightBright(deviceId: Int, brightValue: Int) {
-        PlSigMeshService.getInstance().setLightCTL(deviceId.toShort(), (brightValue * 2000).toShort(), Util.PL_LIGHT_CTL_TEMPERATURE_MIN, 0.toShort(), Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, false)
+        val lsb="00"
+        val msb=if (brightValue >= 16) Integer.toHexString(brightValue) else "0" + Integer.toHexString(brightValue)
+        if(PlSigMeshService.getInstance().isMeshReady) PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB2$msb$lsb"), Util.PL_DEFAULT_APP_KEY_INDEX)
+//        PlSigMeshService.getInstance().setLightCTL(deviceId.toShort(), (brightValue * 2000).toShort(), Util.PL_LIGHT_CTL_TEMPERATURE_MIN, 0.toShort(), Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, false)
     }
 
     override fun setLightSpeed(deviceId: Int, speedValue: Int) {
-        PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB4010" + (3 - speedValue)), Util.PL_DEFAULT_APP_KEY_INDEX)
+        if(PlSigMeshService.getInstance().isMeshReady) PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB4010" + (3 - speedValue)), Util.PL_DEFAULT_APP_KEY_INDEX)
     }
 
     override fun setLightingMode(deviceId: Int) {
-        PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB3010FA0"), Util.PL_DEFAULT_APP_KEY_INDEX)
+        if(PlSigMeshService.getInstance().isMeshReady) PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB3010FA0"), Util.PL_DEFAULT_APP_KEY_INDEX)
     }
 
     override fun setLightPowerState(deviceId: Int, powerState: Int) {
-        if (powerState == 1) {
-            PlSigMeshService.getInstance().setOnoff(deviceId.toShort(), Util.PL_SIG_ONOFF_SET_ON, Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, true)
-        } else if (powerState == 0) {
-            PlSigMeshService.getInstance().setOnoff(deviceId.toShort(), Util.PL_SIG_ONOFF_SET_OFF, Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, true)
+//        if (powerState == 1) {
+//            PlSigMeshService.getInstance().setOnoff(deviceId.toShort(), Util.PL_SIG_ONOFF_SET_ON, Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, true)
+//        } else if (powerState == 0) {
+//            PlSigMeshService.getInstance().setOnoff(deviceId.toShort(), Util.PL_SIG_ONOFF_SET_OFF, Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, true)
+//        }
+
+        if (powerState == 0) {
+            if(PlSigMeshService.getInstance().isMeshReady)  PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB100"), Util.PL_DEFAULT_APP_KEY_INDEX)
+        } else if (powerState == 1) {
+            if(PlSigMeshService.getInstance().isMeshReady)  PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB164"), Util.PL_DEFAULT_APP_KEY_INDEX)
         }
     }
 
     override fun setLightScene(deviceId: Int, sceneValue: Int) {
-        PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB403F" + (sceneValue + 1)), Util.PL_DEFAULT_APP_KEY_INDEX)
+        if(PlSigMeshService.getInstance().isMeshReady) PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB403F" + (sceneValue + 1)), Util.PL_DEFAULT_APP_KEY_INDEX)
     }
 
 
@@ -55,20 +68,20 @@ class SigMeshController : Controller() {
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
         val code_lawn_date = "7FB5F101" + (if (year >= 10) "" + year else "0$year") + month + dayOfWeek + (if (dayOfMonth >= 10) "" + dayOfMonth else "0$dayOfMonth")
         Log.d("aa", code_lawn_date)
-        PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes(code_lawn_date), Util.PL_DEFAULT_APP_KEY_INDEX)
+        if(PlSigMeshService.getInstance().isMeshReady)  PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes(code_lawn_date), Util.PL_DEFAULT_APP_KEY_INDEX)
 
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
         val second = calendar.get(Calendar.SECOND)
         val code_lawn_time = "7FB5F102" + (if (hour >= 10) "" + hour else "0$hour") + (if (minute >= 10) "" + minute else "0$minute") + (if (second >= 10) "" + second else "0$second")
         Log.d("aa", code_lawn_time)
-        PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes(code_lawn_time), Util.PL_DEFAULT_APP_KEY_INDEX)
+        if(PlSigMeshService.getInstance().isMeshReady)  PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes(code_lawn_time), Util.PL_DEFAULT_APP_KEY_INDEX)
     }
 
     override fun setRepeatTimer(deviceId: Int, minuteValue: Int, hourValue: Int, isOpenTimer: Boolean, isOn: Boolean, isRepeat: Boolean) {
         val code_lawn_timer = CODE_LIGHT_TIMER_BASE + (if (isOpenTimer) "01" else "02") + (if (isOn) (if (isRepeat) "FF" else "80") else "00") + (if (hourValue >= 10) "" + hourValue else "0$hourValue") + (if (minuteValue >= 10) "" + minuteValue else "0$minuteValue")
         Log.d("aa", code_lawn_timer)
-        PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes(code_lawn_timer), Util.PL_DEFAULT_APP_KEY_INDEX)
+        if(PlSigMeshService.getInstance().isMeshReady)  PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes(code_lawn_timer), Util.PL_DEFAULT_APP_KEY_INDEX)
     }
 
     private fun setLightRGB(dst: Short, r1: Float, g1: Float, b1: Float) {
@@ -112,7 +125,7 @@ class SigMeshController : Controller() {
         else
             h = if (r == m) 3.0 + g2 else 5.0 - r2
         h /= 6
-        PlSigMeshService.getInstance().setLightHSL(dst, (l * 65535).toShort(), (h * 65535).toShort(), (s * 65535).toShort(), Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, true)
+        if(PlSigMeshService.getInstance().isMeshReady)  PlSigMeshService.getInstance().setLightHSL(dst, (l * 65535).toShort(), (h * 65535).toShort(), (s * 65535).toShort(), Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, true)
 
     }
 }
