@@ -11,7 +11,7 @@ import com.ihomey.linkuphome.setting.SettingViewModel
 import com.ihomey.linkuphome.share.JoinZoneViewModel
 import com.ihomey.linkuphome.share.ShareZoneListViewModel
 import com.ihomey.linkuphome.splash.SplashViewModel
-import com.ihomey.linkuphome.time.SwitchTimerViewModel
+import com.ihomey.linkuphome.switchtimer.SwitchTimerViewModel
 import com.ihomey.linkuphome.zone.CreateZoneViewModel
 import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import dagger.Component

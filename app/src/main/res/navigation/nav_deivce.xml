@@ -320,14 +320,14 @@
 
     <fragment
         android:id="@+id/timerSettingFragment"
-        android:name="com.ihomey.linkuphome.time.TimerSettingFragment"
+        android:name="com.ihomey.linkuphome.switchtimer.TimerSettingFragment"
         android:label="fragment_timer_setting"
         tools:layout="@layout/fragment_timer_setting"></fragment>
 
 
     <fragment
         android:id="@+id/repeatTimerSettingFragment"
-        android:name="com.ihomey.linkuphome.time.RepeatTimerSettingFragment"
+        android:name="com.ihomey.linkuphome.switchtimer.RepeatTimerFragment"
         android:label="fragment_timer_setting_repeat"
         tools:layout="@layout/timer_setting_repeat_fragment"></fragment>
 
@@ -460,13 +460,13 @@
 
     <fragment
         android:id="@+id/m1TimerSettingFragment"
-        android:name="com.ihomey.linkuphome.time.M1TimerSettingFragment"
+        android:name="com.ihomey.linkuphome.switchtimer.M1RepeatTimerFragment"
         android:label="fragment_timer_setting_m1"
         tools:layout="@layout/fragment_timer_setting_m1"></fragment>
 
     <fragment
         android:id="@+id/v2TimerSettingFragment"
-        android:name="com.ihomey.linkuphome.time.V2TimerSettingFragment"
+        android:name="com.ihomey.linkuphome.switchtimer.V2TimerSettingFragment"
         android:label="fragment_timer_setting_v2"
         tools:layout="@layout/fragment_timer_setting_v2">
 

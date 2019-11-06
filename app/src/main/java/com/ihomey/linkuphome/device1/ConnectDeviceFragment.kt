@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
@@ -23,13 +23,10 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device.DeviceAssociateFragment
 import com.ihomey.linkuphome.device.DeviceType
-import com.ihomey.linkuphome.getIMEI
-import com.ihomey.linkuphome.getShortName
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
-import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.connect_device_fragment.*
@@ -157,7 +154,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
             }
         } else {
             context?.getIMEI()?.let { it1 ->
-                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(0)).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     if (it?.status == Status.SUCCESS && it.data != null) {
                         val device = Device(0, "LinkupHome V1", macAddress)
                         val position = adapter.data.indexOf(device) ?: -1
