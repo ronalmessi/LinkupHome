@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager
 import com.csr.mesh.DataModelApi
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ihomey.linkuphome.controller.V1Controller
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.pairlink.sigmesh.lib.MeshNetInfo
@@ -341,6 +342,20 @@ fun getHourList(): ArrayList<String> {
     }
     return list
 }
+
+fun chechSum(hexData:String):String{
+    var sum = 0
+    var num = 0
+    while (num < hexData.length) {
+        val s = hexData.substring(num, num + 2)
+        sum += Integer.parseInt(s, 16)
+        num += 2
+    }
+    return Integer.toHexString(sum).takeLast(2)
+}
+
+
+
 
 fun createPlSigMeshNet() {
     PlSigMeshService.getInstance().meshList.clear()

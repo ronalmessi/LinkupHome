@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DayOfWeekListAdapter
-import com.ihomey.linkuphome.adapter.TimerSettingAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
 import com.ihomey.linkuphome.controller.ControllerFactory
@@ -23,7 +22,6 @@ import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.TimerSettingListener
 import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_timer_setting_m1.*
@@ -112,7 +110,7 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
         }
     }
 
-    override fun enableEditTimer(flag: Boolean) {
+    override fun setTimerEditable(flag: Boolean) {
         rg_timer_setting.visibility = if (flag) View.GONE else View.VISIBLE
         rcv_daysOfWeek.visibility = if (flag) View.VISIBLE else View.GONE
         if (flag) {
@@ -128,7 +126,7 @@ open class M1TimerSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClick
     }
 
 
-    override fun updateTimerOnState(isChecked: Boolean) {
+    override fun onSwitchStateChange(isChecked: Boolean) {
         if (viewPager.currentItem == 0) {
             mLocalState.openTimerOn = if (isChecked) 1 else 0
             val calendar = Calendar.getInstance()
