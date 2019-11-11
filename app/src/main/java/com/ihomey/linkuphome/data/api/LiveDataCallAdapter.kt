@@ -1,11 +1,13 @@
 package com.ihomey.linkuphome.data.api
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import retrofit2.*
 import java.io.IOException
 import java.lang.reflect.Type
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -30,11 +32,9 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
                         }
 
                         override fun onFailure(call: Call<ApiResult<R>>, throwable: Throwable) {
-                            if (throwable is SocketTimeoutException || throwable is IOException) {
+                            if (throwable is UnknownHostException) {
                                 postValue(throwable.message?.let { ApiResult<R>("10000", it, null) })
-                            } else if (throwable is HttpException) {
-                                postValue(throwable.message?.let { ApiResult<R>("10001", it, null) })
-                            } else {
+                            }else if (throwable is IOException) {
                                 postValue(throwable.message?.let { ApiResult<R>("10001", it, null) })
                             }
                         }

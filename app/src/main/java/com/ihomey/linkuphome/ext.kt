@@ -94,8 +94,8 @@ fun Context.toast(errorCode: String) {
         "0030" -> message = "未知分组ID"
         "0031" -> message = "分组名称不能大于225个字符"
         "0032" -> message = "分组类型不能大于64个字符"
-        "10000" -> message = this.getString(R.string.error_network)
-        "10001" -> message = "未知错误"
+        "10000" -> message = this.getString(R.string.hint_no_network)
+        "10001" -> message = this.getString(R.string.hint_bad_network)
     }
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

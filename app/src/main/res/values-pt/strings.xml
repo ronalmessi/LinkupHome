@@ -6,7 +6,7 @@
     <string name="splash_user_license_agreement">Contrato de Licença do Usuário</string>
     <string name="splash_corporate_privacy_statement">Declaração de Privacidade</string>
     <string name="splash_action_start">Iniciar</string>
-    <string name="error_network">A rede não está disponível. Por favor, verifique suas configurações de conexão</string>
+    <string name="hint_no_network">A rede não está disponível. Por favor, verifique suas configurações de conexão</string>
     <string name="title_create_zone">Criar um novo espaço</string>
     <string name="action_save">Salvar</string>
     <string name="msg_default_zone">Um novo espaço para seus dispositivos LinkupHome.\nPor favor, nomeie.</string>

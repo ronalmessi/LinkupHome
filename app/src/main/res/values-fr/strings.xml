@@ -5,7 +5,7 @@
     <string name="splash_user_license_agreement">Le contrat de licence de l’utilisateur final</string>
     <string name="splash_corporate_privacy_statement">La déclaration de confidentialité</string>
     <string name="splash_action_start">Début</string>
-    <string name="error_network">Le réseau n\'est pas disponible. Veuillez vérifier vos paramètres réseau</string>
+    <string name="hint_no_network">Le réseau n\'est pas disponible. Veuillez vérifier vos paramètres réseau</string>
     <string name="title_create_zone">Créer un nouveau foyer</string>
     <string name="action_save">Sauvegarder</string>
     <string name="msg_default_zone">Une nouvelle maison pour vos appareils LinkupHome.\nVeuillez lui donner un nom.</string>

@@ -4,7 +4,7 @@
     <string name="splash_user_license_agreement">Slutanvändarlicensavtalet</string>
     <string name="splash_corporate_privacy_statement">Sekretesspolicyn</string>
     <string name="splash_action_start">Starta</string>
-    <string name="error_network">Nätverket är inte tillgängligt. Kontrollera dina nätverksinställningar</string>
+    <string name="hint_no_network">Nätverket är inte tillgängligt. Kontrollera dina nätverksinställningar</string>
     <string name="title_create_zone">Skapa ett nytt hem</string>
     <string name="action_save">Spara</string>
     <string name="msg_default_zone">Ett nytt hem för dina LinkupHome-enheter.\nGe det ett namn.</string>

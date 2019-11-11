@@ -27,6 +27,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewPager.adapter = HomePageAdapter(childFragmentManager)
         viewPager.offscreenPageLimit = 3
+//        bottom_nav_view.itemIconTintList = null
         bottom_nav_view.setOnNavigationItemSelectedListener { item ->
             viewPager.currentItem = bottom_nav_view.menu.findItem(item.itemId).order
             true

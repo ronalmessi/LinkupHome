@@ -4,7 +4,7 @@
     <string name="splash_user_license_agreement">die Endbenutzerlizenzvereinbarung gelesen haben und sich mit dieser einverstanden erklären.</string>
     <string name="splash_corporate_privacy_statement">Die Datenschutzerklärung</string>
     <string name="splash_action_start">Beginn</string>
-    <string name="error_network">Das Netzwerk ist nicht verfügbar. Bitte überprüfen Sie Ihre Netzwerkeinstellungen</string>
+    <string name="hint_no_network">Das Netzwerk ist nicht verfügbar. Bitte überprüfen Sie Ihre Netzwerkeinstellungen</string>
     <string name="title_create_zone">Neues Zuhause anlegen</string>
     <string name="action_save">Speichern</string>
     <string name="msg_default_zone">Neues Zuhause für Ihre LinkupHome-Geräte.\nBitte benennen.</string>

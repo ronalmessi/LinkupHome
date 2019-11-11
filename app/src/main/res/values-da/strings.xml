@@ -4,7 +4,7 @@
     <string name="splash_user_license_agreement">Slutbrugerlicensaftalen</string>
     <string name="splash_corporate_privacy_statement">Fortrolighedserklæringen</string>
     <string name="splash_action_start">Start</string>
-    <string name="error_network">Netværket er ikke tilgængeligt. Kontroller venligst dine netværksindstillinger</string>
+    <string name="hint_no_network">Netværket er ikke tilgængeligt. Kontroller venligst dine netværksindstillinger</string>
     <string name="title_create_zone">Opret et nyt hjem</string>
     <string name="action_save">Gem</string>
     <string name="msg_default_zone">Et nyt hjem for dine LinkupHome enheder\nNavngiv venligst</string>

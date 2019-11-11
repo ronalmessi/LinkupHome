@@ -4,7 +4,7 @@
     <string name="splash_user_license_agreement">使用許諾契約書</string>
     <string name="splash_corporate_privacy_statement">個人情報の取扱声明</string>
     <string name="splash_action_start">開始します</string>
-    <string name="error_network">ネットワークが存在しません。ネットワーク設定を確認して下さい。</string>
+    <string name="hint_no_network">ネットワークが存在しません。ネットワーク設定を確認して下さい。</string>
     <string name="title_create_zone">新しいスペースを作ります</string>
     <string name="action_save">保存</string>
     <string name="msg_default_zone">LinkupHome デバイスは新しいスペースを作ります。\n名前をつけて下さい。</string>

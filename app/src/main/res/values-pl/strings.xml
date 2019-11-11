@@ -4,7 +4,7 @@
     <string name="splash_user_license_agreement">umowę licencyjną użytkownika końcowego</string>
     <string name="splash_corporate_privacy_statement">Zasady zachowania poufności informacji</string>
     <string name="splash_action_start">Start</string>
-    <string name="error_network">Sieć niedostępna. Sprawdź ustawienia sieci</string>
+    <string name="hint_no_network">Sieć niedostępna. Sprawdź ustawienia sieci</string>
     <string name="title_create_zone">Utwórz nowy dom</string>
     <string name="action_save">Zapisz</string>
     <string name="msg_default_zone">Nowy dom dla urządzeń LinkupHome.\nNadaj mu nazwę.</string>

@@ -32,7 +32,8 @@
     <string name="splash_user_license_agreement">The End User License Agreement</string>
     <string name="splash_corporate_privacy_statement">The Privacy Statement</string>
     <string name="splash_action_start">Start</string>
-    <string name="error_network">The network is not available. Please check your network settings</string>
+    <string name="hint_no_network">The network is not available. Please check your network settings</string>
+    <string name="hint_bad_network">网络环境不佳，请检查网络设置</string>
     <string name="title_create_zone">Create a new home</string>
     <string name="action_save">Save</string>
     <string name="msg_default_zone">A new home for your LinkupHome devices.\nPlease name it.</string>

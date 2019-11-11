@@ -5,7 +5,7 @@
     <string name="splash_user_license_agreement">Лицензионное соглашение конечного пользователя</string>
     <string name="splash_corporate_privacy_statement">Политика конфиденциальности</string>
     <string name="splash_action_start">Старт</string>
-    <string name="error_network">Сеть недоступна. Проверьте настройки сети.</string>
+    <string name="hint_no_network">Сеть недоступна. Проверьте настройки сети.</string>
     <string name="title_create_zone">Создать новый дом</string>
     <string name="action_save">Сохранить</string>
     <string name="msg_default_zone">Новый дом для устройств LinkupHome\nПридумайте название.</string>

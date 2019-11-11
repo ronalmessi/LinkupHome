@@ -5,7 +5,7 @@
     <string name="splash_user_license_agreement">Licentieovereenkomst voor eindgebruikers</string>
     <string name="splash_corporate_privacy_statement">Privacyverklaring</string>
     <string name="splash_action_start">Beginnen</string>
-    <string name="error_network">Het huidige netwerk is niet beschikbaar. Controleer uw netwerkinstellingen</string>
+    <string name="hint_no_network">Het huidige netwerk is niet beschikbaar. Controleer uw netwerkinstellingen</string>
     <string name="title_create_zone">Maak een nieuwe ruimte</string>
     <string name="action_save">Opslaan</string>
     <string name="msg_default_zone">Dit is een nieuwe ruimte gemaakt voor uw LinkupHome-apparaat.\nGeef een naam aan de nieuwe ruimte.</string>

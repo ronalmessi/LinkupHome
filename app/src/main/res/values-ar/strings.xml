@@ -4,7 +4,7 @@
     <string name="splash_user_license_agreement">اتفاقية الترخيص للمستخدم</string>
     <string name="splash_corporate_privacy_statement">بيانات خصوصيات الشركة</string>
     <string name="splash_action_start">البدأ</string>
-    <string name="error_network">الشبكة الحالية غير متوفرة. يرجى التحقق من إعدادات الشبكة الخاصة بك</string>
+    <string name="hint_no_network">الشبكة الحالية غير متوفرة. يرجى التحقق من إعدادات الشبكة الخاصة بك</string>
     <string name="title_create_zone">إنشاء غرفة جديدة</string>
     <string name="action_save">حفظ</string>
     <string name="msg_default_zone">هذه مساحة جديدة ومنزل تم إنشاؤها من جهاز LinkupHome.\nالرجاء إختيار اسم لة</string>

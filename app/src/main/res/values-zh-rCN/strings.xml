@@ -4,7 +4,7 @@
     <string name="splash_user_license_agreement">用户许可协议</string>
     <string name="splash_corporate_privacy_statement">公司隐私声明</string>
     <string name="splash_action_start">开始</string>
-    <string name="error_network">当前网络不可用，请检查你的网络设置</string>
+    <string name="hint_no_network">当前网络不可用，请检查你的网络设置</string>
     <string name="title_create_zone">创建新空间</string>
     <string name="action_save">保存</string>
     <string name="msg_default_zone">这是为您的LinkupHome设备创建的一个新空间。\n给新空间取个名字吧</string>
