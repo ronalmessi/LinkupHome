@@ -17,9 +17,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.controller.SigMeshController
-import com.ihomey.linkuphome.controller.V1Controller
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
@@ -33,7 +31,6 @@ import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
-import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
@@ -110,30 +107,32 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-    override fun deleteDevice(id: String, instructId: Int,pid:Int) {
-        Log.d("aa",id+"---"+instructId+"---"+pid)
+    override fun deleteDevice(id: String, instructId: Int, pid: Int) {
+        Log.d("aa", id + "---" + instructId + "---" + pid)
         if (id.contains(":")) {
             isUserTouch = false
             if (instructId == 0) {
                 BluetoothSPP.getInstance()?.disconnect(id)
                 mViewModel.deleteM1Device(id)
             }
-        } else if(instructId!=0&&pid==0){
+        } else {
             context?.getIMEI()?.let { it1 ->
                 mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                     if (it?.status == Status.SUCCESS) {
-                        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, 0,this))
+                        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, pid, this))
                     } else if (it?.status == Status.ERROR) {
                         hideLoadingView()
-                        it.message?.let { it2 -> activity?.toast(it2) }
+                        if(TextUtils.equals("0040",it.message)){
+                            isUserTouch = false
+                            mViewModel.deleteDevice(id)
+                        }else{
+                            it.message?.let { it2 -> activity?.toast(it2) }
+                        }
                     } else if (it?.status == Status.LOADING) {
                         showLoadingView()
                     }
                 })
             }
-        }else if(instructId==0&&pid!=0){
-            showLoadingView()
-            mViewModel.setRemoveSigmeshDeviceVo(RemoveDeviceVo(id, instructId, pid,this))
         }
     }
 
@@ -178,7 +177,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
         isUserTouch = true
         if (isFragmentVisible()) {
-            val controller =SigMeshController()
+            val controller = SigMeshController()
             controller.setLightPowerState(singleDevice.pid, if (isChecked) 1 else 0)
 //            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
 //            if (singleDevice.type == 0) {
@@ -195,7 +194,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
         isUserTouch = true
         if (isFragmentVisible()) {
-            val controller =SigMeshController()
+            val controller = SigMeshController()
             controller.setLightBright(singleDevice.pid, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
 //            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
 //            if (singleDevice.type == 0) {
@@ -214,7 +213,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         isUserTouch = false
     }
 
-    override fun onDeviceRemoved(deviceId: String, uuidHash: Int, success: Boolean) {
+    override fun onDeviceRemoved(deviceId: String) {
         hideLoadingView()
         isUserTouch = false
         mViewModel.deleteDevice(deviceId)

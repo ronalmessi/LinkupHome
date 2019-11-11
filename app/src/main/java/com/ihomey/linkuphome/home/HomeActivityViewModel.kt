@@ -77,15 +77,6 @@ class HomeActivityViewModel : ViewModel() {
         mRemoveDeviceVo.value = removeDeviceVo
     }
 
-
-    //remove device
-    val mRemoveSigmeshDeviceVo = MutableLiveData<RemoveDeviceVo>()
-
-    fun setRemoveSigmeshDeviceVo(removeDeviceVo: RemoveDeviceVo?) {
-        mRemoveSigmeshDeviceVo.value = removeDeviceVo
-    }
-
-
     //removeDeviceFlag
     private val removeDeviceFlag = MutableLiveData<Boolean>()
 
@@ -164,15 +155,13 @@ class HomeActivityViewModel : ViewModel() {
     }
 
 
-    fun  deleteSigMeshDevice(guid: String,meshInfo:String?): LiveData<Resource<Boolean>> {
-        return mDeviceRepository.deleteDevice(guid, mRemoveSigmeshDeviceVo.value?.deviceId!!,meshInfo)
-    }
-
-    fun  deleteLocalSigMeshDevice(){
-        mRemoveSigmeshDeviceVo.value?.deviceRemoveListener?.onDeviceRemoved( mRemoveSigmeshDeviceVo.value?.deviceId!!, mRemoveSigmeshDeviceVo.value?.devicePId!!, true)
-    }
-
-
+//    fun  deleteSigMeshDevice(guid: String,meshInfo:String?): LiveData<Resource<Boolean>> {
+//        return mDeviceRepository.deleteDevice(guid, mRemoveSigmeshDeviceVo.value?.deviceId!!,meshInfo)
+//    }
+//
+//    fun  deleteLocalSigMeshDevice(){
+//        mRemoveSigmeshDeviceVo.value?.deviceRemoveListener?.onDeviceRemoved( mRemoveSigmeshDeviceVo.value?.deviceId!!, mRemoveSigmeshDeviceVo.value?.devicePId!!, true)
+//    }
 
 
     fun changeDeviceName(guid: String, spaceId: Int, id: String, type: Int, newName: String): LiveData<Resource<Device>> {
