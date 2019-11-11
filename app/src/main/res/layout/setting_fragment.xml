@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F2F2F2"
+        android:background="#e6e6e9"
         android:orientation="vertical"
         tools:context=".feature.account.SignInFragment">
 

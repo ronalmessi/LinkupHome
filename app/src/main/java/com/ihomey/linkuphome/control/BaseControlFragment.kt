@@ -220,7 +220,7 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
                         7 -> Navigation.findNavController(view).navigate(R.id.action_s1ControlFragment_to_timerSettingFragment)
                         8 -> Navigation.findNavController(view).navigate(R.id.action_s2ControlFragment_to_timerSettingFragment)
                         9 -> Navigation.findNavController(view).navigate(R.id.action_t1ControlFragment_to_timerSettingFragment)
-                        10 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2TimerSettingFragment)
+//                        10 -> Navigation.findNavController(view).navigate(R.id.action_v2ControlFragment_to_v2TimerSettingFragment)
                     }
                 }
                 R.id.tv_title -> {

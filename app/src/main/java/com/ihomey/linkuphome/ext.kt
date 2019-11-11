@@ -247,6 +247,13 @@ fun String.sha256(): String {
     return Hex.toHexString(sha256Bytes)
 }
 
+fun String.md5(): String {
+    val digest = MessageDigest.getInstance("MD5")
+    val result = digest.digest(this.toByteArray())
+    return Hex.toHexString(result)
+}
+
+
 fun String.encodeBase64(): String {
     return Base64.encodeToString(toByteArray(), Base64.DEFAULT)
 }

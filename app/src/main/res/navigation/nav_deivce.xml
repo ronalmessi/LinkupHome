@@ -245,12 +245,12 @@
             app:exitAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_out_right" />
 
-        <action
-            android:id="@+id/action_v2ControlFragment_to_v2TimerSettingFragment"
-            app:destination="@id/v2TimerSettingFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_out_right" />
+<!--        <action-->
+<!--            android:id="@+id/action_v2ControlFragment_to_v2TimerSettingFragment"-->
+<!--            app:destination="@id/v2TimerSettingFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right" />-->
     </fragment>
 
     <fragment
@@ -320,7 +320,7 @@
 
     <fragment
         android:id="@+id/timerSettingFragment"
-        android:name="com.ihomey.linkuphome.switchtimer.TimerSettingFragment"
+        android:name="com.ihomey.linkuphome.switchtimer.TimerFragment"
         android:label="fragment_timer_setting"
         tools:layout="@layout/fragment_timer_setting"></fragment>
 
@@ -464,19 +464,19 @@
         android:label="fragment_timer_setting_m1"
         tools:layout="@layout/fragment_timer_setting_m1"></fragment>
 
-    <fragment
-        android:id="@+id/v2TimerSettingFragment"
-        android:name="com.ihomey.linkuphome.switchtimer.V2TimerSettingFragment"
-        android:label="fragment_timer_setting_v2"
-        tools:layout="@layout/fragment_timer_setting_v2">
+<!--    <fragment-->
+<!--        android:id="@+id/v2TimerSettingFragment"-->
+<!--        android:name="com.ihomey.linkuphome.switchtimer.V2TimerSettingFragment"-->
+<!--        android:label="fragment_timer_setting_v2"-->
+<!--        tools:layout="@layout/fragment_timer_setting_v2">-->
 
-        <action
-            android:id="@+id/action_v2TimerSettingFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+<!--        <action-->
+<!--            android:id="@+id/action_v2TimerSettingFragment_to_webViewFragment"-->
+<!--            app:destination="@id/webViewFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right" />-->
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/environmentalIndicatorsFragment"

@@ -10,7 +10,7 @@
     <item
         android:icon="@mipmap/ic_tab_zone"
         android:orderInCategory="1"
-        android:title="@string/home"
+        android:title="@string/title_zone"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_setting"

@@ -124,16 +124,16 @@ class TimerSettingView : View {
         val hourStr: String
         if (hour <= 12) {
             hourStr = if (hour < 10) "0$hour" else hour.toString()
-            mAMPMPaint.color = mReachedColor
+            mAMPMPaint.color = Color.WHITE
             canvas.drawText(context.getString(R.string.title_am), mCx - mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
-            mAMPMPaint.color = mUnReachedColor
+            mAMPMPaint.color = Color.parseColor("#959595")
             canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
         } else {
             hour -= 12
             hourStr = if (hour < 10) "0$hour" else hour.toString()
-            mAMPMPaint.color = mUnReachedColor
+            mAMPMPaint.color = Color.parseColor("#959595")
             canvas.drawText(context.getString(R.string.title_am), mCx - mAMPMPaint.measureText(context.getString(R.string.title_am)) - context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
-            mAMPMPaint.color = mReachedColor
+            mAMPMPaint.color =  Color.WHITE
             canvas.drawText(context.getString(R.string.title_pm), mCx + context.dip2px(4f), mCy + rect.height() + mAMPMRect.height() * 5 / 6, mAMPMPaint)
         }
 
@@ -266,7 +266,7 @@ class TimerSettingView : View {
 
 
     private fun setTimerTextPaint() {
-        mTextPaint.color = mReachedColor
+        mTextPaint.color = Color.WHITE
         mTextPaint.isAntiAlias = true
         mTextPaint.typeface = Typeface.MONOSPACE
         mTextPaint.textSize = mTextSize
