@@ -29,9 +29,7 @@ class AppModule {
     fun provideApiService(): ApiService {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).connectTimeout(180, TimeUnit.SECONDS).
-                readTimeout(180, TimeUnit.SECONDS).
-                writeTimeout(180, TimeUnit.SECONDS)
+        val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor)
                 .addNetworkInterceptor { chain ->
                     val request = chain.request().newBuilder()
                             .header("clientType", "1").build()

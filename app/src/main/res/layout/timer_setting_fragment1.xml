@@ -3,12 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_timer_setting_on"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_weight="1.5">
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
@@ -18,14 +13,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:gravity="center_horizontal"
-        android:paddingTop="@dimen/_30sdp">
+        android:paddingTop="@dimen/_24sdp">
 
         <com.ihomey.linkuphome.widget.wheelpicker.WheelPicker
             android:id="@+id/wheel_timer_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/_21sdp"
-            android:paddingRight="@dimen/_21sdp"
+            android:paddingLeft="@dimen/_24sdp"
+            android:paddingRight="@dimen/_24sdp"
             app:wheel_atmospheric="true"
             app:wheel_curved="true"
             app:wheel_cyclic="true"
@@ -49,8 +44,8 @@
             android:id="@+id/wheel_timer_minute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/_21sdp"
-            android:paddingRight="@dimen/_21sdp"
+            android:paddingLeft="@dimen/_24sdp"
+            android:paddingRight="@dimen/_24sdp"
             app:wheel_atmospheric="true"
             app:wheel_curved="true"
             app:wheel_cyclic="true"
@@ -74,6 +69,8 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/_18ssp" />
 
+
+
     <com.suke.widget.SwitchButton
         android:id="@+id/switch_button_timer"
         android:layout_width="wrap_content"
@@ -82,10 +79,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_16sdp"
-        app:sb_background="@color/transparent"
         app:sb_checked_color="@color/control_tab_item_selected_color"
-        app:sb_show_indicator="false"
-        app:sb_uncheckcircle_color="@color/transparent" />
+        app:sb_show_indicator="false" />
 
 </RelativeLayout>
 

@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.switchtimer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,10 +78,20 @@ open class RepeatTimerFragment : BaseFragment(), TimerSettingListener {
         if (viewPager.currentItem == 0) {
             mLocalState.openTimer = calendar.timeInMillis
             mLocalState.openTimerOn = 1
+            if(cb_timer_setting_repeat.isChecked){
+                mLocalState.openDayOfWeek=1000
+            }else{
+                mLocalState.openDayOfWeek=-1000
+            }
             controller.setRepeatTimer(minute, hour, isOpenTimer = true, isOn = true, repeatMode = if (cb_timer_setting_repeat.isChecked) 1000 else -1000)
         } else {
             mLocalState.closeTimerOn = 1
             mLocalState.closeTimer = calendar.timeInMillis
+            if(cb_timer_setting_repeat.isChecked){
+                mLocalState.closeDayOfWeek=1000
+            }else{
+                mLocalState.closeDayOfWeek=-1000
+            }
             controller.setRepeatTimer(minute, hour, isOpenTimer = false, isOn = true, repeatMode = if (cb_timer_setting_repeat.isChecked) 1000 else -1000)
         }
         mControlDevice.let {
@@ -95,9 +106,8 @@ open class RepeatTimerFragment : BaseFragment(), TimerSettingListener {
         rg_timer_setting.visibility = if (isEditable) View.GONE else View.VISIBLE
         cb_timer_setting_repeat.visibility = if (isEditable) View.VISIBLE else View.GONE
         if (isVisible) {
-            val calendar = Calendar.getInstance()
-            calendar.time = Date(if (viewPager.currentItem == 0) mLocalState.openTimer else mLocalState.closeTimer)
-            cb_timer_setting_repeat.isChecked = calendar.get(Calendar.YEAR) == 1970
+            val repeatMode= if (viewPager.currentItem == 0) mLocalState.openDayOfWeek else mLocalState.closeDayOfWeek
+            cb_timer_setting_repeat.isChecked =repeatMode == 1000
         }
     }
 

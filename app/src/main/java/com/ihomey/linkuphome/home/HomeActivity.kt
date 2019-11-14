@@ -422,7 +422,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     }
                 }
                 Util.PL_MESH_JOIN_FAIL -> {
-
+                    runOnUiThread {
+                        onDisConnected("sigmesh V1")
+                    }
                 }
                 Util.PL_MESH_EXIT -> {
                     runOnUiThread {

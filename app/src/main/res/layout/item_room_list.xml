@@ -26,7 +26,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_item_sub_zone_list_top"
+
             android:paddingStart="@dimen/_6sdp"
             android:paddingEnd="@dimen/_8sdp">
 

@@ -28,7 +28,7 @@ import kotlin.collections.ArrayList
 class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListener {
 
     private var timerType = 0
-    private val bgColor = listOf("#bbF48479", "#bb949494")
+    private val bgColor = listOf("#BC5C49", "#BC5C49")
 
     private lateinit var mViewModel: SwitchTimerViewModel
     private  var listener: TimerSettingListener?=null

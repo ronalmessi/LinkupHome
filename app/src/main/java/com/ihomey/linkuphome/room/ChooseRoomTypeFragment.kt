@@ -79,7 +79,6 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
             mViewModel.saveRoom(it1, currentZone?.id!!, type + 1, name).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 if (it?.status == Status.SUCCESS) {
                     hideLoadingView()
-                    mViewModel.setCurrentZoneId(it.data?.zoneId)
                     Navigation.findNavController(iv_back).popBackStack()
                 } else if (it?.status == Status.ERROR) {
                     hideLoadingView()
