@@ -195,7 +195,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         isUserTouch = true
         if (isFragmentVisible()) {
             val controller = SigMeshController()
-            controller.setLightBright(singleDevice.pid, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
+            controller.setLightBright(singleDevice.pid, if (singleDevice.type == 6 || singleDevice.type == 10) progress else progress.plus(15))
 //            val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
 //            if (singleDevice.type == 0) {
 //                controller?.setLightBright(singleDevice.id, progress.plus(15))

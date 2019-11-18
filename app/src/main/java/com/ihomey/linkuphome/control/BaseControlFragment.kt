@@ -144,7 +144,8 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
             controller?.setLightBright(mControlDevice.id, seekBar.progress.plus(15))
         } else {
             val controller = SigMeshController()
-            controller.setLightBright(mControlDevice.pid, if (type == 6 || type == 10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
+//            controller.setLightBright(mControlDevice.pid, if (type == 6 || type == 10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
+            controller.setLightBright(mControlDevice.pid, seekBar.progress)
 
 //            if (listener.isMeshServiceConnected()) controller?.setLightBright(mControlDevice.instructId, if (type == 6 || type == 10) seekBar.progress.plus(10) else seekBar.progress.plus(15))
 //            if (!TextUtils.equals("LinkupHome V1", mControlDevice.name)) changeDeviceState(mControlDevice, "brightness", seekBar.progress.toString())

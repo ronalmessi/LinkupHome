@@ -107,10 +107,10 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
-                app:sb_background="@color/transparent"
+                app:sb_background="#F7F7F7"
+                app:sb_uncheckcircle_color="#F7F7F7"
                 app:sb_checked_color="@color/control_tab_item_selected_color"
-                app:sb_show_indicator="false"
-                app:sb_uncheckcircle_color="@color/transparent" />
+                app:sb_show_indicator="false" />
 
         </RelativeLayout>
 

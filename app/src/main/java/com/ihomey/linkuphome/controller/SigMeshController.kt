@@ -26,8 +26,9 @@ class SigMeshController : Controller() {
     }
 
     override fun setLightBright(deviceId: Int, brightValue: Int) {
-        val lsb="00"
-        val msb=if (brightValue >= 16) Integer.toHexString(brightValue) else "0" + Integer.toHexString(brightValue)
+        val hexString=Integer.toHexString(brightValue+16021)
+        val lsb=hexString.takeLast(2)
+        val msb=hexString.take(2)
         if(PlSigMeshService.getInstance().isMeshReady) PlSigMeshService.getInstance().vendorUartSend(deviceId.toShort(), Util.hexStringToBytes("7FB2$msb$lsb"), Util.PL_DEFAULT_APP_KEY_INDEX)
 //        PlSigMeshService.getInstance().setLightCTL(deviceId.toShort(), (brightValue * 2000).toShort(), Util.PL_LIGHT_CTL_TEMPERATURE_MIN, 0.toShort(), Util.PL_DEFAULT_ONOFF_TRANSITIONTIME, Util.PL_DEFAULT_ONOFF_DELAY, Util.PL_DEFAULT_APP_KEY_INDEX, false)
     }

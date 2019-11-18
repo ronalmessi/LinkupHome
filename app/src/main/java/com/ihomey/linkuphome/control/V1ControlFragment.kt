@@ -31,7 +31,6 @@ class V1ControlFragment : BaseControlFragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.v1_control_fragment, container, false)
         mViewDataBinding.handlers = ToolBarEventHandler()
-        mViewDataBinding.deviceSeekBarBrightness.max = 22
         mViewDataBinding.root.setOnClickListener {
             mViewDataBinding.deviceCyclingSstgSpeed.visibility = View.GONE
             mViewDataBinding.deviceCyclingSstgSpeed.animation = moveToViewBottomAnimation()
@@ -42,9 +41,9 @@ class V1ControlFragment : BaseControlFragment(), View.OnClickListener {
     override fun updateViewData(device: Device) {
         mViewDataBinding.control = device
         mControlDevice = device
+        mViewDataBinding.deviceSeekBarBrightness.max =  if(device.pid!=0) 49514 else 22
         mViewDataBinding.deviceStateCbPower.isChecked = (device.parameters?.on == 1)
         device.parameters?.brightness?.let { mViewDataBinding.deviceSeekBarBrightness.progress = it }
-//        mViewDataBinding.deviceColorRgbCv.currentRadian = mControlDevice.state.colorPosition
         mViewDataBinding.deviceColorRgbCv.setColorValueListener(this)
         mViewDataBinding.deviceSeekBarBrightness.setOnSeekBarChangeListener(this)
         mViewDataBinding.btnDeviceCycling.setOnClickListener(this)

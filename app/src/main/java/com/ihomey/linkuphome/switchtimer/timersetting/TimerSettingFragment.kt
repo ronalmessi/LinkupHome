@@ -28,7 +28,7 @@ import kotlin.collections.ArrayList
 class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListener {
 
     private var timerType = 0
-    private val bgColor = listOf("#BC5C49", "#BC5C49")
+    private val bgColor = listOf("#FC5951", "#9E9EA0")
 
     private lateinit var mViewModel: SwitchTimerViewModel
     private  var listener: TimerSettingListener?=null
@@ -56,7 +56,7 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
     }
 
     private fun initTimerView(timerType: Int) {
-        rl_container.setBackgroundResource(if (timerType == 0) R.drawable.bg_timer_setting_on else R.drawable.bg_timer_setting_off)
+        rl_container.setImageResource(if (timerType == 0) R.drawable.bg_timer_setting_on else R.drawable.bg_timer_setting_off)
         wheel_timer_hour.data = getHourList()
         wheel_timer_minute.data = getMinuteList()
         wheel_timer_hour.setCircleColor(Color.parseColor(bgColor[timerType]))
