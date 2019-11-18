@@ -21,6 +21,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.SigMeshController
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
@@ -148,9 +149,12 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, UpdateDeviceNameListen
 
     override fun onCheckedChanged(position: Int, isChecked: Boolean) {
         adapter.currentList?.get(position)?.let {
-            val controller = ControllerFactory().createController(it.type, TextUtils.equals("LinkupHome V1", it.name))
-            if (listener.isMeshServiceConnected()) controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
-            changeDeviceState(it, "on", if (isChecked) "1" else "0")
+//            val controller = ControllerFactory().createController(it.type, TextUtils.equals("LinkupHome V1", it.name))
+//            if (listener.isMeshServiceConnected()) controller?.setLightPowerState(it.instructId, if (isChecked) 1 else 0)
+
+            val controller = SigMeshController()
+            controller.setLightPowerState(it.pid, if (isChecked) 1 else 0)
+//            changeDeviceState(it, "on", if (isChecked) "1" else "0")
         }
     }
 

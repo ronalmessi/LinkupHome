@@ -23,6 +23,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.SigMeshController
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.Zone
@@ -187,10 +188,13 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
                     if (isFragmentVisible) {
                         for (index in it.devices.indices) {
                             val device = it.devices[index]
-                            val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
-                            if (meshServiceStateListener.isMeshServiceConnected()) {
-                                Handler().postDelayed({ controller?.setLightingMode(device.instructId) }, 100L * index)
-                            }
+//                            val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
+//                            if (meshServiceStateListener.isMeshServiceConnected()) {
+//                                Handler().postDelayed({ controller?.setLightingMode(device.instructId) }, 100L * index)
+//                            }
+
+                            val controller = SigMeshController()
+                            controller.setLightingMode(device.pid)
                         }
                     }
                 }
@@ -204,12 +208,14 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
             roomList?.get(position)?.let {
                 for (index in it.devices.indices) {
                     val device = it.devices[index]
-                    val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
-                    if (meshServiceStateListener.isMeshServiceConnected()) {
-                        Handler().postDelayed({ controller?.setLightBright(device.instructId, if (device.type == 6 || device.type == 10) progress.plus(10) else progress.plus(15)) }, 100L * index)
-                    }
+//                    val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
+//                    if (meshServiceStateListener.isMeshServiceConnected()) {
+//                        Handler().postDelayed({ controller?.setLightBright(device.instructId, if (device.type == 6 || device.type == 10) progress.plus(10) else progress.plus(15)) }, 100L * index)
+//                    }
+                    val controller = SigMeshController()
+                    controller.setLightBright(device.pid, if (device.type == 6 || device.type == 10) progress.plus(10) else progress.plus(15))
                 }
-                changeRoomState(it, "brightness", progress.toString())
+//                changeRoomState(it, "brightness", progress.toString())
             }
         }
     }
@@ -220,12 +226,14 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
             roomList?.get(position)?.let {
                 for (index in it.devices.indices) {
                     val device = it.devices[index]
-                    val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
-                    if (meshServiceStateListener.isMeshServiceConnected()) {
-                        Handler().postDelayed({ controller?.setLightPowerState(device.instructId, if (isChecked) 1 else 0) }, 100L * index)
-                    }
+//                    val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
+//                    if (meshServiceStateListener.isMeshServiceConnected()) {
+//                        Handler().postDelayed({ controller?.setLightPowerState(device.instructId, if (isChecked) 1 else 0) }, 100L * index)
+//                    }
+                    val controller = SigMeshController()
+                    controller.setLightPowerState(device.pid, if (isChecked) 1 else 0)
                 }
-                changeRoomState(it, "on", if (isChecked) "1" else "0")
+//                changeRoomState(it, "on", if (isChecked) "1" else "0")
             }
         }
     }
