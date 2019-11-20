@@ -17,10 +17,6 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.switchtimer.SwitchTimerViewModel
 import com.suke.widget.SwitchButton
 import kotlinx.android.synthetic.main.timer_setting_fragment1.*
-import kotlinx.android.synthetic.main.timer_setting_fragment1.btn_timer_setting_edit
-import kotlinx.android.synthetic.main.timer_setting_fragment1.switch_button_timer
-import kotlinx.android.synthetic.main.timer_setting_fragment1.wheel_timer_hour
-import kotlinx.android.synthetic.main.timer_setting_fragment1.wheel_timer_minute
 import java.util.*
 import kotlin.collections.ArrayList
 

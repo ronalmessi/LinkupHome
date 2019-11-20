@@ -16,10 +16,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.csr.mesh.DataModelApi
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.ihomey.linkuphome.controller.V1Controller
 import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.pairlink.sigmesh.lib.MeshNetInfo

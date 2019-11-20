@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,7 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.controller.SigMeshController
+import com.ihomey.linkuphome.controller.LightControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
@@ -196,24 +194,13 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
     }
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
-//        val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
-//        if (meshServiceStateListener.isMeshServiceConnected()) {
-//            controller?.setLightPowerState(singleDevice.instructId, if (isChecked) 1 else 0)
-//            if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
-//        }
-
-        val controller = SigMeshController()
-        controller.setLightPowerState(singleDevice.pid, if (isChecked) 1 else 0)
+        LightControllerFactory().createCommonController(singleDevice)?.setOnOff(isChecked)
+        changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-//        val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
-//        if (meshServiceStateListener.isMeshServiceConnected()) {
-//            controller?.setLightBright(singleDevice.instructId, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
-//            if (!TextUtils.equals("LinkupHome V1", singleDevice.name)) changeDeviceState(singleDevice, "brightness", progress.toString())
-//        }
-        val controller = SigMeshController()
-        controller.setLightBright(singleDevice.pid, if (singleDevice.type == 6 || singleDevice.type == 10) progress.plus(10) else progress.plus(15))
+        LightControllerFactory().createCommonController(singleDevice)?.setBrightness(if (singleDevice.type == 6 || singleDevice.type == 10) progress else progress.plus(15))
+        changeDeviceState(singleDevice, "brightness", progress.toString())
     }
 
 

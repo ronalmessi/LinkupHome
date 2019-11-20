@@ -14,7 +14,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.SleepModeDialogFragment
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.controller.Controller
-import com.ihomey.linkuphome.controller.ControllerFactory
+import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -31,7 +31,7 @@ class M1ControlSettingFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeActivityViewModel
 
-    private var controller: Controller? = null
+    private var controller: Controller = M1Controller()
 
     private var mDevice: Device? = null
 
@@ -76,7 +76,6 @@ class M1ControlSettingFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         viewModel.getCurrentControlDevice().observe(this, Observer<Device> {
-            controller = ControllerFactory().createController(it.type, TextUtils.equals("LinkupHome V1", it.name))
             mDevice = it
             queryDeviceState(it.id)
         })

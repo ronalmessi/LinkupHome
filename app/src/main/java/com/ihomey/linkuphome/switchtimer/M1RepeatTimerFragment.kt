@@ -15,14 +15,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DayOfWeekListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.controller.Controller
-import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.LocalState
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.switchtimer.repeatcontroller.RepeatTimerController
 import com.ihomey.linkuphome.switchtimer.repeatcontroller.RepeatTimerControllerFactory
 import com.ihomey.linkuphome.switchtimer.timersetting.TimerSettingAdapter

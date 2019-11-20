@@ -17,7 +17,6 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.controller.ControllerFactory
 import com.ihomey.linkuphome.controller.M1Controller
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
@@ -131,13 +130,13 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
 
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
-        val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
-        controller?.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
+        val controller = M1Controller()
+        controller.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-        val controller = ControllerFactory().createController(singleDevice.type, TextUtils.equals("LinkupHome V1", singleDevice.name))
-        controller?.setLightBright(singleDevice.id, progress.plus(15))
+        val controller = M1Controller()
+        controller.setLightBright(singleDevice.id, progress.plus(15))
     }
 
     interface DevicesStateListener {

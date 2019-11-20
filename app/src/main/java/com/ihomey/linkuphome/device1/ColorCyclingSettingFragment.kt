@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.controller.ControllerFactory
-import com.ihomey.linkuphome.controller.SigMeshController
+import com.ihomey.linkuphome.controller.LightControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -62,13 +60,7 @@ class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnChecke
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
         for (index in devices.indices) {
             val device = devices[index]
-//            val controller = ControllerFactory().createController(device.type, TextUtils.equals("LinkupHome V1", device.name))
-//            if (meshServiceStateListener.isMeshServiceConnected()) {
-//                Handler().postDelayed({ controller?.setLightSpeed(device.instructId, position) }, 100L * index)
-//            }
-
-            val controller = SigMeshController()
-            controller.setLightSpeed(device.pid, position)
+            Handler().postDelayed({LightControllerFactory().createColorController(device)?.setCycleMode(position) }, 100L * index)
         }
     }
 
