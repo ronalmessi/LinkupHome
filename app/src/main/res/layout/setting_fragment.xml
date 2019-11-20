@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="#e6e6e9"
         android:orientation="vertical"
-        tools:context=".feature.account.SignInFragment">
+        >
 
         <com.ihomey.linkuphome.widget.CompatToolbar
             android:layout_width="match_parent"
@@ -17,11 +17,11 @@
             android:background="#F7F7F7">
 
             <TextView
-                android:id="@+id/btn_open_drawer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/title_setting"
+                android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_18ssp" />
         </com.ihomey.linkuphome.widget.CompatToolbar>
