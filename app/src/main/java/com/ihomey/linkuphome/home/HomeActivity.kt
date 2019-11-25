@@ -24,7 +24,7 @@ import com.csr.mesh.MeshService
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
-import com.ihomey.linkuphome.controller.M1Controller
+import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
@@ -354,6 +354,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                     val address = msg.data.getString(MeshService.EXTRA_DEVICE_ADDRESS)
                     val shortName = msg.data.getString(MeshService.EXTRA_SHORTNAME)
                     val uuidHash = msg.data.getInt(MeshService.EXTRA_UUIDHASH_31)
+                    Log.d("aa",address+"----"+shortName+"----"+uuidHash)
                     parentActivity?.meshAssListener?.onDeviceFound(uuidHash.toString(), address, shortName)
                 }
                 MeshService.MESSAGE_ASSOCIATING_DEVICE -> {
@@ -548,6 +549,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private fun onConnected(name: String) {
+
+        Log.d("aa","11111----"+mService?.controllerAddress)
         mConnected = true
         val textView = TextView(this)
         textView.width = getScreenW()
@@ -561,6 +564,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     }
 
     private fun onDisConnected(name: String) {
+        Log.d("aa","22222----"+mService?.controllerAddress)
         mConnected = false
         mViewModel.setBridgeState(mConnected)
         val textView = TextView(this)

@@ -6,12 +6,11 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.inform.InformViewModel
 import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.room.UnBondDevicesViewModel
-import com.ihomey.linkuphome.scene.SceneSettingViewModel
+import com.ihomey.linkuphome.devicecontrol.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
 import com.ihomey.linkuphome.share.JoinZoneViewModel
 import com.ihomey.linkuphome.share.ShareZoneListViewModel
 import com.ihomey.linkuphome.splash.SplashViewModel
-import com.ihomey.linkuphome.switchtimer.SwitchTimerViewModel
 import com.ihomey.linkuphome.zone.CreateZoneViewModel
 import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import dagger.Component
@@ -39,7 +38,6 @@ interface AppComponent {
 
     fun inject(settingViewModel: SettingViewModel)
 
-    fun inject(switchTimerViewModel: SwitchTimerViewModel)
 
     fun inject(sceneSettingViewModel: SceneSettingViewModel)
 

@@ -14,7 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.controller.LightControllerFactory
+import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -60,7 +60,7 @@ class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnChecke
     override fun onCheckedChange(position: Int, isChecked: Boolean) {
         for (index in devices.indices) {
             val device = devices[index]
-            Handler().postDelayed({LightControllerFactory().createColorController(device)?.setCycleMode(position) }, 100L * index)
+            Handler().postDelayed({ LightControllerFactory().createColorController(device)?.setCycleMode(position) }, 100L * index)
         }
     }
 

@@ -22,7 +22,7 @@ import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.controller.LightControllerFactory
+import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.Zone

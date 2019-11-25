@@ -11,7 +11,7 @@ import androidx.navigation.Navigation
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.controller.M1Controller
+import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.data.entity.Alarm
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.home.HomeActivityViewModel

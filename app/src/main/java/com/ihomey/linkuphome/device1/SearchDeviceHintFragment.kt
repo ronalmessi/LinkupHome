@@ -57,7 +57,7 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
     }
 
 
-    override fun onDeviceFound(uuidHash: String, macAddress: String, name: String) {
+    override fun onDeviceFound(uuidHash: String, macAddress: String?, name: String) {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)

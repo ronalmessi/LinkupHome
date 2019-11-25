@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ihomey.linkuphome.widget.RadioGroupPlus xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/device_rgp_scene"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_16sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_scene_setting_flow"
+            android:gravity="center_vertical">
+
+            <RadioButton
+                android:id="@+id/rb_scene_flow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:tag="0"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:button="@drawable/scene_setting_btn_flow_bg"
+                android:scaleX="0.95"
+                android:scaleY="0.95" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_scene_flow"
+                android:layout_alignEnd="@+id/rb_scene_flow"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@string/title_scene_mode_flow"
+                android:textColor="@color/radio_text_color_flow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_scene_setting_seek"
+            android:gravity="center_vertical">
+
+            <RadioButton
+                android:id="@+id/rb_scene_seek"
+                android:tag="4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:button="@drawable/scene_setting_btn_seek_bg"
+                android:scaleX="0.95"
+                android:scaleY="0.95" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_scene_seek"
+                android:layout_alignEnd="@+id/rb_scene_seek"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@string/title_scene_mode_seek"
+                android:textColor="@color/radio_text_color_seek" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_scene_setting_surf"
+            android:gravity="center_vertical">
+
+            <RadioButton
+                android:id="@+id/rb_scene_surf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:tag="3"
+                android:button="@drawable/scene_setting_btn_surf_bg"
+                android:scaleX="0.95"
+                android:scaleY="0.95" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_scene_surf"
+                android:layout_alignEnd="@+id/rb_scene_surf"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@string/title_scene_mode_surf"
+                android:textColor="@color/radio_text_color_surf" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_scene_setting_rainbow"
+            android:gravity="center_vertical">
+
+            <RadioButton
+                android:id="@+id/rb_scene_rainbow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="2"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:button="@drawable/scene_setting_btn_rainbow_bg"
+                android:scaleX="0.95"
+                android:scaleY="0.95" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_scene_rainbow"
+                android:layout_alignEnd="@+id/rb_scene_rainbow"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@string/title_scene_mode_rainbow"
+                android:textColor="@color/radio_text_color_rainbow" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_scene_setting_star"
+            android:gravity="center_vertical">
+
+            <RadioButton
+                android:id="@+id/rb_scene_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:tag="1"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:button="@drawable/scene_setting_btn_star_bg"
+                android:scaleX="0.95"
+                android:scaleY="0.95"
+                android:textAlignment="viewEnd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_scene_star"
+                android:layout_alignEnd="@+id/rb_scene_star"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@string/title_scene_mode_star"
+                android:textColor="@color/radio_text_color_star" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</com.ihomey.linkuphome.widget.RadioGroupPlus>
+

@@ -21,7 +21,7 @@ data class Device(@PrimaryKey var id: String, @SerializedName("spaceId") var zon
     var hash: String = ""
 
     @Ignore
-    var macAddress: String = ""
+    var macAddress: String?=null
 
 
     override fun getItemType(): Int {

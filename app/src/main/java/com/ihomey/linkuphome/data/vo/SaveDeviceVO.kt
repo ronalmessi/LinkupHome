@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 @JsonPropertyOrder("guid", "meshInfo", "name", "pid", "spaceId", "timestamp", "type")
 data class SaveDeviceVO(val guid: String, val name: String, val spaceId: Int, val timestamp: Long, val type: Int, var pid: Int? = null, var meshInfo: String? = null, var signature: String? = null) {
     override fun toString(): String {
-        return if (pid == null && meshInfo == null) {
-            "guid$guid"+ "name$name" + "spaceId$spaceId" + "timestamp$timestamp"+ "type$type"
+        return if (meshInfo == null) {
+            "guid$guid"+ "name$name" + "pid$pid"+ "spaceId$spaceId" + "timestamp$timestamp"+ "type$type"
         } else {
             "guid$guid" + "meshInfo$meshInfo" + "name$name" + "pid$pid"+ "spaceId$spaceId" + "timestamp$timestamp"+ "type$type"
         }

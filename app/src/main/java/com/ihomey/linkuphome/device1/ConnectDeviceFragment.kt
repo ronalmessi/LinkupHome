@@ -15,7 +15,7 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.controller.LightControllerFactory
+import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
@@ -106,7 +106,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         listener.discoverDevices(false, null)
     }
 
-    override fun onDeviceFound(uuidHash: String, macAddress: String, name: String) {
+    override fun onDeviceFound(uuidHash: String, macAddress: String?, name: String) {
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         val deviceShortName = getShortName(deviceType)
@@ -133,7 +133,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         val deviceType = DeviceType.values()[type]
         if (TextUtils.isEmpty(macAddress)) {
             context?.getIMEI()?.let { it1 ->
-                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, null, null).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, 0, null).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     if (it?.status == Status.SUCCESS && it.data != null) {
                         it.data.hash = "" + uuidHash
                         val position = adapter.data.indexOf(it.data) ?: -1
