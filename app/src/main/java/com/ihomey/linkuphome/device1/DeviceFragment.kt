@@ -57,6 +57,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
+            Log.d("aa","hahahahhahahaha")
             deviceList = it.snapshot()
             if (!isUserTouch) adapter.submitList(it)
             deviceList?.forEach {

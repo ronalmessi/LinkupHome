@@ -43,8 +43,6 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var viewModel: ConnectDeviceViewModel
     private lateinit var adapter: ScanDeviceListAdapter
-    private lateinit var countDownTimer: AssociateDeviceCountDownTimer
-    private val deviceAssociateFragment = DeviceAssociateFragment()
     private var connectingDeviceAddress: String? = null
 
     private var currentZone: Zone? = null
@@ -62,7 +60,7 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ConnectDeviceViewModel::class.java)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> { it ->
+        mViewModel.mCurrentZone.observe(viewLifecycleOwner, Observer<Resource<Zone>> { it ->
             if (it?.status == Status.SUCCESS) {
                 currentZone = it.data
                 currentZone?.id?.let { viewModel.setQuery(it, 0) }
@@ -92,7 +90,6 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
         rcv_device_list.adapter = adapter
         adapter.setEmptyView(R.layout.view_scan_device_list_empty, rcv_device_list)
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack(R.id.tab_devices, false) }
-        countDownTimer = AssociateDeviceCountDownTimer(20000, 1000)
         BluetoothSPP.getInstance()?.setBluetoothConnectionListener(mBluetoothConnectionListener)
     }
 
@@ -102,7 +99,6 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
         adapter.setNewData(null)
         BluetoothSPP.getInstance()?.setBluetoothConnectionListener(null)
         listener.discoverDevices(false, null)
-        countDownTimer.cancel()
     }
 
     override fun newAppearance(shortName: String, macAddress: String) {
@@ -116,9 +112,7 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
                 val pairedDeviceAddress = BluetoothSPP.getInstance()?.pairedDeviceAddress
                 if (pairedDeviceAddress != null && pairedDeviceAddress.any { TextUtils.equals(it, it0.macAddress) }) {
                     connectingDeviceAddress = it0.macAddress
-                    deviceAssociateFragment.isCancelable = false
-                    deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
-                    countDownTimer.start()
+                    showLoadingView()
                     BluetoothSPP.getInstance()?.connect(it0.macAddress)
                 } else {
                     Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
@@ -143,17 +137,6 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
         fun discoverDevices(enabled: Boolean, listener: SppStateListener?)
     }
 
-    private inner class AssociateDeviceCountDownTimer(millisInFuture: Long, countDownInterval: Long) : CountDownTimer(millisInFuture, countDownInterval) {
-        override fun onFinish() {
-            deviceAssociateFragment.onAssociateProgressChanged(0)
-            deviceAssociateFragment.dismiss()
-        }
-
-        override fun onTick(millisUntilFinished: Long) {
-            deviceAssociateFragment.onAssociateProgressChanged((20 - (millisUntilFinished / 1000).toInt()) * 5)
-        }
-    }
-
 
     private val mBluetoothConnectionListener = object : BluetoothSPP.BluetoothConnectionListener {
         override fun onDeviceConnecting(name: String?, address: String?) {
@@ -172,10 +155,8 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
                     viewModel.saveDevice(0, currentZone?.id!!, DeviceType.values()[0].name, address)
                     val controller = M1Controller()
                     controller.getFirmwareVersion(address)
-                    countDownTimer.cancel()
-                    if (adapter.data.none { TextUtils.equals("0", it.id) } && deviceAssociateFragment.isVisible && deviceAssociateFragment.userVisibleHint) {
-                        deviceAssociateFragment.onAssociateProgressChanged(0)
-                        deviceAssociateFragment.dismiss()
+                    if (adapter.data.none { TextUtils.equals("0", it.id) }&&isVisible) {
+                        hideLoadingView()
                         Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                     }
                 }
@@ -185,10 +166,8 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
         override fun onDeviceConnectFailed(name: String?, address: String) {
             connectingDeviceAddress?.let {
                 if (TextUtils.equals(address, it)) {
-                    countDownTimer.cancel()
-                    if (deviceAssociateFragment.isVisible && deviceAssociateFragment.userVisibleHint) {
-                        deviceAssociateFragment.onAssociateProgressChanged(0)
-                        deviceAssociateFragment.dismiss()
+                    if (isVisible) {
+                        hideLoadingView()
                         activity?.toast(R.string.msg_m1_connect_failed, Toast.LENGTH_LONG)
                     }
                 }

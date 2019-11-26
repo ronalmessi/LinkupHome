@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,13 +71,14 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
-        mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
+        mViewModel.mCurrentZone.observe(viewLifecycleOwner, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
                 tv_title.text = it.data?.name
             }
         })
-        mViewModel.roomsResult.observe(this, Observer<PagedList<RoomAndDevices>> {
+        mViewModel.roomsResult.observe(viewLifecycleOwner, Observer<PagedList<RoomAndDevices>> {
             roomList = it.snapshot()
+            Log.d("aa","ggggg")
             if (!isUserTouch) adapter.submitList(it)
         })
 
