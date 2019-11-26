@@ -19,6 +19,7 @@ class M1FeatureControlViewHolder(parentView: View) : View.OnClickListener {
         this.mDevice = device
         environmentBtn.setOnClickListener(this)
         alarmSettingBtn.setOnClickListener(this)
+        environmentBtn.visibility = if (device.roomId == 1) View.VISIBLE else View.GONE
     }
 
     override fun onClick(v: View?) {
