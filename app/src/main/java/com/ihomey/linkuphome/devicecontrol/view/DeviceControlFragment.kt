@@ -21,12 +21,13 @@ import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.toast
 import kotlinx.android.synthetic.main.device_control_fragment.*
 
 
-class DeviceControlFragment : BaseFragment(), InputDialogInterface {
+class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackHandler {
 
 
     private lateinit var mViewModel: HomeActivityViewModel
@@ -97,6 +98,15 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface {
     override fun onResume() {
         super.onResume()
         controlView?.bindTo(device)
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (guide != null && guide?.isVisible!!) {
+            hideGuideView()
+            true
+        } else {
+            false
+        }
     }
 
     override fun onInput(text: String) {

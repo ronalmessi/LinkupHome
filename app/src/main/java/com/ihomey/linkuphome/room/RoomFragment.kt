@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.room
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
@@ -25,14 +24,12 @@ import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device1.ReNameDeviceFragment
 import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
-import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
+import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.ihomey.linkuphome.zone.ZoneNavHostFragment
@@ -44,7 +41,7 @@ import kotlinx.android.synthetic.main.room_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
 
-class RoomFragment : BaseFragment(), FragmentBackHandler, UpdateDeviceNameListener, OnItemMenuClickListener, BondedDeviceListAdapter.OnCheckedChangeListener {
+class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListener, BondedDeviceListAdapter.OnCheckedChangeListener, InputDialogInterface {
 
     companion object {
         fun newInstance() = RoomFragment()
@@ -55,7 +52,6 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, UpdateDeviceNameListen
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var mViewModel: RoomViewModel
     private lateinit var adapter: BondedDeviceListAdapter
-    private lateinit var listener: MeshServiceStateListener
 
     private var room: Room? = null
 
@@ -89,10 +85,6 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, UpdateDeviceNameListen
         })
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as MeshServiceStateListener
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -119,16 +111,13 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, UpdateDeviceNameListen
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         tv_title.setOnClickListener {
             room?.let {
-                if (guide != null && guide?.isVisible!!) {
-                    guide?.dismiss()
-                }
-                val dialog = ReNameDeviceFragment()
+                hideGuideView()
+                val dialog = InputDialogFragment()
                 val bundle = Bundle()
-                bundle.putString("deviceId", "" + it.id)
-                bundle.putString("deviceName", it.name)
+                bundle.putString("inputText", it.name)
                 dialog.arguments = bundle
-                dialog.setUpdateZoneNameListener(this)
-                dialog.show(fragmentManager, "ReNameDeviceFragment")
+                dialog.setInputDialogInterface(this)
+                dialog.show(fragmentManager, "InputDialogFragment")
             }
         }
         tv_title.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -248,13 +237,13 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, UpdateDeviceNameListen
         }
     }
 
-    override fun updateDeviceName(id: String, newName: String) {
+    override fun onInput(text: String) {
         context?.getIMEI()?.let { it1 ->
             room?.let {
-                viewModel.changeRoomName(it1, it.zoneId, id.toInt(), it.type, newName).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                viewModel.changeRoomName(it1, it.zoneId, it.id, it.type, text).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                     if (it?.status == Status.SUCCESS) {
                         hideLoadingView()
-                        tv_title.text = newName
+                        tv_title.text = text
                     } else if (it?.status == Status.ERROR) {
                         hideLoadingView()
                         it.message?.let { it2 -> activity?.toast(it2) }

@@ -19,13 +19,10 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device1.ReNameDeviceFragment
-import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
-import com.ihomey.linkuphome.listener.UpdateDeviceNameListener
 import com.ihomey.linkuphome.widget.RGBCircleView
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 import com.ihomey.linkuphome.widget.dashboardview.DashboardView
@@ -115,42 +112,42 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
     }
 
 
-    inner class ToolBarEventHandler : UpdateDeviceNameListener {
-        override fun updateDeviceName(id: String, newName: String) {
-            if (mControlDevice.type == 0) {
-//                mViewModel.changeDeviceName(id, newName)
-                mControlDevice.name = newName
-                updateViewData(mControlDevice)
-            } else {
-                context?.getIMEI()?.let { it1 ->
-                    mViewModel.changeDeviceName(it1, mControlDevice.zoneId, id, mControlDevice.type, newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-                        if (it?.status == Status.SUCCESS) {
-                            mControlDevice.name = newName
-                            updateViewData(mControlDevice)
-                        } else if (it?.status == Status.ERROR) {
-                            it.message?.let { it2 -> activity?.toast(it2) }
-                        }
-                    })
-                }
-            }
-        }
-
-        fun onClick(view: View) {
-            when (view.id) {
-
-                R.id.tv_title -> {
-                    hideGuideView()
-                    val dialog = ReNameDeviceFragment()
-                    val bundle = Bundle()
-                    bundle.putString("deviceId", mControlDevice.id)
-                    bundle.putString("deviceName", mControlDevice.name)
-                    dialog.arguments = bundle
-                    dialog.setUpdateZoneNameListener(this)
-                    dialog.show(fragmentManager, "ReNameDeviceFragment")
-                }
-            }
-        }
-    }
+//    inner class ToolBarEventHandler : UpdateDeviceNameListener {
+//        override fun updateDeviceName(id: String, newName: String) {
+//            if (mControlDevice.type == 0) {
+////                mViewModel.changeDeviceName(id, newName)
+//                mControlDevice.name = newName
+//                updateViewData(mControlDevice)
+//            } else {
+//                context?.getIMEI()?.let { it1 ->
+//                    mViewModel.changeDeviceName(it1, mControlDevice.zoneId, id, mControlDevice.type, newName).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+//                        if (it?.status == Status.SUCCESS) {
+//                            mControlDevice.name = newName
+//                            updateViewData(mControlDevice)
+//                        } else if (it?.status == Status.ERROR) {
+//                            it.message?.let { it2 -> activity?.toast(it2) }
+//                        }
+//                    })
+//                }
+//            }
+//        }
+//
+//        fun onClick(view: View) {
+//            when (view.id) {
+//
+//                R.id.tv_title -> {
+////                    hideGuideView()
+////                    val dialog = ReNameDeviceFragment()
+////                    val bundle = Bundle()
+////                    bundle.putString("deviceId", mControlDevice.id)
+////                    bundle.putString("deviceName", mControlDevice.name)
+////                    dialog.arguments = bundle
+////                    dialog.setUpdateZoneNameListener(this)
+////                    dialog.show(fragmentManager, "ReNameDeviceFragment")
+//                }
+//            }
+//        }
+//    }
 
     private fun showGuideView(view: View) {
         val builder = GuideBuilder()

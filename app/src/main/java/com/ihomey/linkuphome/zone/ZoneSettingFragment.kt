@@ -19,10 +19,11 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.device1.DeleteDevicesFragment
+import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BridgeListener
-import com.ihomey.linkuphome.listener.UpdateZoneNameListener
+import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.setting.SettingNavHostFragment
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
@@ -33,7 +34,7 @@ import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
-class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, UpdateZoneNameListener, BaseQuickAdapter.OnItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener, OnItemMenuClickListener {
+class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener,BaseQuickAdapter.OnItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener, OnItemMenuClickListener, InputDialogInterface {
 
     companion object {
         fun newInstance() = ZoneSettingFragment()
@@ -43,6 +44,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
     private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
     private lateinit var mViewModel: HomeActivityViewModel
+    private var selectedZone:Zone?=null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.zone_setting_fragment, container, false)
@@ -98,15 +100,14 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        val zone = adapter.getItem(position)
-        if (zone != null) {
-            val dialog = ReNameZoneFragment()
+        selectedZone= adapter.getItem(position)
+        selectedZone?.let {
+            val dialog = InputDialogFragment()
             val bundle = Bundle()
-            bundle.putInt("zoneId", zone.id)
-            bundle.putString("zoneName", zone.name)
+            bundle.putString("inputText", it.name)
             dialog.arguments = bundle
-            dialog.setUpdateZoneNameListener(this)
-            dialog.show(fragmentManager, "ReNameZoneFragment")
+            dialog.setInputDialogInterface(this)
+            dialog.show(fragmentManager, "InputDialogFragment")
         }
     }
 
@@ -223,21 +224,21 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         }
     }
 
-
-    override fun updateZoneName(id: Int, newName: String) {
-        context?.getIMEI()?.let { it1 ->
-            viewModel.changeZoneName(it1, id, newName).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
-                if (it?.status == Status.SUCCESS) {
-                    hideLoadingView()
-                    mViewModel.setCurrentZoneId(it.data?.id)
-                } else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                } else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            })
-        }
+    override fun onInput(text: String) {
+       selectedZone?.let {
+           context?.getIMEI()?.let { it1 ->
+               viewModel.changeZoneName(it1, it.id, text).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
+                   if (it?.status == Status.SUCCESS) {
+                       hideLoadingView()
+                       mViewModel.setCurrentZoneId(it.data?.id)
+                   } else if (it?.status == Status.ERROR) {
+                       hideLoadingView()
+                       it.message?.let { it2 -> activity?.toast(it2) }
+                   } else if (it?.status == Status.LOADING) {
+                       showLoadingView()
+                   }
+               })
+           }
+       }
     }
-
 }
