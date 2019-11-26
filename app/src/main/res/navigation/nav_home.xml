@@ -22,7 +22,7 @@
         android:id="@+id/homeFragment"
         android:name="com.ihomey.linkuphome.home.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment"></fragment>
+        tools:layout="@layout/home_fragment"/>
 
 
 </navigation>

@@ -2,7 +2,6 @@ package com.ihomey.linkuphome.devicecontrol.switchtimer.timersetting
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,7 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.scene.SceneSettingViewModel
 import com.suke.widget.SwitchButton
-import kotlinx.android.synthetic.main.timer_setting_fragment1.*
+import kotlinx.android.synthetic.main.timer_setting_fragment.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,7 +43,7 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.timer_setting_fragment1, container, false)
+        return inflater.inflate(R.layout.timer_setting_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,16 +1,14 @@
 package com.ihomey.linkuphome.devicecontrol.view
 
 import android.content.Context
-import android.util.Log
 import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import com.ihomey.linkuphome.data.entity.Device
-import com.ihomey.linkuphome.devicecontrol.viewholder.*
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
+import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.devicecontrol.viewholder.*
 
 
 class M1ControlView(val layoutId:Int, val context:Context, val fragment: Fragment): BaseControlView(context,layoutId) {

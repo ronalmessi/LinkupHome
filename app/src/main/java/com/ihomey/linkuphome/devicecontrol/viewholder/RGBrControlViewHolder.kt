@@ -1,17 +1,12 @@
 package com.ihomey.linkuphome.devicecontrol.viewholder
 
 import android.view.View
-import android.widget.ImageButton
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
-import com.ihomey.linkuphome.moveToViewBottomAnimation
-import com.ihomey.linkuphome.moveToViewLocationAnimation
 import com.ihomey.linkuphome.widget.BedRGBCircleView
 import com.ihomey.linkuphome.widget.RGBCircleView
-import com.ihomey.linkuphome.widget.SingleSelectToggleGroup
-import com.ihomey.linkuphome.widget.ToggleButtonGroup
 
 
 class RGBrControlViewHolder(private val parentView: View) : RGBCircleView.ColorValueListener{

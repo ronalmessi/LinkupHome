@@ -141,7 +141,7 @@
         android:id="@+id/languageSettingFragment"
         android:name="com.ihomey.linkuphome.setting.LanguageSettingFragment"
         android:label="language_settingg_fragment"
-        tools:layout="@layout/language_setting_fragment"></fragment>
+        tools:layout="@layout/language_setting_fragment"/>
 
 
 </navigation>

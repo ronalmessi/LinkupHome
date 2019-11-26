@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,11 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.devicecontrol.navigator.ControlFragmentNavigator
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -156,18 +157,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun onItemClick(singleDevice: Device) {
         mViewModel.setCurrentControlDevice(singleDevice)
-//        when (singleDevice.type) {
-//            1 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_c3ControlFragment)
-//            2 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_r2ControlFragment)
-//            3 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_a2ControlFragment)
-//            4 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_n1ControlFragment)
-//            0 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_m1ControlFragment)
-//            6 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v1ControlFragment)
-//            7 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s1ControlFragment)
-//            8 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_s2ControlFragment)
-//            9 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_t1ControlFragment)
-//            10 -> NavHostFragment.findNavController(this@DeviceFragment).navigate(R.id.action_tab_devices_to_v2ControlFragment)
-//        }
         navigator.openDeviceControlPage()
     }
 
@@ -190,7 +179,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
         isUserTouch = true
         if (isFragmentVisible()) {
-            LightControllerFactory().createCommonController(singleDevice)?.setBrightness(if (singleDevice.type == 6 || singleDevice.type == 10) progress else progress.plus(15))
+            LightControllerFactory().createCommonController(singleDevice)?.setBrightness(progress)
             changeDeviceState(singleDevice, "brightness", progress.toString())
         }
     }
@@ -231,7 +220,4 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
             }
         }
     }
-
-
-
 }

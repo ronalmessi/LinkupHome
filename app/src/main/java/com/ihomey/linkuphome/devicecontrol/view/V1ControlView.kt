@@ -1,8 +1,6 @@
 package com.ihomey.linkuphome.devicecontrol.view
 
 import android.content.Context
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.devicecontrol.viewholder.*
 

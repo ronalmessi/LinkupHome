@@ -83,7 +83,9 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     fun changeDeviceName(guid: String, spaceId: Int, id: String, type: Int, newName: String): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
-                item?.let { deviceDao.insert(it) }
+                item?.let {
+                    deviceDao.updateName(id, newName)
+                }
             }
 
             override fun shouldFetch(data: Device?): Boolean {
@@ -181,9 +183,9 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
         }
     }
 
-    fun changeDeviceName(id: String, newName: String) {
+    fun updateDeviceName(device: Device, newName: String) {
         appExecutors.diskIO().execute {
-            deviceDao.updateName(id, newName)
+            deviceDao.updateName(device.id, newName)
         }
     }
 

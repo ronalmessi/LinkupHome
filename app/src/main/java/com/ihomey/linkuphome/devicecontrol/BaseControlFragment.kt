@@ -11,18 +11,17 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import cn.iclass.guideview.Component
 import cn.iclass.guideview.Guide
 import cn.iclass.guideview.GuideBuilder
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
-import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device1.DeviceNavHostFragment
 import com.ihomey.linkuphome.device1.ReNameDeviceFragment
+import com.ihomey.linkuphome.dialog.InputDialogFragment
+import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
@@ -119,7 +118,7 @@ abstract class BaseControlFragment : BaseFragment(), FragmentBackHandler, SeekBa
     inner class ToolBarEventHandler : UpdateDeviceNameListener {
         override fun updateDeviceName(id: String, newName: String) {
             if (mControlDevice.type == 0) {
-                mViewModel.changeDeviceName(id, newName)
+//                mViewModel.changeDeviceName(id, newName)
                 mControlDevice.name = newName
                 updateViewData(mControlDevice)
             } else {

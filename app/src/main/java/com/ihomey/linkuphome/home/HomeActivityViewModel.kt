@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.home
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.ihomey.linkuphome.data.entity.*
@@ -168,8 +169,9 @@ class HomeActivityViewModel : ViewModel() {
         return mDeviceRepository.changeDeviceName(guid, spaceId, id, type, newName)
     }
 
-    fun changeDeviceName(id: String, newName: String) {
-        return mDeviceRepository.changeDeviceName(id, newName)
+    fun updateDeviceName(device: Device, newName: String) {
+        Log.d("aa","---"+device.id+"---"+newName)
+        return mDeviceRepository.updateDeviceName(device, newName)
     }
 
     fun changeDeviceState(guid: String, id: String, name: String, value: String): LiveData<Resource<Device>> {

@@ -2,10 +2,9 @@ package com.ihomey.linkuphome.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.ihomey.linkuphome.devicecontrol.view.WarmColdControlView
 import com.ihomey.linkuphome.devicecontrol.view.RgbControlView
+import com.ihomey.linkuphome.devicecontrol.view.WarmColdControlView
 
 
 /**

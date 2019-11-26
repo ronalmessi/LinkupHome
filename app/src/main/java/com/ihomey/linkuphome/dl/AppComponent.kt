@@ -2,11 +2,11 @@ package com.ihomey.linkuphome.dl
 
 import com.ihomey.linkuphome.alarm.AlarmViewModel
 import com.ihomey.linkuphome.device1.ConnectDeviceViewModel
+import com.ihomey.linkuphome.devicecontrol.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.inform.InformViewModel
 import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.room.UnBondDevicesViewModel
-import com.ihomey.linkuphome.devicecontrol.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
 import com.ihomey.linkuphome.share.JoinZoneViewModel
 import com.ihomey.linkuphome.share.ShareZoneListViewModel

@@ -2,7 +2,6 @@ package com.ihomey.linkuphome.devicecontrol.navigator
 
 import androidx.navigation.NavController
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.Device
 
 class ControlFragmentNavigator: SceneControlNavigation, SwitchTimerControlNavigation {
 

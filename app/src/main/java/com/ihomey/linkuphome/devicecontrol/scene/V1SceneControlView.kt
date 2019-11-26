@@ -1,18 +1,9 @@
 package com.ihomey.linkuphome.devicecontrol.scene
 
 import android.content.Context
-import android.widget.CheckBox
 import android.widget.RadioButton
-import androidx.fragment.app.Fragment
-import com.bumptech.glide.load.engine.bitmap_recycle.IntegerArrayAdapter
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.LocalState
-import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
-import com.ihomey.linkuphome.devicecontrol.view.BaseControlView
-import com.ihomey.linkuphome.devicecontrol.viewholder.ColorControlViewHolder
-import com.ihomey.linkuphome.devicecontrol.viewholder.CommonControlViewHolder
-import com.ihomey.linkuphome.devicecontrol.viewholder.RGBrControlViewHolder
 import com.ihomey.linkuphome.widget.RadioGroupPlus
 
 
