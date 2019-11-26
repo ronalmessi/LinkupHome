@@ -66,7 +66,7 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListene
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel = ViewModelProviders.of(this).get(RoomViewModel::class.java)
-        viewModel.mSelectedRoom.observe(this, Observer<RoomAndDevices> {
+        viewModel.mSelectedRoom.observe(viewLifecycleOwner, Observer<RoomAndDevices> {
             tv_title.text = it.room?.name
             room = it.room
             mViewModel.setCurrentRoom(room)

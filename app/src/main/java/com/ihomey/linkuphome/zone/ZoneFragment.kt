@@ -78,7 +78,6 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
         })
         mViewModel.roomsResult.observe(viewLifecycleOwner, Observer<PagedList<RoomAndDevices>> {
             roomList = it.snapshot()
-            Log.d("aa","ggggg")
             if (!isUserTouch) adapter.submitList(it)
         })
 

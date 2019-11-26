@@ -57,9 +57,8 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
-            Log.d("aa","hahahahhahahaha")
             deviceList = it.snapshot()
-            if (!isUserTouch) adapter.submitList(it)
+            if (!isUserTouch)adapter.submitList(it)
             deviceList?.forEach {
                 if (it.type == 0) {
                     BluetoothSPP.getInstance()?.autoConnect(it.id)
@@ -81,7 +80,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         meshServiceStateListener = context as MeshServiceStateListener
-
     }
 
 

@@ -40,4 +40,8 @@ interface RoomDao {
 
     @Query("UPDATE room set parameters= :deviceState WHERE id = :roomId")
     fun updateState(roomId: Int, deviceState: DeviceState)
+
+    @Query("UPDATE room set name= :newName WHERE id = :roomId")
+    fun updateName(roomId: Int, newName: String)
+
 }

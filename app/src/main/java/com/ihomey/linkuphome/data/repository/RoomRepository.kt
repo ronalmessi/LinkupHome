@@ -75,7 +75,9 @@ class RoomRepository @Inject constructor(private var apiService: ApiService, pri
     fun changeRoomName(guid: String, spaceId: Int, id: Int, type: Int, newName: String): LiveData<Resource<Room>> {
         return object : NetworkBoundResource<Room>(appExecutors) {
             override fun saveCallResult(item: Room?) {
-                item?.let { roomDao.insert(it) }
+                item?.let {
+                    roomDao.updateName(id,newName)
+                }
             }
 
             override fun shouldFetch(data: Room?): Boolean {
