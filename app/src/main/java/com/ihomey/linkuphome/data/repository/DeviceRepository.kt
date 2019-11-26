@@ -27,7 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class DeviceRepository @Inject constructor(private var apiService: ApiService, private val deviceDao: DeviceDao, private val localStateDao: LocalStateDao, private val roomDao: RoomDao, private val zoneDao: ZoneDao, private var appExecutors: AppExecutors) {
 
-    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,pid: Int?,meshInfo:String?): LiveData<Resource<Device>> {
+    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,pid: Int,meshInfo:String?): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
                 item?.let {
@@ -49,8 +49,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Device>> {
-                val saveDeviceVO = SaveDeviceVO(guid.md5(), name, zoneId, System.currentTimeMillis(), type,pid, meshInfo)
-                Log.d("aa",saveDeviceVO.toString())
+                val saveDeviceVO = SaveDeviceVO(guid.md5(),null, name, zoneId, System.currentTimeMillis(), type,pid, meshInfo)
                 saveDeviceVO.signature =(AppConfig.APP_SECRET+saveDeviceVO.toString()).sha256()
                 return apiService.saveDevice(saveDeviceVO)
             }

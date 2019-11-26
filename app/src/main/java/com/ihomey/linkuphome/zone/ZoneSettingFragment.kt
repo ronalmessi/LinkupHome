@@ -19,10 +19,13 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.device1.DeleteDevicesFragment
+import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
+import com.ihomey.linkuphome.dialog.HintDialogFragment
 import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BridgeListener
+import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.setting.SettingNavHostFragment
 import com.ihomey.linkuphome.toast
@@ -34,7 +37,7 @@ import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.zone_setting_fragment.*
 
-class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener,BaseQuickAdapter.OnItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener, OnItemMenuClickListener, InputDialogInterface {
+class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.OnItemClickListener, DeleteDevicesFragment.ConfirmButtonClickListener, OnItemMenuClickListener, InputDialogInterface, ConfirmDialogInterface {
 
     companion object {
         fun newInstance() = ZoneSettingFragment()
@@ -44,7 +47,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
     private lateinit var viewModel: ZoneSettingViewModel
     private lateinit var adapter: ZoneListAdapter
     private lateinit var mViewModel: HomeActivityViewModel
-    private var selectedZone:Zone?=null
+    private var selectedZone: Zone? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.zone_setting_fragment, container, false)
@@ -100,7 +103,7 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
     }
 
     override fun onItemChildClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        selectedZone= adapter.getItem(position)
+        selectedZone = adapter.getItem(position)
         selectedZone?.let {
             val dialog = InputDialogFragment()
             val bundle = Bundle()
@@ -116,17 +119,19 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         if (zone != null && zone.active == 0) {
             context?.getIMEI()?.let { it1 ->
                 viewModel.switchZone(it1, zone.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
-                    if (it?.status == Status.SUCCESS) {
-                        PlSigMeshService.getInstance().meshList.clear()
-                        hideLoadingView()
-                        mViewModel.setCurrentZoneId(it.data?.id)
-                        bridgeListener.reConnectBridge()
-                        Navigation.findNavController(iv_back).popBackStack()
-                    } else if (it?.status == Status.ERROR) {
-                        hideLoadingView()
-                        it.message?.let { it2 -> activity?.toast(it2) }
-                    } else if (it?.status == Status.LOADING) {
-                        showLoadingView()
+                    when {
+                        it?.status == Status.SUCCESS -> {
+                            PlSigMeshService.getInstance().meshList.clear()
+                            hideLoadingView()
+                            mViewModel.setCurrentZoneId(it.data?.id)
+                            bridgeListener.reConnectBridge()
+                            Navigation.findNavController(iv_back).popBackStack()
+                        }
+                        it?.status == Status.ERROR -> {
+                            hideLoadingView()
+                            it.message?.let { it2 -> activity?.toast(it2) }
+                        }
+                        it?.status == Status.LOADING -> showLoadingView()
                     }
                 })
             }
@@ -135,33 +140,30 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
         if (adapter.itemCount == 1) {
-            val deleteZoneFragment = DeleteZoneFragment()
-            deleteZoneFragment.isCancelable = false
+            val hintDialogFragment = HintDialogFragment()
+            hintDialogFragment.isCancelable = false
             val bundle = Bundle()
             bundle.putString("hintText", getString(R.string.msg_minimum_zone))
-            deleteZoneFragment.arguments = bundle
-            deleteZoneFragment.show(fragmentManager, "DeleteZoneFragment")
+            hintDialogFragment.arguments = bundle
+            hintDialogFragment.show(fragmentManager, "HintDialogFragment")
         } else {
             adapter.getItem(position)?.let { it0 ->
+                selectedZone = it0
                 if (it0.type == 1) {
-                    val quitZoneFragment = QuitZoneFragment()
-                    quitZoneFragment.isCancelable = false
-                    quitZoneFragment.setConfirmButtonClickListener(object : QuitZoneFragment.ConfirmButtonClickListener {
-                        override fun confirm(id: Int) {
-                            deleteZone(id)
-                        }
-                    })
+                    val dialog = ConfirmDialogFragment()
                     val bundle = Bundle()
-                    bundle.putInt("zoneId", it0.id)
-                    quitZoneFragment.arguments = bundle
-                    quitZoneFragment.show(fragmentManager, "QuitZoneFragment")
+                    bundle.putString("title", getString(R.string.msg_notes))
+                    bundle.putString("content", getString(R.string.msg_quit_shared_zone))
+                    dialog.arguments = bundle
+                    dialog.setConfirmDialogInterface(this)
+                    dialog.show(fragmentManager, "ConfirmDialogFragment")
                 } else {
                     context?.getIMEI()?.let { it1 ->
                         viewModel.getZone(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                             if (it?.status == Status.SUCCESS) {
                                 hideLoadingView()
                                 if (it.data?.devices.isNullOrEmpty()) {
-                                    deleteZone(it0.id)
+//                                    deleteZone(it0.id)
                                 } else {
                                     val deleteDevicesFragment = DeleteDevicesFragment()
                                     deleteDevicesFragment.isCancelable = false
@@ -189,56 +191,64 @@ class ZoneSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemChildClickLis
         mViewModel.setRemoveDeviceFlag(true)
         context?.getIMEI()?.let { it1 ->
             viewModel.switchZone(it1, id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
-                if (it?.status == Status.SUCCESS) {
-                    PlSigMeshService.getInstance().meshList.clear()
-                    hideLoadingView()
-                    mViewModel.setCurrentZoneId(it.data?.id)
-                    bridgeListener.reConnectBridge()
-                    Navigation.findNavController(btn_share_zone).popBackStack()
-                } else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                } else if (it?.status == Status.LOADING) {
-                    showLoadingView()
+                when {
+                    it?.status == Status.SUCCESS -> {
+                        PlSigMeshService.getInstance().meshList.clear()
+                        hideLoadingView()
+                        mViewModel.setCurrentZoneId(it.data?.id)
+                        bridgeListener.reConnectBridge()
+                        Navigation.findNavController(btn_share_zone).popBackStack()
+                    }
+                    it?.status == Status.ERROR -> {
+                        hideLoadingView()
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    }
+                    it?.status == Status.LOADING -> showLoadingView()
                 }
             })
         }
     }
 
-    private fun deleteZone(zoneId: Int) {
-        context?.getIMEI()?.let { it1 ->
-            viewModel.deleteZone(it1, zoneId).observe(viewLifecycleOwner, Observer<Resource<Int>> {
-                if (it?.status == Status.SUCCESS) {
-                    hideLoadingView()
-                    it.data?.let {
-                        mViewModel.setCurrentZoneId(it)
-                        bridgeListener.reConnectBridge()
+    override fun onConfirmButtonClick() {
+        selectedZone?.let {
+            context?.getIMEI()?.let { it1 ->
+                viewModel.deleteZone(it1, it.id).observe(viewLifecycleOwner, Observer<Resource<Int>> {
+                    when {
+                        it?.status == Status.SUCCESS -> {
+                            hideLoadingView()
+                            it.data?.let {
+                                mViewModel.setCurrentZoneId(it)
+                                bridgeListener.reConnectBridge()
+                            }
+                        }
+                        it?.status == Status.ERROR -> {
+                            hideLoadingView()
+                            it.message?.let { it2 -> activity?.toast(it2) }
+                        }
+                        it?.status == Status.LOADING -> showLoadingView()
                     }
-                } else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                } else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            })
+                })
+            }
         }
     }
 
     override fun onInput(text: String) {
-       selectedZone?.let {
-           context?.getIMEI()?.let { it1 ->
-               viewModel.changeZoneName(it1, it.id, text).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
-                   if (it?.status == Status.SUCCESS) {
-                       hideLoadingView()
-                       mViewModel.setCurrentZoneId(it.data?.id)
-                   } else if (it?.status == Status.ERROR) {
-                       hideLoadingView()
-                       it.message?.let { it2 -> activity?.toast(it2) }
-                   } else if (it?.status == Status.LOADING) {
-                       showLoadingView()
-                   }
-               })
-           }
-       }
+        selectedZone?.let {
+            context?.getIMEI()?.let { it1 ->
+                viewModel.changeZoneName(it1, it.id, text).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
+                    when {
+                        it?.status == Status.SUCCESS -> {
+                            hideLoadingView()
+                            mViewModel.setCurrentZoneId(it.data?.id)
+                        }
+                        it?.status == Status.ERROR -> {
+                            hideLoadingView()
+                            it.message?.let { it2 -> activity?.toast(it2) }
+                        }
+                        it?.status == Status.LOADING -> showLoadingView()
+                    }
+                })
+            }
+        }
     }
 }

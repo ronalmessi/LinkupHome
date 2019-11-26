@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.device1
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,19 +22,17 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.devicecontrol.navigator.ControlFragmentNavigator
+import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.DeleteDeviceListener
-import com.ihomey.linkuphome.listener.DeviceRemoveListener
-import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
+import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
-open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, DeviceRemoveListener, DeleteDeviceListener, DeviceListAdapter.OnItemClickListener, DeviceListAdapter.OnItemChildClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener {
+open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, DeviceRemoveListener,  DeviceListAdapter.OnItemClickListener, DeviceListAdapter.OnItemChildClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface {
 
     companion object {
         fun newInstance() = DeviceFragment()
@@ -46,6 +43,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     private lateinit var meshServiceStateListener: MeshServiceStateListener
     private var isUserTouch: Boolean = false
     private var deviceList: List<Device>? = null
+    private var selectedDevice:Device?=null
 
     private val navigator:ControlFragmentNavigator=ControlFragmentNavigator()
 
@@ -111,47 +109,47 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         if (!isVisible) isUserTouch = false
     }
 
-
-    override fun deleteDevice(id: String, instructId: Int, pid: Int) {
-        if (id.contains(":")) {
-            isUserTouch = false
-            if (instructId == 0) {
-                BluetoothSPP.getInstance()?.disconnect(id)
-                mViewModel.deleteM1Device(id)
-            }
-        } else {
-            context?.getIMEI()?.let { it1 ->
-                mViewModel.deleteDevice(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
-                    if (it?.status == Status.SUCCESS) {
-                        mViewModel.setRemoveDeviceVo(RemoveDeviceVo(id, instructId, pid, this))
-                    } else if (it?.status == Status.ERROR) {
-                        hideLoadingView()
-                        if(TextUtils.equals("0040",it.message)){
-                            isUserTouch = false
-                            mViewModel.deleteDevice(id)
-                        }else{
-                            it.message?.let { it2 -> activity?.toast(it2) }
-                        }
-                    } else if (it?.status == Status.LOADING) {
-                        showLoadingView()
-                    }
-                })
-            }
-        }
-    }
-
     override fun onItemChildClick(singleDevice: Device, view: View) {
         if (view.id == R.id.btn_delete) {
-            val dialog = DeleteDeviceFragment()
+            selectedDevice=singleDevice
+            val dialog = ConfirmDialogFragment()
             val bundle = Bundle()
-            bundle.putString("deviceId", singleDevice.id)
-            bundle.putInt("deviceInstructId", singleDevice.instructId)
-            bundle.putInt("devicePId", singleDevice.pid)
+            bundle.putString("title", getString(R.string.action_delete))
+            bundle.putString("content", getString(R.string.action_remove_device))
             dialog.arguments = bundle
-            dialog.setDeleteDeviceListener(this)
-            dialog.show(fragmentManager, "DeleteDeviceFragment")
+            dialog.setConfirmDialogInterface(this)
+            dialog.show(fragmentManager, "ConfirmDialogFragment")
         }
     }
+
+    override fun onConfirmButtonClick() {
+        selectedDevice?.let {it0->
+            if (it0.type==0) {
+                isUserTouch = false
+                BluetoothSPP.getInstance()?.disconnect(it0.id)
+                mViewModel.deleteM1Device(it0.id)
+            } else {
+                context?.getIMEI()?.let { it1 ->
+                    mViewModel.deleteDevice(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
+                        if (it?.status == Status.SUCCESS) {
+                            mViewModel.setRemoveDeviceVo(RemoveDeviceVo(it0.id, it0.instructId, it0.pid, this))
+                        } else if (it?.status == Status.ERROR) {
+                            hideLoadingView()
+                            if(TextUtils.equals("0040",it.message)){
+                                isUserTouch = false
+                                mViewModel.deleteDevice(it0.id)
+                            }else{
+                                it.message?.let { it2 -> activity?.toast(it2) }
+                            }
+                        } else if (it?.status == Status.LOADING) {
+                            showLoadingView()
+                        }
+                    })
+                }
+            }
+        }
+    }
+
 
 
     override fun onItemClick(singleDevice: Device) {

@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.device1
+package com.ihomey.linkuphome.dialog
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,25 +11,23 @@ import android.view.Window
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.listener.DeleteDeviceListener
+import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 
-class DeleteDeviceFragment : DialogFragment() {
+class ConfirmDialogFragment : DialogFragment() {
 
+    private var listener: ConfirmDialogInterface? = null
 
-    private var deleteListener: DeleteDeviceListener? = null
-
-    fun setDeleteDeviceListener(deleteSubZoneListener: DeleteDeviceListener) {
-        this.deleteListener = deleteSubZoneListener
+    fun setConfirmDialogInterface(listener: ConfirmDialogInterface) {
+        this.listener = listener
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_delete_device, container, false)
-        val btn_cancel = view.findViewById<TextView>(R.id.btn_cancel)
-        btn_cancel.setOnClickListener { dismiss() }
-        val btn_confirm = view.findViewById<TextView>(R.id.btn_confirm)
-        btn_confirm.setOnClickListener {
-            arguments?.getString("deviceId")?.let { it1 -> arguments?.getInt("deviceInstructId")?.let { it2 -> arguments?.getInt("devicePId")?.let { it3 ->deleteListener?.deleteDevice(it1, it2,it3) } } }
+        val view = inflater.inflate(R.layout.dialog_confirm, container, false)
+        view.findViewById<TextView>(R.id.tv_dialog_title).text = arguments?.getString("title")
+        view.findViewById<TextView>(R.id.tv_dialog_content).text = arguments?.getString("content")
+        view.findViewById<TextView>(R.id.btn_cancel).setOnClickListener { dismiss() }
+        view.findViewById<TextView>(R.id.btn_confirm).setOnClickListener {
+            listener?.onConfirmButtonClick()
             dismiss()
         }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

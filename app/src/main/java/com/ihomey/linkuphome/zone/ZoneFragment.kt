@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,19 +29,16 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device1.ColorCyclingSettingFragment
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
+import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.DeleteSubZoneListener
-import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
-import com.ihomey.linkuphome.room.DeleteRoomFragment
+import com.ihomey.linkuphome.listener.*
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.view_zone_list_empty.*
 import kotlinx.android.synthetic.main.zone_fragment.*
 
-class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener, FragmentVisibleStateListener, RoomListAdapter.OnItemClickListener, RoomListAdapter.OnItemChildClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener {
+class ZoneFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStateListener, RoomListAdapter.OnItemClickListener, RoomListAdapter.OnItemChildClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface {
 
     companion object {
         fun newInstance() = ZoneFragment()
@@ -56,6 +52,8 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
 
     private var isUserTouch: Boolean = false
     private var roomList: List<RoomAndDevices>? = null
+
+    private var selectedRoom:Room?=null
 
     var hasShowBindDeviceGuide by PreferenceHelper("hasShowBindDeviceGuide", false)
 
@@ -140,20 +138,23 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
         isUserTouch = false
     }
 
-    override fun deleteSubZone(id: Int) {
-        context?.getIMEI()?.let { it1 ->
-            mViewModel.deleteRoom(it1, id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
-                if (it?.status == Status.SUCCESS) {
-                    hideLoadingView()
-                } else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                } else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            })
+    override fun onConfirmButtonClick() {
+        selectedRoom?.let {
+            context?.getIMEI()?.let { it1 ->
+                mViewModel.deleteRoom(it1, it.id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
+                    if (it?.status == Status.SUCCESS) {
+                        hideLoadingView()
+                    } else if (it?.status == Status.ERROR) {
+                        hideLoadingView()
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    } else if (it?.status == Status.LOADING) {
+                        showLoadingView()
+                    }
+                })
+            }
         }
     }
+
 
     override fun onItemClick(position: Int) {
         hideGuideView()
@@ -167,23 +168,20 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler, DeleteSubZoneListener,
         roomList?.get(position)?.let {
             when (view.id) {
                 R.id.btn_delete -> {
-                    val room = it.room
-                    if (room != null) {
-                        val dialog = DeleteRoomFragment()
-                        val bundle = Bundle()
-                        bundle.putInt("zoneId", room.id)
-                        dialog.arguments = bundle
-                        dialog.setDeleteSubZoneListener(this)
-                        dialog.show(fragmentManager, "DeleteRoomFragment")
-                    }
+                    selectedRoom=it.room
+                    val dialog = ConfirmDialogFragment()
+                    val bundle = Bundle()
+                    bundle.putString("title", getString(R.string.title_delete_room))
+                    bundle.putString("content", getString(R.string.msg_delete_room))
+                    dialog.arguments = bundle
+                    dialog.setConfirmDialogInterface(this)
+                    dialog.show(fragmentManager, "ConfirmDialogFragment")
                 }
-
                 R.id.iv_color_cycling -> {
                     val dialog = ColorCyclingSettingFragment()
                     mViewModel.setSelectedRoom(it)
                     dialog.show(fragmentManager, "ColorCyclingSettingFragment")
                 }
-
                 R.id.iv_lighting -> {
                     if (isFragmentVisible) {
                         for (index in it.devices.indices) {

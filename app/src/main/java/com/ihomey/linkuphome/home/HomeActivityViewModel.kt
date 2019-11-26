@@ -170,7 +170,6 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     fun updateDeviceName(device: Device, newName: String) {
-        Log.d("aa","---"+device.id+"---"+newName)
         return mDeviceRepository.updateDeviceName(device, newName)
     }
 

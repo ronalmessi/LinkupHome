@@ -29,7 +29,7 @@ class ConnectDeviceViewModel : ViewModel() {
         }
     }
 
-    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,pid: Int?,meshInfo:String?): LiveData<Resource<Device>> {
+    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,pid: Int,meshInfo:String?): LiveData<Resource<Device>> {
         return mDeviceRepository.saveDevice(guid, zoneId, type,name,pid,meshInfo)
     }
 

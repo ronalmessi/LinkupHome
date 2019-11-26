@@ -29,7 +29,6 @@ class InputDialogFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_input, container, false)
         editText = view.findViewById(R.id.editText)
-
         editText.setText(arguments?.getString("inputText"))
         arguments?.getString("inputText")?.length?.let { editText.setSelection(it) }
         view.findViewById<TextView>(R.id.btn_cancel).setOnClickListener { dismiss() }

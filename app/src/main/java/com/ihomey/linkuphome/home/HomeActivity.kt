@@ -85,25 +85,25 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                 mCurrentZone=it.data
                 it.data?.nextDeviceIndex?.let { it1 -> mService?.setNextDeviceId(it1) }
                 it.data?.netWorkKey?.let { it1 -> mService?.setNetworkPassPhrase(it1) }
-                mPlSigMeshService?.let { it0 ->
-                    if (TextUtils.isEmpty(it.data?.meshInfo)) {
-                        Log.d("aa", "ccccc---" + it)
-                        createPlSigMeshNet()
-                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
-                            mViewModel.uploadMeshInfo(getIMEI(), it.data?.id, it.data?.name, it0.getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {
-                                if (it?.status != Status.LOADING) initMeshNet()
-                            })
-                        }
-                    } else {
-                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
-                            Log.d("aa", "aaaa11---" + it.data?.meshInfo)
-                            Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0).encodeBase64())
-                            it.data?.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
-                            initMeshNet()
-                            Log.d("aa", "bbbb---" + it0.meshList.size + "---" + PlSigMeshService.getInstance().getJsonStrMeshNet(0))
-                        }
-                    }
-                }
+//                mPlSigMeshService?.let { it0 ->
+//                    if (TextUtils.isEmpty(it.data?.meshInfo)) {
+//                        Log.d("aa", "ccccc---" + it)
+//                        createPlSigMeshNet()
+//                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
+//                            mViewModel.uploadMeshInfo(getIMEI(), it.data?.id, it.data?.name, it0.getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {
+//                                if (it?.status != Status.LOADING) initMeshNet()
+//                            })
+//                        }
+//                    } else {
+//                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
+//                            Log.d("aa", "aaaa11---" + it.data?.meshInfo)
+//                            Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0).encodeBase64())
+//                            it.data?.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+//                            initMeshNet()
+//                            Log.d("aa", "bbbb---" + it0.meshList.size + "---" + PlSigMeshService.getInstance().getJsonStrMeshNet(0))
+//                        }
+//                    }
+//                }
 
             }
         })
