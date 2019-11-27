@@ -84,13 +84,13 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
 
     private fun bindDevice() {
         showLoadingView()
-        room?.let { bindDevice(it.zoneId, it.instructId, adapter.getSelectedDevices().map { it.instructId }.joinToString(","), "add") }
+        room?.let { bindDevice(it.zoneId, it.id, adapter.getSelectedDevices().map { it.id }.joinToString(","), "add") }
     }
 
 
-    private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructIds: String, act: String) {
+    private fun bindDevice(zoneId: Int, groupId: Int, deviceIds: String, act: String) {
         context?.getIMEI()?.let { it1 ->
-            viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructIds, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+            viewModel.bindDevice(it1, zoneId, groupId, deviceIds, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 if (it?.status == Status.SUCCESS) {
                     hideLoadingView()
                     Navigation.findNavController(btn_save).popBackStack()

@@ -130,7 +130,7 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListene
 
     override fun onItemClick(menuBridge: SwipeMenuBridge?, position: Int) {
         adapter.currentList?.get(position)?.let { it1 ->
-            room?.let { bindDevice(it.zoneId, it.instructId, it1.instructId.toString(), "remove") }
+            room?.let { bindDevice(it.zoneId, it.id, it1.id, "remove") }
         }
         menuBridge?.closeMenu()
     }
@@ -202,9 +202,9 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListene
         }
     }
 
-    private fun bindDevice(zoneId: Int, groupInstructId: Int, deviceInstructId: String, act: String) {
+    private fun bindDevice(zoneId: Int, groupId: Int, deviceId: String, act: String) {
         context?.getIMEI()?.let { it1 ->
-            viewModel.bindDevice(it1, zoneId, groupInstructId, deviceInstructId, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+            viewModel.bindDevice(it1, zoneId, groupId, deviceId, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 mViewModel.setCurrentRoom(room)
                 if (it?.status == Status.SUCCESS) {
                     hideLoadingView()

@@ -178,8 +178,8 @@ class HomeActivityViewModel : ViewModel() {
     }
 
 
-    fun bindDevice(guid: String, spaceId: Int, groupInstructId: Int, deviceInstructId: String, act: String): LiveData<Resource<Room>> {
-        return roomRepository.bindDevice(guid, spaceId, groupInstructId, deviceInstructId, act)
+    fun bindDevice(guid: String, spaceId: Int, groupId: Int, deviceIds: String, act: String): LiveData<Resource<Room>> {
+        return roomRepository.bindDevice(guid, spaceId, groupId, deviceIds, act)
     }
 
 

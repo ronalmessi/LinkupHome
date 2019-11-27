@@ -54,11 +54,11 @@ abstract class DeviceDao {
     @Query("UPDATE device2 set roomId = 0 WHERE roomId = :roomId")
     abstract fun unBondFromRoom(roomId: Int)
 
-    @Query("UPDATE device2 set roomId = 0 WHERE instructId = :deviceInstructId and zoneId= :zoneId")
-    abstract fun unBondDeviceFromRoom(deviceInstructId: Int, zoneId: Int)
+    @Query("UPDATE device2 set roomId = 0 WHERE id = :deviceId and zoneId= :zoneId")
+    abstract fun unBondDeviceFromRoom(deviceId: String, zoneId: Int)
 
-    @Query("UPDATE device2 set roomId = :roomId WHERE instructId = :deviceInstructId and zoneId= :zoneId")
-    abstract fun bondToRoom(roomId: Int, deviceInstructId: Int, zoneId: Int)
+    @Query("UPDATE device2 set roomId = :roomId WHERE id = :deviceId and zoneId= :zoneId")
+    abstract fun bondToRoom(roomId: Int, deviceId: String, zoneId: Int)
 
 
     @Query("SELECT * FROM device2 WHERE zoneId = :zoneId and roomId = :roomId")

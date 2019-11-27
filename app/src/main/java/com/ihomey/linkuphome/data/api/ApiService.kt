@@ -81,8 +81,13 @@ interface ApiService {
     @POST("/api/group/save")
     fun changeRoomName(@Body changeDeviceNameVO: ChangeDeviceNameVO): LiveData<ApiResult<Room>>
 
+//    //添加设备到房间
+//    @POST("/api/group/device")
+//    fun bindDevice(@Body bindDeviceVO: BindDeviceVO): LiveData<ApiResult<Room>>
+
+
     //添加设备到房间
-    @POST("/api/group/device")
+    @POST("/api/group/bindDevice")
     fun bindDevice(@Body bindDeviceVO: BindDeviceVO): LiveData<ApiResult<Room>>
 
     //修改设备状态
