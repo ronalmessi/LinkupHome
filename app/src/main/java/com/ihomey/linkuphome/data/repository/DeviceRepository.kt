@@ -79,12 +79,10 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
     }
 
 
-    fun changeDeviceName(guid: String, spaceId: Int, id: String, type: Int, newName: String): LiveData<Resource<Device>> {
+    fun changeDeviceName(guid: String, spaceId: Int, id: String,pid: Int,type: Int, newName: String): LiveData<Resource<Device>> {
         return object : NetworkBoundResource<Device>(appExecutors) {
             override fun saveCallResult(item: Device?) {
-                item?.let {
-                    deviceDao.updateName(id, newName)
-                }
+                item?.let { deviceDao.updateName(id, newName)}
             }
 
             override fun shouldFetch(data: Device?): Boolean {
@@ -96,9 +94,9 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             }
 
             override fun createCall(): LiveData<ApiResult<Device>> {
-                val changeZoneNameVO = ChangeDeviceNameVO(guid.md5(), id, newName, spaceId, System.currentTimeMillis(), type)
-                changeZoneNameVO.signature = beanToJson(changeZoneNameVO).sha256()
-                return apiService.changeDeviceName(changeZoneNameVO)
+                val saveDeviceVO = SaveDeviceVO(guid.md5(), id, newName, spaceId, System.currentTimeMillis(), type,pid)
+                saveDeviceVO.signature =(AppConfig.APP_SECRET+saveDeviceVO.toString()).sha256()
+                return apiService.changeDeviceName(saveDeviceVO)
             }
         }.asLiveData()
     }

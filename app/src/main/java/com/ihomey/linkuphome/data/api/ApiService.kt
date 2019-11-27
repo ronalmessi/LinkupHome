@@ -62,7 +62,7 @@ interface ApiService {
 
     //修改设备名称
     @POST("/api/device/save")
-    fun changeDeviceName(@Body changeDeviceNameVO: ChangeDeviceNameVO): LiveData<ApiResult<Device>>
+    fun changeDeviceName(@Body saveDeviceVO: SaveDeviceVO): LiveData<ApiResult<Device>>
 
     //修改设备状态
     @POST("/api/device/handling")

@@ -114,7 +114,7 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
             updateDeviceName(text, device)
         } else {
             context?.getIMEI()?.let { it1 ->
-                mViewModel.changeDeviceName(it1, device.zoneId, device.id, device.type, text).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                mViewModel.changeDeviceName(it1, device.zoneId, device.id,device.pid,device.type, text).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     when {
                         it?.status == Status.SUCCESS -> {
                             hideLoadingView()

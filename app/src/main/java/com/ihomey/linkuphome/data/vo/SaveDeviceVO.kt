@@ -10,8 +10,8 @@ data class SaveDeviceVO(val guid: String, val id: String?=null,val name: String,
     override fun toString(): String {
         val sb=StringBuilder()
         sb.append("guid$guid")
-        if (id == null) sb.append("id$id")
-        if (meshInfo == null) sb.append("meshInfo$meshInfo")
+        if (id != null) sb.append("id$id")
+        if (meshInfo != null) sb.append("meshInfo$meshInfo")
         sb.append("name$name").append("pid$pid").append("spaceId$spaceId").append("timestamp$timestamp").append("type$type")
         return sb.toString()
     }

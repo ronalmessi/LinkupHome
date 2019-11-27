@@ -165,8 +165,8 @@ class HomeActivityViewModel : ViewModel() {
 //    }
 
 
-    fun changeDeviceName(guid: String, spaceId: Int, id: String, type: Int, newName: String): LiveData<Resource<Device>> {
-        return mDeviceRepository.changeDeviceName(guid, spaceId, id, type, newName)
+    fun changeDeviceName(guid: String, spaceId: Int, id: String,pid: Int, type: Int, newName: String): LiveData<Resource<Device>> {
+        return mDeviceRepository.changeDeviceName(guid, spaceId, id,pid,type, newName)
     }
 
     fun updateDeviceName(device: Device, newName: String) {
