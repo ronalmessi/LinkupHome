@@ -274,7 +274,7 @@ class TimerSettingView : View {
         mAMPMPaint.color = mReachedColor
         mAMPMPaint.isAntiAlias = true
         mAMPMPaint.typeface = Typeface.MONOSPACE
-        mAMPMPaint.textSize = mTextSize * 5 / 12
+        mAMPMPaint.textSize = mTextSize * 6 / 12
     }
 
     private fun setHourWheelUnReachedPaint() {

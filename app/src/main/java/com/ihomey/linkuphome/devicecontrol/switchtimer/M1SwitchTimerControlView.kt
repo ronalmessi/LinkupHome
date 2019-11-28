@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.devicecontrol.switchtimer
 
 import android.graphics.Color
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.ViewStub
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -74,7 +75,7 @@ class M1SwitchTimerControlView(val parentView: View, val device: Device) : BaseS
             mLocalState.closeTimerOn = if (isOn) 1 else 0
             val calendar = Calendar.getInstance()
             calendar.time = Date(mLocalState.closeTimer)
-            controller.setRepeatTimer(calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), false, isOn, mLocalState.openDayOfWeek)
+            controller.setRepeatTimer(calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), false, isOn, mLocalState.closeDayOfWeek)
         }
         getOnTimerChangedListener()?.onTimerChanged(mLocalState)
     }
