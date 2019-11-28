@@ -1,30 +1,61 @@
 package com.ihomey.linkuphome.adapter
 
-
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.ihomey.linkuphome.R
+import android.view.View
+import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.ihomey.linkuphome.data.entity.Zone
 
+class ShareZoneListAdapter : PagedListAdapter<Zone, ShareZoneViewHolder>(diffCallback) {
 
-/**
- * Created by dongcaizheng on 2018/4/11.
- */
 
-class ShareZoneListAdapter(layoutId: Int) : BaseQuickAdapter<Zone, BaseViewHolder>(layoutId) {
+    private var mOnItemChildClickListener:OnItemChildClickListener? = null
 
-    override fun convert(helper: BaseViewHolder, item: Zone) {
-        helper.setImageResource(R.id.iv_zone_current_flag, if (item.active == 1) R.mipmap.ic_zone_flag_current else R.mipmap.ic_zone_flag)
-        helper.addOnClickListener(R.id.iv_zone_share)
-
-        val nameTextView = helper.getView<TextView>(R.id.tv_zone_name)
-        nameTextView.text = item.name
-        if (item.type == 1) {
-            val shareFlagDrawable = ContextCompat.getDrawable(mContext, R.drawable.ic_zone_share_flag)
-            shareFlagDrawable?.setBounds(0, 0, shareFlagDrawable.intrinsicWidth * nameTextView.lineHeight / shareFlagDrawable.intrinsicHeight * 5 / 6, nameTextView.lineHeight * 5 / 6)
-            nameTextView.setCompoundDrawables(null, null, shareFlagDrawable, null)
+    override fun onBindViewHolder(holder: ShareZoneViewHolder, position: Int) {
+        getItem(position)?.let {
+            holder.bindTo(it)
+            holder.shareBtn.setOnClickListener {
+                mOnItemChildClickListener?.onItemChildClick(position, it)
+            }
         }
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShareZoneViewHolder = ShareZoneViewHolder(parent)
+
+    companion object {
+        /**
+         * This diff callback informs the PagedListAdapter how to compute list differences when new
+         * PagedLists arrive.
+         * <p>
+         * When you add a Cheese with the 'Add' button, the PagedListAdapter uses diffCallback to
+         * detect there's only a single item difference from before, so it only needs to animate and
+         * rebind a single view.
+         *
+         * @see android.support.v7.util.DiffUtil
+         */
+        private val diffCallback = object : DiffUtil.ItemCallback<Zone>() {
+            override fun areItemsTheSame(oldItem: Zone, newItem: Zone): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            /**
+             * Note that in kotlin, == checking on data classes compares all contents, but in Java,
+             * typically you'll implement Object#equals, and use it to compare object contents.
+             */
+            override fun areContentsTheSame(oldItem: Zone, newItem: Zone): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+
+
+    interface OnItemChildClickListener {
+        fun onItemChildClick(position: Int, view: View)
+    }
+
+
+    fun setOnItemChildClickListener(listener: OnItemChildClickListener) {
+        mOnItemChildClickListener = listener
+    }
+
 }

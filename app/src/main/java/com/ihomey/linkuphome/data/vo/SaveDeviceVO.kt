@@ -1,8 +1,6 @@
 package com.ihomey.linkuphome.data.vo
 
 
-import kotlin.text.StringBuilder
-
 /**
  * Created by dongcaizheng on 2018/4/11.
  */

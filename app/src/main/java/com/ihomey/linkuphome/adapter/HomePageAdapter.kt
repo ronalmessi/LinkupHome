@@ -3,7 +3,7 @@ package com.ihomey.linkuphome.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.ihomey.linkuphome.device1.DeviceNavHostFragment
+import com.ihomey.linkuphome.device.DeviceNavHostFragment
 import com.ihomey.linkuphome.setting.SettingNavHostFragment
 import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 

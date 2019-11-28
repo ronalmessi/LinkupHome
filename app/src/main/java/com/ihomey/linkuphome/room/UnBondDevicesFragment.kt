@@ -17,13 +17,15 @@ import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.unbonded_devices_fragment.*
 
-class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceListener {
+class UnBondDevicesFragment : BaseFragment(),ConfirmDialogInterface {
 
     companion object {
         fun newInstance() = UnBondDevicesFragment()
@@ -63,24 +65,28 @@ class UnBondDevicesFragment : BaseFragment(), BondDeviceTipFragment.BondDeviceLi
         rcv_device_list.adapter = adapter
         iv_back.setOnClickListener {
             if (adapter.getSelectedDevices().isEmpty()) Navigation.findNavController(it).popBackStack() else {
-                val dialog = BondDeviceTipFragment()
-                dialog.isCancelable = false
-                dialog.setDeleteDeviceListener(this)
-                dialog.show(fragmentManager, "BondDeviceTipFragment")
+                val dialog = ConfirmDialogFragment()
+                val bundle = Bundle()
+                bundle.putString("title", getString(R.string.title_save_modifications))
+                bundle.putString("content", getString(R.string.msg_save_modifications))
+                dialog.arguments = bundle
+                dialog.setConfirmDialogInterface(this)
+                dialog.show(fragmentManager, "ConfirmDialogFragment")
             }
         }
         btn_save.setOnClickListener { it1 ->
             if (adapter.getSelectedDevices().isEmpty()) {
-                confirm()
+                onConfirmButtonClick()
             } else {
                 bindDevice()
             }
         }
     }
 
-    override fun confirm() {
+    override fun onConfirmButtonClick() {
         Navigation.findNavController(btn_save).popBackStack()
     }
+
 
     private fun bindDevice() {
         showLoadingView()

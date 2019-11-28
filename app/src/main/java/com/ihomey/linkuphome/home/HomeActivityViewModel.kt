@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.home
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.ihomey.linkuphome.data.entity.*

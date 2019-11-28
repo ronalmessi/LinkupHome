@@ -1,6 +1,9 @@
 package com.ihomey.linkuphome.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.data.api.AbsentLiveData
 import com.ihomey.linkuphome.data.api.ApiResult
@@ -279,6 +282,12 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
                 return zoneDao.getZones()
             }
         }.asLiveData()
+    }
+
+
+    fun getPagingZones(): LiveData<PagedList<Zone>> {
+        Log.d("aa","---getPagingZones")
+        return LivePagedListBuilder(zoneDao.getPagingZones(), /* page size */6).build()
     }
 
     fun getZone(id: Int): LiveData<Resource<Zone>> {

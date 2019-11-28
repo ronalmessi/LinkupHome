@@ -28,8 +28,8 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device1.ConnectDeviceFragment
-import com.ihomey.linkuphome.device1.ConnectM1DeviceFragment
+import com.ihomey.linkuphome.device.ConnectDeviceFragment
+import com.ihomey.linkuphome.device.ConnectM1DeviceFragment
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.*
@@ -437,6 +437,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         }
 
         override fun onVendorUartData(src: Short, data: ByteArray?) {
+//            Log.d("aa", "onVersionGet $src $ver")
+
+            Log.d("aa", "onVendorUartData " + src + " " + Util.byte2HexStr(data))
+//            val str = "recv uart : " + src + " " + Util.byte2HexStr(data)
             super.onVendorUartData(src, data)
         }
 
@@ -496,6 +500,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
         override fun onVersionGet(src: Short, ver: String?) {
             super.onVersionGet(src, ver)
+            Log.d("aa", "onVersionGet $src $ver")
         }
 
         override fun onJiechangConfigStatus(src: Short, data: ByteArray?, len: Int) {
@@ -581,12 +586,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
         meshAssListener = if (enabled && listener != null) listener else null
         try {
             mService?.setDeviceDiscoveryFilterEnabled(enabled)
+
             if (enabled) {
                 mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROXY)
                 mPlSigMeshService?.proxyExit()
                 mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
+                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROVISION)
+            }else{
+                mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROVISION)
+                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROXY)
+                mPlSigMeshService?.proxyJoin()
             }
-            mPlSigMeshService?.scanDevice(enabled, Util.SCAN_TYPE_PROVISION)
+
         } catch (e: Exception) {
             Log.d("LinkupHome", "you should firstly connect to bridge!")
         }

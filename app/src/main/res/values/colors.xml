@@ -6,8 +6,6 @@
 
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="red">#f00</color>
-
     <color name="bridge_connected_msg_bg_color">#FF6666</color>
 
     <color name="control_tab_item_normal_color">#959595</color>

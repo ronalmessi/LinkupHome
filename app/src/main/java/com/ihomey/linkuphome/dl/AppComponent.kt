@@ -1,18 +1,17 @@
 package com.ihomey.linkuphome.dl
 
 import com.ihomey.linkuphome.alarm.AlarmViewModel
-import com.ihomey.linkuphome.device1.ConnectDeviceViewModel
+import com.ihomey.linkuphome.device.ConnectDeviceViewModel
 import com.ihomey.linkuphome.devicecontrol.scene.SceneSettingViewModel
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.inform.InformViewModel
 import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.room.UnBondDevicesViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
+import com.ihomey.linkuphome.setting.zone.ZoneSettingViewModel
 import com.ihomey.linkuphome.share.JoinZoneViewModel
-import com.ihomey.linkuphome.share.ShareZoneListViewModel
 import com.ihomey.linkuphome.splash.SplashViewModel
 import com.ihomey.linkuphome.zone.CreateZoneViewModel
-import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
@@ -41,7 +40,6 @@ interface AppComponent {
 
     fun inject(sceneSettingViewModel: SceneSettingViewModel)
 
-    fun inject(shareZoneListViewModel: ShareZoneListViewModel)
 
     fun inject(connectDeviceViewModel: ConnectDeviceViewModel)
 

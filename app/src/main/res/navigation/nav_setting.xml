@@ -57,11 +57,11 @@
         android:id="@+id/createZoneFragment"
         android:name="com.ihomey.linkuphome.zone.CreateZoneFragment"
         android:label="create_zone_fragment"
-        tools:layout="@layout/create_zone_fragment"></fragment>
+        tools:layout="@layout/create_zone_fragment"/>
 
     <fragment
         android:id="@+id/shareZoneListFragment"
-        android:name="com.ihomey.linkuphome.share.ShareZoneListFragment"
+        android:name="com.ihomey.linkuphome.setting.zone.ShareZoneListFragment"
         android:label="zone_share_list_fragment"
         tools:layout="@layout/zone_share_list_fragment">
         <action
@@ -76,17 +76,17 @@
         android:id="@+id/shareZoneFragment"
         android:name="com.ihomey.linkuphome.share.ShareZoneFragment"
         android:label="zone_share_fragment"
-        tools:layout="@layout/zone_share_fragment"></fragment>
+        tools:layout="@layout/zone_share_fragment"/>
 
     <fragment
         android:id="@+id/joinZoneFragment"
         android:name="com.ihomey.linkuphome.share.JoinZoneFragment"
         android:label="zone_join_fragment"
-        tools:layout="@layout/zone_join_fragment"></fragment>
+        tools:layout="@layout/zone_join_fragment"/>
 
     <fragment
         android:id="@+id/zoneSettingFragment"
-        android:name="com.ihomey.linkuphome.zone.ZoneSettingFragment"
+        android:name="com.ihomey.linkuphome.setting.zone.ZoneSettingFragment"
         android:label="ZoneSettingFragment"
         tools:layout="@layout/zone_setting_fragment">
         <action

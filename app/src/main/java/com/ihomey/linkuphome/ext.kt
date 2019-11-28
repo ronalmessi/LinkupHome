@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.ihomey.linkuphome.device.DeviceType
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.pairlink.sigmesh.lib.MeshNetInfo
 import com.pairlink.sigmesh.lib.PlSigMeshService

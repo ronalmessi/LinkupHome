@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/tab_devices"
-        android:name="com.ihomey.linkuphome.device1.DeviceFragment"
+        android:name="com.ihomey.linkuphome.device.DeviceFragment"
         tools:layout="@layout/devices_fragment">
         <action
             android:id="@+id/action_tab_devices_to_chooseDeviceTypeFragment"
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/chooseDeviceTypeFragment"
-        android:name="com.ihomey.linkuphome.device1.ChooseDeviceTypeFragment"
+        android:name="com.ihomey.linkuphome.device.ChooseDeviceTypeFragment"
         android:label="ChooseDeviceTypeFragment"
         tools:layout="@layout/choose_device_type_fragment">
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchDeviceHintFragment"
-        android:name="com.ihomey.linkuphome.device1.SearchDeviceHintFragment"
+        android:name="com.ihomey.linkuphome.device.SearchDeviceHintFragment"
         android:label="SearchDeviceHintFragment"
         tools:layout="@layout/search_device_hint_fragment">
         <action
@@ -70,12 +70,12 @@
     </fragment>
     <fragment
         android:id="@+id/resetDeviceFragment"
-        android:name="com.ihomey.linkuphome.device1.ResetDeviceFragment"
+        android:name="com.ihomey.linkuphome.device.ResetDeviceFragment"
         android:label="ResetDeviceFragment"
         tools:layout="@layout/reset_device_fragment" />
     <fragment
         android:id="@+id/searchDeviceFragment"
-        android:name="com.ihomey.linkuphome.device1.SearchDeviceFragment"
+        android:name="com.ihomey.linkuphome.device.SearchDeviceFragment"
         android:label="SearchDeviceFragment"
         tools:layout="@layout/search_device_fragment">
         <action
@@ -93,13 +93,13 @@
     </fragment>
     <fragment
         android:id="@+id/connectDeviceFragment"
-        android:name="com.ihomey.linkuphome.device1.ConnectDeviceFragment"
+        android:name="com.ihomey.linkuphome.device.ConnectDeviceFragment"
         android:label="ConnectDeviceFragment"
         tools:layout="@layout/connect_device_fragment" />
 
     <fragment
         android:id="@+id/connectM1DeviceFragment"
-        android:name="com.ihomey.linkuphome.device1.ConnectM1DeviceFragment"
+        android:name="com.ihomey.linkuphome.device.ConnectM1DeviceFragment"
         android:label="ConnectM1DeviceFragment"
         tools:layout="@layout/connect_device_fragment">
 

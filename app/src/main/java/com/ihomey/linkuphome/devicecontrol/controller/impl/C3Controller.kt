@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.devicecontrol.controller.impl
 
-import android.util.Log
 import com.csr.mesh.DataModelApi
 import com.ihomey.linkuphome.checkSum
 import com.ihomey.linkuphome.data.entity.Device

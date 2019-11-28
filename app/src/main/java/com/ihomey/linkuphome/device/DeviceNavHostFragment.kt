@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.zone
+package com.ihomey.linkuphome.device
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,19 +12,18 @@ import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 
 
-class ZoneNavHostFragment : BaseFragment(), FragmentBackHandler {
+class DeviceNavHostFragment : BaseFragment(), FragmentBackHandler {
 
     private var listener: FragmentVisibleStateListener? = null
 
-
     var isVisibleToUser: Boolean = false
 
-    fun newInstance(): ZoneNavHostFragment {
-        return ZoneNavHostFragment()
+    fun newInstance(): DeviceNavHostFragment {
+        return DeviceNavHostFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.zone_navhost_fragment, container, false)
+        return inflater.inflate(R.layout.devices_navhost_fragment, container, false)
     }
 
     fun showBottomNavigationBar(isVisible: Boolean) {
@@ -33,20 +32,21 @@ class ZoneNavHostFragment : BaseFragment(), FragmentBackHandler {
         }
     }
 
+    override fun onBackPressed(): Boolean {
+        return handleBackPress(childFragmentManager.fragments[0])
+    }
+
+    fun getPagePosition(): Int {
+        return (parentFragment as HomeFragment).getPagePosition()
+    }
+
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         this.isVisibleToUser = isVisibleToUser
         if (listener != null) listener?.onFragmentVisibleStateChanged(isVisibleToUser)
     }
 
-
-
-    override fun onBackPressed(): Boolean {
-        return handleBackPress(childFragmentManager.fragments[0])
-    }
-
     fun setFragmentVisibleStateListener(listener: FragmentVisibleStateListener) {
         this.listener = listener
     }
-
 }

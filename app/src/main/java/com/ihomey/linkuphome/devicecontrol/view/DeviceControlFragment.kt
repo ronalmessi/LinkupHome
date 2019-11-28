@@ -17,7 +17,7 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device1.DeviceNavHostFragment
+import com.ihomey.linkuphome.device.DeviceNavHostFragment
 import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel

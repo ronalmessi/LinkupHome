@@ -27,12 +27,15 @@ import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device1.ColorCyclingSettingFragment
+import com.ihomey.linkuphome.device.ColorCyclingSettingFragment
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.*
+import com.ihomey.linkuphome.listener.ConfirmDialogInterface
+import com.ihomey.linkuphome.listener.FragmentBackHandler
+import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
+import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.view_zone_list_empty.*

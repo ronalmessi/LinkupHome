@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.room
+package com.ihomey.linkuphome.device
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,22 +12,22 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.ihomey.linkuphome.R
 
-class BondDeviceTipFragment : DialogFragment() {
+class DeleteDevicesFragment : DialogFragment() {
 
-    private var listener: BondDeviceListener? = null
 
-    fun setDeleteDeviceListener(listener: BondDeviceListener) {
-        this.listener = listener
+    private var mListener: ConfirmButtonClickListener? = null
+
+    fun setConfirmButtonClickListener(listener: ConfirmButtonClickListener) {
+        this.mListener = listener
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.bond_device_tip_fragment, container, false)
+        val view = inflater.inflate(R.layout.dialog_delete_devices, container, false)
         val btn_cancel = view.findViewById<TextView>(R.id.btn_cancel)
         btn_cancel.setOnClickListener { dismiss() }
         val btn_confirm = view.findViewById<TextView>(R.id.btn_confirm)
         btn_confirm.setOnClickListener {
-            listener?.confirm()
+            arguments?.getInt("zoneId")?.let { it1 -> mListener?.confirm(it1) }
             dismiss()
         }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -42,8 +42,7 @@ class BondDeviceTipFragment : DialogFragment() {
         dialog?.window?.setLayout((displayMetrics.widthPixels - context?.resources?.getDimension(R.dimen._32sdp)!!).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-
-    interface BondDeviceListener {
-        fun confirm()
+    interface ConfirmButtonClickListener {
+        fun confirm(id: Int)
     }
 }

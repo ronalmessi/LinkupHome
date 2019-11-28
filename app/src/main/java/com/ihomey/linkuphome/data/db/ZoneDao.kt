@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.data.db
 
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.ihomey.linkuphome.data.entity.Zone
 
@@ -14,6 +15,10 @@ abstract class ZoneDao {
 
     @Query("SELECT * FROM zone order by id asc")
     abstract fun getZones(): LiveData<List<Zone>>
+
+    @Transaction
+    @Query("SELECT * FROM zone order by id asc")
+    abstract fun getPagingZones(): DataSource.Factory<Int, Zone>
 
     @Query("SELECT * FROM zone WHERE id =:id")
     abstract fun getZone(id: Int): LiveData<Zone>
