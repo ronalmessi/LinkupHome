@@ -1,4 +1,4 @@
-package com.ihomey.linkuphome.zone
+package com.ihomey.linkuphome.room
 
 import android.app.Activity
 import android.content.Context
@@ -42,10 +42,10 @@ import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.view_zone_list_empty.*
 import kotlinx.android.synthetic.main.zone_fragment.*
 
-class ZoneFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStateListener, RoomListAdapter.OnItemClickListener, RoomListAdapter.OnItemChildClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface {
+class RoomListFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStateListener, RoomListAdapter.OnItemClickListener, RoomListAdapter.OnItemChildClickListener, RoomListAdapter.OnCheckedChangeListener, RoomListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface {
 
     companion object {
-        fun newInstance() = ZoneFragment()
+        fun newInstance() = RoomListFragment()
     }
 
     private lateinit var mViewModel: HomeActivityViewModel
@@ -164,7 +164,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStateLis
         hideGuideView()
         roomList?.get(position)?.let {
             mViewModel.setSelectedRoom(it)
-            NavHostFragment.findNavController(this@ZoneFragment).navigate(R.id.action_tab_zones_to_subZoneFragment)
+            NavHostFragment.findNavController(this@RoomListFragment).navigate(R.id.action_tab_zones_to_subZoneFragment)
         }
     }
 

@@ -33,7 +33,7 @@ import com.ihomey.linkuphome.device.ConnectM1DeviceFragment
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.*
-import com.ihomey.linkuphome.listeners.BatteryValueListener
+import com.ihomey.linkuphome.listener.BatteryValueListener
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.pairlink.sigmesh.lib.*
 import de.keyboardsurfer.android.widget.crouton.Crouton
