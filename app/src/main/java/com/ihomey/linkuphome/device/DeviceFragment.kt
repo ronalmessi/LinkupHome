@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
@@ -90,7 +91,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         navigator.bind(NavHostFragment.findNavController(this@DeviceFragment))
 
         parentFragment?.parentFragment?.let {
-            val baseNavHostFragment = (it as DeviceNavHostFragment)
+            val baseNavHostFragment = (it as BaseNavHostFragment)
             baseNavHostFragment.setFragmentVisibleStateListener(this)
             baseNavHostFragment.showBottomNavigationBar(true)
         }
@@ -161,27 +162,27 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-    private fun isFragmentVisible(): Boolean {
-        parentFragment?.parentFragment?.let {
-            return (it as DeviceNavHostFragment).getPagePosition() == 0
-        }
-        return false
-    }
+//    private fun isFragmentVisible(): Boolean {
+//        parentFragment?.parentFragment?.let {
+//            return (it as DeviceNavHostFragment).getPagePosition() == 0
+//        }
+//        return false
+//    }
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
         isUserTouch = true
-        if (isFragmentVisible()) {
+//        if (isFragmentVisible()) {
             LightControllerFactory().createCommonController(singleDevice)?.setOnOff(isChecked)
             changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
-        }
+//        }
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
         isUserTouch = true
-        if (isFragmentVisible()) {
+//        if (isFragmentVisible()) {
             LightControllerFactory().createCommonController(singleDevice)?.setBrightness(progress)
             changeDeviceState(singleDevice, "brightness", progress.toString())
-        }
+//        }
     }
 
     override fun onDestroyView() {

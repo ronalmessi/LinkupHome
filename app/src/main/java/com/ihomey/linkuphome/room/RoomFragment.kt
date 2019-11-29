@@ -19,6 +19,7 @@ import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.BondedDeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
@@ -32,7 +33,6 @@ import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
-import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener
 import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
@@ -88,7 +88,7 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(false) }
         adapter = BondedDeviceListAdapter()
         adapter.setOnCheckedChangeListener(this)
         rcv_device_list.layoutManager = LinearLayoutManager(context)

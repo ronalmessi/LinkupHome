@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.ZoneListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
@@ -27,7 +28,6 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.InputDialogInterface
-import com.ihomey.linkuphome.setting.SettingNavHostFragment
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
 import com.pairlink.sigmesh.lib.PlSigMeshService
@@ -99,7 +99,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
         btn_share_zone.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_shareZoneListFragment)
         }
-        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(false) }
     }
 
 

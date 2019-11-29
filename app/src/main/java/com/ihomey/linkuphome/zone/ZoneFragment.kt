@@ -22,6 +22,7 @@ import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.Zone
@@ -95,7 +96,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStateLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(true) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(true) }
         adapter = RoomListAdapter()
         adapter.setOnItemClickListener(this)
         adapter.setOnItemChildClickListener(this)
@@ -111,7 +112,7 @@ class ZoneFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStateLis
         iv_add.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_zoneFragment_to_chooseZoneTypeFragment)
         }
-        val baseNavHostFragment = parentFragment?.parentFragment as ZoneNavHostFragment
+        val baseNavHostFragment = parentFragment?.parentFragment as BaseNavHostFragment
         baseNavHostFragment.setFragmentVisibleStateListener(this)
     }
 

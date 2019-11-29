@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceTypeListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.choose_device_type_fragment.*
 
@@ -29,7 +30,7 @@ class ChooseDeviceTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as DeviceNavHostFragment).showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(false) }
         adapter = DeviceTypeListAdapter(R.layout.item_device_type_list)
         adapter.onItemClickListener = this
         rcv_device_type_list.layoutManager = GridLayoutManager(context, 2)

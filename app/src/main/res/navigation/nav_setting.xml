@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/shareZoneListFragment"
-        android:name="com.ihomey.linkuphome.setting.zone.ShareZoneListFragment"
+        android:name="com.ihomey.linkuphome.setting.zone.share.ShareZoneListFragment"
         android:label="zone_share_list_fragment"
         tools:layout="@layout/zone_share_list_fragment">
         <action
@@ -74,13 +74,13 @@
 
     <fragment
         android:id="@+id/shareZoneFragment"
-        android:name="com.ihomey.linkuphome.share.ShareZoneFragment"
+        android:name="com.ihomey.linkuphome.setting.zone.share.ShareZoneFragment"
         android:label="zone_share_fragment"
         tools:layout="@layout/zone_share_fragment"/>
 
     <fragment
         android:id="@+id/joinZoneFragment"
-        android:name="com.ihomey.linkuphome.share.JoinZoneFragment"
+        android:name="com.ihomey.linkuphome.setting.zone.join.JoinZoneFragment"
         android:label="zone_join_fragment"
         tools:layout="@layout/zone_join_fragment"/>
 

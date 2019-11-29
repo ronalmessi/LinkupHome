@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomTypeListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
@@ -23,7 +24,6 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.CreateSubZoneListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
-import com.ihomey.linkuphome.zone.ZoneNavHostFragment
 import kotlinx.android.synthetic.main.choose_room_type_fragment.*
 
 class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, CreateSubZoneListener {
@@ -61,7 +61,7 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
         rcv_zone_type_list.addItemDecoration(SpaceItemDecoration(0, 0, verticalMargin, 0))
         rcv_zone_type_list.adapter = adapter
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
-        parentFragment?.parentFragment?.let { (it as ZoneNavHostFragment).showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(false) }
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {

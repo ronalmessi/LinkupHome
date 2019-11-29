@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import kotlinx.android.synthetic.main.webview_fragment.*
 
 class WebViewFragment : BaseFragment() {
@@ -21,7 +22,7 @@ class WebViewFragment : BaseFragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { if (it is SettingNavHostFragment) it.showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { if (it is BaseNavHostFragment) it.showBottomNavigationBar(false) }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         webView.settings.setSupportZoom(true)
         webView.settings.javaScriptEnabled = true

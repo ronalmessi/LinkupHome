@@ -9,7 +9,6 @@ import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.room.UnBondDevicesViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
 import com.ihomey.linkuphome.setting.zone.ZoneSettingViewModel
-import com.ihomey.linkuphome.share.JoinZoneViewModel
 import com.ihomey.linkuphome.splash.SplashViewModel
 import com.ihomey.linkuphome.zone.CreateZoneViewModel
 import dagger.Component
@@ -53,8 +52,6 @@ interface AppComponent {
     fun inject(splashViewModel: SplashViewModel)
 
     fun inject(createZoneViewModel: CreateZoneViewModel)
-
-    fun inject(joinZoneViewModel: JoinZoneViewModel)
 
     fun inject(alarmViewModel: AlarmViewModel)
 

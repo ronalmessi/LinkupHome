@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.base.LocaleHelper
 import kotlinx.android.synthetic.main.more_fragment.*
 
@@ -24,7 +25,7 @@ class MoreFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(false) }
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
         var currentLanguage = LocaleHelper.getLanguage(context)

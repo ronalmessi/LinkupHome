@@ -14,10 +14,10 @@ import cn.iclass.guideview.GuideBuilder
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device.DeviceNavHostFragment
 import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
@@ -60,7 +60,7 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
     }
 
     private fun hideBottomBar() {
-        parentFragment?.parentFragment?.let { if (it is DeviceNavHostFragment) it.showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { if (it is BaseNavHostFragment) it.showBottomNavigationBar(false) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

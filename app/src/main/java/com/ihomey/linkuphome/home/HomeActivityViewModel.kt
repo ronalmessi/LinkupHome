@@ -8,6 +8,7 @@ import com.ihomey.linkuphome.data.repository.RoomRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
 import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
+import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.dl.DaggerAppComponent
 import javax.inject.Inject
 
@@ -192,5 +193,11 @@ class HomeActivityViewModel : ViewModel() {
 
     fun updateRoomAndDeviceState(device: Device, deviceState: DeviceState) {
         return mDeviceRepository.updateRoomAndDeviceState(device, deviceState)
+    }
+
+
+    //zone
+    fun joinZone(guid: String, invitationCode: String): LiveData<Resource<ZoneDetail>> {
+        return zoneRepository.joinZone(guid, invitationCode)
     }
 }

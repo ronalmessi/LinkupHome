@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.LanguageListAdapter
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.widget.DividerItemDecoration
@@ -40,7 +41,7 @@ class LanguageSettingFragment : Fragment(), BaseQuickAdapter.OnItemClickListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(false) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(false) }
         adapter = LanguageListAdapter(R.layout.item_language_list, view.context.resources.getStringArray(R.array.language_array).toList())
         adapter.onItemClickListener = this
         rcv_language_list.layoutManager = LinearLayoutManager(context)

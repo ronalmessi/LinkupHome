@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
+import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
@@ -66,7 +67,7 @@ class SettingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentFragment?.parentFragment?.let { (it as SettingNavHostFragment).showBottomNavigationBar(true) }
+        parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(true) }
 
         infoTextLayout_setting_current_zone.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_zoneSettingFragment)
