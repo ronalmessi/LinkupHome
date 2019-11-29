@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,7 +80,7 @@ class BaseNavHostFragment : BaseFragment(), FragmentBackHandler {
 
 
     override fun onBackPressed(): Boolean {
-        return handleBackPress(childFragmentManager.fragments[0])
+        return handleBackPress(childFragmentManager.fragments[1])
     }
 
     fun setFragmentVisibleStateListener(listener: FragmentVisibleStateListener) {

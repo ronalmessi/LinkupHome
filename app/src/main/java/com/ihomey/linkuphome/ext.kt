@@ -8,6 +8,7 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
@@ -141,7 +142,7 @@ fun handleBackPress(fragment: Fragment): Boolean {
 }
 
 fun handleBackPress(fragmentManager: FragmentManager): Boolean {
-    val fragments = fragmentManager.fragments ?: return false
+    val fragments = fragmentManager.fragments
     for (i in fragments.indices.reversed()) {
         val child = fragments[i]
         if (isFragmentBackHandled(child)) {
