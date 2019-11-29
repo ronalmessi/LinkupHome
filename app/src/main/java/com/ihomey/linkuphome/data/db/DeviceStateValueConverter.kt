@@ -7,10 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ihomey.linkuphome.data.entity.DeviceState
 
 
-public class DeviceStateValueConverter {
+ class DeviceStateValueConverter {
 
     @TypeConverter
-    public fun DeviceStateValueConverter(deviceState: DeviceState?): String? {
+     fun DeviceStateValueConverter(deviceState: DeviceState?): String? {
         if (deviceState == null) {
             return null
         }
@@ -19,7 +19,7 @@ public class DeviceStateValueConverter {
     }
 
     @TypeConverter
-    public fun DeviceStateValueConverter(deviceStateValues: String?): DeviceState? {
+     fun DeviceStateValueConverter(deviceStateValues: String?): DeviceState? {
         if (deviceStateValues == null) {
             return null
         }
