@@ -53,7 +53,7 @@ class SigMeshV1Controller(val device: Device) : CommonController, ColorControlle
     override fun setLightingMode() {
         if (PlSigMeshService.getInstance().isMeshReady) {
             PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB3010FA0"), Util.PL_DEFAULT_APP_KEY_INDEX)
-            if (featureValue == 2) {
+            if (featureValue == 1) {
                 Timer().schedule(object : TimerTask() {
                     override fun run() {
                         PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB3010FA0"), Util.PL_DEFAULT_APP_KEY_INDEX)
@@ -66,7 +66,7 @@ class SigMeshV1Controller(val device: Device) : CommonController, ColorControlle
 
     override fun setCycleMode(cycleSpeed: Int) {
         if (PlSigMeshService.getInstance().isMeshReady) {
-            featureValue = 2
+            featureValue = 1
             PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB4010" + (3 - cycleSpeed)), Util.PL_DEFAULT_APP_KEY_INDEX)
         }
     }

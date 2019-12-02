@@ -133,6 +133,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
             selectedZone = it
             val dialog = InputDialogFragment()
             val bundle = Bundle()
+            bundle.putString("title", getString(R.string.title_rename))
             bundle.putString("inputText", it.name)
             dialog.arguments = bundle
             dialog.setInputDialogInterface(this)

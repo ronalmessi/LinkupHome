@@ -159,10 +159,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
             Handler().postDelayed({
-//                val intent=Intent(this, HomeActivity::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                startActivity(intent)
-//                overridePendingTransition(0, 0)
                 recreate()
                 hideLoadingView()
             }, 1500)
@@ -182,6 +178,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
     private fun releaseResource() {
         Crouton.cancelAllCroutons()
         BluetoothSPP.getInstance()?.release()
+        mPlSigMeshService?.proxyExit()
         mService?.setDeviceDiscoveryFilterEnabled(false)
         if (mConnected) mService?.disconnectBridge()
         mService?.setHandler(null)

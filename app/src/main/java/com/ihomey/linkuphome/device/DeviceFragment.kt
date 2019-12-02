@@ -162,27 +162,27 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-//    private fun isFragmentVisible(): Boolean {
-//        parentFragment?.parentFragment?.let {
-//            return (it as DeviceNavHostFragment).getPagePosition() == 0
-//        }
-//        return false
-//    }
+    private fun isFragmentVisible(): Boolean {
+        parentFragment?.parentFragment?.let {
+            return (it as DeviceNavHostFragment).getPagePosition() == 0
+        }
+        return false
+    }
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
         isUserTouch = true
-//        if (isFragmentVisible()) {
+        if (isFragmentVisible()) {
             LightControllerFactory().createCommonController(singleDevice)?.setOnOff(isChecked)
             changeDeviceState(singleDevice, "on", if (isChecked) "1" else "0")
-//        }
+        }
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
         isUserTouch = true
-//        if (isFragmentVisible()) {
+        if (isFragmentVisible()) {
             LightControllerFactory().createCommonController(singleDevice)?.setBrightness(progress)
             changeDeviceState(singleDevice, "brightness", progress.toString())
-//        }
+        }
     }
 
     override fun onDestroyView() {

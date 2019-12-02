@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.LanguageListAdapter
+import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.listener.OnLanguageListener
@@ -21,7 +22,7 @@ import com.ihomey.linkuphome.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.language_setting_fragment.*
 
 
-class LanguageSettingFragment : Fragment(), BaseQuickAdapter.OnItemClickListener {
+class LanguageSettingFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener {
 
     companion object {
         fun newInstance() = LanguageSettingFragment()

@@ -52,6 +52,7 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
             hideGuideView()
             val dialog = InputDialogFragment()
             val bundle = Bundle()
+            bundle.putString("title", getString(R.string.title_rename))
             bundle.putString("inputText", device.name)
             dialog.arguments = bundle
             dialog.setInputDialogInterface(this)
@@ -148,9 +149,9 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
                 .setHighTargetPaddingBottom(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetPaddingTop(context?.resources?.getDimension(R.dimen._5sdp)?.toInt()!!)
                 .setHighTargetMarginTop(getMarginTop(view) + context?.resources?.getDimension(R.dimen._13sdp)?.toInt()!!)
-                .setAutoDismiss(false)
+                .setAutoDismiss(true)
                 .setOverlayTarget(false)
-                .setOutsideTouchable(false)
+                .setOutsideTouchable(true)
         builder.setOnVisibilityChangedListener(object : GuideBuilder.OnVisibilityChangedListener {
             override fun onShown() {
                 hasShowRenameDeviceGuide = true
