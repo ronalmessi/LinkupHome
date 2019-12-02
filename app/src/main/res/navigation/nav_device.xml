@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/tab_devices">
+
+    <fragment
+        android:id="@+id/tab_devices"
+        android:name="com.ihomey.linkuphome.device.DeviceFragment"
+        tools:layout="@layout/devices_fragment">
+        <action
+            android:id="@+id/action_tab_devices_to_chooseDeviceTypeFragment"
+            app:destination="@id/chooseDeviceTypeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popExitAnim="@anim/slide_out_bottom" />
+
+        <action
+            android:id="@+id/action_tab_devices_to_deviceControlFragment"
+            app:destination="@id/deviceControlFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/sceneControlFragment"
+        android:name="com.ihomey.linkuphome.devicecontrol.scene.SceneControlFragment"
+        android:label="scene_control_fragment"
+        tools:layout="@layout/control_scene_fragment"/>
+
+    <fragment
+        android:id="@+id/chooseDeviceTypeFragment"
+        android:name="com.ihomey.linkuphome.device.ChooseDeviceTypeFragment"
+        android:label="ChooseDeviceTypeFragment"
+        tools:layout="@layout/choose_device_type_fragment">
+        <action
+            android:id="@+id/action_chooseDeviceTypeFragment_to_searchDeviceHintFragment2"
+            app:destination="@id/searchDeviceHintFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_chooseDeviceTypeFragment_to_connectM1DeviceFragment"
+            app:destination="@id/connectM1DeviceFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/searchDeviceHintFragment"
+        android:name="com.ihomey.linkuphome.device.SearchDeviceHintFragment"
+        android:label="SearchDeviceHintFragment"
+        tools:layout="@layout/search_device_hint_fragment">
+        <action
+            android:id="@+id/action_searchDeviceHintFragment_to_searchDeviceFragment2"
+            app:destination="@id/searchDeviceFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_searchDeviceHintFragment_to_resetDeviceFragment2"
+            app:destination="@id/resetDeviceFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popExitAnim="@anim/slide_out_bottom" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetDeviceFragment"
+        android:name="com.ihomey.linkuphome.device.ResetDeviceFragment"
+        android:label="ResetDeviceFragment"
+        tools:layout="@layout/reset_device_fragment" />
+    <fragment
+        android:id="@+id/searchDeviceFragment"
+        android:name="com.ihomey.linkuphome.device.SearchDeviceFragment"
+        android:label="SearchDeviceFragment"
+        tools:layout="@layout/search_device_fragment">
+        <action
+            android:id="@+id/action_searchDeviceFragment_to_resetDeviceFragment2"
+            app:destination="@id/resetDeviceFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_searchDeviceFragment_to_connectDeviceFragment2"
+            app:destination="@id/connectDeviceFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/connectDeviceFragment"
+        android:name="com.ihomey.linkuphome.device.ConnectDeviceFragment"
+        android:label="ConnectDeviceFragment"
+        tools:layout="@layout/connect_device_fragment" />
+
+    <fragment
+        android:id="@+id/connectM1DeviceFragment"
+        android:name="com.ihomey.linkuphome.device.ConnectM1DeviceFragment"
+        android:label="ConnectM1DeviceFragment"
+        tools:layout="@layout/connect_device_fragment">
+
+        <action
+            android:id="@+id/action_connectM1DeviceFragment_to_m1InstructionFragment"
+            app:destination="@id/m1InstructionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceControlFragment"
+        android:name="com.ihomey.linkuphome.devicecontrol.view.DeviceControlFragment"
+        android:label="device_control_fragment"
+        tools:layout="@layout/device_control_fragment">
+
+        <action
+            android:id="@+id/action_deviceControlFragment_to_sceneControlFragment"
+            app:destination="@id/sceneControlFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_deviceControlFragment_to_switchTimerControlFragment"
+            app:destination="@id/switchTimerControlFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+        <action
+            android:id="@+id/action_deviceControlFragment_to_m1ControlSettingFragment"
+            app:destination="@id/m1ControlSettingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_deviceControlFragment_to_alarmListFragment"
+            app:destination="@id/alarmListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_deviceControlFragment_to_environmentalIndicatorsFragment"
+            app:destination="@id/environmentalIndicatorsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/switchTimerControlFragment"
+        android:name="com.ihomey.linkuphome.devicecontrol.switchtimer.SwitchTimerControlFragment"
+        android:label="control_switch_timer_fragment"
+        tools:layout="@layout/control_switch_timer_fragment"/>
+
+
+    <fragment
+        android:id="@+id/m1ControlSettingFragment"
+        android:name="com.ihomey.linkuphome.devicecontrol.M1ControlSettingFragment"
+        android:label="m1_control_setting_fragment"
+        tools:layout="@layout/m1_control_setting_fragment">
+
+        <action
+            android:id="@+id/action_m1ControlSettingFragment_to_switchTimerControlFragment"
+            app:destination="@id/switchTimerControlFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/alarmListFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmListFragment"
+        android:label="alarm_list_fragment"
+        tools:layout="@layout/alarm_list_fragment">
+
+        <action
+            android:id="@+id/action_alarmListFragment_to_alarmSettingFragment"
+            app:destination="@id/alarmSettingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/alarmSettingFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmSettingFragment"
+        android:label="alarm_setting_fragment"
+        tools:layout="@layout/alarm_setting_fragment">
+
+        <action
+            android:id="@+id/action_alarmSettingFragment_to_alarmDayListFragment"
+            app:destination="@id/alarmDayListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_alarmSettingFragment_to_alarmRingListFragment"
+            app:destination="@id/alarmRingListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/alarmDayListFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmDayListFragment"
+        android:label="alarm_day_list_fragment"
+        tools:layout="@layout/alarm_day_list_fragment"/>
+
+    <fragment
+        android:id="@+id/alarmRingListFragment"
+        android:name="com.ihomey.linkuphome.alarm.AlarmRingListFragment"
+        android:label="alarm_ring_list_fragment"
+        tools:layout="@layout/alarm_ring_list_fragment"/>
+
+
+
+    <fragment
+        android:id="@+id/environmentalIndicatorsFragment"
+        android:name="com.ihomey.linkuphome.alarm.EnvironmentalIndicatorsFragment"
+        android:label="environmentalIndicatorsFragment"
+        tools:layout="@layout/environmental_indicators_fragment"/>
+
+
+    <fragment
+        android:id="@+id/m1InstructionFragment"
+        android:name="com.ihomey.linkuphome.m1.InstructionFragment"
+        android:label="M1InstructionFragment"
+        tools:layout="@layout/m1_instruction_fragment" />
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.ihomey.linkuphome.setting.WebViewFragment"
+        android:label="WebViewFragment"
+        tools:layout="@layout/webview_fragment" />
+
+
+</navigation>

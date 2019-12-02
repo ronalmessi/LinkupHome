@@ -28,6 +28,7 @@ class InputDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_input, container, false)
+        view.findViewById<TextView>(R.id.tv_dialog_title).text = arguments?.getString("title")
         editText = view.findViewById(R.id.editText)
         editText.setText(arguments?.getString("inputText"))
         arguments?.getString("inputText")?.length?.let { editText.setSelection(it) }

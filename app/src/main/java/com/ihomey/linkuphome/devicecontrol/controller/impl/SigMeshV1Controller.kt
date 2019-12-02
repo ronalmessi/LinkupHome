@@ -28,7 +28,7 @@ class SigMeshV1Controller(val device: Device) : CommonController, ColorControlle
     override fun setOnOff(isOn: Boolean) {
         if (PlSigMeshService.getInstance().isMeshReady) {
             PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes((if (isOn) "7FB164" else "7FB100")), Util.PL_DEFAULT_APP_KEY_INDEX)
-            if (featureValue == 2 && !isOn) {
+            if (featureValue == 1 && !isOn) {
                 Timer().schedule(object : TimerTask() {
                     override fun run() {
                         PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes((if (isOn) "7FB164" else "7FB100")), Util.PL_DEFAULT_APP_KEY_INDEX)

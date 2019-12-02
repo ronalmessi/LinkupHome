@@ -19,14 +19,15 @@ import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.CreateSubZoneListener
+import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.choose_room_type_fragment.*
 
-class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener, CreateSubZoneListener {
+class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListener,  InputDialogInterface {
 
     companion object {
         fun newInstance() = ChooseRoomTypeFragment()
@@ -35,6 +36,7 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     private lateinit var adapter: RoomTypeListAdapter
     private lateinit var mViewModel: HomeActivityViewModel
     private var currentZone: Zone? = null
+    private var selectedRoomType :Int?=null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.choose_room_type_fragment, container, false)
@@ -65,29 +67,37 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        val dialog = CreateRoomFragment()
-        val bundle = Bundle()
-        adapter.getItem(position)?.let { bundle.putInt("zoneTYpe", it) }
-        dialog.arguments = bundle
-        dialog.setCreateSubZoneListener(this)
-        dialog.show(fragmentManager, "CreateRoomFragment")
+        adapter.getItem(position)?.let {
+            selectedRoomType=it
+            val dialog = InputDialogFragment()
+            val bundle = Bundle()
+            bundle.putString("title", getString(R.string.title_rename_room))
+            dialog.arguments = bundle
+            dialog.setInputDialogInterface(this)
+            dialog.show(fragmentManager, "InputDialogFragment")
+        }
     }
 
-
-    override fun createSubZone(type: Int, name: String) {
-        context?.getIMEI()?.let { it1 ->
-            mViewModel.saveRoom(it1, currentZone?.id!!, type + 1, name).observe(viewLifecycleOwner, Observer<Resource<Room>> {
-                if (it?.status == Status.SUCCESS) {
-                    hideLoadingView()
-                    Navigation.findNavController(iv_back).popBackStack()
-                } else if (it?.status == Status.ERROR) {
-                    hideLoadingView()
-                    it.message?.let { it2 -> activity?.toast(it2) }
-                } else if (it?.status == Status.LOADING) {
-                    showLoadingView()
-                }
-            })
-        }
+    override fun onInput(text: String) {
+      selectedRoomType?.let { it0->
+          currentZone?.let { it1->
+              context?.getIMEI()?.let { it2 ->
+                  mViewModel.saveRoom(it2, it1.id, it0 + 1, text).observe(viewLifecycleOwner, Observer<Resource<Room>> {
+                      when {
+                          it?.status == Status.SUCCESS -> {
+                              hideLoadingView()
+                              Navigation.findNavController(iv_back).popBackStack()
+                          }
+                          it?.status == Status.ERROR -> {
+                              hideLoadingView()
+                              it.message?.let { it2 -> activity?.toast(it2) }
+                          }
+                          it?.status == Status.LOADING -> showLoadingView()
+                      }
+                  })
+              }
+          }
+      }
     }
 
 }

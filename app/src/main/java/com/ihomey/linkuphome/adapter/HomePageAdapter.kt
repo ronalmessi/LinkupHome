@@ -15,7 +15,7 @@ class HomePageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(f
 
     override fun getItem(position: Int): Fragment? {
         return when (position) {
-            0 -> BaseNavHostFragment().newInstance(R.navigation.nav_deivce)
+            0 -> BaseNavHostFragment().newInstance(R.navigation.nav_device)
             1 -> BaseNavHostFragment().newInstance(R.navigation.nav_zone)
             2 -> BaseNavHostFragment().newInstance(R.navigation.nav_setting)
             else -> null

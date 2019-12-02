@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/createZoneFragment"
-        android:name="com.ihomey.linkuphome.zone.CreateZoneFragment"
+        android:name="com.ihomey.linkuphome.zone.create.CreateZoneFragment"
         android:label="create_zone_fragment"
         tools:layout="@layout/create_zone_fragment">
         <action

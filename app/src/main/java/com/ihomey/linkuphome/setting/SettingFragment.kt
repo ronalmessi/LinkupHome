@@ -18,7 +18,7 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.setting.zone.ZoneSettingViewModel
+import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import com.ihomey.linkuphome.toast
 
 import kotlinx.android.synthetic.main.setting_fragment.*

@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import com.ihomey.linkuphome.handleBackPress
 import com.ihomey.linkuphome.home.HomeFragment
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
-import com.ihomey.linkuphome.setting.zone.ZoneSettingViewModel
+import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 
 
 class BaseNavHostFragment : BaseFragment(), FragmentBackHandler {

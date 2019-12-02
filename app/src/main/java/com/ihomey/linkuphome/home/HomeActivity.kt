@@ -104,7 +104,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
                         }
                     }
                 }
-
             }
         })
         mViewModel.mRemoveDeviceVo.observe(this, Observer<RemoveDeviceVo> {
@@ -160,6 +159,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
             LocaleHelper.setLocale(this, desLanguage)
             releaseResource()
             Handler().postDelayed({
+//                val intent=Intent(this, HomeActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                startActivity(intent)
+//                overridePendingTransition(0, 0)
                 recreate()
                 hideLoadingView()
             }, 1500)

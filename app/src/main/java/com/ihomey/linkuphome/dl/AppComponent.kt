@@ -8,9 +8,9 @@ import com.ihomey.linkuphome.inform.InformViewModel
 import com.ihomey.linkuphome.room.RoomViewModel
 import com.ihomey.linkuphome.room.UnBondDevicesViewModel
 import com.ihomey.linkuphome.setting.SettingViewModel
-import com.ihomey.linkuphome.setting.zone.ZoneSettingViewModel
+import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import com.ihomey.linkuphome.splash.SplashViewModel
-import com.ihomey.linkuphome.zone.CreateZoneViewModel
+import com.ihomey.linkuphome.zone.create.CreateZoneViewModel
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton

@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.SleepModeDialogFragment
+import com.ihomey.linkuphome.dialog.SleepModeInfoDialogFragment
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
@@ -97,7 +97,7 @@ class M1ControlSettingFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tv_sleep_mode.setOnClickListener {
-            val dialogFragment = SleepModeDialogFragment()
+            val dialogFragment = SleepModeInfoDialogFragment()
             dialogFragment.show(fragmentManager, null)
         }
 
