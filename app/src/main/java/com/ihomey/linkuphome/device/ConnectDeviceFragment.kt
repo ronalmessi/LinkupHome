@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.device
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,12 +26,16 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
+import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.sigmesh.MeshDeviceScanListener
+import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.connect_device_fragment.*
 
 
-class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssociateListener, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener {
+class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssociateListener, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, MeshDeviceScanListener {
+
 
     companion object {
         fun newInstance() = ConnectDeviceFragment()
@@ -81,9 +86,9 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         listener = context as DevicesStateListener
     }
 
-    override fun onResume() {
-        super.onResume()
-//        listener.discoverDevices(true, this)
+
+    override fun onDeviceFound(device: Device) {
+        Log.d("aa",device.name)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,11 +105,18 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        CSRMeshServiceManager.getInstance().setMeshDeviceScanListener(this)
+        SigMeshServiceManager.getInstance().setMeshDeviceScanListener(this)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         mViewModel.clearScanedDevice()
-//        listener.discoverDevices(false, null)
+        CSRMeshServiceManager.getInstance().setMeshDeviceScanListener(null)
+        SigMeshServiceManager.getInstance().setMeshDeviceScanListener(null)
     }
 
     override fun onDeviceFound(uuidHash: String, macAddress: String?, name: String) {
@@ -238,4 +250,6 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
             }
         }
     }
+
+
 }

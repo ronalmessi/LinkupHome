@@ -9,8 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.ihomey.linkuphome.data.entity.Device;
 import com.ihomey.linkuphome.data.entity.Zone;
 import com.pairlink.sigmesh.lib.MeshNetInfo;
 import com.pairlink.sigmesh.lib.PlSigMeshProvisionCallback;
@@ -37,6 +39,13 @@ public class SigMeshServiceManager implements Connector {
     private WeakReference<Activity> mActivity;
     private PlSigMeshService mPlSigMeshService;
     private MeshNetInfo mPlSigMeshNet;
+    private Boolean mConnected = false;
+
+    private  MeshDeviceScanListener meshDeviceScanListener;
+
+    public void setMeshDeviceScanListener(MeshDeviceScanListener meshDeviceScanListener) {
+        this.meshDeviceScanListener = meshDeviceScanListener;
+    }
 
 
     @Override
@@ -58,7 +67,6 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void initService(@NotNull Zone zone) {
-        Log.d("aa", "222222");
         mPlSigMeshNet = PlSigMeshService.getInstance().chooseMeshNet(0);
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROXY);
         mPlSigMeshService.registerProxyCb(mSigMeshProxyCB);
@@ -68,14 +76,19 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void startScan() {
-        mPlSigMeshService.proxyExit();
+//        mPlSigMeshService.proxyExit();
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROVISION);
     }
 
     @Override
     public void stopScan() {
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROXY);
-        mPlSigMeshService.proxyJoin();
+//        mPlSigMeshService.proxyJoin();
+    }
+
+    @Override
+    public boolean isConnected() {
+        return mConnected;
     }
 
     private ServiceConnection mPlSigMeshServiceConnection=new ServiceConnection() {
@@ -99,12 +112,15 @@ public class SigMeshServiceManager implements Connector {
             super.onMeshStatus(status, addr);
             switch (status){
                 case  Util.PL_MESH_READY :
+                    mConnected=true;
                     Log.d("aa", "111");
                     break;
                 case  Util.PL_MESH_JOIN_FAIL:
+                    mConnected=false;
                     Log.d("aa", "222");
                     break;
                 case  Util.PL_MESH_EXIT :
+                    mConnected=false;
                     Log.d("aa", "333");
                     break;
             }
@@ -126,6 +142,13 @@ public class SigMeshServiceManager implements Connector {
         public void onDeviceFoundUnprovisioned(BluetoothDevice device, int rssi, String uuid) {
             super.onDeviceFoundUnprovisioned(device, rssi, uuid);
             Log.d("aa",device.getName()+"---"+device.getAddress());
+            if(!TextUtils.isEmpty(device.getName())&&meshDeviceScanListener!=null){
+                String deviceName=device.getName();
+                Device singleDevice=new Device(6,deviceName.substring(deviceName.length()-2));
+                singleDevice.setHash(uuid);
+                singleDevice.setMacAddress(device.getAddress());
+                meshDeviceScanListener.onDeviceFound(singleDevice);
+            }
         }
 
         @Override

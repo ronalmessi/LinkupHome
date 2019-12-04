@@ -16,5 +16,7 @@ interface Connector {
 
     fun stopScan()
 
+    fun isConnected():Boolean
+
     fun connect()
 }

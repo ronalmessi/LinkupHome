@@ -608,14 +608,14 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSer
 
             if (enabled) {
 //                CSRMeshServiceManager.getInstance().startScan()
-                SigMeshServiceManager.getInstance().startScan()
+//                SigMeshServiceManager.getInstance().startScan()
 //                mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROXY)
 //                mPlSigMeshService?.proxyExit()
 //                mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
 //                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROVISION)
             }else{
-                CSRMeshServiceManager.getInstance().stopScan()
-                SigMeshServiceManager.getInstance().stopScan()
+//                CSRMeshServiceManager.getInstance().stopScan()
+//                SigMeshServiceManager.getInstance().stopScan()
 //                mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROVISION)
 //                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROXY)
 //                mPlSigMeshService?.proxyJoin()
