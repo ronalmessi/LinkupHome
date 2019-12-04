@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.device
 
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -23,10 +22,9 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.dialog.DeviceAssociateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.DeviceAssociateListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.sigmesh.MeshDeviceAssociateListener
 import com.ihomey.linkuphome.sigmesh.MeshDeviceScanListener
 import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
@@ -34,15 +32,13 @@ import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.connect_device_fragment.*
 
 
-class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssociateListener, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, MeshDeviceScanListener {
-
+class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, MeshDeviceScanListener, MeshDeviceAssociateListener {
 
     companion object {
         fun newInstance() = ConnectDeviceFragment()
     }
 
-    private lateinit var listener: DevicesStateListener
-    private lateinit var meshServiceStateListener: MeshServiceStateListener
+
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var viewModel: ConnectDeviceViewModel
     private lateinit var adapter: ScanDeviceListAdapter
@@ -80,15 +76,12 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         return true
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        meshServiceStateListener = context as MeshServiceStateListener
-        listener = context as DevicesStateListener
-    }
-
-
     override fun onDeviceFound(device: Device) {
-        Log.d("aa",device.name)
+        arguments?.getInt("deviceType")?.let {
+            if(it==device.type){
+                if (adapter.data.indexOf(device) == -1) adapter.addData(device)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,7 +104,6 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         SigMeshServiceManager.getInstance().setMeshDeviceScanListener(this)
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         mViewModel.clearScanedDevice()
@@ -119,26 +111,16 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         SigMeshServiceManager.getInstance().setMeshDeviceScanListener(null)
     }
 
-    override fun onDeviceFound(uuidHash: String, macAddress: String?, name: String) {
-        val type = arguments?.getInt("deviceType")!!
-        val deviceType = DeviceType.values()[type]
-        val deviceShortName = getShortName(deviceType)
-        if (type == 6 && TextUtils.equals("LinkupHome V1", name)) {
-            val singleDevice1 = Device(type, name)
-            singleDevice1.macAddress = macAddress
-            singleDevice1.hash = uuidHash
-            if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
-        } else if (type != 6 && TextUtils.equals(deviceShortName, name)) {
-            val singleDevice1 = Device(type, deviceType.name)
-            singleDevice1.hash = uuidHash
-            if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
-        }
-    }
-
-    override fun deviceAssociated(deviceId: Int, message: String) {
+    override fun deviceAssociateFailed(messageRes: Int) {
         deviceAssociateFragment.onAssociateProgressChanged(0)
         deviceAssociateFragment.dismiss()
-        activity?.toast(message)
+        activity?.toast(messageRes)
+    }
+
+    override fun associationProgress(progress: Int) {
+        if (progress in 0..99) {
+            deviceAssociateFragment.onAssociateProgressChanged(progress)
+        }
     }
 
     override fun deviceAssociated(deviceId: Int, uuidHash: Int, macAddress: String) {
@@ -186,21 +168,17 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
         }
     }
 
-    override fun associationProgress(progress: Int) {
-        if (progress in 0..99) {
-            deviceAssociateFragment.onAssociateProgressChanged(progress)
-        }
-    }
+
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
             if (TextUtils.equals("0", it.id)) {
                 deviceAssociateFragment.isCancelable = false
                 deviceAssociateFragment.show(fragmentManager, "DeviceAssociateFragment")
-                if (TextUtils.equals("LinkupHome V1", it.name)) {
-                    listener.associateDevice(it.hash, it.macAddress)
-                } else {
-                    listener.associateDevice(it.hash, null)
+                if(TextUtils.isEmpty(it.macAddress)){
+                    CSRMeshServiceManager.getInstance().associateDevice(it,this)
+                }else{
+                    SigMeshServiceManager.getInstance().associateDevice(it,this)
                 }
             }
         }
@@ -214,12 +192,6 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
         LightControllerFactory().createCommonController(singleDevice)?.setBrightness(if (singleDevice.type == 6 || singleDevice.type == 10) progress else progress.plus(15))
         changeDeviceState(singleDevice, "brightness", progress.toString())
-    }
-
-
-    interface DevicesStateListener {
-        fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?)
-        fun associateDevice(uuidHash: String, macAddress: String?)
     }
 
     private fun changeDeviceState(device: Device, key: String, value: String) {
@@ -250,6 +222,4 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
             }
         }
     }
-
-
 }

@@ -12,18 +12,20 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
+import android.util.ArrayMap;
+import android.util.SparseIntArray;
 
+import com.csr.mesh.ConfigModelApi;
 import com.csr.mesh.MeshService;
+import com.ihomey.linkuphome.AppConfig;
+import com.ihomey.linkuphome.R;
 import com.ihomey.linkuphome.data.entity.Device;
 import com.ihomey.linkuphome.data.entity.Zone;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CSRMeshServiceManager implements Connector{
+public class CSRMeshServiceManager implements Connector {
 
     private static final CSRMeshServiceManager ourInstance = new CSRMeshServiceManager();
 
@@ -35,13 +37,31 @@ public class CSRMeshServiceManager implements Connector{
 
     }
 
-    private  MeshService mService;
+    private MeshService mService;
 
     private Handler mMeshHandler;
 
-    private  Boolean mConnected = false;
+    private Boolean mConnected = false;
 
-    private  MeshDeviceScanListener meshDeviceScanListener;
+    private ArrayMap<String, String> addressToNameMap = new ArrayMap<>();
+
+    private SparseIntArray mDeviceIdToUuidHash = new SparseIntArray();
+
+    private MeshDeviceScanListener meshDeviceScanListener;
+
+    private MeshStateListener meshStateListener;
+
+    private MeshDeviceAssociateListener meshDeviceAssociateListener;
+
+    private MeshDeviceRemoveListener meshDeviceRemoveListener;
+
+    public void setMeshDeviceRemoveListener(MeshDeviceRemoveListener meshDeviceRemoveListener) {
+        this.meshDeviceRemoveListener = meshDeviceRemoveListener;
+    }
+
+    public void setMeshStateListener(MeshStateListener meshStateListener) {
+        this.meshStateListener = meshStateListener;
+    }
 
     public void setMeshDeviceScanListener(MeshDeviceScanListener meshDeviceScanListener) {
         this.meshDeviceScanListener = meshDeviceScanListener;
@@ -49,7 +69,7 @@ public class CSRMeshServiceManager implements Connector{
 
     @Override
     public void bind(@NotNull Activity activity) {
-        mMeshHandler=new MeshHandler();
+        mMeshHandler = new MeshHandler();
         activity.bindService(new Intent(activity, MeshService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -60,8 +80,8 @@ public class CSRMeshServiceManager implements Connector{
 
     @Override
     public void initService(@NotNull Zone zone) {
-       mService.setNextDeviceId(zone.getNextDeviceIndex());
-       mService.setNetworkPassPhrase(zone.getNetWorkKey());
+        mService.setNextDeviceId(zone.getNextDeviceIndex());
+        mService.setNetworkPassPhrase(zone.getNetWorkKey());
     }
 
     @Override
@@ -85,11 +105,11 @@ public class CSRMeshServiceManager implements Connector{
     }
 
 
-    private ServiceConnection mServiceConnection=new ServiceConnection() {
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder rawBinder) {
-            mService = ((MeshService.LocalBinder)rawBinder).getService();
+            mService = ((MeshService.LocalBinder) rawBinder).getService();
             mService.setHandler(mMeshHandler);
             mService.setLeScanCallback(mScanCallBack);
             mService.setMeshListeningMode(true, true);
@@ -103,17 +123,20 @@ public class CSRMeshServiceManager implements Connector{
     };
 
 
-    private BluetoothAdapter.LeScanCallback mScanCallBack=new BluetoothAdapter.LeScanCallback(){
+    private BluetoothAdapter.LeScanCallback mScanCallBack = new BluetoothAdapter.LeScanCallback() {
 
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
             mService.processMeshAdvert(device, scanRecord, rssi);
+            if (!TextUtils.isEmpty(device.getName()) && !addressToNameMap.containsKey(device.getAddress())) {
+                addressToNameMap.put(device.getAddress(), device.getName());
+            }
         }
     };
 
 
-    private int getDeviceTypeByShortName(String shortName){
-        switch (shortName){
+    private int getDeviceTypeByShortName(String shortName) {
+        switch (shortName) {
             case "iHomey C3":
                 return 1;
             case "iHomey R2":
@@ -136,31 +159,79 @@ public class CSRMeshServiceManager implements Connector{
         return 1;
     }
 
+    @Override
+    public void associateDevice(@NotNull Device device, MeshDeviceAssociateListener listener) {
+        this.meshDeviceAssociateListener = listener;
+        mService.associateDevice(Integer.valueOf(device.getHash()), 0, false);
+    }
+
+    @Override
+    public void resetDevice(@NotNull Device device, @Nullable MeshDeviceRemoveListener listener) {
+        this.meshDeviceRemoveListener=listener;
+        ConfigModelApi.resetDevice(device.getInstructId());
+        mMeshHandler.postDelayed(() -> {
+            if(meshDeviceRemoveListener!=null) meshDeviceRemoveListener.onDeviceRemoved(device.getId());
+        }, AppConfig.TIME_MS);
+    }
+
     @SuppressLint("HandlerLeak")
-    private class MeshHandler extends Handler{
+    private class MeshHandler extends Handler {
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case MeshService.MESSAGE_LE_CONNECTED:
-                    mConnected=true;
-                    Log.d("aa",":11111");
+                    mConnected = true;
+                    String connectedAddress = msg.getData().getString(MeshService.EXTRA_DEVICE_ADDRESS);
+                    String connectedDeviceName = addressToNameMap.get(connectedAddress);
+                    if (meshStateListener != null && connectedAddress != null && connectedDeviceName != null)
+                        meshStateListener.onDeviceConnected(connectedDeviceName);
                     break;
                 case MeshService.MESSAGE_LE_DISCONNECTED:
-                    mConnected=false;
-                    Log.d("aa",":2222");
+                    mConnected = false;
+                    String disConnectedAddress = msg.getData().getString(MeshService.EXTRA_DEVICE_ADDRESS);
+                    String disConnectedDeviceName = addressToNameMap.get(disConnectedAddress);
+                    int numConnections = msg.getData().getInt(MeshService.EXTRA_NUM_CONNECTIONS);
+                    if (numConnections == 0 && meshStateListener != null && disConnectedAddress != null && disConnectedDeviceName != null) meshStateListener.onDeviceDisConnected(disConnectedDeviceName);
                     break;
                 case MeshService.MESSAGE_DEVICE_APPEARANCE:
                     String shortName = msg.getData().getString(MeshService.EXTRA_SHORTNAME);
-                    int uuidHash = msg.getData().getInt(MeshService.EXTRA_UUIDHASH_31);
-                    if(!TextUtils.isEmpty(shortName)&&meshDeviceScanListener!=null&&shortName!=null){
-                        Device device=new Device(getDeviceTypeByShortName(shortName),shortName.substring(shortName.length()-2));
-                        device.setHash(uuidHash+"");
+                    if (!TextUtils.isEmpty(shortName) && meshDeviceScanListener != null && shortName != null) {
+                        Device device = new Device(getDeviceTypeByShortName(shortName), shortName.substring(shortName.length() - 2));
+                        device.setHash(msg.getData().getInt(MeshService.EXTRA_UUIDHASH_31) + "");
                         meshDeviceScanListener.onDeviceFound(device);
+                    }
+                    break;
+                case MeshService.MESSAGE_ASSOCIATING_DEVICE:
+                    int progress = msg.getData().getInt(MeshService.EXTRA_PROGRESS_INFORMATION);
+                    if (meshDeviceAssociateListener != null) meshDeviceAssociateListener.associationProgress(progress);
+                    break;
+
+                case MeshService.MESSAGE_DEVICE_ASSOCIATED:
+                    int deviceId = msg.getData().getInt(MeshService.EXTRA_DEVICE_ID);
+                    mDeviceIdToUuidHash.put(deviceId, msg.getData().getInt(MeshService.EXTRA_UUIDHASH_31));
+                    ConfigModelApi.getInfo(deviceId, ConfigModelApi.DeviceInfo.MODEL_LOW);
+                    break;
+
+                case MeshService.MESSAGE_CONFIG_DEVICE_INFO:
+                    int extraDeviceId = msg.getData().getInt(MeshService.EXTRA_DEVICE_ID);
+                    int uuidHash =mDeviceIdToUuidHash.get(extraDeviceId);
+                    ConfigModelApi.DeviceInfo infoType = ConfigModelApi.DeviceInfo.values()[(int) msg.getData().getByte(MeshService.EXTRA_DEVICE_INFO_TYPE)];
+                    if (infoType == ConfigModelApi.DeviceInfo.MODEL_LOW && uuidHash != 0) {
+                        mDeviceIdToUuidHash.removeAt(mDeviceIdToUuidHash.indexOfKey(extraDeviceId));
+                        if (meshDeviceAssociateListener != null) meshDeviceAssociateListener.deviceAssociated(extraDeviceId, uuidHash, "");
+                    }
+                    break;
+
+                case MeshService.MESSAGE_TIMEOUT:
+                    int expectedMsg = msg.getData().getInt(MeshService.EXTRA_EXPECTED_MESSAGE);
+                    if (expectedMsg == MeshService.MESSAGE_DEVICE_ASSOCIATED || expectedMsg == MeshService.MESSAGE_CONFIG_MODELS) {
+                        if (meshDeviceAssociateListener != null) meshDeviceAssociateListener.deviceAssociateFailed(R.string.msg_device_connect_failed);
                     }
                     break;
             }
         }
     }
+
 }

@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.device
 
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -18,7 +17,6 @@ import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Device
-import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
@@ -29,15 +27,16 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.sigmesh.MeshDeviceRemoveListener
+import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
-open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, DeviceRemoveListener,  DeviceListAdapter.OnItemClickListener, DeviceListAdapter.OnItemChildClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface {
+open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, DeviceRemoveListener, DeviceListAdapter.OnItemClickListener, DeviceListAdapter.OnItemChildClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface, MeshDeviceRemoveListener {
 
     companion object {
         fun newInstance() = DeviceFragment()
@@ -45,12 +44,12 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     protected lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: DeviceListAdapter
-    private lateinit var meshServiceStateListener: MeshServiceStateListener
+
     private var isUserTouch: Boolean = false
     private var deviceList: List<Device>? = null
-    private var selectedDevice:Device?=null
+    private var selectedDevice: Device? = null
 
-    private val navigator:ControlFragmentNavigator=ControlFragmentNavigator()
+    private val navigator: ControlFragmentNavigator = ControlFragmentNavigator()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.devices_fragment, container, false)
@@ -61,7 +60,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList = it.snapshot()
-            if (!isUserTouch)adapter.submitList(it)
+            if (!isUserTouch) adapter.submitList(it)
             deviceList?.forEach {
                 if (it.type == 0) {
                     BluetoothSPP.getInstance()?.autoConnect(it.id)
@@ -79,11 +78,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         })
     }
 
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        meshServiceStateListener = context as MeshServiceStateListener
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,7 +101,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
         btn_add_device?.setOnClickListener {
-//            CSRMeshServiceManager.getInstance().stopScan()
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
         iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
@@ -119,7 +112,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun onItemChildClick(singleDevice: Device, view: View) {
         if (view.id == R.id.btn_delete) {
-            selectedDevice=singleDevice
+            selectedDevice = singleDevice
             val dialog = ConfirmDialogFragment()
             val bundle = Bundle()
             bundle.putString("title", getString(R.string.action_delete))
@@ -131,8 +124,8 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
     override fun onConfirmButtonClick() {
-        selectedDevice?.let {it0->
-            if (it0.type==0) {
+        selectedDevice?.let { it0 ->
+            if (it0.type == 0) {
                 isUserTouch = false
                 BluetoothSPP.getInstance()?.disconnect(it0.id)
                 mViewModel.deleteM1Device(it0.id)
@@ -140,13 +133,13 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
                 context?.getIMEI()?.let { it1 ->
                     mViewModel.deleteDevice(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                         if (it?.status == Status.SUCCESS) {
-                            mViewModel.setRemoveDeviceVo(RemoveDeviceVo(it0.id, it0.instructId, it0.pid, this))
+                            resetDevice(it0)
                         } else if (it?.status == Status.ERROR) {
                             hideLoadingView()
-                            if(TextUtils.equals("0040",it.message)){
+                            if (TextUtils.equals("0040", it.message)) {
                                 isUserTouch = false
                                 mViewModel.deleteDevice(it0.id)
-                            }else{
+                            } else {
                                 it.message?.let { it2 -> activity?.toast(it2) }
                             }
                         } else if (it?.status == Status.LOADING) {
@@ -158,13 +151,18 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         }
     }
 
-
-
     override fun onItemClick(singleDevice: Device) {
         mViewModel.setCurrentControlDevice(singleDevice)
         navigator.openDeviceControlPage()
     }
 
+    private fun resetDevice(device: Device) {
+        if (device.instructId != 0 && device.pid == 0) {
+            CSRMeshServiceManager.getInstance().resetDevice(device,this)
+        } else if (device.instructId == 0 && device.pid != 0) {
+            SigMeshServiceManager.getInstance().resetDevice(device,this)
+        }
+    }
 
     private fun isFragmentVisible(): Boolean {
         parentFragment?.parentFragment?.let {

@@ -36,7 +36,6 @@ import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.view_zone_list_empty.*
@@ -50,7 +49,6 @@ class RoomListFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStat
 
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var adapter: RoomListAdapter
-    private lateinit var meshServiceStateListener: MeshServiceStateListener
     private var guide: Guide? = null
     private var isFragmentVisible = false
 
@@ -65,10 +63,6 @@ class RoomListFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStat
         return inflater.inflate(R.layout.zone_fragment, container, false)
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        meshServiceStateListener = context as MeshServiceStateListener
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

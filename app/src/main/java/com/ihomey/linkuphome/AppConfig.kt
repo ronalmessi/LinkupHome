@@ -35,6 +35,7 @@ class AppConfig {
         val BATTERY_LEVEL_ICON = intArrayOf(R.mipmap.ic_battery0, R.mipmap.ic_battery1, R.mipmap.ic_battery2, R.mipmap.ic_battery3, R.mipmap.ic_battery4, R.mipmap.ic_battery5, R.mipmap.ic_battery6)
         val RGB_COLOR_POSITION = arrayOf("13", "12", "14", "15", "17", "16", "01", "00", "02", "03", "05", "04", "07", "06", "08", "09", "0B", "0A", "0D", "0C", "0E", "0F", "11", "10")
 
+        const val TIME_MS = 4 * 1000L
 
         val RGB_COLOR = listOf(
                 RGB(29, 32, 131),

@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.device
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -18,7 +17,6 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.listener.MeshServiceStateListener
 import com.ihomey.linkuphome.widget.SingleSelectToggleGroup
 import com.ihomey.linkuphome.widget.ToggleButtonGroup
 
@@ -26,7 +24,6 @@ class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnChecke
 
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var devices: List<Device>
-    private lateinit var meshServiceStateListener: MeshServiceStateListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.color_cyclingg_setting_fragment, container, false)
@@ -35,11 +32,6 @@ class ColorCyclingSettingFragment : DialogFragment(), ToggleButtonGroup.OnChecke
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         return view
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        meshServiceStateListener = context as MeshServiceStateListener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
