@@ -30,6 +30,7 @@ import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 import com.ihomey.linkuphome.listener.MeshServiceStateListener
+import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
@@ -105,7 +106,10 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         (rcv_device_list.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
-        btn_add_device?.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
+        btn_add_device?.setOnClickListener {
+            CSRMeshServiceManager.getInstance().stopScan()
+//            Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
+        }
         iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
     }
 

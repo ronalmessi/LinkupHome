@@ -37,7 +37,7 @@
         android:label="ChooseDeviceTypeFragment"
         tools:layout="@layout/choose_device_type_fragment">
         <action
-            android:id="@+id/action_chooseDeviceTypeFragment_to_searchDeviceHintFragment2"
+            android:id="@+id/action_chooseDeviceTypeFragment_to_searchDeviceHintFragment"
             app:destination="@id/searchDeviceHintFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -56,13 +56,13 @@
         android:label="SearchDeviceHintFragment"
         tools:layout="@layout/search_device_hint_fragment">
         <action
-            android:id="@+id/action_searchDeviceHintFragment_to_searchDeviceFragment2"
+            android:id="@+id/action_searchDeviceHintFragment_to_searchDeviceFragment"
             app:destination="@id/searchDeviceFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_searchDeviceHintFragment_to_resetDeviceFragment2"
+            android:id="@+id/action_searchDeviceHintFragment_to_resetDeviceFragment"
             app:destination="@id/resetDeviceFragment"
             app:enterAnim="@anim/slide_in_bottom"
             app:exitAnim="@anim/slide_out_top"
@@ -79,13 +79,13 @@
         android:label="SearchDeviceFragment"
         tools:layout="@layout/search_device_fragment">
         <action
-            android:id="@+id/action_searchDeviceFragment_to_resetDeviceFragment2"
+            android:id="@+id/action_searchDeviceFragment_to_resetDeviceFragment"
             app:destination="@id/resetDeviceFragment"
             app:enterAnim="@anim/slide_in_bottom"
             app:exitAnim="@anim/slide_out_top"
             app:popExitAnim="@anim/slide_out_bottom" />
         <action
-            android:id="@+id/action_searchDeviceFragment_to_connectDeviceFragment2"
+            android:id="@+id/action_searchDeviceFragment_to_connectDeviceFragment"
             app:destination="@id/connectDeviceFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"

@@ -39,13 +39,13 @@ class SearchDeviceHintFragment : BaseFragment(), DeviceAssociateListener {
         super.onViewCreated(view, savedInstanceState)
         iv_back.setOnClickListener { Navigation.findNavController(it).popBackStack() }
         btn_device_reset.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_resetDeviceFragment2)
+            Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_resetDeviceFragment)
         }
         btn_next.setOnClickListener {
             val bundle = Bundle()
             arguments?.getInt("deviceType")?.let { it1 -> bundle.putInt("deviceType", it1) }
             arguments?.getInt("zoneId")?.let { it1 -> bundle.putInt("zoneId", it1) }
-            Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment2, bundle)
+            Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment, bundle)
         }
         listener.discoverDevices(true, this)
     }

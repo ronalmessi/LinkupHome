@@ -83,7 +83,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
 
     override fun onResume() {
         super.onResume()
-        listener.discoverDevices(true, this)
+//        listener.discoverDevices(true, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,7 +104,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler, DeviceAssocia
     override fun onDestroyView() {
         super.onDestroyView()
         mViewModel.clearScanedDevice()
-        listener.discoverDevices(false, null)
+//        listener.discoverDevices(false, null)
     }
 
     override fun onDeviceFound(uuidHash: String, macAddress: String?, name: String) {
