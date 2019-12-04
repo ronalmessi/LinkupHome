@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.device
 
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -21,23 +20,24 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
+import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.listener.SppStateListener
+import com.ihomey.linkuphome.sigmesh.BleDeviceScanListener
+import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.connect_device_fragment.*
 
 
-class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, SppStateListener {
+class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListAdapter.OnCheckedChangeListener, BaseQuickAdapter.OnItemClickListener, DeviceListAdapter.OnSeekBarChangeListener, BleDeviceScanListener {
 
     companion object {
         fun newInstance() = ConnectM1DeviceFragment()
     }
 
-    private lateinit var listener: DevicesStateListener
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var viewModel: ConnectDeviceViewModel
     private lateinit var adapter: ScanDeviceListAdapter
@@ -47,11 +47,6 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.connect_device_fragment, container, false)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as DevicesStateListener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -67,7 +62,8 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
         viewModel.devicesResult.observe(viewLifecycleOwner, Observer<Resource<List<Device>>> {
             if (it?.status == Status.SUCCESS) {
                 adapter.setNewData(it.data?.onEach { it.macAddress = it.id })
-                listener.discoverDevices(true, this)
+                CSRMeshServiceManager.getInstance().setBleDeviceScanListener(this)
+                CSRMeshServiceManager.getInstance().startScan()
             }
         })
     }
@@ -92,16 +88,17 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
     }
 
 
+    override fun onDeviceFound(device: Device) {
+        if (adapter.data.indexOf(device) == -1&&device.type==0) adapter.addData(device)
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         adapter.setNewData(null)
         BluetoothSPP.getInstance()?.setBluetoothConnectionListener(null)
-        listener.discoverDevices(false, null)
-    }
-
-    override fun newAppearance(shortName: String, macAddress: String) {
-        val singleDevice1 = Device(0, DeviceType.values()[0].name, macAddress)
-        if (adapter.data.indexOf(singleDevice1) == -1) adapter.addData(singleDevice1)
+        CSRMeshServiceManager.getInstance().setBleDeviceScanListener(null)
+        CSRMeshServiceManager.getInstance().stopScan()
     }
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -116,25 +113,35 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
                     Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_m1InstructionFragment)
                 }
             }
-
         }
     }
 
 
     override fun onCheckedChanged(singleDevice: Device, isChecked: Boolean) {
-        val controller = M1Controller()
-        controller.setLightPowerState(singleDevice.id, if (isChecked) 1 else 0)
+        LightControllerFactory().createCommonController(singleDevice)?.setOnOff(isChecked)
+        updateState(singleDevice, "on", if (isChecked) "1" else "0")
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-        val controller = M1Controller()
-        controller.setLightBright(singleDevice.id, progress.plus(15))
+        LightControllerFactory().createCommonController(singleDevice)?.setBrightness(progress)
+        updateState(singleDevice, "brightness", progress.toString())
     }
 
-    interface DevicesStateListener {
-        fun discoverDevices(enabled: Boolean, listener: SppStateListener?)
+    private fun updateState(device: Device, key: String, value: String) {
+        if (TextUtils.equals("brightness", key)) {
+            val deviceState = device.parameters
+            deviceState?.let {
+                it.brightness = value.toInt()
+                mViewModel.updateDeviceState(device, it)
+            }
+        } else {
+            val deviceState = device.parameters
+            deviceState?.let {
+                it.on = value.toInt()
+                mViewModel.updateRoomAndDeviceState(device, it)
+            }
+        }
     }
-
 
     private val mBluetoothConnectionListener = object : BluetoothSPP.BluetoothConnectionListener {
         override fun onDeviceConnecting(name: String?, address: String?) {

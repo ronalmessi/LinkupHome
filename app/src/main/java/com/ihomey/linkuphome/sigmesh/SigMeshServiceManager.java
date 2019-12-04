@@ -45,12 +45,8 @@ public class SigMeshServiceManager implements Connector {
 
     private MeshDeviceScanListener meshDeviceScanListener;
     private MeshStateListener meshStateListener;
-
+    private MeshDeviceAssociateListener meshDeviceAssociateListener;
     private MeshDeviceRemoveListener meshDeviceRemoveListener;
-
-    public void setMeshDeviceRemoveListener(MeshDeviceRemoveListener meshDeviceRemoveListener) {
-        this.meshDeviceRemoveListener = meshDeviceRemoveListener;
-    }
 
     public void setMeshStateListener(MeshStateListener meshStateListener) {
         this.meshStateListener = meshStateListener;
@@ -68,13 +64,9 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void unBind(@NotNull Activity activity) {
+        mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
+        mPlSigMeshService.proxyExit();
         activity.unbindService(mPlSigMeshServiceConnection);
-    }
-
-
-    @Override
-    public void connect() {
-
     }
 
     @Override
@@ -125,14 +117,19 @@ public class SigMeshServiceManager implements Connector {
             switch (status) {
                 case Util.PL_MESH_READY:
                     mConnected = true;
-                    if (meshStateListener != null)
-                        meshStateListener.onDeviceConnected("SigMesh V1");
+                    mActivity.get().runOnUiThread(() -> {
+                        if (meshStateListener != null)
+                            meshStateListener.onDeviceConnected("SigMesh V1");
+                    });
+
                     break;
                 case Util.PL_MESH_JOIN_FAIL:
                 case Util.PL_MESH_EXIT:
                     mConnected = false;
-                    if (meshStateListener != null)
-                        meshStateListener.onDeviceDisConnected("SigMesh V1");
+                    mActivity.get().runOnUiThread(() -> {
+                        if (meshStateListener != null)
+                            meshStateListener.onDeviceDisConnected("SigMesh V1");
+                    });
                     break;
             }
         }
@@ -140,11 +137,19 @@ public class SigMeshServiceManager implements Connector {
         @Override
         public void onConfigComplete(int result, MeshNetInfo.MeshNodeInfo config_node, MeshNetInfo mesh_net) {
             super.onConfigComplete(result, config_node, mesh_net);
+            mPlSigMeshNet = mesh_net;
+            mActivity.get().runOnUiThread(() -> {
+                if(meshDeviceAssociateListener!=null){
+                    meshDeviceAssociateListener.associationProgress(95);
+                    meshDeviceAssociateListener.deviceAssociated(config_node.getPrimary_addr(),0,config_node.getUuid());
+                }
+            });
         }
 
         @Override
         public void onNodeResetStatus(short src) {
             super.onNodeResetStatus(src);
+            mPlSigMeshService.delMeshNode(src);
         }
     };
 
@@ -164,11 +169,18 @@ public class SigMeshServiceManager implements Connector {
         @Override
         public void onProvisionComplete(int result, MeshNetInfo.MeshNodeInfo provision_node, MeshNetInfo mesh_net) {
             super.onProvisionComplete(result, provision_node, mesh_net);
+            mPlSigMeshNet = mesh_net;
+            if ((int)Util.CONFIG_MODE_PROVISION_CONFIG_ONE_BY_ONE==  mPlSigMeshService.get_config_mode() && result == 0) {
+                mActivity.get().runOnUiThread(() -> {
+                    if(meshDeviceAssociateListener!=null) meshDeviceAssociateListener.associationProgress(50);
+                });
+            }
         }
     };
 
     @Override
     public void associateDevice(@NotNull Device device, MeshDeviceAssociateListener listener) {
+        this.meshDeviceAssociateListener = listener;
         mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROVISION);
         mPlSigMeshService.registerProvisionCb(mSigMeshProvisionCB);
         BluetoothDevice unProvisionedDev = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(device.getMacAddress());
@@ -183,7 +195,7 @@ public class SigMeshServiceManager implements Connector {
         mPlSigMeshService.resetNode((short) device.getPid());
         new Handler().postDelayed(() -> {
             if (meshDeviceRemoveListener != null)
-                meshDeviceRemoveListener.onDeviceRemoved(device.getId());
+                meshDeviceRemoveListener.onDeviceRemoved(device.getId(),true);
         },  AppConfig.TIME_MS);
     }
 }

@@ -38,7 +38,6 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
         fun newInstance() = ConnectDeviceFragment()
     }
 
-
     private lateinit var mViewModel: HomeActivityViewModel
     private lateinit var viewModel: ConnectDeviceViewModel
     private lateinit var adapter: ScanDeviceListAdapter
@@ -150,7 +149,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
             context?.getIMEI()?.let { it1 ->
                 viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     if (it?.status == Status.SUCCESS && it.data != null) {
-                        val device = Device(0, "LinkupHome V1", macAddress)
+                        val device = Device(0, "V1", macAddress)
                         val position = adapter.data.indexOf(device) ?: -1
                         if (position != -1) {
                             adapter.getItem(position)?.id = macAddress

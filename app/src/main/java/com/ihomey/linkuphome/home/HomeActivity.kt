@@ -2,76 +2,54 @@ package com.ihomey.linkuphome.home
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.*
 import android.text.TextUtils
-import android.util.ArrayMap
 import android.util.Log
-import android.util.SparseIntArray
-import android.view.Gravity
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
-import com.csr.mesh.ConfigModelApi
-import com.csr.mesh.DataModelApi
 import com.csr.mesh.MeshService
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
-import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
-import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device.ConnectDeviceFragment
 import com.ihomey.linkuphome.device.ConnectM1DeviceFragment
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.*
-import com.ihomey.linkuphome.listener.BatteryValueListener
+import com.ihomey.linkuphome.sigmesh.DeviceBatteryValueListener
 import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.sigmesh.MeshStateListener
 import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
-import com.pairlink.sigmesh.lib.*
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import org.spongycastle.util.encoders.Hex
 import java.lang.ref.WeakReference
-import java.util.*
 import kotlin.system.exitProcess
 
 
-class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener,  ConnectM1DeviceFragment.DevicesStateListener, MeshStateListener {
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshStateListener {
 
 
     private lateinit var mViewModel: HomeActivityViewModel
 
     private var mCurrentZone: Zone? = null
 
-
     private var isBackground = false
-
-    private var sppStateListener: SppStateListener? = null
-    private var mBatteryListener: BatteryValueListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTranslucentStatus()
         setContentView(R.layout.home_activity)
         initNavController()
-//        BluetoothSPP.getInstance().initialize(applicationContext)
-//        initSppService()
-//        bindService(Intent(this, MeshService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
-//        if (BluetoothAdapter.getDefaultAdapter().isEnabled)
+        BluetoothSPP.getInstance().initialize(applicationContext)
+        initSppService()
 
-//            bindService(Intent(this, PlSigMeshService::class.java), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE)
 
         CSRMeshServiceManager.getInstance().bind(this)
         SigMeshServiceManager.getInstance().bind(this)
@@ -126,10 +104,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener,  Connec
 
     override fun onDestroy() {
         super.onDestroy()
+        releaseResource()
+    }
+
+    private fun releaseResource(){
         try {
-            releaseResource()
-//            unbindService(mServiceConnection)
-//            unbindService(mPlSigMeshServiceConnection)
+            Crouton.cancelAllCroutons()
+            BluetoothSPP.getInstance()?.release()
+            CSRMeshServiceManager.getInstance().unBind(this)
+            SigMeshServiceManager.getInstance().unBind(this)
         } catch (e: Exception) {
             Log.d("LinkupHome", "oh,some error happen!")
         }
@@ -169,58 +152,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener,  Connec
         isBackground = false
     }
 
-    private fun releaseResource() {
-        Crouton.cancelAllCroutons()
-        BluetoothSPP.getInstance()?.release()
-//        mPlSigMeshService?.proxyExit()
-//        mService?.setDeviceDiscoveryFilterEnabled(false)
-//        if (mConnected) mService?.disconnectBridge()
-//        mService?.setHandler(null)
-//        mMeshHandler.removeCallbacksAndMessages(null)
-    }
-
-//    private val mServiceConnection = object : ServiceConnection {
-//        override fun onServiceConnected(className: ComponentName, rawBinder: IBinder) {
-//            mService = (rawBinder as MeshService.LocalBinder).service
-//            connectBridge()
-//        }
-//
-//        override fun onServiceDisconnected(classname: ComponentName) {
-//            mService = null
-//        }
-//    }
-
-//    private fun initMeshNet() {
-//        Log.d("aa", "222222")
-//        mPlSigMeshNet = PlSigMeshService.getInstance().chooseMeshNet(0)
-//        mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROXY)
-//        PlSigMeshService.getInstance().registerProxyCb(mSigMeshProxyCB)
-//        mPlSigMeshService?.proxyJoin()
-//    }
-//
-//    private val mPlSigMeshServiceConnection: ServiceConnection = object : ServiceConnection {
-//        override fun onServiceConnected(name: ComponentName, rawBinder: IBinder) {
-//            Log.d("aa","11111")
-//            mPlSigMeshService = (rawBinder as PlSigMeshService.LocalBinder).service
-//            mPlSigMeshService?.let {
-//                it.init(this@HomeActivity, Util.DBG_LEVEL_WARN, Util.DBG_LEVEL_WARN)
-//            }
-//        }
-//
-//        override fun onServiceDisconnected(name: ComponentName) {
-//            Log.d("aa","222222")
-//            mPlSigMeshService = null
-//        }
-//    }
-
-
-    override fun connectBridge() {
-//        mService?.setHandler(mMeshHandler)
-//        mService?.setLeScanCallback(mScanCallBack)
-//        mService?.setMeshListeningMode(true, true)
-//        mService?.autoConnect(1, 10000, 100, 0)
-    }
-
     private fun initSppService() {
         BluetoothSPP.getInstance()?.startService()
         BluetoothSPP.getInstance()?.addOnDataReceivedListener(mOnDataReceivedListener)
@@ -252,8 +183,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener,  Connec
 
     override fun reConnectBridge() {
         releaseResource()
-
-        mMeshHandler.postDelayed({ connectBridge() }, 250)
+        Handler().postDelayed({  }, 250)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -290,161 +220,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener,  Connec
         }
     }
 
-    private val mScanCallBack = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
-        Log.d("aa",device.name+"---"+device.address)
-//        mService?.processMeshAdvert(device, scanRecord, rssi)
-//        if (!TextUtils.isEmpty(device.name) && !addressToNameMap.containsKey(device.address)) {
-//            if (TextUtils.equals("Linkuphome M1", device.name)) {
-//                sppStateListener?.newAppearance(device.name, device.address)
-//            } else {
-//                addressToNameMap[device.address] = device.name
-//            }
-//        }
-    }
-
-    private val mMeshHandler = MeshHandler(this)
-
-    private class MeshHandler(activity: HomeActivity) : Handler() {
-        private val mActivity: WeakReference<HomeActivity> = WeakReference(activity)
-        override fun handleMessage(msg: Message) {
-            val parentActivity = mActivity.get()
-            when (msg.what) {
-                MeshService.MESSAGE_REQUEST_BT -> {
-//                    if (parentActivity?.mPlSigMeshService != null) parentActivity.unbindService(parentActivity.mPlSigMeshServiceConnection)
-                    BluetoothSPP.getInstance()?.removeOnDataReceivedListener(parentActivity?.mOnDataReceivedListener)
-                    BluetoothSPP.getInstance()?.stopService()
-                    val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                    parentActivity?.startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
-                }
-
-                MeshService.MESSAGE_RECEIVE_BLOCK_DATA -> {
-                    if (parentActivity?.mBatteryListener != null) {
-                        val deviceId = msg.data.getInt(MeshService.EXTRA_DEVICE_ID)
-                        val data = msg.data.getByteArray(MeshService.EXTRA_DATA)
-                        val batteryInfo = encodeHexStr(data)
-                        if (batteryInfo.startsWith("b6") && parentActivity.mBatteryListener != null) {
-                            val batteryLevel = batteryInfo.substring(batteryInfo.length - 2, batteryInfo.length)
-                            val level = toDigit(batteryLevel[0], 1) * 16 + toDigit(batteryLevel[1], 1)
-                            parentActivity.mBatteryListener?.onBatteryLevelReceived(deviceId, level)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-//    private val mSigMeshProxyCB = object : PlSigMeshProxyCallback() {
-
-//
-
-//
-//        override fun onConfigComplete(result: Int, config_node: MeshNetInfo.MeshNodeInfo, mesh_net: MeshNetInfo?) {
-//            Log.d("aa", "onConfigComplete $result---" + config_node + "----" + mesh_net + "---" + config_node.primary_addr)
-//            mPlSigMeshNet = mesh_net
-//            runOnUiThread {
-//                meshAssListener?.associationProgress(99)
-//                meshAssListener?.deviceAssociated(config_node.primary_addr.toInt(), 0, config_node.uuid)
-//            }
-//        }
-//
-//
-//        override fun onNodeResetStatus(src: Short) {
-//            super.onNodeResetStatus(src)
-//            Log.d("aa", "onNodeResetStatus")
-//            mPlSigMeshService?.delMeshNode(src)
-//            runOnUiThread {
-//                deleteSigMeshDevice()
-//            }
-//        }
-//
-//    }
-
-    private fun deleteSigMeshDevice() {
-        mCurrentZone?.let {
-            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
-        }
-    }
-
-//    private val mSigMeshProvisionCB = object : PlSigMeshProvisionCallback() {
-//        override fun onDeviceFoundUnprovisioned(device: BluetoothDevice, rssi: Int, uuid: String) {
-//            meshAssListener?.onDeviceFound(uuid, device.address, device.name)
-//            Log.d("aa", "onDeviceFoundUnprovisioned---" + device.address + ", " + device.name + ", uuid:" + uuid)
-//        }
-//
-//        override fun onProvisionComplete(result: Int, provision_node: MeshNetInfo.MeshNodeInfo?, mesh_net: MeshNetInfo?) {
-//            mPlSigMeshNet = mesh_net
-//            if (Util.CONFIG_MODE_PROVISION_CONFIG_ONE_BY_ONE.toInt() == mPlSigMeshService?._config_mode && result == 0) {
-//                runOnUiThread {
-//                    meshAssListener?.associationProgress(50)
-//                }
-//            }
-//        }
-//    }
-
-
     override fun onDeviceDisConnected(name: String) {
-        val textView = TextView(this)
-        textView.width = getScreenW()
-        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
-        textView.gravity = Gravity.CENTER
-        textView.setTextColor(resources.getColor(android.R.color.white))
-        textView.setBackgroundResource(R.color.colorPrimaryDark)
-        textView.text = '"' + name + '"' + " " + getString(R.string.msg_device_disconnected)
-        Crouton.make(this, textView).show()
+        showCrouton('"' + name + '"' + " " + getString(R.string.msg_device_disconnected),R.color.colorPrimaryDark)
     }
 
     override fun onDeviceConnected(name: String) {
-        val textView = TextView(this)
-        textView.width = getScreenW()
-        textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
-        textView.gravity = Gravity.CENTER
-        textView.setTextColor(resources.getColor(android.R.color.white))
-        textView.setBackgroundResource(R.color.bridge_connected_msg_bg_color)
-        textView.text = '"' + name + '"' + " " + getString(R.string.msg_device_connected)
-        Crouton.make(this, textView).show()
+        showCrouton('"' + name + '"' + " " + getString(R.string.msg_device_connected),R.color.bridge_connected_msg_bg_color)
     }
-
-
-//    override fun discoverDevices(enabled: Boolean, listener: DeviceAssociateListener?) {
-////        meshAssListener = if (enabled && listener != null) listener else null
-//        try {
-////            mService?.setDeviceDiscoveryFilterEnabled(enabled)
-//            if (enabled) {
-////                CSRMeshServiceManager.getInstance().startScan()
-////                SigMeshServiceManager.getInstance().startScan()
-////                mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROXY)
-////                mPlSigMeshService?.proxyExit()
-////                mPlSigMeshService?.registerProvisionCb(mSigMeshProvisionCB)
-////                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROVISION)
-//            }else{
-////                CSRMeshServiceManager.getInstance().stopScan()
-////                SigMeshServiceManager.getInstance().stopScan()
-////                mPlSigMeshService?.scanDevice(false, Util.SCAN_TYPE_PROVISION)
-////                mPlSigMeshService?.scanDevice(true, Util.SCAN_TYPE_PROXY)
-////                mPlSigMeshService?.proxyJoin()
-//            }
-//
-//        } catch (e: Exception) {
-//            Log.d("LinkupHome", "you should firstly connect to bridge!")
-//        }
-//    }
-
-    override fun discoverDevices(enabled: Boolean, listener: SppStateListener?) {
-        sppStateListener = if (enabled) listener else null
-//        try {
-//            mService?.setDeviceDiscoveryFilterEnabled(enabled)
-//        } catch (e: Exception) {
-//            Log.d("LinkupHome", "you should firstly connect to bridge!")
-//        }
-    }
-
-
-
-
-//    override fun getBatteryState(deviceId: Int, batteryValueListener: BatteryValueListener) {
-//        mBatteryListener = batteryValueListener
-//        DataModelApi.sendData(deviceId, decodeHex("B600B6".toCharArray()), false)
-//    }
-
 }

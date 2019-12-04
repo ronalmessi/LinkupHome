@@ -22,6 +22,4 @@ interface Connector {
     fun resetDevice(device:Device,listener: MeshDeviceRemoveListener?)
 
     fun isConnected():Boolean
-
-    fun connect()
 }

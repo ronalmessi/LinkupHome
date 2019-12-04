@@ -17,15 +17,16 @@ import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.base.BaseNavHostFragment
 import com.ihomey.linkuphome.data.entity.Device
+import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.devicecontrol.navigator.ControlFragmentNavigator
 import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
+import com.ihomey.linkuphome.encodeBase64
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
-import com.ihomey.linkuphome.listener.DeviceRemoveListener
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
 import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.sigmesh.MeshDeviceRemoveListener
@@ -33,10 +34,11 @@ import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
+import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
-open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, DeviceRemoveListener, DeviceListAdapter.OnItemClickListener, DeviceListAdapter.OnItemChildClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface, MeshDeviceRemoveListener {
+open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, DeviceListAdapter.OnItemClickListener, DeviceListAdapter.OnItemChildClickListener, DeviceListAdapter.OnCheckedChangeListener, DeviceListAdapter.OnSeekBarChangeListener, ConfirmDialogInterface, MeshDeviceRemoveListener {
 
     companion object {
         fun newInstance() = DeviceFragment()
@@ -48,6 +50,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     private var isUserTouch: Boolean = false
     private var deviceList: List<Device>? = null
     private var selectedDevice: Device? = null
+    private var mCurrentZone: Zone? = null
 
     private val navigator: ControlFragmentNavigator = ControlFragmentNavigator()
 
@@ -58,6 +61,11 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
+        mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
+            if (it?.status == Status.SUCCESS) {
+                mCurrentZone = it.data
+            }
+        })
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList = it.snapshot()
             if (!isUserTouch) adapter.submitList(it)
@@ -79,12 +87,9 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         navigator.bind(NavHostFragment.findNavController(this@DeviceFragment))
-
         parentFragment?.parentFragment?.let {
             val baseNavHostFragment = (it as BaseNavHostFragment)
             baseNavHostFragment.setFragmentVisibleStateListener(this)
@@ -158,9 +163,9 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     private fun resetDevice(device: Device) {
         if (device.instructId != 0 && device.pid == 0) {
-            CSRMeshServiceManager.getInstance().resetDevice(device,this)
+            CSRMeshServiceManager.getInstance().resetDevice(device, this)
         } else if (device.instructId == 0 && device.pid != 0) {
-            SigMeshServiceManager.getInstance().resetDevice(device,this)
+            SigMeshServiceManager.getInstance().resetDevice(device, this)
         }
     }
 
@@ -193,19 +198,24 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         isUserTouch = false
     }
 
-    override fun onDeviceRemoved(deviceId: String) {
+    override fun onDeviceRemoved(deviceId: String, isSigMeshDevice: Boolean) {
         hideLoadingView()
         isUserTouch = false
         mViewModel.deleteDevice(deviceId)
+        if(isSigMeshDevice) deleteSigMeshDevice()
+    }
+
+    private fun deleteSigMeshDevice() {
+        mCurrentZone?.let {
+            context?.getIMEI()?.let {it0->
+                mViewModel.uploadMeshInfo(it0, it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
+            }
+        }
     }
 
     private fun changeDeviceState(device: Device, key: String, value: String) {
         updateState(device, key, value)
-        context?.getIMEI()?.let { it1 ->
-            mViewModel.changeDeviceState(it1, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-
-            })
-        }
+        if(device.type!=0)context?.getIMEI()?.let { mViewModel.changeDeviceState(it, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {}) }
     }
 
     private fun updateState(device: Device, key: String, value: String) {

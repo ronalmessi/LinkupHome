@@ -9,11 +9,13 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -23,6 +25,7 @@ import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.pairlink.sigmesh.lib.MeshNetInfo
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import com.pairlink.sigmesh.lib.Util
+import de.keyboardsurfer.android.widget.crouton.Crouton
 import org.spongycastle.crypto.digests.SHA256Digest
 import org.spongycastle.util.encoders.Hex
 import java.security.MessageDigest
@@ -67,7 +70,18 @@ fun Context.getScreenW(): Int {
     return this.resources.displayMetrics.widthPixels
 }
 
-fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
+fun Activity.showCrouton(message: String, bgColorRes: Int) {
+    val textView = TextView(this)
+    textView.width = getScreenW()
+    textView.setPadding(0, dip2px(36f), 0, dip2px(18f))
+    textView.gravity = Gravity.CENTER
+    textView.setTextColor(resources.getColor(android.R.color.white))
+    textView.setBackgroundResource(bgColorRes)
+    textView.text = message
+    Crouton.make(this, textView).show()
+}
+
+fun Activity.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, length).show()
 }
 
