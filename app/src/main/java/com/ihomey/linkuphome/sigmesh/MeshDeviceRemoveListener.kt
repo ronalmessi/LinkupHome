@@ -1,8 +1,0 @@
-package com.ihomey.linkuphome.sigmesh
-
-/**
- * Created by Administrator on 2017/6/21.
- */
-interface MeshDeviceRemoveListener {
-    fun onDeviceRemoved(deviceId: String,isSigMeshDevice:Boolean)
-}
