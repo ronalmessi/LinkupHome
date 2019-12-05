@@ -4,7 +4,7 @@ import com.ihomey.linkuphome.checkSum
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.RepeatTimerController
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import java.util.*
 
 class M1RepeatTimerController(val device: Device): RepeatTimerController {

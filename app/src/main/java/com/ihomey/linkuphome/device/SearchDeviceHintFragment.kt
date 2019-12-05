@@ -10,9 +10,9 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
-import com.ihomey.linkuphome.sigmesh.MeshDeviceScanListener
-import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.sigmesh.MeshDeviceScanListener
+import com.ihomey.linkuphome.protocol.sigmesh.SigMeshServiceManager
 import kotlinx.android.synthetic.main.search_device_hint_fragment.*
 
 class SearchDeviceHintFragment : BaseFragment(), MeshDeviceScanListener {

@@ -18,7 +18,7 @@ import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.Controller
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import kotlinx.android.synthetic.main.m1_control_setting_fragment.*
 import org.spongycastle.util.encoders.Hex

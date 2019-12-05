@@ -6,7 +6,6 @@ import com.ihomey.linkuphome.data.entity.*
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.repository.RoomRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
-import com.ihomey.linkuphome.data.vo.RemoveDeviceVo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.dl.DaggerAppComponent

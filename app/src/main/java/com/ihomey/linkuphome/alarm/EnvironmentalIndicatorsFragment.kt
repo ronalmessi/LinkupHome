@@ -18,7 +18,7 @@ import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import kotlinx.android.synthetic.main.environmental_indicators_fragment.*
 import org.spongycastle.util.encoders.Hex
 

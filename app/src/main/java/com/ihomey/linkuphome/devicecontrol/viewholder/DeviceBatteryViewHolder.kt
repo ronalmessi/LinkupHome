@@ -5,8 +5,8 @@ import android.widget.ImageView
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Device
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
-import com.ihomey.linkuphome.csrmesh.DeviceBatteryValueListener
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.DeviceBatteryValueListener
 import kotlin.math.ceil
 
 

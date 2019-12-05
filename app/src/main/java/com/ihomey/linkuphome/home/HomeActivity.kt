@@ -19,11 +19,11 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.*
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
-import com.ihomey.linkuphome.sigmesh.MeshInfoListener
-import com.ihomey.linkuphome.sigmesh.MeshStateListener
-import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.sigmesh.MeshInfoListener
+import com.ihomey.linkuphome.protocol.sigmesh.MeshStateListener
+import com.ihomey.linkuphome.protocol.sigmesh.SigMeshServiceManager
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*

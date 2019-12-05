@@ -24,7 +24,7 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dip2px
 import com.ihomey.linkuphome.home.HomeActivityViewModel
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.alarm_list_fragment.*
 import org.spongycastle.util.encoders.Hex

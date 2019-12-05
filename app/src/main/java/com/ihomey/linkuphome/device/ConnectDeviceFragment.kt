@@ -22,10 +22,10 @@ import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.dialog.DeviceAssociateFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
-import com.ihomey.linkuphome.sigmesh.MeshDeviceAssociateListener
-import com.ihomey.linkuphome.sigmesh.MeshDeviceScanListener
-import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.sigmesh.MeshDeviceAssociateListener
+import com.ihomey.linkuphome.protocol.sigmesh.MeshDeviceScanListener
+import com.ihomey.linkuphome.protocol.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.connect_device_fragment.*

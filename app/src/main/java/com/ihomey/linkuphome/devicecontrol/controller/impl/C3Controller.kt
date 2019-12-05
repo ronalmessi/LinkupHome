@@ -6,7 +6,7 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.ColorController
 import com.ihomey.linkuphome.devicecontrol.controller.CommonController
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
 
 
 class C3Controller(val device: Device): CommonController, ColorController {

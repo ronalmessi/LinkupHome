@@ -8,7 +8,7 @@ import com.ihomey.linkuphome.devicecontrol.controller.ColorTemperatureController
 import com.ihomey.linkuphome.devicecontrol.controller.CommonController
 import com.ihomey.linkuphome.devicecontrol.controller.TimerController
 import com.ihomey.linkuphome.getPeriodMinute
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
 
 
 class A2Controller(val device: Device): CommonController, ColorTemperatureController, TimerController {

@@ -8,7 +8,7 @@ import com.ihomey.linkuphome.devicecontrol.controller.ColorController
 import com.ihomey.linkuphome.devicecontrol.controller.ColorTemperatureController
 import com.ihomey.linkuphome.devicecontrol.controller.CommonController
 import com.ihomey.linkuphome.devicecontrol.controller.SceneController
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import java.util.*
 
 

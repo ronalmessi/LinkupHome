@@ -9,7 +9,7 @@ import com.ihomey.linkuphome.devicecontrol.controller.CommonController
 import com.ihomey.linkuphome.devicecontrol.controller.SceneController
 import com.ihomey.linkuphome.devicecontrol.controller.TimerController
 import com.ihomey.linkuphome.getPeriodMinute
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
 
 
 class N1Controller(val device: Device): CommonController, ColorController, SceneController, TimerController {

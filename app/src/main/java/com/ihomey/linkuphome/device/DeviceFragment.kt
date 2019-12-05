@@ -28,10 +28,10 @@ import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
-import com.ihomey.linkuphome.sigmesh.MeshDeviceRemoveListener
-import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.sigmesh.MeshDeviceRemoveListener
+import com.ihomey.linkuphome.protocol.sigmesh.SigMeshServiceManager
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
 import com.pairlink.sigmesh.lib.PlSigMeshService

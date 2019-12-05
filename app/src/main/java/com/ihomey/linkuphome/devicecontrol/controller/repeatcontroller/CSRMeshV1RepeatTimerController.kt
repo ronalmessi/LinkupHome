@@ -5,7 +5,7 @@ import com.ihomey.linkuphome.checkSum
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.RepeatTimerController
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
 import java.util.*
 
 class CSRMeshV1RepeatTimerController(val device: Device): RepeatTimerController {

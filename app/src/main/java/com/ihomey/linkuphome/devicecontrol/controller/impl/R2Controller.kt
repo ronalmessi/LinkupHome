@@ -6,7 +6,7 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.*
 import com.ihomey.linkuphome.getPeriodMinute
-import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
 
 
 class R2Controller(val device: Device): CommonController, ColorController, ColorTemperatureController, SceneController, TimerController {

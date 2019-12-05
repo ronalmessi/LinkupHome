@@ -3,7 +3,7 @@ package com.ihomey.linkuphome.devicecontrol.controller.impl
 import com.ihomey.linkuphome.data.entity.Alarm
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.Controller
-import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import java.util.*
 
 /**
