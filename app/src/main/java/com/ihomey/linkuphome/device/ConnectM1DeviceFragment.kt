@@ -25,7 +25,7 @@ import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.sigmesh.BleDeviceScanListener
-import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration

@@ -7,7 +7,7 @@ import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.ColorController
 import com.ihomey.linkuphome.devicecontrol.controller.CommonController
 import com.ihomey.linkuphome.devicecontrol.controller.SceneController
-import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
 
 
 class V2Controller(val device: Device): CommonController, ColorController, SceneController {

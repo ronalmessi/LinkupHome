@@ -351,8 +351,6 @@ fun getPeriodMinute(selectHour: Int, selectMinute: Int): Int {
 }
 
 
-
-
 fun createPlSigMeshNet() {
     PlSigMeshService.getInstance().meshList.clear()
     val meshNetId = (10000000 + Random(System.currentTimeMillis()).nextInt(20000000)).toString()

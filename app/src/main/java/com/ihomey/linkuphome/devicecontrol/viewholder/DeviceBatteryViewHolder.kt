@@ -1,19 +1,12 @@
 package com.ihomey.linkuphome.devicecontrol.viewholder
 
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.TextView
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.data.entity.Device
-import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
-import com.ihomey.linkuphome.moveToViewBottomAnimation
-import com.ihomey.linkuphome.moveToViewLocationAnimation
-import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
-import com.ihomey.linkuphome.sigmesh.DeviceBatteryValueListener
-import com.ihomey.linkuphome.widget.SingleSelectToggleGroup
-import com.ihomey.linkuphome.widget.ToggleButtonGroup
+import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.csrmesh.DeviceBatteryValueListener
 import kotlin.math.ceil
 
 

@@ -28,7 +28,7 @@ import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
-import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.sigmesh.MeshDeviceRemoveListener
 import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
@@ -69,6 +69,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList = it.snapshot()
             if (!isUserTouch) adapter.submitList(it)
+//            BluetoothSPP.getInstance()?.startService()
             deviceList?.forEach {
                 if (it.type == 0) {
                     BluetoothSPP.getInstance()?.autoConnect(it.id)
@@ -194,8 +195,10 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun onDestroyView() {
         super.onDestroyView()
+        BluetoothSPP.getInstance()?.stopAutoConnect()
         navigator.unbind()
         isUserTouch = false
+
     }
 
     override fun onDeviceRemoved(deviceId: String, isSigMeshDevice: Boolean) {

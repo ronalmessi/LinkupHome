@@ -9,7 +9,7 @@ import com.ihomey.linkuphome.widget.RadioGroupPlus
 
 abstract class BaseSwitchTimerControlView(parentView: View):TimerSettingListener {
 
-    protected val radioGroupPlus = parentView.findViewById<RadioGroupPlus>(R.id.rg_timer_setting)
+    protected val radioGroupPlus: RadioGroupPlus = parentView.findViewById(R.id.rg_timer_setting)
 
     protected var mLocalState: LocalState = LocalState("0")
 

@@ -10,31 +10,28 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
-import com.csr.mesh.MeshService
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.device.ConnectM1DeviceFragment
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.*
-import com.ihomey.linkuphome.sigmesh.DeviceBatteryValueListener
-import com.ihomey.linkuphome.sigmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.csrmesh.CSRMeshServiceManager
+import com.ihomey.linkuphome.sigmesh.MeshInfoListener
 import com.ihomey.linkuphome.sigmesh.MeshStateListener
 import com.ihomey.linkuphome.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.spp.BluetoothSPP
+import com.pairlink.sigmesh.lib.PlSigMeshService
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import org.spongycastle.util.encoders.Hex
-import java.lang.ref.WeakReference
 import kotlin.system.exitProcess
 
 
-class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshStateListener {
-
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshStateListener, MeshInfoListener {
 
     private lateinit var mViewModel: HomeActivityViewModel
 
@@ -54,6 +51,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         CSRMeshServiceManager.getInstance().bind(this)
         SigMeshServiceManager.getInstance().bind(this)
         CSRMeshServiceManager.getInstance().setMeshStateListener(this)
+        SigMeshServiceManager.getInstance().setMeshInfoListener(this)
         SigMeshServiceManager.getInstance().setMeshStateListener(this)
         initViewModel()
     }
@@ -66,29 +64,23 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                 mCurrentZone=it.data
                 it.data?.let {
                     CSRMeshServiceManager.getInstance().initService(it)
-                    createPlSigMeshNet()
-                    SigMeshServiceManager.getInstance().initService(it)
+                    SigMeshServiceManager.getInstance().plSigMeshService?.let {it0->
+                        if (TextUtils.isEmpty(it.meshInfo)) {
+                            Log.d("aa", "ccccc---" + it)
+                            createPlSigMeshNet()
+                            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, it0.getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {it1->
+                                if (it1?.status != Status.LOADING) SigMeshServiceManager.getInstance().initService(it)
+                            })
+                        } else {
+                            if (!TextUtils.equals(it.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
+                                Log.d("aa", "aaaa11---" + it.meshInfo)
+                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0).encodeBase64())
+                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+                                SigMeshServiceManager.getInstance().initService(it)
+                            }
+                        }
+                    }
                 }
-
-//                mPlSigMeshService?.let { it0 ->
-//                    if (TextUtils.isEmpty(it.data?.meshInfo)) {
-//                        Log.d("aa", "ccccc---" + it)
-//                        createPlSigMeshNet()
-//                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
-//                            mViewModel.uploadMeshInfo(getIMEI(), it.data?.id, it.data?.name, it0.getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {
-//                                if (it?.status != Status.LOADING) initMeshNet()
-//                            })
-//                        }
-//                    } else {
-//                        if (!TextUtils.equals(it.data?.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
-//                            Log.d("aa", "aaaa11---" + it.data?.meshInfo)
-//                            Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0).encodeBase64())
-//                            it.data?.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
-//                            initMeshNet()
-//                            Log.d("aa", "bbbb---" + it0.meshList.size + "---" + PlSigMeshService.getInstance().getJsonStrMeshNet(0))
-//                        }
-//                    }
-//                }
             }
         })
         mViewModel.setCurrentZoneId(intent?.extras?.getInt("currentZoneId"))
@@ -226,5 +218,11 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun onDeviceConnected(name: String) {
         showCrouton('"' + name + '"' + " " + getString(R.string.msg_device_connected),R.color.bridge_connected_msg_bg_color)
+    }
+
+    override fun onMeshInChanged() {
+        mCurrentZone?.let {
+            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
+        }
     }
 }

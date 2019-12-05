@@ -137,7 +137,7 @@ public class BluetoothSPPService {
     }
 
     // Stop all threads
-    public synchronized void stop() {
+    synchronized void stop() {
 
         if (mConnectThread != null) {
             mConnectThread.cancel();
@@ -155,6 +155,16 @@ public class BluetoothSPPService {
         if (mAcceptThread != null) {
             mAcceptThread.cancel();
             mAcceptThread = null;
+        }
+        setState(BluetoothSPPState.STATE_NONE);
+    }
+
+
+    // Stop all threads
+    synchronized void stopConnect() {
+        if (mConnectThread != null) {
+            mConnectThread.cancel();
+            mConnectThread = null;
         }
         setState(BluetoothSPPState.STATE_NONE);
     }

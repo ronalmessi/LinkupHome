@@ -60,7 +60,7 @@ class RepeatSwitchTimerControlView(val parentView: View, val device: Device) : B
             mLocalState.closeTimerOn = if (isOn) 1 else 0
             val calendar = Calendar.getInstance()
             calendar.time = Date(mLocalState.closeTimer)
-            controller.setRepeatTimer(calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), true, isOn, repeatMode = if (checkBox.isChecked) 1000 else -1000)
+            controller.setRepeatTimer(calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), false, isOn, repeatMode = if (checkBox.isChecked) 1000 else -1000)
         }
         getOnTimerChangedListener()?.onTimerChanged(mLocalState)
 

@@ -156,6 +156,13 @@ public class BluetoothSPP {
         }
     }
 
+    public void stopAutoConnect() {
+        if (mChatService != null) {
+            mAutoConnectDeviceAddressList.clear();
+            mChatService.stopConnect();
+        }
+    }
+
     public void disconnect(String deviceAddress) {
         mAutoConnectDeviceAddressList.remove(deviceAddress);
         if (mChatService != null) {
