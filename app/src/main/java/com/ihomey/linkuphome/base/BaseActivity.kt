@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.ihomey.linkuphome.setTranslucentStatus
 import com.umeng.analytics.MobclickAgent
 
 /**
@@ -19,6 +20,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTranslucentStatus()
         Log.d("BaseActivity", javaClass.simpleName + "-----onCreate")
     }
 

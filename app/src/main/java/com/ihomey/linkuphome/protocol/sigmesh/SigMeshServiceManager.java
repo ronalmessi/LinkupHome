@@ -111,6 +111,7 @@ public class SigMeshServiceManager implements Connector {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder rawBinder) {
+            Log.d("aa","onServiceConnected----mPlSigMeshService");
             mPlSigMeshService = ((PlSigMeshService.LocalBinder) rawBinder).getService();
             mPlSigMeshService.init(mActivity.get(), Util.DBG_LEVEL_DBG, Util.DBG_LEVEL_DBG);
         }
@@ -132,7 +133,7 @@ public class SigMeshServiceManager implements Connector {
                     mConnected = true;
                     mActivity.get().runOnUiThread(() -> {
                         if (meshStateListener != null)
-                            meshStateListener.onDeviceConnected("SigMesh V1");
+                            meshStateListener.onDeviceStateChanged("SigMesh V1",true);
                     });
 
                     break;
@@ -141,7 +142,7 @@ public class SigMeshServiceManager implements Connector {
                     mConnected = false;
                     mActivity.get().runOnUiThread(() -> {
                         if (meshStateListener != null)
-                            meshStateListener.onDeviceDisConnected("SigMesh V1");
+                            meshStateListener.onDeviceStateChanged("SigMesh V1",false);
                     });
                     break;
             }

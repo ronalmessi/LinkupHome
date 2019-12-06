@@ -14,7 +14,6 @@ class InformActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mViewModel = ViewModelProviders.of(this).get(InformViewModel::class.java)
-        setTranslucentStatus()
         setContentView(R.layout.activity_home)
         scheduleScreen()
     }

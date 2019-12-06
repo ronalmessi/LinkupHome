@@ -6,6 +6,5 @@ package com.ihomey.linkuphome.protocol.sigmesh
  */
 
 interface MeshStateListener {
-    fun onDeviceConnected(name: String)
-    fun onDeviceDisConnected(name: String)
+    fun onDeviceStateChanged(name: String,isConnected:Boolean)
 }

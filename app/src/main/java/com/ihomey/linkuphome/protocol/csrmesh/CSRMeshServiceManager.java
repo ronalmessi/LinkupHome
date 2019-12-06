@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.csr.mesh.ConfigModelApi;
@@ -124,6 +125,7 @@ public class CSRMeshServiceManager implements Connector {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder rawBinder) {
+            Log.d("aa","onServiceConnected----MeshService");
             mService = ((MeshService.LocalBinder) rawBinder).getService();
             mService.setHandler(mMeshHandler);
             mService.setLeScanCallback(mScanCallBack);
@@ -215,7 +217,7 @@ public class CSRMeshServiceManager implements Connector {
                     String connectedAddress = msg.getData().getString(MeshService.EXTRA_DEVICE_ADDRESS);
                     String connectedDeviceName = addressToNameMap.get(connectedAddress);
                     if (meshStateListener != null && connectedAddress != null && connectedDeviceName != null)
-                        meshStateListener.onDeviceConnected(connectedDeviceName);
+                        meshStateListener.onDeviceStateChanged(connectedDeviceName,true);
                     break;
                 case MeshService.MESSAGE_LE_DISCONNECTED:
                     mConnected = false;
@@ -223,7 +225,7 @@ public class CSRMeshServiceManager implements Connector {
                     String disConnectedDeviceName = addressToNameMap.get(disConnectedAddress);
                     int numConnections = msg.getData().getInt(MeshService.EXTRA_NUM_CONNECTIONS);
                     if (numConnections == 0 && meshStateListener != null && disConnectedAddress != null && disConnectedDeviceName != null)
-                        meshStateListener.onDeviceDisConnected(disConnectedDeviceName);
+                        meshStateListener.onDeviceStateChanged(disConnectedDeviceName,false);
                     break;
                 case MeshService.MESSAGE_DEVICE_APPEARANCE:
                     String shortName = msg.getData().getString(MeshService.EXTRA_SHORTNAME);

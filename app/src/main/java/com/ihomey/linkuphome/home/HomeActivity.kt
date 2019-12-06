@@ -50,19 +50,20 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTranslucentStatus()
         setContentView(R.layout.home_activity)
-
         initNavController()
         BluetoothSPP.getInstance().initialize(applicationContext)
         initSppService()
 
 
         CSRMeshServiceManager.getInstance().bind(this)
-        SigMeshServiceManager.getInstance().bind(this)
         CSRMeshServiceManager.getInstance().setMeshStateListener(this)
+
+
+        SigMeshServiceManager.getInstance().bind(this)
         SigMeshServiceManager.getInstance().setMeshInfoListener(this)
         SigMeshServiceManager.getInstance().setMeshStateListener(this)
+
         initViewModel()
     }
 
@@ -73,22 +74,22 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                 mCurrentZone=it.data
                 it.data?.let {
                     CSRMeshServiceManager.getInstance().initService(it)
-                    SigMeshServiceManager.getInstance().plSigMeshService?.let {it0->
-                        if (TextUtils.isEmpty(it.meshInfo)) {
-                            Log.d("aa", "ccccc---" + it)
-                            createPlSigMeshNet()
-                            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, it0.getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {it1->
-                                if (it1?.status != Status.LOADING) SigMeshServiceManager.getInstance().initService(it)
-                            })
-                        } else {
-                            if (!TextUtils.equals(it.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
-                                Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
-                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
-//                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
-                                SigMeshServiceManager.getInstance().initService(it)
-                            }
-                        }
-                    }
+//                    SigMeshServiceManager.getInstance().plSigMeshService?.let {it0->
+//                        if (TextUtils.isEmpty(it.meshInfo)) {
+//                            Log.d("aa", "ccccc---" + it)
+//                            createPlSigMeshNet()
+//                            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, it0.getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {it1->
+//                                if (it1?.status != Status.LOADING) SigMeshServiceManager.getInstance().initService(it)
+//                            })
+//                        } else {
+//                            if (!TextUtils.equals(it.meshInfo , it0.getJsonStrMeshNet(0).encodeBase64())) {
+//                                Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
+//                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
+////                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+//                                SigMeshServiceManager.getInstance().initService(it)
+//                            }
+//                        }
+//                    }
                 }
             }
         })
@@ -236,13 +237,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         }
     }
 
-    override fun onDeviceDisConnected(name: String) {
-        showCrouton('"' + name + '"' + " " + getString(R.string.msg_device_disconnected),R.color.colorPrimaryDark)
+    override fun onDeviceStateChanged(name: String,isConnected:Boolean) {
+        showCrouton('"' + name + '"' + " " + getString(if(isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected),if(isConnected) R.color.bridge_connected_msg_bg_color else  R.color.colorPrimaryDark )
     }
 
-    override fun onDeviceConnected(name: String) {
-        showCrouton('"' + name + '"' + " " + getString(R.string.msg_device_connected),R.color.bridge_connected_msg_bg_color)
-    }
 
     override fun onMeshInChanged() {
         mCurrentZone?.let {
