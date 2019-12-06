@@ -27,6 +27,8 @@ class AppConfig {
 
         val REQUEST_BT_CODE = 102
 
+        val REQUEST_CODE_OPEN_GPS= 104
+
 
         val RING_LIST = listOf(R.string.title_ring_0, R.string.title_ring_1, R.string.title_ring_2, R.string.title_ring_3)
 

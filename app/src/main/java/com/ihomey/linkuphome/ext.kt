@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.location.LocationManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.TextUtils
@@ -348,6 +349,11 @@ fun getPeriodMinute(selectHour: Int, selectMinute: Int): Int {
     } else {
         (selectHour - currentHour + 24) * 60 + selectMinute - currentMinute
     }
+}
+
+fun Context.checkGPSIsOpen(): Boolean {
+    val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 }
 
 

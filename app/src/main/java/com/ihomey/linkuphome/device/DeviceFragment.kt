@@ -69,7 +69,6 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList = it.snapshot()
             if (!isUserTouch) adapter.submitList(it)
-//            BluetoothSPP.getInstance()?.startService()
             deviceList?.forEach {
                 if (it.type == 0) {
                     BluetoothSPP.getInstance()?.autoConnect(it.id)
@@ -109,7 +108,10 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         btn_add_device?.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
-        iv_add.setOnClickListener { Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment) }
+        iv_add.setOnClickListener {
+            PlSigMeshService.getInstance().resetNode(1002.toShort())
+            Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
+        }
     }
 
     override fun onFragmentVisibleStateChanged(isVisible: Boolean) {

@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.home
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.content.Context
 import android.content.Intent
 import android.os.*
 import android.text.TextUtils
@@ -29,6 +30,14 @@ import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import org.spongycastle.util.encoders.Hex
 import kotlin.system.exitProcess
+import android.content.Context.LOCATION_SERVICE
+import android.location.LocationManager
+import android.provider.Settings
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.app.ActivityCompat.startActivityForResult
+import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
+import androidx.core.content.ContextCompat.getSystemService
+import com.ihomey.linkuphome.AppConfig.Companion.REQUEST_CODE_OPEN_GPS
 
 
 class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshStateListener, MeshInfoListener {
@@ -43,6 +52,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         super.onCreate(savedInstanceState)
         setTranslucentStatus()
         setContentView(R.layout.home_activity)
+
         initNavController()
         BluetoothSPP.getInstance().initialize(applicationContext)
         initSppService()
@@ -55,7 +65,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         SigMeshServiceManager.getInstance().setMeshStateListener(this)
         initViewModel()
     }
-
 
     private fun initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
@@ -73,9 +82,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                             })
                         } else {
                             if (!TextUtils.equals(it.meshInfo, it0.getJsonStrMeshNet(0).encodeBase64())) {
-                                Log.d("aa", "aaaa11---" + it.meshInfo)
-                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0).encodeBase64())
-                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+                                Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
+                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
+//                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
                                 SigMeshServiceManager.getInstance().initService(it)
                             }
                         }
@@ -142,6 +151,21 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     override fun onResume() {
         super.onResume()
         isBackground = false
+        if(!checkGPSIsOpen()){
+            showOpenGPSDialog()
+        }
+    }
+
+
+    private fun showOpenGPSDialog() {
+        val dialog = PermissionPromptDialogFragment().newInstance(getString(R.string.msg_notes), "需要开启定位服务以扫描周围设备", "前往开启")
+        dialog.setConfirmButtonClickListener(object : PermissionPromptDialogFragment.ConfirmButtonClickListener {
+            override fun onConfirm() {
+                val intent = Intent(ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivityForResult(intent, REQUEST_CODE_OPEN_GPS)
+            }
+        })
+        dialog.show(supportFragmentManager, "PermissionPromptDialogFragment")
     }
 
     private fun initSppService() {
