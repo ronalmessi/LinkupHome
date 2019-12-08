@@ -2,9 +2,11 @@ package com.ihomey.linkuphome.home
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
-import android.content.Context
 import android.content.Intent
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Process
+import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
@@ -12,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.ihomey.linkuphome.*
+import com.ihomey.linkuphome.AppConfig.Companion.REQUEST_CODE_OPEN_GPS
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Zone
@@ -19,7 +22,8 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
-import com.ihomey.linkuphome.listener.*
+import com.ihomey.linkuphome.listener.BridgeListener
+import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.protocol.sigmesh.MeshInfoListener
 import com.ihomey.linkuphome.protocol.sigmesh.MeshStateListener
@@ -30,14 +34,6 @@ import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
 import org.spongycastle.util.encoders.Hex
 import kotlin.system.exitProcess
-import android.content.Context.LOCATION_SERVICE
-import android.location.LocationManager
-import android.provider.Settings
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.app.ActivityCompat.startActivityForResult
-import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
-import androidx.core.content.ContextCompat.getSystemService
-import com.ihomey.linkuphome.AppConfig.Companion.REQUEST_CODE_OPEN_GPS
 
 
 class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshStateListener, MeshInfoListener {
@@ -71,25 +67,24 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         mViewModel = ViewModelProviders.of(this).get(HomeActivityViewModel::class.java)
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
-                mCurrentZone=it.data
+                mCurrentZone = it.data
                 it.data?.let {
+                    Log.d("aa", "hahahahhahaa---"+it.nextDeviceIndex)
                     CSRMeshServiceManager.getInstance().initService(it)
-//                    SigMeshServiceManager.getInstance().plSigMeshService?.let {it0->
-//                        if (TextUtils.isEmpty(it.meshInfo)) {
-//                            Log.d("aa", "ccccc---" + it)
-//                            createPlSigMeshNet()
-//                            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, it0.getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {it1->
-//                                if (it1?.status != Status.LOADING) SigMeshServiceManager.getInstance().initService(it)
-//                            })
-//                        } else {
-//                            if (!TextUtils.equals(it.meshInfo , it0.getJsonStrMeshNet(0).encodeBase64())) {
-//                                Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
-//                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
-////                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
-//                                SigMeshServiceManager.getInstance().initService(it)
-//                            }
-//                        }
-//                    }
+                    if(!SigMeshServiceManager.getInstance().isInited){
+                        SigMeshServiceManager.getInstance().plSigMeshService?.let {it0->
+                            if(TextUtils.isEmpty(it.meshInfo)){
+                                SigMeshServiceManager.getInstance().initService(it)
+                                Log.d("aa", "ccccc---"+it0.getJsonStrMeshNet(0).encodeBase64())
+                                onMeshInfoChanged()
+                            }else {
+                                Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
+                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
+                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+                                SigMeshServiceManager.getInstance().initService(it)
+                            }
+                        }
+                    }
                 }
             }
         })
@@ -109,7 +104,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         releaseResource()
     }
 
-    private fun releaseResource(){
+    private fun releaseResource() {
         try {
             Crouton.cancelAllCroutons()
             BluetoothSPP.getInstance()?.release()
@@ -152,7 +147,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     override fun onResume() {
         super.onResume()
         isBackground = false
-        if(!checkGPSIsOpen()){
+        if (!checkGPSIsOpen()) {
             showOpenGPSDialog()
         }
     }
@@ -200,7 +195,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun reConnectBridge() {
         releaseResource()
-        Handler().postDelayed({  }, 250)
+        Handler().postDelayed({ }, 250)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -237,14 +232,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         }
     }
 
-    override fun onDeviceStateChanged(name: String,isConnected:Boolean) {
-        showCrouton('"' + name + '"' + " " + getString(if(isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected),if(isConnected) R.color.bridge_connected_msg_bg_color else  R.color.colorPrimaryDark )
+    override fun onDeviceStateChanged(name: String, isConnected: Boolean) {
+        showCrouton('"' + name + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
     }
 
 
-    override fun onMeshInChanged() {
+    override fun onMeshInfoChanged() {
         mCurrentZone?.let {
             mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
         }
     }
+
 }

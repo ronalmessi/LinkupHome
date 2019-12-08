@@ -71,6 +71,10 @@ public class CSRMeshServiceManager implements Connector {
 
     private DeviceBatteryValueListener deviceBatteryValueListener;
 
+    public MeshService getmService() {
+        return mService;
+    }
+
     public void setMeshStateListener(MeshStateListener meshStateListener) {
         this.meshStateListener = meshStateListener;
     }
@@ -195,7 +199,7 @@ public class CSRMeshServiceManager implements Connector {
         ConfigModelApi.resetDevice(device.getInstructId());
         mMeshHandler.postDelayed(() -> {
             if (meshDeviceRemoveListener != null)
-                meshDeviceRemoveListener.onDeviceRemoved(device.getId(), false);
+                meshDeviceRemoveListener.onDeviceRemoved(device.getId());
         }, AppConfig.TIME_MS);
     }
 

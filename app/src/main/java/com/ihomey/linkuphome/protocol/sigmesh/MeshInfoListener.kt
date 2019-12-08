@@ -5,5 +5,5 @@ package com.ihomey.linkuphome.protocol.sigmesh
  */
 
 interface MeshInfoListener {
-    fun onMeshInChanged()
+    fun onMeshInfoChanged()
 }

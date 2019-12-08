@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.device
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -206,20 +207,12 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     }
 
-    override fun onDeviceRemoved(deviceId: String, isSigMeshDevice: Boolean) {
+    override fun onDeviceRemoved(deviceId: String) {
         hideLoadingView()
         isUserTouch = false
         mViewModel.deleteDevice(deviceId)
-        if(isSigMeshDevice) deleteSigMeshDevice()
     }
 
-    private fun deleteSigMeshDevice() {
-        mCurrentZone?.let {
-            context?.getIMEI()?.let {it0->
-                mViewModel.uploadMeshInfo(it0, it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
-            }
-        }
-    }
 
     private fun changeDeviceState(device: Device, key: String, value: String) {
         updateState(device, key, value)

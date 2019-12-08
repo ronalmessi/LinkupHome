@@ -136,6 +136,9 @@ class HomeActivityViewModel : ViewModel() {
         return mDeviceRepository.deleteDevice(guid, deviceId,null)
     }
 
+    fun saveDevice(guid: String, zoneId: Int, type: Int, name: String,pid: Int,meshInfo:String?): LiveData<Resource<Device>> {
+        return mDeviceRepository.saveDevice(guid, zoneId, type,name,pid,meshInfo)
+    }
 
     fun changeDeviceName(guid: String, spaceId: Int, id: String,pid: Int, type: Int, newName: String): LiveData<Resource<Device>> {
         return mDeviceRepository.changeDeviceName(guid, spaceId, id,pid,type, newName)

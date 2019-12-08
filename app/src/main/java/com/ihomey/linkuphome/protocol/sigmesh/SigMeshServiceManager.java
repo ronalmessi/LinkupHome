@@ -27,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
 
+import static com.ihomey.linkuphome.ExtKt.createPlSigMeshNet;
+
 public class SigMeshServiceManager implements Connector {
 
     private static final SigMeshServiceManager ourInstance = new SigMeshServiceManager();
@@ -44,12 +46,18 @@ public class SigMeshServiceManager implements Connector {
     private MeshNetInfo mPlSigMeshNet;
     private Boolean mConnected = false;
 
+    private Boolean isInited = false;
+
     private MeshDeviceScanListener meshDeviceScanListener;
     private MeshStateListener meshStateListener;
     private MeshDeviceAssociateListener meshDeviceAssociateListener;
     private MeshDeviceRemoveListener meshDeviceRemoveListener;
     private MeshInfoListener meshInfoListener;
 
+
+    public Boolean isInited() {
+        return isInited;
+    }
 
     public PlSigMeshService getPlSigMeshService() {
         return mPlSigMeshService;
@@ -82,6 +90,8 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void initService(@NotNull Zone zone) {
+        if(TextUtils.isEmpty(zone.getMeshInfo())) createPlSigMeshNet();
+        isInited=true;
         mPlSigMeshNet = PlSigMeshService.getInstance().chooseMeshNet(0);
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROXY);
         mPlSigMeshService.registerProxyCb(mSigMeshProxyCB);
@@ -166,7 +176,7 @@ public class SigMeshServiceManager implements Connector {
             mPlSigMeshService.delMeshNode(src);
             mActivity.get().runOnUiThread(() -> {
                 if(meshInfoListener!=null){
-                    meshInfoListener.onMeshInChanged();
+                    meshInfoListener.onMeshInfoChanged();
                 }
             });
         }
@@ -215,7 +225,7 @@ public class SigMeshServiceManager implements Connector {
         mPlSigMeshService.resetNode((short) device.getPid());
         new Handler().postDelayed(() -> {
             if (meshDeviceRemoveListener != null)
-                meshDeviceRemoveListener.onDeviceRemoved(device.getId(),true);
+                meshDeviceRemoveListener.onDeviceRemoved(device.getId());
         },  AppConfig.TIME_MS);
     }
 }

@@ -34,7 +34,7 @@ class DeviceRepository @Inject constructor(private var apiService: ApiService, p
             override fun saveCallResult(item: Device?) {
                 item?.let {
                     deviceDao.insert(it)
-                    if(pid!=null&&pid!=0&&!TextUtils.isEmpty(meshInfo)&&meshInfo!=null){
+                    if(pid!=0&&!TextUtils.isEmpty(meshInfo)&&meshInfo!=null){
                         zoneDao.updateMeshInfo(meshInfo, zoneId)
                     }else{
                         zoneDao.updateNextDeviceIndex(it.instructId + 1, zoneId)

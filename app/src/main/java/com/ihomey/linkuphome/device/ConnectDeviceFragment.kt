@@ -126,7 +126,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
         val deviceType = DeviceType.values()[type]
         if (TextUtils.isEmpty(macAddress)) {
             context?.getIMEI()?.let { it1 ->
-                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, 0, null).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                mViewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, 0, null).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     if (it?.status == Status.SUCCESS && it.data != null) {
                         it.data.hash = "" + uuidHash
                         val position = adapter.data.indexOf(it.data) ?: -1
@@ -135,7 +135,6 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                             adapter.getItem(position)?.instructId = it.data.instructId
                             adapter.notifyItemChanged(position)
                         }
-                        mViewModel.setCurrentZoneId(currentZone?.id!!)
                         deviceAssociateFragment.dismiss()
                         if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                     } else if (it?.status == Status.ERROR) {
@@ -146,7 +145,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
             }
         } else {
             context?.getIMEI()?.let { it1 ->
-                viewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                mViewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     if (it?.status == Status.SUCCESS && it.data != null) {
                         val device = Device(0, "V1", macAddress)
                         val position = adapter.data.indexOf(device) ?: -1
@@ -154,7 +153,6 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                             adapter.getItem(position)?.id = macAddress
                             adapter.notifyItemChanged(position)
                         }
-                        mViewModel.setCurrentZoneId(currentZone?.id!!)
                         deviceAssociateFragment.dismiss()
                         if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                     } else if (it?.status == Status.ERROR) {
@@ -165,8 +163,6 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
             }
         }
     }
-
-
 
     override fun onItemClick(adapter1: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         adapter.getItem(position)?.let {
