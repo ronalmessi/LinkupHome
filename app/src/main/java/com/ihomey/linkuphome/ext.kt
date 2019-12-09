@@ -82,16 +82,13 @@ fun Activity.showCrouton(message: String, bgColorRes: Int) {
     Crouton.make(this, textView).show()
 }
 
-fun Activity.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, message, length).show()
-}
 
 fun Context.toast(message: Int, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, length).show()
 }
 
 fun Context.toast(errorCode: String) {
-    var message = ""
+    val message: String
     when (errorCode) {
         "0001" -> message = "无效请求，缺少填必参数"
         "0002" -> message = "接口签名已过期"
@@ -109,6 +106,7 @@ fun Context.toast(errorCode: String) {
         "0032" -> message = "分组类型不能大于64个字符"
         "10000" -> message = this.getString(R.string.hint_no_network)
         "10001" -> message = this.getString(R.string.hint_bad_network)
+        else -> message=errorCode
     }
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

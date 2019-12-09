@@ -62,14 +62,14 @@ class JoinZoneFragment : BaseFragment() {
                         it?.status == Status.SUCCESS -> {
                             PlSigMeshService.getInstance().meshList.clear()
                             hideLoadingView()
-                            activity?.toast(getString(R.string.msg_join_zone_success), Toast.LENGTH_SHORT)
+                            activity?.toast(getString(R.string.msg_join_zone_success))
                             viewModel.setCurrentZoneId(it.data?.id)
                             bridgeListener.reConnectBridge()
                             Navigation.findNavController(et_invitation_code).popBackStack()
                         }
                         it?.status == Status.ERROR -> {
                             hideLoadingView()
-                            activity?.toast(getString(R.string.msg_error_invitation_code), Toast.LENGTH_SHORT)
+                            activity?.toast(getString(R.string.msg_error_invitation_code))
                         }
                         it?.status == Status.LOADING -> showLoadingView()
                     }
