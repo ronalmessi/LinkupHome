@@ -95,12 +95,25 @@ public class CSRMeshServiceManager implements Connector {
 
     @Override
     public void unBind(@NotNull Activity activity) {
-        mService.setDeviceDiscoveryFilterEnabled(false);
-        mService.disconnectBridge();
-        mService.setHandler(null);
-        mMeshHandler.removeCallbacksAndMessages(null);
+        release();
         activity.unbindService(mServiceConnection);
     }
+
+    public void release(){
+        mService.setDeviceDiscoveryFilterEnabled(false);
+        if(isConnected()) mService.disconnectBridge();
+        mService.setHandler(null);
+        mMeshHandler.removeCallbacksAndMessages(null);
+        mMeshHandler.postDelayed(this::connectBridge,250);
+    }
+
+    private void connectBridge(){
+        mService.setHandler(mMeshHandler);
+        mService.setLeScanCallback(mScanCallBack);
+        mService.setMeshListeningMode(true, true);
+        mService.autoConnect(1, 10000, 100, 0);
+    }
+
 
     @Override
     public void initService(@NotNull Zone zone) {
@@ -131,10 +144,7 @@ public class CSRMeshServiceManager implements Connector {
         public void onServiceConnected(ComponentName name, IBinder rawBinder) {
             Log.d("aa","onServiceConnected----MeshService");
             mService = ((MeshService.LocalBinder) rawBinder).getService();
-            mService.setHandler(mMeshHandler);
-            mService.setLeScanCallback(mScanCallBack);
-            mService.setMeshListeningMode(true, true);
-            mService.autoConnect(1, 10000, 100, 0);
+            connectBridge();
         }
 
         @Override

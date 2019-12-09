@@ -113,7 +113,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
         iv_add.setOnClickListener {
-//            PlSigMeshService.getInstance().resetNode(1002.toShort())
+//            PlSigMeshService.getInstance().resetNode(18.toShort())
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
     }

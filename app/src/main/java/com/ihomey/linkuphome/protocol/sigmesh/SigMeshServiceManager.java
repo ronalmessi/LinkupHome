@@ -83,6 +83,7 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void unBind(@NotNull Activity activity) {
+        isInited=false;
         mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
         mPlSigMeshService.proxyExit();
         activity.unbindService(mPlSigMeshServiceConnection);
@@ -98,6 +99,13 @@ public class SigMeshServiceManager implements Connector {
         mPlSigMeshService.registerProvisionCb(mSigMeshProvisionCB);
         Log.d("aa","proxyJoin----");
         mPlSigMeshService.proxyJoin();
+    }
+
+    public void release(){
+        isInited=false;
+        mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
+        mPlSigMeshService.proxyExit();
+        mPlSigMeshService.deleteMeshNet(0);
     }
 
     @Override

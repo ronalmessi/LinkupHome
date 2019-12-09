@@ -194,8 +194,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
 
     override fun reConnectBridge() {
-        releaseResource()
-        Handler().postDelayed({ }, 250)
+        Crouton.cancelAllCroutons()
+        CSRMeshServiceManager.getInstance().release()
+        SigMeshServiceManager.getInstance().release()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
