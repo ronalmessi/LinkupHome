@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.54"/>
+        app:layout_constraintGuide_percent="0.545"/>
 
     <ImageButton
         android:id="@+id/btn_device_lighting"
@@ -136,7 +136,7 @@
         android:id="@+id/btn_device_cycling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_96sdp"
+        android:layout_marginStart="@dimen/_81sdp"
         android:background="@mipmap/ic_color_cycling"
         android:button="@null"
         app:layout_constraintBottom_toTopOf="@+id/guideLine"
@@ -158,7 +158,7 @@
         android:id="@+id/btn_device_alarm_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_96sdp"
+        android:layout_marginEnd="@dimen/_81sdp"
         android:background="@mipmap/ic_alarm"
         android:button="@null"
         app:layout_constraintBottom_toTopOf="@+id/guideLine"

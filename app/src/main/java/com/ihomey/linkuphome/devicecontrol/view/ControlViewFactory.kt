@@ -19,12 +19,12 @@ class ControlViewFactory {
     fun createControlView(deviceType: Int, context: Context, fragment: Fragment): BaseControlView? {
         return when (deviceType) {
             1 -> C3ControlView(R.layout.control_c3_view, context)
-            2 -> R2ControlView(R.layout.control_r2_view, context)
+            2 -> R2ControlView(R.layout.control_v1_view, context)
             3 -> A2ControlView(R.layout.control_a2_view, context)
-            4 -> R2ControlView(R.layout.control_r2_view, context)
+            4 -> R2ControlView(R.layout.control_v1_view, context)
             6 -> V1ControlView(R.layout.control_v1_view, context)
             0 -> M1ControlView(R.layout.control_m1_view, context, fragment)
-            7 -> R2ControlView(R.layout.control_r2_view, context)
+            7 -> R2ControlView(R.layout.control_v1_view, context)
             8 -> A2ControlView(R.layout.control_a2_view, context)
             9 -> T1ControlView(R.layout.control_t1_view, context, fragment)
             10 -> V1ControlView(R.layout.control_v1_view, context)

@@ -38,15 +38,16 @@ class LightControllerFactory {
         }
     }
 
+
     fun createColorTemperatureController(device: Device): ColorTemperatureController? {
         return when(device.type) {
             0 -> M1LightController(device)
-            2 -> R2Controller(device)
-            7 -> R2Controller(device)
+            3,8 -> A2Controller(device)
             9 -> R2Controller(device)
             else ->null
         }
     }
+
 
     fun createColorSceneController(device: Device): SceneController? {
         return when(device.type) {

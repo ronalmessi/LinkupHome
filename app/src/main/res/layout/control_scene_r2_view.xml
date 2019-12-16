@@ -23,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:clickable="false"
                 android:tag="0"
                 android:layout_marginEnd="@dimen/_24sdp"
                 android:button="@drawable/scene_setting_btn_read_bg" />
@@ -51,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/_24sdp"
+                android:clickable="false"
                 android:tag="1"
                 android:button="@drawable/scene_setting_btn_sunset_bg" />
 
@@ -79,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/_24sdp"
+                android:clickable="false"
                 android:tag="2"
                 android:button="@drawable/scene_setting_btn_rest_bg" />
 
@@ -107,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/_24sdp"
+                android:clickable="false"
                 android:tag="3"
                 android:button="@drawable/scene_setting_btn_spring_bg" />
 
@@ -135,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/_24sdp"
+                android:clickable="false"
                 android:tag="4"
                 android:button="@drawable/scene_setting_btn_rainforest_bg"
                 android:textAlignment="viewEnd" />
