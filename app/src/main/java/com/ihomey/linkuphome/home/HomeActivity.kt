@@ -80,7 +80,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                             }else {
                                 Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
                                 Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
-                                it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+                              if(BluetoothAdapter.getDefaultAdapter().isEnabled)  it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
                                 SigMeshServiceManager.getInstance().initService(it)
                             }
                         }
