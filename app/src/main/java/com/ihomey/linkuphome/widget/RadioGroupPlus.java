@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -150,6 +151,8 @@ public class RadioGroupPlus extends LinearLayout {
         if (id != -1) {
             setCheckedStateForView(id, true);
         }
+
+
 
         mCheckedId = id;
 
@@ -346,6 +349,8 @@ public class RadioGroupPlus extends LinearLayout {
             mProtectFromCheckedChange = false;
 
             int id = buttonView.getId();
+
+
             setCheckedId(id);
 
 
@@ -358,7 +363,7 @@ public class RadioGroupPlus extends LinearLayout {
                     setPressedStateForLayout(relativeLayout1, false);
                     if (textView != null) setPressedStateForTextView(textView, false);
                 } else {
-                    relativeLayout1.performClick();
+//                    relativeLayout1.performClick();
                     setPressedStateForLayout(relativeLayout1, true);
                     if (textView != null) setPressedStateForTextView(textView, true);
                 }
@@ -463,5 +468,6 @@ public class RadioGroupPlus extends LinearLayout {
                 mOnHierarchyChangeListener.onChildViewRemoved(parent, child);
             }
         }
+
     }
 }
