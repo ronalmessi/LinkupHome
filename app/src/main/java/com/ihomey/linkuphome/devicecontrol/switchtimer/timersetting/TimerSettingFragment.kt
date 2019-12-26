@@ -30,6 +30,10 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
 
     private var isDataLoaded: Boolean = false
 
+    private val timerBg=listOf(R.drawable.selector_timer_setting_on, R.drawable.selector_timer_setting_off)
+
+    private val v1TimerBg=listOf(R.drawable.selector_timer_setting_on_v1, R.drawable.selector_timer_setting_off_v1)
+
     fun setTimerSettingListener(listener: TimerSettingListener) {
         this.listener = listener
     }
@@ -54,7 +58,9 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
     }
 
     private fun initTimerView(timerType: Int) {
-        rl_container.setImageResource(if (timerType == 0) R.drawable.bg_timer_setting_on else R.drawable.bg_timer_setting_off)
+        arguments?.getInt("deviceType", 0)?.let {
+            rl_container.setImageResource(if (it == 6) v1TimerBg[timerType] else timerBg[timerType])
+        }
         wheel_timer_hour.data = getHourList()
         wheel_timer_minute.data = getMinuteList()
         wheel_timer_hour.setCircleColor(Color.parseColor(bgColor[timerType]))

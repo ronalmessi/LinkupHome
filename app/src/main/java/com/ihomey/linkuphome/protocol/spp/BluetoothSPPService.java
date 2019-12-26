@@ -403,7 +403,7 @@ public class BluetoothSPPService {
 //                try {
 //
 //                    int data = mmInStream.read();
-//                    Log.d("bg_timer_setting_on_v2","tttttttttt--"+data);
+//                    Log.d("bg_timer_setting_on_v1","tttttttttt--"+data);
 //                    if(data == 0x0A) {
 //
 //                    } else if(data == 0x0D) {
@@ -411,7 +411,7 @@ public class BluetoothSPPService {
 //                        for(int i = 0 ; i < arr_byte.size() ; i++) {
 //                            buffer[i] = arr_byte.get(i).byteValue();
 //                        }
-//                        Log.d("bg_timer_setting_on_v2","gggggggg");
+//                        Log.d("bg_timer_setting_on_v1","gggggggg");
 //                        // Send the obtained bytes to the UI Activity
 //                        mHandler.obtainMessage(BluetoothSPPState.MESSAGE_READ
 //                                , buffer.length, -1, buffer).sendToTarget();
