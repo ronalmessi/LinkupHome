@@ -1,6 +1,10 @@
 package com.ihomey.linkuphome.adapter
 
+import android.graphics.Rect
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.TouchDelegate
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
@@ -70,6 +74,7 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             containerLayout.setPadding(0, parent.context.resources.getDimension(R.dimen._12sdp).toInt(), parent.context.resources.getDimension(R.dimen._8sdp).toInt(), parent.context.resources.getDimension(R.dimen._12sdp).toInt())
         }
         nameView.layoutParams = layoutParams
+        expandViewTouchDelegate(powerStateView)
         powerStateView.isChecked = device.parameters?.on == 1
         brightnessView.max = getMaxBrightness(device)
         brightnessView.progress = device.parameters?.brightness ?: 20
@@ -81,6 +86,21 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             6 -> if (device.pid != 0) 49514 else 22
             10 -> 22
             else -> 85
+        }
+    }
+
+
+    private fun expandViewTouchDelegate(view: View){
+        val parentView=view.parent as View
+        parentView.post {
+            val bounds =  Rect()
+            view.isEnabled = true
+            view.getHitRect(bounds)
+            val spaceHeight=parentView.height-bounds.bottom+bounds.top
+            bounds.top=bounds.top-spaceHeight/2
+            bounds.bottom=bounds.bottom+spaceHeight/2
+            val touchDelegate =  TouchDelegate(bounds, view)
+            parentView.touchDelegate=touchDelegate
         }
     }
 

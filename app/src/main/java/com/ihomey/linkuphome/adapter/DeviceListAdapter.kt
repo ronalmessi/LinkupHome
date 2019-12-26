@@ -21,7 +21,7 @@ class DeviceListAdapter : PagedListAdapter<Device, DeviceViewHolder>(diffCallbac
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bindTo(it, mOnItemChildClickListener)
-            holder.itemView.setOnClickListener { it0 ->
+            holder.swipeLayout.setOnClickListener { it0 ->
                 mOnItemClickListener?.onItemClick(it)
             }
             holder.swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener {
