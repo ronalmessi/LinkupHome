@@ -151,7 +151,7 @@ public class SigMeshServiceManager implements Connector {
                     mConnected = true;
                     mActivity.get().runOnUiThread(() -> {
                         if (meshStateListener != null)
-                            meshStateListener.onDeviceStateChanged("SigMesh V1",true);
+                            meshStateListener.onDeviceStateChanged("LinkupHome V1",true);
                     });
 
                     break;
@@ -160,7 +160,7 @@ public class SigMeshServiceManager implements Connector {
                     mConnected = false;
                     mActivity.get().runOnUiThread(() -> {
                         if (meshStateListener != null)
-                            meshStateListener.onDeviceStateChanged("SigMesh V1",false);
+                            meshStateListener.onDeviceStateChanged("LinkupHome V1",false);
                     });
                     break;
             }

@@ -55,7 +55,7 @@ class SwitchTimerControlFragment : BaseFragment(), OnTimerChangedListener {
                 viewModel.setCurrentDeviceId(it0.id)
                 controlView = ControlViewFactory().createSwitchTimerControlView(contentView, it0)
                 controlView?.setOnTimerChangedListener(this)
-                viewPager.adapter = controlView?.let { TimerSettingAdapter(childFragmentManager, it) }
+                viewPager.adapter = controlView?.let { TimerSettingAdapter(childFragmentManager, it,mControlDevice?.type) }
             })
         }
         viewModel = ViewModelProviders.of(this).get(SceneSettingViewModel::class.java)

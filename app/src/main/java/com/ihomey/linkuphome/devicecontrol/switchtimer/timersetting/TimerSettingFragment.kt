@@ -26,18 +26,19 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
     private val bgColor = listOf("#FC5951", "#9E9EA0")
 
     private lateinit var mViewModel: SceneSettingViewModel
-    private  var listener: TimerSettingListener?=null
+    private var listener: TimerSettingListener? = null
 
-    private var isDataLoaded:Boolean=false
+    private var isDataLoaded: Boolean = false
 
     fun setTimerSettingListener(listener: TimerSettingListener) {
         this.listener = listener
     }
 
-    fun newInstance(type: Int): TimerSettingFragment {
+    fun newInstance(type: Int, deviceType: Int?): TimerSettingFragment {
         val fragment = TimerSettingFragment()
         val bundle = Bundle()
         bundle.putInt("type", type)
+        deviceType?.let { bundle.putInt("deviceType", it) }
         fragment.arguments = bundle
         return fragment
     }
@@ -62,8 +63,8 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
             if (it.tag != null && it.tag as Boolean) {
                 it.tag = null
                 switch_button_timer.setOnCheckedChangeListener(this)
-                switch_button_timer.isChecked=true
-                listener?.saveTime(wheel_timer_hour.currentItemPosition, wheel_timer_minute.currentItemPosition,timerType == 0)
+                switch_button_timer.isChecked = true
+                listener?.saveTime(wheel_timer_hour.currentItemPosition, wheel_timer_minute.currentItemPosition, timerType == 0)
                 (it as Button).setText(R.string.action_edit)
                 setEditable(false)
             } else {
@@ -71,7 +72,7 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
                 (it as Button).setText(R.string.action_save)
                 setEditable(true)
                 switch_button_timer.setOnCheckedChangeListener(null)
-                switch_button_timer.isChecked=false
+                switch_button_timer.isChecked = false
             }
         }
     }
@@ -82,8 +83,8 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
             mViewModel = ViewModelProviders.of(it).get(SceneSettingViewModel::class.java)
             mViewModel.mCurrentLocalState.observe(this, Observer<Resource<LocalState>> {
                 if (it.status == Status.SUCCESS) {
-                    if(!isDataLoaded){
-                        isDataLoaded=true
+                    if (!isDataLoaded) {
+                        isDataLoaded = true
                         it.data?.let {
                             val timer = if (timerType == 0) it.openTimer else it.closeTimer
                             if (timer != 0L) {
@@ -105,7 +106,7 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
     }
 
     override fun onCheckedChanged(view: SwitchButton?, isChecked: Boolean) {
-        listener?.onSwitchStateChange(isChecked,timerType == 0)
+        listener?.onSwitchStateChange(isChecked, timerType == 0)
         rl_container.isActivated = isChecked
     }
 
@@ -123,7 +124,7 @@ class TimerSettingFragment : BaseFragment(), SwitchButton.OnCheckedChangeListene
         wheel_timer_minute.setEditable(isEditable)
         switch_button_timer.visibility = if (isEditable) View.INVISIBLE else View.VISIBLE
         rl_container.isActivated = !isEditable
-        listener?.setTimerEditable(isEditable,timerType == 0)
+        listener?.setTimerEditable(isEditable, timerType == 0)
     }
 
 

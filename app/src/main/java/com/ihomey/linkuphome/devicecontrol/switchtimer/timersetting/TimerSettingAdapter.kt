@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 /**
  * Created by dongcaizheng on 2018/4/10.
  */
-class TimerSettingAdapter(fragmentManager: FragmentManager, val listener: TimerSettingListener) : FragmentPagerAdapter(fragmentManager) {
+class TimerSettingAdapter(fragmentManager: FragmentManager, val listener: TimerSettingListener,val deviceType:Int?) : FragmentPagerAdapter(fragmentManager) {
 
 
     override fun getCount(): Int {
@@ -18,12 +18,12 @@ class TimerSettingAdapter(fragmentManager: FragmentManager, val listener: TimerS
     override fun getItem(position: Int): Fragment? {
         return when (position) {
             0 -> {
-                val fragment = TimerSettingFragment().newInstance(0)
+                val fragment = TimerSettingFragment().newInstance(0,deviceType)
                 fragment.setTimerSettingListener(listener)
                 fragment
             }
             1 -> {
-                val fragment = TimerSettingFragment().newInstance(1)
+                val fragment = TimerSettingFragment().newInstance(1,deviceType)
                 fragment.setTimerSettingListener(listener)
                 fragment
             }

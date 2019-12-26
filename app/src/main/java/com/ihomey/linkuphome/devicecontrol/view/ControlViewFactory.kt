@@ -27,7 +27,7 @@ class ControlViewFactory {
             7 -> R2ControlView(R.layout.control_v1_view, context)
             8 -> A2ControlView(R.layout.control_a2_view, context)
             9 -> T1ControlView(R.layout.control_t1_view, context, fragment)
-            10 -> V1ControlView(R.layout.control_v1_view, context)
+            10 -> V2ControlView(R.layout.control_v2_view, context)
             else -> null
         }
     }
