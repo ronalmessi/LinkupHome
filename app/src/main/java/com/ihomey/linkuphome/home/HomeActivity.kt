@@ -57,9 +57,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         CSRMeshServiceManager.getInstance().setBluetoothStateListener(this)
         CSRMeshServiceManager.getInstance().bind(this)
 
+
+        SigMeshServiceManager.getInstance().setMeshInfoListener(this)
+        SigMeshServiceManager.getInstance().setMeshStateListener(this)
         if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
-            SigMeshServiceManager.getInstance().setMeshInfoListener(this)
-            SigMeshServiceManager.getInstance().setMeshStateListener(this)
             SigMeshServiceManager.getInstance().bind(this)
         }
 
@@ -71,24 +72,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
                 mCurrentZone = it.data
-                it.data?.let {
-                    Log.d("aa", "hahahahhahaa---" + it.nextDeviceIndex)
-                    CSRMeshServiceManager.getInstance().initService(it)
-                    if (!SigMeshServiceManager.getInstance().isInited) {
-                        SigMeshServiceManager.getInstance().plSigMeshService?.let { it0 ->
-                            if (TextUtils.isEmpty(it.meshInfo)) {
-                                SigMeshServiceManager.getInstance().initService(it)
-                                Log.d("aa", "ccccc---" + it0.getJsonStrMeshNet(0).encodeBase64())
-                                onMeshInfoChanged()
-                            } else {
-                                Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
-                                Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
-                                if (BluetoothAdapter.getDefaultAdapter().isEnabled) it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
-                                SigMeshServiceManager.getInstance().initService(it)
-                            }
-                        }
-                    }
-                }
+                it.data?.let { CSRMeshServiceManager.getInstance().initService(it) }
+                updateLocalMeshInfo()
             }
         })
         mViewModel.setCurrentZoneId(intent?.extras?.getInt("currentZoneId"))
@@ -207,7 +192,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AppConfig.REQUEST_BT_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-//                bindService(Intent(this, PlSigMeshService::class.java), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE)
+                SigMeshServiceManager.getInstance().bind(this)
                 initSppService()
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 val dialog = PermissionPromptDialogFragment()
@@ -242,10 +227,30 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     }
 
     override fun openBluetooth() {
+        SigMeshServiceManager.getInstance().unBind(this)
         BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
         BluetoothSPP.getInstance()?.stopService()
         val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
         startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
+    }
+
+    override fun updateLocalMeshInfo() {
+        mCurrentZone?.let {
+            if (!SigMeshServiceManager.getInstance().isInited) {
+                SigMeshServiceManager.getInstance().plSigMeshService?.let { it0 ->
+                    if (TextUtils.isEmpty(it.meshInfo)) {
+                        SigMeshServiceManager.getInstance().initService(it)
+                        Log.d("aa", "dddd---" + it0.getJsonStrMeshNet(0).encodeBase64())
+                        onMeshInfoChanged()
+                    } else {
+                        Log.d("aa", "eeeee11---" + it.meshInfo?.decodeBase64())
+                        Log.d("aa", "eeeee222---" + it0.getJsonStrMeshNet(0))
+                        if (BluetoothAdapter.getDefaultAdapter().isEnabled) it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+                        SigMeshServiceManager.getInstance().initService(it)
+                    }
+                }
+            }
+        }
     }
 
 

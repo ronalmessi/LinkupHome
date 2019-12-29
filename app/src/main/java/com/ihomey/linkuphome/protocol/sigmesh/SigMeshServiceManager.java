@@ -48,6 +48,8 @@ public class SigMeshServiceManager implements Connector {
 
     private Boolean isInited = false;
 
+    private Boolean isBinded = false;
+
     private MeshDeviceScanListener meshDeviceScanListener;
     private MeshStateListener meshStateListener;
     private MeshDeviceAssociateListener meshDeviceAssociateListener;
@@ -78,15 +80,19 @@ public class SigMeshServiceManager implements Connector {
     @Override
     public void bind(@NotNull Activity activity) {
         this.mActivity = new WeakReference<>(activity);
+        isBinded=true;
         activity.bindService(new Intent(activity, PlSigMeshService.class), mPlSigMeshServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     public void unBind(@NotNull Activity activity) {
-        isInited=false;
-        mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
-        mPlSigMeshService.proxyExit();
-        activity.unbindService(mPlSigMeshServiceConnection);
+        if(isBinded){
+            isInited=false;
+            isBinded=false;
+            mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
+            mPlSigMeshService.proxyExit();
+            activity.unbindService(mPlSigMeshServiceConnection);
+        }
     }
 
     @Override
@@ -132,6 +138,9 @@ public class SigMeshServiceManager implements Connector {
             Log.d("aa","onServiceConnected----mPlSigMeshService");
             mPlSigMeshService = ((PlSigMeshService.LocalBinder) rawBinder).getService();
             mPlSigMeshService.init(mActivity.get(), Util.DBG_LEVEL_DBG, Util.DBG_LEVEL_DBG);
+            if(meshInfoListener!=null){
+                meshInfoListener.updateLocalMeshInfo();
+            }
         }
 
         @Override
