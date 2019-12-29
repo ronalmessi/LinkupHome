@@ -110,6 +110,12 @@
             app:exitAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_connectM1DeviceFragment_to_devicesFragment"
+            app:destination="@id/tab_devices"
+            app:popUpTo="@+id/tab_devices"
+            app:popUpToInclusive="true"/>
+
     </fragment>
 
     <fragment

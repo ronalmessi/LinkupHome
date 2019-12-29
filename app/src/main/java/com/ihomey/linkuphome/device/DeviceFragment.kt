@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.device
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -49,6 +50,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
     private lateinit var adapter: DeviceListAdapter
 
     private var isUserTouch: Boolean = false
+    private var navigateFromConnectM1Device:Boolean=false
     private var deviceList: List<Device>? = null
     private var selectedDevice: Device? = null
     private var mCurrentZone: Zone? = null
@@ -61,6 +63,9 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        arguments?.getBoolean("navigateFromConnectM1Device")?.let {
+            navigateFromConnectM1Device=it
+        }
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
@@ -70,14 +75,16 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         mViewModel.devicesResult.observe(viewLifecycleOwner, Observer<PagedList<Device>> {
             deviceList = it.snapshot()
             if (!isUserTouch) adapter.submitList(it)
-            deviceList?.filter { it.type==0 }?.let {
-                rcv_device_list.scrollToPosition(0)
-            }
             deviceList?.forEach {
                 if (it.type == 0) {
                     BluetoothSPP.getInstance()?.autoConnect(it.id)
                 }
             }
+            if(navigateFromConnectM1Device){
+                rcv_device_list.postDelayed({rcv_device_list.scrollToPosition(0)},600)
+                navigateFromConnectM1Device=false
+            }
+
         })
         mViewModel.isDeviceListEmptyLiveData.observe(viewLifecycleOwner, Observer<Boolean> {
             if (it) {
@@ -88,6 +95,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
                 iv_add.visibility = View.VISIBLE
             }
         })
+
     }
 
 
@@ -113,7 +121,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
         iv_add.setOnClickListener {
-//            PlSigMeshService.getInstance().resetNode(18.toShort())
+//            PlSigMeshService.getInstance().resetNode(510.toShort())
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
     }

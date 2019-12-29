@@ -63,6 +63,8 @@ public class CSRMeshServiceManager implements Connector {
 
     private BleDeviceScanListener bleDeviceScanListener;
 
+    private BluetoothStateListener bluetoothStateListener;
+
     private MeshStateListener meshStateListener;
 
     private MeshDeviceAssociateListener meshDeviceAssociateListener;
@@ -73,6 +75,11 @@ public class CSRMeshServiceManager implements Connector {
 
     public MeshService getmService() {
         return mService;
+    }
+
+
+    public void setBluetoothStateListener(BluetoothStateListener bluetoothStateListener) {
+        this.bluetoothStateListener = bluetoothStateListener;
     }
 
     public void setMeshStateListener(MeshStateListener meshStateListener) {
@@ -226,6 +233,9 @@ public class CSRMeshServiceManager implements Connector {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
+                case MeshService.MESSAGE_REQUEST_BT :
+                      if(bluetoothStateListener!=null ) bluetoothStateListener.openBluetooth();
+                      break;
                 case MeshService.MESSAGE_LE_CONNECTED:
                     mConnected = true;
                     String connectedAddress = msg.getData().getString(MeshService.EXTRA_DEVICE_ADDRESS);

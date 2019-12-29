@@ -99,6 +99,7 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
             val spaceHeight=parentView.height-bounds.bottom+bounds.top
             bounds.top=bounds.top-spaceHeight/2
             bounds.bottom=bounds.bottom+spaceHeight/2
+            bounds.right=bounds.right+parent.context.resources.getDimension(R.dimen._8sdp).toInt()
             val touchDelegate =  TouchDelegate(bounds, view)
             parentView.touchDelegate=touchDelegate
         }

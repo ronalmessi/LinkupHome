@@ -24,6 +24,7 @@ import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.OnLanguageListener
+import com.ihomey.linkuphome.protocol.csrmesh.BluetoothStateListener
 import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
 import com.ihomey.linkuphome.protocol.sigmesh.MeshInfoListener
 import com.ihomey.linkuphome.protocol.sigmesh.MeshStateListener
@@ -36,7 +37,8 @@ import org.spongycastle.util.encoders.Hex
 import kotlin.system.exitProcess
 
 
-class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshStateListener, MeshInfoListener {
+class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshStateListener, MeshInfoListener, BluetoothStateListener {
+
 
     private lateinit var mViewModel: HomeActivityViewModel
 
@@ -48,17 +50,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
         initNavController()
-        BluetoothSPP.getInstance().initialize(applicationContext)
+
         initSppService()
 
-
-        CSRMeshServiceManager.getInstance().bind(this)
         CSRMeshServiceManager.getInstance().setMeshStateListener(this)
+        CSRMeshServiceManager.getInstance().setBluetoothStateListener(this)
+        CSRMeshServiceManager.getInstance().bind(this)
 
-
-        SigMeshServiceManager.getInstance().bind(this)
-        SigMeshServiceManager.getInstance().setMeshInfoListener(this)
-        SigMeshServiceManager.getInstance().setMeshStateListener(this)
+        if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
+            SigMeshServiceManager.getInstance().setMeshInfoListener(this)
+            SigMeshServiceManager.getInstance().setMeshStateListener(this)
+            SigMeshServiceManager.getInstance().bind(this)
+        }
 
         initViewModel()
     }
@@ -69,18 +72,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
             if (it?.status == Status.SUCCESS) {
                 mCurrentZone = it.data
                 it.data?.let {
-                    Log.d("aa", "hahahahhahaa---"+it.nextDeviceIndex)
+                    Log.d("aa", "hahahahhahaa---" + it.nextDeviceIndex)
                     CSRMeshServiceManager.getInstance().initService(it)
-                    if(!SigMeshServiceManager.getInstance().isInited){
-                        SigMeshServiceManager.getInstance().plSigMeshService?.let {it0->
-                            if(TextUtils.isEmpty(it.meshInfo)){
+                    if (!SigMeshServiceManager.getInstance().isInited) {
+                        SigMeshServiceManager.getInstance().plSigMeshService?.let { it0 ->
+                            if (TextUtils.isEmpty(it.meshInfo)) {
                                 SigMeshServiceManager.getInstance().initService(it)
-                                Log.d("aa", "ccccc---"+it0.getJsonStrMeshNet(0).encodeBase64())
+                                Log.d("aa", "ccccc---" + it0.getJsonStrMeshNet(0).encodeBase64())
                                 onMeshInfoChanged()
-                            }else {
+                            } else {
                                 Log.d("aa", "aaaa11---" + it.meshInfo?.decodeBase64())
                                 Log.d("aa", "aaaa222---" + it0.getJsonStrMeshNet(0))
-                              if(BluetoothAdapter.getDefaultAdapter().isEnabled)  it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+                                if (BluetoothAdapter.getDefaultAdapter().isEnabled) it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
                                 SigMeshServiceManager.getInstance().initService(it)
                             }
                         }
@@ -95,7 +98,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         val navHostFragment = nav_host_home as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_home)
-        graph.startDestination = if (intent?.extras?.getInt("currentZoneId") != 0) R.id.homeFragment else R.id.createZoneFragment
+        graph.startDestination = if (intent?.extras?.get("currentZoneId") != 0) R.id.homeFragment else R.id.createZoneFragment
         navHostFragment.navController.graph = graph
     }
 
@@ -165,6 +168,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     }
 
     private fun initSppService() {
+        BluetoothSPP.getInstance().initialize(applicationContext)
         BluetoothSPP.getInstance()?.startService()
         BluetoothSPP.getInstance()?.addOnDataReceivedListener(mOnDataReceivedListener)
         BluetoothSPP.getInstance()?.setBluetoothStateListener(object : BluetoothSPP.BluetoothStateListener {
@@ -235,6 +239,13 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun onDeviceStateChanged(name: String, isConnected: Boolean) {
         showCrouton('"' + name + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
+    }
+
+    override fun openBluetooth() {
+        BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
+        BluetoothSPP.getInstance()?.stopService()
+        val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+        startActivityForResult(enableBtIntent, AppConfig.REQUEST_BT_CODE)
     }
 
 

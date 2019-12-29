@@ -162,7 +162,9 @@ class ConnectM1DeviceFragment : BaseFragment(), FragmentBackHandler, DeviceListA
                     controller.getFirmwareVersion(address)
                     if (adapter.data.none { TextUtils.equals("0", it.id) }&&isVisible) {
                         hideLoadingView()
-                        Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+                        val bundle =Bundle()
+                        bundle.putBoolean("navigateFromConnectM1Device",true)
+                        Navigation.findNavController(iv_back).navigate(R.id.action_connectM1DeviceFragment_to_devicesFragment,bundle)
                     }
                 }
             }
