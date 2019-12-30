@@ -21,7 +21,7 @@ class N1Controller(val device: Device): CommonController, ColorController, Scene
     }
 
     override fun setOnOff(isOn: Boolean) {
-        if(CSRMeshServiceManager.getInstance().isConnected()) DataModelApi.sendData(device.instructId, decodeHex((if (isOn) "C201F303C164002816" else "C201F303C10000C416").toCharArray()), false)
+        if(CSRMeshServiceManager.getInstance().isConnected()) DataModelApi.sendData(device.instructId, decodeHex((if (isOn) "C201F103C164002816" else "C201F103C10000C416").toCharArray()), false)
     }
 
     override fun setColor(colorValue: String) {
