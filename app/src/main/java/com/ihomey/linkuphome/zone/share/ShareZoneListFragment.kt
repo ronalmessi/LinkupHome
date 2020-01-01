@@ -44,7 +44,7 @@ class ShareZoneListFragment : BaseFragment(), ShareZoneListAdapter.OnItemChildCl
         super.onActivityCreated(savedInstanceState)
         parentFragment?.parentFragment?.let {
             mViewModel = ViewModelProviders.of(it).get(ZoneSettingViewModel::class.java)
-            mViewModel.zoneResult.observe(viewLifecycleOwner, Observer<PagedList<Zone>> {
+            mViewModel.getLocalZones().observe(viewLifecycleOwner, Observer<PagedList<Zone>> {
                 adapter.submitList(it)
             })
         }

@@ -145,21 +145,24 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
             }
         } else {
             context?.getIMEI()?.let { it1 ->
-                mViewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-                    if (it?.status == Status.SUCCESS && it.data != null) {
-                        val device = Device(0, "V1", macAddress)
-                        val position = adapter.data.indexOf(device) ?: -1
-                        if (position != -1) {
-                            adapter.getItem(position)?.id = macAddress
-                            adapter.notifyItemChanged(position)
+                currentZone?.let {it0->
+                    val index=SigMeshServiceManager.getInstance().getMeshIndex(it0)
+                    mViewModel.saveDevice(it1, it0.id, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
+                        if (it?.status == Status.SUCCESS && it.data != null) {
+                            val device = Device(0, "V1", macAddress)
+                            val position = adapter.data.indexOf(device) ?: -1
+                            if (position != -1) {
+                                adapter.getItem(position)?.id = macAddress
+                                adapter.notifyItemChanged(position)
+                            }
+                            deviceAssociateFragment.dismiss()
+                            if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
+                        } else if (it?.status == Status.ERROR) {
+                            deviceAssociateFragment.dismiss()
+                            it.message?.let { it2 -> activity?.toast(it2) }
                         }
-                        deviceAssociateFragment.dismiss()
-                        if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
-                    } else if (it?.status == Status.ERROR) {
-                        deviceAssociateFragment.dismiss()
-                        it.message?.let { it2 -> activity?.toast(it2) }
-                    }
-                })
+                    })
+                }
             }
         }
     }

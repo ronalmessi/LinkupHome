@@ -286,7 +286,6 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
 
 
     fun getPagingZones(): LiveData<PagedList<Zone>> {
-        Log.d("aa","---getPagingZones")
         return LivePagedListBuilder(zoneDao.getPagingZones(), /* page size */6).build()
     }
 

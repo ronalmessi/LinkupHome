@@ -72,6 +72,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
                 mCurrentZone = it.data
+                reConnectBridge()
                 it.data?.let { CSRMeshServiceManager.getInstance().initService(it) }
                 updateLocalMeshInfo()
             }
@@ -184,8 +185,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun reConnectBridge() {
         Crouton.cancelAllCroutons()
-        CSRMeshServiceManager.getInstance().release()
-        SigMeshServiceManager.getInstance().release()
+        SigMeshServiceManager.getInstance().isInited=false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -240,12 +240,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                 SigMeshServiceManager.getInstance().plSigMeshService?.let { it0 ->
                     if (TextUtils.isEmpty(it.meshInfo)) {
                         SigMeshServiceManager.getInstance().initService(it)
-                        Log.d("aa", "dddd---" + it0.getJsonStrMeshNet(0).encodeBase64())
+//                        Log.d("aa", "dddd---" + it0.getJsonStrMeshNet(0).encodeBase64())
                         onMeshInfoChanged()
                     } else {
-                        Log.d("aa", "eeeee11---" + it.meshInfo?.decodeBase64())
-                        Log.d("aa", "eeeee222---" + it0.getJsonStrMeshNet(0))
-                        if (BluetoothAdapter.getDefaultAdapter().isEnabled) it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+//                        Log.d("aa", "eeeee11---" + it.meshInfo?.decodeBase64())
+//                        Log.d("aa", "eeeee222---" + it0.getJsonStrMeshNet(0))
+                        val index=SigMeshServiceManager.getInstance().getMeshIndex(it)
+                        if (BluetoothAdapter.getDefaultAdapter().isEnabled&&!TextUtils.equals(it.meshInfo,PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64())){
+                            it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
+                        }
                         SigMeshServiceManager.getInstance().initService(it)
                     }
                 }
@@ -256,7 +259,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun onMeshInfoChanged() {
         mCurrentZone?.let {
-            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(0).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
+            val index=SigMeshServiceManager.getInstance().getMeshIndex(it)
+            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
         }
     }
 

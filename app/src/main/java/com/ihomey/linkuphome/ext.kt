@@ -356,7 +356,6 @@ fun Context.checkGPSIsOpen(): Boolean {
 
 
 fun createPlSigMeshNet() {
-    PlSigMeshService.getInstance().meshList.clear()
     val meshNetId = (10000000 + Random(System.currentTimeMillis()).nextInt(20000000)).toString()
     val netKey = ByteArray(16)
     val appKey = ByteArray(16)

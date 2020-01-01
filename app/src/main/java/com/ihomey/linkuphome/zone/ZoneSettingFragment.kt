@@ -30,7 +30,6 @@ import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
-import com.pairlink.sigmesh.lib.PlSigMeshService
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener
 import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
@@ -58,9 +57,10 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
         mViewModel = ViewModelProviders.of(activity!!).get(HomeActivityViewModel::class.java)
         parentFragment?.parentFragment?.let {
             viewModel = ViewModelProviders.of(it).get(ZoneSettingViewModel::class.java)
-            viewModel.zoneResult.observe(viewLifecycleOwner, Observer<PagedList<Zone>> {
+            viewModel.getLocalZones().observe(viewLifecycleOwner, Observer<PagedList<Zone>> {
                 adapter.submitList(it)
             })
+            loadRemoteZones()
         }
     }
 
@@ -68,6 +68,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
         super.onAttach(context)
         bridgeListener = context as BridgeListener
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,6 +101,23 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
             Navigation.findNavController(it).navigate(R.id.action_zoneSettingFragment_to_shareZoneListFragment)
         }
         parentFragment?.parentFragment?.let { (it as BaseNavHostFragment).showBottomNavigationBar(false) }
+
+    }
+
+    private fun loadRemoteZones() {
+        context?.getIMEI()?.let { it1 ->
+            viewModel.getRemoteZones(it1).observe(viewLifecycleOwner, Observer<Resource<List<Zone>>> {
+                when {
+                    it?.status == Status.LOADING -> showLoadingView()
+                    it?.status == Status.SUCCESS -> hideLoadingView()
+                    it?.status == Status.ERROR -> {
+                        hideLoadingView()
+                        it.message?.let { it2 -> activity?.toast(it2) }
+                    }
+                }
+            })
+        }
+
     }
 
 
@@ -110,10 +128,9 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
                     viewModel.switchZone(it1, it.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                         when {
                             it?.status == Status.SUCCESS -> {
-                                PlSigMeshService.getInstance().meshList.clear()
                                 hideLoadingView()
+//                                bridgeListener.reConnectBridge()
                                 mViewModel.setCurrentZoneId(it.data?.id)
-                                bridgeListener.reConnectBridge()
                                 Navigation.findNavController(iv_back).popBackStack()
                             }
                             it?.status == Status.ERROR -> {
@@ -196,10 +213,9 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
             viewModel.switchZone(it1, id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                 when {
                     it?.status == Status.SUCCESS -> {
-                        PlSigMeshService.getInstance().meshList.clear()
                         hideLoadingView()
+//                        bridgeListener.reConnectBridge()
                         mViewModel.setCurrentZoneId(it.data?.id)
-                        bridgeListener.reConnectBridge()
                         Navigation.findNavController(btn_share_zone).popBackStack()
                     }
                     it?.status == Status.ERROR -> {
@@ -219,8 +235,8 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
                     it?.status == Status.SUCCESS -> {
                         hideLoadingView()
                         it.data?.let {
+//                            bridgeListener.reConnectBridge()
                             mViewModel.setCurrentZoneId(it)
-                            bridgeListener.reConnectBridge()
                         }
                     }
                     it?.status == Status.ERROR -> {

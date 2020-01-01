@@ -22,24 +22,28 @@ class ZoneSettingViewModel : ViewModel() {
     lateinit var mDeviceRepository: DeviceRepository
 
 
-    private val loadLocalZones = MutableLiveData<Boolean>()
+//    private val loadLocalZones = MutableLiveData<Boolean>()
 
-    val zoneResult: LiveData<PagedList<Zone>>
+//    val zoneResult: LiveData<PagedList<Zone>>
 
     init {
         DaggerAppComponent.builder().build().inject(this)
-        zoneResult = Transformations.switchMap(loadLocalZones) {
-            zoneRepository.getPagingZones()
-        }
+//        zoneResult = Transformations.switchMap(loadLocalZones) {
+//            zoneRepository.getPagingZones()
+//        }
     }
 
     fun getRemoteZones(guid: String): LiveData<Resource<List<Zone>>> {
         return zoneRepository.getZones(guid)
     }
 
-    fun loadLocalZones(){
-        loadLocalZones.value=true
+    fun getLocalZones():  LiveData<PagedList<Zone>> {
+        return zoneRepository.getPagingZones()
     }
+
+//    fun loadLocalZones(){
+//        loadLocalZones.value=true
+//    }
 
     fun deleteZone(guid: String, zoneId: Int): LiveData<Resource<Int>> {
         return zoneRepository.deleteZone(guid, zoneId)

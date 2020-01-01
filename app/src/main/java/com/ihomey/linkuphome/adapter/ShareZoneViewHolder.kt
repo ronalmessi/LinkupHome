@@ -26,6 +26,8 @@ class ShareZoneViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(Layou
             val shareFlagDrawable = ContextCompat.getDrawable(itemView.context, R.drawable.ic_zone_share_flag)
             shareFlagDrawable?.setBounds(0, 0, shareFlagDrawable.intrinsicWidth * nameView.lineHeight / shareFlagDrawable.intrinsicHeight * 5 / 6, nameView.lineHeight * 5 / 6)
             nameView.setCompoundDrawables(null, null, shareFlagDrawable, null)
+        }else{
+            nameView.setCompoundDrawables(null, null, null, null)
         }
     }
 

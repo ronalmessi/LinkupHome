@@ -28,7 +28,7 @@
             android:ellipsize="end"
             android:maxEms="9"
             android:singleLine="true"
-            android:text="@string/home"
+            android:text="@string/title_zone"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />

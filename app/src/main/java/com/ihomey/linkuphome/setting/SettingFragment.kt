@@ -31,9 +31,6 @@ class SettingFragment : BaseFragment() {
 
     private lateinit var mViewModel: HomeActivityViewModel
 
-    private lateinit var viewModel: ZoneSettingViewModel
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.setting_fragment, container, false)
     }
@@ -46,23 +43,6 @@ class SettingFragment : BaseFragment() {
                 infoTextLayout_setting_current_zone.setTextValue(it.data?.name ?: "")
             }
         })
-        parentFragment?.parentFragment?.let {
-            viewModel = ViewModelProviders.of(it).get(ZoneSettingViewModel::class.java)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        context?.getIMEI()?.let { it1 ->
-            viewModel.getRemoteZones(it1).observe(viewLifecycleOwner, Observer<Resource<List<Zone>>> {
-                when {
-                    it?.status == Status.ERROR ->{
-                        it.message?.let { it2 -> activity?.toast(it2)}
-                    }
-                }
-            })
-        }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
