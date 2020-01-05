@@ -129,7 +129,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
                         when {
                             it?.status == Status.SUCCESS -> {
                                 hideLoadingView()
-//                                bridgeListener.reConnectBridge()
+                                bridgeListener.reConnectBridge()
                                 mViewModel.setCurrentZoneId(it.data?.id)
                                 Navigation.findNavController(iv_back).popBackStack()
                             }
@@ -214,7 +214,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
                 when {
                     it?.status == Status.SUCCESS -> {
                         hideLoadingView()
-//                        bridgeListener.reConnectBridge()
+                        bridgeListener.reConnectBridge()
                         mViewModel.setCurrentZoneId(it.data?.id)
                         Navigation.findNavController(btn_share_zone).popBackStack()
                     }
@@ -235,7 +235,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
                     it?.status == Status.SUCCESS -> {
                         hideLoadingView()
                         it.data?.let {
-//                            bridgeListener.reConnectBridge()
+                            bridgeListener.reConnectBridge()
                             mViewModel.setCurrentZoneId(it)
                         }
                     }

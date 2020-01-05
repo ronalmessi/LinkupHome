@@ -109,6 +109,10 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
 
+    //work
+    def work_version = "1.0.1"
+    implementation "android.arch.work:work-runtime:$work_version"
+
     //paging
     def paging_version = "1.0.1"
     implementation "android.arch.paging:runtime:$paging_version"

@@ -102,7 +102,6 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void initService(@NotNull Zone zone) {
-        if (TextUtils.isEmpty(zone.getMeshInfo())) createPlSigMeshNet();
         isInited = true;
         mPlSigMeshNet = PlSigMeshService.getInstance().chooseMeshNet( getMeshIndex(zone));
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROXY);
@@ -128,6 +127,9 @@ public class SigMeshServiceManager implements Connector {
                 MeshNetInfo meshNetInfo = PlSigMeshService.getInstance().getMeshNet(i);
                 if (TextUtils.equals(meshNetInfo.appkey, currentMeshInfo.appkey) && TextUtils.equals(meshNetInfo.netkey, currentMeshInfo.netkey) && TextUtils.equals(meshNetInfo.name, currentMeshInfo.name)) {
                     index=i;
+                    Log.d("aa",meshNetInfo.appkey+"appkey----"+currentMeshInfo.appkey);
+                    Log.d("aa",meshNetInfo.netkey+"netkey----"+currentMeshInfo.netkey);
+                    Log.d("aa",meshNetInfo.name+"name----"+currentMeshInfo.name);
                     Log.d("aa","11----"+PlSigMeshService.getInstance().getMeshList().size()+"---"+index);
                     break;
                 }
@@ -139,14 +141,14 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void startScan() {
-//        mPlSigMeshService.proxyExit();
+        mPlSigMeshService.proxyExit();
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROVISION);
     }
 
     @Override
     public void stopScan() {
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROXY);
-//        mPlSigMeshService.proxyJoin();
+        mPlSigMeshService.proxyJoin();
     }
 
     @Override
@@ -177,7 +179,7 @@ public class SigMeshServiceManager implements Connector {
         @Override
         public void onMeshStatus(int status, String addr) {
             super.onMeshStatus(status, addr);
-            Log.d("aa", status + "----");
+            Log.d("aa", status + "----"+addr);
             switch (status) {
                 case Util.PL_MESH_READY:
                     mConnected = true;
@@ -190,6 +192,8 @@ public class SigMeshServiceManager implements Connector {
                 case Util.PL_MESH_JOIN_FAIL:
                 case Util.PL_MESH_EXIT:
                     mConnected = false;
+//                    Log.d("aa","---reconnect1");
+//                    mPlSigMeshService.proxyJoin();
                     mActivity.get().runOnUiThread(() -> {
                         if (meshStateListener != null)
                             meshStateListener.onDeviceStateChanged("LinkupHome V1", false);
@@ -214,6 +218,10 @@ public class SigMeshServiceManager implements Connector {
         public void onNodeResetStatus(short src) {
             super.onNodeResetStatus(src);
             mPlSigMeshService.delMeshNode(src);
+            if(!mConnected){
+                Log.d("aa","---reconnect2");
+                mPlSigMeshService.proxyJoin();
+            }
             mActivity.get().runOnUiThread(() -> {
                 if (meshInfoListener != null) {
                     meshInfoListener.onMeshInfoChanged();

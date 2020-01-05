@@ -13,6 +13,10 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.AppConfig.Companion.REQUEST_CODE_OPEN_GPS
 import com.ihomey.linkuphome.base.BaseActivity
@@ -30,6 +34,7 @@ import com.ihomey.linkuphome.protocol.sigmesh.MeshInfoListener
 import com.ihomey.linkuphome.protocol.sigmesh.MeshStateListener
 import com.ihomey.linkuphome.protocol.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
+import com.ihomey.linkuphome.worker.CreateMeshNetWorker
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import kotlinx.android.synthetic.main.home_activity.*
@@ -72,7 +77,6 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         mViewModel.mCurrentZone.observe(this, Observer<Resource<Zone>> {
             if (it?.status == Status.SUCCESS) {
                 mCurrentZone = it.data
-                reConnectBridge()
                 it.data?.let { CSRMeshServiceManager.getInstance().initService(it) }
                 updateLocalMeshInfo()
             }
@@ -239,14 +243,13 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
             if (!SigMeshServiceManager.getInstance().isInited) {
                 SigMeshServiceManager.getInstance().plSigMeshService?.let { it0 ->
                     if (TextUtils.isEmpty(it.meshInfo)) {
-                        SigMeshServiceManager.getInstance().initService(it)
-//                        Log.d("aa", "dddd---" + it0.getJsonStrMeshNet(0).encodeBase64())
-                        onMeshInfoChanged()
+                         createMeshNet(it)
                     } else {
-//                        Log.d("aa", "eeeee11---" + it.meshInfo?.decodeBase64())
-//                        Log.d("aa", "eeeee222---" + it0.getJsonStrMeshNet(0))
+                        Log.d("aa", "eeeee11---" + it.meshInfo?.decodeBase64())
+                        Log.d("aa", "eeeee222---" + it0.getJsonStrMeshNet(0))
                         val index=SigMeshServiceManager.getInstance().getMeshIndex(it)
                         if (BluetoothAdapter.getDefaultAdapter().isEnabled&&!TextUtils.equals(it.meshInfo,PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64())){
+                            Log.d("aa","hahahahahah")
                             it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
                         }
                         SigMeshServiceManager.getInstance().initService(it)
@@ -254,6 +257,19 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                 }
             }
         }
+    }
+
+    private fun createMeshNet(zone: Zone) {
+        val createMeshNetWorker = OneTimeWorkRequest.Builder(CreateMeshNetWorker::class.java).build()
+        WorkManager.getInstance().getWorkInfoByIdLiveData(createMeshNetWorker.id).observe(this, Observer { workStatus ->
+            if(workStatus.state == WorkInfo.State.SUCCEEDED){
+                val result = workStatus.outputData.getString("result")
+                zone.meshInfo=result?.encodeBase64()
+                SigMeshServiceManager.getInstance().initService(zone)
+                onMeshInfoChanged()
+            }
+        })
+        WorkManager.getInstance().beginUniqueWork("CreateMeshNetWorker", ExistingWorkPolicy.REPLACE, createMeshNetWorker).enqueue()
     }
 
 

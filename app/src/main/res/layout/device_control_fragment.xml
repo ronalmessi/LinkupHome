@@ -17,22 +17,22 @@
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/_18sdp"
-            android:layout_gravity="start|center_vertical"
             android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_18sdp"
-            android:layout_marginEnd="@dimen/_54sdp"
+            android:layout_marginStart="@dimen/_35sdp"
+            android:layout_marginEnd="@dimen/_35sdp"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="1"
             android:singleLine="true"
-            android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_18ssp" />
 
@@ -40,10 +40,10 @@
             android:id="@+id/iv_setting"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:visibility="invisible"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="@dimen/_6sdp"
-            android:src="@mipmap/ic_setting_red" />
+            android:src="@mipmap/ic_setting_red"
+            android:visibility="invisible" />
 
     </com.ihomey.linkuphome.widget.CompatToolbar>
 </LinearLayout>
