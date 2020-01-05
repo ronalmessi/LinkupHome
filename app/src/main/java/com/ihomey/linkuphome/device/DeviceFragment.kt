@@ -118,11 +118,11 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
         context?.resources?.getDimension(R.dimen._12sdp)?.toInt()?.let { SpaceItemDecoration(0, 0, 0, it) }?.let { rcv_device_list.addItemDecoration(it) }
         rcv_device_list.adapter = adapter
         btn_add_device?.setOnClickListener {
-//            PlSigMeshService.getInstance().resetNode(502.toShort())
+//            PlSigMeshService.getInstance().resetNode(1006.toShort())
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
         iv_add.setOnClickListener {
-//            PlSigMeshService.getInstance().resetNode(502.toShort())
+//            PlSigMeshService.getInstance().resetNode(1006.toShort())
             Navigation.findNavController(it).navigate(R.id.action_tab_devices_to_chooseDeviceTypeFragment)
         }
     }
