@@ -245,11 +245,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                     if (TextUtils.isEmpty(it.meshInfo)) {
                          createMeshNet(it)
                     } else {
-                        Log.d("aa", "eeeee11---" + it.meshInfo?.decodeBase64())
-                        Log.d("aa", "eeeee222---" + it0.getJsonStrMeshNet(0))
                         val index=SigMeshServiceManager.getInstance().getMeshIndex(it)
                         if (BluetoothAdapter.getDefaultAdapter().isEnabled&&!TextUtils.equals(it.meshInfo,PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64())){
-                            Log.d("aa","hahahahahah")
                             it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
                         }
                         SigMeshServiceManager.getInstance().initService(it)

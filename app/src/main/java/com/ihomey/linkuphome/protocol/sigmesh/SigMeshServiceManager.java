@@ -93,8 +93,6 @@ public class SigMeshServiceManager implements Connector {
         if (isBinded) {
             isInited = false;
             isBinded = false;
-            mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
-            mPlSigMeshService.proxyExit();
             activity.unbindService(mPlSigMeshServiceConnection);
         }
     }
@@ -106,7 +104,6 @@ public class SigMeshServiceManager implements Connector {
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROXY);
         mPlSigMeshService.registerProxyCb(mSigMeshProxyCB);
         mPlSigMeshService.registerProvisionCb(mSigMeshProvisionCB);
-        Log.d("aa", "proxyJoin----");
         mPlSigMeshService.proxyJoin();
     }
 
@@ -130,7 +127,6 @@ public class SigMeshServiceManager implements Connector {
                 }
             }
         }
-        Log.d("aa", "222----" + PlSigMeshService.getInstance().getMeshList().size() + "---" + index);
         return index;
     }
 

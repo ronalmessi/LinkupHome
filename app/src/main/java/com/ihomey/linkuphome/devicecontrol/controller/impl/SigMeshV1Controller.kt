@@ -42,7 +42,6 @@ class SigMeshV1Controller(val device: Device) : CommonController, ColorControlle
 
     override fun setColor(colorValue: String) {
         val rgb = AppConfig.RGB_COLOR[Integer.parseInt(colorValue, 16)]
-        Log.d("aa","---"+Integer.parseInt(colorValue, 16))
         val r = if (rgb.r >= 16) Integer.toHexString(rgb.r) else "0" + Integer.toHexString(rgb.r)
         val g = if (rgb.g >= 16) Integer.toHexString(rgb.g) else "0" + Integer.toHexString(rgb.g)
         val b = if (rgb.b >= 16) Integer.toHexString(rgb.b) else "0" + Integer.toHexString(rgb.b)
