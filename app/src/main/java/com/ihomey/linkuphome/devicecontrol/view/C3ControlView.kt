@@ -13,7 +13,7 @@ class C3ControlView(val layoutId:Int,val context:Context): BaseControlView(conte
     override fun bindTo(device: Device) {
         val parentView=getControlView()
         DeviceBatteryViewHolder(parentView).bindTo(device)
-        CommonControlViewHolder(parentView).bindTo(device)
+        CommonControlViewHolder(parentView).bindTo(device, listener)
         ColorControlViewHolder(parentView).bindTo(device)
         RGBrControlViewHolder(parentView).bindTo(device)
     }

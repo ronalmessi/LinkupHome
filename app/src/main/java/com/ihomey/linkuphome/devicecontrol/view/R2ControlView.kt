@@ -9,7 +9,7 @@ class R2ControlView(val layoutId:Int, val context:Context): BaseControlView(cont
 
     override fun bindTo(device: Device) {
         val parentView=getControlView()
-        CommonControlViewHolder(parentView).bindTo(device)
+        CommonControlViewHolder(parentView).bindTo(device, listener)
         ColorControlViewHolder(parentView).bindTo(device)
         RGBrControlViewHolder(parentView).bindTo(device)
         SceneControlViewHolder(parentView).bindTo(device)

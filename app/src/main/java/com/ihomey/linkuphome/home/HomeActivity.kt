@@ -189,14 +189,19 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun reConnectBridge() {
         Crouton.cancelAllCroutons()
-        SigMeshServiceManager.getInstance().isInited=false
+        SigMeshServiceManager.getInstance().isInited = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AppConfig.REQUEST_BT_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                SigMeshServiceManager.getInstance().bind(this)
+                if (SigMeshServiceManager.getInstance().plSigMeshService != null) {
+                    SigMeshServiceManager.getInstance().plSigMeshService.proxyExit()
+                    Handler().postDelayed({ SigMeshServiceManager.getInstance().plSigMeshService.proxyJoin() }, 500)
+                } else {
+                    SigMeshServiceManager.getInstance().bind(this)
+                }
                 initSppService()
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 val dialog = PermissionPromptDialogFragment()
@@ -231,7 +236,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     }
 
     override fun openBluetooth() {
-        SigMeshServiceManager.getInstance().unBind(this)
+//        SigMeshServiceManager.getInstance().unBind(this)
         BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
         BluetoothSPP.getInstance()?.stopService()
         val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -243,10 +248,10 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
             if (!SigMeshServiceManager.getInstance().isInited) {
                 SigMeshServiceManager.getInstance().plSigMeshService?.let { it0 ->
                     if (TextUtils.isEmpty(it.meshInfo)) {
-                         createMeshNet(it)
+                        createMeshNet(it)
                     } else {
-                        val index=SigMeshServiceManager.getInstance().getMeshIndex(it)
-                        if (BluetoothAdapter.getDefaultAdapter().isEnabled&&!TextUtils.equals(it.meshInfo,PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64())){
+                        val index = SigMeshServiceManager.getInstance().getMeshIndex(it)
+                        if (BluetoothAdapter.getDefaultAdapter().isEnabled && !TextUtils.equals(it.meshInfo, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64())) {
                             it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
                         }
                         SigMeshServiceManager.getInstance().initService(it)
@@ -259,9 +264,9 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     private fun createMeshNet(zone: Zone) {
         val createMeshNetWorker = OneTimeWorkRequest.Builder(CreateMeshNetWorker::class.java).build()
         WorkManager.getInstance().getWorkInfoByIdLiveData(createMeshNetWorker.id).observe(this, Observer { workStatus ->
-            if(workStatus.state == WorkInfo.State.SUCCEEDED){
+            if (workStatus.state == WorkInfo.State.SUCCEEDED) {
                 val result = workStatus.outputData.getString("result")
-                zone.meshInfo=result?.encodeBase64()
+                zone.meshInfo = result?.encodeBase64()
                 SigMeshServiceManager.getInstance().initService(zone)
                 onMeshInfoChanged()
             }
@@ -272,7 +277,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun onMeshInfoChanged() {
         mCurrentZone?.let {
-            val index=SigMeshServiceManager.getInstance().getMeshIndex(it)
+            val index = SigMeshServiceManager.getInstance().getMeshIndex(it)
             mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
         }
     }

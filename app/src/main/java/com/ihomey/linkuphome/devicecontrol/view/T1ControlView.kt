@@ -10,7 +10,7 @@ class T1ControlView(val layoutId:Int, val context:Context, val fragment: Fragmen
 
     override fun bindTo(device: Device) {
         val parentView=getControlView()
-        CommonControlViewHolder(parentView).bindTo(device)
+        CommonControlViewHolder(parentView).bindTo(device, listener)
         ColorControlViewHolder(parentView).bindTo(device)
         MixControlViewHolder(parentView,fragment.childFragmentManager).bindTo(device)
         SceneControlViewHolder(parentView).bindTo(device)

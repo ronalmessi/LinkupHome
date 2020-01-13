@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.devicecontrol.view
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,14 +22,14 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.dialog.InputDialogFragment
 import com.ihomey.linkuphome.getIMEI
 import com.ihomey.linkuphome.home.HomeActivityViewModel
+import com.ihomey.linkuphome.listener.DeviceStateChangeListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.toast
 import kotlinx.android.synthetic.main.device_control_fragment.*
 
 
-class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackHandler {
-
+class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackHandler, DeviceStateChangeListener {
 
     private lateinit var mViewModel: HomeActivityViewModel
 
@@ -74,6 +75,7 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
                 context?.let { it1 ->
                     ControlViewFactory().createControlView(it0.type, it1, this)?.let {
                         controlView = it
+                        it.setDeviceStateChangeListener(this)
                         rootView.addView(it.getControlView(), ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                     }
                 }
@@ -84,6 +86,28 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
                     }
                 })
             })
+        }
+    }
+
+    override fun onDeviceStateChange(device: Device, key: String, value: String) {
+        updateState(device, key, value)
+        if(device.type!=0)context?.getIMEI()?.let { mViewModel.changeDeviceState(it, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {}) }
+    }
+
+
+    private fun updateState(device: Device, key: String, value: String) {
+        if (TextUtils.equals("brightness", key)) {
+            val deviceState = device.parameters
+            deviceState?.let {
+                it.brightness = value.toInt()
+                mViewModel.updateDeviceState(device, it)
+            }
+        } else {
+            val deviceState = device.parameters
+            deviceState?.let {
+                it.on = value.toInt()
+                mViewModel.updateRoomAndDeviceState(device, it)
+            }
         }
     }
 

@@ -11,7 +11,7 @@ class A2ControlView(val layoutId:Int, val context:Context): BaseControlView(cont
 
     override fun bindTo(device: Device) {
         val parentView=getControlView()
-        CommonControlViewHolder(parentView).bindTo(device)
+        CommonControlViewHolder(parentView).bindTo(device,listener)
         ColorTemperatureControlViewHolder(parentView).bindTo(device)
         SwitchTimerControlViewHolder(parentView).bindTo(device)
     }
