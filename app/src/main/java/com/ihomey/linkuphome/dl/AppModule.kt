@@ -8,6 +8,7 @@ import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.data.api.ApiService
 import com.ihomey.linkuphome.data.api.LiveDataCallAdapterFactory
 import com.ihomey.linkuphome.data.db.*
+import com.ihomey.linkuphome.getVersionCode
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -81,7 +82,12 @@ class AppModule {
      */
     private val MIGRATION_3_4: Migration = object : Migration(3, 4) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER  TABLE zone ADD COLUMN meshInfo TEXT")
+
+            database.execSQL("CREATE TABLE device (id TEXT not null,zoneId INTEGER not null,roomId INTEGER not null,name TEXT not null,type INTEGER not null,instructId INTEGER not null,pid INTEGER not null,parameters TEXT , PRIMARY KEY(id))")
+            database.execSQL("CREATE TABLE zone2 (id INTEGER not null, name TEXT not null,netWorkKey TEXT not null,nextDeviceIndex INTEGER not null,nextGroupIndex INTEGER not null,active INTEGER not null, type INTEGER not null,meshInfo TEXT,PRIMARY KEY(id))")
+
+            database.execSQL("DROP TABLE device2")
+            database.execSQL("DROP TABLE zone")
         }
     }
 

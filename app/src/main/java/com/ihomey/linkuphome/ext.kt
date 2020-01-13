@@ -23,9 +23,6 @@ import androidx.fragment.app.FragmentManager
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ihomey.linkuphome.listener.FragmentBackHandler
-import com.pairlink.sigmesh.lib.MeshNetInfo
-import com.pairlink.sigmesh.lib.PlSigMeshService
-import com.pairlink.sigmesh.lib.Util
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import org.spongycastle.crypto.digests.SHA256Digest
 import org.spongycastle.util.encoders.Hex
@@ -69,6 +66,10 @@ fun Context.sp2px(spValue: Float): Int {
 
 fun Context.getScreenW(): Int {
     return this.resources.displayMetrics.widthPixels
+}
+
+fun Context.getVersionCode(): Int {
+    return packageManager.getPackageInfo(packageName, 0).versionCode
 }
 
 fun Activity.showCrouton(message: String, bgColorRes: Int) {
