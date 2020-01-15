@@ -151,7 +151,6 @@ public class SigMeshServiceManager implements Connector {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder rawBinder) {
-            Log.d("aa", "onServiceConnected----mPlSigMeshService");
             mPlSigMeshService = ((PlSigMeshService.LocalBinder) rawBinder).getService();
             mPlSigMeshService.init(mActivity.get(), Util.DBG_LEVEL_DBG, Util.DBG_LEVEL_DBG);
             if (meshInfoListener != null) {
@@ -175,17 +174,17 @@ public class SigMeshServiceManager implements Connector {
                     mConnected = true;
                     mActivity.get().runOnUiThread(() -> {
                         if (meshStateListener != null)
-                            meshStateListener.onDeviceStateChanged("LinkupHome V1", true);
+                            meshStateListener.onDeviceStateChanged(true,addr);
                     });
 
                     break;
                 case Util.PL_MESH_JOIN_FAIL:
                 case Util.PL_MESH_EXIT:
                     mConnected = false;
-                    mActivity.get().runOnUiThread(() -> {
-                        if (meshStateListener != null)
-                            meshStateListener.onDeviceStateChanged("LinkupHome V1", false);
-                    });
+//                    mActivity.get().runOnUiThread(() -> {
+//                        if (meshStateListener != null)
+//                            meshStateListener.onDeviceStateChanged("SigMesh", false);
+//                    });
                     break;
             }
         }
@@ -225,7 +224,8 @@ public class SigMeshServiceManager implements Connector {
             super.onDeviceFoundUnprovisioned(device, rssi, uuid);
             if (!TextUtils.isEmpty(device.getName()) && meshDeviceScanListener != null) {
                 String deviceName = device.getName();
-                Device singleDevice = new Device(6, deviceName.substring(deviceName.length() - 2));
+                String name = deviceName.substring(deviceName.length() - 2);
+                Device singleDevice = new Device(AppConfig.Companion.getDEVICE_MODEL_NAME().indexOf(name), name);
                 singleDevice.setHash(uuid);
                 singleDevice.setMacAddress(device.getAddress());
                 meshDeviceScanListener.onDeviceFound(singleDevice);

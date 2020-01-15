@@ -82,10 +82,9 @@ class DeviceViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutIn
 
     private fun getMaxBrightness(device: Device): Int {
         return when (device.type) {
-            3,8 -> 240
-            6 -> if (device.pid != 0) 49514 else 22
-            10 -> 22
-            else -> 85
+            3,8 -> if (device.pid != 0) 49514 else 240
+            6 ,10-> if (device.pid != 0) 49514 else 22
+            else -> if (device.pid != 0) 49514 else 85
         }
     }
 

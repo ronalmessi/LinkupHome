@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.device
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class SearchDeviceHintFragment : BaseFragment(), MeshDeviceScanListener {
             arguments?.getInt("zoneId")?.let { it1 -> bundle.putInt("zoneId", it1) }
             Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment, bundle)
         }
+        Log.d("aa","----"+arguments?.getInt("deviceType"))
     }
 
     override fun onDeviceFound(device: Device) {

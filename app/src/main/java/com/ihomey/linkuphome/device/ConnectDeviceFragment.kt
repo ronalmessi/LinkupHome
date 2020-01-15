@@ -2,6 +2,7 @@ package com.ihomey.linkuphome.device
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -149,7 +150,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                     val index=SigMeshServiceManager.getInstance().getMeshIndex(it0)
                     mViewModel.saveDevice(it1, it0.id, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                         if (it?.status == Status.SUCCESS && it.data != null) {
-                            val device = Device(0, "V1", macAddress)
+                            val device = Device(0, deviceType.name, macAddress)
                             val position = adapter.data.indexOf(device) ?: -1
                             if (position != -1) {
                                 adapter.getItem(position)?.id = macAddress

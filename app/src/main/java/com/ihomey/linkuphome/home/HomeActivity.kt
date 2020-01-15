@@ -235,8 +235,15 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         showCrouton('"' + name + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
     }
 
+    override fun onDeviceStateChanged(isConnected: Boolean, macAddress: String) {
+        val content= CSRMeshServiceManager.getInstance().addressToNameMap[macAddress]
+        content?.let {
+            showCrouton('"' + it + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
+        }
+    }
+
+
     override fun openBluetooth() {
-//        SigMeshServiceManager.getInstance().unBind(this)
         BluetoothSPP.getInstance()?.removeOnDataReceivedListener(mOnDataReceivedListener)
         BluetoothSPP.getInstance()?.stopService()
         val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)

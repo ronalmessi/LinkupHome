@@ -94,6 +94,10 @@ public class CSRMeshServiceManager implements Connector {
         this.bleDeviceScanListener = bleDeviceScanListener;
     }
 
+    public ArrayMap<String, String> getAddressToNameMap() {
+        return addressToNameMap;
+    }
+
     @Override
     public void bind(@NotNull Activity activity) {
         mMeshHandler = new MeshHandler();

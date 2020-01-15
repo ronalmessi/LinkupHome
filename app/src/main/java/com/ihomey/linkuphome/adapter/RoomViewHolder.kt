@@ -47,7 +47,10 @@ class RoomViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInfl
             iconView.setImageResource(AppConfig.ROOM_ICON[type])
             powerStateView.isChecked = it.parameters?.on == 1
             brightnessView.progress = it.parameters?.brightness ?: 20
-            if (it.deviceTypes.length == 1 && !TextUtils.equals("3", it.deviceTypes) && !TextUtils.equals("8", it.deviceTypes)) colorCyclingBtn.visibility = View.VISIBLE else colorCyclingBtn.visibility = View.GONE
+
+
+
+            if ((it.deviceTypes.length == 1 && !TextUtils.equals("3", it.deviceTypes) && !TextUtils.equals("8", it.deviceTypes))||(TextUtils.equals("6,10", it.deviceTypes)||TextUtils.equals("10,6", it.deviceTypes))) colorCyclingBtn.visibility = View.VISIBLE else colorCyclingBtn.visibility = View.GONE
         }
 
         if (roomAndDevices.devices.isNullOrEmpty()) {

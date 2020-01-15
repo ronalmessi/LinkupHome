@@ -47,8 +47,7 @@ abstract class DeviceDao {
     @Query("SELECT * FROM device WHERE id = :id")
     abstract fun getDevice(id: String): Device
 
-
-    @Query("DELETE FROM device WHERE (type!=0 and name!='LinkupHome V1') and zoneId = :zoneId")
+    @Query("DELETE FROM device WHERE type!=0 and zoneId = :zoneId")
     abstract fun deleteAll(zoneId: Int)
 
     @Query("UPDATE device set roomId = 0 WHERE roomId = :roomId")
