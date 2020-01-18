@@ -153,7 +153,6 @@ public class CSRMeshServiceManager implements Connector {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder rawBinder) {
-            Log.d("aa","onServiceConnected----MeshService");
             mService = ((MeshService.LocalBinder) rawBinder).getService();
             connectBridge();
         }

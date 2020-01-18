@@ -265,4 +265,9 @@ public class SigMeshServiceManager implements Connector {
                 meshDeviceRemoveListener.onDeviceRemoved(device.getId());
         }, AppConfig.TIME_MS);
     }
+
+    public void resetDevice(int devicePid) {
+        this.meshDeviceRemoveListener = null;
+        mPlSigMeshService.resetNode((short) devicePid);
+    }
 }

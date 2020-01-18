@@ -39,7 +39,6 @@ class SearchDeviceHintFragment : BaseFragment(), MeshDeviceScanListener {
             arguments?.getInt("zoneId")?.let { it1 -> bundle.putInt("zoneId", it1) }
             Navigation.findNavController(it).navigate(R.id.action_searchDeviceHintFragment_to_searchDeviceFragment, bundle)
         }
-        Log.d("aa","----"+arguments?.getInt("deviceType"))
     }
 
     override fun onDeviceFound(device: Device) {

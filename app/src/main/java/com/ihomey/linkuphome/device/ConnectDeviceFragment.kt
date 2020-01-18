@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.csr.mesh.ConfigModelApi
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.adapter.ScanDeviceListAdapter
@@ -139,6 +140,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                         deviceAssociateFragment.dismiss()
                         if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                     } else if (it?.status == Status.ERROR) {
+                        ConfigModelApi.resetDevice(deviceId)
                         deviceAssociateFragment.dismiss()
                         it.message?.let { it2 -> activity?.toast(it2) }
                     }
@@ -159,6 +161,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                             deviceAssociateFragment.dismiss()
                             if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                         } else if (it?.status == Status.ERROR) {
+                            SigMeshServiceManager.getInstance().resetDevice(deviceId)
                             deviceAssociateFragment.dismiss()
                             it.message?.let { it2 -> activity?.toast(it2) }
                         }
