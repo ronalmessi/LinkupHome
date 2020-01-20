@@ -21,7 +21,6 @@ class SigMeshV1Controller(val device: Device) : CommonController, ColorControlle
         val lsb = hexString.takeLast(2)
         val msb = hexString.take(2)
         if (PlSigMeshService.getInstance().isMeshReady) {
-            Log.d("aa","7FB2$msb$lsb")
             PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB2$msb$lsb"), Util.PL_DEFAULT_APP_KEY_INDEX)
             PreferenceHelper("feature_" + device.id, 0).deletePreference("feature_" + device.id)
         }
