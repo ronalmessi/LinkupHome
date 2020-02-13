@@ -62,9 +62,6 @@
     <dimen name="_240sdp">230.40dp</dimen>
     <dimen name="_244sdp">234.24dp</dimen>
     <dimen name="_246sdp">236.16dp</dimen>
-    <dimen name="_320sdp">307.20dp</dimen>
-    <dimen name="_340sdp">326.40dp</dimen>
-    <dimen name="_360sdp">345.60dp</dimen>
     <dimen name="_12ssp">11.52sp</dimen>
     <dimen name="_14ssp">13.44sp</dimen>
     <dimen name="_15ssp">14.40sp</dimen>
