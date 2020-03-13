@@ -56,20 +56,20 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         setContentView(R.layout.home_activity)
         initNavController()
 
-        initSppService()
-
-        CSRMeshServiceManager.getInstance().setMeshStateListener(this)
-        CSRMeshServiceManager.getInstance().setBluetoothStateListener(this)
-        CSRMeshServiceManager.getInstance().bind(this)
-
-
-        SigMeshServiceManager.getInstance().setMeshInfoListener(this)
-        SigMeshServiceManager.getInstance().setMeshStateListener(this)
-        if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
-            SigMeshServiceManager.getInstance().bind(this)
-        }
-
-        initViewModel()
+//        initSppService()
+//
+//        CSRMeshServiceManager.getInstance().setMeshStateListener(this)
+//        CSRMeshServiceManager.getInstance().setBluetoothStateListener(this)
+//        CSRMeshServiceManager.getInstance().bind(this)
+//
+//
+//        SigMeshServiceManager.getInstance().setMeshInfoListener(this)
+//        SigMeshServiceManager.getInstance().setMeshStateListener(this)
+//        if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
+//            SigMeshServiceManager.getInstance().bind(this)
+//        }
+//
+//        initViewModel()
     }
 
     private fun initViewModel() {
@@ -88,7 +88,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         val navHostFragment = nav_host_home as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_home)
-        graph.startDestination = if (intent?.extras?.get("currentZoneId") != 0) R.id.homeFragment else R.id.createZoneFragment
+        graph.startDestination = R.id.createZoneFragment
+//        graph.startDestination = if (intent?.extras?.get("currentZoneId") != 0) R.id.homeFragment else R.id.createZoneFragment
         navHostFragment.navController.graph = graph
     }
 
