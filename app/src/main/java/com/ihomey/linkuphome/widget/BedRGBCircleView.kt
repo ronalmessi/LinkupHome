@@ -43,7 +43,6 @@ class BedRGBCircleView : View {
 
     private lateinit var logoBitmap: Bitmap
     private lateinit var arrowBitmap: Bitmap
-    private lateinit var bgBitmap: Bitmap
 
     private var mCurrentValue: Int = 0 // seconds
 
@@ -85,9 +84,6 @@ class BedRGBCircleView : View {
         mCirclePaint.style = Paint.Style.STROKE
         mCirclePaint.strokeWidth = mCircleWidth
 
-        val sourceBgBitmap = BitmapFactory.decodeResource(resources, R.mipmap.control_circle_bg)
-        bgBitmap=scaleBitmap(sourceBgBitmap, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 330f, context.resources.displayMetrics) / sourceBgBitmap.width)
-
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
         logoBitmap = scaleBitmap(bitmap, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108f, context.resources.displayMetrics) / bitmap.width)
 
@@ -98,17 +94,15 @@ class BedRGBCircleView : View {
 
         super.onDraw(canvas)
 
-        canvas.drawBitmap(bgBitmap,TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, context.resources.displayMetrics) ,0f, mCirclePaint)
-//
-//        mRectF.left = mCircleWidth / 2
-//        mRectF.right = width - mCircleWidth / 2
-//        mRectF.top = mCircleWidth / 2
-//        mRectF.bottom = height - mCircleWidth / 2
-//
-//        for (i in 0..23) {
-//            mCirclePaint.color = resources.getColor(colors[i])//设置画笔颜色
-//            canvas.drawArc(mRectF, -90f + 15f * i, 14f, false, mCirclePaint)//这里就是真正绘制圆弧的地方，从12点方向开始顺时针绘制150度弧度的圆弧
-//        }
+        mRectF.left = mCircleWidth / 2
+        mRectF.right = width - mCircleWidth / 2
+        mRectF.top = mCircleWidth / 2
+        mRectF.bottom = height - mCircleWidth / 2
+
+        for (i in 0..23) {
+            mCirclePaint.color = resources.getColor(colors[i])//设置画笔颜色
+            canvas.drawArc(mRectF, -90f + 15f * i, 14f, false, mCirclePaint)//这里就是真正绘制圆弧的地方，从12点方向开始顺时针绘制150度弧度的圆弧
+        }
 
         canvas.drawBitmap(logoBitmap, (width / 2 - logoBitmap.width / 2).toFloat(), (height / 2 - logoBitmap.height / 2).toFloat(), mCirclePaint)
         canvas.save()

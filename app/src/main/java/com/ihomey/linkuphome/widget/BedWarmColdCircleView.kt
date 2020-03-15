@@ -76,8 +76,8 @@ class BedWarmColdCircleView : View {
     private fun init(context: Context, attrs: AttributeSet?) {
         if (attrs != null) {
             val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BedWarmColdCircleView)
-            mCircleWidth = typedArray.getDimension(R.styleable.BedWarmColdCircleView_circle_width, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, getContext().resources.displayMetrics))
-            mArrowGap = typedArray.getDimension(R.styleable.BedWarmColdCircleView_arrow_gap, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, getContext().resources.displayMetrics))
+            mCircleWidth = typedArray.getDimension(R.styleable.BedWarmColdCircleView_circle_width, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36f, getContext().resources.displayMetrics))
+            mArrowGap = typedArray.getDimension(R.styleable.BedWarmColdCircleView_arrow_gap, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getContext().resources.displayMetrics))
             mTextColor = typedArray.getColor(R.styleable.BedWarmColdCircleView_mTextColor, Color.parseColor("#848484"))
             mTextSize = typedArray.getDimension(R.styleable.BedWarmColdCircleView_text_size, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 8.4f, getContext().resources.displayMetrics))
             typedArray.recycle()

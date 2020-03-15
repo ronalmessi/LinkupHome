@@ -20,46 +20,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/_5sdp"/>
+        app:layout_constraintGuide_percent="0.16"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/_5sdp"/>
+        app:layout_constraintGuide_percent="0.84"/>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/_1sdp"/>
+        app:layout_constraintGuide_percent="0.12"/>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/device_circle_iv_bg"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginStart="@dimen/_3sdp"-->
-<!--        android:layout_marginTop="@dimen/_6sdp"-->
-<!--        android:background="@mipmap/control_circle_bg"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/guide1"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/guide0"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/guide2"-->
-<!--        app:layout_constraintDimensionRatio="1:1"-->
-<!--        />-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.064"/>
 
-    <com.ihomey.linkuphome.widget.BedRGBCircleView
+    <ImageView
+        android:id="@+id/device_circle_iv_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/control_circle_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="@+id/guide3"
+        android:layout_marginStart="2dp"
+        />
+
+        <com.ihomey.linkuphome.widget.BedRGBCircleView
         android:id="@+id/device_color_rgb_cv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
-        android:layout_marginTop="@dimen/_48sdp"
         app:layout_constraintEnd_toEndOf="@+id/guide1"
         app:layout_constraintStart_toStartOf="@+id/guide0"
-        app:layout_constraintDimensionRatio="1:1"
-
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/guide2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLine1"
