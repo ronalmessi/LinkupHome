@@ -35,14 +35,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.12"/>
+        app:layout_constraintGuide_percent="0.0728"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.064"/>
+        app:layout_constraintGuide_percent="0.004"/>
 
     <ImageView
         android:id="@+id/device_circle_iv_bg"
