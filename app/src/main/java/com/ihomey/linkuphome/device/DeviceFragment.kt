@@ -1,9 +1,7 @@
 package com.ihomey.linkuphome.device
 
 import android.os.Bundle
-import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +23,7 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.devicecontrol.navigator.ControlFragmentNavigator
 import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
-import com.ihomey.linkuphome.encodeBase64
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.FragmentVisibleStateListener
@@ -36,7 +33,6 @@ import com.ihomey.linkuphome.protocol.sigmesh.SigMeshServiceManager
 import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.SpaceItemDecoration
-import com.pairlink.sigmesh.lib.PlSigMeshService
 import kotlinx.android.synthetic.main.devices_fragment.*
 import kotlinx.android.synthetic.main.view_device_list_empty.*
 
@@ -151,7 +147,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
                 BluetoothSPP.getInstance()?.disconnect(it0.id)
                 mViewModel.deleteM1Device(it0.id)
             } else {
-                context?.getIMEI()?.let { it1 ->
+                context?.getDeviceId()?.let { it1 ->
                     mViewModel.deleteDevice(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                         if (it?.status == Status.SUCCESS) {
                             resetDevice(it0)
@@ -225,7 +221,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     private fun changeDeviceState(device: Device, key: String, value: String) {
         updateState(device, key, value)
-        if(device.type!=0)context?.getIMEI()?.let { mViewModel.changeDeviceState(it, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {}) }
+        if(device.type!=0)context?.getDeviceId()?.let { mViewModel.changeDeviceState(it, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {}) }
     }
 
     private fun updateState(device: Device, key: String, value: String) {

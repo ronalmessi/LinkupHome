@@ -1,5 +1,7 @@
 package com.ihomey.linkuphome.dl
 
+import android.os.Build
+import android.util.Log
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -8,7 +10,6 @@ import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.data.api.ApiService
 import com.ihomey.linkuphome.data.api.LiveDataCallAdapterFactory
 import com.ihomey.linkuphome.data.db.*
-import com.ihomey.linkuphome.getVersionCode
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -32,7 +33,11 @@ class AppModule {
                 .connectTimeout(10, TimeUnit.MINUTES).writeTimeout(3, TimeUnit.MINUTES).readTimeout(3, TimeUnit.MINUTES)
                 .addNetworkInterceptor { chain ->
                     val request = chain.request().newBuilder()
-                            .header("clientType", "1").build()
+                            .header("clientType", "1")
+                            .header("mobileModel",Build.MODEL)
+                            .header("mobileName",Build.BRAND+"/"+Build.MODEL)
+                            .header("systemVersion",Build.VERSION.RELEASE)
+                            .build()
                     chain.proceed(request)
                 }.build()
         return Retrofit.Builder()

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -15,7 +16,7 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.inform.InformActivity
 
@@ -67,7 +68,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun synchronizeData() {
-        getIMEI().let { it1 ->
+        getDeviceId().let { it1 ->
             splashViewModel.getRemoteCurrentZone(it1).observe(this, Observer<Resource<ZoneDetail>> {
                 if (it?.status != Status.LOADING) scheduleScreen()
             })
@@ -79,7 +80,7 @@ class SplashActivity : BaseActivity() {
         splashViewModel.getCurrentZoneId().observe(this, Observer<Resource<Int>> {
             if (it?.status == Status.SUCCESS) {
                 val intent = Intent(this@SplashActivity, if (hasAgreed) HomeActivity::class.java else InformActivity::class.java)
-                intent.putExtra("currentZoneId", it.data)
+                intent.putExtra("currentZoneId", it.data ?: 0)
                 startActivity(intent)
                 overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
                 finish()

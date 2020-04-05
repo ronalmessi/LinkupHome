@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.room
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
@@ -31,7 +30,7 @@ import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.device.ColorCyclingSettingFragment
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.listener.FragmentBackHandler
@@ -138,7 +137,7 @@ class RoomListFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStat
 
     override fun onConfirmButtonClick() {
         selectedRoom?.let {
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 mViewModel.deleteRoom(it1, it.id).observe(viewLifecycleOwner, Observer<Resource<Boolean>> {
                     if (it?.status == Status.SUCCESS) {
                         hideLoadingView()
@@ -288,7 +287,7 @@ class RoomListFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStat
 
     private fun changeRoomState(roomAndDevices: RoomAndDevices, key: String, value: String) {
         updateState(roomAndDevices, key, value)
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             roomAndDevices.room?.let {
                 mViewModel.changeRoomState(it1, it.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Room>> {
 

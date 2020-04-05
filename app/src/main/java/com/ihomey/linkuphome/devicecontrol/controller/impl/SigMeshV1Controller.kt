@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.devicecontrol.controller.impl
 
-import android.util.Log
 import com.ihomey.linkuphome.AppConfig
 import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.data.entity.Device

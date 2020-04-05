@@ -2,8 +2,9 @@ package com.ihomey.linkuphome;
 
 import android.app.Application;
 
-//import com.facebook.stetho.Stetho;
 import com.umeng.analytics.MobclickAgent;
+
+//import com.facebook.stetho.Stetho;
 
 
 public class App extends Application {

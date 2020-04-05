@@ -20,7 +20,7 @@ import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.dialog.InputDialogFragment
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.InputDialogInterface
 import com.ihomey.linkuphome.toast
@@ -81,7 +81,7 @@ class ChooseRoomTypeFragment : BaseFragment(), BaseQuickAdapter.OnItemClickListe
     override fun onInput(text: String) {
       selectedRoomType?.let { it0->
           currentZone?.let { it1->
-              context?.getIMEI()?.let { it2 ->
+              context?.getDeviceId()?.let { it2 ->
                   mViewModel.saveRoom(it2, it1.id, it0 + 1, text).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                       when {
                           it?.status == Status.SUCCESS -> {

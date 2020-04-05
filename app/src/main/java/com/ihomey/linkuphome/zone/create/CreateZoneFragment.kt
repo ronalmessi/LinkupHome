@@ -12,7 +12,7 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.toast
@@ -45,7 +45,7 @@ class CreateZoneFragment : BaseFragment() {
         val isDefault = arguments?.getBoolean("isDefault") ?: true
         if (!isDefault) iv_back.visibility = View.VISIBLE
         btn_save.setOnClickListener { it0 ->
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 createZoneViewModel.createZone(it1, et_zone_name.text.toString().trim()).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
                     if (it?.status == Status.SUCCESS) {
                         hideLoadingView()

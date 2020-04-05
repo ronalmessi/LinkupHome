@@ -18,10 +18,10 @@ import com.ihomey.linkuphome.base.LoadingFragment
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
-import com.ihomey.linkuphome.getIMEI
-import com.ihomey.linkuphome.zone.ZoneSettingViewModel
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.toast
 import com.ihomey.linkuphome.widget.DividerItemDecoration
+import com.ihomey.linkuphome.zone.ZoneSettingViewModel
 import kotlinx.android.synthetic.main.zone_share_list_fragment.*
 
 class ShareZoneListFragment : BaseFragment(), ShareZoneListAdapter.OnItemChildClickListener {
@@ -63,7 +63,7 @@ class ShareZoneListFragment : BaseFragment(), ShareZoneListAdapter.OnItemChildCl
 
     override fun onItemChildClick(position: Int, view: View) {
         adapter.currentList?.get(position)?.let {
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 mViewModel.shareZone(it1, it.id).observe(viewLifecycleOwner, Observer<Resource<String>> {
                     if (it?.status == Status.SUCCESS) {
                         hideLoadingView()

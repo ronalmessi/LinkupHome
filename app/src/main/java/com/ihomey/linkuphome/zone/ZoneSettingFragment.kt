@@ -23,7 +23,7 @@ import com.ihomey.linkuphome.device.DeleteDevicesFragment
 import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
 import com.ihomey.linkuphome.dialog.HintDialogFragment
 import com.ihomey.linkuphome.dialog.InputDialogFragment
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
@@ -105,7 +105,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
     }
 
     private fun loadRemoteZones() {
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             viewModel.getRemoteZones(it1).observe(viewLifecycleOwner, Observer<Resource<List<Zone>>> {
                 when {
                     it?.status == Status.LOADING -> showLoadingView()
@@ -124,7 +124,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
     override fun onItemClick(position: Int) {
         adapter.currentList?.get(position)?.let {
             if (it.active == 0) {
-                context?.getIMEI()?.let { it1 ->
+                context?.getDeviceId()?.let { it1 ->
                     viewModel.switchZone(it1, it.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                         when {
                             it?.status == Status.SUCCESS -> {
@@ -178,7 +178,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
                     dialog.setConfirmDialogInterface(this)
                     dialog.show(fragmentManager, "ConfirmDialogFragment")
                 } else {
-                    context?.getIMEI()?.let { it1 ->
+                    context?.getDeviceId()?.let { it1 ->
                         viewModel.getZone(it1, it0.id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                             if (it?.status == Status.SUCCESS) {
                                 hideLoadingView()
@@ -209,7 +209,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
 
     override fun confirm(id: Int) {
         mViewModel.setRemoveDeviceFlag(true)
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             viewModel.switchZone(it1, id).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                 when {
                     it?.status == Status.SUCCESS -> {
@@ -229,7 +229,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
     }
 
     private fun deleteZone(zoneId: Int) {
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             viewModel.deleteZone(it1, zoneId).observe(viewLifecycleOwner, Observer<Resource<Int>> {
                 when {
                     it?.status == Status.SUCCESS -> {
@@ -257,7 +257,7 @@ class ZoneSettingFragment : BaseFragment(), DeleteDevicesFragment.ConfirmButtonC
 
     override fun onInput(text: String) {
         selectedZone?.let {
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 viewModel.changeZoneName(it1, it.id, text).observe(viewLifecycleOwner, Observer<Resource<Zone>> {
                     when {
                         it?.status == Status.SUCCESS -> {

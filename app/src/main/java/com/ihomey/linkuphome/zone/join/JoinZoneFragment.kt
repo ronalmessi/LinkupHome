@@ -6,7 +6,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -15,7 +14,7 @@ import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.toast
@@ -56,7 +55,7 @@ class JoinZoneFragment : BaseFragment() {
     private fun joinZone() {
         val invitationCode = et_invitation_code.text.toString().trim()
         if (!TextUtils.isEmpty(invitationCode)) {
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 viewModel.joinZone(it1, invitationCode).observe(viewLifecycleOwner, Observer<Resource<ZoneDetail>> {
                     when {
                         it?.status == Status.SUCCESS -> {

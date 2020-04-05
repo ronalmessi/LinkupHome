@@ -20,7 +20,7 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.dialog.InputDialogFragment
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.DeviceStateChangeListener
 import com.ihomey.linkuphome.listener.FragmentBackHandler
@@ -91,7 +91,7 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
 
     override fun onDeviceStateChange(device: Device, key: String, value: String) {
         updateState(device, key, value)
-        if(device.type!=0)context?.getIMEI()?.let { mViewModel.changeDeviceState(it, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {}) }
+        if(device.type!=0)context?.getDeviceId()?.let { mViewModel.changeDeviceState(it, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {}) }
     }
 
 
@@ -138,7 +138,7 @@ class DeviceControlFragment : BaseFragment(), InputDialogInterface,FragmentBackH
         if (device.type == 0) {
             updateDeviceName(text, device)
         } else {
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 mViewModel.changeDeviceName(it1, device.zoneId, device.id,device.pid,device.type, text).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     when {
                         it?.status == Status.SUCCESS -> {

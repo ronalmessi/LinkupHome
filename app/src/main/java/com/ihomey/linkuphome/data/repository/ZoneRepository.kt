@@ -1,6 +1,5 @@
 package com.ihomey.linkuphome.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -223,8 +222,8 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
     fun getCurrentZone(guid: String): LiveData<Resource<ZoneDetail>> {
         return object : NetworkBoundResource<ZoneDetail>(appExecutors) {
             override fun saveCallResult(item: ZoneDetail?) {
+                zoneDao.resetAllActiveZone()
                 item?.let {
-                    zoneDao.resetAllActiveZone()
                     zoneDao.insert(Zone(it.id, it.name, it.netWorkKey, it.nextDeviceIndex, it.nextGroupIndex, it.active, it.type, it.meshInfo))
                     deviceDao.deleteAll(it.id)
                     roomDao.deleteAll(it.id)

@@ -18,7 +18,7 @@ import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.dialog.ConfirmDialogFragment
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.ConfirmDialogInterface
 import com.ihomey.linkuphome.toast
@@ -95,7 +95,7 @@ class UnBondDevicesFragment : BaseFragment(),ConfirmDialogInterface {
 
 
     private fun bindDevice(zoneId: Int, groupId: Int, deviceIds: String, act: String) {
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             viewModel.bindDevice(it1, zoneId, groupId, deviceIds, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 if (it?.status == Status.SUCCESS) {
                     hideLoadingView()

@@ -27,7 +27,7 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.dialog.InputDialogFragment
-import com.ihomey.linkuphome.getIMEI
+import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.listener.InputDialogInterface
@@ -204,7 +204,7 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListene
     }
 
     private fun bindDevice(zoneId: Int, groupId: Int, deviceId: String, act: String) {
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             viewModel.bindDevice(it1, zoneId, groupId, deviceId, act).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                 mViewModel.setCurrentRoom(room)
                 if (it?.status == Status.SUCCESS) {
@@ -222,7 +222,7 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListene
 
     private fun changeDeviceState(device: Device, key: String, value: String) {
         updateState(device, key, value)
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             viewModel.changeDeviceState(it1, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
 
             })
@@ -239,7 +239,7 @@ class RoomFragment : BaseFragment(), FragmentBackHandler, OnItemMenuClickListene
     }
 
     override fun onInput(text: String) {
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             room?.let {
                 viewModel.changeRoomName(it1, it.zoneId, it.id, it.type, text).observe(viewLifecycleOwner, Observer<Resource<Room>> {
                     if (it?.status == Status.SUCCESS) {

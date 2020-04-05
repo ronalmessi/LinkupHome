@@ -2,7 +2,6 @@ package com.ihomey.linkuphome.device
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -127,7 +126,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
         val type = arguments?.getInt("deviceType")!!
         val deviceType = DeviceType.values()[type]
         if (TextUtils.isEmpty(macAddress)) {
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 mViewModel.saveDevice(it1, currentZone?.id!!, type, deviceType.name, 0, null).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                     if (it?.status == Status.SUCCESS && it.data != null) {
                         it.data.hash = "" + uuidHash
@@ -147,7 +146,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                 })
             }
         } else {
-            context?.getIMEI()?.let { it1 ->
+            context?.getDeviceId()?.let { it1 ->
                 currentZone?.let {it0->
                     val index=SigMeshServiceManager.getInstance().getMeshIndex(it0)
                     mViewModel.saveDevice(it1, it0.id, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
@@ -197,7 +196,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
 
     private fun changeDeviceState(device: Device, key: String, value: String) {
         updateState(device, key, value)
-        context?.getIMEI()?.let { it1 ->
+        context?.getDeviceId()?.let { it1 ->
             mViewModel.changeDeviceState(it1, device.id, key, value).observe(viewLifecycleOwner, Observer<Resource<Device>> {
                 if (it?.status == Status.SUCCESS) {
 

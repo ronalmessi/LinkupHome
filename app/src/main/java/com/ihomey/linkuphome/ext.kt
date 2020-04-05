@@ -6,10 +6,9 @@ import android.content.Context
 import android.graphics.Color
 import android.location.LocationManager
 import android.os.Build
+import android.provider.Settings
 import android.telephony.TelephonyManager
-import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -117,12 +116,29 @@ fun Context.hideInput(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+
 @SuppressLint("MissingPermission")
-fun Context.getIMEI(): String {
-    val telephonyManager = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-    return if (TextUtils.isEmpty(telephonyManager.deviceId)) "" else telephonyManager.deviceId
+fun Context.getDeviceId():String{
+    val deviceId: String
+    deviceId = if (Build.VERSION.SDK_INT >=29){
+        Settings.Secure.getString(
+                contentResolver,
+                Settings.Secure.ANDROID_ID)
+    }else{
+        val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        if (telephonyManager.deviceId != null) {
+            telephonyManager.deviceId;
+        } else {
+            Settings.Secure.getString(
+                    contentResolver,
+                    Settings.Secure.ANDROID_ID)
+        }
+    }
+    return deviceId
 
 }
+
+
 
 /**
  * 从控件所在位置移动到控件的底部

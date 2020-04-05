@@ -10,8 +10,6 @@ import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.dip2px
-import com.ihomey.linkuphome.getScreenW
 
 
 class BedRGBCircleView : View {

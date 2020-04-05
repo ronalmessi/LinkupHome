@@ -285,7 +285,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     override fun onMeshInfoChanged() {
         mCurrentZone?.let {
             val index = SigMeshServiceManager.getInstance().getMeshIndex(it)
-            mViewModel.uploadMeshInfo(getIMEI(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
+            mViewModel.uploadMeshInfo(getDeviceId(), it.id, it.name, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(this, Observer<Resource<Zone>> {})
         }
     }
 

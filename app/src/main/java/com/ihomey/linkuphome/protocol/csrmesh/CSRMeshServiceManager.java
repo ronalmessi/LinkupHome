@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.csr.mesh.ConfigModelApi;

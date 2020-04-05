@@ -11,12 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.ihomey.linkuphome.R
-import com.ihomey.linkuphome.dialog.SleepModeInfoDialogFragment
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.decodeHex
 import com.ihomey.linkuphome.devicecontrol.controller.Controller
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
+import com.ihomey.linkuphome.dialog.SleepModeInfoDialogFragment
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.protocol.spp.BluetoothSPP
 import com.ihomey.linkuphome.toast

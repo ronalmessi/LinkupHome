@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.adapter
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.TouchDelegate
 import android.view.View

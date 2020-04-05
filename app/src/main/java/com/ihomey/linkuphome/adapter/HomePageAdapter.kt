@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.ihomey.linkuphome.device.DeviceNavHostFragment
-import com.ihomey.linkuphome.setting.SettingNavHostFragment
 import com.ihomey.linkuphome.room.ZoneNavHostFragment
+import com.ihomey.linkuphome.setting.SettingNavHostFragment
 
 
 class HomePageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
