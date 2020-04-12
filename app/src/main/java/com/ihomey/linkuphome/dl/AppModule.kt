@@ -34,9 +34,9 @@ class AppModule {
                 .addNetworkInterceptor { chain ->
                     val request = chain.request().newBuilder()
                             .header("clientType", "1")
-                            .header("mobileModel",Build.MODEL)
-                            .header("mobileName",Build.BRAND+"/"+Build.MODEL)
-                            .header("systemVersion",Build.VERSION.RELEASE)
+                            .header("mobile-model",Build.MODEL)
+                            .header("mobile-name",Build.BRAND+"/"+Build.MODEL)
+                            .header("mobile-version",Build.VERSION.RELEASE)
                             .build()
                     chain.proceed(request)
                 }.build()
