@@ -63,10 +63,10 @@ class LightControllerFactory {
     }
 
     fun createTimerController(device: Device): TimerController? {
-        return when {
-            device.instructId!=0&&(device.type==2||device.type==7||device.type==9) -> R2Controller(device)
-            device.instructId!=0&&(device.type==3||device.type==8) -> A2Controller(device)
-            device.instructId!=0&&device.type==4 -> N1Controller(device)
+        return when(device.type) {
+            2,7,9 -> if(device.pid==0) R2Controller(device) else SigMeshV1Controller(device)
+            3,8 -> if(device.pid==0) A2Controller(device) else SigMeshV1Controller(device)
+            4 -> if(device.pid==0) N1Controller(device) else SigMeshV1Controller(device)
             else ->null
         }
     }

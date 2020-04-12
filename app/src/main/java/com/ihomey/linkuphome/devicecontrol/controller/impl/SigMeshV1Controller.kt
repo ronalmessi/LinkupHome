@@ -6,12 +6,14 @@ import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.devicecontrol.controller.ColorController
 import com.ihomey.linkuphome.devicecontrol.controller.CommonController
 import com.ihomey.linkuphome.devicecontrol.controller.SceneController
+import com.ihomey.linkuphome.devicecontrol.controller.TimerController
+import com.ihomey.linkuphome.getPeriodMinute
 import com.pairlink.sigmesh.lib.PlSigMeshService
 import com.pairlink.sigmesh.lib.Util
 import java.util.*
 
 
-class SigMeshV1Controller(val device: Device) : CommonController, ColorController, SceneController {
+class SigMeshV1Controller(val device: Device) : CommonController, ColorController, SceneController, TimerController {
 
     var featureValue by PreferenceHelper("feature_" + device.id, 0)
 
@@ -76,7 +78,24 @@ class SigMeshV1Controller(val device: Device) : CommonController, ColorControlle
             if (sceneValue == 2) {
                 featureValue = 1
             }
-            PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB403F" + (sceneValue + 1)), Util.PL_DEFAULT_APP_KEY_INDEX)
+            if(device.type==6||device.type==10){
+                PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB403F" + (sceneValue + 1)), Util.PL_DEFAULT_APP_KEY_INDEX)
+            }else{
+                PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB402F$sceneValue"), Util.PL_DEFAULT_APP_KEY_INDEX)
+            }
         }
     }
+
+    override fun setTimer(minute: Int, hour: Int, isOpenTimer: Boolean, isOn: Boolean) {
+        var command="7FB501" + if(isOpenTimer)"01" else "02"
+        command += if(isOn){
+            String.format("%04x", getPeriodMinute(hour, minute))
+        }else{
+            "0000"
+        }
+        if (PlSigMeshService.getInstance().isMeshReady) {
+            PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes(command), Util.PL_DEFAULT_APP_KEY_INDEX)
+        }
+    }
+
 }
