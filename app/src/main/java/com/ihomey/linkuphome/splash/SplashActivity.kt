@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -15,19 +14,27 @@ import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.data.vo.ZoneDetail
+import com.ihomey.linkuphome.dialog.InformDialogFragment
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
 import com.ihomey.linkuphome.getDeviceId
 import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.inform.InformActivity
+import com.ihomey.linkuphome.listener.InformDialogInterface
 
-class SplashActivity : BaseActivity() {
+class SplashActivity : BaseActivity(), InformDialogInterface {
+
 
     private lateinit var splashViewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         splashViewModel = ViewModelProviders.of(this).get(SplashViewModel::class.java)
-        checkPermission()
+        val hasAgreed by PreferenceHelper("hasAgreed", false)
+        if (hasAgreed) {
+            checkPermission()
+        } else {
+            showInformDialog()
+        }
     }
 
     private fun checkPermission() {
@@ -57,6 +64,16 @@ class SplashActivity : BaseActivity() {
         if (requestCode == 101) checkPermission()
     }
 
+    override fun onAgree() {
+        var hasAgreed by PreferenceHelper("hasAgreed", false)
+        hasAgreed=true
+        checkPermission()
+    }
+
+    override fun onDisAgree() {
+        finish()
+    }
+
     private fun showPermissionPromptDialog() {
         val dialog = PermissionPromptDialogFragment().newInstance(getString(R.string.msg_notes), getString(R.string.hint_request_location_permission), getString(R.string.action_confirm))
         dialog.setConfirmButtonClickListener(object : PermissionPromptDialogFragment.ConfirmButtonClickListener {
@@ -65,6 +82,12 @@ class SplashActivity : BaseActivity() {
             }
         })
         dialog.show(supportFragmentManager, "PermissionPromptDialogFragment")
+    }
+
+    private fun showInformDialog() {
+        val dialog = InformDialogFragment()
+        dialog.setInformDialogInterface(this)
+        dialog.show(supportFragmentManager, "InformDialogFragment")
     }
 
     private fun synchronizeData() {
@@ -76,10 +99,9 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun scheduleScreen() {
-        val hasAgreed by PreferenceHelper("hasAgreed", false)
         splashViewModel.getCurrentZoneId().observe(this, Observer<Resource<Int>> {
             if (it?.status == Status.SUCCESS) {
-                val intent = Intent(this@SplashActivity, if (hasAgreed) HomeActivity::class.java else InformActivity::class.java)
+                val intent = Intent(this@SplashActivity, HomeActivity::class.java)
                 intent.putExtra("currentZoneId", it.data ?: 0)
                 startActivity(intent)
                 overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)

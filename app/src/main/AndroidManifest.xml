@@ -33,6 +33,9 @@
             android:name=".inform.InformActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".WebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
