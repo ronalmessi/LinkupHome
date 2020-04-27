@@ -69,7 +69,7 @@ class SigMeshV1Controller(val device: Device) : CommonController, ColorControlle
     override fun setCycleMode(cycleSpeed: Int) {
         if (PlSigMeshService.getInstance().isMeshReady) {
             featureValue = 1
-            PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB4010" + (3 - cycleSpeed)), Util.PL_DEFAULT_APP_KEY_INDEX)
+            PlSigMeshService.getInstance().vendorUartSend(device.pid.toShort(), Util.hexStringToBytes("7FB4010" + ((2 - cycleSpeed)*4+1)), Util.PL_DEFAULT_APP_KEY_INDEX)
         }
     }
 
