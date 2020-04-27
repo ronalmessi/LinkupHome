@@ -1,7 +1,6 @@
 package com.ihomey.linkuphome.dl
 
 import android.os.Build
-import android.util.Log
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
