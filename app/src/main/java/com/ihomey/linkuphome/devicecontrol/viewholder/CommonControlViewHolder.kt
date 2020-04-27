@@ -45,7 +45,7 @@ class CommonControlViewHolder(parentView: View) : CompoundButton.OnCheckedChange
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        LightControllerFactory().createCommonController(mDevice)?.setBrightness(seekBar.progress)
+        LightControllerFactory().createCommonController(mDevice)?.setBrightness(getMaxBrightness(mDevice)*seekBar.progress/100)
         listener?.onDeviceStateChange(mDevice, "brightness", seekBar.progress.toString())
     }
 
@@ -54,13 +54,6 @@ class CommonControlViewHolder(parentView: View) : CompoundButton.OnCheckedChange
             3,8 -> if (device.pid != 0) 49514 else 240
             6,10-> if (device.pid != 0) 49514 else 22
             else -> if (device.pid != 0) 49514 else 85
-        }
-    }
-
-    private fun getBaseBrightness(device: Device): Int {
-        return when (device.type) {
-            6,10-> if (device.pid != 0) 16021 else 10
-            else -> 15
         }
     }
 }
