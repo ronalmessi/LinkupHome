@@ -178,6 +178,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                 if(TextUtils.isEmpty(it.macAddress)){
                     CSRMeshServiceManager.getInstance().associateDevice(it,this)
                 }else{
+                    SigMeshServiceManager.getInstance().startScan()
                     SigMeshServiceManager.getInstance().associateDevice(it,this)
                 }
             }
