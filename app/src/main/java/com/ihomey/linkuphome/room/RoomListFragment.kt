@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.RoomListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
 import com.ihomey.linkuphome.base.BaseNavHostFragment
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.RoomAndDevices
 import com.ihomey.linkuphome.data.entity.Zone
@@ -197,10 +199,21 @@ class RoomListFragment : BaseFragment(), FragmentBackHandler,FragmentVisibleStat
             roomList?.get(position)?.let {
                 for (index in it.devices.indices) {
                     val device = it.devices[index]
-                    LightControllerFactory().createCommonController(device)?.setBrightness(if (device.type == 6 || device.type == 10) progress else progress.plus(15))
+                    Handler().postDelayed({
+                        LightControllerFactory().createCommonController(device)?.setBrightness(getMaxBrightness(device)*progress/100)
+                    }, 100L * index)
                 }
+
                 changeRoomState(it, "brightness", progress.toString())
             }
+        }
+    }
+
+    private fun getMaxBrightness(device: Device): Int {
+        return when (device.type) {
+            3,8 -> if (device.pid != 0) 49514 else 240
+            6 ,10-> if (device.pid != 0) 49514 else 22
+            else -> if (device.pid != 0) 49514 else 85
         }
     }
 
