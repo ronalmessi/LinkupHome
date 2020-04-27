@@ -55,16 +55,6 @@ class InformDialogFragment : DialogFragment() {
                 intent.putExtra("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL + "zh")
                 intent.putExtra("title", getString(R.string.title_user_agreement))
                 startActivity(intent)
-//                val bundle = Bundle()
-//                if (textView.id == R.id.privacy_tv_license) {
-//                    bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL + currentLanguage)
-//                    bundle.putString("title", getString(R.string.title_user_agreement))
-//                } else {
-//                    bundle.putString("sourceUrl", AppConfig.PRIVACY_STATEMENt_BASE_URL + currentLanguage)
-//                    bundle.putString("title", getString(R.string.title_private_statement))
-//                }
-//                NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_webViewFragment, bundle)
-                Log.d("aa","1111")
             }
 
             override fun updateDrawState(textPaint: TextPaint) {
@@ -78,16 +68,6 @@ class InformDialogFragment : DialogFragment() {
                 intent.putExtra("sourceUrl", AppConfig.PRIVACY_STATEMENt_BASE_URL + "cn")
                 intent.putExtra("title", getString(R.string.title_private_statement))
                 startActivity(intent)
-                Log.d("aa","2222")
-//                val bundle = Bundle()
-//                if (textView.id == R.id.privacy_tv_license) {
-//                    bundle.putString("sourceUrl", AppConfig.USER_AGGREEMENT_BASE_URL + currentLanguage)
-//                    bundle.putString("title", getString(R.string.title_user_agreement))
-//                } else {
-//                    bundle.putString("sourceUrl", AppConfig.PRIVACY_STATEMENt_BASE_URL + currentLanguage)
-//                    bundle.putString("title", getString(R.string.title_private_statement))
-//                }
-//                NavHostFragment.findNavController(this@InformFragment).navigate(R.id.action_informFragment_to_webViewFragment, bundle)
             }
 
             override fun updateDrawState(textPaint: TextPaint) {
