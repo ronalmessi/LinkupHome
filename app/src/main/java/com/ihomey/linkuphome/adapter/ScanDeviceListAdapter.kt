@@ -69,35 +69,28 @@ class ScanDeviceListAdapter(data: MutableList<Device>) : BaseMultiItemQuickAdapt
                 val powerStateView = helper.getView<SwitchButton>(R.id.sb_power)
                 powerStateView.setOnCheckedChangeListener { _, isChecked -> onCheckedChangeListener.onCheckedChanged(item, isChecked) }
                 if (type == 1) {
-                    brightnessView.max = 85
                     layoutParams.marginStart = mContext.resources.getDimension(R.dimen._15sdp).toInt()
                     containerLayout.setPadding(mContext.resources.getDimension(R.dimen._3sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 } else if (type == 2 || type == 3) {
                     iconView.scaleX = 0.7f
                     iconView.scaleY = 0.7f
-                    if (type == 2) brightnessView.max = 85 else brightnessView.max = 240
                     layoutParams.marginStart = mContext.resources.getDimension(R.dimen._30sdp).toInt()
                     containerLayout.setPadding(mContext.resources.getDimension(R.dimen._16sdp).toInt(), mContext.resources.getDimension(R.dimen._4sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._4sdp).toInt())
                 } else if (type == 7 || type == 8) {
-                    if (type == 7) brightnessView.max = 85 else brightnessView.max = 240
                     iconView.scaleX = 0.8f
                     iconView.scaleY = 0.8f
                     layoutParams.marginStart = mContext.resources.getDimension(R.dimen._30sdp).toInt()
                     containerLayout.setPadding(mContext.resources.getDimension(R.dimen._14sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._4sdp).toInt())
                 } else if (type == 4) {
-                    brightnessView.max = 85
                     layoutParams.marginStart = mContext.resources.getDimension(R.dimen._2sdp).toInt()
                     containerLayout.setPadding(0, mContext.resources.getDimension(R.dimen._10sdp).toInt(), mContext.resources.getDimension(R.dimen._8sdp).toInt(), mContext.resources.getDimension(R.dimen._10sdp).toInt())
                 } else if (type == 0) {
-                    brightnessView.max = 85
                     layoutParams.marginStart = mContext.resources.getDimension(R.dimen._32sdp).toInt()
                     containerLayout.setPadding(mContext.resources.getDimension(R.dimen._18sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 } else if (type == 6 || type == 10) {
-                    brightnessView.max = 22
                     layoutParams.marginStart = mContext.resources.getDimension(R.dimen._21sdp).toInt()
                     containerLayout.setPadding(mContext.resources.getDimension(R.dimen._4sdp).toInt(), 0, mContext.resources.getDimension(R.dimen._8sdp).toInt(), 0)
                 } else if (type == 9) {
-                    brightnessView.max = 85
                     iconView.scaleX = 0.8f
                     iconView.scaleY = 0.8f
                     layoutParams.marginStart = mContext.resources.getDimension(R.dimen._10sdp).toInt()

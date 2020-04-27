@@ -191,9 +191,18 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
     }
 
     override fun onProgressChanged(singleDevice: Device, progress: Int) {
-        LightControllerFactory().createCommonController(singleDevice)?.setBrightness(if (singleDevice.type == 6 || singleDevice.type == 10) progress else progress.plus(15))
+        LightControllerFactory().createCommonController(singleDevice)?.setBrightness(getMaxBrightness(singleDevice)*progress/100)
         changeDeviceState(singleDevice, "brightness", progress.toString())
     }
+
+    private fun getMaxBrightness(device: Device): Int {
+        return when (device.type) {
+            3,8 -> if (device.pid != 0) 49514 else 240
+            6 ,10-> if (device.pid != 0) 49514 else 22
+            else -> if (device.pid != 0) 49514 else 85
+        }
+    }
+
 
     private fun changeDeviceState(device: Device, key: String, value: String) {
         updateState(device, key, value)

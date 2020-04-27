@@ -98,7 +98,7 @@
             android:layout_toStartOf="@+id/iv_brightness_high"
             android:layout_toEndOf="@+id/iv_brightness_low"
             android:clickable="false"
-            android:max="85"
+            android:max="100"
             android:paddingStart="@dimen/_6sdp"
             android:paddingEnd="@dimen/_6sdp"
             android:progress="20" />

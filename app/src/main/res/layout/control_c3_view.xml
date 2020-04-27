@@ -114,7 +114,7 @@
             android:layout_toStartOf="@+id/device_brightness_icon_high"
             android:layout_toEndOf="@+id/device_brightness_icon_low"
             android:clickable="false"
-            android:max="85"
+            android:max="100"
             android:paddingStart="@dimen/_6sdp"
             android:paddingEnd="@dimen/_6sdp" />
 
