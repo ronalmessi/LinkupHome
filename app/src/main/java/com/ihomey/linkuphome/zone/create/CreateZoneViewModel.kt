@@ -18,8 +18,8 @@ class CreateZoneViewModel : ViewModel() {
         DaggerAppComponent.builder().build().inject(this)
     }
 
-    fun createZone(imei: String, name: String): LiveData<Resource<Zone>> {
-        return zoneRepository.createZone(imei, name)
+    fun createZone(imei: String,meshInfo: String, name: String): LiveData<Resource<Zone>> {
+        return zoneRepository.createZone(imei,meshInfo,name)
     }
 
 }
