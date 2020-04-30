@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class ZoneRepository @Inject constructor(private var apiService: ApiService, private val zoneDao: ZoneDao, private val deviceDao: DeviceDao, private val roomDao: RoomDao, private var appExecutors: AppExecutors) {
 
-    fun createZone(guid: String, name: String): LiveData<Resource<Zone>> {
+    fun createZone(guid: String,meshInfo: String, name: String): LiveData<Resource<Zone>> {
         return object : NetworkBoundResource<Zone>(appExecutors) {
             override fun saveCallResult(item: Zone?) {
                 item?.let {
@@ -40,7 +40,7 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
             }
 
             override fun createCall(): LiveData<ApiResult<Zone>> {
-                val zoneVo = CreateZoneVO(guid.md5(), name,  System.currentTimeMillis())
+                val zoneVo = CreateZoneVO(guid.md5(),meshInfo, name, System.currentTimeMillis())
                 zoneVo.signature =(AppConfig.APP_SECRET+zoneVo.toString()).sha256()
                 return apiService.createZone(zoneVo)
             }
