@@ -24,7 +24,6 @@ class CommonControlViewHolder(parentView: View) : CompoundButton.OnCheckedChange
         this.listener=listener
         onOffCheckbox.isChecked = (device.parameters?.on == 1)
         onOffCheckbox.setOnCheckedChangeListener(this)
-        brightnessSeekBar.max = getMaxBrightness(device)
         device.parameters?.brightness?.let {
             brightnessSeekBar.progress = it
         }
