@@ -155,6 +155,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                             val position = adapter.data.indexOf(device) ?: -1
                             if (position != -1) {
                                 adapter.getItem(position)?.id = macAddress
+                                adapter.getItem(position)?.pid = deviceId
                                 adapter.notifyItemChanged(position)
                             }
                             deviceAssociateFragment.dismiss()
@@ -178,7 +179,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                 if(TextUtils.isEmpty(it.macAddress)){
                     CSRMeshServiceManager.getInstance().associateDevice(it,this)
                 }else{
-                    SigMeshServiceManager.getInstance().startScan()
+                    PlSigMeshService.getInstance().proxyExit()
                     SigMeshServiceManager.getInstance().associateDevice(it,this)
                 }
             }

@@ -40,9 +40,14 @@ class ColorControlViewHolder(private val parentView: View) :View.OnClickListener
         LightControllerFactory().createColorController(mDevice)?.setCycleMode(position)
     }
 
-    private fun hideColorCycleSpeedToggleGroup(isVisible: Boolean) {
-        colorCycleSpeedToggleGroup.visibility = if (isVisible) View.GONE else View.VISIBLE
-        colorCycleSpeedToggleGroup.animation = if (!isVisible) moveToViewLocationAnimation() else moveToViewBottomAnimation()
+    private fun hideColorCycleSpeedToggleGroup(isHide: Boolean) {
+        if(isHide&&colorCycleSpeedToggleGroup.visibility==View.VISIBLE){
+            colorCycleSpeedToggleGroup.animation = moveToViewBottomAnimation()
+            colorCycleSpeedToggleGroup.visibility=View.GONE
+        }else if(!isHide&&colorCycleSpeedToggleGroup.visibility==View.GONE){
+            colorCycleSpeedToggleGroup.animation = moveToViewLocationAnimation()
+            colorCycleSpeedToggleGroup.visibility=View.VISIBLE
+        }
     }
 
 }

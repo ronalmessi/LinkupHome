@@ -131,7 +131,7 @@ public class SigMeshServiceManager implements Connector {
 
     @Override
     public void startScan() {
-        mPlSigMeshService.proxyExit();
+//        mPlSigMeshService.proxyExit();
         mPlSigMeshService.scanDevice(true, Util.SCAN_TYPE_PROVISION);
     }
 
@@ -180,6 +180,7 @@ public class SigMeshServiceManager implements Connector {
                 case Util.PL_MESH_JOIN_FAIL:
                 case Util.PL_MESH_EXIT:
                     mConnected = false;
+
 //                    mActivity.get().runOnUiThread(() -> {
 //                        if (meshStateListener != null)
 //                            meshStateListener.onDeviceStateChanged("SigMesh", false);
