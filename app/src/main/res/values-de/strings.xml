@@ -156,4 +156,9 @@ Bitte stellen Sie sicher, dass Ihr Mobiltelefon mit dem WLAN verbunden ist oder 
     <string name="msg_quit_shared_zone">Möchten Sie das Teilen nach Hause beenden?</string>
 
 
+    <string name="title_app_update">Neues Versions-Update</string>
+    <string name="tip_app_update">Inhalt aktualisieren</string>
+    <string name="app_update">Jetzt aktualisieren</string>
+
+
 </resources>

@@ -3,6 +3,7 @@ package com.ihomey.linkuphome.home
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Process
@@ -22,10 +23,13 @@ import com.ihomey.linkuphome.AppConfig.Companion.REQUEST_CODE_OPEN_GPS
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
 import com.ihomey.linkuphome.data.entity.Zone
+import com.ihomey.linkuphome.data.vo.AppVersionInfo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.impl.M1Controller
+import com.ihomey.linkuphome.dialog.AppUpdateDialogFragment
 import com.ihomey.linkuphome.dialog.PermissionPromptDialogFragment
+import com.ihomey.linkuphome.listener.AppUpdateDialogInterface
 import com.ihomey.linkuphome.listener.BridgeListener
 import com.ihomey.linkuphome.listener.OnLanguageListener
 import com.ihomey.linkuphome.protocol.csrmesh.BluetoothStateListener
@@ -143,6 +147,33 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         if (!checkGPSIsOpen()) {
             showOpenGPSDialog()
         }
+        checkAppVersion()
+    }
+
+    private fun checkAppVersion() {
+        mViewModel.getAppVersionInfo(AppConfig.APP_VERSION_URL).observe(this, Observer<Resource<AppVersionInfo>> {
+            if (it?.status == Status.SUCCESS) {
+                it.data?.let {
+                    if(it.versionNumber>getVersionCode()){
+                        showAppUpdateDialog(it.updateContent,it.needUpdate,it.downloadUrl)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun showAppUpdateDialog(updateContent:String,needUpdate:Boolean,downloadUrl:String) {
+        val fragment = supportFragmentManager.findFragmentByTag("AppUpdateDialogFragment")
+        if (fragment == null) {
+            val dialog = AppUpdateDialogFragment().newInstance(updateContent, needUpdate)
+            dialog.isCancelable = false
+            dialog.setAppUpdateDialogInterface(object : AppUpdateDialogInterface {
+                override fun onUpdate() {
+                    gotoMarket(downloadUrl)
+                }
+            })
+            dialog.show(supportFragmentManager, "AppUpdateDialogFragment")
+        }
     }
 
 
@@ -236,7 +267,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     }
 
     override fun onDeviceStateChanged(isConnected: Boolean, macAddress: String) {
-        val content= CSRMeshServiceManager.getInstance().addressToNameMap[macAddress]
+        val content = CSRMeshServiceManager.getInstance().addressToNameMap[macAddress]
         content?.let {
             showCrouton('"' + it + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
         }

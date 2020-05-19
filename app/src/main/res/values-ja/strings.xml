@@ -155,4 +155,9 @@
     <string name="msg_quit_shared_zone">共有スペースから出ますか？</string>
 
     <string name="action_edit">編集</string>
+
+
+    <string name="title_app_update">新しいバージョンの更新</string>
+    <string name="tip_app_update">コンテンツを更新</string>
+    <string name="app_update">今すぐアップデート</string>
 </resources>

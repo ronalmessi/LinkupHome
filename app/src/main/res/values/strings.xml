@@ -210,5 +210,11 @@
     <string name="title_on">ON</string>
     <string name="title_off">OFF</string>
     <string name="title_welcom_home">Welcome Home</string>
+    
+
+    <string name="title_app_update">New Version Update</string>
+    <string name="tip_app_update">Update Content</string>
+    <string name="app_update">Update Now</string>
+
 
 </resources>

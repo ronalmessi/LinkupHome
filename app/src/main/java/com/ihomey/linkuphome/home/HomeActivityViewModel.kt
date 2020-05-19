@@ -6,6 +6,7 @@ import com.ihomey.linkuphome.data.entity.*
 import com.ihomey.linkuphome.data.repository.DeviceRepository
 import com.ihomey.linkuphome.data.repository.RoomRepository
 import com.ihomey.linkuphome.data.repository.ZoneRepository
+import com.ihomey.linkuphome.data.vo.AppVersionInfo
 import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.ZoneDetail
 import com.ihomey.linkuphome.dl.DaggerAppComponent
@@ -174,5 +175,10 @@ class HomeActivityViewModel : ViewModel() {
     //zone
     fun joinZone(guid: String, invitationCode: String): LiveData<Resource<ZoneDetail>> {
         return zoneRepository.joinZone(guid, invitationCode)
+    }
+
+
+    fun getAppVersionInfo(url:String): LiveData<Resource<AppVersionInfo>> {
+        return zoneRepository.getAppVersionInfo(url)
     }
 }

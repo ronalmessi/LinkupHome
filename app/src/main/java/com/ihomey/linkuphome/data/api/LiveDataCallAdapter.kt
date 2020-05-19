@@ -1,6 +1,7 @@
 package com.ihomey.linkuphome.data.api
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -33,6 +34,7 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
                         }
 
                         override fun onFailure(call: Call<ApiResult<R>>, throwable: Throwable) {
+                            Log.d("aa",throwable.localizedMessage)
                             if (throwable is UnknownHostException) {
                                 postValue(throwable.message?.let { ApiResult<R>("10000", it, null) })
                             }else if (throwable is IOException) {

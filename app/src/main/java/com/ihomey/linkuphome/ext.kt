@@ -3,11 +3,14 @@ package com.ihomey.linkuphome
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.text.TextUtils
 import android.util.Base64
 import android.view.Gravity
 import android.view.View
@@ -21,6 +24,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ihomey.linkuphome.dialog.AppUpdateDialogFragment
+import com.ihomey.linkuphome.listener.AppUpdateDialogInterface
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import de.keyboardsurfer.android.widget.crouton.Crouton
 import org.spongycastle.crypto.digests.SHA256Digest
@@ -106,7 +111,7 @@ fun Context.toast(errorCode: String) {
         "0032" -> message = "分组类型不能大于64个字符"
         "10000" -> message = this.getString(R.string.hint_no_network)
         "10001" -> message = this.getString(R.string.hint_bad_network)
-        else -> message=errorCode
+        else -> message = errorCode
     }
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
@@ -118,13 +123,13 @@ fun Context.hideInput(view: View) {
 
 
 @SuppressLint("MissingPermission")
-fun Context.getDeviceId():String{
+fun Context.getDeviceId(): String {
     val deviceId: String
-    deviceId = if (Build.VERSION.SDK_INT >=29){
+    deviceId = if (Build.VERSION.SDK_INT >= 29) {
         Settings.Secure.getString(
                 contentResolver,
                 Settings.Secure.ANDROID_ID)
-    }else{
+    } else {
         val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         if (telephonyManager.deviceId != null) {
             telephonyManager.deviceId;
@@ -137,7 +142,6 @@ fun Context.getDeviceId():String{
     return deviceId
 
 }
-
 
 
 /**
@@ -329,7 +333,7 @@ fun getPM25Level(pm25Value: Int): Int {
     }
 }
 
-fun checkSum(hexData:String):String{
+fun checkSum(hexData: String): String {
     var sum = 0
     var num = 0
     while (num < hexData.length) {
@@ -356,6 +360,69 @@ fun Context.checkGPSIsOpen(): Boolean {
     val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 }
+
+
+/**
+ * 判断应用市场是否存在的方法
+ *
+ * @param context
+ * @param packageName
+ *
+ */
+fun Context.isMarketAvailable(marketPkg: String): Boolean {
+    val packageInfoList = packageManager.getInstalledPackages(0)
+    for (packageInfo in packageInfoList) {
+        if (TextUtils.equals(packageInfo.packageName, marketPkg)) {
+            return true
+        }
+    }
+    return false
+}
+
+
+/**
+ * 启动到应用商店app详情界面
+ *
+ * @param appPkg    目标App的包名
+ * @param marketPkg 应用商店包名 ,如果为""则由系统弹出应用商店列表供用户选择,否则调转到目标市场的应用详情界面
+ */
+fun Context.launchAppMarketDetail(appPkg: String, marketPkg: String) {
+    val uri = Uri.parse("market://details?id=$appPkg")
+    val intent = Intent(Intent.ACTION_VIEW, uri)
+    intent.setPackage(marketPkg)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    startActivity(intent)
+}
+
+
+
+// 进入应用市场详情页
+fun Context.gotoMarket(downloadUrl:String) {
+    var marketPkg = ""
+    for (packageName in AppConfig.APP_MARKET_PACKAGE_LIST) {
+        if (isMarketAvailable(packageName)) {
+            marketPkg = packageName
+            break
+        }
+    }
+    if (TextUtils.isEmpty(marketPkg)) {
+        launchBrowser(downloadUrl)
+    } else {
+        try {
+            launchAppMarketDetail(packageName, marketPkg)
+        } catch (e: Exception) {
+            launchBrowser(downloadUrl)
+        }
+    }
+}
+
+// 进入浏览器下载
+fun Context.launchBrowser(url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    startActivity(intent)
+}
+
+
 
 
 

@@ -248,6 +248,26 @@ class ZoneRepository @Inject constructor(private var apiService: ApiService, pri
         }.asLiveData()
     }
 
+    fun getAppVersionInfo(url:String): LiveData<Resource<AppVersionInfo>> {
+        return object : NetworkBoundResource<AppVersionInfo>(appExecutors) {
+            override fun saveCallResult(item: AppVersionInfo?) {
+
+            }
+
+            override fun shouldFetch(data: AppVersionInfo?): Boolean {
+                return true
+            }
+
+            override fun loadFromDb(): LiveData<AppVersionInfo> {
+                return AbsentLiveData.create()
+            }
+
+            override fun createCall(): LiveData<ApiResult<AppVersionInfo>> {
+                return apiService.getAppVersionInfo(url)
+            }
+        }.asLiveData()
+    }
+
 
     fun getZones(guid: String): LiveData<Resource<List<Zone>>> {
         return object : NetworkBoundResource<List<Zone>>(appExecutors) {
