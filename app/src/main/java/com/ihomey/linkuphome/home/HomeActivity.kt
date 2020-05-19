@@ -151,7 +151,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     }
 
     private fun checkAppVersion() {
-        mViewModel.getAppVersionInfo(AppConfig.APP_VERSION_URL).observe(this, Observer<Resource<AppVersionInfo>> {
+        Log.d("aa",AppConfig.APP_VERSION_URL+ LocaleHelper.getLanguage(this)+".json")
+        mViewModel.getAppVersionInfo(AppConfig.APP_VERSION_URL+ LocaleHelper.getLanguage(this)+".json").observe(this, Observer<Resource<AppVersionInfo>> {
             if (it?.status == Status.SUCCESS) {
                 it.data?.let {
                     if(it.versionNumber>getVersionCode()){
