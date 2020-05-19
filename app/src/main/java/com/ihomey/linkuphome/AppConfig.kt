@@ -14,7 +14,7 @@ class AppConfig {
 
         val API_SERVER = "http://api.linkuphome.net/"
 
-        val APP_VERSION_URL="http://app-download.linkuphome.net/appVersion.json"
+        val APP_VERSION_URL="http://app-download.linkuphome.net/appVersion-"
 
         val INSTRUCTIONS_BASE_URL = "http://app-manual.linkuphome.net/"
         val RESET_DEVICE_BASE_URL = "http://app-manual.linkuphome.net/resetsoft/resetsoft_"
