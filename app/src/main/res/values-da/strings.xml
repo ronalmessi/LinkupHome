@@ -154,4 +154,9 @@
     <string name="title_quit_zone">Afslut hjemme</string>
     <string name="msg_quit_shared_zone">Vil du afslutte delingshjemmet?</string>
     <string name="action_edit">Rediger</string>
+
+
+    <string name="title_app_update">Ny version opdatering</string>
+    <string name="tip_app_update">Opdater indhold</string>
+    <string name="app_update">Opdatere nu</string>
 </resources>

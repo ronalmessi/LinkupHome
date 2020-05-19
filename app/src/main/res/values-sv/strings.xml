@@ -155,4 +155,9 @@
     <string name="msg_quit_shared_zone">Vill du sluta dela hemmet?</string>
     <string name="action_edit">Redigera</string>
 
+
+    <string name="title_app_update">Uppdatering av ny version</string>
+    <string name="tip_app_update">Uppdatera innehållet</string>
+    <string name="app_update">Uppdatera nu</string>
+
 </resources>

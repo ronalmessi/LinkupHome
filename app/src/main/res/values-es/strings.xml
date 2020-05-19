@@ -155,4 +155,10 @@
     <string name="msg_quit_shared_zone">¿Quieres abandonar la casa compartida?</string>
 
 
+
+    <string name="title_app_update">Actualización de nueva versión</string>
+    <string name="tip_app_update">Actualizar contenido</string>
+    <string name="app_update">Actualizar ahora</string>
+
+
 </resources>

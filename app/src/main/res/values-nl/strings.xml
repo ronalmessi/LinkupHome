@@ -157,4 +157,9 @@
     <string name="action_edit">Bewerken</string>
 
 
+    <string name="title_app_update">Nieuwe versie-update</string>
+    <string name="tip_app_update">Inhoud bijwerken</string>
+    <string name="app_update">Update nu</string>
+
+
 </resources>

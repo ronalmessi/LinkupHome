@@ -155,4 +155,9 @@
     <string name="msg_quit_shared_zone">Czy chcesz zakończyć udostępnianie domu?</string>
     <string name="action_edit">Edytuj</string>
 
+
+    <string name="title_app_update">Aktualizacja nowej wersji</string>
+    <string name="tip_app_update">Zaktualizuj zawartość</string>
+    <string name="app_update">Aktualizuj teraz</string>
+
 </resources>

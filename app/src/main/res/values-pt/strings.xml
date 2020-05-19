@@ -158,4 +158,10 @@
     <string name="msg_quit_shared_zone">Você quer sair da casa de compartilhamento?</string>
     <string name="action_edit">Editar</string>
 
+
+
+    <string name="title_app_update">Atualização da nova versão</string>
+    <string name="tip_app_update">Atualizar conteúdo</string>
+    <string name="app_update">Atualizar agora</string>
+
 </resources>

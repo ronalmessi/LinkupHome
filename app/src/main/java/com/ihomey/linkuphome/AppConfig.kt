@@ -14,7 +14,7 @@ class AppConfig {
 
         val API_SERVER = "http://api.linkuphome.net/"
 
-//        val API_SERVER = "http://linkuphome.xsmart.top/api/"
+        val APP_VERSION_URL="http://app-download.linkuphome.net/appVersion.json"
 
         val INSTRUCTIONS_BASE_URL = "http://app-manual.linkuphome.net/"
         val RESET_DEVICE_BASE_URL = "http://app-manual.linkuphome.net/resetsoft/resetsoft_"
@@ -27,7 +27,7 @@ class AppConfig {
 
         val REQUEST_BT_CODE = 102
 
-        val REQUEST_CODE_OPEN_GPS= 104
+        val REQUEST_CODE_OPEN_GPS = 104
 
 
         val RING_LIST = listOf(R.string.title_ring_0, R.string.title_ring_1, R.string.title_ring_2, R.string.title_ring_3)
@@ -45,7 +45,6 @@ class AppConfig {
                 RGB(0, 70, 151),
                 RGB(0, 0, 255),
                 RGB(0, 129, 204),
-//                RGB(0, 104, 277),
                 RGB(30, 144, 255),
                 RGB(0, 153, 145),
                 RGB(1, 154, 188),
@@ -67,5 +66,16 @@ class AppConfig {
                 RGB(223, 0, 127),
                 RGB(141, 7, 128),
                 RGB(185, 0, 128))
+
+        val APP_MARKET_PACKAGE_LIST = listOf(
+                "com.xiaomi.market", //小米应用商店
+                "com.bbk.appstore",//VIVO应用商店
+                "com.oppo.market",//OPPO应用商店
+                "com.huawei.appmarket",//华为应用商店
+                "com.tencent.android.qqdownloader",//应用宝
+                "com.baidu.appsearch",//百度手机助手
+                "com.sec.android.app.samsungapps",//三星应用商店
+                "com.android.vending"//Google Play Store
+        )
     }
 }

@@ -154,4 +154,9 @@
     <string name="title_quit_zone">Esci a casa</string>
     <string name="msg_quit_shared_zone">Vuoi lasciare la condivisione a casa?</string>
     <string name="action_edit">Modifica</string>
+
+
+    <string name="title_app_update">Aggiornamento nuova versione</string>
+    <string name="tip_app_update">Aggiorna contenuto</string>
+    <string name="app_update">Aggiorna ora</string>
 </resources>

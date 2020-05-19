@@ -214,4 +214,9 @@
 
     <string name="hint_inform">请您务必审慎阅读、充分理解"使用条款"和"隐私协议"各条款，包括但不限于：为了向你提供智能灯具信息的保存、分享等服务，我们需要收集你的设备信息。你可以在"设置"中查看《使用条款》和《隐私协议》以了解详细信息。如你同意，请点击"同意"开始接收我们的服务。</string>
 
+    <string name="title_app_update">New Version Update</string>
+    <string name="tip_app_update">Update Content</string>
+    <string name="app_update">Update Now</string>
+
+
 </resources>

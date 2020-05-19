@@ -6,10 +6,16 @@ import com.ihomey.linkuphome.data.entity.Room
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.*
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Url
 
 
 interface ApiService {
+
+    //创建空间
+    @GET
+    fun getAppVersionInfo(@Url url:String): LiveData<ApiResult<AppVersionInfo>>
 
     //创建空间
     @POST("/api/space/save")
