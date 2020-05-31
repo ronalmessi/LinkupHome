@@ -3,7 +3,6 @@ package com.ihomey.linkuphome.home
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Process
@@ -18,10 +17,12 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.csr.mesh.ConfigModelApi
 import com.ihomey.linkuphome.*
 import com.ihomey.linkuphome.AppConfig.Companion.REQUEST_CODE_OPEN_GPS
 import com.ihomey.linkuphome.base.BaseActivity
 import com.ihomey.linkuphome.base.LocaleHelper
+import com.ihomey.linkuphome.data.entity.Device
 import com.ihomey.linkuphome.data.entity.Zone
 import com.ihomey.linkuphome.data.vo.AppVersionInfo
 import com.ihomey.linkuphome.data.vo.Resource
@@ -50,6 +51,8 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
 
     private lateinit var mViewModel: HomeActivityViewModel
+
+    private var allDevices: MutableList<Device> = mutableListOf()
 
     private var mCurrentZone: Zone? = null
 
@@ -83,6 +86,14 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                 mCurrentZone = it.data
                 it.data?.let { CSRMeshServiceManager.getInstance().initService(it) }
                 updateLocalMeshInfo()
+            }
+        })
+        mViewModel.allDevicesResult.observe(this, Observer<Resource<List<Device>>> {
+            if (it?.status == Status.SUCCESS) {
+                it.data?.let {
+                    allDevices.clear()
+                    allDevices.addAll(it.toList())
+                }
             }
         })
         mViewModel.setCurrentZoneId(intent?.extras?.getInt("currentZoneId"))
@@ -151,19 +162,18 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
     }
 
     private fun checkAppVersion() {
-        Log.d("aa",AppConfig.APP_VERSION_URL+ LocaleHelper.getLanguage(this)+".json")
-        mViewModel.getAppVersionInfo(AppConfig.APP_VERSION_URL+ LocaleHelper.getLanguage(this)+".json").observe(this, Observer<Resource<AppVersionInfo>> {
+        mViewModel.getAppVersionInfo(AppConfig.APP_VERSION_URL + LocaleHelper.getLanguage(this) + ".json").observe(this, Observer<Resource<AppVersionInfo>> {
             if (it?.status == Status.SUCCESS) {
                 it.data?.let {
-                    if(it.versionNumber>getVersionCode()){
-                        showAppUpdateDialog(it.updateContent,it.needUpdate,it.downloadUrl)
+                    if (it.versionNumber > getVersionCode()) {
+                        showAppUpdateDialog(it.updateContent, it.needUpdate, it.downloadUrl)
                     }
                 }
             }
         })
     }
 
-    private fun showAppUpdateDialog(updateContent:String,needUpdate:Boolean,downloadUrl:String) {
+    private fun showAppUpdateDialog(updateContent: String, needUpdate: Boolean, downloadUrl: String) {
         val fragment = supportFragmentManager.findFragmentByTag("AppUpdateDialogFragment")
         if (fragment == null) {
             val dialog = AppUpdateDialogFragment().newInstance(updateContent, needUpdate)
@@ -265,12 +275,58 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun onDeviceStateChanged(name: String, isConnected: Boolean) {
         showCrouton('"' + name + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
+        if(isConnected){
+            resetCsrMeshDevices()
+        }
+
+
     }
 
     override fun onDeviceStateChanged(isConnected: Boolean, macAddress: String) {
         val content = CSRMeshServiceManager.getInstance().addressToNameMap[macAddress]
         content?.let {
             showCrouton('"' + it + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
+        }
+        if(isConnected){
+            resetSigMeshDevices()
+        }
+
+    }
+
+    fun resetDevices(){
+        resetSigMeshDevices()
+    }
+
+    private fun resetCsrMeshDevices(){
+        val csrMeshDeviceIdList = allDevices.filter { it.instructId != 0 && it.pid == 0 }.map { it.instructId }
+        var resetCount = 0
+        val deletedInstructIds by PreferenceHelper("deletedInstructId", "")
+        if(!TextUtils.isEmpty(deletedInstructIds.trim())&&!TextUtils.isEmpty(deletedInstructIds.trim().substring(1))){
+            for(instructId in deletedInstructIds.trim().substring(1).split(",")){
+                if (!csrMeshDeviceIdList.contains(instructId.toInt())) {
+                    Handler().postDelayed({
+                       ConfigModelApi.resetDevice(instructId.toInt())
+                        resetCount++
+                    }, 3000L * resetCount)
+                }
+            }
+        }
+    }
+
+    private fun resetSigMeshDevices() {
+        if (!SigMeshServiceManager.getInstance().adding) {
+            val sigMeshDeviceIdList = allDevices.filter { it.instructId == 0 && it.pid != 0 }.map { it.pid }
+            var resetCount = 0
+            SigMeshServiceManager.getInstance().meshNet?.let {
+                for (nodeInfo in it.nodes) {
+                    if (!sigMeshDeviceIdList.contains(nodeInfo.primary_addr.toInt())) {
+                        Handler().postDelayed({
+                            SigMeshServiceManager.getInstance().resetDevice(nodeInfo.primary_addr.toInt())
+                            resetCount++
+                        }, 3000L * resetCount)
+                    }
+                }
+            }
         }
     }
 
@@ -293,6 +349,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
                         if (BluetoothAdapter.getDefaultAdapter().isEnabled && !TextUtils.equals(it.meshInfo, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64())) {
                             it.meshInfo?.let { it0.updateJsonStrMeshNet(it.decodeBase64(), ArrayList(0)) }
                         }
+
                         SigMeshServiceManager.getInstance().initService(it)
                     }
                 }

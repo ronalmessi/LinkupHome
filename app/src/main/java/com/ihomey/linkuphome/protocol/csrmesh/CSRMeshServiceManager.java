@@ -222,6 +222,11 @@ public class CSRMeshServiceManager implements Connector {
         }, AppConfig.TIME_MS);
     }
 
+    public void resetDevice(int deviceInstructId) {
+        this.meshDeviceRemoveListener = null;
+        ConfigModelApi.resetDevice(deviceInstructId);
+    }
+
 
     public void getBatteryLevelStr(@NotNull Device device, @Nullable DeviceBatteryValueListener listener) {
         this.deviceBatteryValueListener = listener;

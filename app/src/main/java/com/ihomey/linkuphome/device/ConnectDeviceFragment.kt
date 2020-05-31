@@ -1,5 +1,6 @@
 package com.ihomey.linkuphome.device
 
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.ihomey.linkuphome.data.vo.Resource
 import com.ihomey.linkuphome.data.vo.Status
 import com.ihomey.linkuphome.devicecontrol.controller.LightControllerFactory
 import com.ihomey.linkuphome.dialog.DeviceAssociateFragment
+import com.ihomey.linkuphome.home.HomeActivity
 import com.ihomey.linkuphome.home.HomeActivityViewModel
 import com.ihomey.linkuphome.listener.FragmentBackHandler
 import com.ihomey.linkuphome.protocol.csrmesh.CSRMeshServiceManager
@@ -68,6 +70,14 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                 }
             }
         })
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        context?.let {
+            val homeActivity =it as HomeActivity
+            homeActivity.resetDevices()
+        }
     }
 
     override fun onBackPressed(): Boolean {
@@ -139,7 +149,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                         deviceAssociateFragment.dismiss()
                         if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                     } else if (it?.status == Status.ERROR) {
-                        ConfigModelApi.resetDevice(deviceId)
+                        CSRMeshServiceManager.getInstance().resetDevice(deviceId)
                         deviceAssociateFragment.dismiss()
                         it.message?.let { it2 -> activity?.toast(it2) }
                     }
@@ -150,7 +160,8 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                 currentZone?.let {it0->
                     val index=SigMeshServiceManager.getInstance().getMeshIndex(it0)
                     mViewModel.saveDevice(it1, it0.id, type, deviceType.name, deviceId, PlSigMeshService.getInstance().getJsonStrMeshNet(index).encodeBase64()).observe(viewLifecycleOwner, Observer<Resource<Device>> {
-                        if (it?.status == Status.SUCCESS && it.data != null) {
+                        if (it?.status == Status.SUCCESS) {
+                            SigMeshServiceManager.getInstance().adding=false
                             val device = Device(0, deviceType.name, macAddress)
                             val position = adapter.data.indexOf(device) ?: -1
                             if (position != -1) {
@@ -161,6 +172,7 @@ class ConnectDeviceFragment : BaseFragment(), FragmentBackHandler,  DeviceListAd
                             deviceAssociateFragment.dismiss()
                             if (adapter.data.none { TextUtils.equals("0", it.id) }) Navigation.findNavController(iv_back).popBackStack(R.id.tab_devices, false)
                         } else if (it?.status == Status.ERROR) {
+                            SigMeshServiceManager.getInstance().adding=false
                             SigMeshServiceManager.getInstance().resetDevice(deviceId)
                             deviceAssociateFragment.dismiss()
                             it.message?.let { it2 -> activity?.toast(it2) }
