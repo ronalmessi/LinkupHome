@@ -28,6 +28,9 @@ class HomeActivityViewModel : ViewModel() {
     val mCurrentZone: LiveData<Resource<Zone>>
 
     val devicesResult: LiveData<PagedList<Device>>
+
+    val allDevicesResult: LiveData<Resource<List<Device>>>
+
     val roomsResult: LiveData<PagedList<RoomAndDevices>>
 
 
@@ -43,6 +46,9 @@ class HomeActivityViewModel : ViewModel() {
         }
         devicesResult = Transformations.switchMap(mCurrentZoneId) { input ->
             mDeviceRepository.getPagingDevices(input)
+        }
+        allDevicesResult = Transformations.switchMap(mCurrentZoneId) { input ->
+            mDeviceRepository.getDevices(input)
         }
         isDeviceListEmptyLiveData.addSource(devicesResult) {
             isDeviceListEmptyLiveData.value = it?.size == 0

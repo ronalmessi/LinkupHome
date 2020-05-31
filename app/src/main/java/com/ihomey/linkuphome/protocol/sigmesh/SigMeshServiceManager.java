@@ -11,7 +11,6 @@ import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
-
 import com.google.gson.Gson;
 import com.ihomey.linkuphome.AppConfig;
 import com.ihomey.linkuphome.data.entity.Device;
@@ -50,11 +49,21 @@ public class SigMeshServiceManager implements Connector {
 
     private Boolean isBinded = false;
 
+    private Boolean isAdding = false;
+
     private MeshDeviceScanListener meshDeviceScanListener;
     private MeshStateListener meshStateListener;
     private MeshDeviceAssociateListener meshDeviceAssociateListener;
     private MeshDeviceRemoveListener meshDeviceRemoveListener;
     private MeshInfoListener meshInfoListener;
+
+    public Boolean getAdding() {
+        return isAdding;
+    }
+
+    public void setAdding(Boolean adding) {
+        isAdding = adding;
+    }
 
     public void setInited(Boolean inited) {
         isInited = inited;
@@ -111,6 +120,10 @@ public class SigMeshServiceManager implements Connector {
         mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
         mPlSigMeshService.proxyExit();
         mPlSigMeshService.deleteMeshNet(0);
+    }
+
+    public MeshNetInfo getMeshNet() {
+        return mPlSigMeshNet;
     }
 
     public int getMeshIndex(Zone zone) {
@@ -175,7 +188,6 @@ public class SigMeshServiceManager implements Connector {
                         if (meshStateListener != null)
                             meshStateListener.onDeviceStateChanged(true,addr);
                     });
-
                     break;
                 case Util.PL_MESH_JOIN_FAIL:
                 case Util.PL_MESH_EXIT:
@@ -253,6 +265,7 @@ public class SigMeshServiceManager implements Connector {
         BluetoothDevice unProvisionedDev = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(device.getMacAddress());
         byte[] info = Util.hexStringToBytes(device.getHash());
         byte ele_num = info[15];
+        setAdding(true);
         mPlSigMeshService.startProvision(unProvisionedDev, ele_num);
     }
 
@@ -265,6 +278,7 @@ public class SigMeshServiceManager implements Connector {
                 meshDeviceRemoveListener.onDeviceRemoved(device.getId());
         }, AppConfig.TIME_MS);
     }
+
 
     public void resetDevice(int devicePid) {
         this.meshDeviceRemoveListener = null;

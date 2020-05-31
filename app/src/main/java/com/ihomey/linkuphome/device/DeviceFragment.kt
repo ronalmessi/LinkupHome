@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.ihomey.linkuphome.PreferenceHelper
 import com.ihomey.linkuphome.R
 import com.ihomey.linkuphome.adapter.DeviceListAdapter
 import com.ihomey.linkuphome.base.BaseFragment
@@ -175,6 +176,8 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     private fun resetDevice(device: Device) {
         if (device.instructId != 0 && device.pid == 0) {
+            var deletedInstructIds by PreferenceHelper("deletedInstructId", "")
+            deletedInstructIds=deletedInstructIds+","+device.instructId
             CSRMeshServiceManager.getInstance().resetDevice(device, this)
         } else if (device.instructId == 0 && device.pid != 0) {
             SigMeshServiceManager.getInstance().resetDevice(device, this)
