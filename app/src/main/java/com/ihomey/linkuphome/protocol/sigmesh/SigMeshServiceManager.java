@@ -119,7 +119,6 @@ public class SigMeshServiceManager implements Connector {
         isInited = false;
         mPlSigMeshService.scanDevice(false, Util.SCAN_TYPE_PROXY);
         mPlSigMeshService.proxyExit();
-        mPlSigMeshService.deleteMeshNet(0);
     }
 
     public MeshNetInfo getMeshNet() {
