@@ -176,7 +176,7 @@ open class DeviceFragment : BaseFragment(), FragmentVisibleStateListener, Device
 
     private fun resetDevice(device: Device) {
         if (device.instructId != 0 && device.pid == 0) {
-            var deletedInstructIds by PreferenceHelper("deletedInstructId", "")
+            var deletedInstructIds by PreferenceHelper("deletedInstructIds_"+ device.zoneId, "")
             deletedInstructIds=deletedInstructIds+","+device.instructId
             CSRMeshServiceManager.getInstance().resetDevice(device, this)
         } else if (device.instructId == 0 && device.pid != 0) {

@@ -275,7 +275,7 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
 
     override fun onDeviceStateChanged(name: String, isConnected: Boolean) {
         showCrouton('"' + name + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
-        if(isConnected){
+        if (isConnected) {
             resetCsrMeshDevices()
         }
 
@@ -287,30 +287,33 @@ class HomeActivity : BaseActivity(), BridgeListener, OnLanguageListener, MeshSta
         content?.let {
             showCrouton('"' + it + '"' + " " + getString(if (isConnected) R.string.msg_device_connected else R.string.msg_device_disconnected), if (isConnected) R.color.bridge_connected_msg_bg_color else R.color.colorPrimaryDark)
         }
-        if(isConnected){
+        if (isConnected) {
             resetSigMeshDevices()
         }
 
     }
 
-    fun resetDevices(){
+    fun resetDevices() {
         resetSigMeshDevices()
     }
 
-    private fun resetCsrMeshDevices(){
-        val csrMeshDeviceIdList = allDevices.filter { it.instructId != 0 && it.pid == 0 }.map { it.instructId }
-        var resetCount = 0
-        val deletedInstructIds by PreferenceHelper("deletedInstructId", "")
-        if(!TextUtils.isEmpty(deletedInstructIds.trim())&&!TextUtils.isEmpty(deletedInstructIds.trim().substring(1))){
-            for(instructId in deletedInstructIds.trim().substring(1).split(",")){
-                if (!csrMeshDeviceIdList.contains(instructId.toInt())) {
-                    Handler().postDelayed({
-                       ConfigModelApi.resetDevice(instructId.toInt())
-                        resetCount++
-                    }, 3000L * resetCount)
+    private fun resetCsrMeshDevices() {
+        mCurrentZone?.let {
+            val csrMeshDeviceIdList = allDevices.filter { it.instructId != 0 && it.pid == 0 }.map { it.instructId }
+            var resetCount = 0
+            val deletedInstructIds by PreferenceHelper("deletedInstructIds_" + it.id, "")
+            if (!TextUtils.isEmpty(deletedInstructIds.trim()) && !TextUtils.isEmpty(deletedInstructIds.trim().substring(1))) {
+                for (instructId in deletedInstructIds.trim().substring(1).split(",")) {
+                    if (!csrMeshDeviceIdList.contains(instructId.toInt())) {
+                        Handler().postDelayed({
+                            ConfigModelApi.resetDevice(instructId.toInt())
+                            resetCount++
+                        }, 3000L * resetCount)
+                    }
                 }
             }
         }
+
     }
 
     private fun resetSigMeshDevices() {
