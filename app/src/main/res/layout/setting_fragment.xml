@@ -110,6 +110,22 @@
                     app:rightTextSize="@dimen/_16ssp"
                     app:verticalMargin="@dimen/_18sdp" />
 
+                <com.ihomey.linkuphome.widget.InfoTextLayout
+                    android:id="@+id/infoTextLayout_setting_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_16sdp"
+                    app:horizontalMargin="@dimen/_20sdp"
+                    app:isShowDivider="false"
+                    app:leftIcon="@mipmap/ic_setting_contact"
+                    app:leftText="@string/title_contact"
+                    app:leftTextColor="@android:color/black"
+                    app:leftTextSize="@dimen/_16ssp"
+                    app:rightIcon="@drawable/ic_arrow_setting"
+                    app:rightTextColor="#807F85"
+                    app:rightTextSize="@dimen/_16ssp"
+                    app:verticalMargin="@dimen/_18sdp" />
+
 
                 <com.ihomey.linkuphome.widget.InfoTextLayout
                     android:id="@+id/infoTextLayout_setting_more"

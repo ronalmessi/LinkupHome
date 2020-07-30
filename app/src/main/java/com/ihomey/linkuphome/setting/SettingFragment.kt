@@ -69,6 +69,9 @@ class SettingFragment : BaseFragment() {
         infoTextLayout_setting_instructions.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_instructionFragment)
         }
+        infoTextLayout_setting_contact.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_contactFragment)
+        }
         infoTextLayout_setting_language.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_tab_setting_to_languageSettingFragment)
         }

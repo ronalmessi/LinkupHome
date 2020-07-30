@@ -39,6 +39,12 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_tab_setting_to_contactFragment"
+            app:destination="@id/contactFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/moreFragment"
@@ -114,6 +120,12 @@
         android:name="com.ihomey.linkuphome.setting.WebViewFragment"
         android:label="WebViewFragment"
         tools:layout="@layout/webview_fragment" />
+
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.ihomey.linkuphome.setting.ContactFragment"
+        android:label="ContactFragment"
+        tools:layout="@layout/contact_fragment" />
 
     <fragment
         android:id="@+id/instructionDetailFragment"
