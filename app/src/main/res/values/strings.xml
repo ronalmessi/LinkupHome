@@ -95,6 +95,7 @@
     <string name="title_language">Language</string>
     <string name="title_user_manual">User manual</string>
     <string name="title_faqs">FAQs</string>
+    <string name="title_contact">故障反馈</string>
     <string name="title_more">More</string>
     <string name="title_user_agreement">User agreement</string>
     <string name="title_private_statement">Privacy statement</string>
@@ -217,6 +218,9 @@
     <string name="title_app_update">New Version Update</string>
     <string name="tip_app_update">Update Content</string>
     <string name="app_update">Update Now</string>
+
+
+    <string name="msg_contact">请详细描述您遇到的问题  ,   通过以下邮箱与我们取得联系。</string>
 
 
 </resources>
