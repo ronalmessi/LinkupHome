@@ -156,10 +156,12 @@
     <string name="msg_quit_shared_zone">Voulez-vous quitter la maison de partage?</string>
 
 
-
     <string name="title_app_update">Mise à jour de la nouvelle version</string>
     <string name="tip_app_update">Mettre à jour le contenu</string>
     <string name="app_update">Mettez à jour maintenant</string>
+
+    <string name="title_contact">Retour d\'erreur</string>
+    <string name="msg_contact">Veuillez décrire le problème que vous avez rencontré en détail et l\'envoyer à l\'adresse e-mail suivante pour nous contacter.</string>
 
 
 </resources>

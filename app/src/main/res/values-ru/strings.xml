@@ -160,4 +160,8 @@
     <string name="tip_app_update">Обновить содержимое</string>
     <string name="app_update">Обновить сейчас</string>
 
+
+    <string name="title_contact">Ошибка обратной связи</string>
+    <string name="msg_contact">Пожалуйста, опишите проблему, с которой вы столкнулись, и отправьте ее на следующий адрес электронной почты, чтобы связаться с нами.</string>
+
 </resources>

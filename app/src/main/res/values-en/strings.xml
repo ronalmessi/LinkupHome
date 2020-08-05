@@ -184,4 +184,8 @@
     <string name="tip_app_update">Update Content</string>
     <string name="app_update">Update Now</string>
 
+
+    <string name="title_contact">Fault feedback</string>
+    <string name="msg_contact">Please describe the problem you encountered in detail and send it to the following email address to contact us.</string>
+
 </resources>

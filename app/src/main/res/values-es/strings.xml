@@ -161,4 +161,8 @@
     <string name="app_update">Actualizar ahora</string>
 
 
+    <string name="title_contact">Comentarios de fallas</string>
+    <string name="msg_contact">Describa el problema que encontró en detalle y envíelo a la siguiente dirección de correo electrónico para contactarnos.</string>
+
+
 </resources>

@@ -162,4 +162,9 @@
     <string name="app_update">Update nu</string>
 
 
+
+    <string name="title_contact">Foutmelding</string>
+    <string name="msg_contact">Geef een gedetailleerde beschrijving van het probleem dat u bent tegengekomen en stuur het naar het volgende e-mailadres om contact met ons op te nemen.</string>
+
+
 </resources>

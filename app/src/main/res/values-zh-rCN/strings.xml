@@ -183,4 +183,8 @@
     <string name="title_app_update">发现新版本</string>
     <string name="tip_app_update">更新内容</string>
     <string name="app_update">立即更新</string>
+
+    <string name="title_contact">故障反馈</string>
+    <string name="msg_contact">请详细描述您遇到的问题，通过以下邮箱和我们与我们取得联系。</string>
+
 </resources>
