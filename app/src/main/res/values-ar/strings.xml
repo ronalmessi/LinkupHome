@@ -159,4 +159,10 @@
     <string name="title_app_update">تحديث الإصدار الجديد</string>
     <string name="tip_app_update">تحديث المحتوى</string>
     <string name="app_update">تحديث الان</string>
+
+
+    <string name="title_contact">ملاحظات خطأ</string>
+    <string name="msg_contact">يرجى وصف المشكلة التي واجهتها بالتفصيل وإرسالها إلى عنوان البريد الإلكتروني التالي للاتصال بنا.</string>
+
+
 </resources>

@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_21sdp"
         android:layout_marginEnd="@dimen/_21sdp"
-        android:layout_marginTop="@dimen/_114sdp"
+        android:layout_marginTop="@dimen/_42sdp"
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="@dimen/_12sdp"

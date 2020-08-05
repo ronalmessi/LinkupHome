@@ -159,4 +159,8 @@
     <string name="title_app_update">Aggiornamento nuova versione</string>
     <string name="tip_app_update">Aggiorna contenuto</string>
     <string name="app_update">Aggiorna ora</string>
+
+
+    <string name="title_contact">Feedback guasti</string>
+    <string name="msg_contact">Descrivi dettagliatamente il problema riscontrato e invialo al seguente indirizzo email per contattarci.</string>
 </resources>

@@ -160,4 +160,7 @@
     <string name="tip_app_update">Zaktualizuj zawartość</string>
     <string name="app_update">Aktualizuj teraz</string>
 
+    <string name="title_contact">Informacja zwrotna o błędzie</string>
+    <string name="msg_contact">Opisz szczegółowo napotkany problem i wyślij go na następujący adres e-mail, aby się z nami skontaktować.</string>
+
 </resources>

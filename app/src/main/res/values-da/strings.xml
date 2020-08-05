@@ -159,4 +159,7 @@
     <string name="title_app_update">Ny version opdatering</string>
     <string name="tip_app_update">Opdater indhold</string>
     <string name="app_update">Opdatere nu</string>
+
+    <string name="title_contact">Fel feedback</string>
+    <string name="msg_contact">Beskriv problemet som du stött på i detalj och skicka det till följande e-postadress för att kontakta oss.</string>
 </resources>

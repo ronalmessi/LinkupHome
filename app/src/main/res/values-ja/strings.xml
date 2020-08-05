@@ -160,4 +160,8 @@
     <string name="title_app_update">新しいバージョンの更新</string>
     <string name="tip_app_update">コンテンツを更新</string>
     <string name="app_update">今すぐアップデート</string>
+
+
+    <string name="title_contact">障害フィードバック</string>
+    <string name="msg_contact">発生した問題について詳しく説明し、次のメールアドレスに送信してお問い合わせください。</string>
 </resources>

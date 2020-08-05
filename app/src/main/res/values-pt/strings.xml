@@ -164,4 +164,8 @@
     <string name="tip_app_update">Atualizar conteúdo</string>
     <string name="app_update">Atualizar agora</string>
 
+
+    <string name="title_contact">Feedback de falha</string>
+    <string name="msg_contact">Descreva o problema que você encontrou em detalhes e envie-o para o seguinte endereço de e-mail para entrar em contato conosco.</string>
+
 </resources>
